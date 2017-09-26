@@ -1,17 +1,23 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GUI.Source.ConsoleSubsystem;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace GUI
 {
-    public class GUICore : Game
+    internal class GUICore : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        GraphicsDeviceManager _graphics;
+        SpriteBatch _spriteBatch;
+
+        ConsoleManager _consoleManager;
         
-        public GUICore()
+        public GUICore(ConsoleManager consoleManager)
         {
-            graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
+
+            _consoleManager = consoleManager;
+
             Content.RootDirectory = "Assets";
         }
 
@@ -22,7 +28,7 @@ namespace GUI
         
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
         
         protected override void UnloadContent()
