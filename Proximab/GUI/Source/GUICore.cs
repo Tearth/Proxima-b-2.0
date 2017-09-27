@@ -1,4 +1,4 @@
-﻿using ContentDefinitions;
+﻿using ContentDefinitions.Commands;
 using GUI.Source.ConsoleSubsystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,7 +20,7 @@ namespace GUI
 
             _consoleManager = consoleManager;
 
-            Content.RootDirectory = "Assets";
+            Content.RootDirectory = "Content";
         }
 
         protected override void Initialize()

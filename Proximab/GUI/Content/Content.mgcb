@@ -1,0 +1,21 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:DesktopGL
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+/reference:..\..\ContentDefinitions\bin\Debug\ContentDefinitions.dll
+
+#---------------------------------- Content ---------------------------------#
+
+#begin XML/CommandDefinitions.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:XML/CommandDefinitions.xml
+

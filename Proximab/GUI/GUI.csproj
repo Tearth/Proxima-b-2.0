@@ -114,10 +114,13 @@
     </None>
     <None Include="app.config" />
     <None Include="app.manifest" />
+    <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="Assets\XML\CommandDefinitions.xml" />
+    <ProjectReference Include="..\ContentDefinitions\ContentDefinitions.csproj">
+      <Project>{93fff5b7-fe43-46d0-8caa-14af8ada6e53}</Project>
+      <Name>ContentDefinitions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
