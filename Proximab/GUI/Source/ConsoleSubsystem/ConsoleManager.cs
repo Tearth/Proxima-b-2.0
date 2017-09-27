@@ -15,12 +15,14 @@ namespace GUI.Source.ConsoleSubsystem
         Task _consoleLoop;
         CommandDefinitionsContainer _commandDefinitionsContainer;
         CommandParser _commandParser;
+        CommandValidator _commandValidator;
 
         public ConsoleManager()
         {
             _consoleLoop = new Task(() => Loop());
 
             _commandParser = new CommandParser();
+            _commandValidator = new CommandValidator();
         }
 
         public void SetCommandDefinitions(CommandDefinitionsContainer commandDefinitionsContainer)
@@ -62,7 +64,12 @@ namespace GUI.Source.ConsoleSubsystem
                 return;
             }
 
-
+            var validationResult = _commandValidator.Validate(rawCommand, definition);
+            if(!validationResult)
+            {
+                WriteInvalidCommandFormatMessage(command);
+                return;
+            }
         }
 
         void WriteEmptyCommandMessage()
@@ -73,6 +80,11 @@ namespace GUI.Source.ConsoleSubsystem
         void WriteCommandNotFoundMessage(string command)
         {
             Console.WriteLine($"Command not found: {command}");
+        }
+
+        void WriteInvalidCommandFormatMessage(string command)
+        {
+            Console.WriteLine($"Invalid command format: {command}");
         }
     }
 }

@@ -6,10 +6,10 @@
 				<Name>hw</Name>
 				<EnumType>HelloWorld</EnumType>
 				<Arguments>
-					<Item>Integer</Item>
-					<Item>String</Item>
-					<Item>Boolean</Item>
-					<Item>Float</Item>
+					<Item>int</Item>
+					<Item>string</Item>
+					<Item>bool</Item>
+					<Item>float</Item>
 				</Arguments>
 			</Item>
 		</Definitions>

@@ -1,6 +1,7 @@
 ﻿using ContentDefinitions.Commands;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace GUI.Source.ConsoleSubsystem.Parser
 {
     internal class CommandValidator
     {
-        public bool Validate(Command command, CommandDefinition definition)
+        public bool Validate(RawCommand command, CommandDefinition definition)
         {
             if (command.Arguments.Count != definition.Arguments.Count)
                 return false;
@@ -34,8 +35,8 @@ namespace GUI.Source.ConsoleSubsystem.Parser
             {
                 case "string": { result = true; break; }
                 case "int":  { result = Int32.TryParse(value, out _); break; }
-                case "boolean": { result = Boolean.TryParse(value, out _); break; }
-                case "float": { result = Single.TryParse(value, out _); break; }
+                case "bool": { result = Boolean.TryParse(value, out _); break; }
+                case "float": { result = Single.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out _); break; }
             }
 
             return result;
