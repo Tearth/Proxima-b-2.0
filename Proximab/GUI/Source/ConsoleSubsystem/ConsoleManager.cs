@@ -8,6 +8,8 @@ namespace GUI.Source.ConsoleSubsystem
 {
     internal class ConsoleManager
     {
+        public event EventHandler<CommandEventArgs> OnNewCommand;
+
         Task consoleLoop;
 
         public ConsoleManager()
@@ -24,8 +26,13 @@ namespace GUI.Source.ConsoleSubsystem
         {
             while(true)
             {
-                Console.ReadLine();
+                ProcessCommand(Console.ReadLine());
             }
+        }
+
+        void ProcessCommand(string command)
+        {
+
         }
     }
 }
