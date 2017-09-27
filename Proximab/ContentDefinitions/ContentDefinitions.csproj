@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CommandDefinition.cs" />
-    <Compile Include="Commands\CommandsContainer.cs" />
+    <Compile Include="Commands\CommandDefinitionsContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
