@@ -9,7 +9,7 @@ namespace GUI.Source.ConsoleSubsystem.Parser
     internal class Command
     {
         public CommandType Type { get; set; }
-        public List<string> Arguments { get; set; }
+        public IList<string> Arguments { get; set; }
 
         public Command()
         {

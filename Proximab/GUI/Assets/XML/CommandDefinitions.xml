@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<command>
+		<type>HelloWorld</type>
+		<pattern>
+			<field>int</field>
+			<field>string</field>
+			<field>bool</field>
+			<field>float</field>
+		</pattern>
+	</command>
+</definitions>
