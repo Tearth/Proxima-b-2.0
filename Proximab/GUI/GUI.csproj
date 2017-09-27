@@ -47,6 +47,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Source\ConsoleSubsystem\CommandEventArgs.cs" />
+    <Compile Include="Source\ConsoleSubsystem\CommandDefinitions\DefinitionsManager.cs" />
     <Compile Include="Source\ConsoleSubsystem\Parser\Command.cs" />
     <Compile Include="Source\ConsoleSubsystem\Parser\CommandParser.cs" />
     <Compile Include="Source\ConsoleSubsystem\ConsoleManager.cs" />
@@ -67,7 +68,6 @@
     <EmbeddedResource Include="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <MonoGameContentReference Include="Assets\Content.mgcb" />
     <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\SDL2.dll">
       <Link>x86\SDL2.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -115,13 +115,10 @@
     <None Include="app.config" />
     <None Include="app.manifest" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{5b4d97f8-05eb-4ce1-bfb8-fc9102df6cfb}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Content Include="Assets\XML\CommandDefinitions.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

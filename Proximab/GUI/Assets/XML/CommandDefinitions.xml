@@ -1,12 +1,14 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<definitions>
-	<command>
-		<type>HelloWorld</type>
-		<pattern>
-			<field>int</field>
-			<field>string</field>
-			<field>bool</field>
-			<field>float</field>
-		</pattern>
-	</command>
-</definitions>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:ns="Microsoft.Xna.Framework">
+	<Asset Type="System.Collections.Generic.List[ContentDefinitions.CommandDefinition]">
+		<Item>
+			<Type>HelloWorld</Type>
+			<Arguments>
+				<Item>Integer</Item>
+				<Item>String</Item>
+				<Item>Boolean</Item>
+				<Item>Float</Item>
+			</Arguments>
+		</Item>
+	</Asset>
+</XnaContent>
