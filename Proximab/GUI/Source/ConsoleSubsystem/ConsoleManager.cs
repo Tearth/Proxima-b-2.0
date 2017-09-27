@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ContentDefinitions.Commands;
+using GUI.Source.ConsoleSubsystem.Parser;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,16 +12,30 @@ namespace GUI.Source.ConsoleSubsystem
     {
         public event EventHandler<CommandEventArgs> OnNewCommand;
 
-        Task consoleLoop;
+        Task _consoleLoop;
+        CommandDefinitionsContainer _commandDefinitionsContainer;
+        CommandParser _commandParser;
 
         public ConsoleManager()
         {
-            consoleLoop = new Task(() => Loop());
+            _consoleLoop = new Task(() => Loop());
+
+            _commandParser = new CommandParser();
+        }
+
+        public void SetCommandDefinitions(CommandDefinitionsContainer commandDefinitionsContainer)
+        {
+            _commandDefinitionsContainer = commandDefinitionsContainer;
         }
 
         public void Run()
         {
-            consoleLoop.Start();
+            _consoleLoop.Start();
+        }
+
+        public void Write(string output)
+        {
+            Console.WriteLine(output);
         }
 
         void Loop()
@@ -32,7 +48,31 @@ namespace GUI.Source.ConsoleSubsystem
 
         void ProcessCommand(string command)
         {
+            var rawCommand = _commandParser.Parse(command);
+            if(rawCommand == null)
+            {
+                WriteEmptyCommandMessage();
+                return;
+            }
 
+            var definition = _commandDefinitionsContainer.Definitions.FirstOrDefault(p => p.Name == rawCommand.Name);
+            if(definition == null)
+            {
+                WriteCommandNotFoundMessage(command);
+                return;
+            }
+
+
+        }
+
+        void WriteEmptyCommandMessage()
+        {
+            Console.WriteLine($"Empty command");
+        }
+
+        void WriteCommandNotFoundMessage(string command)
+        {
+            Console.WriteLine($"Command not found: {command}");
         }
     }
 }

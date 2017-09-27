@@ -30,6 +30,8 @@ namespace GUI
         
         protected override void LoadContent()
         {
+            _consoleManager.SetCommandDefinitions(Content.Load<CommandDefinitionsContainer>("XML\\CommandDefinitions"));
+
             _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
         

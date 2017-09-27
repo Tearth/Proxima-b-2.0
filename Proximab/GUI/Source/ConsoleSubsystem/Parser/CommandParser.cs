@@ -8,23 +8,30 @@ namespace GUI.Source.ConsoleSubsystem.Parser
 {
     internal class CommandParser
     {
-        const char Separator = ' ';
+        readonly char[] Separators = { ' ' };
 
         public CommandParser()
         {
 
         }
 
-        public Command Parse(string input)
+        public RawCommand Parse(string input)
         {
-            var splittedInput = SplitInput(input);
+            var splittedInput = SplitInput(input.Trim());
 
-            throw new NotImplementedException();
+            if (splittedInput.Count == 0)
+                return null;
+
+            return new RawCommand()
+            {
+                Name = splittedInput.First(),
+                Arguments = splittedInput.Skip(1).ToList()
+            };
         }
 
         IList<string> SplitInput(string input)
         {
-            return input.Split(Separator);
+            return input.Split(Separators, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }

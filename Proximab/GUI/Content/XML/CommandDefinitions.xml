@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <XnaContent xmlns:ns="Microsoft.Xna.Framework">
-	<Asset Type="ContentDefinitions.Commands.CommandsContainer">
+	<Asset Type="ContentDefinitions.Commands.CommandDefinitionsContainer">
 		<Definitions>
 			<Item>
-				<Name>HelloWorld</Name>
+				<Name>hw</Name>
+				<EnumType>HelloWorld</EnumType>
 				<Arguments>
 					<Item>Integer</Item>
 					<Item>String</Item>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ContentDefinitions.Commands
 {
-    public class CommandsContainer
+    public class CommandDefinitionsContainer
     {
         public List<CommandDefinition> Definitions { get; set; }
     }

@@ -9,6 +9,7 @@ namespace GUI.Source.ConsoleSubsystem.Parser
     internal enum CommandType
     {
         None,
+        Invalid,
         HelloWorld
     }
 }
