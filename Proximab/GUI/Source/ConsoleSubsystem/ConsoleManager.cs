@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GUI.Source.ConsoleSubsystem
 {
-    internal class ConsoleManager
+    internal class ConsoleManager : ICommandHandler
     {
         public event EventHandler<CommandEventArgs> OnNewCommand;
 
@@ -21,6 +21,7 @@ namespace GUI.Source.ConsoleSubsystem
         ColorOutputPrinter _outputPrinter;
 
         CommandDefinitionsContainer _commandDefinitionsContainer;
+        ColorDefinitionsContainer _colorDefinitionsContainer;
 
         public ConsoleManager()
         {
@@ -36,6 +37,7 @@ namespace GUI.Source.ConsoleSubsystem
                                           ColorDefinitionsContainer colorDefinitionsContainer)
         {
             _commandDefinitionsContainer = commandDefinitionsContainer;
+            _colorDefinitionsContainer = colorDefinitionsContainer;
 
             _outputParser.SetColorDefinitions(colorDefinitionsContainer);
         }
@@ -45,10 +47,18 @@ namespace GUI.Source.ConsoleSubsystem
             _consoleLoop.Start();
         }
 
-        public void Write(string output)
+        public void WriteLine(string output)
         {
             var outputChunks = _outputParser.GetOutputChunks(output);
             _outputPrinter.WriteLine(outputChunks);
+        }
+
+        public void HandleCommand(Command command)
+        {
+            switch(command.Type)
+            {
+                case CommandType.Colors: { WriteColorsList(); break; }
+            }
         }
 
         void Loop()
@@ -100,17 +110,27 @@ namespace GUI.Source.ConsoleSubsystem
 
         void WriteEmptyCommandMessage()
         {
-            Write("$rEmpty command");
+            WriteLine("$rEmpty command");
         }
 
         void WriteCommandNotFoundMessage(string command)
         {
-            Write($"$rCommand not found: {command}");
+            WriteLine($"$rCommand not found: {command}");
         }
 
         void WriteInvalidCommandFormatMessage(string command)
         {
-            Write($"$rInvalid command format: {command}");
+            WriteLine($"$rInvalid command format: {command}");
+        }
+
+        void WriteColorsList()
+        {
+            WriteLine($"$wAvailable colors ({_colorDefinitionsContainer.Definitions.Count}):");
+
+            foreach (var colorDefinition in _colorDefinitionsContainer.Definitions)
+            {
+                WriteLine($"$w - ${colorDefinition.Symbol}{colorDefinition.Color} - {colorDefinition.Symbol}");
+            }
         }
     }
 }

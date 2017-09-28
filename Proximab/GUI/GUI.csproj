@@ -47,6 +47,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Source\ConsoleSubsystem\CommandEventArgs.cs" />
+    <Compile Include="Source\ConsoleSubsystem\ICommandHandler.cs" />
     <Compile Include="Source\ConsoleSubsystem\Output\ColorOutputPrinter.cs" />
     <Compile Include="Source\ConsoleSubsystem\Output\OutputChunk.cs" />
     <Compile Include="Source\ConsoleSubsystem\Output\OutputParser.cs" />

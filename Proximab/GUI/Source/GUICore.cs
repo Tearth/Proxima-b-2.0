@@ -59,7 +59,7 @@ namespace GUI
 
         private void ConsoleManager_OnNewCommand(object sender, CommandEventArgs e)
         {
-            
+            _consoleManager.HandleCommand(e.Command);
         }
     }
 }
