@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GUI.Source.ConsoleSubsystem.Parser;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +10,6 @@ namespace GUI.Source.ConsoleSubsystem
     internal class CommandEventArgs : EventArgs
     {
         public DateTime Time { get; set; }
+        public Command Command { get; set; }
     }
 }

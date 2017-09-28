@@ -48,9 +48,9 @@ namespace GUI.Source.ConsoleSubsystem
             }
         }
 
-        void ProcessCommand(string command)
+        void ProcessCommand(string input)
         {
-            var rawCommand = _commandParser.Parse(command);
+            var rawCommand = _commandParser.Parse(input);
             if(rawCommand == null)
             {
                 WriteEmptyCommandMessage();
@@ -60,16 +60,29 @@ namespace GUI.Source.ConsoleSubsystem
             var definition = _commandDefinitionsContainer.Definitions.FirstOrDefault(p => p.Name == rawCommand.Name);
             if(definition == null)
             {
-                WriteCommandNotFoundMessage(command);
+                WriteCommandNotFoundMessage(input);
                 return;
             }
 
             var validationResult = _commandValidator.Validate(rawCommand, definition);
             if(!validationResult)
             {
-                WriteInvalidCommandFormatMessage(command);
+                WriteInvalidCommandFormatMessage(input);
                 return;
             }
+
+            var enumType = (CommandType)Enum.Parse(typeof(CommandType), definition.EnumType);
+            var commandEventArgs = new CommandEventArgs()
+            {
+                Time = DateTime.Now,
+                Command = new Command()
+                {
+                    Type = enumType,
+                    Arguments = rawCommand.Arguments
+                }
+            };
+
+            OnNewCommand?.Invoke(this, commandEventArgs);
         }
 
         void WriteEmptyCommandMessage()
