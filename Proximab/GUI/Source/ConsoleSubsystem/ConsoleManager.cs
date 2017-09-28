@@ -80,7 +80,7 @@ namespace GUI.Source.ConsoleSubsystem
                 return;
             }
 
-            var enumType = (CommandType)Enum.Parse(typeof(CommandType), definition.EnumType);
+            var enumType = (CommandType)Enum.Parse(typeof(CommandType), definition.EnumValue);
             var commandEventArgs = new CommandEventArgs()
             {
                 Time = DateTime.Now,

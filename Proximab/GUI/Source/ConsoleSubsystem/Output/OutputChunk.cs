@@ -10,5 +10,16 @@ namespace GUI.Source.ConsoleSubsystem.Output
     {
         public ColorType Color { get; set; }
         public string Text { get; set; }
+
+        public OutputChunk()
+        {
+
+        }
+
+        public OutputChunk(ColorType color, string text)
+        {
+            Color = color;
+            Text = text;
+        }
     }
 }

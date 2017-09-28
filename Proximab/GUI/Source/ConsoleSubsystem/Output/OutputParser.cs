@@ -10,9 +10,9 @@ namespace GUI.Source.ConsoleSubsystem.Output
 {
     internal class OutputParser
     {
-        readonly char[] Separators = { '$' };
-
         ColorDefinitionsContainer _colorDefinitionsContainer;
+
+        readonly char[] Separators = { '$' };
 
         public OutputParser()
         {
@@ -27,9 +27,9 @@ namespace GUI.Source.ConsoleSubsystem.Output
         public IList<OutputChunk> GetOutputChunks(string output)
         {
             var outputChunks = new List<OutputChunk>();
-            var chunks = output.Split(Separators, StringSplitOptions.RemoveEmptyEntries);
+            var splittedOutput = output.Split(Separators, StringSplitOptions.RemoveEmptyEntries);
 
-            foreach(var chunk in chunks)
+            foreach(var chunk in splittedOutput)
             {
                 var colorSymbol = chunk[0];
                 var text = chunk.Remove(0, 1);
@@ -39,22 +39,18 @@ namespace GUI.Source.ConsoleSubsystem.Output
                 ColorType colorType = ColorType.White;
                 if(definition != null)
                 {
-                    colorType = GetColorTypeByName(definition.EnumType);
-                }      
+                    colorType = GetColorTypeByEnumValue(definition.EnumValue);
+                }
 
-                outputChunks.Add(new OutputChunk()
-                {
-                    Color = colorType,
-                    Text = text
-                });
+                outputChunks.Add(new OutputChunk(colorType, text));
             }
 
             return outputChunks;
         }
 
-        ColorType GetColorTypeByName(string colorName)
+        ColorType GetColorTypeByEnumValue(string enumValue)
         {
-            return (ColorType)Enum.Parse(typeof(ColorType), colorName);
+            return (ColorType)Enum.Parse(typeof(ColorType), enumValue);
         }
     }
 }

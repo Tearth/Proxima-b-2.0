@@ -18,6 +18,12 @@ namespace GUI.Source.ConsoleSubsystem.Parser
             Arguments = new List<string>();
         }
 
+        public Command(CommandType type, IList<string> arguments)
+        {
+            Type = type;
+            Arguments = arguments;
+        }
+
         public T GetArgument<T>(int index)
         {
             return (T)Convert.ChangeType(Arguments[index - 1], typeof(T), CultureInfo.InvariantCulture);

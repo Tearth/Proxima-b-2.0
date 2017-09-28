@@ -15,5 +15,11 @@ namespace GUI.Source.ConsoleSubsystem.Parser
         {
             Arguments = new List<string>();
         }
+
+        public RawCommand(string name, IList<string> arguments)
+        {
+            Name = name;
+            Arguments = arguments;
+        }
     }
 }

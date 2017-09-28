@@ -22,11 +22,10 @@ namespace GUI.Source.ConsoleSubsystem.Parser
             if (splittedInput.Count == 0)
                 return null;
 
-            return new RawCommand()
-            {
-                Name = splittedInput.First(),
-                Arguments = splittedInput.Skip(1).ToList()
-            };
+            var name = splittedInput.First();
+            var arguments = splittedInput.Skip(1).ToList();
+
+            return new RawCommand(name, arguments);
         }
 
         IList<string> SplitInput(string input)

@@ -8,7 +8,7 @@ namespace ContentDefinitions.Colors
 {
     public class ColorDefinition
     {
-        public string EnumType { get; set; }
+        public string EnumValue { get; set; }
         public string Symbol { get; set; }
     }
 }

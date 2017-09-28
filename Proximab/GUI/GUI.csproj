@@ -47,7 +47,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Source\ConsoleSubsystem\CommandEventArgs.cs" />
-    <Compile Include="Source\ConsoleSubsystem\CommandDefinitions\DefinitionsManager.cs" />
     <Compile Include="Source\ConsoleSubsystem\Output\ColorOutput.cs" />
     <Compile Include="Source\ConsoleSubsystem\Output\ColorType.cs" />
     <Compile Include="Source\ConsoleSubsystem\Output\OutputChunk.cs" />
