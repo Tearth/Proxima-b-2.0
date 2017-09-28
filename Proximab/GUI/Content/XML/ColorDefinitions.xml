@@ -3,16 +3,48 @@
   <Asset Type="ContentDefinitions.Colors.ColorDefinitionsContainer">
 		<Definitions>
 			<Item>
-				<EnumType>Red</EnumType>
+				<Color>White</Color>
+				<Symbol>w</Symbol>
+			</Item>
+			<Item>
+				<Color>Red</Color>
 				<Symbol>r</Symbol>
 			</Item>
 			<Item>
-				<EnumType>Green</EnumType>
+				<Color>DarkRed</Color>
+				<Symbol>R</Symbol>
+			</Item>
+			<Item>
+				<Color>Green</Color>
 				<Symbol>g</Symbol>
 			</Item>
 			<Item>
-				<EnumType>Blue</EnumType>
+				<Color>DarkGreen</Color>
+				<Symbol>G</Symbol>
+			</Item>
+			<Item>
+				<Color>Blue</Color>
 				<Symbol>b</Symbol>
+			</Item>
+			<Item>
+				<Color>DarkBlue</Color>
+				<Symbol>B</Symbol>
+			</Item>
+			<Item>
+				<Color>Magenta</Color>
+				<Symbol>m</Symbol>
+			</Item>
+			<Item>
+				<Color>Yellow</Color>
+				<Symbol>y</Symbol>
+			</Item>
+			<Item>
+				<Color>Cyan</Color>
+				<Symbol>c</Symbol>
+			</Item>
+			<Item>
+				<Color>Red</Color>
+				<Symbol>r</Symbol>
 			</Item>
 		</Definitions>
   </Asset>
