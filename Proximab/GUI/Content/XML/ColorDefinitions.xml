@@ -42,10 +42,6 @@
 				<Color>Cyan</Color>
 				<Symbol>c</Symbol>
 			</Item>
-			<Item>
-				<Color>Red</Color>
-				<Symbol>r</Symbol>
-			</Item>
 		</Definitions>
   </Asset>
 </XnaContent>

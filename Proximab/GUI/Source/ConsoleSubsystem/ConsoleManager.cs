@@ -61,14 +61,16 @@ namespace GUI.Source.ConsoleSubsystem
 
         void ProcessCommand(string input)
         {
-            var rawCommand = _commandParser.Parse(input);
+            var rawCommand = _commandParser.Parse(input.ToLower().Trim());
             if(rawCommand == null)
             {
                 WriteEmptyCommandMessage();
                 return;
             }
 
-            var definition = _commandDefinitionsContainer.Definitions.FirstOrDefault(p => p.Name == rawCommand.Name);
+            var definition = _commandDefinitionsContainer.Definitions
+                .FirstOrDefault(p => p.Name.ToLower().Trim() == rawCommand.Name);
+
             if(definition == null)
             {
                 WriteCommandNotFoundMessage(input);
@@ -82,7 +84,7 @@ namespace GUI.Source.ConsoleSubsystem
                 return;
             }
 
-            var enumType = (CommandType)Enum.Parse(typeof(CommandType), definition.EnumValue);
+            var enumType = (CommandType)Enum.Parse(typeof(CommandType), definition.EnumType);
             var commandEventArgs = new CommandEventArgs()
             {
                 Time = DateTime.Now,
@@ -98,17 +100,17 @@ namespace GUI.Source.ConsoleSubsystem
 
         void WriteEmptyCommandMessage()
         {
-            Write("Empty command");
+            Write("$rEmpty command");
         }
 
         void WriteCommandNotFoundMessage(string command)
         {
-            Write($"Command not found: {command}");
+            Write($"$rCommand not found: {command}");
         }
 
         void WriteInvalidCommandFormatMessage(string command)
         {
-            Write($"Invalid command format: {command}");
+            Write($"$rInvalid command format: {command}");
         }
     }
 }

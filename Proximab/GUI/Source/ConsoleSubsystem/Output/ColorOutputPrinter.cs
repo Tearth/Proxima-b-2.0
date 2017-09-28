@@ -31,6 +31,8 @@ namespace GUI.Source.ConsoleSubsystem.Output
                 Console.ForegroundColor = chunk.Color;
                 Console.Write(chunk.Text);
             }
+
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }

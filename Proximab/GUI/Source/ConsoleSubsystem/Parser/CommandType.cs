@@ -10,6 +10,6 @@ namespace GUI.Source.ConsoleSubsystem.Parser
     {
         None,
         Invalid,
-        HelloWorld
+        Colors
     }
 }

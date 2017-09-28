@@ -3,14 +3,9 @@
 	<Asset Type="ContentDefinitions.Commands.CommandDefinitionsContainer">
 		<Definitions>
 			<Item>
-				<Name>hw</Name>
-				<EnumType>HelloWorld</EnumType>
-				<Arguments>
-					<Item>int</Item>
-					<Item>string</Item>
-					<Item>bool</Item>
-					<Item>float</Item>
-				</Arguments>
+				<Name>Colors</Name>
+				<EnumType>Colors</EnumType>
+				<Arguments></Arguments>
 			</Item>
 		</Definitions>
 	</Asset>
