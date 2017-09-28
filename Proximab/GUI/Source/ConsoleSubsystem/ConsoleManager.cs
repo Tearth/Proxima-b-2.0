@@ -1,4 +1,6 @@
-﻿using ContentDefinitions.Commands;
+﻿using ContentDefinitions.Colors;
+using ContentDefinitions.Commands;
+using GUI.Source.ConsoleSubsystem.Output;
 using GUI.Source.ConsoleSubsystem.Parser;
 using System;
 using System.Collections.Generic;
@@ -13,9 +15,11 @@ namespace GUI.Source.ConsoleSubsystem
         public event EventHandler<CommandEventArgs> OnNewCommand;
 
         Task _consoleLoop;
-        CommandDefinitionsContainer _commandDefinitionsContainer;
         CommandParser _commandParser;
         CommandValidator _commandValidator;
+        OutputParser _outputParser;
+
+        CommandDefinitionsContainer _commandDefinitionsContainer;
 
         public ConsoleManager()
         {
@@ -23,11 +27,15 @@ namespace GUI.Source.ConsoleSubsystem
 
             _commandParser = new CommandParser();
             _commandValidator = new CommandValidator();
+            _outputParser = new OutputParser();
         }
 
-        public void SetCommandDefinitions(CommandDefinitionsContainer commandDefinitionsContainer)
+        public void SetCommandDefinitions(CommandDefinitionsContainer commandDefinitionsContainer, 
+                                          ColorDefinitionsContainer colorDefinitionsContainer)
         {
             _commandDefinitionsContainer = commandDefinitionsContainer;
+
+            _outputParser.SetColorDefinitions(colorDefinitionsContainer);
         }
 
         public void Run()
@@ -37,6 +45,7 @@ namespace GUI.Source.ConsoleSubsystem
 
         public void Write(string output)
         {
+            var test = _outputParser.GetOutputChunks(output);
             Console.WriteLine(output);
         }
 
@@ -87,17 +96,17 @@ namespace GUI.Source.ConsoleSubsystem
 
         void WriteEmptyCommandMessage()
         {
-            Console.WriteLine($"Empty command");
+            Write($"$rEmpty $gcommand$n");
         }
 
         void WriteCommandNotFoundMessage(string command)
         {
-            Console.WriteLine($"Command not found: {command}");
+            Write($"Command not found: {command}");
         }
 
         void WriteInvalidCommandFormatMessage(string command)
         {
-            Console.WriteLine($"Invalid command format: {command}");
+            Write($"Invalid command format: {command}");
         }
     }
 }

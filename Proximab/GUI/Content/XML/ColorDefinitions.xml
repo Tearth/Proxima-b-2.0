@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:ns="Microsoft.Xna.Framework">
+  <Asset Type="ContentDefinitions.Colors.ColorDefinitionsContainer">
+		<Definitions>
+			<Item>
+				<EnumType>Red</EnumType>
+				<Symbol>r</Symbol>
+			</Item>
+			<Item>
+				<EnumType>Green</EnumType>
+				<Symbol>g</Symbol>
+			</Item>
+			<Item>
+				<EnumType>Blue</EnumType>
+				<Symbol>b</Symbol>
+			</Item>
+		</Definitions>
+  </Asset>
+</XnaContent>

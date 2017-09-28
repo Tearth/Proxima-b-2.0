@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace GUI.Source.ConsoleSubsystem.Parser
 
         public T GetArgument<T>(int index)
         {
-            return (T)Convert.ChangeType(Arguments[index], typeof(T));
+            return (T)Convert.ChangeType(Arguments[index - 1], typeof(T), CultureInfo.InvariantCulture);
         }
     }
 }

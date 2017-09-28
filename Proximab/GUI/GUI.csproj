@@ -48,6 +48,10 @@
   <ItemGroup>
     <Compile Include="Source\ConsoleSubsystem\CommandEventArgs.cs" />
     <Compile Include="Source\ConsoleSubsystem\CommandDefinitions\DefinitionsManager.cs" />
+    <Compile Include="Source\ConsoleSubsystem\Output\ColorOutput.cs" />
+    <Compile Include="Source\ConsoleSubsystem\Output\ColorType.cs" />
+    <Compile Include="Source\ConsoleSubsystem\Output\OutputChunk.cs" />
+    <Compile Include="Source\ConsoleSubsystem\Output\OutputParser.cs" />
     <Compile Include="Source\ConsoleSubsystem\Parser\Command.cs" />
     <Compile Include="Source\ConsoleSubsystem\Parser\CommandParser.cs" />
     <Compile Include="Source\ConsoleSubsystem\ConsoleManager.cs" />

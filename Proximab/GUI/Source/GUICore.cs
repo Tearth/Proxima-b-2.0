@@ -1,4 +1,5 @@
-﻿using ContentDefinitions.Commands;
+﻿using ContentDefinitions.Colors;
+using ContentDefinitions.Commands;
 using GUI.Source.ConsoleSubsystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,6 +20,7 @@ namespace GUI
             _graphics = new GraphicsDeviceManager(this);
 
             _consoleManager = consoleManager;
+            _consoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
 
             Content.RootDirectory = "Content";
         }
@@ -30,7 +32,10 @@ namespace GUI
         
         protected override void LoadContent()
         {
-            _consoleManager.SetCommandDefinitions(Content.Load<CommandDefinitionsContainer>("XML\\CommandDefinitions"));
+            var commandDefinitions = Content.Load<CommandDefinitionsContainer>("XML\\CommandDefinitions");
+            var colorDefinitions = Content.Load<ColorDefinitionsContainer>("XML\\ColorDefinitions");
+
+            _consoleManager.SetCommandDefinitions(commandDefinitions, colorDefinitions);
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
@@ -53,6 +58,11 @@ namespace GUI
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             base.Draw(gameTime);
+        }
+
+        private void ConsoleManager_OnNewCommand(object sender, CommandEventArgs e)
+        {
+            
         }
     }
 }
