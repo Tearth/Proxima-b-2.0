@@ -18,6 +18,7 @@ namespace GUI.Source.ConsoleSubsystem
         CommandParser _commandParser;
         CommandValidator _commandValidator;
         OutputParser _outputParser;
+        ColorOutputPrinter _outputPrinter;
 
         CommandDefinitionsContainer _commandDefinitionsContainer;
 
@@ -28,6 +29,7 @@ namespace GUI.Source.ConsoleSubsystem
             _commandParser = new CommandParser();
             _commandValidator = new CommandValidator();
             _outputParser = new OutputParser();
+            _outputPrinter = new ColorOutputPrinter();
         }
 
         public void SetCommandDefinitions(CommandDefinitionsContainer commandDefinitionsContainer, 
@@ -45,8 +47,8 @@ namespace GUI.Source.ConsoleSubsystem
 
         public void Write(string output)
         {
-            var test = _outputParser.GetOutputChunks(output);
-            Console.WriteLine(output);
+            var outputChunks = _outputParser.GetOutputChunks(output);
+            _outputPrinter.WriteLine(outputChunks);
         }
 
         void Loop()
@@ -96,7 +98,7 @@ namespace GUI.Source.ConsoleSubsystem
 
         void WriteEmptyCommandMessage()
         {
-            Write($"$rEmpty $gcommand$n");
+            Write("Empty command");
         }
 
         void WriteCommandNotFoundMessage(string command)

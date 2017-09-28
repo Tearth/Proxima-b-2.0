@@ -8,7 +8,7 @@ namespace GUI.Source.ConsoleSubsystem.Output
 {
     internal class OutputChunk
     {
-        public ColorType Color { get; set; }
+        public ConsoleColor Color { get; set; }
         public string Text { get; set; }
 
         public OutputChunk()
@@ -16,7 +16,7 @@ namespace GUI.Source.ConsoleSubsystem.Output
 
         }
 
-        public OutputChunk(ColorType color, string text)
+        public OutputChunk(ConsoleColor color, string text)
         {
             Color = color;
             Text = text;

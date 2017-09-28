@@ -36,21 +36,16 @@ namespace GUI.Source.ConsoleSubsystem.Output
 
                 var definition = _colorDefinitionsContainer.Definitions.FirstOrDefault(p => p.Symbol == colorSymbol.ToString());
 
-                ColorType colorType = ColorType.White;
+                var color = ConsoleColor.White;
                 if(definition != null)
                 {
-                    colorType = GetColorTypeByEnumValue(definition.EnumValue);
+                    color = (ConsoleColor)Enum.Parse(typeof(ConsoleColor), definition.Color);
                 }
 
-                outputChunks.Add(new OutputChunk(colorType, text));
+                outputChunks.Add(new OutputChunk(color, text));
             }
 
             return outputChunks;
-        }
-
-        ColorType GetColorTypeByEnumValue(string enumValue)
-        {
-            return (ColorType)Enum.Parse(typeof(ColorType), enumValue);
         }
     }
 }
