@@ -2,6 +2,7 @@
 using ContentDefinitions.Commands;
 using GUI.Source.BoardSubsystem;
 using GUI.Source.ConsoleSubsystem;
+using GUI.Source.InputSubsystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -15,6 +16,7 @@ namespace GUI
         SpriteBatch _spriteBatch;
 
         ConsoleManager _consoleManager;
+        InputManager _inputManager;
         Board _board;
         
         public GUICore(ConsoleManager consoleManager)
@@ -28,6 +30,7 @@ namespace GUI
             _consoleManager = consoleManager;
             _consoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
 
+            _inputManager = new InputManager();
             _board = new Board();
 
             Content.RootDirectory = "Content";
@@ -56,6 +59,8 @@ namespace GUI
         
         protected override void Update(GameTime gameTime)
         {
+            _inputManager.Logic();
+
             base.Update(gameTime);
         }
 

@@ -17,6 +17,7 @@ namespace GUI.Source.BoardSubsystem
     {
         readonly int TileWidthHeight = 64;
         readonly Rectangle TileSize = new Rectangle(0, 0, 64, 64);
+        readonly Vector2 BoardPosition = new Vector2(0, 0);
 
         ContentManager _contentManager;
         FriendlyBoard _friendlyBoard;
@@ -74,7 +75,7 @@ namespace GUI.Source.BoardSubsystem
                     var position = new Vector2(x, y) * TileWidthHeight;
                     var texture = fieldInversion ? _field1 : _field2;
 
-                    spriteBatch.Draw(texture, position, TileSize, Color.White);
+                    spriteBatch.Draw(texture, position + BoardPosition, TileSize, Color.White);
                     fieldInversion = !fieldInversion;
                 }
 
@@ -98,7 +99,7 @@ namespace GUI.Source.BoardSubsystem
             foreach(var selection in _selections)
             {
                 var position = new Vector2(selection.X - 1, 8 - selection.Y) * TileWidthHeight;
-                spriteBatch.Draw(_selection, position, TileSize, Color.White);
+                spriteBatch.Draw(_selection, position + BoardPosition, TileSize, Color.White);
             }
         }
     }
