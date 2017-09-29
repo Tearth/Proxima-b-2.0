@@ -41,7 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Board\FriendlyBoard.cs" />
-    <Compile Include="Board\PieceType.cs" />
+    <Compile Include="Common\Exceptions\PositionOutOfRangeException.cs" />
+    <Compile Include="Common\PieceType.cs" />
+    <Compile Include="Common\Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
