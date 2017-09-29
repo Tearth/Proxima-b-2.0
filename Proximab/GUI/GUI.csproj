@@ -135,6 +135,7 @@
   <ItemGroup>
     <Content Include="Content\Textures\field1.png" />
     <Content Include="Content\Textures\field2.png" />
+    <Content Include="Content\Textures\Selection.png" />
     <Content Include="Content\XML\ColorDefinitions.xml" />
     <Content Include="Content\XML\CommandDefinitions.xml" />
   </ItemGroup>

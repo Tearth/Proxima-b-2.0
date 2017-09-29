@@ -17,6 +17,10 @@ namespace GUI.Source.BoardSubsystem
         ContentManager _contentManager;
         FriendlyBoard _friendlyBoard;
 
+        Texture2D _field1;
+        Texture2D _field2;
+        Texture2D _selection;
+
         public Board()
         {
 
@@ -25,6 +29,10 @@ namespace GUI.Source.BoardSubsystem
         public void Init(ContentManager contentManager)
         {
             _contentManager = contentManager;
+
+            _field1 = _contentManager.Load<Texture2D>("Textures\\Field1");
+            _field2 = _contentManager.Load<Texture2D>("Textures\\Field2");
+            _selection = _contentManager.Load<Texture2D>("Textures\\Selection");
         }
 
         public void Logic()
@@ -36,6 +44,7 @@ namespace GUI.Source.BoardSubsystem
         {
             DrawBackground(spriteBatch);
             DrawPieces(spriteBatch);
+            DrawSelections(spriteBatch);
         }
 
         public void SetBoard(FriendlyBoard friendlyBoard)
@@ -50,9 +59,6 @@ namespace GUI.Source.BoardSubsystem
 
         void DrawBackground(SpriteBatch spriteBatch)
         {
-            var field1 = _contentManager.Load<Texture2D>("Textures\\Field1");
-            var field2 = _contentManager.Load<Texture2D>("Textures\\Field2");
-
             bool fieldInversion = false;
 
             for (int x = 0; x < 8; x++)
@@ -60,12 +66,9 @@ namespace GUI.Source.BoardSubsystem
                 for (int y = 0; y < 8; y++)
                 {
                     var position = new Rectangle(x * 64, y * 64, 64, 64);
+                    var texture = fieldInversion ? _field1 : _field2;
 
-                    if (fieldInversion)
-                        spriteBatch.Draw(field1, position, Color.White);
-                    else
-                        spriteBatch.Draw(field2, position, Color.White);
-
+                    spriteBatch.Draw(texture, position, Color.White);
                     fieldInversion = !fieldInversion;
                 }
 
@@ -82,6 +85,10 @@ namespace GUI.Source.BoardSubsystem
 
                 }
             }
+        }
+
+        void DrawSelections(SpriteBatch spriteBatch)
+        {
         }
     }
 }
