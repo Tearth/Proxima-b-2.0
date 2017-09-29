@@ -2,6 +2,7 @@
 using ContentDefinitions.Commands;
 using GUI.Source.ConsoleSubsystem.Output;
 using GUI.Source.ConsoleSubsystem.Parser;
+using GUI.Source.DiagnosticSubsystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace GUI.Source.ConsoleSubsystem
         CommandValidator _commandValidator;
         OutputParser _outputParser;
         ColorOutputPrinter _outputPrinter;
+        EnvironmentInfoProvider _environmentInfoProvider;
 
         CommandDefinitionsContainer _commandDefinitionsContainer;
         ColorDefinitionsContainer _colorDefinitionsContainer;
@@ -31,6 +33,7 @@ namespace GUI.Source.ConsoleSubsystem
             _commandValidator = new CommandValidator();
             _outputParser = new OutputParser();
             _outputPrinter = new ColorOutputPrinter();
+            _environmentInfoProvider = new EnvironmentInfoProvider();
         }
 
         public void SetCommandDefinitions(CommandDefinitionsContainer commandDefinitionsContainer, 
@@ -40,6 +43,8 @@ namespace GUI.Source.ConsoleSubsystem
             _colorDefinitionsContainer = colorDefinitionsContainer;
 
             _outputParser.SetColorDefinitions(colorDefinitionsContainer);
+
+            WriteConsoleHeader();
         }
 
         public void Run()
@@ -121,6 +126,16 @@ namespace GUI.Source.ConsoleSubsystem
         void WriteInvalidCommandFormatMessage(string command)
         {
             WriteLine($"$rInvalid command format: {command}");
+        }
+
+        void WriteConsoleHeader()
+        {
+            var osInfo = _environmentInfoProvider.GetOSInfo();
+            var cpuPlatform = _environmentInfoProvider.GetCPUPlatformVersion();
+            var processPlatform = _environmentInfoProvider.GetProcessPlatformVersion();
+            var coresCount = _environmentInfoProvider.GetCPUCoresCount();
+
+            WriteLine($"$gProxima b 2.0 GUI$w | {osInfo} (CPU $c{cpuPlatform}$w, {coresCount}$w | Process $c{processPlatform}$w)");
         }
 
         void WriteColorsList()
