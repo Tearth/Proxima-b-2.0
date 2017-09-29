@@ -46,8 +46,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Source\BoardSubsystem\Board.cs" />
     <Compile Include="Source\ConsoleSubsystem\CommandEventArgs.cs" />
-    <Compile Include="Source\ConsoleSubsystem\ICommandHandler.cs" />
     <Compile Include="Source\ConsoleSubsystem\Output\ColorOutputPrinter.cs" />
     <Compile Include="Source\ConsoleSubsystem\Output\OutputChunk.cs" />
     <Compile Include="Source\ConsoleSubsystem\Output\OutputParser.cs" />
@@ -132,6 +132,7 @@
     <Content Include="Content\XML\ColorDefinitions.xml" />
     <Content Include="Content\XML\CommandDefinitions.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

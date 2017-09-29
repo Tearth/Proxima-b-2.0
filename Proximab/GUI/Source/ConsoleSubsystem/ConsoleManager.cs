@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GUI.Source.ConsoleSubsystem
 {
-    internal class ConsoleManager : ICommandHandler
+    internal class ConsoleManager
     {
         public event EventHandler<CommandEventArgs> OnNewCommand;
 
