@@ -127,6 +127,10 @@
       <Project>{93fff5b7-fe43-46d0-8caa-14af8ada6e53}</Project>
       <Name>ContentDefinitions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{ae7c5e5c-526c-4f20-ba32-427bf3c6a405}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\XML\ColorDefinitions.xml" />
