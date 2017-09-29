@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Board\FriendlyBoard.cs" />
     <Compile Include="Board\PieceType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
