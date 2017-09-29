@@ -9,11 +9,15 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Core.Board;
 using Microsoft.Xna.Framework;
+using Core.Common;
 
 namespace GUI.Source.BoardSubsystem
 {
     internal class Board
     {
+        readonly int TileWidthHeight = 64;
+        readonly Rectangle TileSize = new Rectangle(0, 0, 64, 64);
+
         ContentManager _contentManager;
         FriendlyBoard _friendlyBoard;
 
@@ -21,9 +25,11 @@ namespace GUI.Source.BoardSubsystem
         Texture2D _field2;
         Texture2D _selection;
 
+        List<Position> _selections;
+
         public Board()
         {
-
+            _selections = new List<Position>();
         }
 
         public void Init(ContentManager contentManager)
@@ -65,10 +71,10 @@ namespace GUI.Source.BoardSubsystem
             {
                 for (int y = 0; y < 8; y++)
                 {
-                    var position = new Rectangle(x * 64, y * 64, 64, 64);
+                    var position = new Vector2(x, y) * TileWidthHeight;
                     var texture = fieldInversion ? _field1 : _field2;
 
-                    spriteBatch.Draw(texture, position, Color.White);
+                    spriteBatch.Draw(texture, position, TileSize, Color.White);
                     fieldInversion = !fieldInversion;
                 }
 
@@ -89,6 +95,11 @@ namespace GUI.Source.BoardSubsystem
 
         void DrawSelections(SpriteBatch spriteBatch)
         {
+            foreach(var selection in _selections)
+            {
+                var position = new Vector2(selection.X - 1, 8 - selection.Y) * TileWidthHeight;
+                spriteBatch.Draw(_selection, position, TileSize, Color.White);
+            }
         }
     }
 }
