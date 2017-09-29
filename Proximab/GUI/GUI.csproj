@@ -122,6 +122,7 @@
     <None Include="app.config" />
     <None Include="app.manifest" />
     <MonoGameContentReference Include="Content\Content.mgcb" />
+    <None Include="Content\Fonts\FPSFont.spritefont" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ContentDefinitions\ContentDefinitions.csproj">
