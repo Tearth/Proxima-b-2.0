@@ -26,7 +26,7 @@ namespace GUI.Source.ConsoleSubsystem.Parser
 
         public T GetArgument<T>(int index)
         {
-            return (T)Convert.ChangeType(Arguments[index - 1], typeof(T), CultureInfo.InvariantCulture);
+            return (T)Convert.ChangeType(Arguments[index], typeof(T), CultureInfo.InvariantCulture);
         }
     }
 }

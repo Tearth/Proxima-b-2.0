@@ -40,17 +40,14 @@ namespace GUI
 
         protected override void Initialize()
         {
-            _board.Init(Content);
-            _fpsCounter.Init(Content);
             base.Initialize();
         }
         
         protected override void LoadContent()
         {
-            var commandDefinitions = Content.Load<CommandDefinitionsContainer>("XML\\CommandDefinitions");
-            var colorDefinitions = Content.Load<ColorDefinitionsContainer>("XML\\ColorDefinitions");
-
-            _consoleManager.SetCommandDefinitions(commandDefinitions, colorDefinitions);
+            _board.LoadContent(Content);
+            _fpsCounter.LoadContent(Content);
+            _consoleManager.LoadContent(Content);
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
@@ -62,8 +59,8 @@ namespace GUI
         
         protected override void Update(GameTime gameTime)
         {
-            _inputManager.Logic();
-            _fpsCounter.Input(_inputManager);
+            Input();
+
             _fpsCounter.Logic();
 
             base.Update(gameTime);
@@ -74,16 +71,23 @@ namespace GUI
             GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin();
+
             _board.Draw(_spriteBatch);
             _fpsCounter.Draw(_spriteBatch);
+
             _spriteBatch.End();
 
             _fpsCounter.AddFrame();
-
             base.Draw(gameTime);
         }
 
-        private void ConsoleManager_OnNewCommand(object sender, CommandEventArgs e)
+        void Input()
+        {
+            _inputManager.Logic();
+            _fpsCounter.Input(_inputManager);
+        }
+
+        void ConsoleManager_OnNewCommand(object sender, CommandEventArgs e)
         {
             _consoleManager.HandleCommand(e.Command);
         }

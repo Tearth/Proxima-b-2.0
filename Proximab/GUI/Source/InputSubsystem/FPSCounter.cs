@@ -13,25 +13,30 @@ namespace GUI.Source.InputSubsystem
     internal class FPSCounter
     {
         public int FPS { get; private set; }
+        public Vector2 FPSPosition { get; set; }
+        public Color FPSColor { get; set; }
 
         int _currentSecond;
         int _currentFPS;
         bool _displayFPS;
 
-        ContentManager _contentManager;
+        SpriteFont _fpsFont;
 
         public FPSCounter()
         {
             FPS = 0;
 
+            FPSPosition = new Vector2(5, 5);
+            FPSColor = Color.DarkGreen;
+
             _currentSecond = DateTime.Now.Second;
             _currentFPS = 0;
-            _displayFPS = true;
+            _displayFPS = false;
         }
 
-        public void Init(ContentManager contentManager)
+        public void LoadContent(ContentManager contentManager)
         {
-            _contentManager = contentManager;
+            _fpsFont = contentManager.Load<SpriteFont>("Fonts\\FPSFont");
         }
 
         public void Logic()
@@ -64,11 +69,9 @@ namespace GUI.Source.InputSubsystem
         {
             if(_displayFPS)
             {
-                var font = _contentManager.Load<SpriteFont>("Fonts\\FPSFont");
-                var position = new Vector2(10, 10);
                 var text = "FPS: " + FPS;
 
-                spriteBatch.DrawString(font, text, position, Color.DarkRed);
+                spriteBatch.DrawString(_fpsFont, text, FPSPosition, FPSColor);
             }
         }
     }

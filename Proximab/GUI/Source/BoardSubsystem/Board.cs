@@ -18,8 +18,7 @@ namespace GUI.Source.BoardSubsystem
         readonly int TileWidthHeight = 64;
         readonly Rectangle TileSize = new Rectangle(0, 0, 64, 64);
         readonly Vector2 BoardPosition = new Vector2(0, 0);
-
-        ContentManager _contentManager;
+        
         FriendlyBoard _friendlyBoard;
 
         Texture2D _field1;
@@ -33,13 +32,11 @@ namespace GUI.Source.BoardSubsystem
             _selections = new List<Position>();
         }
 
-        public void Init(ContentManager contentManager)
+        public void LoadContent(ContentManager contentManager)
         {
-            _contentManager = contentManager;
-
-            _field1 = _contentManager.Load<Texture2D>("Textures\\Field1");
-            _field2 = _contentManager.Load<Texture2D>("Textures\\Field2");
-            _selection = _contentManager.Load<Texture2D>("Textures\\Selection");
+            _field1 = contentManager.Load<Texture2D>("Textures\\Field1");
+            _field2 = contentManager.Load<Texture2D>("Textures\\Field2");
+            _selection = contentManager.Load<Texture2D>("Textures\\Selection");
         }
 
         public void Logic()

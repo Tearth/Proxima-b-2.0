@@ -3,6 +3,7 @@ using ContentDefinitions.Commands;
 using GUI.Source.ConsoleSubsystem.Output;
 using GUI.Source.ConsoleSubsystem.Parser;
 using GUI.Source.DiagnosticSubsystem;
+using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,13 +37,12 @@ namespace GUI.Source.ConsoleSubsystem
             _environmentInfoProvider = new EnvironmentInfoProvider();
         }
 
-        public void SetCommandDefinitions(CommandDefinitionsContainer commandDefinitionsContainer, 
-                                          ColorDefinitionsContainer colorDefinitionsContainer)
+        public void LoadContent(ContentManager contentManager)
         {
-            _commandDefinitionsContainer = commandDefinitionsContainer;
-            _colorDefinitionsContainer = colorDefinitionsContainer;
+            _commandDefinitionsContainer = contentManager.Load<CommandDefinitionsContainer>("XML\\CommandDefinitions");
+            _colorDefinitionsContainer = contentManager.Load<ColorDefinitionsContainer>("XML\\ColorDefinitions");
 
-            _outputParser.SetColorDefinitions(colorDefinitionsContainer);
+            _outputParser.SetColorDefinitions(_colorDefinitionsContainer);
 
             WriteConsoleHeader();
         }
