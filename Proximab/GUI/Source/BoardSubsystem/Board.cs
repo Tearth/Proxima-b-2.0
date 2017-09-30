@@ -144,8 +144,8 @@ namespace GUI.Source.BoardSubsystem
         {
             var mousePosition = inputManager.GetMousePosition();
 
-            var fieldX = (mousePosition.X / FieldWidthHeight) + (int)BoardPosition.X + 1;
-            var fieldY = 8 - (mousePosition.Y / FieldWidthHeight) + (int)BoardPosition.Y;
+            var fieldX = (int)((mousePosition.X - BoardPosition.X) / FieldWidthHeight) + 1;
+            var fieldY = 8 - (int)((mousePosition.Y - BoardPosition.Y) / FieldWidthHeight);
 
             fieldX = Math.Min(8, fieldX);
             fieldY = Math.Min(8, fieldY);

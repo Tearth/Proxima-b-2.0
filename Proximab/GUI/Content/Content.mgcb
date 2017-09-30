@@ -11,7 +11,6 @@
 #-------------------------------- References --------------------------------#
 
 /reference:..\..\ContentDefinitions\bin\Debug\ContentDefinitions.dll
-/reference:..\..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7\mscorlib.dll
 
 #---------------------------------- Content ---------------------------------#
 
