@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GUI.Source.BoardSubsystem
+namespace GUI.Source.BoardSubsystem.Selections
 {
     internal class FieldSelectedEventArgs : EventArgs
     {

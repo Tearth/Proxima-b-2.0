@@ -47,7 +47,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Source\BoardSubsystem\Board.cs" />
-    <Compile Include="Source\BoardSubsystem\FieldSelectedEventArgs.cs" />
+    <Compile Include="Source\BoardSubsystem\Selections\FieldSelectedEventArgs.cs" />
+    <Compile Include="Source\BoardSubsystem\Selections\Selection.cs" />
+    <Compile Include="Source\BoardSubsystem\Selections\SelectionType.cs" />
     <Compile Include="Source\ConsoleSubsystem\CommandEventArgs.cs" />
     <Compile Include="Source\ConsoleSubsystem\Output\ColorOutputPrinter.cs" />
     <Compile Include="Source\ConsoleSubsystem\Output\OutputChunk.cs" />
@@ -137,9 +139,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Textures\ExternalSelection.png" />
     <Content Include="Content\Textures\field1.png" />
     <Content Include="Content\Textures\field2.png" />
-    <Content Include="Content\Textures\Selection.png" />
+    <Content Include="Content\Textures\InternalSelection.png" />
     <Content Include="Content\XML\ColorDefinitions.xml" />
     <Content Include="Content\XML\CommandDefinitions.xml" />
   </ItemGroup>

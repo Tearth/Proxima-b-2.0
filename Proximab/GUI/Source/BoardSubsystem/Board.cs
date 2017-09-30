@@ -11,6 +11,7 @@ using Core.Board;
 using Microsoft.Xna.Framework;
 using Core.Common;
 using GUI.Source.InputSubsystem;
+using GUI.Source.BoardSubsystem.Selections;
 
 namespace GUI.Source.BoardSubsystem
 {
@@ -26,21 +27,23 @@ namespace GUI.Source.BoardSubsystem
 
         Texture2D _field1;
         Texture2D _field2;
-        Texture2D _selection;
+        Texture2D _internalSelection;
+        Texture2D _externalSelection;
 
-        List<Position> _selections;
+        List<Selection> _selections;
 
         public Board()
         {
             _friendlyBoard = new FriendlyBoard();
-            _selections = new List<Position>();
+            _selections = new List<Selection>();
         }
 
         public void LoadContent(ContentManager contentManager)
         {
             _field1 = contentManager.Load<Texture2D>("Textures\\Field1");
             _field2 = contentManager.Load<Texture2D>("Textures\\Field2");
-            _selection = contentManager.Load<Texture2D>("Textures\\Selection");
+            _internalSelection = contentManager.Load<Texture2D>("Textures\\InternalSelection");
+            _externalSelection = contentManager.Load<Texture2D>("Textures\\ExternalSelection");
         }
 
         public void Logic()
@@ -72,6 +75,17 @@ namespace GUI.Source.BoardSubsystem
         public void SetBoard(FriendlyBoard friendlyBoard)
         {
             _friendlyBoard = friendlyBoard;
+        }
+
+        public void AddExternalSelections(IEnumerable<Position> selections)
+        {
+            foreach(var position in selections)
+            {
+                if(!_selections.Exists(p => p.Type == SelectionType.External && p.Position == position))
+                {
+                    _selections.Add(new Selection(position, SelectionType.External));
+                }
+            }
         }
 
         public void HandleCommand(Command command)
@@ -113,8 +127,16 @@ namespace GUI.Source.BoardSubsystem
         {
             foreach(var selection in _selections)
             {
-                var position = new Vector2(selection.X - 1, 8 - selection.Y) * FieldWidthHeight;
-                spriteBatch.Draw(_selection, position + BoardPosition, FieldSize, Color.White);
+                Texture2D texture = null;
+                switch(selection.Type)
+                {
+                    case SelectionType.Internal: { texture = _internalSelection; break; }
+                    case SelectionType.External: { texture = _externalSelection; break; }
+                }
+
+                var position = new Vector2(selection.Position.X - 1, 8 - selection.Position.Y) * FieldWidthHeight;
+
+                spriteBatch.Draw(texture, position + BoardPosition, FieldSize, Color.White);
             }
         }
 
@@ -132,9 +154,10 @@ namespace GUI.Source.BoardSubsystem
             fieldY = Math.Max(1, fieldY);
 
             var position = new Position(fieldX, fieldY);
-            _selections.Add(position);
+            _selections.Add(new Selection(position, SelectionType.Internal));
 
-            OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(position, _friendlyBoard.Board[fieldX, fieldY]));
+            var selectedPiece = _friendlyBoard.Board[fieldX, fieldY];
+            OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(position, selectedPiece));
         }
 
         void RemoveAllSelections()

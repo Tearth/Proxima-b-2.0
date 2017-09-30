@@ -1,6 +1,8 @@
 ﻿using ContentDefinitions.Colors;
 using ContentDefinitions.Commands;
+using Core.Common;
 using GUI.Source.BoardSubsystem;
+using GUI.Source.BoardSubsystem.Selections;
 using GUI.Source.ConsoleSubsystem;
 using GUI.Source.InputSubsystem;
 using Microsoft.Xna.Framework;
@@ -97,7 +99,7 @@ namespace GUI
 
         void Board_OnFieldSelection(object sender, FieldSelectedEventArgs e)
         {
-            
+            _board.AddExternalSelections(new List<Position>() { new Position(1, 1) });
         }
     }
 }
