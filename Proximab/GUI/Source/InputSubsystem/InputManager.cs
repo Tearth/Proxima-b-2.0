@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,6 +68,12 @@ namespace GUI.Source.InputSubsystem
             }
 
             return pressed;
+        }
+
+        public Point GetMousePosition()
+        {
+            var mouseState = Mouse.GetState();
+            return mouseState.Position;
         }
 
         void ProcessMouse()

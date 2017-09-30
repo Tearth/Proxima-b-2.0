@@ -84,6 +84,7 @@ namespace GUI
         void Input()
         {
             _inputManager.Logic();
+            _board.Input(_inputManager);
             _fpsCounter.Input(_inputManager);
         }
 

@@ -10,13 +10,14 @@ using Microsoft.Xna.Framework.Content;
 using Core.Board;
 using Microsoft.Xna.Framework;
 using Core.Common;
+using GUI.Source.InputSubsystem;
 
 namespace GUI.Source.BoardSubsystem
 {
     internal class Board
     {
-        readonly int TileWidthHeight = 64;
-        readonly Rectangle TileSize = new Rectangle(0, 0, 64, 64);
+        readonly int FieldWidthHeight = 64;
+        readonly Rectangle FieldSize = new Rectangle(0, 0, 64, 64);
         readonly Vector2 BoardPosition = new Vector2(0, 0);
         
         FriendlyBoard _friendlyBoard;
@@ -51,6 +52,20 @@ namespace GUI.Source.BoardSubsystem
             DrawSelections(spriteBatch);
         }
 
+        public void Input(InputManager inputManager)
+        {
+            if(inputManager.IsLeftMouseButtonJustPressed())
+            {
+                RemoveAllSelections();
+                SelectField(inputManager);
+            }
+
+            if(inputManager.IsRightMouseButtonJustPressed())
+            {
+                RemoveAllSelections();
+            }
+        }
+
         public void SetBoard(FriendlyBoard friendlyBoard)
         {
             _friendlyBoard = friendlyBoard;
@@ -69,10 +84,10 @@ namespace GUI.Source.BoardSubsystem
             {
                 for (int y = 0; y < 8; y++)
                 {
-                    var position = new Vector2(x, y) * TileWidthHeight;
+                    var position = new Vector2(x, y) * FieldWidthHeight;
                     var texture = fieldInversion ? _field1 : _field2;
 
-                    spriteBatch.Draw(texture, position + BoardPosition, TileSize, Color.White);
+                    spriteBatch.Draw(texture, position + BoardPosition, FieldSize, Color.White);
                     fieldInversion = !fieldInversion;
                 }
 
@@ -95,9 +110,30 @@ namespace GUI.Source.BoardSubsystem
         {
             foreach(var selection in _selections)
             {
-                var position = new Vector2(selection.X - 1, 8 - selection.Y) * TileWidthHeight;
-                spriteBatch.Draw(_selection, position + BoardPosition, TileSize, Color.White);
+                var position = new Vector2(selection.X - 1, 8 - selection.Y) * FieldWidthHeight;
+                spriteBatch.Draw(_selection, position + BoardPosition, FieldSize, Color.White);
             }
+        }
+
+        void SelectField(InputManager inputManager)
+        {
+            var mousePosition = inputManager.GetMousePosition();
+
+            var fieldX = (mousePosition.X / FieldWidthHeight) + (int)BoardPosition.X + 1;
+            var fieldY = 8 - (mousePosition.Y / FieldWidthHeight) + (int)BoardPosition.Y;
+
+            fieldX = Math.Min(8, fieldX);
+            fieldY = Math.Min(8, fieldY);
+
+            fieldX = Math.Max(1, fieldX);
+            fieldY = Math.Max(1, fieldY);
+
+            _selections.Add(new Position(fieldX, fieldY));
+        }
+
+        void RemoveAllSelections()
+        {
+            _selections.Clear();
         }
     }
 }
