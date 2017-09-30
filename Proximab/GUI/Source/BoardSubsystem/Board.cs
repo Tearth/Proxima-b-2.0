@@ -156,7 +156,7 @@ namespace GUI.Source.BoardSubsystem
             var position = new Position(fieldX, fieldY);
             _selections.Add(new Selection(position, SelectionType.Internal));
 
-            var selectedPiece = _friendlyBoard.Board[fieldX, fieldY];
+            var selectedPiece = _friendlyBoard.GetPieceAtPosition(position);
             OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(position, selectedPiece));
         }
 

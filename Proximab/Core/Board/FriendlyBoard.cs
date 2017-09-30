@@ -23,5 +23,10 @@ namespace Core.Board
                 }
             }
         }
+
+        public PieceType GetPieceAtPosition(Position position)
+        {
+            return Board[position.X - 1, position.Y - 1];
+        }
     }
 }
