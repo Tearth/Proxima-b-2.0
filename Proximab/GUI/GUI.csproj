@@ -47,6 +47,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Source\BoardSubsystem\Board.cs" />
+    <Compile Include="Source\BoardSubsystem\FieldSelectedEventArgs.cs" />
     <Compile Include="Source\ConsoleSubsystem\CommandEventArgs.cs" />
     <Compile Include="Source\ConsoleSubsystem\Output\ColorOutputPrinter.cs" />
     <Compile Include="Source\ConsoleSubsystem\Output\OutputChunk.cs" />

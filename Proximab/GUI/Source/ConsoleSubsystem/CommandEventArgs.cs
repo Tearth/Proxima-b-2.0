@@ -11,5 +11,11 @@ namespace GUI.Source.ConsoleSubsystem
     {
         public DateTime Time { get; set; }
         public Command Command { get; set; }
+
+        public CommandEventArgs(DateTime time, Command command)
+        {
+            Time = time;
+            Command = command;
+        }
     }
 }

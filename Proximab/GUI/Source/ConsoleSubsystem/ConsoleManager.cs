@@ -100,15 +100,9 @@ namespace GUI.Source.ConsoleSubsystem
             }
 
             var enumType = (CommandType)Enum.Parse(typeof(CommandType), definition.EnumType);
-            var commandEventArgs = new CommandEventArgs()
-            {
-                Time = DateTime.Now,
-                Command = new Command()
-                {
-                    Type = enumType,
-                    Arguments = rawCommand.Arguments
-                }
-            };
+
+            var command = new Command(enumType, rawCommand.Arguments);
+            var commandEventArgs = new CommandEventArgs(DateTime.Now, command);
 
             OnNewCommand?.Invoke(this, commandEventArgs);
         }

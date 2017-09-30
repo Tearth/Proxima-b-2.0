@@ -30,9 +30,11 @@ namespace GUI
 
             _consoleManager = consoleManager;
             _consoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
+            
+            _board = new Board();
+            _board.OnFieldSelection += Board_OnFieldSelection;
 
             _inputManager = new InputManager();
-            _board = new Board();
             _fpsCounter = new FPSCounter();
 
             Content.RootDirectory = "Content";
@@ -91,6 +93,11 @@ namespace GUI
         void ConsoleManager_OnNewCommand(object sender, CommandEventArgs e)
         {
             _consoleManager.HandleCommand(e.Command);
+        }
+
+        void Board_OnFieldSelection(object sender, FieldSelectedEventArgs e)
+        {
+            
         }
     }
 }

@@ -16,6 +16,8 @@ namespace GUI.Source.BoardSubsystem
 {
     internal class Board
     {
+        public event EventHandler<FieldSelectedEventArgs> OnFieldSelection;
+
         readonly int FieldWidthHeight = 64;
         readonly Rectangle FieldSize = new Rectangle(0, 0, 64, 64);
         readonly Vector2 BoardPosition = new Vector2(0, 0);
@@ -30,6 +32,7 @@ namespace GUI.Source.BoardSubsystem
 
         public Board()
         {
+            _friendlyBoard = new FriendlyBoard();
             _selections = new List<Position>();
         }
 
@@ -128,7 +131,10 @@ namespace GUI.Source.BoardSubsystem
             fieldX = Math.Max(1, fieldX);
             fieldY = Math.Max(1, fieldY);
 
-            _selections.Add(new Position(fieldX, fieldY));
+            var position = new Position(fieldX, fieldY);
+            _selections.Add(position);
+
+            OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(position, _friendlyBoard.Board[fieldX, fieldY]));
         }
 
         void RemoveAllSelections()
