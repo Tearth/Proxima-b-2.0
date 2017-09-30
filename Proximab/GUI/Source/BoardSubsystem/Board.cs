@@ -12,38 +12,34 @@ using Microsoft.Xna.Framework;
 using Core.Common;
 using GUI.Source.InputSubsystem;
 using GUI.Source.BoardSubsystem.Selections;
+using GUI.Source.Helpers;
 
 namespace GUI.Source.BoardSubsystem
 {
     internal class Board
     {
         public event EventHandler<FieldSelectedEventArgs> OnFieldSelection;
-
-        readonly int FieldWidthHeight = 64;
-        readonly Rectangle FieldSize = new Rectangle(0, 0, 64, 64);
-        readonly Vector2 BoardPosition = new Vector2(0, 0);
         
         FriendlyBoard _friendlyBoard;
+        SelectionsManager _selectionsManager;
 
         Texture2D _field1;
         Texture2D _field2;
-        Texture2D _internalSelection;
-        Texture2D _externalSelection;
-
-        List<Selection> _selections;
 
         public Board()
         {
             _friendlyBoard = new FriendlyBoard();
-            _selections = new List<Selection>();
+            _selectionsManager = new SelectionsManager();
+
+            _selectionsManager.OnFieldSelection += SelectionsManager_OnFieldSelection;
         }
 
         public void LoadContent(ContentManager contentManager)
         {
             _field1 = contentManager.Load<Texture2D>("Textures\\Field1");
             _field2 = contentManager.Load<Texture2D>("Textures\\Field2");
-            _internalSelection = contentManager.Load<Texture2D>("Textures\\InternalSelection");
-            _externalSelection = contentManager.Load<Texture2D>("Textures\\ExternalSelection");
+
+            _selectionsManager.LoadContent(contentManager);
         }
 
         public void Logic()
@@ -55,20 +51,23 @@ namespace GUI.Source.BoardSubsystem
         {
             DrawBackground(spriteBatch);
             DrawPieces(spriteBatch);
-            DrawSelections(spriteBatch);
+
+            _selectionsManager.Draw(spriteBatch);
         }
 
         public void Input(InputManager inputManager)
         {
+            var mousePosition = inputManager.GetMousePosition();
+
             if(inputManager.IsLeftMouseButtonJustPressed())
             {
-                RemoveAllSelections();
-                SelectField(inputManager);
+                _selectionsManager.RemoveAllSelections();
+                _selectionsManager.SelectField(mousePosition, _friendlyBoard);
             }
 
             if(inputManager.IsRightMouseButtonJustPressed())
             {
-                RemoveAllSelections();
+                _selectionsManager.RemoveAllSelections();
             }
         }
 
@@ -79,18 +78,12 @@ namespace GUI.Source.BoardSubsystem
 
         public void AddExternalSelections(IEnumerable<Position> selections)
         {
-            foreach(var position in selections)
-            {
-                if(!_selections.Exists(p => p.Type == SelectionType.External && p.Position == position))
-                {
-                    _selections.Add(new Selection(position, SelectionType.External));
-                }
-            }
+            _selectionsManager.AddExternalSelections(selections);
         }
 
         public void HandleCommand(Command command)
         {
-            
+
         }
 
         void DrawBackground(SpriteBatch spriteBatch)
@@ -101,10 +94,10 @@ namespace GUI.Source.BoardSubsystem
             {
                 for (int y = 0; y < 8; y++)
                 {
-                    var position = new Vector2(x, y) * FieldWidthHeight;
+                    var position = new Vector2(x, y) * Constants.FieldWidthHeight;
                     var texture = fieldInversion ? _field1 : _field2;
 
-                    spriteBatch.Draw(texture, position + BoardPosition, FieldSize, Color.White);
+                    spriteBatch.Draw(texture, position + Constants.BoardPosition, Constants.FieldSize, Color.White);
                     fieldInversion = !fieldInversion;
                 }
 
@@ -123,46 +116,9 @@ namespace GUI.Source.BoardSubsystem
             }
         }
 
-        void DrawSelections(SpriteBatch spriteBatch)
+        void SelectionsManager_OnFieldSelection(object sender, FieldSelectedEventArgs e)
         {
-            foreach(var selection in _selections)
-            {
-                Texture2D texture = null;
-                switch(selection.Type)
-                {
-                    case SelectionType.Internal: { texture = _internalSelection; break; }
-                    case SelectionType.External: { texture = _externalSelection; break; }
-                }
-
-                var position = new Vector2(selection.Position.X - 1, 8 - selection.Position.Y) * FieldWidthHeight;
-
-                spriteBatch.Draw(texture, position + BoardPosition, FieldSize, Color.White);
-            }
-        }
-
-        void SelectField(InputManager inputManager)
-        {
-            var mousePosition = inputManager.GetMousePosition();
-
-            var fieldX = (int)((mousePosition.X - BoardPosition.X) / FieldWidthHeight) + 1;
-            var fieldY = 8 - (int)((mousePosition.Y - BoardPosition.Y) / FieldWidthHeight);
-
-            fieldX = Math.Min(8, fieldX);
-            fieldY = Math.Min(8, fieldY);
-
-            fieldX = Math.Max(1, fieldX);
-            fieldY = Math.Max(1, fieldY);
-
-            var position = new Position(fieldX, fieldY);
-            _selections.Add(new Selection(position, SelectionType.Internal));
-
-            var selectedPiece = _friendlyBoard.GetPieceAtPosition(position);
-            OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(position, selectedPiece));
-        }
-
-        void RemoveAllSelections()
-        {
-            _selections.Clear();
+            OnFieldSelection?.Invoke(sender, e);
         }
     }
 }

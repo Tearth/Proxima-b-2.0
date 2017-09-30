@@ -28,18 +28,17 @@ namespace GUI
             _graphics.PreferredBackBufferWidth = 512;
             _graphics.PreferredBackBufferHeight = 512;
 
-            IsMouseVisible = true;
-
-            _consoleManager = consoleManager;
-            _consoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
-            
-            _board = new Board();
-            _board.OnFieldSelection += Board_OnFieldSelection;
-
             _inputManager = new InputManager();
             _fpsCounter = new FPSCounter();
 
+            _consoleManager = consoleManager;
+            _consoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
+
+            _board = new Board();
+            _board.OnFieldSelection += Board_OnFieldSelection;
+
             Content.RootDirectory = "Content";
+            IsMouseVisible = true;
         }
 
         protected override void Initialize()
@@ -99,7 +98,7 @@ namespace GUI
 
         void Board_OnFieldSelection(object sender, FieldSelectedEventArgs e)
         {
-            _board.AddExternalSelections(new List<Position>() { new Position(1, 1) });
+            
         }
     }
 }

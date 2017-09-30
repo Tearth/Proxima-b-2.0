@@ -49,6 +49,7 @@
     <Compile Include="Source\BoardSubsystem\Board.cs" />
     <Compile Include="Source\BoardSubsystem\Selections\FieldSelectedEventArgs.cs" />
     <Compile Include="Source\BoardSubsystem\Selections\Selection.cs" />
+    <Compile Include="Source\BoardSubsystem\Selections\SelectionsManager.cs" />
     <Compile Include="Source\BoardSubsystem\Selections\SelectionType.cs" />
     <Compile Include="Source\ConsoleSubsystem\CommandEventArgs.cs" />
     <Compile Include="Source\ConsoleSubsystem\Output\ColorOutputPrinter.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Source\GUICore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Helpers\Constants.cs" />
     <Compile Include="Source\InputSubsystem\FPSCounter.cs" />
     <Compile Include="Source\InputSubsystem\InputManager.cs" />
   </ItemGroup>
