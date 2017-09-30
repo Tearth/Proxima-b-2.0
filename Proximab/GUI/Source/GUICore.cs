@@ -18,6 +18,7 @@ namespace GUI
         ConsoleManager _consoleManager;
         InputManager _inputManager;
         Board _board;
+        FPSCounter _fpsCounter;
         
         public GUICore(ConsoleManager consoleManager)
         {
@@ -32,6 +33,7 @@ namespace GUI
 
             _inputManager = new InputManager();
             _board = new Board();
+            _fpsCounter = new FPSCounter();
 
             Content.RootDirectory = "Content";
         }
@@ -39,6 +41,7 @@ namespace GUI
         protected override void Initialize()
         {
             _board.Init(Content);
+            _fpsCounter.Init(Content);
             base.Initialize();
         }
         
@@ -60,6 +63,8 @@ namespace GUI
         protected override void Update(GameTime gameTime)
         {
             _inputManager.Logic();
+            _fpsCounter.Input(_inputManager);
+            _fpsCounter.Logic();
 
             base.Update(gameTime);
         }
@@ -70,7 +75,10 @@ namespace GUI
 
             _spriteBatch.Begin();
             _board.Draw(_spriteBatch);
+            _fpsCounter.Draw(_spriteBatch);
             _spriteBatch.End();
+
+            _fpsCounter.AddFrame();
 
             base.Draw(gameTime);
         }
