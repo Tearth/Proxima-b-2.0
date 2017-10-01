@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Source\BoardSubsystem\Axes\AxesManager.cs" />
     <Compile Include="Source\BoardSubsystem\Board.cs" />
+    <Compile Include="Source\BoardSubsystem\Pieces\PiecesProvider.cs" />
     <Compile Include="Source\BoardSubsystem\Selections\FieldSelectedEventArgs.cs" />
     <Compile Include="Source\BoardSubsystem\Selections\Selection.cs" />
     <Compile Include="Source\BoardSubsystem\Selections\SelectionsManager.cs" />

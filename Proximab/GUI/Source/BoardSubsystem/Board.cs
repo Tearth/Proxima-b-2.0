@@ -14,6 +14,7 @@ using GUI.Source.InputSubsystem;
 using GUI.Source.BoardSubsystem.Selections;
 using GUI.Source.Helpers;
 using GUI.Source.BoardSubsystem.Axes;
+using GUI.Source.BoardSubsystem.Pieces;
 
 namespace GUI.Source.BoardSubsystem
 {
@@ -24,6 +25,7 @@ namespace GUI.Source.BoardSubsystem
         FriendlyBoard _friendlyBoard;
         SelectionsManager _selectionsManager;
         AxesManager _axesManager;
+        PiecesProvider _piecesProvider;
 
         Texture2D _field1;
         Texture2D _field2;
@@ -33,6 +35,7 @@ namespace GUI.Source.BoardSubsystem
             _friendlyBoard = new FriendlyBoard();
             _selectionsManager = new SelectionsManager();
             _axesManager = new AxesManager();
+            _piecesProvider = new PiecesProvider();
 
             _selectionsManager.OnFieldSelection += SelectionsManager_OnFieldSelection;
         }
@@ -44,6 +47,7 @@ namespace GUI.Source.BoardSubsystem
 
             _selectionsManager.LoadContent(contentManager);
             _axesManager.LoadContent(contentManager);
+            _piecesProvider.LoadContent(contentManager);
         }
 
         public void Logic()
