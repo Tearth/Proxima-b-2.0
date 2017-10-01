@@ -20,9 +20,9 @@ namespace GUI.Source.BoardSubsystem.Axes
 
         public AxesManager()
         {
-            Color = Color.Black;
-            HorizontalOffset = new Vector2(0, -4);
-            VerticalOffset = new Vector2(4, 3);
+            Color = Color.White;
+            HorizontalOffset = new Vector2(0, 12);
+            VerticalOffset = new Vector2(-9, 3);
         }
 
         public void LoadContent(ContentManager content)
@@ -70,7 +70,7 @@ namespace GUI.Source.BoardSubsystem.Axes
                     Y = Constants.WindowSize.Y
                 };
 
-                position += Constants.BoardPosition;
+                position += new Vector2(Constants.BoardPosition.X, -Constants.BoardPosition.Y);
                 position -= textCenterOffset;
                 position += HorizontalOffset;
 
