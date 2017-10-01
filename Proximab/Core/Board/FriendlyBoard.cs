@@ -9,24 +9,29 @@ namespace Core.Board
 {
     public class FriendlyBoard
     {
-        public PieceType[,] Board { get; set; }
+        PieceType[,] _board { get; set; }
 
         public FriendlyBoard()
         {
-            Board = new PieceType[8, 8];
+            _board = new PieceType[8, 8];
 
             for(int x=0; x<8; x++)
             {
                 for(int y=0; y<8; y++)
                 {
-                    Board[x, y] = PieceType.None;
+                    _board[x, y] = PieceType.None;
                 }
             }
         }
 
-        public PieceType GetPieceAtPosition(Position position)
+        public PieceType GetPiece(Position position)
         {
-            return Board[position.X - 1, position.Y - 1];
+            return _board[position.X - 1, position.Y - 1];
+        }
+
+        public void SetPiece(Position position, PieceType pieceType)
+        {
+            _board[position.X - 1, position.Y - 1] = pieceType;
         }
     }
 }

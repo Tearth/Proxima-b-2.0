@@ -77,7 +77,7 @@ namespace GUI.Source.BoardSubsystem.Selections
             var position = new Position(fieldX, fieldY);
             _selections.Add(new Selection(position, SelectionType.Internal));
 
-            var selectedPiece = board.GetPieceAtPosition(position);
+            var selectedPiece = board.GetPiece(position);
             OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(position, selectedPiece));
         }
 

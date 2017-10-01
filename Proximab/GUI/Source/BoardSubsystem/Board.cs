@@ -116,11 +116,27 @@ namespace GUI.Source.BoardSubsystem
 
         void DrawPieces(SpriteBatch spriteBatch)
         {
-            for (int x = 0; x < 8; x++)
+            _friendlyBoard.SetPiece(new Position(1, 1), PieceType.WhiteKing);
+            _friendlyBoard.SetPiece(new Position(3, 2), PieceType.WhiteKnight);
+            _friendlyBoard.SetPiece(new Position(4, 2), PieceType.BlackBishop);
+            _friendlyBoard.SetPiece(new Position(6, 6), PieceType.BlackQueen);
+            _friendlyBoard.SetPiece(new Position(2, 7), PieceType.WhiteBishop);
+            _friendlyBoard.SetPiece(new Position(2, 8), PieceType.WhiteRook);
+
+            for (int x = 1; x <= 8; x++)
             {
-                for (int y = 0; y < 8; y++)
+                for (int y = 1; y <= 8; y++)
                 {
-                    
+                    var boardPosition = new Position(x, y);
+                    var piece = _friendlyBoard.GetPiece(boardPosition);
+
+                    if (piece == PieceType.None)
+                        continue;
+
+                    var position = new Vector2(boardPosition.X - 1, 8 - boardPosition.Y) * Constants.FieldWidthHeight;
+                    var texture = _piecesProvider.GetPieceTexture(piece);
+
+                    spriteBatch.Draw(texture, position + Constants.BoardPosition, Constants.FieldSize, Color.White);
                 }
             }
         }
