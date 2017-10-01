@@ -230,3 +230,8 @@
 /processorParam:TextureFormat=Color
 /build:Textures/BlackKnight.png
 
+#begin XML/PieceDefinitions.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:XML/PieceDefinitions.xml
+

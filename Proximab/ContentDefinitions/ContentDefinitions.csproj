@@ -44,6 +44,8 @@
     <Compile Include="Colors\ColorDefinitionsContainer.cs" />
     <Compile Include="Commands\CommandDefinition.cs" />
     <Compile Include="Commands\CommandDefinitionsContainer.cs" />
+    <Compile Include="Pieces\PieceDefinition.cs" />
+    <Compile Include="Pieces\PieceDefinitionsContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

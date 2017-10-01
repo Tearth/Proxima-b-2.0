@@ -1,4 +1,5 @@
-﻿using Core.Common;
+﻿using ContentDefinitions.Pieces;
+using Core.Common;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -20,7 +21,20 @@ namespace GUI.Source.BoardSubsystem.Pieces
 
         public void LoadContent(ContentManager contentManager)
         {
+            var pieceDefinitionsContainer = contentManager.Load<PieceDefinitionsContainer>("XML\\PieceDefinitions");
 
+            foreach(var pieceDefinition in pieceDefinitionsContainer.Definitions)
+            {
+                var pieceType = (PieceType)Enum.Parse(typeof(PieceType), pieceDefinition.EnumTypeValue);
+                var pieceTexture = contentManager.Load<Texture2D>(pieceDefinition.TexturePath);
+
+                _pieceTextures.Add(pieceType, pieceTexture);
+            }
+        }
+
+        public Texture2D GetPieceTexture(PieceType pieceType)
+        {
+            return _pieceTextures[pieceType];
         }
     }
 }
