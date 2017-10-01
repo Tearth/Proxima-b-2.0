@@ -13,6 +13,7 @@ using Core.Common;
 using GUI.Source.InputSubsystem;
 using GUI.Source.BoardSubsystem.Selections;
 using GUI.Source.Helpers;
+using GUI.Source.BoardSubsystem.Axes;
 
 namespace GUI.Source.BoardSubsystem
 {
@@ -22,6 +23,7 @@ namespace GUI.Source.BoardSubsystem
         
         FriendlyBoard _friendlyBoard;
         SelectionsManager _selectionsManager;
+        AxesManager _axesManager;
 
         Texture2D _field1;
         Texture2D _field2;
@@ -30,6 +32,7 @@ namespace GUI.Source.BoardSubsystem
         {
             _friendlyBoard = new FriendlyBoard();
             _selectionsManager = new SelectionsManager();
+            _axesManager = new AxesManager();
 
             _selectionsManager.OnFieldSelection += SelectionsManager_OnFieldSelection;
         }
@@ -40,6 +43,7 @@ namespace GUI.Source.BoardSubsystem
             _field2 = contentManager.Load<Texture2D>("Textures\\Field2");
 
             _selectionsManager.LoadContent(contentManager);
+            _axesManager.LoadContent(contentManager);
         }
 
         public void Logic()
@@ -53,6 +57,7 @@ namespace GUI.Source.BoardSubsystem
             DrawPieces(spriteBatch);
 
             _selectionsManager.Draw(spriteBatch);
+            _axesManager.Draw(spriteBatch);
         }
 
         public void Input(InputManager inputManager)

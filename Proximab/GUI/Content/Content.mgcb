@@ -79,3 +79,10 @@
 /processorParam:TextureFormat=Color
 /build:Textures/ExternalSelection.png
 
+#begin Fonts/AxisFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/AxisFont.spritefont
+

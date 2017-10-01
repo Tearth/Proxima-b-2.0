@@ -46,6 +46,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Source\BoardSubsystem\Axes\AxesManager.cs" />
     <Compile Include="Source\BoardSubsystem\Board.cs" />
     <Compile Include="Source\BoardSubsystem\Selections\FieldSelectedEventArgs.cs" />
     <Compile Include="Source\BoardSubsystem\Selections\Selection.cs" />
@@ -128,6 +129,7 @@
     <None Include="app.config" />
     <None Include="app.manifest" />
     <MonoGameContentReference Include="Content\Content.mgcb" />
+    <None Include="Content\Fonts\AxisFont.spritefont" />
     <None Include="Content\Fonts\FPSFont.spritefont" />
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@ using Core.Common;
 using GUI.Source.BoardSubsystem;
 using GUI.Source.BoardSubsystem.Selections;
 using GUI.Source.ConsoleSubsystem;
+using GUI.Source.Helpers;
 using GUI.Source.InputSubsystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,8 +26,8 @@ namespace GUI
         public GUICore(ConsoleManager consoleManager)
         {
             _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferWidth = 512;
-            _graphics.PreferredBackBufferHeight = 512;
+            _graphics.PreferredBackBufferWidth = (int)Constants.WindowSize.X;
+            _graphics.PreferredBackBufferHeight = (int)Constants.WindowSize.Y;
 
             _inputManager = new InputManager();
             _fpsCounter = new FPSCounter();
