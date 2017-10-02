@@ -28,6 +28,7 @@ namespace GUI.Source.BoardSubsystem
         AxesManager _axesManager;
         PiecesProvider _piecesProvider;
         BoardWriter _boardWriter;
+        BoardReader _boardReader;
 
         Texture2D _field1;
         Texture2D _field2;
@@ -39,6 +40,7 @@ namespace GUI.Source.BoardSubsystem
             _axesManager = new AxesManager();
             _piecesProvider = new PiecesProvider();
             _boardWriter = new BoardWriter();
+            _boardReader = new BoardReader();
 
             _selectionsManager.OnFieldSelection += SelectionsManager_OnFieldSelection;
         }
@@ -51,10 +53,6 @@ namespace GUI.Source.BoardSubsystem
             _selectionsManager.LoadContent(contentManager);
             _axesManager.LoadContent(contentManager);
             _piecesProvider.LoadContent(contentManager);
-
-            _friendlyBoard.SetPiece(new Position(1, 1), PieceType.WhiteQueen);
-            _friendlyBoard.SetPiece(new Position(2, 2), PieceType.WhiteRook);
-            _friendlyBoard.SetPiece(new Position(3, 3), PieceType.WhitePawn);
         }
 
         public void Logic()
@@ -102,6 +100,7 @@ namespace GUI.Source.BoardSubsystem
             switch(command.Type)
             {
                 case CommandType.SaveBoard: { SaveBoard(command); break; }
+                case CommandType.LoadBoard: { LoadBoard(command); break; }
             }
         }
 
@@ -109,6 +108,19 @@ namespace GUI.Source.BoardSubsystem
         {
             var path = $"Boards\\{command.GetArgument<string>(0)}.board";
             _boardWriter.Write(path, _friendlyBoard);
+        }
+
+        void LoadBoard(Command command)
+        {
+            var path = $"Boards\\{command.GetArgument<string>(0)}.board";
+
+            if(!_boardReader.BoardExists(path))
+            {
+                //TODO message
+                return;
+            }
+
+            _friendlyBoard = _boardReader.Read(path);
         }
 
         void DrawBackground(SpriteBatch spriteBatch)
