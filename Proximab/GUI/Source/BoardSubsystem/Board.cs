@@ -15,6 +15,7 @@ using GUI.Source.BoardSubsystem.Selections;
 using GUI.Source.Helpers;
 using GUI.Source.BoardSubsystem.Axes;
 using GUI.Source.BoardSubsystem.Pieces;
+using GUI.Source.BoardSubsystem.Persistence;
 
 namespace GUI.Source.BoardSubsystem
 {
@@ -26,6 +27,7 @@ namespace GUI.Source.BoardSubsystem
         SelectionsManager _selectionsManager;
         AxesManager _axesManager;
         PiecesProvider _piecesProvider;
+        BoardWriter _boardWriter;
 
         Texture2D _field1;
         Texture2D _field2;
@@ -36,6 +38,7 @@ namespace GUI.Source.BoardSubsystem
             _selectionsManager = new SelectionsManager();
             _axesManager = new AxesManager();
             _piecesProvider = new PiecesProvider();
+            _boardWriter = new BoardWriter();
 
             _selectionsManager.OnFieldSelection += SelectionsManager_OnFieldSelection;
         }
@@ -48,6 +51,10 @@ namespace GUI.Source.BoardSubsystem
             _selectionsManager.LoadContent(contentManager);
             _axesManager.LoadContent(contentManager);
             _piecesProvider.LoadContent(contentManager);
+
+            _friendlyBoard.SetPiece(new Position(1, 1), PieceType.WhiteQueen);
+            _friendlyBoard.SetPiece(new Position(2, 2), PieceType.WhiteRook);
+            _friendlyBoard.SetPiece(new Position(3, 3), PieceType.WhitePawn);
         }
 
         public void Logic()
@@ -92,7 +99,16 @@ namespace GUI.Source.BoardSubsystem
 
         public void HandleCommand(Command command)
         {
+            switch(command.Type)
+            {
+                case CommandType.SaveBoard: { SaveBoard(command); break; }
+            }
+        }
 
+        void SaveBoard(Command command)
+        {
+            var path = $"Boards\\{command.GetArgument<string>(0)}.board";
+            _boardWriter.Write(path, _friendlyBoard);
         }
 
         void DrawBackground(SpriteBatch spriteBatch)

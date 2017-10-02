@@ -7,6 +7,22 @@
 				<EnumType>Colors</EnumType>
 				<Arguments></Arguments>
 			</Item>
+
+      <Item>
+        <Name>save</Name>
+        <EnumType>SaveBoard</EnumType>
+        <Arguments>
+          <Item>string</Item>
+        </Arguments>
+      </Item>
+
+      <Item>
+        <Name>load</Name>
+        <EnumType>LoadBoard</EnumType>
+        <Arguments>
+          <Item>string</Item>
+        </Arguments>
+      </Item>
 		</Definitions>
 	</Asset>
 </XnaContent>

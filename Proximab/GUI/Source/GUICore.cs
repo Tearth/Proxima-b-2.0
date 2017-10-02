@@ -95,6 +95,7 @@ namespace GUI
         void ConsoleManager_OnNewCommand(object sender, CommandEventArgs e)
         {
             _consoleManager.HandleCommand(e.Command);
+            _board.HandleCommand(e.Command);
         }
 
         void Board_OnFieldSelection(object sender, FieldSelectedEventArgs e)
