@@ -44,6 +44,7 @@
     <Compile Include="Common\Exceptions\PositionOutOfRangeException.cs" />
     <Compile Include="Common\PieceType.cs" />
     <Compile Include="Common\Position.cs" />
+    <Compile Include="Common\PositionConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

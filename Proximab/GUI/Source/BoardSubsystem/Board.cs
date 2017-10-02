@@ -103,6 +103,7 @@ namespace GUI.Source.BoardSubsystem
             {
                 case CommandType.SaveBoard: { SaveBoard(command); break; }
                 case CommandType.LoadBoard: { LoadBoard(command); break; }
+                case CommandType.AddPiece: { AddPiece(command); break; }
             }
         }
 
@@ -126,6 +127,25 @@ namespace GUI.Source.BoardSubsystem
             }
 
             _friendlyBoard = boardReader.Read(path);
+        }
+
+        void AddPiece(Command command)
+        {
+            var positionConverter = new PositionConverter();
+
+            var piece = command.GetArgument<string>(0);
+            var field = command.GetArgument<string>(1);
+
+            var pieceType = (PieceType)Enum.Parse(typeof(PieceType), piece, true);
+            var fieldPosition = positionConverter.Convert(field);
+
+            if(fieldPosition == null)
+            {
+                _consoleManager.WriteLine($"$rInvalid field ($R{field}$r)");
+                return;
+            }
+
+            _friendlyBoard.SetPiece(fieldPosition, pieceType);
         }
 
         void DrawBackground(SpriteBatch spriteBatch)

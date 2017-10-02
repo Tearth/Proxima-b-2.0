@@ -29,6 +29,15 @@
           <Item>string</Item>
         </Arguments>
       </Item>
+
+      <Item>
+        <Name>Add</Name>
+        <EnumType>AddPiece</EnumType>
+        <Arguments>
+          <Item>string</Item>
+          <Item>string</Item>
+        </Arguments>
+      </Item>
 		</Definitions>
 	</Asset>
 </XnaContent>

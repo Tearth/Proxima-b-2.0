@@ -13,6 +13,7 @@ namespace GUI.Source.ConsoleSubsystem.Parser
         Commands,
         Colors,
         SaveBoard,
-        LoadBoard
+        LoadBoard,
+        AddPiece
     }
 }
