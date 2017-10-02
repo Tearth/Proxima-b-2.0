@@ -16,71 +16,81 @@ namespace GUI.Source.BoardSubsystem.Axes
         public Vector2 HorizontalOffset { get; set; }
         public Vector2 VerticalOffset { get; set; }
 
-        SpriteFont _axexFont;
+        SpriteFont _axeFont;
 
         public AxesManager()
         {
             Color = Color.White;
-            HorizontalOffset = new Vector2(0, 12);
-            VerticalOffset = new Vector2(-9, 3);
+            HorizontalOffset = new Vector2(0, -9);
+            VerticalOffset = new Vector2(-9, -1);
         }
 
         public void LoadContent(ContentManager content)
         {
-            _axexFont = content.Load<SpriteFont>("Fonts\\AxisFont");
+            _axeFont = content.Load<SpriteFont>("Fonts\\AxisFont");
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            DrawHorizontalLine(spriteBatch);
-            DrawVerticalLine(spriteBatch);
+            DrawHorizontalAxes(spriteBatch);
+            DrawVerticalAxes(spriteBatch);
         }
 
-        void DrawVerticalLine(SpriteBatch spriteBatch)
+        void DrawVerticalAxes(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < 8; i++)
             {
                 var text = (8 - i).ToString();
                 var textCenterOffset = GetCenterOffset(text);
 
-                var position = new Vector2()
-                {
-                    X = 0,
-                    Y = (i * Constants.FieldWidthHeight) + (Constants.FieldWidthHeight / 2)
-                };
+                var position = new Vector2(0, (i * Constants.FieldWidthHeight));
 
+                position.Y += Constants.FieldWidthHeight / 2;
                 position += Constants.BoardPosition;
                 position -= textCenterOffset;
-                position += VerticalOffset;
 
-                spriteBatch.DrawString(_axexFont, text, position, Color);
+                var leftAxePosition = position + VerticalOffset;
+
+                var rightAxePosition = position;
+                rightAxePosition += new Vector2(Constants.BoardWidthHeight, 0);
+                rightAxePosition += new Vector2(-VerticalOffset.X, VerticalOffset.Y);
+
+                spriteBatch.DrawString(_axeFont, text, leftAxePosition, Color);
+                spriteBatch.DrawString(_axeFont, text, rightAxePosition, Color);
             }
         }
 
-        void DrawHorizontalLine(SpriteBatch spriteBatch)
+        void DrawHorizontalAxes(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < 8; i++)
             {
                 var text = ((char)('A' + i)).ToString();
                 var textCenterOffset = GetCenterOffset(text);
 
-                var position = new Vector2()
-                {
-                    X = (i * Constants.FieldWidthHeight) + (Constants.FieldWidthHeight / 2),
-                    Y = Constants.WindowSize.Y
-                };
+                var position = new Vector2((i * Constants.FieldWidthHeight), 0);
 
-                position += new Vector2(Constants.BoardPosition.X, -Constants.BoardPosition.Y);
+                position.X += Constants.FieldWidthHeight / 2;
+                position += Constants.BoardPosition;
                 position -= textCenterOffset;
-                position += HorizontalOffset;
 
-                spriteBatch.DrawString(_axexFont, text, position, Color);
+                var topAxePosition = position + HorizontalOffset;
+
+                var downAxePosition = position;
+                downAxePosition += new Vector2(0, Constants.BoardWidthHeight);
+                downAxePosition += new Vector2(HorizontalOffset.X, -HorizontalOffset.Y);
+
+                spriteBatch.DrawString(_axeFont, text, topAxePosition, Color);
+                spriteBatch.DrawString(_axeFont, text, downAxePosition, Color);
             }
         }
 
         Vector2 GetCenterOffset(string text)
         {
-            return _axexFont.MeasureString(text) / 2;
+            var textSize = _axeFont.MeasureString(text) / 2;
+            textSize.X = (float)Math.Round(textSize.X);
+            textSize.Y = (float)Math.Round(textSize.Y);
+
+            return textSize;
         }
     }
 }
