@@ -4,6 +4,8 @@ using Core.Common;
 using GUI.Source.BoardSubsystem;
 using GUI.Source.BoardSubsystem.Selections;
 using GUI.Source.ConsoleSubsystem;
+using GUI.Source.GameModeSubsystem;
+using GUI.Source.GameModeSubsystem.Editor;
 using GUI.Source.Helpers;
 using GUI.Source.InputSubsystem;
 using Microsoft.Xna.Framework;
@@ -20,8 +22,9 @@ namespace GUI
 
         ConsoleManager _consoleManager;
         InputManager _inputManager;
-        Board _board;
         FPSCounter _fpsCounter;
+
+        GameModeBase _gameMode;
         
         public GUICore(ConsoleManager consoleManager)
         {
@@ -34,8 +37,7 @@ namespace GUI
             _inputManager = new InputManager();
             _fpsCounter = new FPSCounter();
 
-            _board = new Board(_consoleManager);
-            _board.OnFieldSelection += Board_OnFieldSelection;
+            _gameMode = new EditorGameMode(consoleManager);
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -48,9 +50,9 @@ namespace GUI
         
         protected override void LoadContent()
         {
-            _board.LoadContent(Content);
             _fpsCounter.LoadContent(Content);
             _consoleManager.LoadContent(Content);
+            _gameMode.LoadContent(Content);
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
@@ -64,6 +66,7 @@ namespace GUI
         {
             Input();
 
+            _gameMode.Logic();
             _fpsCounter.Logic();
 
             base.Update(gameTime);
@@ -75,7 +78,7 @@ namespace GUI
 
             _spriteBatch.Begin();
 
-            _board.Draw(_spriteBatch);
+            _gameMode.Draw(_spriteBatch);
             _fpsCounter.Draw(_spriteBatch);
 
             _spriteBatch.End();
@@ -87,13 +90,9 @@ namespace GUI
         void Input()
         {
             _inputManager.Logic();
-            _board.Input(_inputManager);
-            _fpsCounter.Input(_inputManager);
-        }
 
-        void Board_OnFieldSelection(object sender, FieldSelectedEventArgs e)
-        {
-            
+            _gameMode.Input(_inputManager);
+            _fpsCounter.Input(_inputManager);
         }
     }
 }

@@ -22,8 +22,7 @@ namespace GUI.Source.BoardSubsystem
     internal class Board
     {
         public event EventHandler<FieldSelectedEventArgs> OnFieldSelection;
-
-        ConsoleManager _consoleManager;
+        
         FriendlyBoard _friendlyBoard;
         SelectionsManager _selectionsManager;
         AxesManager _axesManager;
@@ -32,11 +31,8 @@ namespace GUI.Source.BoardSubsystem
         Texture2D _field1;
         Texture2D _field2;
 
-        public Board(ConsoleManager consoleManager)
+        public Board()
         {
-            _consoleManager = consoleManager;
-            _consoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
-
             _friendlyBoard = new FriendlyBoard();
             _selectionsManager = new SelectionsManager();
             _axesManager = new AxesManager();
@@ -55,6 +51,22 @@ namespace GUI.Source.BoardSubsystem
             _piecesProvider.LoadContent(contentManager);
         }
 
+        public void Input(InputManager inputManager)
+        {
+            var mousePosition = inputManager.GetMousePosition();
+
+            if (inputManager.IsLeftMouseButtonJustPressed())
+            {
+                _selectionsManager.RemoveAllSelections();
+                _selectionsManager.SelectField(mousePosition, _friendlyBoard);
+            }
+
+            if (inputManager.IsRightMouseButtonJustPressed())
+            {
+                _selectionsManager.RemoveAllSelections();
+            }
+        }
+
         public void Logic()
         {
 
@@ -67,85 +79,6 @@ namespace GUI.Source.BoardSubsystem
 
             _selectionsManager.Draw(spriteBatch);
             _axesManager.Draw(spriteBatch);
-        }
-
-        public void Input(InputManager inputManager)
-        {
-            var mousePosition = inputManager.GetMousePosition();
-
-            if(inputManager.IsLeftMouseButtonJustPressed())
-            {
-                _selectionsManager.RemoveAllSelections();
-                _selectionsManager.SelectField(mousePosition, _friendlyBoard);
-            }
-
-            if(inputManager.IsRightMouseButtonJustPressed())
-            {
-                _selectionsManager.RemoveAllSelections();
-            }
-        }
-
-        public void SetBoard(FriendlyBoard friendlyBoard)
-        {
-            _friendlyBoard = friendlyBoard;
-        }
-
-        public void AddExternalSelections(IEnumerable<Position> selections)
-        {
-            _selectionsManager.AddExternalSelections(selections);
-        }
-
-        void ConsoleManager_OnNewCommand(object sender, CommandEventArgs e)
-        {
-            var command = e.Command;
-
-            switch (command.Type)
-            {
-                case CommandType.SaveBoard: { SaveBoard(command); break; }
-                case CommandType.LoadBoard: { LoadBoard(command); break; }
-                case CommandType.AddPiece: { AddPiece(command); break; }
-            }
-        }
-
-        void SaveBoard(Command command)
-        {
-            var boardWriter = new BoardWriter();
-
-            var path = $"Boards\\{command.GetArgument<string>(0)}.board";
-            boardWriter.Write(path, _friendlyBoard);
-        }
-
-        void LoadBoard(Command command)
-        {
-            var boardReader = new BoardReader();
-            var path = $"Boards\\{command.GetArgument<string>(0)}.board";
-
-            if(!boardReader.BoardExists(path))
-            {
-                _consoleManager.WriteLine($"$rBoard {path} not found");
-                return;
-            }
-
-            _friendlyBoard = boardReader.Read(path);
-        }
-
-        void AddPiece(Command command)
-        {
-            var positionConverter = new PositionConverter();
-
-            var piece = command.GetArgument<string>(0);
-            var field = command.GetArgument<string>(1);
-
-            var pieceType = (PieceType)Enum.Parse(typeof(PieceType), piece, true);
-            var fieldPosition = positionConverter.Convert(field);
-
-            if(fieldPosition == null)
-            {
-                _consoleManager.WriteLine($"$rInvalid field ($R{field}$r)");
-                return;
-            }
-
-            _friendlyBoard.SetPiece(fieldPosition, pieceType);
         }
 
         void DrawBackground(SpriteBatch spriteBatch)
@@ -185,6 +118,26 @@ namespace GUI.Source.BoardSubsystem
                     spriteBatch.Draw(texture, position + Constants.BoardPosition, Constants.FieldSize, Color.White);
                 }
             }
+        }
+
+        public FriendlyBoard GetFriendlyBoard()
+        {
+            return _friendlyBoard;
+        }
+
+        public void SetFriendlyBoard(FriendlyBoard friendlyBoard)
+        {
+            _friendlyBoard = friendlyBoard;
+        }
+
+        public void AddPiece(Position position, PieceType pieceType)
+        {
+            _friendlyBoard.SetPiece(position, pieceType);
+        }
+
+        public void AddExternalSelections(IEnumerable<Position> selections)
+        {
+            _selectionsManager.AddExternalSelections(selections);
         }
 
         void SelectionsManager_OnFieldSelection(object sender, FieldSelectedEventArgs e)

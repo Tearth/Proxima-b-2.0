@@ -66,6 +66,8 @@
     <Compile Include="Source\ConsoleSubsystem\Parser\CommandValidator.cs" />
     <Compile Include="Source\ConsoleSubsystem\Parser\RawCommand.cs" />
     <Compile Include="Source\DiagnosticSubsystem\EnvironmentInfoProvider.cs" />
+    <Compile Include="Source\GameModeSubsystem\Editor\EditorGameMode.cs" />
+    <Compile Include="Source\GameModeSubsystem\GameModeBase.cs" />
     <Compile Include="Source\GUICore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
