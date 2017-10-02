@@ -66,7 +66,37 @@ namespace GUI.Source.ConsoleSubsystem
 
             switch (command.Type)
             {
+                case CommandType.Commands: { WriteCommandsList(); break; }
                 case CommandType.Colors: { WriteColorsList(); break; }
+            }
+        }
+
+        void WriteCommandsList()
+        {
+            WriteLine($"$wAvailable commands ({_commandDefinitionsContainer.Definitions.Count}):");
+
+            foreach (var commandDefinition in _commandDefinitionsContainer.Definitions)
+            {
+                var argumentsStringBuilder = new StringBuilder();
+
+                foreach(var argument in commandDefinition.Arguments)
+                {
+                    argumentsStringBuilder.Append("<$c");
+                    argumentsStringBuilder.Append(argument);
+                    argumentsStringBuilder.Append("$w> ");
+                }
+
+                WriteLine($"$w - $g{commandDefinition.Name}$w {argumentsStringBuilder.ToString()}");
+            }
+        }
+
+        void WriteColorsList()
+        {
+            WriteLine($"$wAvailable colors ({_colorDefinitionsContainer.Definitions.Count}):");
+
+            foreach (var colorDefinition in _colorDefinitionsContainer.Definitions)
+            {
+                WriteLine($"$w - ${colorDefinition.Symbol}{colorDefinition.Color} - {colorDefinition.Symbol}");
             }
         }
 
@@ -134,16 +164,6 @@ namespace GUI.Source.ConsoleSubsystem
             var coresCount = _environmentInfoProvider.GetCPUCoresCount();
 
             WriteLine($"$gProxima b 2.0 GUI$w | {osInfo} (CPU $c{cpuPlatform}$w, {coresCount}$w | Process $c{processPlatform}$w)");
-        }
-
-        void WriteColorsList()
-        {
-            WriteLine($"$wAvailable colors ({_colorDefinitionsContainer.Definitions.Count}):");
-
-            foreach (var colorDefinition in _colorDefinitionsContainer.Definitions)
-            {
-                WriteLine($"$w - ${colorDefinition.Symbol}{colorDefinition.Color} - {colorDefinition.Symbol}");
-            }
         }
     }
 }

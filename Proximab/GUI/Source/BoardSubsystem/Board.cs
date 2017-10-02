@@ -121,7 +121,7 @@ namespace GUI.Source.BoardSubsystem
 
             if(!boardReader.BoardExists(path))
             {
-                _consoleManager.WriteLine($"$rBoard $R{path}$r not found");
+                _consoleManager.WriteLine($"$rBoard {path} not found");
                 return;
             }
 

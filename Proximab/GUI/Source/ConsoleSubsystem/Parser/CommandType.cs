@@ -10,6 +10,7 @@ namespace GUI.Source.ConsoleSubsystem.Parser
     {
         None,
         Invalid,
+        Commands,
         Colors,
         SaveBoard,
         LoadBoard
