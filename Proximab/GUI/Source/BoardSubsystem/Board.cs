@@ -22,25 +22,25 @@ namespace GUI.Source.BoardSubsystem
     internal class Board
     {
         public event EventHandler<FieldSelectedEventArgs> OnFieldSelection;
-        
+
+        ConsoleManager _consoleManager;
         FriendlyBoard _friendlyBoard;
         SelectionsManager _selectionsManager;
         AxesManager _axesManager;
         PiecesProvider _piecesProvider;
-        BoardWriter _boardWriter;
-        BoardReader _boardReader;
 
         Texture2D _field1;
         Texture2D _field2;
 
-        public Board()
+        public Board(ConsoleManager consoleManager)
         {
+            _consoleManager = consoleManager;
+            _consoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
+
             _friendlyBoard = new FriendlyBoard();
             _selectionsManager = new SelectionsManager();
             _axesManager = new AxesManager();
             _piecesProvider = new PiecesProvider();
-            _boardWriter = new BoardWriter();
-            _boardReader = new BoardReader();
 
             _selectionsManager.OnFieldSelection += SelectionsManager_OnFieldSelection;
         }
@@ -95,9 +95,11 @@ namespace GUI.Source.BoardSubsystem
             _selectionsManager.AddExternalSelections(selections);
         }
 
-        public void HandleCommand(Command command)
+        void ConsoleManager_OnNewCommand(object sender, CommandEventArgs e)
         {
-            switch(command.Type)
+            var command = e.Command;
+
+            switch (command.Type)
             {
                 case CommandType.SaveBoard: { SaveBoard(command); break; }
                 case CommandType.LoadBoard: { LoadBoard(command); break; }
@@ -106,21 +108,24 @@ namespace GUI.Source.BoardSubsystem
 
         void SaveBoard(Command command)
         {
+            var boardWriter = new BoardWriter();
+
             var path = $"Boards\\{command.GetArgument<string>(0)}.board";
-            _boardWriter.Write(path, _friendlyBoard);
+            boardWriter.Write(path, _friendlyBoard);
         }
 
         void LoadBoard(Command command)
         {
+            var boardReader = new BoardReader();
             var path = $"Boards\\{command.GetArgument<string>(0)}.board";
 
-            if(!_boardReader.BoardExists(path))
+            if(!boardReader.BoardExists(path))
             {
-                //TODO message
+                _consoleManager.WriteLine($"$rBoard $R{path}$r not found");
                 return;
             }
 
-            _friendlyBoard = _boardReader.Read(path);
+            _friendlyBoard = boardReader.Read(path);
         }
 
         void DrawBackground(SpriteBatch spriteBatch)

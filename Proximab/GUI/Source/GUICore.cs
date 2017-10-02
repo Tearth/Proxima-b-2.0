@@ -25,6 +25,8 @@ namespace GUI
         
         public GUICore(ConsoleManager consoleManager)
         {
+            _consoleManager = consoleManager;
+
             _graphics = new GraphicsDeviceManager(this);
             _graphics.PreferredBackBufferWidth = (int)Constants.WindowSize.X;
             _graphics.PreferredBackBufferHeight = (int)Constants.WindowSize.Y;
@@ -32,10 +34,7 @@ namespace GUI
             _inputManager = new InputManager();
             _fpsCounter = new FPSCounter();
 
-            _consoleManager = consoleManager;
-            _consoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
-
-            _board = new Board();
+            _board = new Board(_consoleManager);
             _board.OnFieldSelection += Board_OnFieldSelection;
 
             Content.RootDirectory = "Content";
@@ -90,12 +89,6 @@ namespace GUI
             _inputManager.Logic();
             _board.Input(_inputManager);
             _fpsCounter.Input(_inputManager);
-        }
-
-        void ConsoleManager_OnNewCommand(object sender, CommandEventArgs e)
-        {
-            _consoleManager.HandleCommand(e.Command);
-            _board.HandleCommand(e.Command);
         }
 
         void Board_OnFieldSelection(object sender, FieldSelectedEventArgs e)

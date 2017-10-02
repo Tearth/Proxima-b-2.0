@@ -30,12 +30,14 @@ namespace GUI.Source.ConsoleSubsystem
         {
             _consoleLoop = new Task(() => Loop());
 
+            OnNewCommand += ConsoleManager_OnNewCommand;
+
             _commandParser = new CommandParser();
             _commandValidator = new CommandValidator();
             _outputParser = new OutputParser();
             _outputPrinter = new ColorOutputPrinter();
             _environmentInfoProvider = new EnvironmentInfoProvider();
-        }
+        }        
 
         public void LoadContent(ContentManager contentManager)
         {
@@ -58,9 +60,11 @@ namespace GUI.Source.ConsoleSubsystem
             _outputPrinter.WriteLine(outputChunks);
         }
 
-        public void HandleCommand(Command command)
+        void ConsoleManager_OnNewCommand(object sender, CommandEventArgs e)
         {
-            switch(command.Type)
+            var command = e.Command;
+
+            switch (command.Type)
             {
                 case CommandType.Colors: { WriteColorsList(); break; }
             }
