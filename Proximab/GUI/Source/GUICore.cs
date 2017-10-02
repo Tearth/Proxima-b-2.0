@@ -1,17 +1,10 @@
-﻿using ContentDefinitions.Colors;
-using ContentDefinitions.Commands;
-using Core.Common;
-using GUI.Source.BoardSubsystem;
-using GUI.Source.BoardSubsystem.Selections;
-using GUI.Source.ConsoleSubsystem;
+﻿using GUI.Source.ConsoleSubsystem;
 using GUI.Source.GameModeSubsystem;
 using GUI.Source.GameModeSubsystem.Editor;
 using GUI.Source.Helpers;
 using GUI.Source.InputSubsystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
 
 namespace GUI
 {

@@ -1,21 +1,15 @@
-﻿using GUI.Source.ConsoleSubsystem;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GUI.Source.ConsoleSubsystem.Parser;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
-using Core.Board;
-using Microsoft.Xna.Framework;
+﻿using Core.Board;
 using Core.Common;
-using GUI.Source.InputSubsystem;
-using GUI.Source.BoardSubsystem.Selections;
-using GUI.Source.Helpers;
 using GUI.Source.BoardSubsystem.Axes;
 using GUI.Source.BoardSubsystem.Pieces;
-using GUI.Source.BoardSubsystem.Persistence;
+using GUI.Source.BoardSubsystem.Selections;
+using GUI.Source.Helpers;
+using GUI.Source.InputSubsystem;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 
 namespace GUI.Source.BoardSubsystem
 {

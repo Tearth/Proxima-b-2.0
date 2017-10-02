@@ -1,17 +1,12 @@
 ﻿using Core.Common;
 using GUI.Source.BoardSubsystem;
 using GUI.Source.BoardSubsystem.Persistence;
-using GUI.Source.BoardSubsystem.Selections;
 using GUI.Source.ConsoleSubsystem;
 using GUI.Source.ConsoleSubsystem.Parser;
 using GUI.Source.InputSubsystem;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GUI.Source.GameModeSubsystem
 {
