@@ -12,8 +12,6 @@ namespace GUI.Source.BoardSubsystem.Selections
 {
     internal class SelectionsManager
     {
-        public event EventHandler<FieldSelectedEventArgs> OnFieldSelection;
-
         Texture2D _internalSelection;
         Texture2D _externalSelection;
 
@@ -61,7 +59,7 @@ namespace GUI.Source.BoardSubsystem.Selections
             }
         }
 
-        public void SelectField(Point clickPoint, FriendlyBoard board)
+        public Position SelectField(Point clickPoint, FriendlyBoard board)
         {
             var fieldX = (int)((clickPoint.X - Constants.BoardPosition.X) / Constants.FieldWidthHeight) + 1;
             var fieldY = 8 - (int)((clickPoint.Y - Constants.BoardPosition.Y) / Constants.FieldWidthHeight);
@@ -75,8 +73,7 @@ namespace GUI.Source.BoardSubsystem.Selections
             var position = new Position(fieldX, fieldY);
             _selections.Add(new Selection(position, SelectionType.Internal));
 
-            var selectedPiece = board.GetPiece(position);
-            OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(position, selectedPiece));
+            return position;
         }
 
         public Selection GetInternalSelection()

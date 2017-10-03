@@ -32,8 +32,6 @@ namespace GUI.Source.BoardSubsystem
             _selectionsManager = new SelectionsManager();
             _axesManager = new AxesManager();
             _piecesProvider = new PiecesProvider();
-
-            _selectionsManager.OnFieldSelection += SelectionsManager_OnFieldSelection;
         }
 
         public void LoadContent(ContentManager contentManager)
@@ -53,7 +51,11 @@ namespace GUI.Source.BoardSubsystem
             if (inputManager.IsLeftMouseButtonJustPressed())
             {
                 _selectionsManager.RemoveAllSelections();
-                _selectionsManager.SelectField(mousePosition, _friendlyBoard);
+
+                var selectedFieldPosition = _selectionsManager.SelectField(mousePosition, _friendlyBoard);
+                var selectedPiece = _friendlyBoard.GetPiece(selectedFieldPosition);
+
+                OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(selectedFieldPosition, selectedPiece));
             }
 
             if (inputManager.IsRightMouseButtonJustPressed())
@@ -133,11 +135,6 @@ namespace GUI.Source.BoardSubsystem
         public void AddExternalSelections(IEnumerable<Position> selections)
         {
             _selectionsManager.AddExternalSelections(selections);
-        }
-
-        void SelectionsManager_OnFieldSelection(object sender, FieldSelectedEventArgs e)
-        {
-            OnFieldSelection?.Invoke(sender, e);
         }
     }
 }

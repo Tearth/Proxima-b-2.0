@@ -1,7 +1,7 @@
 ﻿using Core.Common;
 using System;
 
-namespace GUI.Source.BoardSubsystem.Selections
+namespace GUI.Source.BoardSubsystem
 {
     internal class FieldSelectedEventArgs : EventArgs
     {
