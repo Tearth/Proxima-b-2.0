@@ -18,6 +18,8 @@ namespace GUI.Source.InputSubsystem
         ButtonState _leftMouseButtonPreviousState;
         ButtonState _rightMouseButtonPreviousState;
 
+        Point _lastMouseMovePosition;
+
         public InputManager()
         {
             _keyboardJustPressedKeys = new List<Keys>();
@@ -31,6 +33,8 @@ namespace GUI.Source.InputSubsystem
 
             _leftMouseButtonPreviousState = ButtonState.Released;
             _rightMouseButtonPreviousState = ButtonState.Released;
+
+            _lastMouseMovePosition = GetMousePosition();
         }
 
         public void Logic()
@@ -94,8 +98,15 @@ namespace GUI.Source.InputSubsystem
 
         public Point GetMousePosition()
         {
-            var mouseState = Mouse.GetState();
-            return mouseState.Position;
+            return Mouse.GetState().Position;
+        }
+
+        public Vector2 GetMouseMoveDelta()
+        {
+            var currentState = _lastMouseMovePosition;
+            _lastMouseMovePosition = GetMousePosition();
+
+            return new Vector2(_lastMouseMovePosition.X - currentState.X, _lastMouseMovePosition.Y - currentState.Y);
         }
 
         void ProcessMouse()
