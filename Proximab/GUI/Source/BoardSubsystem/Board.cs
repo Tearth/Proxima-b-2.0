@@ -50,12 +50,20 @@ namespace GUI.Source.BoardSubsystem
 
             if (inputManager.IsLeftMouseButtonJustPressed())
             {
+                var previousSelection = _selectionsManager.GetInternalSelection();
                 _selectionsManager.RemoveAllSelections();
 
                 var selectedFieldPosition = _selectionsManager.SelectField(mousePosition, _friendlyBoard);
                 var selectedPiece = _friendlyBoard.GetPiece(selectedFieldPosition);
-
-                OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(selectedFieldPosition, selectedPiece));
+                
+                if (previousSelection == null)
+                {
+                    ProcessLeftButtonPressWithoutPreviousSelection(selectedFieldPosition, selectedPiece);
+                }
+                else
+                {
+                    ProcessLeftButtonPressWithPreviousSelection(previousSelection, selectedFieldPosition, selectedPiece);
+                }
             }
 
             if (inputManager.IsRightMouseButtonJustPressed())
@@ -76,6 +84,48 @@ namespace GUI.Source.BoardSubsystem
 
             _selectionsManager.Draw(spriteBatch);
             _axesManager.Draw(spriteBatch);
+        }
+
+        public FriendlyBoard GetFriendlyBoard()
+        {
+            return _friendlyBoard;
+        }
+
+        public void SetFriendlyBoard(FriendlyBoard friendlyBoard)
+        {
+            _friendlyBoard = friendlyBoard;
+        }
+
+        public void AddPiece(Position position, PieceType pieceType)
+        {
+            _friendlyBoard.SetPiece(position, pieceType);
+        }
+
+        public void AddExternalSelections(IEnumerable<Position> selections)
+        {
+            _selectionsManager.AddExternalSelections(selections);
+        }
+
+        void ProcessLeftButtonPressWithPreviousSelection(Selection previousSelection, Position selectedPosition, PieceType selectedPieceType)
+        {
+            var previousSelectedPiece = _friendlyBoard.GetPiece(previousSelection.Position);
+
+            if(previousSelectedPiece == PieceType.None)
+            {
+                OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(selectedPosition, selectedPieceType));
+            }
+            else if (previousSelectedPiece != PieceType.None && selectedPieceType == PieceType.None)
+            {
+                var from = previousSelection.Position;
+                var to = selectedPosition;
+
+                OnPieceMove(this, new PieceMovedEventArgs(previousSelectedPiece, from, to));
+            }
+        }
+
+        void ProcessLeftButtonPressWithoutPreviousSelection(Position selectedPosition, PieceType selectedPieceType)
+        {
+            OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(selectedPosition, selectedPieceType));
         }
 
         void DrawBackground(SpriteBatch spriteBatch)
@@ -115,26 +165,6 @@ namespace GUI.Source.BoardSubsystem
                     spriteBatch.Draw(texture, position + Constants.BoardPosition, Constants.FieldSize, Color.White);
                 }
             }
-        }
-
-        public FriendlyBoard GetFriendlyBoard()
-        {
-            return _friendlyBoard;
-        }
-
-        public void SetFriendlyBoard(FriendlyBoard friendlyBoard)
-        {
-            _friendlyBoard = friendlyBoard;
-        }
-
-        public void AddPiece(Position position, PieceType pieceType)
-        {
-            _friendlyBoard.SetPiece(position, pieceType);
-        }
-
-        public void AddExternalSelections(IEnumerable<Position> selections)
-        {
-            _selectionsManager.AddExternalSelections(selections);
         }
     }
 }
