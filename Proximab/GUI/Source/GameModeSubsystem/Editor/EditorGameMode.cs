@@ -19,7 +19,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
 
         void Board_OnPieceMove(object sender, PieceMovedEventArgs e)
         {
-            
+            _board.MovePiece(e.From, e.To);
         }
     }
 }

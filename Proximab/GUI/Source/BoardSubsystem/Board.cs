@@ -101,6 +101,14 @@ namespace GUI.Source.BoardSubsystem
             _friendlyBoard.SetPiece(position, pieceType);
         }
 
+        public void MovePiece(Position from, Position to)
+        {
+            var piece = _friendlyBoard.GetPiece(from);
+
+            _friendlyBoard.SetPiece(to, piece);
+            _friendlyBoard.SetPiece(from, PieceType.None);
+        }
+
         public void AddExternalSelections(IEnumerable<Position> selections)
         {
             _selectionsManager.AddExternalSelections(selections);
@@ -120,6 +128,8 @@ namespace GUI.Source.BoardSubsystem
                 var to = selectedPosition;
 
                 OnPieceMove(this, new PieceMovedEventArgs(previousSelectedPiece, from, to));
+
+                _selectionsManager.RemoveAllSelections();
             }
         }
 
