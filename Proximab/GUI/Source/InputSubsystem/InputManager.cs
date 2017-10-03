@@ -82,6 +82,16 @@ namespace GUI.Source.InputSubsystem
             return pressed;
         }
 
+        public bool IsLeftMouseButtonPressed()
+        {
+            return Mouse.GetState().LeftButton == ButtonState.Pressed;
+        }
+
+        public bool IsRightMouseButtonPressed()
+        {
+            return Mouse.GetState().RightButton == ButtonState.Pressed;
+        }
+
         public Point GetMousePosition()
         {
             var mouseState = Mouse.GetState();
