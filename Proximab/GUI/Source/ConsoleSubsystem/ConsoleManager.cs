@@ -13,7 +13,7 @@ namespace GUI.Source.ConsoleSubsystem
 {
     internal class ConsoleManager
     {
-        public event EventHandler<CommandEventArgs> OnNewCommand;
+        public event EventHandler<NewCommandEventArgs> OnNewCommand;
 
         Task _consoleLoop;
         CommandParser _commandParser;
@@ -59,7 +59,7 @@ namespace GUI.Source.ConsoleSubsystem
             _outputPrinter.WriteLine(outputChunks);
         }
 
-        void ConsoleManager_OnNewCommand(object sender, CommandEventArgs e)
+        void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
         {
             var command = e.Command;
 
@@ -135,7 +135,7 @@ namespace GUI.Source.ConsoleSubsystem
             var enumType = (CommandType)Enum.Parse(typeof(CommandType), definition.EnumType);
 
             var command = new Command(enumType, rawCommand.Arguments);
-            var commandEventArgs = new CommandEventArgs(DateTime.Now, command);
+            var commandEventArgs = new NewCommandEventArgs(DateTime.Now, command);
 
             OnNewCommand?.Invoke(this, commandEventArgs);
         }

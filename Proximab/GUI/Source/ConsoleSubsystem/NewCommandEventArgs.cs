@@ -3,12 +3,12 @@ using System;
 
 namespace GUI.Source.ConsoleSubsystem
 {
-    internal class CommandEventArgs : EventArgs
+    internal class NewCommandEventArgs : EventArgs
     {
         public DateTime Time { get; set; }
         public Command Command { get; set; }
 
-        public CommandEventArgs(DateTime time, Command command)
+        public NewCommandEventArgs(DateTime time, Command command)
         {
             Time = time;
             Command = command;

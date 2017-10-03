@@ -23,10 +23,6 @@ namespace GUI.Source.GameModeSubsystem
             _board = new Board();
         }
 
-        public GameModeBase()
-        {
-        }
-
         public virtual void LoadContent(ContentManager contentManager)
         {
             _board.LoadContent(contentManager);
@@ -47,7 +43,7 @@ namespace GUI.Source.GameModeSubsystem
             _board.Draw(spriteBatch);
         }
 
-        void ConsoleManager_OnNewCommand(object sender, CommandEventArgs e)
+        void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
         {
             var command = e.Command;
 
