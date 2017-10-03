@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GUI.Source.BoardSubsystem.Selections
 {
@@ -76,6 +77,11 @@ namespace GUI.Source.BoardSubsystem.Selections
 
             var selectedPiece = board.GetPiece(position);
             OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(position, selectedPiece));
+        }
+
+        public Selection GetInternalSelection()
+        {
+            return _selections.FirstOrDefault(p => p.Type == SelectionType.Internal);
         }
 
         public void RemoveAllSelections()

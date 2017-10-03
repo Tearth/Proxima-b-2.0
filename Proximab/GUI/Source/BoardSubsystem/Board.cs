@@ -16,6 +16,7 @@ namespace GUI.Source.BoardSubsystem
     internal class Board
     {
         public event EventHandler<FieldSelectedEventArgs> OnFieldSelection;
+        public event EventHandler<PieceMovedEventArgs> OnPieceMove;
         
         FriendlyBoard _friendlyBoard;
         SelectionsManager _selectionsManager;
