@@ -12,6 +12,9 @@ namespace GUI.Source.InputSubsystem
         bool _leftMouseButtonJustPressed;
         bool _rightMouseButtonJustPressed;
 
+        bool _leftMouseButtonJustReleased;
+        bool _rightMouseButtonJustReleased;
+
         ButtonState _leftMouseButtonPreviousState;
         ButtonState _rightMouseButtonPreviousState;
 
@@ -22,6 +25,9 @@ namespace GUI.Source.InputSubsystem
 
             _leftMouseButtonJustPressed = false;
             _rightMouseButtonJustPressed = false;
+
+            _leftMouseButtonJustReleased = false;
+            _rightMouseButtonJustReleased = false;
 
             _leftMouseButtonPreviousState = ButtonState.Released;
             _rightMouseButtonPreviousState = ButtonState.Released;
@@ -35,9 +41,6 @@ namespace GUI.Source.InputSubsystem
 
         public bool IsLeftMouseButtonJustPressed()
         {
-            if (!_leftMouseButtonJustPressed)
-                return false;
-
             var currentState = _leftMouseButtonJustPressed;
             _leftMouseButtonJustPressed = false;
 
@@ -46,11 +49,24 @@ namespace GUI.Source.InputSubsystem
 
         public bool IsRightMouseButtonJustPressed()
         {
-            if (!_rightMouseButtonJustPressed)
-                return false;
-
             var currentState = _rightMouseButtonJustPressed;
             _rightMouseButtonJustPressed = false;
+
+            return currentState;
+        }
+
+        public bool IsLeftMouseButtonJustReleased()
+        {
+            var currentState = _leftMouseButtonJustReleased;
+            _leftMouseButtonJustReleased = false;
+
+            return currentState;
+        }
+
+        public bool IsRightMouseButtonJustReleased()
+        {
+            var currentState = _rightMouseButtonJustReleased;
+            _rightMouseButtonJustReleased = false;
 
             return currentState;
         }
@@ -89,11 +105,21 @@ namespace GUI.Source.InputSubsystem
             if(mouseState.LeftButton == ButtonState.Released)
             {
                 _leftMouseButtonJustPressed = false;
+
+                if(_leftMouseButtonPreviousState == ButtonState.Pressed)
+                {
+                    _leftMouseButtonJustReleased = true;
+                }
             }
 
             if (mouseState.RightButton == ButtonState.Released)
             {
                 _rightMouseButtonJustPressed = false;
+
+                if (_rightMouseButtonPreviousState == ButtonState.Pressed)
+                {
+                    _rightMouseButtonJustReleased = true;
+                }
             }
 
             _leftMouseButtonPreviousState = mouseState.LeftButton;
