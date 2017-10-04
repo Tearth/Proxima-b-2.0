@@ -85,7 +85,15 @@ namespace GUI.Source.GameModeSubsystem
             var piece = command.GetArgument<string>(0);
             var field = command.GetArgument<string>(1);
 
-            var pieceType = (PieceType)Enum.Parse(typeof(PieceType), piece, true);
+            var pieceType = PieceType.None;
+            var pieceTypeParseResult = Enum.TryParse(piece, true, out pieceType);
+
+            if(!pieceTypeParseResult)
+            {
+                _consoleManager.WriteLine($"$rInvalid piece type ($R{piece}$r)");
+                return;
+            }
+
             var fieldPosition = positionConverter.Convert(field);
 
             if (fieldPosition == null)

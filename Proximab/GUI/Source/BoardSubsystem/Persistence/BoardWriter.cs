@@ -22,7 +22,9 @@ namespace GUI.Source.BoardSubsystem.Persistence
                         var position = new Position(x + 1, 8 - y);
 
                         var field = friendlyBoard.GetPiece(position);
+
                         writer.Write((int)field);
+                        writer.Write(' ');
                     }
 
                     writer.WriteLine();

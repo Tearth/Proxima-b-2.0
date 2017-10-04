@@ -26,11 +26,12 @@ namespace GUI.Source.BoardSubsystem.Persistence
                 for(int y = 0; y < 8; y++)
                 {
                     var line = reader.ReadLine();
+                    var splittedLine = line.Split(' ');
 
                     for(int x = 0; x < 8; x++)
                     {
-                        var pieceChar = line[x].ToString();
-                        var pieceType = (PieceType)Enum.Parse(typeof(PieceType), pieceChar);
+                        var pieceNumber = Int32.Parse(splittedLine[x]);
+                        var pieceType = (PieceType)pieceNumber;
 
                         var position = new Position(x + 1, 8 - y);
                         friendlyBoard.SetPiece(position, pieceType);
