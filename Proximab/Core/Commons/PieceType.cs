@@ -11,11 +11,11 @@
         WhiteQueen = 5,
         WhiteKing = 6,
 
-        BlackPawn = -1,
-        BlackRook = -2,
-        BlackKnight = -3,
-        BlackBishop = -4,
-        BlackQueen = -5,
-        BlackKing = -6
+        BlackPawn = 7,
+        BlackRook = 8,
+        BlackKnight = 9,
+        BlackBishop = 10,
+        BlackQueen = 11,
+        BlackKing = 12
     }
 }

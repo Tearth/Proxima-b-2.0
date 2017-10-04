@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Boards\BitBoard.cs" />
+    <Compile Include="Boards\BitPositionConverter.cs" />
     <Compile Include="Boards\FriendlyBoard.cs" />
     <Compile Include="Commons\Exceptions\PositionOutOfRangeException.cs" />
     <Compile Include="Commons\PieceType.cs" />
