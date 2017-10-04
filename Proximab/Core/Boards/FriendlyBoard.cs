@@ -1,6 +1,6 @@
-﻿using Core.Common;
+﻿using Core.Commons;
 
-namespace Core.Board
+namespace Core.Boards
 {
     public class FriendlyBoard
     {

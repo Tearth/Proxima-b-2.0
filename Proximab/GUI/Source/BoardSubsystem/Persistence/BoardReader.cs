@@ -1,5 +1,5 @@
-﻿using Core.Board;
-using Core.Common;
+﻿using Core.Boards;
+using Core.Commons;
 using System;
 using System.IO;
 

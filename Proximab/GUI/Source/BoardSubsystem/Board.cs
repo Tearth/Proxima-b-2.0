@@ -1,5 +1,5 @@
-﻿using Core.Board;
-using Core.Common;
+﻿using Core.Boards;
+using Core.Commons;
 using GUI.Source.BoardSubsystem.Axes;
 using GUI.Source.BoardSubsystem.Pieces;
 using GUI.Source.BoardSubsystem.Selections;

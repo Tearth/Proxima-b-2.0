@@ -1,5 +1,4 @@
 ﻿using GUI.Source.BoardSubsystem;
-using GUI.Source.BoardSubsystem.Selections;
 using GUI.Source.ConsoleSubsystem;
 
 namespace GUI.Source.GameModeSubsystem.Editor

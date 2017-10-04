@@ -1,5 +1,5 @@
-﻿using Core.Board;
-using Core.Common;
+﻿using Core.Boards;
+using Core.Commons;
 using GUI.Source.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;

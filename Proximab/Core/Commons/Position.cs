@@ -1,6 +1,6 @@
-﻿using Core.Common.Exceptions;
+﻿using Core.Commons.Exceptions;
 
-namespace Core.Common
+namespace Core.Commons
 {
     public class Position
     {

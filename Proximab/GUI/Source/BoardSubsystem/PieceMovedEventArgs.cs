@@ -1,4 +1,4 @@
-﻿using Core.Common;
+﻿using Core.Commons;
 
 namespace GUI.Source.BoardSubsystem
 {
