@@ -6,16 +6,24 @@ namespace Core.Boards
     {
         ulong[] _pieces;
 
+        ulong _occupancy
+        {
+            get
+            {
+                return _whiteOccupancy | _blackOccupancy;
+            }
+        }
+
         ulong _whiteOccupancy
         {
             get
             {
-                return _pieces[(int)PieceType.WhitePawn] | 
-                       _pieces[(int)PieceType.WhiteRook] | 
-                       _pieces[(int)PieceType.WhiteKnight] | 
-                       _pieces[(int)PieceType.WhiteBishop] | 
-                       _pieces[(int)PieceType.WhiteQueen] | 
-                       _pieces[(int)PieceType.WhiteKing];
+                return _pieces[(int)PieceType.WhitePawn - 1] | 
+                       _pieces[(int)PieceType.WhiteRook - 1] | 
+                       _pieces[(int)PieceType.WhiteKnight - 1] | 
+                       _pieces[(int)PieceType.WhiteBishop - 1] | 
+                       _pieces[(int)PieceType.WhiteQueen - 1] | 
+                       _pieces[(int)PieceType.WhiteKing - 1];
             }
         }
 
@@ -23,12 +31,12 @@ namespace Core.Boards
         {
             get
             {
-                return _pieces[(int)PieceType.BlackPawn] |
-                       _pieces[(int)PieceType.BlackRook] |
-                       _pieces[(int)PieceType.BlackKnight] |
-                       _pieces[(int)PieceType.BlackBishop] |
-                       _pieces[(int)PieceType.BlackQueen] |
-                       _pieces[(int)PieceType.BlackKing];
+                return _pieces[(int)PieceType.BlackPawn - 1] |
+                       _pieces[(int)PieceType.BlackRook - 1] |
+                       _pieces[(int)PieceType.BlackKnight - 1] |
+                       _pieces[(int)PieceType.BlackBishop - 1] |
+                       _pieces[(int)PieceType.BlackQueen - 1] |
+                       _pieces[(int)PieceType.BlackKing - 1];
             }
         }
 
@@ -69,8 +77,8 @@ namespace Core.Boards
 
                 while(pieceArray != 0)
                 {
-                    var bitPosition = BitOperations.GetLSB(ref pieceArray);
-                    var position = BitPositionConverter.ToPosition(bitPosition);
+                    var lsb = BitOperations.GetLSB(ref pieceArray);
+                    var position = BitPositionConverter.ToPosition(lsb);
 
                     var piece = (PieceType)(i + 1);
 
@@ -79,6 +87,11 @@ namespace Core.Boards
             }
 
             return friendlyBoard;
+        }
+
+        public bool[,] GetOccupancy()
+        {
+            return BitPositionConverter.ToBoolArray(_occupancy);
         }
 
         void Clear()

@@ -16,5 +16,20 @@ namespace Core.Boards
 
             return new Position((bitIndex % 8) + 1, (bitIndex / 8) + 1);
         }
+
+        public static bool[,] ToBoolArray(ulong bitBoard)
+        {
+            var boolArray = new bool[8, 8];
+
+            while(bitBoard != 0)
+            {
+                var lsb = BitOperations.GetLSB(ref bitBoard);
+                var position = ToPosition(lsb);
+
+                boolArray[position.X - 1, position.Y - 1] = true;
+            }
+
+            return boolArray;
+        }
     }
 }

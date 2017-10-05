@@ -149,7 +149,7 @@ namespace GUI.Source.BoardSubsystem
                     var position = new Vector2(x, y) * Constants.FieldWidthHeight;
                     var texture = fieldInversion ? _field1 : _field2;
 
-                    spriteBatch.Draw(texture, position + Constants.BoardPosition, Constants.FieldSize, Color.White);
+                    spriteBatch.Draw(texture, position + Constants.BoardPosition, Constants.FieldSize, Microsoft.Xna.Framework.Color.White);
                     fieldInversion = !fieldInversion;
                 }
 
@@ -172,7 +172,7 @@ namespace GUI.Source.BoardSubsystem
                     var position = new Vector2(boardPosition.X - 1, 8 - boardPosition.Y) * Constants.FieldWidthHeight;
                     var texture = _piecesProvider.GetPieceTexture(piece);
 
-                    spriteBatch.Draw(texture, position + Constants.BoardPosition, Constants.FieldSize, Color.White);
+                    spriteBatch.Draw(texture, position + Constants.BoardPosition, Constants.FieldSize, Microsoft.Xna.Framework.Color.White);
                 }
             }
         }

@@ -12,8 +12,14 @@ namespace GUI.Source.GameModeSubsystem.Editor
         {
             _bitBoard = new BitBoard();
 
+            consoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
             _board.OnFieldSelection += Board_OnFieldSelection;
             _board.OnPieceMove += Board_OnPieceMove;
+        }
+
+        void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
+        {
+
         }
 
         void Board_OnFieldSelection(object sender, FieldSelectedEventArgs e)

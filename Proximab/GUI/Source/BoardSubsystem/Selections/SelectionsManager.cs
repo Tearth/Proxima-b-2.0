@@ -44,7 +44,7 @@ namespace GUI.Source.BoardSubsystem.Selections
 
                 var position = new Vector2(x, y);
 
-                spriteBatch.Draw(texture, position + Constants.BoardPosition, Constants.FieldSize, Color.White);
+                spriteBatch.Draw(texture, position + Constants.BoardPosition, Constants.FieldSize, Microsoft.Xna.Framework.Color.White);
             }
         }
 
