@@ -94,6 +94,17 @@ namespace Core.Boards
             return BitPositionConverter.ToBoolArray(_occupancy);
         }
 
+        public bool[,] GetOccupancy(Color color)
+        {
+            switch(color)
+            {
+                case Color.White: return BitPositionConverter.ToBoolArray(_whiteOccupancy);
+                case Color.Black: return BitPositionConverter.ToBoolArray(_blackOccupancy);
+            }
+
+            return null;
+        }
+
         void Clear()
         {
             for (int i = 0; i < _pieces.Length; i++)
