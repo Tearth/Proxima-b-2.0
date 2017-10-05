@@ -80,8 +80,6 @@ namespace GUI.Source.GameModeSubsystem
 
         void AddPiece(Command command)
         {
-            var positionConverter = new PositionConverter();
-
             var piece = command.GetArgument<string>(0);
             var field = command.GetArgument<string>(1);
 
@@ -94,7 +92,7 @@ namespace GUI.Source.GameModeSubsystem
                 return;
             }
 
-            var fieldPosition = positionConverter.Convert(field);
+            var fieldPosition = PositionConverter.ToPosition(field);
 
             if (fieldPosition == null)
             {

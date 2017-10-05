@@ -15,7 +15,6 @@ namespace Core.Boards
 
         public void SyncWithFriendlyBoard(FriendlyBoard friendlyBoard)
         {
-            var bitPositionConverter = new BitPositionConverter();
             Clear();
 
             for(int x=1; x<=8; x++)
@@ -27,7 +26,7 @@ namespace Core.Boards
 
                     if(piece != PieceType.None)
                     {
-                        var bitPosition = bitPositionConverter.Convert(position);
+                        var bitPosition = BitPositionConverter.ToULong(position);
                         _pieces[(int)piece - 1] |= bitPosition;
                     }
                 }
@@ -37,7 +36,6 @@ namespace Core.Boards
         public FriendlyBoard GetFriendlyBoard()
         {
             var friendlyBoard = new FriendlyBoard();
-            var bitPositionConverter = new BitPositionConverter();
 
             for (int i=0; i<12; i++)
             {
@@ -47,7 +45,7 @@ namespace Core.Boards
                 {
                     var bitPosition = (ulong)((long)pieceArray & -((long)pieceArray));
 
-                    var position = bitPositionConverter.Convert(bitPosition);
+                    var position = BitPositionConverter.ToPosition(bitPosition);
                     var piece = (PieceType)(i + 1);
 
                     friendlyBoard.SetPiece(position, piece);

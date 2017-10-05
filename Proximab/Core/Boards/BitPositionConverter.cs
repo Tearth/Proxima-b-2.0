@@ -7,19 +7,14 @@ using System.Threading.Tasks;
 
 namespace Core.Boards
 {
-    internal class BitPositionConverter
+    internal static class BitPositionConverter
     {
-        public BitPositionConverter()
-        {
-
-        }
-
-        public ulong Convert(Position position)
+        public static ulong ToULong(Position position)
         {
             return 1ul << ((position.X - 1) + ((position.Y - 1) * 8));
         }
 
-        public Position Convert(ulong bitPosition)
+        public static Position ToPosition(ulong bitPosition)
         {
             var bitIndex = (int)Math.Log(bitPosition, 2);
 

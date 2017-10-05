@@ -1,13 +1,8 @@
 ﻿namespace Core.Commons
 {
-    public class PositionConverter
+    public static class PositionConverter
     {
-        public PositionConverter()
-        {
-
-        }
-
-        public Position Convert(string textNotation)
+        public static Position ToPosition(string textNotation)
         {
             var fixedTextNotation = textNotation.Trim().ToLower();
 
