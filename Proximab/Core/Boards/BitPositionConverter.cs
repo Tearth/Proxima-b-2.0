@@ -16,7 +16,14 @@ namespace Core.Boards
 
         public ulong Convert(Position position)
         {
-            return (ulong)(position.X - 1) << ((position.Y - 1) * 8);
+            return 1ul << ((position.X - 1) + ((position.Y - 1) * 8));
+        }
+
+        public Position Convert(ulong bitPosition)
+        {
+            var bitIndex = (int)Math.Log(bitPosition, 2);
+
+            return new Position((bitIndex % 8) + 1, (bitIndex / 8) + 1);
         }
     }
 }
