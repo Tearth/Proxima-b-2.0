@@ -43,14 +43,12 @@ namespace Core.Boards
 
                 while(pieceArray != 0)
                 {
-                    var bitPosition = (ulong)((long)pieceArray & -((long)pieceArray));
-
+                    var bitPosition = BitOperations.GetLSB(ref pieceArray);
                     var position = BitPositionConverter.ToPosition(bitPosition);
+
                     var piece = (PieceType)(i + 1);
 
                     friendlyBoard.SetPiece(position, piece);
-
-                    pieceArray &= pieceArray - 1;
                 }
             }
 
