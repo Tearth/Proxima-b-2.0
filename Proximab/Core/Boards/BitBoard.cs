@@ -6,6 +6,32 @@ namespace Core.Boards
     {
         ulong[] _pieces;
 
+        ulong _whiteOccupancy
+        {
+            get
+            {
+                return _pieces[(int)PieceType.WhitePawn] | 
+                       _pieces[(int)PieceType.WhiteRook] | 
+                       _pieces[(int)PieceType.WhiteKnight] | 
+                       _pieces[(int)PieceType.WhiteBishop] | 
+                       _pieces[(int)PieceType.WhiteQueen] | 
+                       _pieces[(int)PieceType.WhiteKing];
+            }
+        }
+
+        ulong _blackOccupancy
+        {
+            get
+            {
+                return _pieces[(int)PieceType.BlackPawn] |
+                       _pieces[(int)PieceType.BlackRook] |
+                       _pieces[(int)PieceType.BlackKnight] |
+                       _pieces[(int)PieceType.BlackBishop] |
+                       _pieces[(int)PieceType.BlackQueen] |
+                       _pieces[(int)PieceType.BlackKing];
+            }
+        }
+
         public BitBoard()
         {
             _pieces = new ulong[12];
