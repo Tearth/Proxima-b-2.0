@@ -5,46 +5,23 @@ namespace Core.Boards
     public class BitBoard
     {
         public ulong[] Pieces;
+        public ulong[] PieceMoves;
 
-        public ulong Occupancy
-        {
-            get
-            {
-                return WhiteOccupancy | BlackOccupancy;
-            }
-        }
-
-        public ulong WhiteOccupancy
-        {
-            get
-            {
-                return Pieces[(int)PieceType.WhitePawn - 1] | 
-                       Pieces[(int)PieceType.WhiteRook - 1] | 
-                       Pieces[(int)PieceType.WhiteKnight - 1] | 
-                       Pieces[(int)PieceType.WhiteBishop - 1] | 
-                       Pieces[(int)PieceType.WhiteQueen - 1] | 
-                       Pieces[(int)PieceType.WhiteKing - 1];
-            }
-        }
-
-        public ulong BlackOccupancy
-        {
-            get
-            {
-                return Pieces[(int)PieceType.BlackPawn - 1] |
-                       Pieces[(int)PieceType.BlackRook - 1] |
-                       Pieces[(int)PieceType.BlackKnight - 1] |
-                       Pieces[(int)PieceType.BlackBishop - 1] |
-                       Pieces[(int)PieceType.BlackQueen - 1] |
-                       Pieces[(int)PieceType.BlackKing - 1];
-            }
-        }
+        public ulong Occupancy;
+        public ulong WhiteOccupancy;
+        public ulong BlackOccupancy;
 
         public BitBoard()
         {
             Pieces = new ulong[12];
+            PieceMoves = new ulong[12];
 
             Clear();
+        }
+
+        public void Calculate()
+        {
+            CalculateOccupancy();
         }
 
         public void SyncWithFriendlyBoard(FriendlyBoard friendlyBoard)
@@ -111,6 +88,26 @@ namespace Core.Boards
             {
                 Pieces[i] = 0;
             }
+        }
+
+        void CalculateOccupancy()
+        {
+            WhiteOccupancy = Pieces[(int)PieceType.WhitePawn - 1] |
+                             Pieces[(int)PieceType.WhiteRook - 1] |
+                             Pieces[(int)PieceType.WhiteKnight - 1] |
+                             Pieces[(int)PieceType.WhiteBishop - 1] |
+                             Pieces[(int)PieceType.WhiteQueen - 1] |
+                             Pieces[(int)PieceType.WhiteKing - 1];
+
+
+            BlackOccupancy = Pieces[(int)PieceType.BlackPawn - 1] |
+                             Pieces[(int)PieceType.BlackRook - 1] |
+                             Pieces[(int)PieceType.BlackKnight - 1] |
+                             Pieces[(int)PieceType.BlackBishop - 1] |
+                             Pieces[(int)PieceType.BlackQueen - 1] |
+                             Pieces[(int)PieceType.BlackKing - 1];
+
+            Occupancy = WhiteOccupancy | BlackOccupancy;
         }
     }
 }
