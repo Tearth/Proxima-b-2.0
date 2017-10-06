@@ -53,7 +53,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
 
             if(color == "all")
             {
-                occupancyArray = _bitBoard.GetOccupancy();
+                occupancyArray = _bitBoard.GetFriendlyOccupancy();
             }
             else
             {
@@ -66,7 +66,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
                     return;
                 }
 
-                occupancyArray = _bitBoard.GetOccupancy(colorType);
+                occupancyArray = _bitBoard.GetFriendlyOccupancy(colorType);
             }
 
             _board.AddExternalSelections(occupancyArray);

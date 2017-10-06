@@ -4,45 +4,45 @@ namespace Core.Boards
 {
     public class BitBoard
     {
-        ulong[] _pieces;
+        public ulong[] Pieces;
 
-        ulong _occupancy
+        public ulong Occupancy
         {
             get
             {
-                return _whiteOccupancy | _blackOccupancy;
+                return WhiteOccupancy | BlackOccupancy;
             }
         }
 
-        ulong _whiteOccupancy
+        public ulong WhiteOccupancy
         {
             get
             {
-                return _pieces[(int)PieceType.WhitePawn - 1] | 
-                       _pieces[(int)PieceType.WhiteRook - 1] | 
-                       _pieces[(int)PieceType.WhiteKnight - 1] | 
-                       _pieces[(int)PieceType.WhiteBishop - 1] | 
-                       _pieces[(int)PieceType.WhiteQueen - 1] | 
-                       _pieces[(int)PieceType.WhiteKing - 1];
+                return Pieces[(int)PieceType.WhitePawn - 1] | 
+                       Pieces[(int)PieceType.WhiteRook - 1] | 
+                       Pieces[(int)PieceType.WhiteKnight - 1] | 
+                       Pieces[(int)PieceType.WhiteBishop - 1] | 
+                       Pieces[(int)PieceType.WhiteQueen - 1] | 
+                       Pieces[(int)PieceType.WhiteKing - 1];
             }
         }
 
-        ulong _blackOccupancy
+        public ulong BlackOccupancy
         {
             get
             {
-                return _pieces[(int)PieceType.BlackPawn - 1] |
-                       _pieces[(int)PieceType.BlackRook - 1] |
-                       _pieces[(int)PieceType.BlackKnight - 1] |
-                       _pieces[(int)PieceType.BlackBishop - 1] |
-                       _pieces[(int)PieceType.BlackQueen - 1] |
-                       _pieces[(int)PieceType.BlackKing - 1];
+                return Pieces[(int)PieceType.BlackPawn - 1] |
+                       Pieces[(int)PieceType.BlackRook - 1] |
+                       Pieces[(int)PieceType.BlackKnight - 1] |
+                       Pieces[(int)PieceType.BlackBishop - 1] |
+                       Pieces[(int)PieceType.BlackQueen - 1] |
+                       Pieces[(int)PieceType.BlackKing - 1];
             }
         }
 
         public BitBoard()
         {
-            _pieces = new ulong[12];
+            Pieces = new ulong[12];
 
             Clear();
         }
@@ -61,7 +61,7 @@ namespace Core.Boards
                     if(piece != PieceType.None)
                     {
                         var bitPosition = BitPositionConverter.ToULong(position);
-                        _pieces[(int)piece - 1] |= bitPosition;
+                        Pieces[(int)piece - 1] |= bitPosition;
                     }
                 }
             }
@@ -73,7 +73,7 @@ namespace Core.Boards
 
             for (int i=0; i<12; i++)
             {
-                var pieceArray = _pieces[i];
+                var pieceArray = Pieces[i];
 
                 while(pieceArray != 0)
                 {
@@ -89,27 +89,27 @@ namespace Core.Boards
             return friendlyBoard;
         }
 
-        public bool[,] GetOccupancy()
+        public bool[,] GetFriendlyOccupancy()
         {
-            return BitPositionConverter.ToBoolArray(_occupancy);
+            return BitPositionConverter.ToBoolArray(Occupancy);
         }
 
-        public bool[,] GetOccupancy(Color color)
+        public bool[,] GetFriendlyOccupancy(Color color)
         {
             switch(color)
             {
-                case Color.White: return BitPositionConverter.ToBoolArray(_whiteOccupancy);
-                case Color.Black: return BitPositionConverter.ToBoolArray(_blackOccupancy);
+                case Color.White: return BitPositionConverter.ToBoolArray(WhiteOccupancy);
+                case Color.Black: return BitPositionConverter.ToBoolArray(BlackOccupancy);
             }
 
             return null;
         }
 
-        void Clear()
+        public void Clear()
         {
-            for (int i = 0; i < _pieces.Length; i++)
+            for (int i = 0; i < Pieces.Length; i++)
             {
-                _pieces[i] = 0;
+                Pieces[i] = 0;
             }
         }
     }
