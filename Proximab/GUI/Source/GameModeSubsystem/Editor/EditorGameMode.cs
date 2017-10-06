@@ -51,7 +51,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
             var color = command.GetArgument<string>(0);
             var occupancyArray = new bool[8, 8];
 
-            if(color == "all" || color == "any")
+            if(color == "all")
             {
                 occupancyArray = _bitBoard.GetOccupancy();
             }
@@ -69,20 +69,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
                 occupancyArray = _bitBoard.GetOccupancy(colorType);
             }
 
-            var selections = new List<Position>();
-
-            for(int x=0; x<8; x++)
-            {
-                for(int y=0; y<8; y++)
-                {
-                    if (!occupancyArray[x, y])
-                        continue;
-                    
-                    selections.Add(new Position(x + 1, y + 1));
-                }
-            }
-
-            _board.AddExternalSelections(selections);
+            _board.AddExternalSelections(occupancyArray);
         }
     }
 }

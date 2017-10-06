@@ -114,6 +114,24 @@ namespace GUI.Source.BoardSubsystem
             _selectionsManager.AddExternalSelections(selections);
         }
 
+        public void AddExternalSelections(bool[,] boolArray)
+        {
+            var selections = new List<Position>();
+
+            for (int x = 0; x < 8; x++)
+            {
+                for (int y = 0; y < 8; y++)
+                {
+                    if (!boolArray[x, y])
+                        continue;
+
+                    selections.Add(new Position(x + 1, y + 1));
+                }
+            }
+
+            _selectionsManager.AddExternalSelections(selections);
+        }
+
         void ProcessLeftButtonPressWithPreviousSelection(Selection previousSelection, Position selectedPosition, PieceType selectedPieceType)
         {
             var previousSelectedPiece = _friendlyBoard.GetPiece(previousSelection.Position);
