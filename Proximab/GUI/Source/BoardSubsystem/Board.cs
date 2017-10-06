@@ -109,7 +109,7 @@ namespace GUI.Source.BoardSubsystem
             _friendlyBoard.SetPiece(from, PieceType.None);
         }
 
-        public void AddExternalSelections(IEnumerable<Position> selections)
+        public void AddExternalSelections(List<Position> selections)
         {
             _selectionsManager.AddExternalSelections(selections);
         }

@@ -38,6 +38,14 @@
           <Item>string</Item>
         </Arguments>
       </Item>
+
+      <Item>
+        <Name>Occupancy</Name>
+        <EnumType>Occupancy</EnumType>
+        <Arguments>
+          <Item>string</Item>
+        </Arguments>
+      </Item>
 		</Definitions>
 	</Asset>
 </XnaContent>

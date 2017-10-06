@@ -1,6 +1,11 @@
 ﻿using Core.Boards;
+using Core.Commons;
 using GUI.Source.BoardSubsystem;
+using GUI.Source.BoardSubsystem.Selections;
 using GUI.Source.ConsoleSubsystem;
+using GUI.Source.ConsoleSubsystem.Parser;
+using System;
+using System.Collections.Generic;
 
 namespace GUI.Source.GameModeSubsystem.Editor
 {
@@ -19,7 +24,12 @@ namespace GUI.Source.GameModeSubsystem.Editor
 
         void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
         {
+            var command = e.Command;
 
+            switch(command.Type)
+            {
+                case CommandType.Occupancy: { DrawOccupancy(command); break; }
+            }
         }
 
         void Board_OnFieldSelection(object sender, FieldSelectedEventArgs e)
@@ -34,6 +44,45 @@ namespace GUI.Source.GameModeSubsystem.Editor
             _bitBoard.SyncWithFriendlyBoard(_board.GetFriendlyBoard());
 
             _board.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
+        }
+
+        void DrawOccupancy(Command command)
+        {
+            var color = command.GetArgument<string>(0);
+            var occupancyArray = new bool[8, 8];
+
+            if(color == "all" || color == "any")
+            {
+                occupancyArray = _bitBoard.GetOccupancy();
+            }
+            else
+            {
+                var colorType = Color.None;
+                var colorTypeParseResult = Enum.TryParse(color, true, out colorType);
+
+                if(!colorTypeParseResult)
+                {
+                    _consoleManager.WriteLine($"$rInvalid color parameter ($R{color}$r)");
+                    return;
+                }
+
+                occupancyArray = _bitBoard.GetOccupancy(colorType);
+            }
+
+            var selections = new List<Position>();
+
+            for(int x=0; x<8; x++)
+            {
+                for(int y=0; y<8; y++)
+                {
+                    if (!occupancyArray[x, y])
+                        continue;
+                    
+                    selections.Add(new Position(x + 1, y + 1));
+                }
+            }
+
+            _board.AddExternalSelections(selections);
         }
     }
 }

@@ -8,6 +8,7 @@
         Colors,
         SaveBoard,
         LoadBoard,
-        AddPiece
+        AddPiece,
+        Occupancy
     }
 }
