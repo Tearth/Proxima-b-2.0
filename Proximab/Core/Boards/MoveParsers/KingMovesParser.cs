@@ -34,13 +34,16 @@ namespace Core.Boards.MoveParsers
                 while (pattern != 0)
                 {
                     var patternLSB = BitOperations.GetLSB(ref pattern);
+                    var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
                     var from = BitPositionConverter.ToPosition(pieceLSB);
                     var to = BitPositionConverter.ToPosition(patternLSB);
                     var moveType = GetMoveType(patternLSB, enemyOccupation);
 
-                    var move = new Move(from, to, moveType);
+                    var move = new Move(from, to, color, moveType);
                     moves.Add(move);
+
+                    _bitBoard.Attacks[(int)color, patternIndex] |= pieceLSB;
                 }
             }
 

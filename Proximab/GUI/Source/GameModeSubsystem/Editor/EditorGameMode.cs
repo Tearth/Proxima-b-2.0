@@ -36,7 +36,12 @@ namespace GUI.Source.GameModeSubsystem.Editor
 
         void Board_OnFieldSelection(object sender, FieldSelectedEventArgs e)
         {
-            if(e.Piece.Type != PieceType.None)
+            if(e.Piece.Type == PieceType.None)
+            {
+                var fieldAttackers = _bitBoard.GetFieldAttackers(e.Position);
+                _board.AddExternalSelections(fieldAttackers);
+            }
+            else
             {
                 var availableMoves = _bitBoard.GetAvailableMoves(e.Piece.Color);
 
@@ -46,7 +51,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
                     .ToList();
 
                 _board.AddExternalSelections(movesForPiece);
-            }  
+            }
         }
 
         void Board_OnPieceMove(object sender, PieceMovedEventArgs e)

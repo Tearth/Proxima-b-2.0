@@ -18,7 +18,7 @@ namespace GUI
         FPSCounter _fpsCounter;
 
         GameModeBase _gameMode;
-        
+
         public GUICore(ConsoleManager consoleManager)
         {
             _consoleManager = consoleManager;

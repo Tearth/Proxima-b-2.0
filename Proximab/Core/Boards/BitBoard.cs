@@ -4,6 +4,7 @@ using Core.Commons.Colors;
 using Core.Commons.Moves;
 using Core.Commons.Positions;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.Boards
 {
@@ -11,6 +12,9 @@ namespace Core.Boards
     {
         public ulong[,] Pieces { get; set; }
         public ulong[] Occupancy { get; set; }
+        public ulong[,] Attacks { get; set; }
+
+        List<Move> _moves;
 
         KnightMovesParser _knightMovesParser;
         KingMovesParser _kingMovesParser;
@@ -19,11 +23,20 @@ namespace Core.Boards
         {
             Pieces = new ulong[2, 6];
             Occupancy = new ulong[2];
+            Attacks = new ulong[2, 64];
+
+            _moves = new List<Move>();
 
             _knightMovesParser = new KnightMovesParser(this);
             _kingMovesParser = new KingMovesParser(this);
 
             Clear();
+        }
+
+        public void Calculate()
+        {
+            CalculateOccupancy();
+            CalculateMoves();
         }
 
         public void SyncWithFriendlyBoard(FriendlyBoard friendlyBoard)
@@ -45,7 +58,7 @@ namespace Core.Boards
                 }
             }
 
-            CalculateOccupancy();
+            Calculate();
         }
 
         public FriendlyBoard GetFriendlyBoard()
@@ -82,13 +95,25 @@ namespace Core.Boards
             return BitPositionConverter.ToBoolArray(Occupancy[(int)color]);
         }
 
+        public bool[,] GetFieldAttackers(Position position)
+        {
+            var bitIndex = BitPositionConverter.ToBitIndex(position);
+            var array = Attacks[(int)Color.White, bitIndex] | Attacks[(int)Color.Black, bitIndex];
+
+            return BitPositionConverter.ToBoolArray(array);
+        }
+
+        public bool[,] GetFieldAttackers(Position position, Color color)
+        {
+            var bitIndex = BitPositionConverter.ToBitIndex(position);
+            var array = Attacks[(int)color, bitIndex];
+
+            return BitPositionConverter.ToBoolArray(array);
+        }
+
         public List<Move> GetAvailableMoves(Color color)
         {
-            var availableMoves = new List<Move>();
-            availableMoves.AddRange(_knightMovesParser.GetMoves(color));
-            availableMoves.AddRange(_kingMovesParser.GetMoves(color));
-
-            return availableMoves;
+            return _moves.Where(p => p.Color == color).ToList();
         }
 
         public void Clear()
@@ -118,6 +143,18 @@ namespace Core.Boards
                                           Pieces[(int)Color.Black, (int)PieceType.Bishop] |
                                           Pieces[(int)Color.Black, (int)PieceType.Queen] |
                                           Pieces[(int)Color.Black, (int)PieceType.King];
+        }
+
+        void CalculateMoves()
+        {
+            CalculateMoves(Color.White);
+            CalculateMoves(Color.Black);
+        }
+
+        void CalculateMoves(Color color)
+        {
+            _moves.AddRange(_knightMovesParser.GetMoves(color));
+            _moves.AddRange(_kingMovesParser.GetMoves(color));
         }
     }
 }
