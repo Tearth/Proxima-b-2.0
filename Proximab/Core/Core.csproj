@@ -46,6 +46,7 @@
     <Compile Include="Boards\BitPositionConverter.cs" />
     <Compile Include="Boards\FriendlyBoard.cs" />
     <Compile Include="Boards\MoveGenerators\KingMovesGenerator.cs" />
+    <Compile Include="Boards\MoveParsers\KingMovesParser.cs" />
     <Compile Include="Boards\MoveParsers\KnightMovesParser.cs" />
     <Compile Include="Commons\Colors\Color.cs" />
     <Compile Include="Commons\Colors\ColorOperations.cs" />

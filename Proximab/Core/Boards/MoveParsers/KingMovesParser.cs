@@ -6,11 +6,11 @@ using System.Collections.Generic;
 
 namespace Core.Boards.MoveParsers
 {
-    public class KnightMovesParser
+    public class KingMovesParser
     {
         BitBoard _bitBoard;
 
-        public KnightMovesParser(BitBoard bitBoard)
+        public KingMovesParser(BitBoard bitBoard)
         {
             _bitBoard = bitBoard;
         }
@@ -29,9 +29,9 @@ namespace Core.Boards.MoveParsers
                 var pieceLSB = BitOperations.GetLSB(ref pieces);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
-                var pattern = PredefinedMoves.Knight[pieceIndex] & ~_bitBoard.Occupancy[(int)color];
+                var pattern = PredefinedMoves.King[pieceIndex] & ~_bitBoard.Occupancy[(int)color];
 
-                while(pattern != 0)
+                while (pattern != 0)
                 {
                     var patternLSB = BitOperations.GetLSB(ref pattern);
 
@@ -50,11 +50,11 @@ namespace Core.Boards.MoveParsers
         {
             if (color == Color.White)
             {
-                return _bitBoard.Pieces[(int)PieceType.WhiteKnight];
+                return _bitBoard.Pieces[(int)PieceType.WhiteKing];
             }
             else
             {
-                return _bitBoard.Pieces[(int)PieceType.BlackKnight];
+                return _bitBoard.Pieces[(int)PieceType.BlackKing];
             }
         }
     }
