@@ -1,6 +1,6 @@
 ﻿using Core.Commons.Exceptions;
 
-namespace Core.Commons
+namespace Core.Commons.Positions
 {
     public class Position
     {

@@ -1,4 +1,4 @@
-﻿namespace Core.Commons
+﻿namespace Core.Commons.Positions
 {
     public static class PositionConverter
     {

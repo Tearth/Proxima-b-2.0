@@ -1,4 +1,5 @@
 ﻿using Core.Commons;
+using Core.Commons.Positions;
 
 namespace GUI.Source.BoardSubsystem
 {

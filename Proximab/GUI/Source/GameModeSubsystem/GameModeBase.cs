@@ -1,4 +1,5 @@
 ﻿using Core.Commons;
+using Core.Commons.Positions;
 using GUI.Source.BoardSubsystem;
 using GUI.Source.BoardSubsystem.Persistence;
 using GUI.Source.ConsoleSubsystem;

@@ -1,4 +1,4 @@
-﻿using Core.Commons;
+﻿using Core.Commons.Positions;
 using System;
 
 namespace Core.Boards

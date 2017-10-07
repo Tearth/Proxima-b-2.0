@@ -1,5 +1,6 @@
 ﻿using Core.Boards;
 using Core.Commons;
+using Core.Commons.Positions;
 using System.IO;
 
 namespace GUI.Source.BoardSubsystem.Persistence

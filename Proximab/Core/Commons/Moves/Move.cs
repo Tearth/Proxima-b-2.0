@@ -1,4 +1,6 @@
-﻿namespace Core.Commons
+﻿using Core.Commons.Positions;
+
+namespace Core.Commons.Moves
 {
     public class Move
     {
