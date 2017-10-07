@@ -167,6 +167,7 @@
     <Content Include="Content\Textures\WhiteRook.png" />
     <Content Include="Content\XML\ColorDefinitions.xml" />
     <Content Include="Content\XML\CommandDefinitions.xml" />
+    <Content Include="Content\XML\PieceDefinitions.xml" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

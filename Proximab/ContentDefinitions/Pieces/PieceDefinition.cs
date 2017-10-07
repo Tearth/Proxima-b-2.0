@@ -2,7 +2,8 @@
 {
     public class PieceDefinition
     {
-        public string EnumTypeValue { get; set; }
+        public string PieceTypeValue { get; set; }
+        public string ColorTypeValue { get; set; }
         public string TexturePath { get; set; }
     }
 }

@@ -36,10 +36,9 @@ namespace GUI.Source.GameModeSubsystem.Editor
 
         void Board_OnFieldSelection(object sender, FieldSelectedEventArgs e)
         {
-            if(e.PieceType != PieceType.None)
+            if(e.Piece.Type != PieceType.None)
             {
-                var pieceColor = ColorOperations.GetPieceColor(e.PieceType);
-                var availableMoves = _bitBoard.GetAvailableMoves(pieceColor);
+                var availableMoves = _bitBoard.GetAvailableMoves(e.Piece.Color);
 
                 var movesForPiece = availableMoves
                     .Where(p => p.From == e.Position)

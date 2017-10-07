@@ -1,5 +1,7 @@
 ﻿using ContentDefinitions.Pieces;
+using Core.Boards;
 using Core.Commons;
+using Core.Commons.Colors;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,11 +11,11 @@ namespace GUI.Source.BoardSubsystem.Pieces
 {
     internal class PiecesProvider
     {
-        Dictionary<PieceType, Texture2D> _pieceTextures;
+        Dictionary<int, Texture2D> _pieceTextures;
 
         public PiecesProvider()
         {
-            _pieceTextures = new Dictionary<PieceType, Texture2D>();
+            _pieceTextures = new Dictionary<int, Texture2D>();
         }
 
         public void LoadContent(ContentManager contentManager)
@@ -22,16 +24,24 @@ namespace GUI.Source.BoardSubsystem.Pieces
 
             foreach(var pieceDefinition in pieceDefinitionsContainer.Definitions)
             {
-                var pieceType = (PieceType)Enum.Parse(typeof(PieceType), pieceDefinition.EnumTypeValue);
+                var piece = (PieceType)Enum.Parse(typeof(PieceType), pieceDefinition.PieceTypeValue);
+                var color = (Color)Enum.Parse(typeof(Color), pieceDefinition.ColorTypeValue);
                 var pieceTexture = contentManager.Load<Texture2D>(pieceDefinition.TexturePath);
 
-                _pieceTextures.Add(pieceType, pieceTexture);
+                var hash = GetFriendlyPieceHash(new FriendlyPiece(piece, color));
+                _pieceTextures.Add(hash, pieceTexture);
             }
         }
 
-        public Texture2D GetPieceTexture(PieceType pieceType)
+        public Texture2D GetPieceTexture(FriendlyPiece piece)
         {
-            return _pieceTextures[pieceType];
+            var hash = GetFriendlyPieceHash(piece);
+            return _pieceTextures[hash];
+        }
+
+        int GetFriendlyPieceHash(FriendlyPiece piece)
+        {
+            return ((int)piece.Color * 100) + (int)piece.Type;
         }
     }
 }

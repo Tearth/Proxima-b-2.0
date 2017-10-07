@@ -6,7 +6,6 @@ using GUI.Source.BoardSubsystem.Pieces;
 using GUI.Source.BoardSubsystem.Selections;
 using GUI.Source.Helpers;
 using GUI.Source.InputSubsystem;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -97,9 +96,9 @@ namespace GUI.Source.BoardSubsystem
             _friendlyBoard = friendlyBoard;
         }
 
-        public void AddPiece(Position position, PieceType pieceType)
+        public void AddPiece(Position position, FriendlyPiece piece)
         {
-            _friendlyBoard.SetPiece(position, pieceType);
+            _friendlyBoard.SetPiece(position, piece);
         }
 
         public void MovePiece(Position from, Position to)
@@ -107,7 +106,7 @@ namespace GUI.Source.BoardSubsystem
             var piece = _friendlyBoard.GetPiece(from);
 
             _friendlyBoard.SetPiece(to, piece);
-            _friendlyBoard.SetPiece(from, PieceType.None);
+            _friendlyBoard.SetPiece(from, new FriendlyPiece());
         }
 
         public void AddExternalSelections(List<Position> selections)
@@ -133,15 +132,15 @@ namespace GUI.Source.BoardSubsystem
             _selectionsManager.AddExternalSelections(selections);
         }
 
-        void ProcessLeftButtonPressWithPreviousSelection(Selection previousSelection, Position selectedPosition, PieceType selectedPieceType)
+        void ProcessLeftButtonPressWithPreviousSelection(Selection previousSelection, Position selectedPosition, FriendlyPiece selectedPieceType)
         {
             var previousSelectedPiece = _friendlyBoard.GetPiece(previousSelection.Position);
 
-            if(previousSelectedPiece == PieceType.None)
+            if(previousSelectedPiece.Type == PieceType.None)
             {
                 OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(selectedPosition, selectedPieceType));
             }
-            else if (previousSelectedPiece != PieceType.None && selectedPieceType == PieceType.None)
+            else if (previousSelectedPiece.Type != PieceType.None && selectedPieceType.Type == PieceType.None)
             {
                 var from = previousSelection.Position;
                 var to = selectedPosition;
@@ -152,7 +151,7 @@ namespace GUI.Source.BoardSubsystem
             }
         }
 
-        void ProcessLeftButtonPressWithoutPreviousSelection(Position selectedPosition, PieceType selectedPieceType)
+        void ProcessLeftButtonPressWithoutPreviousSelection(Position selectedPosition, FriendlyPiece selectedPieceType)
         {
             OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(selectedPosition, selectedPieceType));
         }
@@ -165,7 +164,7 @@ namespace GUI.Source.BoardSubsystem
             {
                 for (int y = 0; y < 8; y++)
                 {
-                    var position = new Vector2(x, y) * Constants.FieldWidthHeight;
+                    var position = new Microsoft.Xna.Framework.Vector2(x, y) * Constants.FieldWidthHeight;
                     var texture = fieldInversion ? _field1 : _field2;
 
                     spriteBatch.Draw(texture, position + Constants.BoardPosition, Constants.FieldSize, Microsoft.Xna.Framework.Color.White);
@@ -185,10 +184,10 @@ namespace GUI.Source.BoardSubsystem
                     var boardPosition = new Position(x, y);
                     var piece = _friendlyBoard.GetPiece(boardPosition);
 
-                    if (piece == PieceType.None)
+                    if (piece.Type == PieceType.None)
                         continue;
 
-                    var position = new Vector2(boardPosition.X - 1, 8 - boardPosition.Y) * Constants.FieldWidthHeight;
+                    var position = new Microsoft.Xna.Framework.Vector2(boardPosition.X - 1, 8 - boardPosition.Y) * Constants.FieldWidthHeight;
                     var texture = _piecesProvider.GetPieceTexture(piece);
 
                     spriteBatch.Draw(texture, position + Constants.BoardPosition, Constants.FieldSize, Microsoft.Xna.Framework.Color.White);

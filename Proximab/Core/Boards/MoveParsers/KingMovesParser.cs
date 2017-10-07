@@ -22,7 +22,7 @@ namespace Core.Boards.MoveParsers
             var friendlyOccupation = _bitBoard.Occupancy[(int)color];
             var enemyOccupation = _bitBoard.Occupancy[(int)ColorOperations.Invert(color)];
 
-            var pieces = GetPieces(color);
+            var pieces = _bitBoard.Pieces[(int)color, (int)PieceType.King];
 
             while (pieces != 0)
             {
@@ -45,18 +45,6 @@ namespace Core.Boards.MoveParsers
             }
 
             return moves;
-        }
-
-        ulong GetPieces(Color color)
-        {
-            if (color == Color.White)
-            {
-                return _bitBoard.Pieces[(int)PieceType.WhiteKing];
-            }
-            else
-            {
-                return _bitBoard.Pieces[(int)PieceType.BlackKing];
-            }
         }
 
         MoveType GetMoveType(ulong patternLSB, ulong enemyOccupation)

@@ -36,6 +36,7 @@
         <Arguments>
           <Item>string</Item>
           <Item>string</Item>
+          <Item>string</Item>
         </Arguments>
       </Item>
 

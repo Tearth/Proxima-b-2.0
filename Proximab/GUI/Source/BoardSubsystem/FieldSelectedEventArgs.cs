@@ -1,4 +1,5 @@
-﻿using Core.Commons;
+﻿using Core.Boards;
+using Core.Commons;
 using Core.Commons.Positions;
 using System;
 
@@ -7,12 +8,12 @@ namespace GUI.Source.BoardSubsystem
     internal class FieldSelectedEventArgs : EventArgs
     {
         public Position Position { get; set; }
-        public PieceType PieceType { get; set; }
+        public FriendlyPiece Piece { get; set; }
 
-        public FieldSelectedEventArgs(Position position, PieceType pieceType)
+        public FieldSelectedEventArgs(Position position, FriendlyPiece piece)
         {
             Position = position;
-            PieceType = pieceType;
+            Piece = piece;
         }
     }
 }

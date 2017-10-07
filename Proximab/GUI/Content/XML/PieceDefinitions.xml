@@ -3,51 +3,63 @@
 	<Asset Type="ContentDefinitions.Pieces.PieceDefinitionsContainer">
 		<Definitions>
 			<Item>
-				<EnumTypeValue>WhitePawn</EnumTypeValue>
+				<PieceTypeValue>Pawn</PieceTypeValue>
+        <ColorTypeValue>White</ColorTypeValue>
 				<TexturePath>Textures\WhitePawn</TexturePath>
 			</Item>
 			<Item>
-				<EnumTypeValue>BlackPawn</EnumTypeValue>
+				<PieceTypeValue>Pawn</PieceTypeValue>
+        <ColorTypeValue>Black</ColorTypeValue>
 				<TexturePath>Textures\BlackPawn</TexturePath>
 			</Item>
 			<Item>
-				<EnumTypeValue>WhiteRook</EnumTypeValue>
+				<PieceTypeValue>Rook</PieceTypeValue>
+        <ColorTypeValue>White</ColorTypeValue>
 				<TexturePath>Textures\WhiteRook</TexturePath>
 			</Item>
 			<Item>
-				<EnumTypeValue>BlackRook</EnumTypeValue>
+				<PieceTypeValue>Rook</PieceTypeValue>
+        <ColorTypeValue>Black</ColorTypeValue>
 				<TexturePath>Textures\BlackRook</TexturePath>
 			</Item>
 			<Item>
-				<EnumTypeValue>WhiteKnight</EnumTypeValue>
+				<PieceTypeValue>Knight</PieceTypeValue>
+        <ColorTypeValue>White</ColorTypeValue>
 				<TexturePath>Textures\WhiteKnight</TexturePath>
 			</Item>
 			<Item>
-				<EnumTypeValue>BlackKnight</EnumTypeValue>
+				<PieceTypeValue>Knight</PieceTypeValue>
+        <ColorTypeValue>Black</ColorTypeValue>
 				<TexturePath>Textures\BlackKnight</TexturePath>
 			</Item>
 			<Item>
-				<EnumTypeValue>WhiteBishop</EnumTypeValue>
+				<PieceTypeValue>Bishop</PieceTypeValue>
+        <ColorTypeValue>White</ColorTypeValue>
 				<TexturePath>Textures\WhiteBishop</TexturePath>
 			</Item>
 			<Item>
-				<EnumTypeValue>BlackBishop</EnumTypeValue>
+				<PieceTypeValue>Bishop</PieceTypeValue>
+        <ColorTypeValue>Black</ColorTypeValue>
 				<TexturePath>Textures\BlackBishop</TexturePath>
 			</Item>
 			<Item>
-				<EnumTypeValue>WhiteQueen</EnumTypeValue>
+				<PieceTypeValue>Queen</PieceTypeValue>
+        <ColorTypeValue>White</ColorTypeValue>
 				<TexturePath>Textures\WhiteQueen</TexturePath>
 			</Item>
 			<Item>
-				<EnumTypeValue>BlackQueen</EnumTypeValue>
+				<PieceTypeValue>Queen</PieceTypeValue>
+        <ColorTypeValue>Black</ColorTypeValue>
 				<TexturePath>Textures\BlackQueen</TexturePath>
 			</Item>
 			<Item>
-				<EnumTypeValue>WhiteKing</EnumTypeValue>
+				<PieceTypeValue>King</PieceTypeValue>
+        <ColorTypeValue>White</ColorTypeValue>
 				<TexturePath>Textures\WhiteKing</TexturePath>
 			</Item>
 			<Item>
-				<EnumTypeValue>BlackKing</EnumTypeValue>
+				<PieceTypeValue>King</PieceTypeValue>
+        <ColorTypeValue>Black</ColorTypeValue>
 				<TexturePath>Textures\BlackKing</TexturePath>
 			</Item>
 		</Definitions>

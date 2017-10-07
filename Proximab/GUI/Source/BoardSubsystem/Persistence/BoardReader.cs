@@ -1,5 +1,6 @@
 ﻿using Core.Boards;
 using Core.Commons;
+using Core.Commons.Colors;
 using Core.Commons.Positions;
 using System;
 using System.IO;
@@ -31,11 +32,14 @@ namespace GUI.Source.BoardSubsystem.Persistence
 
                     for(int x = 0; x < 8; x++)
                     {
-                        var pieceNumber = Int32.Parse(splittedLine[x]);
-                        var pieceType = (PieceType)pieceNumber;
+                        if (splittedLine[x] == "0")
+                            continue;
+
+                        var color = (Color)Int32.Parse(splittedLine[x][0].ToString());
+                        var piece = (PieceType)Int32.Parse(splittedLine[x][1].ToString());
 
                         var position = new Position(x + 1, 8 - y);
-                        friendlyBoard.SetPiece(position, pieceType);
+                        friendlyBoard.SetPiece(position, new FriendlyPiece(piece, color));
                     }
                 }
             }

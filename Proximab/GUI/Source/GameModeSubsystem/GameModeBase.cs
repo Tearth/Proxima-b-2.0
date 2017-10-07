@@ -1,4 +1,6 @@
-﻿using Core.Commons;
+﻿using Core.Boards;
+using Core.Commons;
+using Core.Commons.Colors;
 using Core.Commons.Positions;
 using GUI.Source.BoardSubsystem;
 using GUI.Source.BoardSubsystem.Persistence;
@@ -81,27 +83,32 @@ namespace GUI.Source.GameModeSubsystem
 
         void AddPiece(Command command)
         {
-            var piece = command.GetArgument<string>(0);
-            var field = command.GetArgument<string>(1);
+            var colorArgument = command.GetArgument<string>(0);
+            var pieceArgument = command.GetArgument<string>(1);
+            var fieldArgument = command.GetArgument<string>(2);
 
-            var pieceType = PieceType.None;
-            var pieceTypeParseResult = Enum.TryParse(piece, true, out pieceType);
+            var colorParseResult = Enum.TryParse(colorArgument, true, out Color color);
+            if (!colorParseResult)
+            {
+                _consoleManager.WriteLine($"$rInvalid color type ($R{color}$r)");
+                return;
+            }
 
-            if(!pieceTypeParseResult)
+            var pieceParseResult = Enum.TryParse(pieceArgument, true, out PieceType piece);
+            if(!pieceParseResult)
             {
                 _consoleManager.WriteLine($"$rInvalid piece type ($R{piece}$r)");
                 return;
             }
 
-            var fieldPosition = PositionConverter.ToPosition(field);
-
+            var fieldPosition = PositionConverter.ToPosition(fieldArgument);
             if (fieldPosition == null)
             {
-                _consoleManager.WriteLine($"$rInvalid field ($R{field}$r)");
+                _consoleManager.WriteLine($"$rInvalid field ($R{fieldArgument}$r)");
                 return;
             }
 
-            _board.AddPiece(fieldPosition, pieceType);
+            _board.AddPiece(fieldPosition, new FriendlyPiece(piece, color));
         }
     }
 }
