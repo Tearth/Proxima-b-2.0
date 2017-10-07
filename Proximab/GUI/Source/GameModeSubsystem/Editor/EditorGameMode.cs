@@ -7,6 +7,7 @@ using GUI.Source.ConsoleSubsystem;
 using GUI.Source.ConsoleSubsystem.Parser;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GUI.Source.GameModeSubsystem.Editor
 {
@@ -18,7 +19,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
         {
             _bitBoard = new BitBoard();
 
-            consoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
+            _consoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
             _board.OnFieldSelection += Board_OnFieldSelection;
             _board.OnPieceMove += Board_OnPieceMove;
         }
@@ -35,7 +36,18 @@ namespace GUI.Source.GameModeSubsystem.Editor
 
         void Board_OnFieldSelection(object sender, FieldSelectedEventArgs e)
         {
-            var test = _bitBoard.GetAvailableMoves(Color.White);
+            if(e.PieceType != PieceType.None)
+            {
+                var pieceColor = ColorOperations.GetPieceColor(e.PieceType);
+                var availableMoves = _bitBoard.GetAvailableMoves(pieceColor);
+
+                var movesForPiece = availableMoves
+                    .Where(p => p.From == e.Position)
+                    .Select(p => p.To)
+                    .ToList();
+
+                _board.AddExternalSelections(movesForPiece);
+            }  
         }
 
         void Board_OnPieceMove(object sender, PieceMovedEventArgs e)

@@ -25,5 +25,31 @@ namespace Core.Commons.Positions
         {
             return (X >= 1 && X <= 8) && (Y >= 1 && Y <= 8);
         }
+
+        public static bool operator ==(Position a, Position b)
+        {
+            return (a.X == b.X) && (a.Y == b.Y);
+        }
+
+        public static bool operator !=(Position a, Position b)
+        {
+            return (a.X != b.X) || (a.Y != b.Y);
+        }
+
+        public override bool Equals(object obj)
+        {
+            var position = obj as Position;
+            return position != null &&
+                   X == position.X &&
+                   Y == position.Y;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 1861411795;
+            hashCode = hashCode * -1521134295 + X.GetHashCode();
+            hashCode = hashCode * -1521134295 + Y.GetHashCode();
+            return hashCode;
+        }
     }
 }
