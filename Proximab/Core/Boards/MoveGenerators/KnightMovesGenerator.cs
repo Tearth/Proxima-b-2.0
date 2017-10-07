@@ -23,14 +23,14 @@
 
         ulong GetPattern(ulong field)
         {
-            return ((field & ~BitConstants.ALine) << 17) |          
-                   ((field & ~BitConstants.HLine) << 15) |        
-                   ((field & ~BitConstants.ALine & ~BitConstants.BLine) << 10) |        
-                   ((field & ~BitConstants.GLine & ~BitConstants.HLine) << 6) |          
-                   ((field & ~BitConstants.ALine & ~BitConstants.BLine) >> 6) |      
-                   ((field & ~BitConstants.GLine & ~BitConstants.HLine) >> 10) |       
-                   ((field & ~BitConstants.ALine) >> 15) |       
-                   ((field & ~BitConstants.HLine) >> 17);
+            return ((field & ~BitConstants.AFile) << 17) |          
+                   ((field & ~BitConstants.HFile) << 15) |        
+                   ((field & ~BitConstants.AFile & ~BitConstants.BFile) << 10) |        
+                   ((field & ~BitConstants.GFile & ~BitConstants.HFile) << 6) |          
+                   ((field & ~BitConstants.AFile & ~BitConstants.BFile) >> 6) |      
+                   ((field & ~BitConstants.GFile & ~BitConstants.HFile) >> 10) |       
+                   ((field & ~BitConstants.AFile) >> 15) |       
+                   ((field & ~BitConstants.HFile) >> 17);
         }
     }
 }
