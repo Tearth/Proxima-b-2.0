@@ -29,8 +29,29 @@ namespace Core.Boards
 
             _knightMovesParser = new KnightMovesParser(this);
             _kingMovesParser = new KingMovesParser(this);
+        }
 
-            Clear();
+        public BitBoard(BitBoard bitBoard) : this()
+        {
+            Pieces = bitBoard.Pieces;
+        }
+
+        public BitBoard(FriendlyBoard friendlyBoard) : this()
+        {
+            for (int x = 1; x <= 8; x++)
+            {
+                for (int y = 1; y <= 8; y++)
+                {
+                    var position = new Position(x, y);
+                    var piece = friendlyBoard.GetPiece(position);
+
+                    if (piece.Type != PieceType.None)
+                    {
+                        var bitPosition = BitPositionConverter.ToULong(position);
+                        Pieces[(int)piece.Color, (int)piece.Type] |= bitPosition;
+                    }
+                }
+            }
         }
 
         public void Calculate()
@@ -39,28 +60,28 @@ namespace Core.Boards
             CalculateMoves();
         }
 
-        public void SyncWithFriendlyBoard(FriendlyBoard friendlyBoard)
+        public BitBoard Move(Move move)
         {
-            Clear();
+            var bitBoard = new BitBoard(this);
 
-            for(int x=1; x<=8; x++)
+            var colorIndex = (int)move.Color;
+            var pieceIndex = (int)move.Piece;
+
+            var from = BitPositionConverter.ToULong(move.From);
+            var to = BitPositionConverter.ToULong(move.To);
+
+            bitBoard.Pieces[colorIndex, pieceIndex] &= ~from;
+
+            for(int i=0; i<6; i++)
             {
-                for(int y=1; y<=8; y++)
-                {
-                    var position = new Position(x, y);
-                    var piece = friendlyBoard.GetPiece(position);
-
-                    if(piece.Type != PieceType.None)
-                    {
-                        var bitPosition = BitPositionConverter.ToULong(position);
-                        Pieces[(int)piece.Color, (int)piece.Type] |= bitPosition;
-                    }
-                }
+                bitBoard.Pieces[colorIndex, i] &= ~to;
             }
 
-            Calculate();
-        }
+            bitBoard.Pieces[colorIndex, pieceIndex] |= to;
 
+            return bitBoard;
+        }
+        
         public FriendlyBoard GetFriendlyBoard()
         {
             var friendlyBoard = new FriendlyBoard();
@@ -114,17 +135,6 @@ namespace Core.Boards
         public List<Move> GetAvailableMoves(Color color)
         {
             return _moves.Where(p => p.Color == color).ToList();
-        }
-
-        public void Clear()
-        {
-            for(int c = 0; c < 2; c++)
-            {
-                for (int i = 0; i < 6; i++)
-                {
-                    Pieces[c, i] = 0;
-                }
-            }
         }
 
         void CalculateOccupancy()

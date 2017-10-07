@@ -40,7 +40,7 @@ namespace Core.Boards.MoveParsers
                     var to = BitPositionConverter.ToPosition(patternLSB);
                     var moveType = GetMoveType(patternLSB, enemyOccupation);
 
-                    var move = new Move(from, to, color, moveType);
+                    var move = new Move(from, to, PieceType.King, color, moveType);
                     moves.Add(move);
 
                     _bitBoard.Attacks[(int)color, patternIndex] |= pieceLSB;

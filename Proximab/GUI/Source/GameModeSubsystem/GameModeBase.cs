@@ -1,15 +1,8 @@
-﻿using Core.Boards;
-using Core.Commons;
-using Core.Commons.Colors;
-using Core.Commons.Positions;
-using GUI.Source.BoardSubsystem;
-using GUI.Source.BoardSubsystem.Persistence;
+﻿using GUI.Source.BoardSubsystem;
 using GUI.Source.ConsoleSubsystem;
-using GUI.Source.ConsoleSubsystem.Parser;
 using GUI.Source.InputSubsystem;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace GUI.Source.GameModeSubsystem
 {
@@ -49,66 +42,6 @@ namespace GUI.Source.GameModeSubsystem
         void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
         {
             var command = e.Command;
-
-            switch (command.Type)
-            {
-                case CommandType.SaveBoard: { SaveBoard(command); break; }
-                case CommandType.LoadBoard: { LoadBoard(command); break; }
-                case CommandType.AddPiece: { AddPiece(command); break; }
-            }
-        }
-
-        void SaveBoard(Command command)
-        {
-            var boardWriter = new BoardWriter();
-            var board = _board.GetFriendlyBoard();
-
-            var path = $"Boards\\{command.GetArgument<string>(0)}.board";
-            boardWriter.Write(path, board);
-        }
-
-        void LoadBoard(Command command)
-        {
-            var boardReader = new BoardReader();
-            var path = $"Boards\\{command.GetArgument<string>(0)}.board";
-
-            if (!boardReader.BoardExists(path))
-            {
-                _consoleManager.WriteLine($"$rBoard {path} not found");
-                return;
-            }
-
-            _board.SetFriendlyBoard(boardReader.Read(path));
-        }
-
-        void AddPiece(Command command)
-        {
-            var colorArgument = command.GetArgument<string>(0);
-            var pieceArgument = command.GetArgument<string>(1);
-            var fieldArgument = command.GetArgument<string>(2);
-
-            var colorParseResult = Enum.TryParse(colorArgument, true, out Color color);
-            if (!colorParseResult)
-            {
-                _consoleManager.WriteLine($"$rInvalid color type ($R{color}$r)");
-                return;
-            }
-
-            var pieceParseResult = Enum.TryParse(pieceArgument, true, out PieceType piece);
-            if(!pieceParseResult)
-            {
-                _consoleManager.WriteLine($"$rInvalid piece type ($R{piece}$r)");
-                return;
-            }
-
-            var fieldPosition = PositionConverter.ToPosition(fieldArgument);
-            if (fieldPosition == null)
-            {
-                _consoleManager.WriteLine($"$rInvalid field ($R{fieldArgument}$r)");
-                return;
-            }
-
-            _board.AddPiece(fieldPosition, new FriendlyPiece(piece, color));
         }
     }
 }
