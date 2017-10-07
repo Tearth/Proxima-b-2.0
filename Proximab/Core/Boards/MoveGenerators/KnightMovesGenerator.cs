@@ -1,6 +1,4 @@
-﻿using Core.Boards;
-
-namespace Core.MoveGenerators
+﻿namespace Core.Boards.MoveGenerators
 {
     public class KnightMovesGenerator
     {

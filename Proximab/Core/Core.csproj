@@ -50,8 +50,8 @@
     <Compile Include="Commons\PieceType.cs" />
     <Compile Include="Commons\Position.cs" />
     <Compile Include="Commons\PositionConverter.cs" />
-    <Compile Include="MoveGenerators\KnightMovesGenerator.cs" />
-    <Compile Include="MoveGenerators\PredefinedMoves.cs" />
+    <Compile Include="Boards\MoveGenerators\KnightMovesGenerator.cs" />
+    <Compile Include="Boards\MoveGenerators\PredefinedMoves.cs" />
     <Compile Include="PhalconCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

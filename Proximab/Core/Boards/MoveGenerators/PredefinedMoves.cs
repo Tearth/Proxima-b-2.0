@@ -1,4 +1,4 @@
-﻿namespace Core.MoveGenerators
+﻿namespace Core.Boards.MoveGenerators
 {
     public static class PredefinedMoves
     {
