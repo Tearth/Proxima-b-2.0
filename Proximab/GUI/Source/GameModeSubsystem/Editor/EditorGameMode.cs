@@ -58,10 +58,9 @@ namespace GUI.Source.GameModeSubsystem.Editor
             }
             else
             {
-                var colorType = Color.None;
-                var colorTypeParseResult = Enum.TryParse(color, true, out colorType);
+                var colorTypeParseResult = Enum.TryParse(color, true, out Color colorType);
 
-                if(!colorTypeParseResult)
+                if (!colorTypeParseResult)
                 {
                     _consoleManager.WriteLine($"$rInvalid color parameter ($R{color}$r)");
                     return;

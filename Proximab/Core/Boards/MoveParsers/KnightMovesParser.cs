@@ -19,16 +19,16 @@ namespace Core.Boards.MoveParsers
             var moves = new List<Move>();
             var pieces = 0ul;
 
-            var friendlyOccupation = bitBoard.Occupancy[(int)color - 1];
-            var enemyOccupation = bitBoard.Occupancy[(int)ColorOperations.Invert(color) - 1];
+            var friendlyOccupation = bitBoard.Occupancy[(int)color];
+            var enemyOccupation = bitBoard.Occupancy[(int)ColorOperations.Invert(color)];
 
             if (color == Color.White)
             {
-                pieces = bitBoard.Pieces[(int)PieceType.WhiteKnight - 1];
+                pieces = bitBoard.Pieces[(int)PieceType.WhiteKnight];
             }
             else
             {
-                pieces = bitBoard.Pieces[(int)PieceType.BlackKnight - 1];
+                pieces = bitBoard.Pieces[(int)PieceType.BlackKnight];
             }
             
             while(pieces != 0)

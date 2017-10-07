@@ -38,7 +38,7 @@ namespace Core.Boards
                     if(piece != PieceType.None)
                     {
                         var bitPosition = BitPositionConverter.ToULong(position);
-                        Pieces[(int)piece - 1] |= bitPosition;
+                        Pieces[(int)piece] |= bitPosition;
                     }
                 }
             }
@@ -59,7 +59,7 @@ namespace Core.Boards
                     var lsb = BitOperations.GetLSB(ref pieceArray);
                     var position = BitPositionConverter.ToPosition(lsb);
 
-                    var piece = (PieceType)(i + 1);
+                    var piece = (PieceType)i;
 
                     friendlyBoard.SetPiece(position, piece);
                 }
@@ -70,13 +70,13 @@ namespace Core.Boards
 
         public bool[,] GetFriendlyOccupancy()
         {
-            var allOccupancy = Occupancy[0] | Occupancy[1];
+            var allOccupancy = Occupancy[(int)Color.White] | Occupancy[(int)Color.Black];
             return BitPositionConverter.ToBoolArray(allOccupancy);
         }
 
         public bool[,] GetFriendlyOccupancy(Color color)
         {
-            return BitPositionConverter.ToBoolArray(Occupancy[(int)color - 1]);
+            return BitPositionConverter.ToBoolArray(Occupancy[(int)color]);
         }
 
         public List<Move> GetAvailableMoves(Color color)
@@ -94,20 +94,20 @@ namespace Core.Boards
 
         void CalculateOccupancy()
         {
-            Occupancy[0] = Pieces[(int)PieceType.WhitePawn - 1] |
-                           Pieces[(int)PieceType.WhiteRook - 1] |
-                           Pieces[(int)PieceType.WhiteKnight - 1] |
-                           Pieces[(int)PieceType.WhiteBishop - 1] |
-                           Pieces[(int)PieceType.WhiteQueen - 1] |
-                           Pieces[(int)PieceType.WhiteKing - 1];
+            Occupancy[(int)Color.White] = Pieces[(int)PieceType.WhitePawn] |
+                                          Pieces[(int)PieceType.WhiteRook] |
+                                          Pieces[(int)PieceType.WhiteKnight] |
+                                          Pieces[(int)PieceType.WhiteBishop] |
+                                          Pieces[(int)PieceType.WhiteQueen] |
+                                          Pieces[(int)PieceType.WhiteKing];
 
 
-            Occupancy[1] = Pieces[(int)PieceType.BlackPawn - 1] |
-                           Pieces[(int)PieceType.BlackRook - 1] |
-                           Pieces[(int)PieceType.BlackKnight - 1] |
-                           Pieces[(int)PieceType.BlackBishop - 1] |
-                           Pieces[(int)PieceType.BlackQueen - 1] |
-                           Pieces[(int)PieceType.BlackKing - 1];
+            Occupancy[(int)Color.Black] = Pieces[(int)PieceType.BlackPawn] |
+                                          Pieces[(int)PieceType.BlackRook] |
+                                          Pieces[(int)PieceType.BlackKnight] |
+                                          Pieces[(int)PieceType.BlackBishop] |
+                                          Pieces[(int)PieceType.BlackQueen] |
+                                          Pieces[(int)PieceType.BlackKing];
         }
     }
 }
