@@ -132,6 +132,11 @@ namespace Core.Boards
             return BitPositionConverter.ToBoolArray(array);
         }
 
+        public List<Move> GetAvailableMoves()
+        {
+            return _moves;
+        }
+
         public List<Move> GetAvailableMoves(Color color)
         {
             return _moves.Where(p => p.Color == color).ToList();

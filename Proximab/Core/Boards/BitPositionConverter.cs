@@ -3,7 +3,7 @@ using System;
 
 namespace Core.Boards
 {
-    internal static class BitPositionConverter
+    public static class BitPositionConverter
     {
         public static ulong ToULong(Position position)
         {

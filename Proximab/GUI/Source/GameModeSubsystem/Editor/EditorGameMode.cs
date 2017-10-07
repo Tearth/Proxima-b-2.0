@@ -60,7 +60,13 @@ namespace GUI.Source.GameModeSubsystem.Editor
 
         void Board_OnPieceMove(object sender, PieceMovedEventArgs e)
         {
-            var move = new Move(e.From, e.To, e.Piece.Type, e.Piece.Color, MoveType.None);
+            var availableMoves = _bitBoard.GetAvailableMoves();
+            var move = availableMoves.FirstOrDefault(p => p.From == e.From && p.To == e.To);
+
+            if(move == null)
+            {
+                move = new Move(e.From, e.To, e.Piece.Type, e.Piece.Color, MoveType.Quiet);
+            }
 
             _bitBoard = _bitBoard.Move(move);
             _bitBoard.Calculate();
@@ -97,7 +103,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
 
             _board.AddPiece(fieldPosition, new FriendlyPiece(piece, color));
 
-            SyncFriendlyBoardWithBitBoard();
+            ResetBitBoard();
         }
 
         void DrawOccupancy(Command command)
@@ -147,10 +153,10 @@ namespace GUI.Source.GameModeSubsystem.Editor
 
             _board.SetFriendlyBoard(boardReader.Read(path));
 
-            SyncFriendlyBoardWithBitBoard();
+            ResetBitBoard();
         }
 
-        void SyncFriendlyBoardWithBitBoard()
+        void ResetBitBoard()
         {
             _bitBoard = new BitBoard(_board.GetFriendlyBoard());
             _bitBoard.Calculate();

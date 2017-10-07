@@ -156,8 +156,8 @@
     <Content Include="Content\Textures\BlackQueen.png" />
     <Content Include="Content\Textures\BlackRook.png" />
     <Content Include="Content\Textures\ExternalSelection.png" />
-    <Content Include="Content\Textures\field1.png" />
-    <Content Include="Content\Textures\field2.png" />
+    <Content Include="Content\Textures\Field1.png" />
+    <Content Include="Content\Textures\Field2.png" />
     <Content Include="Content\Textures\InternalSelection.png" />
     <Content Include="Content\Textures\WhiteBishop.png" />
     <Content Include="Content\Textures\WhiteKing.png" />
