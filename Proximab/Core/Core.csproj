@@ -46,7 +46,8 @@
     <Compile Include="Boards\BitPositionConverter.cs" />
     <Compile Include="Boards\FriendlyBoard.cs" />
     <Compile Include="Boards\MoveParsers\KnightMovesParser.cs" />
-    <Compile Include="Commons\Color.cs" />
+    <Compile Include="Commons\Colors\Color.cs" />
+    <Compile Include="Commons\Colors\ColorOperations.cs" />
     <Compile Include="Commons\Exceptions\PositionOutOfRangeException.cs" />
     <Compile Include="Commons\Moves\Move.cs" />
     <Compile Include="Commons\Moves\MoveType.cs" />

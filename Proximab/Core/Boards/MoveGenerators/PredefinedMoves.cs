@@ -2,9 +2,9 @@
 {
     public static class PredefinedMoves
     {
-        static bool Ready = false;
+        public static ulong[] Knight { get; private set; }
 
-        static ulong[] Knight;
+        static bool Ready = false;
 
         public static void GenerateMoves()
         {

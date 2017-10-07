@@ -1,4 +1,4 @@
-﻿namespace Core.Commons
+﻿namespace Core.Commons.Colors
 {
     public enum Color
     {

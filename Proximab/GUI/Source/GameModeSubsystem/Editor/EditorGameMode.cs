@@ -1,5 +1,6 @@
 ﻿using Core.Boards;
 using Core.Commons;
+using Core.Commons.Colors;
 using GUI.Source.BoardSubsystem;
 using GUI.Source.BoardSubsystem.Selections;
 using GUI.Source.ConsoleSubsystem;
@@ -34,7 +35,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
 
         void Board_OnFieldSelection(object sender, FieldSelectedEventArgs e)
         {
-            
+            var test = _bitBoard.GetAvailableMoves(Color.White);
         }
 
         void Board_OnPieceMove(object sender, PieceMovedEventArgs e)

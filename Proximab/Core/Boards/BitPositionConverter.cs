@@ -10,9 +10,9 @@ namespace Core.Boards
             return 1ul << ((8 - (position.X)) + ((position.Y - 1) * 8));
         }
 
-        public static Position ToPosition(ulong bitPosition)
+        public static Position ToPosition(ulong bit)
         {
-            var bitIndex = (int)Math.Log(bitPosition, 2);
+            var bitIndex = BitOperations.GetBitIndex(bit);
 
             return new Position(8 - (bitIndex % 8), (bitIndex / 8) + 1);
         }
