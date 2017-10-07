@@ -4,12 +4,12 @@ namespace Core.Boards
 {
     public class BitBoard
     {
-        public ulong[] Pieces;
-        public ulong[] PieceMoves;
+        public ulong[] Pieces { get; set; }
+        public ulong[] PieceMoves { get; set; }
 
-        public ulong Occupancy;
-        public ulong WhiteOccupancy;
-        public ulong BlackOccupancy;
+        public ulong Occupancy { get; set; }
+        public ulong WhiteOccupancy { get; set; }
+        public ulong BlackOccupancy { get; set; }
 
         public BitBoard()
         {
