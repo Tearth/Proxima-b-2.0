@@ -9,34 +9,28 @@ namespace Core.Boards.MoveParsers
 {
     public class KnightMovesParser
     {
-        public KnightMovesParser()
-        {
+        BitBoard _bitBoard;
 
+        public KnightMovesParser(BitBoard bitBoard)
+        {
+            _bitBoard = bitBoard;
         }
 
-        public List<Move> GetMoves(BitBoard bitBoard, Color color)
+        public List<Move> GetMoves(Color color)
         {
             var moves = new List<Move>();
-            var pieces = 0ul;
 
-            var friendlyOccupation = bitBoard.Occupancy[(int)color];
-            var enemyOccupation = bitBoard.Occupancy[(int)ColorOperations.Invert(color)];
+            var friendlyOccupation = _bitBoard.Occupancy[(int)color];
+            var enemyOccupation = _bitBoard.Occupancy[(int)ColorOperations.Invert(color)];
 
-            if (color == Color.White)
-            {
-                pieces = bitBoard.Pieces[(int)PieceType.WhiteKnight];
-            }
-            else
-            {
-                pieces = bitBoard.Pieces[(int)PieceType.BlackKnight];
-            }
-            
-            while(pieces != 0)
+            var pieces = GetPieces(color);
+
+            while (pieces != 0)
             {
                 var pieceLSB = BitOperations.GetLSB(ref pieces);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
-                var pattern = PredefinedMoves.Knight[pieceIndex];
+                var pattern = PredefinedMoves.Knight[pieceIndex] & ~_bitBoard.Occupancy[(int)color];
 
                 while(pattern != 0)
                 {
@@ -51,6 +45,18 @@ namespace Core.Boards.MoveParsers
             }
 
             return moves;
+        }
+
+        ulong GetPieces(Color color)
+        {
+            if (color == Color.White)
+            {
+                return _bitBoard.Pieces[(int)PieceType.WhiteKnight];
+            }
+            else
+            {
+                return _bitBoard.Pieces[(int)PieceType.BlackKnight];
+            }
         }
     }
 }

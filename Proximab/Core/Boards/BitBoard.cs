@@ -19,7 +19,7 @@ namespace Core.Boards
             Pieces = new ulong[12];
             Occupancy = new ulong[2];
 
-            _knightMovesParser = new KnightMovesParser();
+            _knightMovesParser = new KnightMovesParser(this);
 
             Clear();
         }
@@ -81,7 +81,7 @@ namespace Core.Boards
 
         public List<Move> GetAvailableMoves(Color color)
         {
-            return _knightMovesParser.GetMoves(this, color);
+            return _knightMovesParser.GetMoves(color);
         }
 
         public void Clear()

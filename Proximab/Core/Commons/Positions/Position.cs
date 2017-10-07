@@ -28,12 +28,15 @@ namespace Core.Commons.Positions
 
         public static bool operator ==(Position a, Position b)
         {
+            if (ReferenceEquals(null, b))
+                return ReferenceEquals(null, a);
+
             return (a.X == b.X) && (a.Y == b.Y);
         }
 
         public static bool operator !=(Position a, Position b)
         {
-            return (a.X != b.X) || (a.Y != b.Y);
+            return !(a == b);
         }
 
         public override bool Equals(object obj)
