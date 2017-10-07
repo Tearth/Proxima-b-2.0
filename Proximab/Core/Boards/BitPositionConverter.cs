@@ -7,14 +7,14 @@ namespace Core.Boards
     {
         public static ulong ToULong(Position position)
         {
-            return 1ul << ((position.X - 1) + ((position.Y - 1) * 8));
+            return 1ul << ((8 - (position.X)) + ((position.Y - 1) * 8));
         }
 
         public static Position ToPosition(ulong bitPosition)
         {
             var bitIndex = (int)Math.Log(bitPosition, 2);
 
-            return new Position((bitIndex % 8) + 1, (bitIndex / 8) + 1);
+            return new Position(8 - (bitIndex % 8), (bitIndex / 8) + 1);
         }
 
         public static bool[,] ToBoolArray(ulong bitBoard)

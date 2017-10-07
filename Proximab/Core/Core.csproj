@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Boards\BitBoard.cs" />
+    <Compile Include="Boards\BitConstants.cs" />
     <Compile Include="Boards\BitOperations.cs" />
     <Compile Include="Boards\BitPositionConverter.cs" />
     <Compile Include="Boards\FriendlyBoard.cs" />
@@ -49,10 +50,11 @@
     <Compile Include="Commons\PieceType.cs" />
     <Compile Include="Commons\Position.cs" />
     <Compile Include="Commons\PositionConverter.cs" />
+    <Compile Include="MoveGenerators\KnightMovesGenerator.cs" />
+    <Compile Include="MoveGenerators\PredefinedMoves.cs" />
+    <Compile Include="PhalconCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MoveGenerators\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

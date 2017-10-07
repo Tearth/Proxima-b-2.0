@@ -1,4 +1,5 @@
-﻿using GUI.Source.ConsoleSubsystem;
+﻿using Core;
+using GUI.Source.ConsoleSubsystem;
 using System;
 
 namespace GUI
@@ -10,6 +11,8 @@ namespace GUI
         {
             var consoleManager = new ConsoleManager();
             consoleManager.Run();
+
+            PhalconCore.Init();
 
             using (var game = new GUICore(consoleManager))
                 game.Run();
