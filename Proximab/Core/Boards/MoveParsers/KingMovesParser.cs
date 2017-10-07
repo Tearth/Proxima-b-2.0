@@ -37,8 +37,9 @@ namespace Core.Boards.MoveParsers
 
                     var from = BitPositionConverter.ToPosition(pieceLSB);
                     var to = BitPositionConverter.ToPosition(patternLSB);
+                    var moveType = GetMoveType(patternLSB, enemyOccupation);
 
-                    var move = new Move(from, to, MoveType.None);
+                    var move = new Move(from, to, moveType);
                     moves.Add(move);
                 }
             }
@@ -56,6 +57,16 @@ namespace Core.Boards.MoveParsers
             {
                 return _bitBoard.Pieces[(int)PieceType.BlackKing];
             }
+        }
+
+        MoveType GetMoveType(ulong patternLSB, ulong enemyOccupation)
+        {
+            if((patternLSB & enemyOccupation) != 0)
+            {
+                return MoveType.Kill;
+            }
+
+            return MoveType.Quiet;
         }
     }
 }
