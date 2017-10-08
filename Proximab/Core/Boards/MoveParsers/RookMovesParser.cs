@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Core.Boards.MoveParsers
 {
-    class RookMovesParser
+    class RookMovesParser : MovesParserBase
     {
         BitBoard _bitBoard;
 
@@ -18,13 +18,22 @@ namespace Core.Boards.MoveParsers
 
         public List<Move> GetMoves(Color color)
         {
-            var moves = new List<Move>();
-
             var friendlyOccupancy = _bitBoard.Occupancy[(int)color];
             var enemyOccupancy = _bitBoard.Occupancy[(int)ColorOperations.Invert(color)];
             var occupancy = friendlyOccupancy | enemyOccupancy;
 
             var pieces = _bitBoard.Pieces[(int)color, (int)PieceType.Rook];
+            var moves = CalculateMoves(pieces, color, friendlyOccupancy, enemyOccupancy);
+
+            CalculateXRay(pieces, color, friendlyOccupancy, enemyOccupancy);
+
+            return moves;
+        }
+
+        List<Move> CalculateMoves(ulong pieces, Color color, ulong friendlyOccupancy, ulong enemyOccupancy)
+        {
+            var moves = new List<Move>();
+            var occupancy = friendlyOccupancy | enemyOccupancy;
 
             while (pieces != 0)
             {
@@ -46,14 +55,41 @@ namespace Core.Boards.MoveParsers
                     var to = BitPositionConverter.ToPosition(patternLSB);
                     var moveType = GetMoveType(patternLSB, enemyOccupancy);
 
-                    var move = new Move(from, to, PieceType.Rook, color, moveType);
-                    moves.Add(move);
+                    moves.Add(new Move(from, to, PieceType.Rook, color, moveType));
 
                     _bitBoard.Attacks[(int)color, patternIndex] |= pieceLSB;
                 }
             }
 
             return moves;
+        }
+
+        void CalculateXRay(ulong pieces, Color color, ulong friendlyOccupancy, ulong enemyOccupancy)
+        {
+            var blockersToRemove = _bitBoard.Pieces[(int)color, (int)PieceType.Rook] |
+                                   _bitBoard.Pieces[(int)color, (int)PieceType.Queen];
+
+            var occupancy = (friendlyOccupancy & ~blockersToRemove) | enemyOccupancy;
+
+            while (pieces != 0)
+            {
+                var pieceLSB = BitOperations.GetLSB(ref pieces);
+                var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
+                var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
+
+                var horizontalPattern = GetHorizontalPattern(occupancy, piecePosition);
+                var verticalPattern = GetVerticalPattern(occupancy, piecePosition);
+
+                var pattern = (horizontalPattern | verticalPattern) & ~friendlyOccupancy;
+
+                while (pattern != 0)
+                {
+                    var patternLSB = BitOperations.GetLSB(ref pattern);
+                    var patternIndex = BitOperations.GetBitIndex(patternLSB);
+
+                    _bitBoard.Attacks[(int)color, patternIndex] |= pieceLSB;
+                }
+            }
         }
 
         ulong GetHorizontalPattern(ulong occupancy, Position piecePosition)
@@ -75,16 +111,6 @@ namespace Core.Boards.MoveParsers
             var pattern = PredefinedMoves.Rook[pieceRank, 8 - piecePosition.Y];
             
             return BitOperations.RotateLeft(pattern) << offset;
-        }
-        
-        MoveType GetMoveType(ulong patternLSB, ulong enemyOccupation)
-        {
-            if ((patternLSB & enemyOccupation) != 0)
-            {
-                return MoveType.Kill;
-            }
-
-            return MoveType.Quiet;
         }
     }
 }

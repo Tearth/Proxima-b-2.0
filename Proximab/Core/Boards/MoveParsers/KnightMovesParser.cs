@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Core.Boards.MoveParsers
 {
-    public class KnightMovesParser
+    public class KnightMovesParser : MovesParserBase
     {
         BitBoard _bitBoard;
 
@@ -39,25 +39,14 @@ namespace Core.Boards.MoveParsers
                     var from = BitPositionConverter.ToPosition(pieceLSB);
                     var to = BitPositionConverter.ToPosition(patternLSB);
                     var moveType = GetMoveType(patternLSB, enemyOccupation);
-
-                    var move = new Move(from, to, PieceType.Knight, color, moveType);
-                    moves.Add(move);
+                    
+                    moves.Add(new Move(from, to, PieceType.Knight, color, moveType));
 
                     _bitBoard.Attacks[(int)color, patternIndex] |= pieceLSB;
                 }
             }
 
             return moves;
-        }
-
-        MoveType GetMoveType(ulong patternLSB, ulong enemyOccupation)
-        {
-            if ((patternLSB & enemyOccupation) != 0)
-            {
-                return MoveType.Kill;
-            }
-
-            return MoveType.Quiet;
         }
     }
 }
