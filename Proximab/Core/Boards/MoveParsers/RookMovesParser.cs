@@ -35,7 +35,7 @@ namespace Core.Boards.MoveParsers
                 var horizontalPattern = GetHorizontalPattern(occupancy, piecePosition);
                 var verticalPattern = GetVerticalPattern(occupancy, piecePosition);
 
-                var pattern = horizontalPattern | verticalPattern;
+                var pattern = (horizontalPattern | verticalPattern) & ~friendlyOccupancy;
 
                 while (pattern != 0)
                 {
@@ -60,8 +60,8 @@ namespace Core.Boards.MoveParsers
         {
             var offset = piecePosition.Y - 1;
 
-            var pieceRankHorizontal = (byte)(occupancy >> (offset * 8));
-            var pattern = PredefinedMoves.Rook[pieceRankHorizontal, 8 - piecePosition.X];
+            var pieceRank = (byte)(occupancy >> (offset * 8));
+            var pattern = PredefinedMoves.Rook[pieceRank, 8 - piecePosition.X];
 
             return (ulong)pattern << (offset * 8);
         }
@@ -71,8 +71,8 @@ namespace Core.Boards.MoveParsers
             var offset = 8 - piecePosition.X;
             var rotatedOccupancy = BitOperations.RotateRight(occupancy);
 
-            var pieceRankVertical = (byte)(rotatedOccupancy >> (offset * 8));
-            var pattern = PredefinedMoves.Rook[pieceRankVertical, 8 - piecePosition.Y];
+            var pieceRank = (byte)(rotatedOccupancy >> (offset * 8));
+            var pattern = PredefinedMoves.Rook[pieceRank, 8 - piecePosition.Y];
             
             return BitOperations.RotateLeft(pattern) << offset;
         }
