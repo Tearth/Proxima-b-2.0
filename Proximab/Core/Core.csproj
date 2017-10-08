@@ -47,6 +47,7 @@
     <Compile Include="Boards\FriendlyBoard.cs" />
     <Compile Include="Boards\FriendlyPiece.cs" />
     <Compile Include="Boards\MoveGenerators\KingMovesGenerator.cs" />
+    <Compile Include="Boards\MoveGenerators\RookMovesGenerator.cs" />
     <Compile Include="Boards\MoveParsers\KingMovesParser.cs" />
     <Compile Include="Boards\MoveParsers\KnightMovesParser.cs" />
     <Compile Include="Commons\Colors\Color.cs" />

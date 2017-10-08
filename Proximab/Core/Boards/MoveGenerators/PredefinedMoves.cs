@@ -4,6 +4,7 @@
     {
         public static ulong[] Knight { get; private set; }
         public static ulong[] King { get; private set; }
+        public static byte[,] Rook { get; private set; }
 
         static bool Ready = false;
 
@@ -14,9 +15,11 @@
 
             var knightMovesGenerator = new KnightMovesGenerator();
             var kingMovesGenerator = new KingMovesGenerator();
+            var rookMovesGenerator = new RookMovesGenerator();
 
             Knight = knightMovesGenerator.Generate();
             King = kingMovesGenerator.Generate();
+            Rook = rookMovesGenerator.Generate();
 
             Ready = true;
         }
