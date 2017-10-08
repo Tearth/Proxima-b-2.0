@@ -18,6 +18,7 @@ namespace Core.Boards
 
         KnightMovesParser _knightMovesParser;
         KingMovesParser _kingMovesParser;
+        RookMovesParser _rookMovesParser;
 
         public BitBoard()
         {
@@ -29,6 +30,7 @@ namespace Core.Boards
 
             _knightMovesParser = new KnightMovesParser(this);
             _kingMovesParser = new KingMovesParser(this);
+            _rookMovesParser = new RookMovesParser(this);
         }
 
         public BitBoard(BitBoard bitBoard) : this()
@@ -170,6 +172,7 @@ namespace Core.Boards
         {
             _moves.AddRange(_knightMovesParser.GetMoves(color));
             _moves.AddRange(_kingMovesParser.GetMoves(color));
+            _moves.AddRange(_rookMovesParser.GetMoves(color));
         }
     }
 }

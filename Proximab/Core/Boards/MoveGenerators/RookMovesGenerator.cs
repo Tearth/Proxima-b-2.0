@@ -29,6 +29,8 @@ namespace Core.Boards.MoveGenerators
             byte availableMoves = 0;
             byte initialIndex = (byte)Math.Pow(2, field);
 
+            occupancy &= (byte)~initialIndex;
+
             var currentIndex = initialIndex;
             while(currentIndex != 0 && (occupancy & currentIndex) == 0)
             {
