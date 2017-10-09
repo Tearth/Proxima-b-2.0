@@ -40,8 +40,8 @@ namespace Core.Boards.MoveParsers
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
 
-                var horizontalPattern = GetHorizontalPattern(occupancy, piecePosition, false);
-                var verticalPattern = GetVerticalPattern(occupancy, piecePosition, false);
+                var horizontalPattern = GetHorizontalPattern(occupancy, piecePosition);
+                var verticalPattern = GetVerticalPattern(occupancy, piecePosition);
 
                 var pattern = (horizontalPattern | verticalPattern) & ~friendlyOccupancy;
 
@@ -49,12 +49,11 @@ namespace Core.Boards.MoveParsers
                 {
                     var patternLSB = BitOperations.GetLSB(ref pattern);
                     var patternIndex = BitOperations.GetBitIndex(patternLSB);
-
-                    var from = BitPositionConverter.ToPosition(pieceLSB);
+                    
                     var to = BitPositionConverter.ToPosition(patternLSB);
                     var moveType = GetMoveType(patternLSB, enemyOccupancy);
 
-                    moves.Add(new Move(from, to, PieceType.Rook, color, moveType));
+                    moves.Add(new Move(piecePosition, to, PieceType.Rook, color, moveType));
                 }
             }
 
@@ -74,8 +73,8 @@ namespace Core.Boards.MoveParsers
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
 
-                var horizontalPattern = GetHorizontalPattern(occupancy, piecePosition, true);
-                var verticalPattern = GetVerticalPattern(occupancy, piecePosition, true);
+                var horizontalPattern = GetHorizontalPattern(occupancy, piecePosition);
+                var verticalPattern = GetVerticalPattern(occupancy, piecePosition);
 
                 horizontalPattern = ExpandPatternByFriendlyPieces(horizontalPattern, friendlyOccupancy, Axis.Rank, color);
                 verticalPattern = ExpandPatternByFriendlyPieces(verticalPattern, friendlyOccupancy, Axis.File, color);
@@ -92,7 +91,7 @@ namespace Core.Boards.MoveParsers
             }
         }
 
-        ulong GetHorizontalPattern(ulong occupancy, Position piecePosition, bool includeFriendlyBlockerMoves)
+        ulong GetHorizontalPattern(ulong occupancy, Position piecePosition)
         {
             var offset = piecePosition.Y - 1;
 
@@ -102,7 +101,7 @@ namespace Core.Boards.MoveParsers
             return (ulong)pattern << (offset * 8);
         }
 
-        ulong GetVerticalPattern(ulong occupancy, Position piecePosition, bool includeFriendlyBlockerMoves)
+        ulong GetVerticalPattern(ulong occupancy, Position piecePosition)
         {
             var offset = 8 - piecePosition.X;
             var rotatedOccupancy = BitOperations.Rotate90Right(occupancy);
