@@ -121,7 +121,19 @@ namespace Core.Boards.MoveParsers
             var blockers = pattern & friendlyOccupation;
             var patternLSB = BitOperations.GetLSB(ref pattern);
 
-            var shift = axis == Axis.File ? 8 : 1;
+            var shift = 0;
+            var mask = 0ul;
+
+            if(axis == Axis.File)
+            {
+                shift = 8;
+                mask = ~BitConstants.ARank & ~BitConstants.HRank;
+            }
+            else if(axis == Axis.Rank)
+            {
+                shift = 1;
+                mask = ~BitConstants.AFile & ~BitConstants.HFile;
+            }
 
             while(blockers != 0)
             {
@@ -130,11 +142,11 @@ namespace Core.Boards.MoveParsers
                 {
                     if(blockerLSB == patternLSB)
                     {
-                        expandedPattern |= blockerLSB >> shift;
+                        expandedPattern |= (blockerLSB & mask) >> shift;
                     }
                     else
                     {
-                        expandedPattern |= blockerLSB << shift;
+                        expandedPattern |= (blockerLSB & mask) << shift;
                     }
                 }
             }
