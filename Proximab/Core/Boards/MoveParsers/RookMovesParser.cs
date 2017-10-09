@@ -98,7 +98,7 @@ namespace Core.Boards.MoveParsers
             var offset = piecePosition.Y - 1;
 
             var pieceRank = (byte)(occupancy >> (offset * 8));
-            var pattern = PredefinedMoves.Rook[pieceRank, 8 - piecePosition.X];
+            var pattern = PredefinedMoves.SlideMoves[pieceRank, 8 - piecePosition.X];
 
             return (ulong)pattern << (offset * 8);
         }
@@ -109,7 +109,7 @@ namespace Core.Boards.MoveParsers
             var rotatedOccupancy = BitOperations.Rotate90Right(occupancy);
 
             var pieceRank = (byte)(rotatedOccupancy >> (offset * 8));
-            var pattern = PredefinedMoves.Rook[pieceRank, 8 - piecePosition.Y];
+            var pattern = PredefinedMoves.SlideMoves[pieceRank, 8 - piecePosition.Y];
 
             return BitOperations.Rotate90Left(pattern) << offset;
         }

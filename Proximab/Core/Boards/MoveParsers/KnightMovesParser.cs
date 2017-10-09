@@ -29,7 +29,7 @@ namespace Core.Boards.MoveParsers
                 var pieceLSB = BitOperations.GetLSB(ref pieces);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
-                var pattern = PredefinedMoves.Knight[pieceIndex] & ~_bitBoard.Occupancy[(int)color];
+                var pattern = PredefinedMoves.KnightMoves[pieceIndex] & ~_bitBoard.Occupancy[(int)color];
 
                 while(pattern != 0)
                 {

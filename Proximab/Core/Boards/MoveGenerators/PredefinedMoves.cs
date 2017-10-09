@@ -2,9 +2,9 @@
 {
     public static class PredefinedMoves
     {
-        public static ulong[] Knight { get; private set; }
-        public static ulong[] King { get; private set; }
-        public static byte[,] Rook { get; private set; }
+        public static ulong[] KnightMoves { get; private set; }
+        public static ulong[] KingMoves { get; private set; }
+        public static byte[,] SlideMoves { get; private set; }
 
         static bool Ready = false;
 
@@ -15,11 +15,11 @@
 
             var knightMovesGenerator = new KnightMovesGenerator();
             var kingMovesGenerator = new KingMovesGenerator();
-            var rookMovesGenerator = new RookMovesGenerator();
+            var slideMovesGenerator = new SlideMovesGenerator();
 
-            Knight = knightMovesGenerator.Generate();
-            King = kingMovesGenerator.Generate();
-            Rook = rookMovesGenerator.Generate();
+            KnightMoves = knightMovesGenerator.Generate();
+            KingMoves = kingMovesGenerator.Generate();
+            SlideMoves = slideMovesGenerator.Generate();
 
             Ready = true;
         }

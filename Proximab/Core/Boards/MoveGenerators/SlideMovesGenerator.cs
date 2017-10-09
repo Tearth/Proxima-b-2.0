@@ -2,9 +2,9 @@
 
 namespace Core.Boards.MoveGenerators
 {
-    public class RookMovesGenerator
+    public class SlideMovesGenerator
     {
-        public RookMovesGenerator()
+        public SlideMovesGenerator()
         {
 
         }
