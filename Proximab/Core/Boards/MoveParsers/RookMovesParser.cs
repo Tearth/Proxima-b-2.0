@@ -20,7 +20,6 @@ namespace Core.Boards.MoveParsers
         {
             var friendlyOccupancy = _bitBoard.Occupancy[(int)color];
             var enemyOccupancy = _bitBoard.Occupancy[(int)ColorOperations.Invert(color)];
-            var occupancy = friendlyOccupancy | enemyOccupancy;
 
             var pieces = _bitBoard.Pieces[(int)color, (int)PieceType.Rook];
             var moves = CalculateMoves(pieces, color, friendlyOccupancy, enemyOccupancy);
