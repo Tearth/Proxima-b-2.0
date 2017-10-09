@@ -81,14 +81,50 @@ namespace Core.Boards
             return bitBoard;
         }
 
-        public static ulong RotateRight(ulong bitBoard)
+        public static ulong Rotate90Right(ulong bitBoard)
         {
             return FlipDiagonalA1H8(FlipVertical(bitBoard));
         }
 
-        public static ulong RotateLeft(ulong bitBoard)
+        public static ulong Rotate90Right(ulong bitBoard, int bitsToShift)
+        {
+            return (bitBoard >> bitsToShift) | (bitBoard << (64 - bitsToShift));
+        }
+        
+        public static ulong Rotate90Left(ulong bitBoard)
         {
             return FlipVertical(FlipDiagonalA1H8(bitBoard));
+        }
+
+        public static ulong Rotate90Left(ulong bitBoard, int bitsToShift)
+        {
+            return (bitBoard << bitsToShift) | (bitBoard >> (64 - bitsToShift));
+        }
+
+        public static ulong Rotate45Right(ulong bitBoard)
+        {
+            ulong k1 = 0x5555555555555555;
+            ulong k2 = 0x3333333333333333;
+            ulong k4 = 0x0f0f0f0f0f0f0f0f;
+
+            bitBoard ^= k1 & (bitBoard ^ Rotate90Right(bitBoard, 8));
+            bitBoard ^= k2 & (bitBoard ^ Rotate90Right(bitBoard, 16));
+            bitBoard ^= k4 & (bitBoard ^ Rotate90Right(bitBoard, 32));
+
+            return bitBoard;
+        }
+
+        public static ulong Rotate45Left(ulong bitBoard)
+        {
+            ulong k1 = 0xAAAAAAAAAAAAAAAA;
+            ulong k2 = 0xCCCCCCCCCCCCCCCC;
+            ulong k4 = 0xF0F0F0F0F0F0F0F0;
+
+            bitBoard ^= k1 & (bitBoard ^ Rotate90Right(bitBoard, 8));
+            bitBoard ^= k2 & (bitBoard ^ Rotate90Right(bitBoard, 16));
+            bitBoard ^= k4 & (bitBoard ^ Rotate90Right(bitBoard, 32));
+
+            return bitBoard;
         }
     }
 }

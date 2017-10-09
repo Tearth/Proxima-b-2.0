@@ -106,12 +106,12 @@ namespace Core.Boards.MoveParsers
         ulong GetVerticalPattern(ulong occupancy, Position piecePosition, bool includeFriendlyBlockerMoves)
         {
             var offset = 8 - piecePosition.X;
-            var rotatedOccupancy = BitOperations.RotateRight(occupancy);
+            var rotatedOccupancy = BitOperations.Rotate90Right(occupancy);
 
             var pieceRank = (byte)(rotatedOccupancy >> (offset * 8));
             var pattern = PredefinedMoves.Rook[pieceRank, 8 - piecePosition.Y];
 
-            return BitOperations.RotateLeft(pattern) << offset;
+            return BitOperations.Rotate90Left(pattern) << offset;
         }
 
         ulong ExpandPatternByFriendlyPieces(ulong pattern, ulong friendlyOccupation, Axis axis, Color color)
