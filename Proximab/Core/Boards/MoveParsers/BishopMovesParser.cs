@@ -1,6 +1,9 @@
-﻿using Core.Commons;
+﻿using Core.Boards.MoveGenerators;
+using Core.Commons;
 using Core.Commons.Colors;
 using Core.Commons.Moves;
+using Core.Commons.Positions;
+using System;
 using System.Collections.Generic;
 
 namespace Core.Boards.MoveParsers
@@ -8,7 +11,7 @@ namespace Core.Boards.MoveParsers
     public class BishopMovesParser : MovesParserBase
     {
         BitBoard _bitBoard;
-
+        
         public BishopMovesParser(BitBoard bitBoard)
         {
             _bitBoard = bitBoard;
@@ -21,8 +24,6 @@ namespace Core.Boards.MoveParsers
 
             var pieces = _bitBoard.Pieces[(int)color, (int)PieceType.Bishop];
             var moves = CalculateMoves(pieces, color, friendlyOccupancy, enemyOccupancy);
-
-            CalculateMoves(pieces, color, friendlyOccupancy, enemyOccupancy);
 
             return moves;
         }
@@ -38,7 +39,8 @@ namespace Core.Boards.MoveParsers
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
 
-                ulong pattern = 0xFF;
+                ulong pattern = GetRightRotatedBitBoardPattern(occupancy, pieceLSB);
+                pattern |= GetLeftRotatedBitBoardPattern(occupancy, pieceLSB);
 
                 while (pattern != 0)
                 {
@@ -49,11 +51,49 @@ namespace Core.Boards.MoveParsers
                     var to = BitPositionConverter.ToPosition(patternLSB);
                     var moveType = GetMoveType(patternLSB, enemyOccupancy);
 
-                    moves.Add(new Move(from, to, PieceType.Rook, color, moveType));
+                    moves.Add(new Move(from, to, PieceType.Bishop, color, moveType));
                 }
             }
 
             return moves;
+        }
+
+        ulong GetRightRotatedBitBoardPattern(ulong occupancy, ulong pieceLSB)
+        {
+            var rotatedOccupancy = BitOperations.Rotate45Right(occupancy);
+            var rotatedPieceLSB = BitOperations.Rotate45Right(pieceLSB);
+            var rotatedPiecePosition = BitPositionConverter.ToPosition(rotatedPieceLSB);
+
+            var mask = (byte)(Math.Pow(2, rotatedPiecePosition.Y - 1) - 1);
+
+            if((rotatedPieceLSB & BitConstants.LeftBottomBoardPart) != 0)
+            {
+                mask ^= 0xFF;
+            }
+
+            var pieceRank = (byte)(rotatedOccupancy >> ((rotatedPiecePosition.Y - 1) * 8));
+            var availableMoves = PredefinedMoves.SlideMoves[pieceRank, 8 - rotatedPiecePosition.X] & mask;
+
+            return BitOperations.Rotate45Left((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) * 8));
+        }
+
+        ulong GetLeftRotatedBitBoardPattern(ulong occupancy, ulong pieceLSB)
+        {
+            var rotatedOccupancy = BitOperations.Rotate45Left(occupancy);
+            var rotatedPieceLSB = BitOperations.Rotate45Left(pieceLSB);
+            var rotatedPiecePosition = BitPositionConverter.ToPosition(rotatedPieceLSB);
+
+            var mask = (byte)(Math.Pow(2, 8 - rotatedPiecePosition.Y + 1) - 1);
+
+            if ((rotatedPieceLSB & BitConstants.LeftTopBoardPart) != 0)
+            {
+                mask ^= 0xFF;
+            }
+
+            var pieceRank = (byte)(rotatedOccupancy >> ((rotatedPiecePosition.Y - 1) * 8));
+            var availableMoves = PredefinedMoves.SlideMoves[pieceRank, 8 - rotatedPiecePosition.X] & mask;
+
+            return BitOperations.Rotate45Right((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) * 8));
         }
     }
 }
