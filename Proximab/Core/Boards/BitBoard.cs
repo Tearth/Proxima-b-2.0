@@ -172,13 +172,13 @@ namespace Core.Boards
 
         void CalculateMoves(Color color)
         {
-            _moves.AddRange(_knightMovesParser.GetMoves(color, PieceType.Knight, _pieces, _occupancy, ref _attacks));
-            _moves.AddRange(_kingMovesParser.GetMoves(color, PieceType.King, _pieces, _occupancy, ref _attacks));
-            _moves.AddRange(_rookMovesParser.GetMoves(color, PieceType.Rook, _pieces, _occupancy, ref _attacks));
-            _moves.AddRange(_bishopMovesParser.GetMoves(color, PieceType.Bishop, _pieces, _occupancy, ref _attacks));
+            _moves.AddRange(_knightMovesParser.GetMoves(PieceType.Knight, color, _pieces, _occupancy, ref _attacks));
+            _moves.AddRange(_kingMovesParser.GetMoves(PieceType.King, color, _pieces, _occupancy, ref _attacks));
+            _moves.AddRange(_rookMovesParser.GetMoves(PieceType.Rook, color, _pieces, _occupancy, ref _attacks));
+            _moves.AddRange(_bishopMovesParser.GetMoves(PieceType.Bishop, color, _pieces, _occupancy, ref _attacks));
             
-            _moves.AddRange(_rookMovesParser.GetMoves(color, PieceType.Queen, _pieces, _occupancy, ref _attacks));
-            _moves.AddRange(_bishopMovesParser.GetMoves(color, PieceType.Queen, _pieces, _occupancy, ref _attacks));
+            _moves.AddRange(_rookMovesParser.GetMoves(PieceType.Queen, color, _pieces, _occupancy, ref _attacks));
+            _moves.AddRange(_bishopMovesParser.GetMoves(PieceType.Queen, color, _pieces, _occupancy, ref _attacks));
         }
     }
 }

@@ -14,17 +14,17 @@ namespace Core.Boards.MoveParsers
 
         }
 
-        public List<Move> GetMoves(Color color, PieceType pieceType, ulong[,] pieces, ulong[] occupancy, ref ulong[,] attacks)
+        public List<Move> GetMoves(PieceType pieceType, Color color, ulong[,] pieces, ulong[] occupancy, ref ulong[,] attacks)
         {
             var piecesToParse = pieces[(int)color, (int)pieceType];
-            var moves = CalculateMoves(pieces, piecesToParse, occupancy, pieceType, color);
+            var moves = CalculateMoves(pieceType, color, pieces, piecesToParse, occupancy);
 
-            CalculateAttackFields(pieces, piecesToParse, color, occupancy, ref attacks);
+            CalculateAttackFields(color, pieces, piecesToParse, occupancy, ref attacks);
 
             return moves;
         }
 
-        List<Move> CalculateMoves(ulong[,] pieces, ulong piecesToParse, ulong[] occupancy, PieceType pieceType, Color color)
+        List<Move> CalculateMoves(PieceType pieceType, Color color, ulong[,] pieces, ulong piecesToParse, ulong[] occupancy)
         {
             var friendlyOccupancy = occupancy[(int)color];
             var enemyOccupancy = occupancy[(int)ColorOperations.Invert(color)];
@@ -38,8 +38,8 @@ namespace Core.Boards.MoveParsers
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
 
-                var horizontalPattern = GetHorizontalPattern(allPiecesOccupancy, piecePosition);
-                var verticalPattern = GetVerticalPattern(allPiecesOccupancy, piecePosition);
+                var horizontalPattern = GetHorizontalPattern(piecePosition, allPiecesOccupancy);
+                var verticalPattern = GetVerticalPattern(piecePosition, allPiecesOccupancy);
 
                 var pattern = (horizontalPattern | verticalPattern) & ~friendlyOccupancy;
 
@@ -58,7 +58,7 @@ namespace Core.Boards.MoveParsers
             return moves;
         }
 
-        void CalculateAttackFields(ulong[,] pieces, ulong piecesToParse, Color color, ulong[] occupancy, ref ulong[,] attacks)
+        void CalculateAttackFields(Color color, ulong[,] pieces, ulong piecesToParse, ulong[] occupancy, ref ulong[,] attacks)
         {
             var friendlyOccupancy = occupancy[(int)color];
             var enemyOccupancy = occupancy[(int)ColorOperations.Invert(color)];
@@ -74,11 +74,11 @@ namespace Core.Boards.MoveParsers
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
 
-                var horizontalPattern = GetHorizontalPattern(allPiecesOccupancy, piecePosition);
-                var verticalPattern = GetVerticalPattern(allPiecesOccupancy, piecePosition);
+                var horizontalPattern = GetHorizontalPattern(piecePosition, allPiecesOccupancy);
+                var verticalPattern = GetVerticalPattern(piecePosition, allPiecesOccupancy);
 
-                horizontalPattern = ExpandPatternByFriendlyPieces(horizontalPattern, pieces, friendlyOccupancy, Axis.Rank, color);
-                verticalPattern = ExpandPatternByFriendlyPieces(verticalPattern, pieces, friendlyOccupancy, Axis.File, color);
+                horizontalPattern = ExpandPatternByFriendlyPieces(color, Axis.Rank, horizontalPattern, pieces, friendlyOccupancy);
+                verticalPattern = ExpandPatternByFriendlyPieces(color, Axis.File, verticalPattern, pieces, friendlyOccupancy);
 
                 var pattern = horizontalPattern | verticalPattern;
 
@@ -92,7 +92,7 @@ namespace Core.Boards.MoveParsers
             }
         }
 
-        ulong GetHorizontalPattern(ulong occupancy, Position piecePosition)
+        ulong GetHorizontalPattern(Position piecePosition, ulong occupancy)
         {
             var offset = piecePosition.Y - 1;
 
@@ -102,7 +102,7 @@ namespace Core.Boards.MoveParsers
             return (ulong)pattern << (offset * 8);
         }
 
-        ulong GetVerticalPattern(ulong occupancy, Position piecePosition)
+        ulong GetVerticalPattern(Position piecePosition, ulong occupancy)
         {
             var offset = 8 - piecePosition.X;
             var rotatedOccupancy = BitOperations.Rotate90Right(occupancy);
@@ -113,7 +113,7 @@ namespace Core.Boards.MoveParsers
             return BitOperations.Rotate90Left(pattern) << offset;
         }
 
-        ulong ExpandPatternByFriendlyPieces(ulong pattern, ulong[,] pieces, ulong friendlyOccupation, Axis axis, Color color)
+        ulong ExpandPatternByFriendlyPieces(Color color, Axis axis, ulong pattern, ulong[,] pieces, ulong friendlyOccupation)
         {
             var expandedPattern = pattern;
 

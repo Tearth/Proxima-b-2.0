@@ -13,7 +13,7 @@ namespace Core.Boards.MoveParsers
 
         }
 
-        public List<Move> GetMoves(Color color, PieceType pieceType, ulong[,] pieces, ulong[] occupancy, ref ulong[,] attacks)
+        public List<Move> GetMoves(PieceType pieceType, Color color, ulong[,] pieces, ulong[] occupancy, ref ulong[,] attacks)
         {
             var moves = new List<Move>();
 
