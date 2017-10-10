@@ -176,6 +176,9 @@ namespace Core.Boards
             _moves.AddRange(_kingMovesParser.GetMoves(color, PieceType.King, _pieces, _occupancy, ref _attacks));
             _moves.AddRange(_rookMovesParser.GetMoves(color, PieceType.Rook, _pieces, _occupancy, ref _attacks));
             _moves.AddRange(_bishopMovesParser.GetMoves(color, PieceType.Bishop, _pieces, _occupancy, ref _attacks));
+            
+            _moves.AddRange(_rookMovesParser.GetMoves(color, PieceType.Queen, _pieces, _occupancy, ref _attacks));
+            _moves.AddRange(_bishopMovesParser.GetMoves(color, PieceType.Queen, _pieces, _occupancy, ref _attacks));
         }
     }
 }

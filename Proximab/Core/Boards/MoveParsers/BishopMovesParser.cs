@@ -18,14 +18,14 @@ namespace Core.Boards.MoveParsers
         public List<Move> GetMoves(Color color, PieceType pieceType, ulong[,] pieces, ulong[] occupancy, ref ulong[,] attacks)
         {
             var piecesToParse = pieces[(int)color, (int)pieceType];
-            var moves = CalculateMoves(pieces, piecesToParse, occupancy, color);
+            var moves = CalculateMoves(pieces, piecesToParse, occupancy, pieceType, color);
 
             CalculateAttackFields(pieces, piecesToParse, color, occupancy, ref attacks);
 
             return moves;
         }
 
-        List<Move> CalculateMoves(ulong[,] pieces, ulong piecesToParse, ulong[] occupancy, Color color)
+        List<Move> CalculateMoves(ulong[,] pieces, ulong piecesToParse, ulong[] occupancy, PieceType pieceType, Color color)
         {
             var friendlyOccupancy = occupancy[(int)color];
             var enemyOccupancy = occupancy[(int)ColorOperations.Invert(color)];
@@ -53,7 +53,7 @@ namespace Core.Boards.MoveParsers
                     var to = BitPositionConverter.ToPosition(patternLSB);
                     var moveType = GetMoveType(patternLSB, enemyOccupancy);
 
-                    moves.Add(new Move(from, to, PieceType.Bishop, color, moveType));
+                    moves.Add(new Move(from, to, pieceType, color, moveType));
                 }
             }
 
