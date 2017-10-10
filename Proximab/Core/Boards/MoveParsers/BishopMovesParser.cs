@@ -25,6 +25,8 @@ namespace Core.Boards.MoveParsers
             var pieces = _bitBoard.Pieces[(int)color, (int)PieceType.Bishop];
             var moves = CalculateMoves(pieces, color, friendlyOccupancy, enemyOccupancy);
 
+            CalculateAttackFields(pieces, color, friendlyOccupancy, enemyOccupancy);
+
             return moves;
         }
 
@@ -58,6 +60,34 @@ namespace Core.Boards.MoveParsers
             }
 
             return moves;
+        }
+
+        void CalculateAttackFields(ulong pieces, Color color, ulong friendlyOccupancy, ulong enemyOccupancy)
+        {
+            var blockersToRemove = _bitBoard.Pieces[(int)color, (int)PieceType.Bishop] |
+                                   _bitBoard.Pieces[(int)color, (int)PieceType.Queen];
+
+            var occupancy = (friendlyOccupancy & ~blockersToRemove) | enemyOccupancy;
+
+            while (pieces != 0)
+            {
+                var pieceLSB = BitOperations.GetLSB(ref pieces);
+                var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
+                var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
+
+                var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(occupancy, pieceLSB);
+                var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(occupancy, pieceLSB);
+
+                var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern) & ~friendlyOccupancy;
+
+                while (pattern != 0)
+                {
+                    var patternLSB = BitOperations.GetLSB(ref pattern);
+                    var patternIndex = BitOperations.GetBitIndex(patternLSB);
+
+                    _bitBoard.Attacks[(int)color, patternIndex] |= pieceLSB;
+                }
+            }
         }
 
         ulong GetRightRotatedBitBoardPattern(ulong occupancy, ulong pieceLSB)
