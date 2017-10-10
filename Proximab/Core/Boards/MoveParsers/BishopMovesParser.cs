@@ -10,39 +10,37 @@ namespace Core.Boards.MoveParsers
 {
     public class BishopMovesParser : MovesParserBase
     {
-        BitBoard _bitBoard;
-        
-        public BishopMovesParser(BitBoard bitBoard)
+        public BishopMovesParser()
         {
-            _bitBoard = bitBoard;
+
         }
 
-        public List<Move> GetMoves(Color color)
+        public List<Move> GetMoves(Color color, PieceType pieceType, ulong[,] pieces, ulong[] occupancy, ref ulong[,] attacks)
         {
-            var friendlyOccupancy = _bitBoard.Occupancy[(int)color];
-            var enemyOccupancy = _bitBoard.Occupancy[(int)ColorOperations.Invert(color)];
+            var piecesToParse = pieces[(int)color, (int)pieceType];
+            var moves = CalculateMoves(pieces, piecesToParse, occupancy, color);
 
-            var pieces = _bitBoard.Pieces[(int)color, (int)PieceType.Bishop];
-            var moves = CalculateMoves(pieces, color, friendlyOccupancy, enemyOccupancy);
-
-            CalculateAttackFields(pieces, color, friendlyOccupancy, enemyOccupancy);
+            CalculateAttackFields(pieces, piecesToParse, color, occupancy, ref attacks);
 
             return moves;
         }
 
-        List<Move> CalculateMoves(ulong pieces, Color color, ulong friendlyOccupancy, ulong enemyOccupancy)
+        List<Move> CalculateMoves(ulong[,] pieces, ulong piecesToParse, ulong[] occupancy, Color color)
         {
-            var moves = new List<Move>();
-            var occupancy = friendlyOccupancy | enemyOccupancy;
+            var friendlyOccupancy = occupancy[(int)color];
+            var enemyOccupancy = occupancy[(int)ColorOperations.Invert(color)];
+            var allPiecesOccupancy = friendlyOccupancy | enemyOccupancy;
 
-            while (pieces != 0)
+            var moves = new List<Move>();
+
+            while (piecesToParse != 0)
             {
-                var pieceLSB = BitOperations.GetLSB(ref pieces);
+                var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
 
-                var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(occupancy, pieceLSB);
-                var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(occupancy, pieceLSB);
+                var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(allPiecesOccupancy, pieceLSB);
+                var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(allPiecesOccupancy, pieceLSB);
 
                 var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern) & ~friendlyOccupancy;
 
@@ -62,24 +60,27 @@ namespace Core.Boards.MoveParsers
             return moves;
         }
 
-        void CalculateAttackFields(ulong pieces, Color color, ulong friendlyOccupancy, ulong enemyOccupancy)
+        void CalculateAttackFields(ulong[,] pieces, ulong piecesToParse, Color color, ulong[] occupancy, ref ulong[,] attacks)
         {
-            var blockersToRemove = _bitBoard.Pieces[(int)color, (int)PieceType.Bishop] |
-                                   _bitBoard.Pieces[(int)color, (int)PieceType.Queen];
+            var friendlyOccupancy = occupancy[(int)color];
+            var enemyOccupancy = occupancy[(int)ColorOperations.Invert(color)];
 
-            var occupancy = (friendlyOccupancy & ~blockersToRemove) | enemyOccupancy;
+            var blockersToRemove = pieces[(int)color, (int)PieceType.Bishop] |
+                                   pieces[(int)color, (int)PieceType.Queen];
 
-            while (pieces != 0)
+            var allPiecesOccupancy = (friendlyOccupancy & ~blockersToRemove) | enemyOccupancy;
+
+            while (piecesToParse != 0)
             {
-                var pieceLSB = BitOperations.GetLSB(ref pieces);
+                var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
 
-                var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(occupancy, pieceLSB);
-                var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(occupancy, pieceLSB);
+                var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(allPiecesOccupancy, pieceLSB);
+                var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(allPiecesOccupancy, pieceLSB);
 
-                rightRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(rightRotatedBitBoardPattern, friendlyOccupancy, Diagonal.A8H1, color);
-                leftRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(leftRotatedBitBoardPattern, friendlyOccupancy, Diagonal.A1H8, color);
+                rightRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(rightRotatedBitBoardPattern, pieces, friendlyOccupancy, Diagonal.A8H1, color);
+                leftRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(leftRotatedBitBoardPattern, pieces, friendlyOccupancy, Diagonal.A1H8, color);
 
                 var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern) & ~friendlyOccupancy;
 
@@ -88,7 +89,7 @@ namespace Core.Boards.MoveParsers
                     var patternLSB = BitOperations.GetLSB(ref pattern);
                     var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                    _bitBoard.Attacks[(int)color, patternIndex] |= pieceLSB;
+                    attacks[(int)color, patternIndex] |= pieceLSB;
                 }
             }
         }
@@ -131,7 +132,7 @@ namespace Core.Boards.MoveParsers
             return BitOperations.Rotate45Right((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) * 8));
         }
 
-        ulong ExpandPatternByFriendlyPieces(ulong pattern, ulong friendlyOccupation, Diagonal diagonal, Color color)
+        ulong ExpandPatternByFriendlyPieces(ulong pattern, ulong[,] pieces, ulong friendlyOccupation, Diagonal diagonal, Color color)
         {
             var expandedPattern = pattern;
 
@@ -139,24 +140,22 @@ namespace Core.Boards.MoveParsers
             var patternLSB = BitOperations.GetLSB(ref pattern);
 
             var shift = 0;
-            var mask = 0xFFul;
+            var mask = ~BitConstants.ARank & ~BitConstants.AFile & ~BitConstants.HRank & ~BitConstants.HFile;
 
             if (diagonal == Diagonal.A1H8)
             {
                 shift = 9;
-                mask = ~BitConstants.HRank & ~BitConstants.HFile;
             }
             else if (diagonal == Diagonal.A8H1)
             {
                 shift = 7;
-                mask = ~BitConstants.AFile & ~BitConstants.ARank;
             }
 
             while (blockers != 0)
             {
                 var blockerLSB = BitOperations.GetLSB(ref blockers);
-                if ((blockerLSB & _bitBoard.Pieces[(int)color, (int)PieceType.King]) != 0 ||
-                    (blockerLSB & _bitBoard.Pieces[(int)color, (int)PieceType.Pawn]) != 0)
+                if ((blockerLSB & pieces[(int)color, (int)PieceType.King]) != 0 ||
+                    (blockerLSB & pieces[(int)color, (int)PieceType.Pawn]) != 0)
                 {
                     if (blockerLSB == patternLSB)
                     {

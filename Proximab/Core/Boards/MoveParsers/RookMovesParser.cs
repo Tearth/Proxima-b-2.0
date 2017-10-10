@@ -9,39 +9,37 @@ namespace Core.Boards.MoveParsers
 {
     class RookMovesParser : MovesParserBase
     {
-        BitBoard _bitBoard;
-
-        public RookMovesParser(BitBoard bitBoard)
+        public RookMovesParser()
         {
-            _bitBoard = bitBoard;
+
         }
 
-        public List<Move> GetMoves(Color color)
+        public List<Move> GetMoves(Color color, PieceType pieceType, ulong[,] pieces, ulong[] occupancy, ref ulong[,] attacks)
         {
-            var friendlyOccupancy = _bitBoard.Occupancy[(int)color];
-            var enemyOccupancy = _bitBoard.Occupancy[(int)ColorOperations.Invert(color)];
+            var piecesToParse = pieces[(int)color, (int)pieceType];
+            var moves = CalculateMoves(pieces, piecesToParse, occupancy, color);
 
-            var pieces = _bitBoard.Pieces[(int)color, (int)PieceType.Rook];
-            var moves = CalculateMoves(pieces, color, friendlyOccupancy, enemyOccupancy);
-
-            CalculateAttackFields(pieces, color, friendlyOccupancy, enemyOccupancy);
+            CalculateAttackFields(pieces, piecesToParse, color, occupancy, ref attacks);
 
             return moves;
         }
 
-        List<Move> CalculateMoves(ulong pieces, Color color, ulong friendlyOccupancy, ulong enemyOccupancy)
+        List<Move> CalculateMoves(ulong[,] pieces, ulong piecesToParse, ulong[] occupancy, Color color)
         {
-            var moves = new List<Move>();
-            var occupancy = friendlyOccupancy | enemyOccupancy;
+            var friendlyOccupancy = occupancy[(int)color];
+            var enemyOccupancy = occupancy[(int)ColorOperations.Invert(color)];
+            var allPiecesOccupancy = friendlyOccupancy | enemyOccupancy;
 
-            while (pieces != 0)
+            var moves = new List<Move>();
+
+            while (piecesToParse != 0)
             {
-                var pieceLSB = BitOperations.GetLSB(ref pieces);
+                var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
 
-                var horizontalPattern = GetHorizontalPattern(occupancy, piecePosition);
-                var verticalPattern = GetVerticalPattern(occupancy, piecePosition);
+                var horizontalPattern = GetHorizontalPattern(allPiecesOccupancy, piecePosition);
+                var verticalPattern = GetVerticalPattern(allPiecesOccupancy, piecePosition);
 
                 var pattern = (horizontalPattern | verticalPattern) & ~friendlyOccupancy;
 
@@ -60,24 +58,27 @@ namespace Core.Boards.MoveParsers
             return moves;
         }
 
-        void CalculateAttackFields(ulong pieces, Color color, ulong friendlyOccupancy, ulong enemyOccupancy)
+        void CalculateAttackFields(ulong[,] pieces, ulong piecesToParse, Color color, ulong[] occupancy, ref ulong[,] attacks)
         {
-            var blockersToRemove = _bitBoard.Pieces[(int)color, (int)PieceType.Rook] |
-                                   _bitBoard.Pieces[(int)color, (int)PieceType.Queen];
+            var friendlyOccupancy = occupancy[(int)color];
+            var enemyOccupancy = occupancy[(int)ColorOperations.Invert(color)];
 
-            var occupancy = (friendlyOccupancy & ~blockersToRemove) | enemyOccupancy;
+            var blockersToRemove = pieces[(int)color, (int)PieceType.Rook] |
+                                   pieces[(int)color, (int)PieceType.Queen];
 
-            while (pieces != 0)
+            var allPiecesOccupancy = (friendlyOccupancy & ~blockersToRemove) | enemyOccupancy;
+
+            while (piecesToParse != 0)
             {
-                var pieceLSB = BitOperations.GetLSB(ref pieces);
+                var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
 
-                var horizontalPattern = GetHorizontalPattern(occupancy, piecePosition);
-                var verticalPattern = GetVerticalPattern(occupancy, piecePosition);
+                var horizontalPattern = GetHorizontalPattern(allPiecesOccupancy, piecePosition);
+                var verticalPattern = GetVerticalPattern(allPiecesOccupancy, piecePosition);
 
-                horizontalPattern = ExpandPatternByFriendlyPieces(horizontalPattern, friendlyOccupancy, Axis.Rank, color);
-                verticalPattern = ExpandPatternByFriendlyPieces(verticalPattern, friendlyOccupancy, Axis.File, color);
+                horizontalPattern = ExpandPatternByFriendlyPieces(horizontalPattern, pieces, friendlyOccupancy, Axis.Rank, color);
+                verticalPattern = ExpandPatternByFriendlyPieces(verticalPattern, pieces, friendlyOccupancy, Axis.File, color);
 
                 var pattern = horizontalPattern | verticalPattern;
 
@@ -86,7 +87,7 @@ namespace Core.Boards.MoveParsers
                     var patternLSB = BitOperations.GetLSB(ref pattern);
                     var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                    _bitBoard.Attacks[(int)color, patternIndex] |= pieceLSB;
+                    attacks[(int)color, patternIndex] |= pieceLSB;
                 }
             }
         }
@@ -112,7 +113,7 @@ namespace Core.Boards.MoveParsers
             return BitOperations.Rotate90Left(pattern) << offset;
         }
 
-        ulong ExpandPatternByFriendlyPieces(ulong pattern, ulong friendlyOccupation, Axis axis, Color color)
+        ulong ExpandPatternByFriendlyPieces(ulong pattern, ulong[,] pieces, ulong friendlyOccupation, Axis axis, Color color)
         {
             var expandedPattern = pattern;
 
@@ -136,7 +137,7 @@ namespace Core.Boards.MoveParsers
             while(blockers != 0)
             {
                 var blockerLSB = BitOperations.GetLSB(ref blockers);
-                if ((blockerLSB & _bitBoard.Pieces[(int)color, (int)PieceType.King]) != 0)
+                if ((blockerLSB & pieces[(int)color, (int)PieceType.King]) != 0)
                 {
                     if(blockerLSB == patternLSB)
                     {

@@ -8,28 +8,26 @@ namespace Core.Boards.MoveParsers
 {
     public class KingMovesParser : MovesParserBase
     {
-        BitBoard _bitBoard;
-
-        public KingMovesParser(BitBoard bitBoard)
+        public KingMovesParser()
         {
-            _bitBoard = bitBoard;
+
         }
 
-        public List<Move> GetMoves(Color color)
+        public List<Move> GetMoves(Color color, PieceType pieceType, ulong[,] pieces, ulong[] occupancy, ref ulong[,] attacks)
         {
             var moves = new List<Move>();
 
-            var friendlyOccupation = _bitBoard.Occupancy[(int)color];
-            var enemyOccupation = _bitBoard.Occupancy[(int)ColorOperations.Invert(color)];
+            var friendlyOccupation = occupancy[(int)color];
+            var enemyOccupation = occupancy[(int)ColorOperations.Invert(color)];
 
-            var pieces = _bitBoard.Pieces[(int)color, (int)PieceType.King];
+            var piecesToParse = pieces[(int)color, (int)pieceType];
 
-            while (pieces != 0)
+            while (piecesToParse != 0)
             {
-                var pieceLSB = BitOperations.GetLSB(ref pieces);
+                var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
-                var pattern = PredefinedMoves.KingMoves[pieceIndex] & ~_bitBoard.Occupancy[(int)color];
+                var pattern = PredefinedMoves.KingMoves[pieceIndex] & ~friendlyOccupation;
 
                 while (pattern != 0)
                 {
@@ -40,9 +38,9 @@ namespace Core.Boards.MoveParsers
                     var to = BitPositionConverter.ToPosition(patternLSB);
                     var moveType = GetMoveType(patternLSB, enemyOccupation);
                     
-                    moves.Add(new Move(from, to, PieceType.King, color, moveType));
+                    moves.Add(new Move(from, to, pieceType, color, moveType));
 
-                    _bitBoard.Attacks[(int)color, patternIndex] |= pieceLSB;
+                    attacks[(int)color, patternIndex] |= pieceLSB;
                 }
             }
 
