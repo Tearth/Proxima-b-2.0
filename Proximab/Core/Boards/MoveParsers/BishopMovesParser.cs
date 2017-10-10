@@ -39,8 +39,10 @@ namespace Core.Boards.MoveParsers
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
 
-                ulong pattern = GetRightRotatedBitBoardPattern(occupancy, pieceLSB);
-                pattern |= GetLeftRotatedBitBoardPattern(occupancy, pieceLSB);
+                var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(occupancy, pieceLSB);
+                var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(occupancy, pieceLSB);
+
+                var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern) & ~friendlyOccupancy;
 
                 while (pattern != 0)
                 {
