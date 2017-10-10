@@ -78,6 +78,9 @@ namespace Core.Boards.MoveParsers
                 var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(occupancy, pieceLSB);
                 var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(occupancy, pieceLSB);
 
+                rightRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(rightRotatedBitBoardPattern, friendlyOccupancy, Diagonal.A8H1, color);
+                leftRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(leftRotatedBitBoardPattern, friendlyOccupancy, Diagonal.A1H8, color);
+
                 var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern) & ~friendlyOccupancy;
 
                 while (pattern != 0)
@@ -126,6 +129,47 @@ namespace Core.Boards.MoveParsers
             var availableMoves = PredefinedMoves.SlideMoves[pieceRank, 8 - rotatedPiecePosition.X] & mask;
 
             return BitOperations.Rotate45Right((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) * 8));
+        }
+
+        ulong ExpandPatternByFriendlyPieces(ulong pattern, ulong friendlyOccupation, Diagonal diagonal, Color color)
+        {
+            var expandedPattern = pattern;
+
+            var blockers = pattern & friendlyOccupation;
+            var patternLSB = BitOperations.GetLSB(ref pattern);
+
+            var shift = 0;
+            var mask = 0xFFul;
+
+            if (diagonal == Diagonal.A1H8)
+            {
+                shift = 9;
+                mask = ~BitConstants.HRank & ~BitConstants.HFile;
+            }
+            else if (diagonal == Diagonal.A8H1)
+            {
+                shift = 7;
+                mask = ~BitConstants.AFile & ~BitConstants.ARank;
+            }
+
+            while (blockers != 0)
+            {
+                var blockerLSB = BitOperations.GetLSB(ref blockers);
+                if ((blockerLSB & _bitBoard.Pieces[(int)color, (int)PieceType.King]) != 0 ||
+                    (blockerLSB & _bitBoard.Pieces[(int)color, (int)PieceType.Pawn]) != 0)
+                {
+                    if (blockerLSB == patternLSB)
+                    {
+                        expandedPattern |= (blockerLSB & mask) >> shift;
+                    }
+                    else
+                    {
+                        expandedPattern |= (blockerLSB & mask) << shift;
+                    }
+                }
+            }
+
+            return expandedPattern;
         }
     }
 }

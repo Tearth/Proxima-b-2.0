@@ -56,6 +56,7 @@
     <Compile Include="Commons\Axis.cs" />
     <Compile Include="Commons\Colors\Color.cs" />
     <Compile Include="Commons\Colors\ColorOperations.cs" />
+    <Compile Include="Commons\Diagonal.cs" />
     <Compile Include="Commons\Exceptions\PositionOutOfRangeException.cs" />
     <Compile Include="Commons\Moves\Move.cs" />
     <Compile Include="Commons\Moves\MoveType.cs" />
