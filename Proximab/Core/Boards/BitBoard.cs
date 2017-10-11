@@ -20,6 +20,7 @@ namespace Core.Boards
         KingMovesParser _kingMovesParser;
         RookMovesParser _rookMovesParser;
         BishopMovesParser _bishopMovesParser;
+        PawnMovesParser _pawnMovesParser;
 
         public BitBoard()
         {
@@ -33,6 +34,7 @@ namespace Core.Boards
             _kingMovesParser = new KingMovesParser();
             _rookMovesParser = new RookMovesParser();
             _bishopMovesParser = new BishopMovesParser();
+            _pawnMovesParser = new PawnMovesParser();
         }
 
         public BitBoard(BitBoard bitBoard) : this()
@@ -176,7 +178,8 @@ namespace Core.Boards
             _moves.AddRange(_kingMovesParser.GetMoves(PieceType.King, color, _pieces, _occupancy, ref _attacks));
             _moves.AddRange(_rookMovesParser.GetMoves(PieceType.Rook, color, _pieces, _occupancy, ref _attacks));
             _moves.AddRange(_bishopMovesParser.GetMoves(PieceType.Bishop, color, _pieces, _occupancy, ref _attacks));
-            
+            _moves.AddRange(_pawnMovesParser.GetMoves(PieceType.Pawn, color, _pieces, _occupancy, ref _attacks));
+
             _moves.AddRange(_rookMovesParser.GetMoves(PieceType.Queen, color, _pieces, _occupancy, ref _attacks));
             _moves.AddRange(_bishopMovesParser.GetMoves(PieceType.Queen, color, _pieces, _occupancy, ref _attacks));
         }

@@ -125,13 +125,13 @@ namespace Core.Boards.MoveParsers
 
             if(axis == Axis.File)
             {
-                shift = 8;
                 mask = ~BitConstants.ARank & ~BitConstants.HRank;
+                shift = 8;
             }
-            else if(axis == Axis.Rank)
+            else
             {
-                shift = 1;
                 mask = ~BitConstants.AFile & ~BitConstants.HFile;
+                shift = 1;
             }
 
             while(blockers != 0)

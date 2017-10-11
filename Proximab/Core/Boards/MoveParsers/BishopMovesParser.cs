@@ -139,17 +139,8 @@ namespace Core.Boards.MoveParsers
             var blockers = pattern & friendlyOccupancy;
             var patternLSB = BitOperations.GetLSB(ref pattern);
 
-            var shift = 0;
+            var shift = diagonal == Diagonal.A1H8 ? 9 : 7;
             var mask = ~BitConstants.ARank & ~BitConstants.AFile & ~BitConstants.HRank & ~BitConstants.HFile;
-
-            if (diagonal == Diagonal.A1H8)
-            {
-                shift = 9;
-            }
-            else if (diagonal == Diagonal.A8H1)
-            {
-                shift = 7;
-            }
 
             while (blockers != 0)
             {
@@ -157,7 +148,7 @@ namespace Core.Boards.MoveParsers
                 var kingBlocker = pieces[(int)color, (int)PieceType.King];
                 var pawnBlocker = pieces[(int)color, (int)PieceType.Pawn];
 
-                if ((blockerLSB & kingBlocker) != 0 || (blockerLSB & pawnBlocker) != 0)
+                if ((blockerLSB & (kingBlocker | pawnBlocker)) != 0)
                 {
                     if (blockerLSB == patternLSB)
                     {

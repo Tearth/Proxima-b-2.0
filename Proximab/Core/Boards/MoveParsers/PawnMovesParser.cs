@@ -31,15 +31,16 @@ namespace Core.Boards.MoveParsers
         List<Move> GetMovesForSinglePush(PieceType pieceType, Color color, ulong piecesToParse, ulong occupancy)
         {
             var moves = new List<Move>();
-
-            var pattern = piecesToParse << 8;
+            
+            var pattern = color == Color.White ? piecesToParse << 8 : piecesToParse >> 8;
+            pattern &= ~occupancy;
 
             while(pattern != 0)
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
                 var patternPosition = BitPositionConverter.ToPosition(patternLSB);
 
-                var pieceLSB = patternLSB >> 8;
+                var pieceLSB = color == Color.White ? patternLSB >> 8 : patternLSB << 8;
 
                 var from = BitPositionConverter.ToPosition(pieceLSB);
                 var to = BitPositionConverter.ToPosition(patternLSB);
