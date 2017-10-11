@@ -154,16 +154,24 @@ namespace Core.Boards.MoveParsers
             while (blockers != 0)
             {
                 var blockerLSB = BitOperations.GetLSB(ref blockers);
-                if ((blockerLSB & pieces[(int)color, (int)PieceType.King]) != 0 ||
-                    (blockerLSB & pieces[(int)color, (int)PieceType.Pawn]) != 0)
+                var kingBlocker = pieces[(int)color, (int)PieceType.King];
+                var pawnBlocker = pieces[(int)color, (int)PieceType.Pawn];
+
+                if ((blockerLSB & kingBlocker) != 0 || (blockerLSB & pawnBlocker) != 0)
                 {
                     if (blockerLSB == patternLSB)
                     {
-                        expandedPattern |= (blockerLSB & mask) >> shift;
+                        if (pawnBlocker == 0 || (pawnBlocker != 0 && color == Color.Black))
+                        {
+                            expandedPattern |= (blockerLSB & mask) >> shift;
+                        }
                     }
                     else
                     {
-                        expandedPattern |= (blockerLSB & mask) << shift;
+                        if(pawnBlocker == 0 || (pawnBlocker != 0 && color == Color.White))
+                        {
+                            expandedPattern |= (blockerLSB & mask) << shift;
+                        }
                     }
                 }
             }
