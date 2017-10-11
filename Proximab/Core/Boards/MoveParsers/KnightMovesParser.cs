@@ -13,12 +13,9 @@ namespace Core.Boards.MoveParsers
 
         }
 
-        public List<Move> GetMoves(PieceType pieceType, Color color, ulong[,] pieces, ulong[] occupancy, ref ulong[,] attacks)
+        public List<Move> GetMoves(PieceType pieceType, Color color, ulong[,] pieces, OccupancyContainer occupancyContainer, ref ulong[,] attacks)
         {
             var moves = new List<Move>();
-
-            var friendlyOccupancy = occupancy[(int)color];
-            var enemyOccupancy = occupancy[(int)ColorOperations.Invert(color)];
 
             var piecesToParse = pieces[(int)color, (int)pieceType];
 
@@ -27,7 +24,7 @@ namespace Core.Boards.MoveParsers
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
-                var pattern = PredefinedMoves.KnightMoves[pieceIndex] & ~friendlyOccupancy;
+                var pattern = PredefinedMoves.KnightMoves[pieceIndex] & ~occupancyContainer.FriendlyOccupancy;
 
                 while(pattern != 0)
                 {
@@ -36,7 +33,7 @@ namespace Core.Boards.MoveParsers
 
                     var from = BitPositionConverter.ToPosition(pieceLSB);
                     var to = BitPositionConverter.ToPosition(patternLSB);
-                    var moveType = GetMoveType(patternLSB, enemyOccupancy);
+                    var moveType = GetMoveType(patternLSB, occupancyContainer.EnemyOccupancy);
                     
                     moves.Add(new Move(from, to, pieceType, color, moveType));
 

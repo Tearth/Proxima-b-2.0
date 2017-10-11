@@ -12,30 +12,25 @@ namespace Core.Boards.MoveParsers
 
         }
 
-        public List<Move> GetMoves(PieceType pieceType, Color color, ulong[,] pieces, ulong[] occupancy, ref ulong[,] attacks)
+        public List<Move> GetMoves(PieceType pieceType, Color color, ulong[,] pieces, OccupancyContainer occupancyContainer, ref ulong[,] attacks)
         {
             var moves = new List<Move>();
 
-            var friendlyOccupancy = occupancy[(int)color];
-            var enemyOccupancy = occupancy[(int)ColorOperations.Invert(color)];
-
-            var allPiecesOccupancy = friendlyOccupancy | enemyOccupancy;
-
             var piecesToParse = pieces[(int)color, (int)pieceType];
 
-            moves.AddRange(GetMovesForSinglePush(pieceType, color, piecesToParse, allPiecesOccupancy));
-            moves.AddRange(GetMovesForDoublePush(pieceType, color, piecesToParse, allPiecesOccupancy));
+            moves.AddRange(GetMovesForSinglePush(pieceType, color, piecesToParse, occupancyContainer));
+            moves.AddRange(GetMovesForDoublePush(pieceType, color, piecesToParse, occupancyContainer));
 
             return moves;
         }
 
-        List<Move> GetMovesForSinglePush(PieceType pieceType, Color color, ulong piecesToParse, ulong occupancy)
+        List<Move> GetMovesForSinglePush(PieceType pieceType, Color color, ulong piecesToParse, OccupancyContainer occupancyContainer)
         {
             var moves = new List<Move>();
             
             var pattern = color == Color.White ? piecesToParse << 8 : piecesToParse >> 8;
 
-            pattern &= ~occupancy;
+            pattern &= ~occupancyContainer.Occupancy;
 
             while(pattern != 0)
             {
@@ -54,16 +49,26 @@ namespace Core.Boards.MoveParsers
             return moves;
         }
 
-        List<Move> GetMovesForDoublePush(PieceType pieceType, Color color, ulong piecesToParse, ulong occupancy)
+        List<Move> GetMovesForDoublePush(PieceType pieceType, Color color, ulong piecesToParse, OccupancyContainer occupancyContainer)
         {
             var moves = new List<Move>();
+            var validPieces = 0ul;
+            var pattern = 0ul;
 
-            var validPieces = color == Color.White ? piecesToParse & BitConstants.BRank : piecesToParse & BitConstants.GRank;
-            validPieces = color == Color.White ? (~occupancy >> 8) & validPieces : (~occupancy << 8) & validPieces;
-
-            var pattern = color == Color.White ? validPieces << 16 : validPieces >> 16;
-
-            pattern &= ~occupancy;
+            if(color == Color.White)
+            {
+                validPieces = piecesToParse & BitConstants.BRank;
+                validPieces = (~occupancyContainer.Occupancy >> 8) & validPieces;
+                pattern = validPieces << 16;
+            }
+            else
+            {
+                validPieces = piecesToParse & BitConstants.GRank;
+                validPieces = (~occupancyContainer.Occupancy << 8) & validPieces;
+                pattern = validPieces >> 16;
+            }
+            
+            pattern &= ~occupancyContainer.Occupancy;
 
             while (pattern != 0)
             {

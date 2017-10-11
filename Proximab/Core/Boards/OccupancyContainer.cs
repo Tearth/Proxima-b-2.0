@@ -23,7 +23,7 @@ namespace Core.Boards
             FriendlyOccupancy = occupancy[(int)color];
             EnemyOccupancy = occupancy[(int)ColorOperations.Invert(color)];
 
-            Occupancy = FriendlyOccupancy | Occupancy;
+            Occupancy = FriendlyOccupancy | EnemyOccupancy;
         }
     }
 }
