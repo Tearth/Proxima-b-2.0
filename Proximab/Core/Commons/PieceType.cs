@@ -2,8 +2,6 @@
 {
     public enum PieceType : int
     {
-        None = -1,
-
         Pawn = 0,
         Rook = 1,
         Knight = 2,

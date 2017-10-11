@@ -12,7 +12,7 @@ namespace Core.Commons.Moves
         public Color Color { get; set; }
         public MoveType Type { get; set; }
 
-        public Move() : this(new Position(1, 1), new Position(1, 1), PieceType.None, Color.None, MoveType.None)
+        public Move() : this(new Position(1, 1), new Position(1, 1), PieceType.Pawn, Color.White, MoveType.None)
         {
 
         }

@@ -49,7 +49,7 @@ namespace Core.Boards
                     var position = new Position(x, y);
                     var piece = friendlyBoard.GetPiece(position);
 
-                    if (piece.Type != PieceType.None)
+                    if (piece != null)
                     {
                         var bitPosition = BitPositionConverter.ToULong(position);
                         _pieces[(int)piece.Color, (int)piece.Type] |= bitPosition;

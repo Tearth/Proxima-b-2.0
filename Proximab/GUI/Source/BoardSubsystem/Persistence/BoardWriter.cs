@@ -24,7 +24,7 @@ namespace GUI.Source.BoardSubsystem.Persistence
 
                         var field = friendlyBoard.GetPiece(position);
 
-                        if(field.Type == PieceType.None)
+                        if(field == null)
                         {
                             writer.Write('0');
                         }

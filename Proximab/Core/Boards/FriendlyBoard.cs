@@ -15,7 +15,7 @@ namespace Core.Boards
             {
                 for(int y=0; y<8; y++)
                 {
-                    _board[x, y] = new FriendlyPiece();
+                    _board[x, y] = null;
                 }
             }
         }

@@ -40,7 +40,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
 
         void Board_OnFieldSelection(object sender, FieldSelectedEventArgs e)
         {
-            if(e.Piece.Type == PieceType.None)
+            if(e.Piece == null)
             {
                 var fieldAttackers = _bitBoard.GetFieldAttackers(e.Position);
                 _board.AddExternalSelections(fieldAttackers);

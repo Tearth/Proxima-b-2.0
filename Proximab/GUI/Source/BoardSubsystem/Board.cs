@@ -136,11 +136,11 @@ namespace GUI.Source.BoardSubsystem
         {
             var previousSelectedPiece = _friendlyBoard.GetPiece(previousSelection.Position);
 
-            if(previousSelectedPiece.Type == PieceType.None)
+            if(previousSelectedPiece == null)
             {
                 OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(selectedPosition, selectedPieceType));
             }
-            else if (previousSelectedPiece.Type != PieceType.None && selectedPieceType.Type == PieceType.None)
+            else if (previousSelectedPiece != null && selectedPieceType == null)
             {
                 var from = previousSelection.Position;
                 var to = selectedPosition;
@@ -184,7 +184,7 @@ namespace GUI.Source.BoardSubsystem
                     var boardPosition = new Position(x, y);
                     var piece = _friendlyBoard.GetPiece(boardPosition);
 
-                    if (piece.Type == PieceType.None)
+                    if (piece == null)
                         continue;
 
                     var position = new Microsoft.Xna.Framework.Vector2(boardPosition.X - 1, 8 - boardPosition.Y) * Constants.FieldWidthHeight;
