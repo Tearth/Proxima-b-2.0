@@ -24,6 +24,7 @@ namespace Core.Boards.MoveParsers
             var piecesToParse = pieces[(int)color, (int)pieceType];
 
             moves.AddRange(GetMovesForSinglePush(pieceType, color, piecesToParse, allPiecesOccupancy));
+            moves.AddRange(GetMovesForDoublePush(pieceType, color, piecesToParse, allPiecesOccupancy));
 
             return moves;
         }
@@ -33,6 +34,7 @@ namespace Core.Boards.MoveParsers
             var moves = new List<Move>();
             
             var pattern = color == Color.White ? piecesToParse << 8 : piecesToParse >> 8;
+
             pattern &= ~occupancy;
 
             while(pattern != 0)
@@ -45,6 +47,34 @@ namespace Core.Boards.MoveParsers
                 var from = BitPositionConverter.ToPosition(pieceLSB);
                 var to = BitPositionConverter.ToPosition(patternLSB);
                 var moveType = MoveType.Quiet;
+
+                moves.Add(new Move(from, to, pieceType, color, moveType));
+            }
+
+            return moves;
+        }
+
+        List<Move> GetMovesForDoublePush(PieceType pieceType, Color color, ulong piecesToParse, ulong occupancy)
+        {
+            var moves = new List<Move>();
+
+            var validPieces = color == Color.White ? piecesToParse & BitConstants.BRank : piecesToParse & BitConstants.GRank;
+            validPieces = color == Color.White ? (~occupancy >> 8) & validPieces : (~occupancy << 8) & validPieces;
+
+            var pattern = color == Color.White ? validPieces << 16 : validPieces >> 16;
+
+            pattern &= ~occupancy;
+
+            while (pattern != 0)
+            {
+                var patternLSB = BitOperations.GetLSB(ref pattern);
+                var patternPosition = BitPositionConverter.ToPosition(patternLSB);
+
+                var pieceLSB = color == Color.White ? patternLSB >> 16 : patternLSB << 16;
+
+                var from = BitPositionConverter.ToPosition(pieceLSB);
+                var to = BitPositionConverter.ToPosition(patternLSB);
+                var moveType = MoveType.DoublePush;
 
                 moves.Add(new Move(from, to, pieceType, color, moveType));
             }
