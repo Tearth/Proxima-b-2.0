@@ -20,6 +20,8 @@ namespace Core.Boards.MoveParsers
 
             moves.AddRange(GetMovesForSinglePush(pieceType, color, piecesToParse, occupancyContainer));
             moves.AddRange(GetMovesForDoublePush(pieceType, color, piecesToParse, occupancyContainer));
+            moves.AddRange(GetMovesForRightAttack(pieceType, color, piecesToParse, occupancyContainer, ref attacks));
+            moves.AddRange(GetMovesForLeftAttack(pieceType, color, piecesToParse, occupancyContainer, ref attacks));
 
             return moves;
         }
@@ -35,8 +37,6 @@ namespace Core.Boards.MoveParsers
             while(pattern != 0)
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
-                var patternPosition = BitPositionConverter.ToPosition(patternLSB);
-
                 var pieceLSB = color == Color.White ? patternLSB >> 8 : patternLSB << 8;
 
                 var from = BitPositionConverter.ToPosition(pieceLSB);
@@ -58,13 +58,13 @@ namespace Core.Boards.MoveParsers
             if(color == Color.White)
             {
                 validPieces = piecesToParse & BitConstants.BRank;
-                validPieces = (~occupancyContainer.Occupancy >> 8) & validPieces;
+                validPieces &= ~occupancyContainer.Occupancy >> 8;
                 pattern = validPieces << 16;
             }
             else
             {
                 validPieces = piecesToParse & BitConstants.GRank;
-                validPieces = (~occupancyContainer.Occupancy << 8) & validPieces;
+                validPieces &= ~occupancyContainer.Occupancy << 8;
                 pattern = validPieces >> 16;
             }
             
@@ -82,6 +82,58 @@ namespace Core.Boards.MoveParsers
                 var moveType = MoveType.DoublePush;
 
                 moves.Add(new Move(from, to, pieceType, color, moveType));
+            }
+
+            return moves;
+        }
+
+        List<Move> GetMovesForRightAttack(PieceType pieceType, Color color, ulong piecesToParse, OccupancyContainer occupancyContainer, ref ulong[,] attacks)
+        {
+            var moves = new List<Move>();
+            var validPieces = piecesToParse & ~BitConstants.HFile;
+
+            var pattern = color == Color.White ? validPieces << 7 : validPieces >> 7;
+            pattern &= ~occupancyContainer.FriendlyOccupancy;
+
+            while (pattern != 0)
+            {
+                var patternLSB = BitOperations.GetLSB(ref pattern);
+                var patternIndex = BitOperations.GetBitIndex(patternLSB);
+
+                var pieceLSB = color == Color.White ? patternLSB >> 7 : patternLSB << 7;
+
+                var from = BitPositionConverter.ToPosition(pieceLSB);
+                var to = BitPositionConverter.ToPosition(patternLSB);
+                var moveType = MoveType.Kill;
+
+                moves.Add(new Move(from, to, pieceType, color, moveType));
+                attacks[(int)color, patternIndex] |= pieceLSB;
+            }
+
+            return moves;
+        }
+
+        List<Move> GetMovesForLeftAttack(PieceType pieceType, Color color, ulong piecesToParse, OccupancyContainer occupancyContainer, ref ulong[,] attacks)
+        {
+            var moves = new List<Move>();
+            var validPieces = piecesToParse & ~BitConstants.AFile;
+
+            var pattern = color == Color.White ? validPieces << 9 : validPieces >> 9;
+            pattern &= ~occupancyContainer.FriendlyOccupancy;
+
+            while (pattern != 0)
+            {
+                var patternLSB = BitOperations.GetLSB(ref pattern);
+                var patternIndex = BitOperations.GetBitIndex(patternLSB);
+
+                var pieceLSB = color == Color.White ? patternLSB >> 9 : patternLSB << 9;
+
+                var from = BitPositionConverter.ToPosition(pieceLSB);
+                var to = BitPositionConverter.ToPosition(patternLSB);
+                var moveType = MoveType.Kill;
+
+                moves.Add(new Move(from, to, pieceType, color, moveType));
+                attacks[(int)color, patternIndex] |= pieceLSB;
             }
 
             return moves;
