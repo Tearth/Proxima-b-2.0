@@ -5,9 +5,9 @@ namespace Core.Boards.MoveParsers
 {
     public abstract class MovesParserBase
     {
-        protected MoveType GetMoveType(ulong patternLSB, ulong enemyOccupation)
+        protected MoveType GetMoveType(ulong patternLSB, ulong enemyOccupancy)
         {
-            if ((patternLSB & enemyOccupation) != 0)
+            if ((patternLSB & enemyOccupancy) != 0)
             {
                 return MoveType.Kill;
             }

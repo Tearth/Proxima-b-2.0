@@ -17,8 +17,8 @@ namespace Core.Boards.MoveParsers
         {
             var moves = new List<Move>();
 
-            var friendlyOccupation = occupancy[(int)color];
-            var enemyOccupation = occupancy[(int)ColorOperations.Invert(color)];
+            var friendlyOccupancy = occupancy[(int)color];
+            var enemyOccupancy = occupancy[(int)ColorOperations.Invert(color)];
 
             var piecesToParse = pieces[(int)color, (int)pieceType];
 
@@ -27,7 +27,7 @@ namespace Core.Boards.MoveParsers
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
-                var pattern = PredefinedMoves.KingMoves[pieceIndex] & ~friendlyOccupation;
+                var pattern = PredefinedMoves.KingMoves[pieceIndex] & ~friendlyOccupancy;
 
                 while (pattern != 0)
                 {
@@ -36,7 +36,7 @@ namespace Core.Boards.MoveParsers
 
                     var from = BitPositionConverter.ToPosition(pieceLSB);
                     var to = BitPositionConverter.ToPosition(patternLSB);
-                    var moveType = GetMoveType(patternLSB, enemyOccupation);
+                    var moveType = GetMoveType(patternLSB, enemyOccupancy);
                     
                     moves.Add(new Move(from, to, pieceType, color, moveType));
 

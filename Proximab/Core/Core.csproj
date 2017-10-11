@@ -52,6 +52,7 @@
     <Compile Include="Boards\MoveParsers\KingMovesParser.cs" />
     <Compile Include="Boards\MoveParsers\KnightMovesParser.cs" />
     <Compile Include="Boards\MoveParsers\MovesParserBase.cs" />
+    <Compile Include="Boards\MoveParsers\PawnMovesParser.cs" />
     <Compile Include="Boards\MoveParsers\RookMovesParser.cs" />
     <Compile Include="Commons\Axis.cs" />
     <Compile Include="Commons\Colors\Color.cs" />

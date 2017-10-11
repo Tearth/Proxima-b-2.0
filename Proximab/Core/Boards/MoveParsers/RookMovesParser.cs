@@ -113,11 +113,11 @@ namespace Core.Boards.MoveParsers
             return BitOperations.Rotate90Left(pattern) << offset;
         }
 
-        ulong ExpandPatternByFriendlyPieces(Color color, Axis axis, ulong pattern, ulong[,] pieces, ulong friendlyOccupation)
+        ulong ExpandPatternByFriendlyPieces(Color color, Axis axis, ulong pattern, ulong[,] pieces, ulong friendlyOccupancy)
         {
             var expandedPattern = pattern;
 
-            var blockers = pattern & friendlyOccupation;
+            var blockers = pattern & friendlyOccupancy;
             var patternLSB = BitOperations.GetLSB(ref pattern);
 
             var shift = 0;
