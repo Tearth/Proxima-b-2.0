@@ -47,6 +47,14 @@
           <Item>string</Item>
         </Arguments>
       </Item>
+    
+      <Item>
+        <Name>Benchmark</Name>
+        <EnumType>Benchmark</EnumType>
+        <Arguments>
+          <Item>int</Item>
+        </Arguments>
+      </Item>
 		</Definitions>
 	</Asset>
 </XnaContent>

@@ -9,6 +9,7 @@
         SaveBoard,
         LoadBoard,
         AddPiece,
-        Occupancy
+        Occupancy,
+        Benchmark
     }
 }

@@ -3,6 +3,7 @@ using Core.Commons;
 using Core.Commons.Colors;
 using Core.Commons.Moves;
 using Core.Commons.Positions;
+using GUI.Source.Benchmarks;
 using GUI.Source.BoardSubsystem;
 using GUI.Source.BoardSubsystem.Persistence;
 using GUI.Source.ConsoleSubsystem;
@@ -35,6 +36,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
                 case CommandType.Occupancy: { DrawOccupancy(command); break; }
                 case CommandType.SaveBoard: { SaveBoard(command); break; }
                 case CommandType.LoadBoard: { LoadBoard(command); break; }
+                case CommandType.Benchmark: { DoBenchmark(command); break; }
             }
         }
 
@@ -154,6 +156,14 @@ namespace GUI.Source.GameModeSubsystem.Editor
             _board.SetFriendlyBoard(boardReader.Read(path));
 
             ResetBitBoard();
+        }
+
+        void DoBenchmark(Command command)
+        {
+            var benchmark = new MovesGeneratorBenchmark(_consoleManager);
+            var depth = command.GetArgument<int>(0);
+
+            benchmark.Run(Color.White, _bitBoard, depth);
         }
 
         void ResetBitBoard()

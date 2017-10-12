@@ -3,6 +3,7 @@ using Core.Commons;
 using Core.Commons.Colors;
 using Core.Commons.Moves;
 using Core.Commons.Positions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -39,7 +40,7 @@ namespace Core.Boards
 
         public BitBoard(BitBoard bitBoard) : this()
         {
-            _pieces = bitBoard._pieces;
+            Array.Copy(bitBoard._pieces, _pieces, 12);
         }
 
         public BitBoard(FriendlyBoard friendlyBoard) : this()
