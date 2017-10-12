@@ -93,7 +93,6 @@ namespace Core.Boards.MoveParsers
             var validPieces = piecesToParse & ~BitConstants.HFile;
 
             var pattern = color == Color.White ? validPieces << 7 : validPieces >> 7;
-            pattern &= ~occupancyContainer.FriendlyOccupancy;
 
             while (pattern != 0)
             {
@@ -102,11 +101,15 @@ namespace Core.Boards.MoveParsers
 
                 var pieceLSB = color == Color.White ? patternLSB >> 7 : patternLSB << 7;
 
-                var from = BitPositionConverter.ToPosition(pieceLSB);
-                var to = BitPositionConverter.ToPosition(patternLSB);
-                var moveType = MoveType.Kill;
+                if ((patternLSB & occupancyContainer.EnemyOccupancy) != 0)
+                {
+                    var from = BitPositionConverter.ToPosition(pieceLSB);
+                    var to = BitPositionConverter.ToPosition(patternLSB);
+                    var moveType = MoveType.Kill;
 
-                moves.Add(new Move(from, to, pieceType, color, moveType));
+                    moves.Add(new Move(from, to, pieceType, color, moveType));
+                }
+
                 attacks[(int)color, patternIndex] |= pieceLSB;
             }
 
@@ -119,7 +122,6 @@ namespace Core.Boards.MoveParsers
             var validPieces = piecesToParse & ~BitConstants.AFile;
 
             var pattern = color == Color.White ? validPieces << 9 : validPieces >> 9;
-            pattern &= ~occupancyContainer.FriendlyOccupancy;
 
             while (pattern != 0)
             {
@@ -128,11 +130,15 @@ namespace Core.Boards.MoveParsers
 
                 var pieceLSB = color == Color.White ? patternLSB >> 9 : patternLSB << 9;
 
-                var from = BitPositionConverter.ToPosition(pieceLSB);
-                var to = BitPositionConverter.ToPosition(patternLSB);
-                var moveType = MoveType.Kill;
+                if ((patternLSB & occupancyContainer.EnemyOccupancy) != 0)
+                {
+                    var from = BitPositionConverter.ToPosition(pieceLSB);
+                    var to = BitPositionConverter.ToPosition(patternLSB);
+                    var moveType = MoveType.Kill;
 
-                moves.Add(new Move(from, to, pieceType, color, moveType));
+                    moves.Add(new Move(from, to, pieceType, color, moveType));
+                }
+
                 attacks[(int)color, patternIndex] |= pieceLSB;
             }
 
