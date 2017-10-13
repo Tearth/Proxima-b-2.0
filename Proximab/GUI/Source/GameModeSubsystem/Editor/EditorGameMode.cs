@@ -163,8 +163,9 @@ namespace GUI.Source.GameModeSubsystem.Editor
         {
             var benchmark = new MovesGeneratorBenchmark(_consoleManager);
             var depth = command.GetArgument<int>(0);
+            var verifyChecks = command.GetArgument<bool>(1);
 
-            benchmark.Run(Color.White, _bitBoard, depth);
+            benchmark.Run(Color.White, _bitBoard, depth, verifyChecks);
         }
 
         void IsCheck(Command command)

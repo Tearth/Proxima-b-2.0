@@ -53,6 +53,7 @@
         <EnumType>Benchmark</EnumType>
         <Arguments>
           <Item>int</Item>
+          <Item>bool</Item>
         </Arguments>
       </Item>
     

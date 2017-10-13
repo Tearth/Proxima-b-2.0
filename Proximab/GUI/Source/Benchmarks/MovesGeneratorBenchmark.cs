@@ -14,40 +14,44 @@ namespace GUI.Source.Benchmarks
             _consoleManager = consoleManager;
         }
 
-        public void Run(Color initialColor, BitBoard bitBoard, int depth)
+        public void Run(Color initialColor, BitBoard bitBoard, int depth, bool verifyChecks)
         {
             var freshBitBoard = new BitBoard(bitBoard);
             var benchmarkData = new BenchmarkData();
             var startTime = DateTime.Now;
-
-            CalculateBitBoard(initialColor, freshBitBoard, depth - 1, ref benchmarkData);
+            
+            CalculateBitBoard(initialColor, freshBitBoard, depth - 1, verifyChecks, ref benchmarkData);
 
             benchmarkData.Time = (float)(DateTime.Now - startTime).TotalSeconds;
 
             DisplayBenchmarkResult(benchmarkData);
         }
 
-        void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, ref BenchmarkData benchmarkData)
+        void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool verifyChecks, ref BenchmarkData benchmarkData)
         {
-            bitBoard.Calculate();
-            var availableMoves = bitBoard.GetAvailableMoves(color);
+            var enemyColor = ColorOperations.Invert(color);
+            benchmarkData.TotalNodes++;
             
-            if(depth == 0)
+            if (depth == 0)
             {
-                benchmarkData.EndNodes += availableMoves.Count;
+                benchmarkData.EndNodes++;
             }
             else
             {
-                foreach(var move in availableMoves)
+                bitBoard.Calculate();
+                //if (bitBoard.IsCheck(enemyColor))
+                //{
+                //    return;
+                //}
+
+                var availableMoves = bitBoard.GetAvailableMoves(color);
+                
+                foreach (var move in availableMoves)
                 {
                     var bitBoardAfterMove = bitBoard.Move(move);
-                    var enemyColor = ColorOperations.Invert(color);
-
-                    CalculateBitBoard(enemyColor, bitBoardAfterMove, depth - 1, ref benchmarkData);
+                    CalculateBitBoard(enemyColor, bitBoardAfterMove, depth - 1, verifyChecks, ref benchmarkData);
                 }
             }
-
-            benchmarkData.TotalNodes += availableMoves.Count;
         }
 
         void DisplayBenchmarkResult(BenchmarkData benchmarkData)
