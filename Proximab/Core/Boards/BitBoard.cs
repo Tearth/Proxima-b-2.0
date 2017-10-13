@@ -13,6 +13,7 @@ namespace Core.Boards
         ulong[,] _pieces;
         ulong[] _occupancy;
         ulong[,] _attacks;
+        ulong[] _enPassant;
 
         LinkedList<Move> _whiteMoves;
         LinkedList<Move> _blackMoves;
@@ -28,6 +29,7 @@ namespace Core.Boards
             _pieces = new ulong[2, 6];
             _occupancy = new ulong[2];
             _attacks = new ulong[2, 64];
+            _enPassant = new ulong[2];
 
             _whiteMoves = new LinkedList<Move>();
             _blackMoves = new LinkedList<Move>();
@@ -41,7 +43,10 @@ namespace Core.Boards
 
         public BitBoard(BitBoard bitBoard, Move move) : this()
         {
+            Array.Copy(bitBoard._pieces, _pieces, 12);
+
             CalculateMove(bitBoard, move);
+            CalculateEnPassant(move);
             CalculateBitBoard();
         }
 
@@ -134,8 +139,6 @@ namespace Core.Boards
 
         void CalculateMove(BitBoard bitBoard, Move move)
         {
-            Array.Copy(bitBoard._pieces, _pieces, 12);
-
             var colorIndex = (int)move.Color;
             var pieceIndex = (int)move.Piece;
 
@@ -150,6 +153,33 @@ namespace Core.Boards
             }
 
             _pieces[colorIndex, pieceIndex] |= to;
+        }
+
+        void CalculateEnPassant(Move move)
+        {
+            if(move.Piece == PieceType.Pawn)
+            {
+                if(move.Color == Color.White)
+                {
+                    if(move.From.Y == 2 && move.To.Y == 4)
+                    {
+                        var enPassantPosition = new Position(move.To.X, move.To.Y - 1);
+                        var enPassantByte = BitPositionConverter.ToULong(enPassantPosition);
+
+                        _enPassant[(int)Color.White] |= enPassantByte;
+                    }
+                }
+                else
+                {
+                    if (move.From.Y == 7 && move.To.Y == 5)
+                    {
+                        var enPassantPosition = new Position(move.To.X, move.To.Y + 1);
+                        var enPassantByte = BitPositionConverter.ToULong(enPassantPosition);
+
+                        _enPassant[(int)Color.Black] |= enPassantByte;
+                    }
+                }
+            }
         }
 
         void ConvertFromFriendlyBoard(FriendlyBoard friendlyBoard)
@@ -200,7 +230,7 @@ namespace Core.Boards
             _kingMovesParser.GetMoves(PieceType.King, color, _pieces, occupancyContainer, movesContainer, ref _attacks);
             _rookMovesParser.GetMoves(PieceType.Rook, color, _pieces, occupancyContainer, movesContainer, ref _attacks);
             _bishopMovesParser.GetMoves(PieceType.Bishop, color, _pieces, occupancyContainer, movesContainer, ref _attacks);
-            _pawnMovesParser.GetMoves(PieceType.Pawn, color, _pieces, occupancyContainer, movesContainer, ref _attacks);
+            _pawnMovesParser.GetMoves(PieceType.Pawn, color, _pieces, _enPassant, occupancyContainer, movesContainer, ref _attacks);
 
             _rookMovesParser.GetMoves(PieceType.Queen, color, _pieces, occupancyContainer, movesContainer, ref _attacks);
             _bishopMovesParser.GetMoves(PieceType.Queen, color, _pieces, occupancyContainer, movesContainer, ref _attacks);

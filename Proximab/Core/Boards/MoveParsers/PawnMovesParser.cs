@@ -12,14 +12,14 @@ namespace Core.Boards.MoveParsers
 
         }
 
-        public void GetMoves(PieceType pieceType, Color color, ulong[,] pieces, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
+        public void GetMoves(PieceType pieceType, Color color, ulong[,] pieces, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
         {
             var piecesToParse = pieces[(int)color, (int)pieceType];
 
             CalculateMovesForSinglePush(pieceType, color, piecesToParse, occupancyContainer, moves);
             CalculateMovesForDoublePush(pieceType, color, piecesToParse, occupancyContainer, moves);
-            CalculateMovesForRightAttack(pieceType, color, piecesToParse, occupancyContainer, moves, ref attacks);
-            CalculateMovesForLeftAttack(pieceType, color, piecesToParse, occupancyContainer, moves, ref attacks);
+            CalculateMovesForRightAttack(pieceType, color, piecesToParse, enPassant, occupancyContainer, moves, ref attacks);
+            CalculateMovesForLeftAttack(pieceType, color, piecesToParse, enPassant, occupancyContainer, moves, ref attacks);
         }
 
         void CalculateMovesForSinglePush(PieceType pieceType, Color color, ulong piecesToParse, OccupancyContainer occupancyContainer, LinkedList<Move> moves)
@@ -75,9 +75,10 @@ namespace Core.Boards.MoveParsers
             }
         }
 
-        void CalculateMovesForRightAttack(PieceType pieceType, Color color, ulong piecesToParse, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
+        void CalculateMovesForRightAttack(PieceType pieceType, Color color, ulong piecesToParse, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
         {
             var validPieces = piecesToParse & ~BitConstants.HFile;
+            var enemyColor = ColorOperations.Invert(color);
 
             var pattern = color == Color.White ? validPieces << 7 : validPieces >> 9;
 
@@ -87,12 +88,13 @@ namespace Core.Boards.MoveParsers
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
                 var pieceLSB = color == Color.White ? patternLSB >> 7 : patternLSB << 9;
+                var enPassantField = enPassant[(int)enemyColor] & patternLSB;
 
-                if ((patternLSB & occupancyContainer.EnemyOccupancy) != 0)
+                if ((patternLSB & occupancyContainer.EnemyOccupancy) != 0 || enPassantField != 0)
                 {
                     var from = BitPositionConverter.ToPosition(pieceLSB);
                     var to = BitPositionConverter.ToPosition(patternLSB);
-                    var moveType = MoveType.Kill;
+                    var moveType = enPassantField == 0 ? MoveType.Kill : MoveType.EnPassant;
 
                     moves.AddLast(new Move(from, to, pieceType, color, moveType));
                 }
@@ -101,9 +103,10 @@ namespace Core.Boards.MoveParsers
             }
         }
 
-        void CalculateMovesForLeftAttack(PieceType pieceType, Color color, ulong piecesToParse, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
+        void CalculateMovesForLeftAttack(PieceType pieceType, Color color, ulong piecesToParse, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
         {
             var validPieces = piecesToParse & ~BitConstants.AFile;
+            var enemyColor = ColorOperations.Invert(color);
 
             var pattern = color == Color.White ? validPieces << 9 : validPieces >> 7;
 
@@ -113,12 +116,13 @@ namespace Core.Boards.MoveParsers
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
                 var pieceLSB = color == Color.White ? patternLSB >> 9 : patternLSB << 7;
+                var enPassantField = enPassant[(int)enemyColor] & patternLSB;
 
-                if ((patternLSB & occupancyContainer.EnemyOccupancy) != 0)
+                if ((patternLSB & occupancyContainer.EnemyOccupancy) != 0 || enPassantField != 0)
                 {
                     var from = BitPositionConverter.ToPosition(pieceLSB);
                     var to = BitPositionConverter.ToPosition(patternLSB);
-                    var moveType = MoveType.Kill;
+                    var moveType = enPassantField == 0 ? MoveType.Kill : MoveType.EnPassant;
 
                     moves.AddLast(new Move(from, to, pieceType, color, moveType));
                 }
