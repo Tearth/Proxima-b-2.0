@@ -2,7 +2,7 @@
 
 namespace Core
 {
-    public static class PhalconCore
+    public static class ProximaCore
     {
         static bool Ready = false;
 

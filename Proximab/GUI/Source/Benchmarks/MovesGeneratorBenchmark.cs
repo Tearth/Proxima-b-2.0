@@ -20,7 +20,7 @@ namespace GUI.Source.Benchmarks
             var benchmarkData = new BenchmarkData();
             var startTime = DateTime.Now;
 
-            CalculateBitBoard(initialColor, freshBitBoard, depth, ref benchmarkData);
+            CalculateBitBoard(initialColor, freshBitBoard, depth - 1, ref benchmarkData);
 
             benchmarkData.Time = (float)(DateTime.Now - startTime).TotalSeconds;
 
@@ -52,10 +52,10 @@ namespace GUI.Source.Benchmarks
 
         void DisplayBenchmarkResult(BenchmarkData benchmarkData)
         {
-            _consoleManager.WriteLine("$gBenchmark result:");
+            _consoleManager.WriteLine("$wBenchmark result:");
             _consoleManager.WriteLine($"$wTotal nodes: $g{benchmarkData.TotalNodes}");
             _consoleManager.WriteLine($"$wEnd nodes: $g{benchmarkData.EndNodes}");
-            _consoleManager.WriteLine($"$wTime: $g{benchmarkData.Time}");
+            _consoleManager.WriteLine($"$wTime: $c{benchmarkData.Time}");
         }
     }
 }

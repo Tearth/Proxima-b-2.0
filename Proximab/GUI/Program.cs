@@ -12,7 +12,7 @@ namespace GUI
             var consoleManager = new ConsoleManager();
             consoleManager.Run();
 
-            PhalconCore.Init();
+            ProximaCore.Init();
 
             using (var game = new GUICore(consoleManager))
                 game.Run();

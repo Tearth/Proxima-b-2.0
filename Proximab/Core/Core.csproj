@@ -67,7 +67,7 @@
     <Compile Include="Commons\Positions\PositionConverter.cs" />
     <Compile Include="Boards\MoveGenerators\KnightMovesGenerator.cs" />
     <Compile Include="Boards\MoveGenerators\PredefinedMoves.cs" />
-    <Compile Include="PhalconCore.cs" />
+    <Compile Include="ProximaCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
