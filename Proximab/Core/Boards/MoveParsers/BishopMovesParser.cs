@@ -31,8 +31,8 @@ namespace Core.Boards.MoveParsers
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
 
-                var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, occupancyContainer);
-                var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, occupancyContainer);
+                var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, occupancyContainer.Occupancy);
+                var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, occupancyContainer.Occupancy);
 
                 var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern) & ~occupancyContainer.FriendlyOccupancy;
 
@@ -63,11 +63,11 @@ namespace Core.Boards.MoveParsers
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
 
-                var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, occupancyContainer);
-                var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, occupancyContainer);
+                var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
+                var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
 
-                rightRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(color, Diagonal.A8H1, rightRotatedBitBoardPattern, pieces, occupancyContainer);
-                leftRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(color, Diagonal.A1H8, leftRotatedBitBoardPattern, pieces, occupancyContainer);
+                rightRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(color, Diagonal.A8H1, pieceLSB, rightRotatedBitBoardPattern, pieces, allPiecesOccupancy);
+                leftRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(color, Diagonal.A1H8, pieceLSB, leftRotatedBitBoardPattern, pieces, allPiecesOccupancy);
 
                 var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern) & ~occupancyContainer.FriendlyOccupancy;
 
@@ -81,9 +81,9 @@ namespace Core.Boards.MoveParsers
             }
         }
 
-        ulong GetRightRotatedBitBoardPattern(ulong pieceLSB, OccupancyContainer occupancyContainer)
+        ulong GetRightRotatedBitBoardPattern(ulong pieceLSB, ulong occupancy)
         {
-            var rotatedOccupancy = BitOperations.Rotate45Right(occupancyContainer.Occupancy);
+            var rotatedOccupancy = BitOperations.Rotate45Right(occupancy);
             var rotatedPieceLSB = BitOperations.Rotate45Right(pieceLSB);
             var rotatedPiecePosition = BitPositionConverter.ToPosition(rotatedPieceLSB);
 
@@ -100,9 +100,9 @@ namespace Core.Boards.MoveParsers
             return BitOperations.Rotate45Left((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) * 8));
         }
 
-        ulong GetLeftRotatedBitBoardPattern(ulong pieceLSB, OccupancyContainer occupancyContainer)
+        ulong GetLeftRotatedBitBoardPattern(ulong pieceLSB, ulong occupancy)
         {
-            var rotatedOccupancy = BitOperations.Rotate45Left(occupancyContainer.Occupancy);
+            var rotatedOccupancy = BitOperations.Rotate45Left(occupancy);
             var rotatedPieceLSB = BitOperations.Rotate45Left(pieceLSB);
             var rotatedPiecePosition = BitPositionConverter.ToPosition(rotatedPieceLSB);
 
@@ -119,12 +119,11 @@ namespace Core.Boards.MoveParsers
             return BitOperations.Rotate45Right((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) * 8));
         }
 
-        ulong ExpandPatternByFriendlyPieces(Color color, Diagonal diagonal, ulong pattern, ulong[,] pieces, OccupancyContainer occupancyContainer)
+        ulong ExpandPatternByFriendlyPieces(Color color, Diagonal diagonal, ulong pieceLSB, ulong pattern, ulong[,] pieces, ulong friendlyOccupancy)
         {
             var expandedPattern = pattern;
 
-            var blockers = pattern & occupancyContainer.FriendlyOccupancy;
-            var patternLSB = BitOperations.GetLSB(ref pattern);
+            var blockers = pattern & friendlyOccupancy;
 
             var shift = diagonal == Diagonal.A1H8 ? 9 : 7;
             var mask = ~BitConstants.ARank & ~BitConstants.AFile & ~BitConstants.HRank & ~BitConstants.HFile;
@@ -132,21 +131,21 @@ namespace Core.Boards.MoveParsers
             while (blockers != 0)
             {
                 var blockerLSB = BitOperations.GetLSB(ref blockers);
-                var kingBlocker = pieces[(int)color, (int)PieceType.King];
-                var pawnBlocker = pieces[(int)color, (int)PieceType.Pawn];
+                var kingBlockers = pieces[(int)color, (int)PieceType.King];
+                var pawnBlockers = pieces[(int)color, (int)PieceType.Pawn];
 
-                if ((blockerLSB & (kingBlocker | pawnBlocker)) != 0)
+                if ((blockerLSB & (kingBlockers | pawnBlockers)) != 0)
                 {
-                    if (blockerLSB == patternLSB)
+                    if (blockerLSB < pieceLSB)
                     {
-                        if (pawnBlocker == 0 || (pawnBlocker != 0 && color == Color.Black))
+                        if (pawnBlockers == 0 || (pawnBlockers != 0 && color == Color.Black))
                         {
                             expandedPattern |= (blockerLSB & mask) >> shift;
                         }
                     }
                     else
                     {
-                        if(pawnBlocker == 0 || (pawnBlocker != 0 && color == Color.White))
+                        if(pawnBlockers == 0 || (pawnBlockers != 0 && color == Color.White))
                         {
                             expandedPattern |= (blockerLSB & mask) << shift;
                         }

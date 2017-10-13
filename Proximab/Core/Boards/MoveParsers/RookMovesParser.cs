@@ -30,8 +30,8 @@ namespace Core.Boards.MoveParsers
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
 
-                var horizontalPattern = GetHorizontalPattern(piecePosition, occupancyContainer);
-                var verticalPattern = GetVerticalPattern(piecePosition, occupancyContainer);
+                var horizontalPattern = GetHorizontalPattern(piecePosition, occupancyContainer.Occupancy);
+                var verticalPattern = GetVerticalPattern(piecePosition, occupancyContainer.Occupancy);
 
                 var pattern = (horizontalPattern | verticalPattern) & ~occupancyContainer.FriendlyOccupancy;
 
@@ -53,19 +53,19 @@ namespace Core.Boards.MoveParsers
             var blockersToRemove = pieces[(int)color, (int)PieceType.Rook] |
                                    pieces[(int)color, (int)PieceType.Queen];
 
-            var allPiecesOccupancy = occupancyContainer.Occupancy & ~blockersToRemove;
-
+            var occupancyWithoutBlockers = occupancyContainer.Occupancy & ~blockersToRemove;
+            
             while (piecesToParse != 0)
             {
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
 
-                var horizontalPattern = GetHorizontalPattern(piecePosition, occupancyContainer);
-                var verticalPattern = GetVerticalPattern(piecePosition, occupancyContainer);
+                var horizontalPattern = GetHorizontalPattern(piecePosition, occupancyWithoutBlockers);
+                var verticalPattern = GetVerticalPattern(piecePosition, occupancyWithoutBlockers);
 
-                horizontalPattern = ExpandPatternByFriendlyPieces(color, Axis.Rank, horizontalPattern, pieces, occupancyContainer);
-                verticalPattern = ExpandPatternByFriendlyPieces(color, Axis.File, verticalPattern, pieces, occupancyContainer);
+                horizontalPattern = ExpandPatternByFriendlyPieces(color, Axis.Rank, horizontalPattern, pieces, occupancyWithoutBlockers);
+                verticalPattern = ExpandPatternByFriendlyPieces(color, Axis.File, verticalPattern, pieces, occupancyWithoutBlockers);
 
                 var pattern = horizontalPattern | verticalPattern;
 
@@ -79,20 +79,20 @@ namespace Core.Boards.MoveParsers
             }
         }
 
-        ulong GetHorizontalPattern(Position piecePosition, OccupancyContainer occupancyContainer)
+        ulong GetHorizontalPattern(Position piecePosition, ulong occupancy)
         {
             var offset = piecePosition.Y - 1;
 
-            var pieceRank = (byte)(occupancyContainer.Occupancy >> (offset * 8));
+            var pieceRank = (byte)(occupancy >> (offset * 8));
             var pattern = PredefinedMoves.SlideMoves[pieceRank, 8 - piecePosition.X];
 
             return (ulong)pattern << (offset * 8);
         }
 
-        ulong GetVerticalPattern(Position piecePosition, OccupancyContainer occupancyContainer)
+        ulong GetVerticalPattern(Position piecePosition, ulong occupancy)
         {
             var offset = 8 - piecePosition.X;
-            var rotatedOccupancy = BitOperations.Rotate90Right(occupancyContainer.Occupancy);
+            var rotatedOccupancy = BitOperations.Rotate90Right(occupancy);
 
             var pieceRank = (byte)(rotatedOccupancy >> (offset * 8));
             var pattern = PredefinedMoves.SlideMoves[pieceRank, 8 - piecePosition.Y];
@@ -100,11 +100,11 @@ namespace Core.Boards.MoveParsers
             return BitOperations.Rotate90Left(pattern) << offset;
         }
 
-        ulong ExpandPatternByFriendlyPieces(Color color, Axis axis, ulong pattern, ulong[,] pieces, OccupancyContainer occupancyContainer)
+        ulong ExpandPatternByFriendlyPieces(Color color, Axis axis, ulong pattern, ulong[,] pieces, ulong friendlyOccupancy)
         {
             var expandedPattern = pattern;
 
-            var blockers = pattern & occupancyContainer.FriendlyOccupancy;
+            var blockers = pattern & friendlyOccupancy;
             var patternLSB = BitOperations.GetLSB(ref pattern);
 
             var shift = 0;
