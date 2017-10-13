@@ -15,7 +15,8 @@ namespace Core.Boards
         ulong[] _occupancy;
         ulong[,] _attacks;
 
-        List<Move> _moves;
+        List<Move> _whiteMoves;
+        List<Move> _blackMoves;
 
         KnightMovesParser _knightMovesParser;
         KingMovesParser _kingMovesParser;
@@ -29,7 +30,8 @@ namespace Core.Boards
             _occupancy = new ulong[2];
             _attacks = new ulong[2, 64];
 
-            _moves = new List<Move>();
+            _whiteMoves = new List<Move>();
+            _blackMoves = new List<Move>();
 
             _knightMovesParser = new KnightMovesParser();
             _kingMovesParser = new KingMovesParser();
@@ -141,12 +143,16 @@ namespace Core.Boards
 
         public List<Move> GetAvailableMoves()
         {
-            return _moves;
+            var moves = new List<Move>();
+            moves.AddRange(_whiteMoves);
+            moves.AddRange(_blackMoves);
+
+            return moves;
         }
 
         public List<Move> GetAvailableMoves(Color color)
         {
-            return _moves.Where(p => p.Color == color).ToList();
+            return color == Color.White ? _whiteMoves : _blackMoves;
         }
 
         void CalculateOccupancy()
@@ -176,15 +182,16 @@ namespace Core.Boards
         void CalculateMoves(Color color)
         {
             var occupancyContainer = new OccupancyContainer(color, _occupancy);
+            var movesContainer = GetAvailableMoves(color);
 
-            _moves.AddRange(_knightMovesParser.GetMoves(PieceType.Knight, color, _pieces, occupancyContainer, ref _attacks));
-            _moves.AddRange(_kingMovesParser.GetMoves(PieceType.King, color, _pieces, occupancyContainer, ref _attacks));
-            _moves.AddRange(_rookMovesParser.GetMoves(PieceType.Rook, color, _pieces, occupancyContainer, ref _attacks));
-            _moves.AddRange(_bishopMovesParser.GetMoves(PieceType.Bishop, color, _pieces, occupancyContainer, ref _attacks));
-            _moves.AddRange(_pawnMovesParser.GetMoves(PieceType.Pawn, color, _pieces, occupancyContainer, ref _attacks));
+            movesContainer.AddRange(_knightMovesParser.GetMoves(PieceType.Knight, color, _pieces, occupancyContainer, ref _attacks));
+            movesContainer.AddRange(_kingMovesParser.GetMoves(PieceType.King, color, _pieces, occupancyContainer, ref _attacks));
+            movesContainer.AddRange(_rookMovesParser.GetMoves(PieceType.Rook, color, _pieces, occupancyContainer, ref _attacks));
+            movesContainer.AddRange(_bishopMovesParser.GetMoves(PieceType.Bishop, color, _pieces, occupancyContainer, ref _attacks));
+            movesContainer.AddRange(_pawnMovesParser.GetMoves(PieceType.Pawn, color, _pieces, occupancyContainer, ref _attacks));
 
-            _moves.AddRange(_rookMovesParser.GetMoves(PieceType.Queen, color, _pieces, occupancyContainer, ref _attacks));
-            _moves.AddRange(_bishopMovesParser.GetMoves(PieceType.Queen, color, _pieces, occupancyContainer, ref _attacks));
+            movesContainer.AddRange(_rookMovesParser.GetMoves(PieceType.Queen, color, _pieces, occupancyContainer, ref _attacks));
+            movesContainer.AddRange(_bishopMovesParser.GetMoves(PieceType.Queen, color, _pieces, occupancyContainer, ref _attacks));
         }
     }
 }
