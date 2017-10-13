@@ -37,6 +37,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
                 case CommandType.SaveBoard: { SaveBoard(command); break; }
                 case CommandType.LoadBoard: { LoadBoard(command); break; }
                 case CommandType.Benchmark: { DoBenchmark(command); break; }
+                case CommandType.IsCheck: { IsCheck(command); break; }
             }
         }
 
@@ -164,6 +165,35 @@ namespace GUI.Source.GameModeSubsystem.Editor
             var depth = command.GetArgument<int>(0);
 
             benchmark.Run(Color.White, _bitBoard, depth);
+        }
+
+        void IsCheck(Command command)
+        {
+            var color = command.GetArgument<string>(0);
+            var colorType = Color.White;
+
+            if(color == "white" || color == "w")
+            {
+                colorType = Color.White;
+            }
+            else if (color == "black" || color == "b")
+            {
+                colorType = Color.Black;
+            }
+            else
+            {
+                _consoleManager.WriteLine($"$rInvalid color name");
+                return;
+            }
+
+            if(_bitBoard.IsCheck(colorType))
+            {
+                _consoleManager.WriteLine($"$gYES");
+            }
+            else
+            {
+                _consoleManager.WriteLine($"$rNO");
+            }
         }
 
         void ResetBitBoard()

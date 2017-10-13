@@ -55,6 +55,14 @@
           <Item>int</Item>
         </Arguments>
       </Item>
+    
+      <Item>
+        <Name>IsCheck</Name>
+        <EnumType>IsCheck</EnumType>
+        <Arguments>
+          <Item>string</Item>
+        </Arguments>
+      </Item>
 		</Definitions>
 	</Asset>
 </XnaContent>

@@ -155,6 +155,14 @@ namespace Core.Boards
             return color == Color.White ? _whiteMoves : _blackMoves;
         }
 
+        public bool IsCheck(Color color)
+        {
+            var enemyColor = ColorOperations.Invert(color);
+            var kingIndex = BitOperations.GetBitIndex(_pieces[(int)color, (int)PieceType.King]);
+
+            return _attacks[(int)enemyColor, kingIndex] != 0;
+        }
+
         void CalculateOccupancy()
         {
             _occupancy[(int)Color.White] = _pieces[(int)Color.White, (int)PieceType.Pawn] |
