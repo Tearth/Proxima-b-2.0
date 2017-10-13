@@ -14,12 +14,12 @@ namespace GUI.Source.Benchmarks
             _consoleManager = consoleManager;
         }
 
-        public void Run(Color initialColor, BitBoard bitBoard, int depth, bool verifyChecks)
+        public void Run(Color initialColor, FriendlyBoard friendlyBoard, int depth, bool verifyChecks)
         {
-            var freshBitBoard = new BitBoard(bitBoard);
             var benchmarkData = new BenchmarkData();
             var startTime = DateTime.Now;
-            
+
+            var freshBitBoard = new BitBoard(friendlyBoard);
             CalculateBitBoard(initialColor, freshBitBoard, depth - 1, verifyChecks, ref benchmarkData);
 
             benchmarkData.Time = (float)(DateTime.Now - startTime).TotalSeconds;
@@ -30,29 +30,25 @@ namespace GUI.Source.Benchmarks
         void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool verifyChecks, ref BenchmarkData benchmarkData)
         {
             var enemyColor = ColorOperations.Invert(color);
-            bitBoard.Calculate();
+            var availableMoves = bitBoard.GetAvailableMoves(color);
 
-            if(verifyChecks && bitBoard.IsCheck(enemyColor))
+            if (depth <= 0)
             {
-                return;
-            }
-
-            if (depth == 0)
-            {
-                benchmarkData.EndNodes++;
+                benchmarkData.EndNodes += availableMoves.Count;
             }
             else
-            {
-                var availableMoves = bitBoard.GetAvailableMoves(color);
-                
+            {           
                 foreach (var move in availableMoves)
                 {
                     var bitBoardAfterMove = bitBoard.Move(move);
+                    if (verifyChecks && bitBoardAfterMove.IsCheck(enemyColor))
+                        continue;
+
                     CalculateBitBoard(enemyColor, bitBoardAfterMove, depth - 1, verifyChecks, ref benchmarkData);
                 }
             }
 
-            benchmarkData.TotalNodes++;
+            benchmarkData.TotalNodes += availableMoves.Count;
         }
 
         void DisplayBenchmarkResult(BenchmarkData benchmarkData)

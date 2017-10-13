@@ -5,7 +5,6 @@ using Core.Commons.Moves;
 using Core.Commons.Positions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Core.Boards
 {
@@ -40,55 +39,21 @@ namespace Core.Boards
             _pawnMovesParser = new PawnMovesParser();
         }
 
-        public BitBoard(BitBoard bitBoard) : this()
+        public BitBoard(BitBoard bitBoard, Move move) : this()
         {
-            Array.Copy(bitBoard._pieces, _pieces, 12);
+            CalculateMove(bitBoard, move);
+            CalculateBitBoard();
         }
 
         public BitBoard(FriendlyBoard friendlyBoard) : this()
         {
-            for (int x = 1; x <= 8; x++)
-            {
-                for (int y = 1; y <= 8; y++)
-                {
-                    var position = new Position(x, y);
-                    var piece = friendlyBoard.GetPiece(position);
-
-                    if (piece != null)
-                    {
-                        var bitPosition = BitPositionConverter.ToULong(position);
-                        _pieces[(int)piece.Color, (int)piece.Type] |= bitPosition;
-                    }
-                }
-            }
-        }
-
-        public void Calculate()
-        {
-            CalculateOccupancy();
-            CalculateMoves();
+            ConvertFromFriendlyBoard(friendlyBoard);
+            CalculateBitBoard();
         }
 
         public BitBoard Move(Move move)
         {
-            var bitBoard = new BitBoard(this);
-
-            var colorIndex = (int)move.Color;
-            var pieceIndex = (int)move.Piece;
-
-            var from = BitPositionConverter.ToULong(move.From);
-            var to = BitPositionConverter.ToULong(move.To);
-
-            bitBoard._pieces[colorIndex, pieceIndex] &= ~from;
-
-            for(int i=0; i<6; i++)
-            {
-                bitBoard._pieces[colorIndex, i] &= ~to;
-            }
-
-            bitBoard._pieces[colorIndex, pieceIndex] |= to;
-
-            return bitBoard;
+            return new BitBoard(this, move);
         }
         
         public FriendlyBoard GetFriendlyBoard()
@@ -167,31 +132,66 @@ namespace Core.Boards
             return _attacks[(int)enemyColor, kingIndex] != 0;
         }
 
+        void CalculateMove(BitBoard bitBoard, Move move)
+        {
+            Array.Copy(bitBoard._pieces, _pieces, 12);
+
+            var colorIndex = (int)move.Color;
+            var pieceIndex = (int)move.Piece;
+
+            var from = BitPositionConverter.ToULong(move.From);
+            var to = BitPositionConverter.ToULong(move.To);
+
+            _pieces[colorIndex, pieceIndex] &= ~from;
+
+            for (int i = 0; i < 6; i++)
+            {
+                _pieces[colorIndex, i] &= ~to;
+            }
+
+            _pieces[colorIndex, pieceIndex] |= to;
+        }
+
+        void ConvertFromFriendlyBoard(FriendlyBoard friendlyBoard)
+        {
+            for (int x = 1; x <= 8; x++)
+            {
+                for (int y = 1; y <= 8; y++)
+                {
+                    var position = new Position(x, y);
+                    var piece = friendlyBoard.GetPiece(position);
+
+                    if (piece != null)
+                    {
+                        var bitPosition = BitPositionConverter.ToULong(position);
+                        _pieces[(int)piece.Color, (int)piece.Type] |= bitPosition;
+                    }
+                }
+            }
+        }
+
+        void CalculateBitBoard()
+        {
+            CalculateOccupancy();
+            CalculateAvailableMoves();
+        }
+
         void CalculateOccupancy()
         {
-            _occupancy[(int)Color.White] = _pieces[(int)Color.White, (int)PieceType.Pawn] |
-                                          _pieces[(int)Color.White, (int)PieceType.Rook] |
-                                          _pieces[(int)Color.White, (int)PieceType.Knight] |
-                                          _pieces[(int)Color.White, (int)PieceType.Bishop] |
-                                          _pieces[(int)Color.White, (int)PieceType.Queen] |
-                                          _pieces[(int)Color.White, (int)PieceType.King];
-
-
-            _occupancy[(int)Color.Black] = _pieces[(int)Color.Black, (int)PieceType.Pawn] |
-                                          _pieces[(int)Color.Black, (int)PieceType.Rook] |
-                                          _pieces[(int)Color.Black, (int)PieceType.Knight] |
-                                          _pieces[(int)Color.Black, (int)PieceType.Bishop] |
-                                          _pieces[(int)Color.Black, (int)PieceType.Queen] |
-                                          _pieces[(int)Color.Black, (int)PieceType.King];
+            for(int i=0; i<6; i++)
+            {
+                _occupancy[(int)Color.White] |= _pieces[(int)Color.White, i];
+                _occupancy[(int)Color.Black] |= _pieces[(int)Color.Black, i];
+            }
         }
 
-        void CalculateMoves()
+        void CalculateAvailableMoves()
         {
-            CalculateMoves(Color.White);
-            CalculateMoves(Color.Black);
+            CalculateAvailableMoves(Color.White);
+            CalculateAvailableMoves(Color.Black);
         }
 
-        void CalculateMoves(Color color)
+        void CalculateAvailableMoves(Color color)
         {
             var occupancyContainer = new OccupancyContainer(color, _occupancy);
             var movesContainer = GetAvailableMoves(color);

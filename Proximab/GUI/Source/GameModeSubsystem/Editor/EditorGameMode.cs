@@ -72,8 +72,6 @@ namespace GUI.Source.GameModeSubsystem.Editor
             }
 
             _bitBoard = _bitBoard.Move(move);
-            _bitBoard.Calculate();
-
             _board.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
         }
 
@@ -165,7 +163,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
             var depth = command.GetArgument<int>(0);
             var verifyChecks = command.GetArgument<bool>(1);
 
-            benchmark.Run(Color.White, _bitBoard, depth, verifyChecks);
+            benchmark.Run(Color.White, _board.GetFriendlyBoard(), depth, verifyChecks);
         }
 
         void IsCheck(Command command)
@@ -200,7 +198,6 @@ namespace GUI.Source.GameModeSubsystem.Editor
         void ResetBitBoard()
         {
             _bitBoard = new BitBoard(_board.GetFriendlyBoard());
-            _bitBoard.Calculate();
         }
     }
 }
