@@ -14,20 +14,16 @@ namespace Core.Boards.MoveParsers
 
         }
 
-        public List<Move> GetMoves(PieceType pieceType, Color color, ulong[,] pieces, OccupancyContainer occupancyContainer, ref ulong[,] attacks)
+        public void GetMoves(PieceType pieceType, Color color, ulong[,] pieces, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
         {
             var piecesToParse = pieces[(int)color, (int)pieceType];
-            var moves = CalculateMoves(pieceType, color, pieces, piecesToParse, occupancyContainer);
 
+            CalculateMoves(pieceType, color, pieces, piecesToParse, occupancyContainer, moves);
             CalculateAttackFields(color, pieces, piecesToParse, occupancyContainer, ref attacks);
-
-            return moves;
         }
 
-        List<Move> CalculateMoves(PieceType pieceType, Color color, ulong[,] pieces, ulong piecesToParse, OccupancyContainer occupancyContainer)
+        void CalculateMoves(PieceType pieceType, Color color, ulong[,] pieces, ulong piecesToParse, OccupancyContainer occupancyContainer, LinkedList<Move> moves)
         {
-            var moves = new List<Move>();
-
             while (piecesToParse != 0)
             {
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
@@ -47,11 +43,9 @@ namespace Core.Boards.MoveParsers
                     var to = BitPositionConverter.ToPosition(patternLSB);
                     var moveType = GetMoveType(patternLSB, occupancyContainer.EnemyOccupancy);
 
-                    moves.Add(new Move(piecePosition, to, pieceType, color, moveType));
+                    moves.AddLast(new Move(piecePosition, to, pieceType, color, moveType));
                 }
             }
-
-            return moves;
         }
 
         void CalculateAttackFields(Color color, ulong[,] pieces, ulong piecesToParse, OccupancyContainer occupancyContainer, ref ulong[,] attacks)

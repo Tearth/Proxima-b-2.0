@@ -13,10 +13,8 @@ namespace Core.Boards.MoveParsers
 
         }
 
-        public List<Move> GetMoves(PieceType pieceType, Color color, ulong[,] pieces, OccupancyContainer occupancyContainer, ref ulong[,] attacks)
+        public void GetMoves(PieceType pieceType, Color color, ulong[,] pieces, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
         {
-            var moves = new List<Move>();
-
             var piecesToParse = pieces[(int)color, (int)pieceType];
 
             while (piecesToParse != 0)
@@ -35,13 +33,11 @@ namespace Core.Boards.MoveParsers
                     var to = BitPositionConverter.ToPosition(patternLSB);
                     var moveType = GetMoveType(patternLSB, occupancyContainer.EnemyOccupancy);
                     
-                    moves.Add(new Move(from, to, pieceType, color, moveType));
+                    moves.AddLast(new Move(from, to, pieceType, color, moveType));
 
                     attacks[(int)color, patternIndex] |= pieceLSB;
                 }
             }
-
-            return moves;
         }
     }
 }
