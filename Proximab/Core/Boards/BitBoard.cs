@@ -144,8 +144,12 @@ namespace Core.Boards
         public LinkedList<Move> GetAvailableMoves()
         {
             var moves = new LinkedList<Move>();
-            //moves.AddRange(_whiteMoves);
-            //moves.AddRange(_blackMoves);
+
+            foreach (var move in _whiteMoves)
+                moves.AddLast(move);
+
+            foreach (var move in _blackMoves)
+                moves.AddLast(move);
 
             return moves;
         }

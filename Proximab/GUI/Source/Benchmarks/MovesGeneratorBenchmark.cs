@@ -30,20 +30,19 @@ namespace GUI.Source.Benchmarks
         void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool verifyChecks, ref BenchmarkData benchmarkData)
         {
             var enemyColor = ColorOperations.Invert(color);
-            benchmarkData.TotalNodes++;
-            
+            bitBoard.Calculate();
+
+            if(verifyChecks && bitBoard.IsCheck(enemyColor))
+            {
+                return;
+            }
+
             if (depth == 0)
             {
                 benchmarkData.EndNodes++;
             }
             else
             {
-                bitBoard.Calculate();
-                //if (bitBoard.IsCheck(enemyColor))
-                //{
-                //    return;
-                //}
-
                 var availableMoves = bitBoard.GetAvailableMoves(color);
                 
                 foreach (var move in availableMoves)
@@ -52,6 +51,8 @@ namespace GUI.Source.Benchmarks
                     CalculateBitBoard(enemyColor, bitBoardAfterMove, depth - 1, verifyChecks, ref benchmarkData);
                 }
             }
+
+            benchmarkData.TotalNodes++;
         }
 
         void DisplayBenchmarkResult(BenchmarkData benchmarkData)
