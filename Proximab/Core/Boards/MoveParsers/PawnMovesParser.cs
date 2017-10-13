@@ -79,14 +79,14 @@ namespace Core.Boards.MoveParsers
         {
             var validPieces = piecesToParse & ~BitConstants.HFile;
 
-            var pattern = color == Color.White ? validPieces << 7 : validPieces >> 7;
+            var pattern = color == Color.White ? validPieces << 7 : validPieces >> 9;
 
             while (pattern != 0)
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                var pieceLSB = color == Color.White ? patternLSB >> 7 : patternLSB << 7;
+                var pieceLSB = color == Color.White ? patternLSB >> 7 : patternLSB << 9;
 
                 if ((patternLSB & occupancyContainer.EnemyOccupancy) != 0)
                 {
@@ -105,14 +105,14 @@ namespace Core.Boards.MoveParsers
         {
             var validPieces = piecesToParse & ~BitConstants.AFile;
 
-            var pattern = color == Color.White ? validPieces << 9 : validPieces >> 9;
+            var pattern = color == Color.White ? validPieces << 9 : validPieces >> 7;
 
             while (pattern != 0)
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                var pieceLSB = color == Color.White ? patternLSB >> 9 : patternLSB << 9;
+                var pieceLSB = color == Color.White ? patternLSB >> 9 : patternLSB << 7;
 
                 if ((patternLSB & occupancyContainer.EnemyOccupancy) != 0)
                 {
