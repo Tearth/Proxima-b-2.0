@@ -16,5 +16,14 @@
             BlackShortCastlingPossible = true;
             BlackLongCastlingPossible = true;
         }
+
+        public CastlingData(CastlingData castlingData)
+        {
+            WhiteShortCastlingPossible = castlingData.WhiteShortCastlingPossible;
+            WhiteLongCastlingPossible = castlingData.WhiteLongCastlingPossible;
+
+            BlackShortCastlingPossible = castlingData.BlackShortCastlingPossible;
+            BlackLongCastlingPossible = castlingData.BlackLongCastlingPossible;
+        }
     }
 }

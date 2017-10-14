@@ -45,5 +45,10 @@ namespace Core.Boards.MoveParsers
                 }
             }
         }
+
+        public void GetCastlingMoves(PieceType pieceType, Color color, ulong[,] pieces, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
+        {
+
+        }
     }
 }

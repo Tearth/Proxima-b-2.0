@@ -20,6 +20,8 @@ namespace Core.Boards
         LinkedList<Move> _whiteMoves;
         LinkedList<Move> _blackMoves;
 
+        CastlingData _castlingData;
+
         KnightMovesParser _knightMovesParser;
         KingMovesParser _kingMovesParser;
         RookMovesParser _rookMovesParser;
@@ -38,6 +40,8 @@ namespace Core.Boards
             _whiteMoves = new LinkedList<Move>();
             _blackMoves = new LinkedList<Move>();
 
+            _castlingData = new CastlingData();
+
             _knightMovesParser = new KnightMovesParser();
             _kingMovesParser = new KingMovesParser();
             _rookMovesParser = new RookMovesParser();
@@ -48,6 +52,8 @@ namespace Core.Boards
         public BitBoard(BitBoard bitBoard, Move move) : this()
         {
             Array.Copy(bitBoard._pieces, _pieces, 12);
+
+            _castlingData = new CastlingData(bitBoard._castlingData);
             _currentPlayerColor = ColorOperations.Invert(move.Color);
 
             CalculateMove(bitBoard, move);
@@ -87,6 +93,8 @@ namespace Core.Boards
                     }
                 }
             }
+
+            _castlingData = new CastlingData(friendlyBoard.CastlingData);
 
             return friendlyBoard;
         }

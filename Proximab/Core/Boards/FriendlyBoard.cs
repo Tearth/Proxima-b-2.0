@@ -5,29 +5,32 @@ namespace Core.Boards
 {
     public class FriendlyBoard
     {
-        FriendlyPiece[,] _board { get; set; }
+        public CastlingData CastlingData { get; set; }
+
+        FriendlyPiece[,] _friendlyPieces;
 
         public FriendlyBoard()
         {
-            _board = new FriendlyPiece[8, 8];
+            _friendlyPieces = new FriendlyPiece[8, 8];
+            CastlingData = new CastlingData();
 
             for(int x=0; x<8; x++)
             {
                 for(int y=0; y<8; y++)
                 {
-                    _board[x, y] = null;
+                    _friendlyPieces[x, y] = null;
                 }
             }
         }
 
         public FriendlyPiece GetPiece(Position position)
         {
-            return _board[position.X - 1, position.Y - 1];
+            return _friendlyPieces[position.X - 1, position.Y - 1];
         }
 
         public void SetPiece(Position position, FriendlyPiece piece)
         {
-            _board[position.X - 1, position.Y - 1] = piece;
+            _friendlyPieces[position.X - 1, position.Y - 1] = piece;
         }
     }
 }
