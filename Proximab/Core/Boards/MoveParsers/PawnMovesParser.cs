@@ -12,18 +12,21 @@ namespace Core.Boards.MoveParsers
 
         }
 
-        public void GetMoves(PieceType pieceType, Color color, ulong[,] pieces, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
+        public void GetMoves(PieceType pieceType, Color color, GeneratorMode mode, ulong[,] pieces, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
         {
             var piecesToParse = pieces[(int)color, (int)pieceType];
 
-            CalculateMovesForSinglePush(pieceType, color, piecesToParse, occupancyContainer, moves);
-            CalculateMovesForDoublePush(pieceType, color, piecesToParse, occupancyContainer, moves);
-            CalculateMovesForRightAttack(pieceType, color, piecesToParse, enPassant, occupancyContainer, moves, ref attacks);
-            CalculateMovesForLeftAttack(pieceType, color, piecesToParse, enPassant, occupancyContainer, moves, ref attacks);
+            CalculateMovesForSinglePush(pieceType, color, mode, piecesToParse, occupancyContainer, moves);
+            CalculateMovesForDoublePush(pieceType, color, mode, piecesToParse, occupancyContainer, moves);
+            CalculateMovesForRightAttack(pieceType, color, mode, piecesToParse, enPassant, occupancyContainer, moves, ref attacks);
+            CalculateMovesForLeftAttack(pieceType, color, mode, piecesToParse, enPassant, occupancyContainer, moves, ref attacks);
         }
 
-        void CalculateMovesForSinglePush(PieceType pieceType, Color color, ulong piecesToParse, OccupancyContainer occupancyContainer, LinkedList<Move> moves)
+        void CalculateMovesForSinglePush(PieceType pieceType, Color color, GeneratorMode mode, ulong piecesToParse, OccupancyContainer occupancyContainer, LinkedList<Move> moves)
         {
+            if (mode != GeneratorMode.CalculateAll)
+                return;
+
             var pattern = color == Color.White ? piecesToParse << 8 : piecesToParse >> 8;
             pattern &= ~occupancyContainer.Occupancy;
 
@@ -40,8 +43,11 @@ namespace Core.Boards.MoveParsers
             }
         }
 
-        void CalculateMovesForDoublePush(PieceType pieceType, Color color, ulong piecesToParse, OccupancyContainer occupancyContainer, LinkedList<Move> moves)
+        void CalculateMovesForDoublePush(PieceType pieceType, Color color, GeneratorMode mode, ulong piecesToParse, OccupancyContainer occupancyContainer, LinkedList<Move> moves)
         {
+            if (mode != GeneratorMode.CalculateAll)
+                return;
+
             var validPieces = 0ul;
             var pattern = 0ul;
 
@@ -75,7 +81,7 @@ namespace Core.Boards.MoveParsers
             }
         }
 
-        void CalculateMovesForRightAttack(PieceType pieceType, Color color, ulong piecesToParse, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
+        void CalculateMovesForRightAttack(PieceType pieceType, Color color, GeneratorMode mode, ulong piecesToParse, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
         {
             var validPieces = piecesToParse & ~BitConstants.HFile;
             var enemyColor = ColorOperations.Invert(color);
@@ -90,20 +96,26 @@ namespace Core.Boards.MoveParsers
                 var pieceLSB = color == Color.White ? patternLSB >> 7 : patternLSB << 9;
                 var enPassantField = enPassant[(int)enemyColor] & patternLSB;
 
-                if ((patternLSB & occupancyContainer.EnemyOccupancy) != 0 || enPassantField != 0)
+                if (mode == GeneratorMode.CalculateAll)
                 {
-                    var from = BitPositionConverter.ToPosition(pieceLSB);
-                    var to = BitPositionConverter.ToPosition(patternLSB);
-                    var moveType = enPassantField == 0 ? MoveType.Kill : MoveType.EnPassant;
+                    if ((patternLSB & occupancyContainer.EnemyOccupancy) != 0 || enPassantField != 0)
+                    {
+                        var from = BitPositionConverter.ToPosition(pieceLSB);
+                        var to = BitPositionConverter.ToPosition(patternLSB);
+                        var moveType = enPassantField == 0 ? MoveType.Kill : MoveType.EnPassant;
 
-                    moves.AddLast(new Move(from, to, pieceType, color, moveType));
+                        moves.AddLast(new Move(from, to, pieceType, color, moveType));
+                    }
                 }
 
-                attacks[(int)color, patternIndex] |= pieceLSB;
+                if (mode == GeneratorMode.CalculateAll || mode == GeneratorMode.CalculateAttackFields)
+                {
+                    attacks[(int)color, patternIndex] |= pieceLSB;
+                }
             }
         }
 
-        void CalculateMovesForLeftAttack(PieceType pieceType, Color color, ulong piecesToParse, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
+        void CalculateMovesForLeftAttack(PieceType pieceType, Color color, GeneratorMode mode, ulong piecesToParse, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
         {
             var validPieces = piecesToParse & ~BitConstants.AFile;
             var enemyColor = ColorOperations.Invert(color);
@@ -118,16 +130,22 @@ namespace Core.Boards.MoveParsers
                 var pieceLSB = color == Color.White ? patternLSB >> 9 : patternLSB << 7;
                 var enPassantField = enPassant[(int)enemyColor] & patternLSB;
 
-                if ((patternLSB & occupancyContainer.EnemyOccupancy) != 0 || enPassantField != 0)
+                if (mode == GeneratorMode.CalculateAll)
                 {
-                    var from = BitPositionConverter.ToPosition(pieceLSB);
-                    var to = BitPositionConverter.ToPosition(patternLSB);
-                    var moveType = enPassantField == 0 ? MoveType.Kill : MoveType.EnPassant;
+                    if ((patternLSB & occupancyContainer.EnemyOccupancy) != 0 || enPassantField != 0)
+                    {
+                        var from = BitPositionConverter.ToPosition(pieceLSB);
+                        var to = BitPositionConverter.ToPosition(patternLSB);
+                        var moveType = enPassantField == 0 ? MoveType.Kill : MoveType.EnPassant;
 
-                    moves.AddLast(new Move(from, to, pieceType, color, moveType));
+                        moves.AddLast(new Move(from, to, pieceType, color, moveType));
+                    }
                 }
 
-                attacks[(int)color, patternIndex] |= pieceLSB;
+                if (mode == GeneratorMode.CalculateAll || mode == GeneratorMode.CalculateAttackFields)
+                {
+                    attacks[(int)color, patternIndex] |= pieceLSB;
+                }
             }
         }
     }

@@ -2,8 +2,7 @@
 {
     public enum GeneratorMode
     {
-        CalculateMoves,
+        CalculateAll,
         CalculateAttackFields,
-        CalculateAll
     }
 }

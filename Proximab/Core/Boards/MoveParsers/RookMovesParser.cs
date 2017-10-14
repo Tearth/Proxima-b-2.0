@@ -14,16 +14,19 @@ namespace Core.Boards.MoveParsers
 
         }
 
-        public void GetMoves(PieceType pieceType, Color color, ulong[,] pieces, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
+        public void GetMoves(PieceType pieceType, Color color, GeneratorMode mode, ulong[,] pieces, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
         {
             var piecesToParse = pieces[(int)color, (int)pieceType];
 
-            CalculateMoves(pieceType, color, pieces, piecesToParse, occupancyContainer, moves);
-            CalculateAttackFields(color, pieces, piecesToParse, occupancyContainer, ref attacks);
+            CalculateMoves(pieceType, color, mode, pieces, piecesToParse, occupancyContainer, moves);
+            CalculateAttackFields(color, mode, pieces, piecesToParse, occupancyContainer, ref attacks);
         }
 
-        void CalculateMoves(PieceType pieceType, Color color, ulong[,] pieces, ulong piecesToParse, OccupancyContainer occupancyContainer, LinkedList<Move> moves)
+        void CalculateMoves(PieceType pieceType, Color color, GeneratorMode mode, ulong[,] pieces, ulong piecesToParse, OccupancyContainer occupancyContainer, LinkedList<Move> moves)
         {
+            if (mode != GeneratorMode.CalculateAll)
+                return;
+
             while (piecesToParse != 0)
             {
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
@@ -48,8 +51,11 @@ namespace Core.Boards.MoveParsers
             }
         }
 
-        void CalculateAttackFields(Color color, ulong[,] pieces, ulong piecesToParse, OccupancyContainer occupancyContainer, ref ulong[,] attacks)
+        void CalculateAttackFields(Color color, GeneratorMode mode, ulong[,] pieces, ulong piecesToParse, OccupancyContainer occupancyContainer, ref ulong[,] attacks)
         {
+            if (mode != GeneratorMode.CalculateAll && mode != GeneratorMode.CalculateAttackFields)
+                return;
+
             var blockersToRemove = pieces[(int)color, (int)PieceType.Rook] |
                                    pieces[(int)color, (int)PieceType.Queen];
 

@@ -20,14 +20,14 @@ namespace GUI.Source.Benchmarks
             var startTime = DateTime.Now;
 
             var freshBitBoard = new BitBoard(friendlyBoard, initialColor);
-            CalculateBitBoard(initialColor, freshBitBoard, depth - 1, verifyChecks, ref benchmarkData);
+            CalculateBitBoard(initialColor, freshBitBoard, depth - 1, verifyChecks, benchmarkData);
 
             benchmarkData.Time = (float)(DateTime.Now - startTime).TotalSeconds;
 
             DisplayBenchmarkResult(benchmarkData);
         }
 
-        void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool verifyChecks, ref BenchmarkData benchmarkData)
+        void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool verifyChecks, BenchmarkData benchmarkData)
         {
             var enemyColor = ColorOperations.Invert(color);
             var availableMoves = bitBoard.GetAvailableMoves(color);
@@ -44,7 +44,7 @@ namespace GUI.Source.Benchmarks
                     if (verifyChecks && bitBoardAfterMove.IsCheck(color))
                         continue;
 
-                    CalculateBitBoard(enemyColor, bitBoardAfterMove, depth - 1, verifyChecks, ref benchmarkData);
+                    CalculateBitBoard(enemyColor, bitBoardAfterMove, depth - 1, verifyChecks, benchmarkData);
                 }
             }
 
