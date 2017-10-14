@@ -19,7 +19,7 @@ namespace GUI.Source.Benchmarks
             var benchmarkData = new BenchmarkData();
             var startTime = DateTime.Now;
 
-            var freshBitBoard = new BitBoard(friendlyBoard);
+            var freshBitBoard = new BitBoard(friendlyBoard, initialColor);
             CalculateBitBoard(initialColor, freshBitBoard, depth - 1, verifyChecks, ref benchmarkData);
 
             benchmarkData.Time = (float)(DateTime.Now - startTime).TotalSeconds;

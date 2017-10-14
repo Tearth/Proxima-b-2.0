@@ -197,7 +197,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
 
         void ResetBitBoard()
         {
-            _bitBoard = new BitBoard(_board.GetFriendlyBoard());
+            _bitBoard = new BitBoard(_board.GetFriendlyBoard(), Color.White);
         }
     }
 }

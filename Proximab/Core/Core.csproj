@@ -46,6 +46,7 @@
     <Compile Include="Boards\BitPositionConverter.cs" />
     <Compile Include="Boards\FriendlyBoard.cs" />
     <Compile Include="Boards\FriendlyPiece.cs" />
+    <Compile Include="Boards\GeneratorMode.cs" />
     <Compile Include="Boards\MoveGenerators\KingMovesGenerator.cs" />
     <Compile Include="Boards\MoveGenerators\SlideMovesGenerator.cs" />
     <Compile Include="Boards\MoveParsers\BishopMovesParser.cs" />

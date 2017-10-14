@@ -10,6 +10,8 @@ namespace Core.Boards
 {
     public class BitBoard
     {
+        Color _currentPlayerColor;
+
         ulong[,] _pieces;
         ulong[] _occupancy;
         ulong[,] _attacks;
@@ -26,6 +28,8 @@ namespace Core.Boards
 
         public BitBoard()
         {
+            _currentPlayerColor = Color.White;
+
             _pieces = new ulong[2, 6];
             _occupancy = new ulong[2];
             _attacks = new ulong[2, 64];
@@ -44,14 +48,17 @@ namespace Core.Boards
         public BitBoard(BitBoard bitBoard, Move move) : this()
         {
             Array.Copy(bitBoard._pieces, _pieces, 12);
+            _currentPlayerColor = ColorOperations.Invert(move.Color);
 
             CalculateMove(bitBoard, move);
             CalculateEnPassant(move);
             CalculateBitBoard();
         }
 
-        public BitBoard(FriendlyBoard friendlyBoard) : this()
+        public BitBoard(FriendlyBoard friendlyBoard, Color color) : this()
         {
+            _currentPlayerColor = color;
+
             ConvertFromFriendlyBoard(friendlyBoard);
             CalculateBitBoard();
         }
