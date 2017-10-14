@@ -2,6 +2,7 @@
 using Core.Commons.Colors;
 using GUI.Source.ConsoleSubsystem;
 using System;
+using System.Diagnostics;
 
 namespace GUI.Source.Benchmarks
 {
@@ -17,12 +18,13 @@ namespace GUI.Source.Benchmarks
         public void Run(Color initialColor, FriendlyBoard friendlyBoard, int depth, bool verifyChecks)
         {
             var benchmarkData = new BenchmarkData();
-            var startTime = DateTime.Now;
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
 
             var freshBitBoard = new BitBoard(friendlyBoard, initialColor);
             CalculateBitBoard(initialColor, freshBitBoard, depth - 1, verifyChecks, benchmarkData);
 
-            benchmarkData.Time = (float)(DateTime.Now - startTime).TotalSeconds;
+            benchmarkData.Ticks = stopwatch.Elapsed.Ticks;
 
             DisplayBenchmarkResult(benchmarkData);
         }
@@ -53,10 +55,14 @@ namespace GUI.Source.Benchmarks
 
         void DisplayBenchmarkResult(BenchmarkData benchmarkData)
         {
+            _consoleManager.WriteLine("");
             _consoleManager.WriteLine("$wBenchmark result:");
-            _consoleManager.WriteLine($"$wTotal nodes: $g{benchmarkData.TotalNodes}");
-            _consoleManager.WriteLine($"$wEnd nodes: $g{benchmarkData.EndNodes}");
-            _consoleManager.WriteLine($"$wTime: $c{benchmarkData.Time}");
+            _consoleManager.WriteLine($"$wTotal nodes: $g{benchmarkData.TotalNodes} N");
+            _consoleManager.WriteLine($"$wEnd nodes: $g{benchmarkData.EndNodes} N");
+            _consoleManager.WriteLine($"$wNodes per second: $c{benchmarkData.NodesPerSecond / 1000} kN");
+            _consoleManager.WriteLine($"$wTime per node: $c{benchmarkData.TimePerNode} ns");
+            _consoleManager.WriteLine($"$wTime: $m{benchmarkData.Time} s");
+            _consoleManager.WriteLine("");
         }
     }
 }
