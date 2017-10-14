@@ -1,7 +1,9 @@
 ﻿using Core.Commons.Exceptions;
+using System.Diagnostics;
 
 namespace Core.Commons.Positions
 {
+    [DebuggerDisplay("[{X} {Y}]")]
     public class Position
     {
         public int X { get; set; }

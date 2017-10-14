@@ -41,7 +41,7 @@ namespace GUI.Source.Benchmarks
                 foreach (var move in availableMoves)
                 {
                     var bitBoardAfterMove = bitBoard.Move(move);
-                    if (verifyChecks && bitBoardAfterMove.IsCheck(enemyColor))
+                    if (verifyChecks && bitBoardAfterMove.IsCheck(color))
                         continue;
 
                     CalculateBitBoard(enemyColor, bitBoardAfterMove, depth - 1, verifyChecks, ref benchmarkData);

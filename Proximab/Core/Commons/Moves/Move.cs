@@ -1,8 +1,10 @@
 ﻿using Core.Commons.Colors;
 using Core.Commons.Positions;
+using System.Diagnostics;
 
 namespace Core.Commons.Moves
 {
+    [DebuggerDisplay("{Color} {Piece} from [{From.X} {From.Y}] to [{To.X} {To.Y}]")]
     public class Move
     {
         public Position From { get; set; }
