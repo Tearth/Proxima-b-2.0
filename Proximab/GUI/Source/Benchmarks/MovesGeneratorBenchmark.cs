@@ -37,7 +37,7 @@ namespace GUI.Source.Benchmarks
                 benchmarkData.EndNodes += availableMoves.Count;
             }
             else
-            {           
+            {
                 foreach (var move in availableMoves)
                 {
                     var bitBoardAfterMove = bitBoard.Move(move);

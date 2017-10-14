@@ -140,16 +140,32 @@ namespace Core.Boards
         void CalculateMove(BitBoard bitBoard, Move move)
         {
             var colorIndex = (int)move.Color;
-            var pieceIndex = (int)move.Piece;
+            var enemyColorIndex = (int)ColorOperations.Invert(move.Color);
 
+            var pieceIndex = (int)move.Piece;
+            
             var from = BitPositionConverter.ToULong(move.From);
             var to = BitPositionConverter.ToULong(move.To);
 
             _pieces[colorIndex, pieceIndex] &= ~from;
 
-            for (int i = 0; i < 6; i++)
+            if(move.Type == MoveType.Kill)
             {
-                _pieces[colorIndex, i] &= ~to;
+                for (int i = 0; i < 6; i++)
+                {
+                    _pieces[enemyColorIndex, i] &= ~to;
+                }
+            }
+            else if(move.Type == MoveType.EnPassant)
+            {
+                if (move.Color == Color.White)
+                {
+                    _pieces[enemyColorIndex, pieceIndex] &= ~(to >> 8);
+                }
+                else
+                {
+                    _pieces[enemyColorIndex, pieceIndex] &= ~(to << 8);
+                }
             }
 
             _pieces[colorIndex, pieceIndex] |= to;
