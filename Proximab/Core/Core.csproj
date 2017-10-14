@@ -44,6 +44,7 @@
     <Compile Include="Boards\BitConstants.cs" />
     <Compile Include="Boards\BitOperations.cs" />
     <Compile Include="Boards\BitPositionConverter.cs" />
+    <Compile Include="Boards\CastlingData.cs" />
     <Compile Include="Boards\FriendlyBoard.cs" />
     <Compile Include="Boards\FriendlyPiece.cs" />
     <Compile Include="Boards\GeneratorMode.cs" />
