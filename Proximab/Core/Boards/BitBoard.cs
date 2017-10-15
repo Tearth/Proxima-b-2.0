@@ -55,7 +55,7 @@ namespace Core.Boards
             CalculateEnPassant(move);
         }
 
-        public BitBoard(FriendlyBoard friendlyBoard, Color color) : this()
+        public BitBoard(FriendlyBoard friendlyBoard) : this()
         {
             ConvertFromFriendlyBoard(friendlyBoard);
         }

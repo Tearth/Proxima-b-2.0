@@ -21,8 +21,8 @@ namespace GUI.Source.Benchmarks
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            var freshBitBoard = new BitBoard(friendlyBoard, initialColor);
-            CalculateBitBoard(initialColor, freshBitBoard, depth - 1, verifyChecks, benchmarkData);
+            var freshBitBoard = new BitBoard(friendlyBoard);
+            CalculateBitBoard(initialColor, freshBitBoard, depth, verifyChecks, benchmarkData);
 
             benchmarkData.Ticks = stopwatch.Elapsed.Ticks;
 
@@ -32,14 +32,24 @@ namespace GUI.Source.Benchmarks
         void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool verifyChecks, BenchmarkData benchmarkData)
         {
             var enemyColor = ColorOperations.Invert(color);
-            var availableMoves = bitBoard.GetAvailableMoves(color);
 
             if (depth <= 0)
             {
-                benchmarkData.EndNodes += availableMoves.Count;
+                bitBoard.Calculate(CalculationMode.OnlyAttacks);
+                benchmarkData.EndNodes++;
             }
             else
             {
+                if(color == Color.White)
+                {
+                    bitBoard.Calculate(CalculationMode.WhiteMovesPlusAttacks);
+                }
+                else
+                {
+                    bitBoard.Calculate(CalculationMode.BlackMovesPlusAttacks);
+                }
+
+                var availableMoves = bitBoard.GetAvailableMoves(color);
                 foreach (var move in availableMoves)
                 {
                     var bitBoardAfterMove = bitBoard.Move(move);
@@ -50,7 +60,7 @@ namespace GUI.Source.Benchmarks
                 }
             }
 
-            benchmarkData.TotalNodes += availableMoves.Count;
+            benchmarkData.TotalNodes++;
         }
 
         void DisplayBenchmarkResult(BenchmarkData benchmarkData)
