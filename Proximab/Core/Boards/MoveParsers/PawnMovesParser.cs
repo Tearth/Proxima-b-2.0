@@ -12,14 +12,14 @@ namespace Core.Boards.MoveParsers
 
         }
 
-        public void GetMoves(PieceType pieceType, Color color, GeneratorMode mode, ulong[,] pieces, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
+        public void GetMoves(PieceType pieceType, Color color, GeneratorMode mode, ulong[,] pieces, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ulong[,] attacks)
         {
             var piecesToParse = pieces[(int)color, (int)pieceType];
 
             CalculateMovesForSinglePush(pieceType, color, mode, piecesToParse, occupancyContainer, moves);
             CalculateMovesForDoublePush(pieceType, color, mode, piecesToParse, occupancyContainer, moves);
-            CalculateMovesForRightAttack(pieceType, color, mode, piecesToParse, enPassant, occupancyContainer, moves, ref attacks);
-            CalculateMovesForLeftAttack(pieceType, color, mode, piecesToParse, enPassant, occupancyContainer, moves, ref attacks);
+            CalculateMovesForRightAttack(pieceType, color, mode, piecesToParse, enPassant, occupancyContainer, moves, attacks);
+            CalculateMovesForLeftAttack(pieceType, color, mode, piecesToParse, enPassant, occupancyContainer, moves, attacks);
         }
 
         void CalculateMovesForSinglePush(PieceType pieceType, Color color, GeneratorMode mode, ulong piecesToParse, OccupancyContainer occupancyContainer, LinkedList<Move> moves)
@@ -81,7 +81,7 @@ namespace Core.Boards.MoveParsers
             }
         }
 
-        void CalculateMovesForRightAttack(PieceType pieceType, Color color, GeneratorMode mode, ulong piecesToParse, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
+        void CalculateMovesForRightAttack(PieceType pieceType, Color color, GeneratorMode mode, ulong piecesToParse, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ulong[,] attacks)
         {
             var validPieces = piecesToParse & ~BitConstants.HFile;
             var enemyColor = ColorOperations.Invert(color);
@@ -115,7 +115,7 @@ namespace Core.Boards.MoveParsers
             }
         }
 
-        void CalculateMovesForLeftAttack(PieceType pieceType, Color color, GeneratorMode mode, ulong piecesToParse, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
+        void CalculateMovesForLeftAttack(PieceType pieceType, Color color, GeneratorMode mode, ulong piecesToParse, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ulong[,] attacks)
         {
             var validPieces = piecesToParse & ~BitConstants.AFile;
             var enemyColor = ColorOperations.Invert(color);

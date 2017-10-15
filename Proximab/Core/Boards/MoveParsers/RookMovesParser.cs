@@ -14,12 +14,12 @@ namespace Core.Boards.MoveParsers
 
         }
 
-        public void GetMoves(PieceType pieceType, Color color, GeneratorMode mode, ulong[,] pieces, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
+        public void GetMoves(PieceType pieceType, Color color, GeneratorMode mode, ulong[,] pieces, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ulong[,] attacks)
         {
             var piecesToParse = pieces[(int)color, (int)pieceType];
 
             CalculateMoves(pieceType, color, mode, pieces, piecesToParse, occupancyContainer, moves);
-            CalculateAttackFields(color, mode, pieces, piecesToParse, occupancyContainer, ref attacks);
+            CalculateAttackFields(color, mode, pieces, piecesToParse, occupancyContainer, attacks);
         }
 
         void CalculateMoves(PieceType pieceType, Color color, GeneratorMode mode, ulong[,] pieces, ulong piecesToParse, OccupancyContainer occupancyContainer, LinkedList<Move> moves)
@@ -51,7 +51,7 @@ namespace Core.Boards.MoveParsers
             }
         }
 
-        void CalculateAttackFields(Color color, GeneratorMode mode, ulong[,] pieces, ulong piecesToParse, OccupancyContainer occupancyContainer, ref ulong[,] attacks)
+        void CalculateAttackFields(Color color, GeneratorMode mode, ulong[,] pieces, ulong piecesToParse, OccupancyContainer occupancyContainer, ulong[,] attacks)
         {
             if (mode != GeneratorMode.CalculateAll && mode != GeneratorMode.CalculateAttackFields)
                 return;

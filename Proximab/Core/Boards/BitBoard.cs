@@ -260,14 +260,14 @@ namespace Core.Boards
             var occupancyContainer = new OccupancyContainer(color, _occupancy);
             var movesContainer = GetAvailableMoves(color);
 
-            _knightMovesParser.GetMoves(PieceType.Knight, color, mode, _pieces, occupancyContainer, movesContainer, ref _attacks);
-            _kingMovesParser.GetMoves(PieceType.King, color, mode, _pieces, occupancyContainer, movesContainer, ref _attacks);
-            _rookMovesParser.GetMoves(PieceType.Rook, color, mode, _pieces, occupancyContainer, movesContainer, ref _attacks);
-            _bishopMovesParser.GetMoves(PieceType.Bishop, color, mode, _pieces, occupancyContainer, movesContainer, ref _attacks);
-            _pawnMovesParser.GetMoves(PieceType.Pawn, color, mode, _pieces, _enPassant, occupancyContainer, movesContainer, ref _attacks);
+            _knightMovesParser.GetMoves(PieceType.Knight, color, mode, _pieces, occupancyContainer, movesContainer, _attacks);
+            _kingMovesParser.GetMoves(PieceType.King, color, mode, _pieces, occupancyContainer, movesContainer, _attacks);
+            _rookMovesParser.GetMoves(PieceType.Rook, color, mode, _pieces, occupancyContainer, movesContainer, _attacks);
+            _bishopMovesParser.GetMoves(PieceType.Bishop, color, mode, _pieces, occupancyContainer, movesContainer, _attacks);
+            _pawnMovesParser.GetMoves(PieceType.Pawn, color, mode, _pieces, _enPassant, occupancyContainer, movesContainer, _attacks);
 
-            _rookMovesParser.GetMoves(PieceType.Queen, color, mode, _pieces, occupancyContainer, movesContainer, ref _attacks);
-            _bishopMovesParser.GetMoves(PieceType.Queen, color, mode, _pieces, occupancyContainer, movesContainer, ref _attacks);
+            _rookMovesParser.GetMoves(PieceType.Queen, color, mode, _pieces, occupancyContainer, movesContainer, _attacks);
+            _bishopMovesParser.GetMoves(PieceType.Queen, color, mode, _pieces, occupancyContainer, movesContainer, _attacks);
         }
     }
 }

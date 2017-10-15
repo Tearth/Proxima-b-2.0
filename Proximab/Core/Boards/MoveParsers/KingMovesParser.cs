@@ -13,7 +13,7 @@ namespace Core.Boards.MoveParsers
 
         }
 
-        public void GetMoves(PieceType pieceType, Color color, GeneratorMode mode, ulong[,] pieces, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
+        public void GetMoves(PieceType pieceType, Color color, GeneratorMode mode, ulong[,] pieces, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ulong[,] attacks)
         {
             var piecesToParse = pieces[(int)color, (int)pieceType];
 
@@ -46,7 +46,7 @@ namespace Core.Boards.MoveParsers
             }
         }
 
-        public void GetCastlingMoves(PieceType pieceType, Color color, ulong[,] pieces, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ref ulong[,] attacks)
+        public void GetCastlingMoves(PieceType pieceType, Color color, ulong[,] pieces, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ulong[,] attacks)
         {
 
         }
