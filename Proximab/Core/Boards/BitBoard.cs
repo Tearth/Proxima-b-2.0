@@ -10,8 +10,6 @@ namespace Core.Boards
 {
     public class BitBoard
     {
-        Color _currentPlayerColor;
-
         ulong[,] _pieces;
         ulong[] _occupancy;
         ulong[,] _attacks;
@@ -30,8 +28,6 @@ namespace Core.Boards
 
         public BitBoard()
         {
-            _currentPlayerColor = Color.White;
-
             _pieces = new ulong[2, 6];
             _occupancy = new ulong[2];
             _attacks = new ulong[2, 64];
@@ -54,19 +50,14 @@ namespace Core.Boards
             Array.Copy(bitBoard._pieces, _pieces, 12);
 
             _castlingData = new CastlingData(bitBoard._castlingData);
-            _currentPlayerColor = ColorOperations.Invert(move.Color);
 
             CalculateMove(bitBoard, move);
             CalculateEnPassant(move);
-            CalculateBitBoard();
         }
 
         public BitBoard(FriendlyBoard friendlyBoard, Color color) : this()
         {
-            _currentPlayerColor = color;
-
             ConvertFromFriendlyBoard(friendlyBoard);
-            CalculateBitBoard();
         }
 
         public BitBoard Move(Move move)
@@ -152,6 +143,12 @@ namespace Core.Boards
             return _attacks[(int)enemyColor, kingIndex] != 0;
         }
 
+        public void Calculate(CalculationMode calculationMode)
+        {
+            CalculateOccupancy();
+            CalculateAvailableMoves(calculationMode);
+        }
+
         void CalculateMove(BitBoard bitBoard, Move move)
         {
             var colorIndex = (int)move.Color;
@@ -231,12 +228,6 @@ namespace Core.Boards
             }
         }
 
-        void CalculateBitBoard()
-        {
-            CalculateOccupancy();
-            CalculateAvailableMoves();
-        }
-
         void CalculateOccupancy()
         {
             for(int i=0; i<6; i++)
@@ -246,10 +237,26 @@ namespace Core.Boards
             }
         }
 
-        void CalculateAvailableMoves()
+        void CalculateAvailableMoves(CalculationMode calculationMode)
         {
-            var whiteGeneratorMode = _currentPlayerColor == Color.White ? GeneratorMode.CalculateAll : GeneratorMode.CalculateAttackFields;
-            var blackGeneratorMode = _currentPlayerColor == Color.Black ? GeneratorMode.CalculateAll : GeneratorMode.CalculateAttackFields;
+            var whiteGeneratorMode = GeneratorMode.CalculateAll;
+            var blackGeneratorMode = GeneratorMode.CalculateAll;
+
+            if(calculationMode == CalculationMode.WhiteMovesPlusAttacks)
+            {
+                whiteGeneratorMode = GeneratorMode.CalculateAll;
+                blackGeneratorMode = GeneratorMode.CalculateAttackFields;
+            }
+            else if(calculationMode == CalculationMode.BlackMovesPlusAttacks)
+            {
+                whiteGeneratorMode = GeneratorMode.CalculateAttackFields;
+                blackGeneratorMode = GeneratorMode.CalculateAll;
+            }
+            else if(calculationMode == CalculationMode.OnlyAttacks)
+            {
+                whiteGeneratorMode = GeneratorMode.CalculateAttackFields;
+                blackGeneratorMode = GeneratorMode.CalculateAttackFields;
+            }
 
             CalculateAvailableMoves(Color.White, whiteGeneratorMode);
             CalculateAvailableMoves(Color.Black, blackGeneratorMode);

@@ -104,7 +104,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
 
             _board.AddPiece(fieldPosition, new FriendlyPiece(piece, color));
 
-            ResetBitBoard();
+            UpdateBitBoard();
         }
 
         void DrawOccupancy(Command command)
@@ -154,7 +154,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
 
             _board.SetFriendlyBoard(boardReader.Read(path));
 
-            ResetBitBoard();
+            UpdateBitBoard();
         }
 
         void DoBenchmark(Command command)
@@ -195,9 +195,10 @@ namespace GUI.Source.GameModeSubsystem.Editor
             }
         }
 
-        void ResetBitBoard()
+        void UpdateBitBoard()
         {
             _bitBoard = new BitBoard(_board.GetFriendlyBoard(), Color.White);
+            _bitBoard.Calculate(CalculationMode.All);
         }
     }
 }
