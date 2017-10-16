@@ -7,7 +7,7 @@ namespace Core.Boards
     {
         public static ulong ToULong(Position position)
         {
-            return 1ul << ((8 - (position.X)) + ((position.Y - 1) * 8));
+            return 1ul << ToBitIndex(position);
         }
 
         public static int ToBitIndex(Position position)

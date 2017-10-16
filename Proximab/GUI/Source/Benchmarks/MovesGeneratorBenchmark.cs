@@ -49,7 +49,7 @@ namespace GUI.Source.Benchmarks
                     bitBoard.Calculate(CalculationMode.BlackMovesPlusAttacks);
                 }
 
-                var availableMoves = bitBoard.GetAvailableMoves(color);
+                var availableMoves = bitBoard.GetAvailableMoves();
                 foreach (var move in availableMoves)
                 {
                     var bitBoardAfterMove = bitBoard.Move(move);

@@ -15,8 +15,7 @@ namespace Core.Boards
         ulong[,] _attacks;
         ulong[] _enPassant;
 
-        LinkedList<Move> _whiteMoves;
-        LinkedList<Move> _blackMoves;
+        LinkedList<Move> _moves;
 
         CastlingData _castlingData;
 
@@ -33,9 +32,7 @@ namespace Core.Boards
             _attacks = new ulong[2, 64];
             _enPassant = new ulong[2];
 
-            _whiteMoves = new LinkedList<Move>();
-            _blackMoves = new LinkedList<Move>();
-
+            _moves = new LinkedList<Move>();
             _castlingData = new CastlingData();
 
             _knightMovesParser = new KnightMovesParser();
@@ -120,20 +117,7 @@ namespace Core.Boards
 
         public LinkedList<Move> GetAvailableMoves()
         {
-            var moves = new LinkedList<Move>();
-
-            foreach (var move in _whiteMoves)
-                moves.AddLast(move);
-
-            foreach (var move in _blackMoves)
-                moves.AddLast(move);
-
-            return moves;
-        }
-
-        public LinkedList<Move> GetAvailableMoves(Color color)
-        {
-            return color == Color.White ? _whiteMoves : _blackMoves;
+            return _moves;
         }
 
         public bool IsCheck(Color color)
@@ -266,16 +250,15 @@ namespace Core.Boards
         void CalculateAvailableMoves(Color color, GeneratorMode mode)
         {
             var occupancyContainer = new OccupancyContainer(color, _occupancy);
-            var movesContainer = GetAvailableMoves(color);
 
-            _knightMovesParser.GetMoves(PieceType.Knight, color, mode, _pieces, occupancyContainer, movesContainer, _attacks);
-            _kingMovesParser.GetMoves(PieceType.King, color, mode, _pieces, occupancyContainer, movesContainer, _attacks);
-            _rookMovesParser.GetMoves(PieceType.Rook, color, mode, _pieces, occupancyContainer, movesContainer, _attacks);
-            _bishopMovesParser.GetMoves(PieceType.Bishop, color, mode, _pieces, occupancyContainer, movesContainer, _attacks);
-            _pawnMovesParser.GetMoves(PieceType.Pawn, color, mode, _pieces, _enPassant, occupancyContainer, movesContainer, _attacks);
+            _knightMovesParser.GetMoves(PieceType.Knight, color, mode, _pieces, occupancyContainer, _moves, _attacks);
+            _kingMovesParser.GetMoves(PieceType.King, color, mode, _pieces, occupancyContainer, _moves, _attacks);
+            _rookMovesParser.GetMoves(PieceType.Rook, color, mode, _pieces, occupancyContainer, _moves, _attacks);
+            _bishopMovesParser.GetMoves(PieceType.Bishop, color, mode, _pieces, occupancyContainer, _moves, _attacks);
+            _pawnMovesParser.GetMoves(PieceType.Pawn, color, mode, _pieces, _enPassant, occupancyContainer, _moves, _attacks);
 
-            _rookMovesParser.GetMoves(PieceType.Queen, color, mode, _pieces, occupancyContainer, movesContainer, _attacks);
-            _bishopMovesParser.GetMoves(PieceType.Queen, color, mode, _pieces, occupancyContainer, movesContainer, _attacks);
+            _rookMovesParser.GetMoves(PieceType.Queen, color, mode, _pieces, occupancyContainer, _moves, _attacks);
+            _bishopMovesParser.GetMoves(PieceType.Queen, color, mode, _pieces, occupancyContainer, _moves, _attacks);
         }
     }
 }

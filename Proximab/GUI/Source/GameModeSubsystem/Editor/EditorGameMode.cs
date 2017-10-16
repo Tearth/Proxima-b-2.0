@@ -50,7 +50,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
             }
             else
             {
-                var availableMoves = _bitBoard.GetAvailableMoves(e.Piece.Color);
+                var availableMoves = _bitBoard.GetAvailableMoves();
 
                 var movesForPiece = availableMoves
                     .Where(p => p.From == e.Position)

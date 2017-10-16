@@ -10,7 +10,7 @@ namespace Core
         {
             if (Ready)
                 return;
-
+            
             PredefinedMoves.GenerateMoves();
 
             Ready = true;
