@@ -72,6 +72,8 @@ namespace GUI.Source.GameModeSubsystem.Editor
             }
 
             _bitBoard = _bitBoard.Move(move);
+            _bitBoard.Calculate(CalculationMode.All);
+
             _board.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
         }
 

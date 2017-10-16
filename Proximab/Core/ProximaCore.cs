@@ -1,4 +1,5 @@
 ﻿using Core.Boards.MoveGenerators;
+using Core.Commons;
 
 namespace Core
 {
