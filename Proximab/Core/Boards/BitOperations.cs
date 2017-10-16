@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Core.Commons;
 
 namespace Core.Boards
 {
@@ -6,15 +6,15 @@ namespace Core.Boards
     {
         public static ulong GetLSB(ref ulong value)
         {
-            var lsb = (ulong)((long)value & -((long)value));
+            var valueWithSign = (long)value;
             value &= value - 1;
-
-            return lsb;
+            
+            return (ulong)(valueWithSign & -valueWithSign);
         }
 
-        public static int GetBitIndex(ulong bit)
+        public static int GetBitIndex(ulong value)
         {
-            return (int)Math.Log(bit, 2);
+            return FastMath.Log2(value);
         }
 
         public static ulong FlipVertical(ulong bitBoard)

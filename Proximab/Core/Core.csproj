@@ -63,6 +63,7 @@
     <Compile Include="Commons\Colors\ColorOperations.cs" />
     <Compile Include="Commons\Diagonal.cs" />
     <Compile Include="Commons\Exceptions\PositionOutOfRangeException.cs" />
+    <Compile Include="Commons\FastMath.cs" />
     <Compile Include="Commons\Moves\Move.cs" />
     <Compile Include="Commons\Moves\MoveType.cs" />
     <Compile Include="Commons\PieceType.cs" />
