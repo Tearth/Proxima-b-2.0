@@ -78,7 +78,8 @@ namespace Core.Boards
                     while (pieceArray != 0)
                     {
                         var lsb = BitOperations.GetLSB(ref pieceArray);
-                        var position = BitPositionConverter.ToPosition(lsb);
+                        var bitIndex = BitOperations.GetBitIndex(lsb);
+                        var position = BitPositionConverter.ToPosition(bitIndex);
 
                         friendlyBoard.SetPiece(position, new FriendlyPiece((PieceType)i, (Color)c));
                     }

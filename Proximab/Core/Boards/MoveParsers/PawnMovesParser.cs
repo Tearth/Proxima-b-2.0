@@ -33,10 +33,13 @@ namespace Core.Boards.MoveParsers
             while(pattern != 0)
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
-                var pieceLSB = color == Color.White ? patternLSB >> 8 : patternLSB << 8;
+                var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                var from = BitPositionConverter.ToPosition(pieceLSB);
-                var to = BitPositionConverter.ToPosition(patternLSB);
+                var pieceLSB = color == Color.White ? patternLSB >> 8 : patternLSB << 8;
+                var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
+
+                var from = BitPositionConverter.ToPosition(pieceIndex);
+                var to = BitPositionConverter.ToPosition(patternIndex);
                 var moveType = MoveType.Quiet;
 
                 moves.AddLast(new Move(from, to, pieceType, color, moveType));
@@ -69,12 +72,13 @@ namespace Core.Boards.MoveParsers
             while (pattern != 0)
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
-                var patternPosition = BitPositionConverter.ToPosition(patternLSB);
+                var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
                 var pieceLSB = color == Color.White ? patternLSB >> 16 : patternLSB << 16;
+                var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
-                var from = BitPositionConverter.ToPosition(pieceLSB);
-                var to = BitPositionConverter.ToPosition(patternLSB);
+                var from = BitPositionConverter.ToPosition(pieceIndex);
+                var to = BitPositionConverter.ToPosition(patternIndex);
                 var moveType = MoveType.DoublePush;
 
                 moves.AddLast(new Move(from, to, pieceType, color, moveType));
@@ -94,14 +98,15 @@ namespace Core.Boards.MoveParsers
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
                 var pieceLSB = color == Color.White ? patternLSB >> 7 : patternLSB << 9;
+                var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var enPassantField = enPassant[(int)enemyColor] & patternLSB;
 
                 if (mode == GeneratorMode.CalculateAll)
                 {
                     if ((patternLSB & occupancyContainer.EnemyOccupancy) != 0 || enPassantField != 0)
                     {
-                        var from = BitPositionConverter.ToPosition(pieceLSB);
-                        var to = BitPositionConverter.ToPosition(patternLSB);
+                        var from = BitPositionConverter.ToPosition(pieceIndex);
+                        var to = BitPositionConverter.ToPosition(patternIndex);
                         var moveType = enPassantField == 0 ? MoveType.Kill : MoveType.EnPassant;
 
                         moves.AddLast(new Move(from, to, pieceType, color, moveType));
@@ -128,14 +133,15 @@ namespace Core.Boards.MoveParsers
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
                 var pieceLSB = color == Color.White ? patternLSB >> 9 : patternLSB << 7;
+                var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var enPassantField = enPassant[(int)enemyColor] & patternLSB;
 
                 if (mode == GeneratorMode.CalculateAll)
                 {
                     if ((patternLSB & occupancyContainer.EnemyOccupancy) != 0 || enPassantField != 0)
                     {
-                        var from = BitPositionConverter.ToPosition(pieceLSB);
-                        var to = BitPositionConverter.ToPosition(patternLSB);
+                        var from = BitPositionConverter.ToPosition(pieceIndex);
+                        var to = BitPositionConverter.ToPosition(patternIndex);
                         var moveType = enPassantField == 0 ? MoveType.Kill : MoveType.EnPassant;
 
                         moves.AddLast(new Move(from, to, pieceType, color, moveType));

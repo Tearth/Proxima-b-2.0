@@ -32,7 +32,6 @@ namespace Core.Boards.MoveParsers
             {
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
-                var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
 
                 var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, occupancyContainer.Occupancy);
                 var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, occupancyContainer.Occupancy);
@@ -44,8 +43,8 @@ namespace Core.Boards.MoveParsers
                     var patternLSB = BitOperations.GetLSB(ref pattern);
                     var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                    var from = BitPositionConverter.ToPosition(pieceLSB);
-                    var to = BitPositionConverter.ToPosition(patternLSB);
+                    var from = BitPositionConverter.ToPosition(pieceIndex);
+                    var to = BitPositionConverter.ToPosition(patternIndex);
                     var moveType = GetMoveType(patternLSB, occupancyContainer.EnemyOccupancy);
 
                     moves.AddLast(new Move(from, to, pieceType, color, moveType));
@@ -67,7 +66,6 @@ namespace Core.Boards.MoveParsers
             {
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
-                var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
 
                 var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
                 var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
@@ -91,7 +89,8 @@ namespace Core.Boards.MoveParsers
         {
             var rotatedOccupancy = BitOperations.Rotate45Right(occupancy);
             var rotatedPieceLSB = BitOperations.Rotate45Right(pieceLSB);
-            var rotatedPiecePosition = BitPositionConverter.ToPosition(rotatedPieceLSB);
+            var rotatedPieceIndex = BitOperations.GetBitIndex(rotatedPieceLSB);
+            var rotatedPiecePosition = BitPositionConverter.ToPosition(rotatedPieceIndex);
 
             var mask = (byte)(Math.Pow(2, rotatedPiecePosition.Y - 1) - 1);
 
@@ -110,7 +109,8 @@ namespace Core.Boards.MoveParsers
         {
             var rotatedOccupancy = BitOperations.Rotate45Left(occupancy);
             var rotatedPieceLSB = BitOperations.Rotate45Left(pieceLSB);
-            var rotatedPiecePosition = BitPositionConverter.ToPosition(rotatedPieceLSB);
+            var rotatedPieceIndex = BitOperations.GetBitIndex(rotatedPieceLSB);
+            var rotatedPiecePosition = BitPositionConverter.ToPosition(rotatedPieceIndex);
 
             var mask = (byte)(Math.Pow(2, 8 - rotatedPiecePosition.Y + 1) - 1);
 

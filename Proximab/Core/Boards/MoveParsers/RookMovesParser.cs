@@ -31,7 +31,7 @@ namespace Core.Boards.MoveParsers
             {
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
-                var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
+                var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
                 var horizontalPattern = GetHorizontalPattern(piecePosition, occupancyContainer.Occupancy);
                 var verticalPattern = GetVerticalPattern(piecePosition, occupancyContainer.Occupancy);
@@ -43,7 +43,7 @@ namespace Core.Boards.MoveParsers
                     var patternLSB = BitOperations.GetLSB(ref pattern);
                     var patternIndex = BitOperations.GetBitIndex(patternLSB);
                     
-                    var to = BitPositionConverter.ToPosition(patternLSB);
+                    var to = BitPositionConverter.ToPosition(patternIndex);
                     var moveType = GetMoveType(patternLSB, occupancyContainer.EnemyOccupancy);
 
                     moves.AddLast(new Move(piecePosition, to, pieceType, color, moveType));
@@ -65,7 +65,7 @@ namespace Core.Boards.MoveParsers
             {
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
-                var piecePosition = BitPositionConverter.ToPosition(pieceLSB);
+                var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
                 var horizontalPattern = GetHorizontalPattern(piecePosition, occupancyWithoutBlockers);
                 var verticalPattern = GetVerticalPattern(piecePosition, occupancyWithoutBlockers);

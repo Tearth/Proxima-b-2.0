@@ -31,8 +31,8 @@ namespace Core.Boards.MoveParsers
 
                     if(mode == GeneratorMode.CalculateAll)
                     {
-                        var from = BitPositionConverter.ToPosition(pieceLSB);
-                        var to = BitPositionConverter.ToPosition(patternLSB);
+                        var from = BitPositionConverter.ToPosition(pieceIndex);
+                        var to = BitPositionConverter.ToPosition(patternIndex);
                         var moveType = GetMoveType(patternLSB, occupancyContainer.EnemyOccupancy);
 
                         moves.AddLast(new Move(from, to, pieceType, color, moveType));

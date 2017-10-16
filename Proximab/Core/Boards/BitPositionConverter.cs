@@ -15,10 +15,8 @@ namespace Core.Boards
             return (8 - position.X) + ((position.Y - 1) * 8);
         }
 
-        public static Position ToPosition(ulong bit)
+        public static Position ToPosition(int bitIndex)
         {
-            var bitIndex = BitOperations.GetBitIndex(bit);
-
             return new Position(8 - (bitIndex % 8), (bitIndex / 8) + 1);
         }
 
@@ -29,7 +27,8 @@ namespace Core.Boards
             while(bitBoard != 0)
             {
                 var lsb = BitOperations.GetLSB(ref bitBoard);
-                var position = ToPosition(lsb);
+                var bitIndex = BitOperations.GetBitIndex(lsb);
+                var position = ToPosition(bitIndex);
 
                 boolArray[position.X - 1, position.Y - 1] = true;
             }
