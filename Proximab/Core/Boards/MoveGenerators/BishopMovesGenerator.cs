@@ -17,42 +17,49 @@ namespace Core.Boards.MoveGenerators
 
         public void GetMoves(PieceType pieceType, GeneratorParameters opt)
         {
-            CalculateMoves(pieceType, opt);
-            CalculateAttackFields(pieceType, opt);
+            Calculate(pieceType, opt);
         }
 
-        void CalculateMoves(PieceType pieceType, GeneratorParameters opt)
+        void Calculate(PieceType pieceType, GeneratorParameters opt)
         {
-            if (opt.Mode != GeneratorMode.CalculateAll)
-                return;
-
             var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
-
             while (piecesToParse != 0)
             {
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
-                var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
-                var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, opt.Occupancy);
-                var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, opt.Occupancy);
-
-                var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern) & ~opt.FriendlyOccupancy;
-
-                while (pattern != 0)
-                {
-                    var patternLSB = BitOperations.GetLSB(ref pattern);
-                    var patternIndex = BitOperations.GetBitIndex(patternLSB);
-
-                    var from = BitPositionConverter.ToPosition(pieceIndex);
-                    var to = BitPositionConverter.ToPosition(patternIndex);
-                    var moveType = GetMoveType(patternLSB, opt.EnemyOccupancy);
-
-                    opt.Moves.AddLast(new Move(from, to, pieceType, opt.Color, moveType));
-                }
+                (ulong leftPattern, ulong rightPattern) = CalculateMoves(pieceType, pieceLSB, opt);
+                CalculateAttack(pieceType, pieceLSB, leftPattern, rightPattern, opt);
             }
         }
 
-        void CalculateAttackFields(PieceType pieceType, GeneratorParameters opt)
+        (ulong leftPattern, ulong rightPattern) CalculateMoves(PieceType pieceType, ulong pieceLSB, GeneratorParameters opt)
+        {
+            if (opt.Mode != GeneratorMode.CalculateAll)
+                return (0, 0);
+
+            var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
+
+            var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, opt.Occupancy);
+            var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, opt.Occupancy);
+
+            var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern) & ~opt.FriendlyOccupancy;
+
+            while (pattern != 0)
+            {
+                var patternLSB = BitOperations.GetLSB(ref pattern);
+                var patternIndex = BitOperations.GetBitIndex(patternLSB);
+
+                var from = BitPositionConverter.ToPosition(pieceIndex);
+                var to = BitPositionConverter.ToPosition(patternIndex);
+                var moveType = GetMoveType(patternLSB, opt.EnemyOccupancy);
+
+                opt.Moves.AddLast(new Move(from, to, pieceType, opt.Color, moveType));
+            }
+
+            return (leftRotatedBitBoardPattern, leftRotatedBitBoardPattern);
+        }
+
+        void CalculateAttack(PieceType pieceType, ulong pieceLSB, ulong leftPattern, ulong rightPattern, GeneratorParameters opt)
         {
             if (opt.Mode != GeneratorMode.CalculateAll && opt.Mode != GeneratorMode.CalculateAttackFields)
                 return;
@@ -63,26 +70,22 @@ namespace Core.Boards.MoveGenerators
             var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
             var allPiecesOccupancy = opt.Occupancy & ~blockersToRemove;
 
-            while (piecesToParse != 0)
+            var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
+
+            var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
+            var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
+
+            rightRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A8H1, pieceLSB, rightRotatedBitBoardPattern, opt) ^ leftPattern;
+            leftRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A1H8, pieceLSB, leftRotatedBitBoardPattern, opt) ^ rightPattern;
+
+            var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern) & ~opt.FriendlyOccupancy;
+
+            while (pattern != 0)
             {
-                var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
-                var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
+                var patternLSB = BitOperations.GetLSB(ref pattern);
+                var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
-                var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
-
-                rightRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A8H1, pieceLSB, rightRotatedBitBoardPattern, opt);
-                leftRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A1H8, pieceLSB, leftRotatedBitBoardPattern, opt);
-
-                var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern) & ~opt.FriendlyOccupancy;
-
-                while (pattern != 0)
-                {
-                    var patternLSB = BitOperations.GetLSB(ref pattern);
-                    var patternIndex = BitOperations.GetBitIndex(patternLSB);
-
-                    opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
-                }
+                opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
             }
         }
 
