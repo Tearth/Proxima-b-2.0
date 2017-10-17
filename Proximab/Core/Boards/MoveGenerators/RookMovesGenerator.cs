@@ -14,18 +14,18 @@ namespace Core.Boards.MoveGenerators
 
         }
 
-        public void GetMoves(PieceType pieceType, Color color, GeneratorMode mode, ulong[,] pieces, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ulong[,] attacks)
+        public void GetMoves(PieceType pieceType, GeneratorParameters opt)
         {
-            var piecesToParse = pieces[(int)color, (int)pieceType];
-
-            CalculateMoves(pieceType, color, mode, pieces, piecesToParse, occupancyContainer, moves);
-            CalculateAttackFields(color, mode, pieces, piecesToParse, occupancyContainer, attacks);
+            CalculateMoves(pieceType, opt);
+            CalculateAttackFields(pieceType, opt);
         }
 
-        void CalculateMoves(PieceType pieceType, Color color, GeneratorMode mode, ulong[,] pieces, ulong piecesToParse, OccupancyContainer occupancyContainer, LinkedList<Move> moves)
+        void CalculateMoves(PieceType pieceType, GeneratorParameters opt)
         {
-            if (mode != GeneratorMode.CalculateAll)
+            if (opt.Mode != GeneratorMode.CalculateAll)
                 return;
+
+            var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
 
             while (piecesToParse != 0)
             {
@@ -33,10 +33,10 @@ namespace Core.Boards.MoveGenerators
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
-                var horizontalPattern = GetHorizontalPattern(piecePosition, occupancyContainer.Occupancy);
-                var verticalPattern = GetVerticalPattern(piecePosition, occupancyContainer.Occupancy);
+                var horizontalPattern = GetHorizontalPattern(piecePosition, opt.Occupancy);
+                var verticalPattern = GetVerticalPattern(piecePosition, opt.Occupancy);
 
-                var pattern = (horizontalPattern | verticalPattern) & ~occupancyContainer.FriendlyOccupancy;
+                var pattern = (horizontalPattern | verticalPattern) & ~opt.FriendlyOccupancy;
 
                 while (pattern != 0)
                 {
@@ -44,22 +44,23 @@ namespace Core.Boards.MoveGenerators
                     var patternIndex = BitOperations.GetBitIndex(patternLSB);
                     
                     var to = BitPositionConverter.ToPosition(patternIndex);
-                    var moveType = GetMoveType(patternLSB, occupancyContainer.EnemyOccupancy);
+                    var moveType = GetMoveType(patternLSB, opt.EnemyOccupancy);
 
-                    moves.AddLast(new Move(piecePosition, to, pieceType, color, moveType));
+                    opt.Moves.AddLast(new Move(piecePosition, to, pieceType, opt.Color, moveType));
                 }
             }
         }
 
-        void CalculateAttackFields(Color color, GeneratorMode mode, ulong[,] pieces, ulong piecesToParse, OccupancyContainer occupancyContainer, ulong[,] attacks)
+        void CalculateAttackFields(PieceType pieceType, GeneratorParameters opt)
         {
-            if (mode != GeneratorMode.CalculateAll && mode != GeneratorMode.CalculateAttackFields)
+            if (opt.Mode != GeneratorMode.CalculateAll && opt.Mode != GeneratorMode.CalculateAttackFields)
                 return;
 
-            var blockersToRemove = pieces[(int)color, (int)PieceType.Rook] |
-                                   pieces[(int)color, (int)PieceType.Queen];
+            var blockersToRemove = opt.Pieces[(int)opt.Color, (int)PieceType.Rook] |
+                                   opt.Pieces[(int)opt.Color, (int)PieceType.Queen];
 
-            var occupancyWithoutBlockers = occupancyContainer.Occupancy & ~blockersToRemove;
+            var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
+            var occupancyWithoutBlockers = opt.Occupancy & ~blockersToRemove;
             
             while (piecesToParse != 0)
             {
@@ -70,8 +71,8 @@ namespace Core.Boards.MoveGenerators
                 var horizontalPattern = GetHorizontalPattern(piecePosition, occupancyWithoutBlockers);
                 var verticalPattern = GetVerticalPattern(piecePosition, occupancyWithoutBlockers);
 
-                horizontalPattern = ExpandPatternByFriendlyPieces(color, Axis.Rank, horizontalPattern, pieces, occupancyWithoutBlockers);
-                verticalPattern = ExpandPatternByFriendlyPieces(color, Axis.File, verticalPattern, pieces, occupancyWithoutBlockers);
+                horizontalPattern = ExpandPatternByFriendlyPieces(Axis.Rank, horizontalPattern, opt);
+                verticalPattern = ExpandPatternByFriendlyPieces(Axis.File, verticalPattern, opt);
 
                 var pattern = horizontalPattern | verticalPattern;
 
@@ -80,7 +81,7 @@ namespace Core.Boards.MoveGenerators
                     var patternLSB = BitOperations.GetLSB(ref pattern);
                     var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                    attacks[(int)color, patternIndex] |= pieceLSB;
+                    opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
                 }
             }
         }
@@ -106,11 +107,11 @@ namespace Core.Boards.MoveGenerators
             return BitOperations.Rotate90Left(pattern) << offset;
         }
 
-        ulong ExpandPatternByFriendlyPieces(Color color, Axis axis, ulong pattern, ulong[,] pieces, ulong friendlyOccupancy)
+        ulong ExpandPatternByFriendlyPieces(Axis axis, ulong pattern, GeneratorParameters opt)
         {
             var expandedPattern = pattern;
 
-            var blockers = pattern & friendlyOccupancy;
+            var blockers = pattern & opt.FriendlyOccupancy;
             var patternLSB = BitOperations.GetLSB(ref pattern);
 
             var shift = 0;
@@ -130,7 +131,7 @@ namespace Core.Boards.MoveGenerators
             while(blockers != 0)
             {
                 var blockerLSB = BitOperations.GetLSB(ref blockers);
-                if ((blockerLSB & pieces[(int)color, (int)PieceType.King]) != 0)
+                if ((blockerLSB & opt.Pieces[(int)opt.Color, (int)PieceType.King]) != 0)
                 {
                     if(blockerLSB == patternLSB)
                     {

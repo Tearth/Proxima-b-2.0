@@ -13,34 +13,34 @@ namespace Core.Boards.MoveGenerators
 
         }
 
-        public void GetMoves(PieceType pieceType, Color color, GeneratorMode mode, ulong[,] pieces, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ulong[,] attacks)
+        public void GetMoves(PieceType pieceType, GeneratorParameters opt)
         {
-            var piecesToParse = pieces[(int)color, (int)pieceType];
+            var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
 
             while (piecesToParse != 0)
             {
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
-                var pattern = PatternsContainer.KingPattern[pieceIndex] & ~occupancyContainer.FriendlyOccupancy;
+                var pattern = PatternsContainer.KingPattern[pieceIndex] & ~opt.FriendlyOccupancy;
 
                 while (pattern != 0)
                 {
                     var patternLSB = BitOperations.GetLSB(ref pattern);
                     var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                    if(mode == GeneratorMode.CalculateAll)
+                    if(opt.Mode == GeneratorMode.CalculateAll)
                     {
                         var from = BitPositionConverter.ToPosition(pieceIndex);
                         var to = BitPositionConverter.ToPosition(patternIndex);
-                        var moveType = GetMoveType(patternLSB, occupancyContainer.EnemyOccupancy);
+                        var moveType = GetMoveType(patternLSB, opt.EnemyOccupancy);
 
-                        moves.AddLast(new Move(from, to, pieceType, color, moveType));
+                        opt.Moves.AddLast(new Move(from, to, pieceType, opt.Color, moveType));
                     }
 
-                    if (mode == GeneratorMode.CalculateAll || mode == GeneratorMode.CalculateAttackFields)
+                    if (opt.Mode == GeneratorMode.CalculateAll || opt.Mode == GeneratorMode.CalculateAttackFields)
                     {
-                        attacks[(int)color, patternIndex] |= pieceLSB;
+                        opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
                     }
                 }
             }

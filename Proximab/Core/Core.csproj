@@ -49,6 +49,7 @@
     <Compile Include="Boards\FriendlyBoard.cs" />
     <Compile Include="Boards\FriendlyPiece.cs" />
     <Compile Include="Boards\GeneratorMode.cs" />
+    <Compile Include="Boards\MoveGenerators\GeneratorParameters.cs" />
     <Compile Include="Boards\PatternGenerators\KingPatternGenerator.cs" />
     <Compile Include="Boards\PatternGenerators\SlidePatternGenerator.cs" />
     <Compile Include="Boards\MoveGenerators\BishopMovesGenerator.cs" />

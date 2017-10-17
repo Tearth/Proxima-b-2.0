@@ -249,16 +249,30 @@ namespace Core.Boards
 
         void CalculateAvailableMoves(Color color, GeneratorMode mode)
         {
-            var occupancyContainer = new OccupancyContainer(color, _occupancy);
+            var generatorParameters = new GeneratorParameters()
+            {
+                Color = color,
+                Mode = mode,
 
-            _knightMovesGenerator.GetMoves(PieceType.Knight, color, mode, _pieces, occupancyContainer, _moves, _attacks);
-            _kingMovesGenerator.GetMoves(PieceType.King, color, mode, _pieces, occupancyContainer, _moves, _attacks);
-            _rookMovesGenerator.GetMoves(PieceType.Rook, color, mode, _pieces, occupancyContainer, _moves, _attacks);
-            _bishopMovesGenerator.GetMoves(PieceType.Bishop, color, mode, _pieces, occupancyContainer, _moves, _attacks);
-            _pawnMovesGenerator.GetMoves(PieceType.Pawn, color, mode, _pieces, _enPassant, occupancyContainer, _moves, _attacks);
+                Occupancy = _occupancy[(int)Color.White] | _occupancy[(int)Color.Black],
+                FriendlyOccupancy = _occupancy[(int)color],
+                EnemyOccupancy = _occupancy[(int)ColorOperations.Invert(color)],
 
-            _rookMovesGenerator.GetMoves(PieceType.Queen, color, mode, _pieces, occupancyContainer, _moves, _attacks);
-            _bishopMovesGenerator.GetMoves(PieceType.Queen, color, mode, _pieces, occupancyContainer, _moves, _attacks);
+                Pieces = _pieces,
+                Attacks = _attacks,
+                EnPassant = _enPassant,
+
+                Moves = _moves
+            };
+
+            _knightMovesGenerator.GetMoves(PieceType.Knight, generatorParameters);
+            _kingMovesGenerator.GetMoves(PieceType.King, generatorParameters);
+            _rookMovesGenerator.GetMoves(PieceType.Rook, generatorParameters);
+            _bishopMovesGenerator.GetMoves(PieceType.Bishop, generatorParameters);
+            _pawnMovesGenerator.GetMoves(PieceType.Pawn, generatorParameters);
+
+            _rookMovesGenerator.GetMoves(PieceType.Queen, generatorParameters);
+            _bishopMovesGenerator.GetMoves(PieceType.Queen, generatorParameters);
         }
     }
 }

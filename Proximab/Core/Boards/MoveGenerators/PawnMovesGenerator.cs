@@ -12,145 +12,147 @@ namespace Core.Boards.MoveGenerators
 
         }
 
-        public void GetMoves(PieceType pieceType, Color color, GeneratorMode mode, ulong[,] pieces, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ulong[,] attacks)
+        public void GetMoves(PieceType pieceType, GeneratorParameters opt)
         {
-            var piecesToParse = pieces[(int)color, (int)pieceType];
-
-            CalculateMovesForSinglePush(pieceType, color, mode, piecesToParse, occupancyContainer, moves);
-            CalculateMovesForDoublePush(pieceType, color, mode, piecesToParse, occupancyContainer, moves);
-            CalculateMovesForRightAttack(pieceType, color, mode, piecesToParse, enPassant, occupancyContainer, moves, attacks);
-            CalculateMovesForLeftAttack(pieceType, color, mode, piecesToParse, enPassant, occupancyContainer, moves, attacks);
+            CalculateMovesForSinglePush(pieceType, opt);
+            CalculateMovesForDoublePush(pieceType, opt);
+            CalculateMovesForRightAttack(pieceType, opt);
+            CalculateMovesForLeftAttack(pieceType, opt);
         }
 
-        void CalculateMovesForSinglePush(PieceType pieceType, Color color, GeneratorMode mode, ulong piecesToParse, OccupancyContainer occupancyContainer, LinkedList<Move> moves)
+        void CalculateMovesForSinglePush(PieceType pieceType, GeneratorParameters opt)
         {
-            if (mode != GeneratorMode.CalculateAll)
+            if (opt.Mode != GeneratorMode.CalculateAll)
                 return;
 
-            var pattern = color == Color.White ? piecesToParse << 8 : piecesToParse >> 8;
-            pattern &= ~occupancyContainer.Occupancy;
+            var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
+            var pattern = opt.Color == Color.White ? piecesToParse << 8 : piecesToParse >> 8;
+            pattern &= ~opt.Occupancy;
 
             while(pattern != 0)
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                var pieceLSB = color == Color.White ? patternLSB >> 8 : patternLSB << 8;
+                var pieceLSB = opt.Color == Color.White ? patternLSB >> 8 : patternLSB << 8;
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
                 var from = BitPositionConverter.ToPosition(pieceIndex);
                 var to = BitPositionConverter.ToPosition(patternIndex);
                 var moveType = MoveType.Quiet;
 
-                moves.AddLast(new Move(from, to, pieceType, color, moveType));
+                opt.Moves.AddLast(new Move(from, to, pieceType, opt.Color, moveType));
             }
         }
 
-        void CalculateMovesForDoublePush(PieceType pieceType, Color color, GeneratorMode mode, ulong piecesToParse, OccupancyContainer occupancyContainer, LinkedList<Move> moves)
+        void CalculateMovesForDoublePush(PieceType pieceType, GeneratorParameters opt)
         {
-            if (mode != GeneratorMode.CalculateAll)
+            if (opt.Mode != GeneratorMode.CalculateAll)
                 return;
 
+            var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
             var validPieces = 0ul;
             var pattern = 0ul;
 
-            if(color == Color.White)
+            if(opt.Color == Color.White)
             {
                 validPieces = piecesToParse & BitConstants.BRank;
-                validPieces &= ~occupancyContainer.Occupancy >> 8;
+                validPieces &= ~opt.Occupancy >> 8;
                 pattern = validPieces << 16;
             }
             else
             {
                 validPieces = piecesToParse & BitConstants.GRank;
-                validPieces &= ~occupancyContainer.Occupancy << 8;
+                validPieces &= ~opt.Occupancy << 8;
                 pattern = validPieces >> 16;
             }
             
-            pattern &= ~occupancyContainer.Occupancy;
+            pattern &= ~opt.Occupancy;
 
             while (pattern != 0)
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                var pieceLSB = color == Color.White ? patternLSB >> 16 : patternLSB << 16;
+                var pieceLSB = opt.Color == Color.White ? patternLSB >> 16 : patternLSB << 16;
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
                 var from = BitPositionConverter.ToPosition(pieceIndex);
                 var to = BitPositionConverter.ToPosition(patternIndex);
                 var moveType = MoveType.DoublePush;
 
-                moves.AddLast(new Move(from, to, pieceType, color, moveType));
+                opt.Moves.AddLast(new Move(from, to, pieceType, opt.Color, moveType));
             }
         }
 
-        void CalculateMovesForRightAttack(PieceType pieceType, Color color, GeneratorMode mode, ulong piecesToParse, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ulong[,] attacks)
+        void CalculateMovesForRightAttack(PieceType pieceType, GeneratorParameters opt)
         {
+            var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
             var validPieces = piecesToParse & ~BitConstants.HFile;
-            var enemyColor = ColorOperations.Invert(color);
+            var enemyColor = ColorOperations.Invert(opt.Color);
 
-            var pattern = color == Color.White ? validPieces << 7 : validPieces >> 9;
+            var pattern = opt.Color == Color.White ? validPieces << 7 : validPieces >> 9;
 
             while (pattern != 0)
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                var pieceLSB = color == Color.White ? patternLSB >> 7 : patternLSB << 9;
+                var pieceLSB = opt.Color == Color.White ? patternLSB >> 7 : patternLSB << 9;
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
-                var enPassantField = enPassant[(int)enemyColor] & patternLSB;
+                var enPassantField = opt.EnPassant[(int)enemyColor] & patternLSB;
 
-                if (mode == GeneratorMode.CalculateAll)
+                if (opt.Mode == GeneratorMode.CalculateAll)
                 {
-                    if ((patternLSB & occupancyContainer.EnemyOccupancy) != 0 || enPassantField != 0)
+                    if ((patternLSB & opt.EnemyOccupancy) != 0 || enPassantField != 0)
                     {
                         var from = BitPositionConverter.ToPosition(pieceIndex);
                         var to = BitPositionConverter.ToPosition(patternIndex);
                         var moveType = enPassantField == 0 ? MoveType.Kill : MoveType.EnPassant;
 
-                        moves.AddLast(new Move(from, to, pieceType, color, moveType));
+                        opt.Moves.AddLast(new Move(from, to, pieceType, opt.Color, moveType));
                     }
                 }
 
-                if (mode == GeneratorMode.CalculateAll || mode == GeneratorMode.CalculateAttackFields)
+                if (opt.Mode == GeneratorMode.CalculateAll || opt.Mode == GeneratorMode.CalculateAttackFields)
                 {
-                    attacks[(int)color, patternIndex] |= pieceLSB;
+                    opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
                 }
             }
         }
 
-        void CalculateMovesForLeftAttack(PieceType pieceType, Color color, GeneratorMode mode, ulong piecesToParse, ulong[] enPassant, OccupancyContainer occupancyContainer, LinkedList<Move> moves, ulong[,] attacks)
+        void CalculateMovesForLeftAttack(PieceType pieceType, GeneratorParameters opt)
         {
+            var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
             var validPieces = piecesToParse & ~BitConstants.AFile;
-            var enemyColor = ColorOperations.Invert(color);
+            var enemyColor = ColorOperations.Invert(opt.Color);
 
-            var pattern = color == Color.White ? validPieces << 9 : validPieces >> 7;
+            var pattern = opt.Color == Color.White ? validPieces << 9 : validPieces >> 7;
 
             while (pattern != 0)
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                var pieceLSB = color == Color.White ? patternLSB >> 9 : patternLSB << 7;
+                var pieceLSB = opt.Color == Color.White ? patternLSB >> 9 : patternLSB << 7;
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
-                var enPassantField = enPassant[(int)enemyColor] & patternLSB;
+                var enPassantField = opt.EnPassant[(int)enemyColor] & patternLSB;
 
-                if (mode == GeneratorMode.CalculateAll)
+                if (opt.Mode == GeneratorMode.CalculateAll)
                 {
-                    if ((patternLSB & occupancyContainer.EnemyOccupancy) != 0 || enPassantField != 0)
+                    if ((patternLSB & opt.EnemyOccupancy) != 0 || enPassantField != 0)
                     {
                         var from = BitPositionConverter.ToPosition(pieceIndex);
                         var to = BitPositionConverter.ToPosition(patternIndex);
                         var moveType = enPassantField == 0 ? MoveType.Kill : MoveType.EnPassant;
 
-                        moves.AddLast(new Move(from, to, pieceType, color, moveType));
+                        opt.Moves.AddLast(new Move(from, to, pieceType, opt.Color, moveType));
                     }
                 }
 
-                if (mode == GeneratorMode.CalculateAll || mode == GeneratorMode.CalculateAttackFields)
+                if (opt.Mode == GeneratorMode.CalculateAll || opt.Mode == GeneratorMode.CalculateAttackFields)
                 {
-                    attacks[(int)color, patternIndex] |= pieceLSB;
+                    opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
                 }
             }
         }
