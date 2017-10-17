@@ -27,15 +27,15 @@ namespace Core.Boards.MoveGenerators
             {
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
 
-                (ulong horizontalPattern, ulong verticalPattern) = CalculateMoves(pieceType, pieceLSB, opt);
-                CalculateAttacks(pieceType, pieceLSB, horizontalPattern, verticalPattern, opt);
+                var patternContainer = CalculateMoves(pieceType, pieceLSB, opt);
+                CalculateAttacks(pieceType, pieceLSB, patternContainer, opt);
             }
         }
 
-        (ulong horizontalMovesPattern, ulong verticalMovesPattern) CalculateMoves(PieceType pieceType, ulong pieceLSB, GeneratorParameters opt)
+        RookPatternContainer CalculateMoves(PieceType pieceType, ulong pieceLSB, GeneratorParameters opt)
         {
             if (opt.Mode != GeneratorMode.CalculateAll)
-                return (0, 0);
+                return new RookPatternContainer();
 
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
             var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
@@ -57,10 +57,10 @@ namespace Core.Boards.MoveGenerators
                 opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
             }
 
-            return (horizontalPattern, verticalPattern);
+            return new RookPatternContainer(horizontalPattern, verticalPattern);
         }
 
-        void CalculateAttacks(PieceType pieceType, ulong pieceLSB, ulong movesHorizontalPattern, ulong movesVerticalPattern, GeneratorParameters opt)
+        void CalculateAttacks(PieceType pieceType, ulong pieceLSB, RookPatternContainer patternContainer, GeneratorParameters opt)
         {
             if (opt.Mode != GeneratorMode.CalculateAll && opt.Mode != GeneratorMode.CalculateAttackFields)
                 return;
@@ -76,8 +76,11 @@ namespace Core.Boards.MoveGenerators
             var horizontalPattern = GetHorizontalPattern(piecePosition, occupancyWithoutBlockers);
             var verticalPattern = GetVerticalPattern(piecePosition, occupancyWithoutBlockers);
 
-            horizontalPattern = ExpandPatternByFriendlyPieces(Axis.Rank, horizontalPattern, opt) ^ movesHorizontalPattern;
-            verticalPattern = ExpandPatternByFriendlyPieces(Axis.File, verticalPattern, opt) ^ movesVerticalPattern;
+            horizontalPattern = ExpandPatternByFriendlyPieces(Axis.Rank, horizontalPattern, opt);
+            horizontalPattern ^= patternContainer.Horizontal;
+
+            verticalPattern = ExpandPatternByFriendlyPieces(Axis.File, verticalPattern, opt);
+            verticalPattern ^= patternContainer.Vertical;
 
             var pattern = horizontalPattern | verticalPattern;
 
