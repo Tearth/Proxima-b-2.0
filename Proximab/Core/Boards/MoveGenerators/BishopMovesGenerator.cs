@@ -54,9 +54,10 @@ namespace Core.Boards.MoveGenerators
                 var moveType = GetMoveType(patternLSB, opt.EnemyOccupancy);
 
                 opt.Moves.AddLast(new Move(from, to, pieceType, opt.Color, moveType));
+                opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
             }
 
-            return (leftRotatedBitBoardPattern, leftRotatedBitBoardPattern);
+            return (leftRotatedBitBoardPattern, rightRotatedBitBoardPattern);
         }
 
         void CalculateAttack(PieceType pieceType, ulong pieceLSB, ulong leftPattern, ulong rightPattern, GeneratorParameters opt)
@@ -75,8 +76,8 @@ namespace Core.Boards.MoveGenerators
             var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
             var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
 
-            rightRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A8H1, pieceLSB, rightRotatedBitBoardPattern, opt) ^ leftPattern;
-            leftRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A1H8, pieceLSB, leftRotatedBitBoardPattern, opt) ^ rightPattern;
+            rightRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A8H1, pieceLSB, rightRotatedBitBoardPattern, opt) ^ rightPattern;
+            leftRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A1H8, pieceLSB, leftRotatedBitBoardPattern, opt) ^ leftPattern;
 
             var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern) & ~opt.FriendlyOccupancy;
 

@@ -54,6 +54,7 @@ namespace Core.Boards.MoveGenerators
                 var moveType = GetMoveType(patternLSB, opt.EnemyOccupancy);
 
                 opt.Moves.AddLast(new Move(piecePosition, to, pieceType, opt.Color, moveType));
+                opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
             }
 
             return (horizontalPattern, verticalPattern);
