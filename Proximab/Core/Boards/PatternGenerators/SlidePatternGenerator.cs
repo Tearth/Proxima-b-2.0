@@ -27,7 +27,7 @@ namespace Core.Boards.PatternGenerators
         byte GetAvailableMoves(byte occupancy, byte field)
         {
             byte availableMoves = 0;
-            byte initialIndex = (byte)Math.Pow(2, field);
+            byte initialIndex = (byte)(1 << field);
 
             occupancy &= (byte)~initialIndex;
 

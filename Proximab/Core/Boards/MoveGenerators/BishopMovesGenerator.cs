@@ -97,7 +97,7 @@ namespace Core.Boards.MoveGenerators
             var rotatedPieceIndex = BitOperations.GetBitIndex(rotatedPieceLSB);
             var rotatedPiecePosition = BitPositionConverter.ToPosition(rotatedPieceIndex);
 
-            var mask = (byte)(Math.Pow(2, rotatedPiecePosition.Y - 1) - 1);
+            var mask = (1 << (rotatedPiecePosition.Y - 1)) - 1;
 
             if((rotatedPieceLSB & BitConstants.LeftBottomBoardPart) != 0)
             {
@@ -117,7 +117,7 @@ namespace Core.Boards.MoveGenerators
             var rotatedPieceIndex = BitOperations.GetBitIndex(rotatedPieceLSB);
             var rotatedPiecePosition = BitPositionConverter.ToPosition(rotatedPieceIndex);
 
-            var mask = (byte)(Math.Pow(2, 8 - rotatedPiecePosition.Y + 1) - 1);
+            var mask = (1 << (8 - rotatedPiecePosition.Y + 1)) - 1;
 
             if ((rotatedPieceLSB & BitConstants.LeftTopBoardPart) != 0)
             {
