@@ -1,4 +1,4 @@
-﻿using Core.Boards.MoveGenerators;
+﻿using Core.Boards.PatternGenerators;
 using Core.Commons;
 using Core.Commons.Colors;
 using Core.Commons.Moves;
@@ -6,11 +6,11 @@ using Core.Commons.Positions;
 using System;
 using System.Collections.Generic;
 
-namespace Core.Boards.MoveParsers
+namespace Core.Boards.MoveGenerators
 {
-    public class BishopMovesParser : MovesParserBase
+    public class BishopMovesGenerator : MovesParserBase
     {
-        public BishopMovesParser()
+        public BishopMovesGenerator()
         {
 
         }
@@ -100,7 +100,7 @@ namespace Core.Boards.MoveParsers
             }
 
             var pieceRank = (byte)(rotatedOccupancy >> ((rotatedPiecePosition.Y - 1) * 8));
-            var availableMoves = PredefinedMoves.SlideMoves[pieceRank, 8 - rotatedPiecePosition.X] & mask;
+            var availableMoves = PatternsContainer.SlidePattern[pieceRank, 8 - rotatedPiecePosition.X] & mask;
 
             return BitOperations.Rotate45Left((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) * 8));
         }
@@ -120,7 +120,7 @@ namespace Core.Boards.MoveParsers
             }
 
             var pieceRank = (byte)(rotatedOccupancy >> ((rotatedPiecePosition.Y - 1) * 8));
-            var availableMoves = PredefinedMoves.SlideMoves[pieceRank, 8 - rotatedPiecePosition.X] & mask;
+            var availableMoves = PatternsContainer.SlidePattern[pieceRank, 8 - rotatedPiecePosition.X] & mask;
 
             return BitOperations.Rotate45Right((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) * 8));
         }

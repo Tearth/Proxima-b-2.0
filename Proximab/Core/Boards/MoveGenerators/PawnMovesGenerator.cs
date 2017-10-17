@@ -3,11 +3,11 @@ using Core.Commons.Colors;
 using Core.Commons.Moves;
 using System.Collections.Generic;
 
-namespace Core.Boards.MoveParsers
+namespace Core.Boards.MoveGenerators
 {
-    public class PawnMovesParser : MovesParserBase
+    public class PawnMovesGenerator : MovesParserBase
     {
-        public PawnMovesParser()
+        public PawnMovesGenerator()
         {
 
         }

@@ -1,4 +1,4 @@
-﻿using Core.Boards.MoveGenerators;
+﻿using Core.Boards.PatternGenerators;
 using Core.Commons;
 
 namespace Core
@@ -12,7 +12,7 @@ namespace Core
             if (Ready)
                 return;
             
-            PredefinedMoves.GenerateMoves();
+            PatternsContainer.GeneratePatterns();
 
             Ready = true;
         }

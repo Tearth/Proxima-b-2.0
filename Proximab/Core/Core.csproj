@@ -49,15 +49,14 @@
     <Compile Include="Boards\FriendlyBoard.cs" />
     <Compile Include="Boards\FriendlyPiece.cs" />
     <Compile Include="Boards\GeneratorMode.cs" />
+    <Compile Include="Boards\PatternGenerators\KingPatternGenerator.cs" />
+    <Compile Include="Boards\PatternGenerators\SlidePatternGenerator.cs" />
+    <Compile Include="Boards\MoveGenerators\BishopMovesGenerator.cs" />
     <Compile Include="Boards\MoveGenerators\KingMovesGenerator.cs" />
-    <Compile Include="Boards\MoveGenerators\SlideMovesGenerator.cs" />
-    <Compile Include="Boards\MoveParsers\BishopMovesParser.cs" />
-    <Compile Include="Boards\MoveParsers\KingMovesParser.cs" />
-    <Compile Include="Boards\MoveParsers\KnightMovesParser.cs" />
-    <Compile Include="Boards\MoveParsers\MovesParserBase.cs" />
-    <Compile Include="Boards\MoveParsers\PawnMovesParser.cs" />
-    <Compile Include="Boards\MoveParsers\RookMovesParser.cs" />
-    <Compile Include="Boards\OccupancyContainer.cs" />
+    <Compile Include="Boards\MoveGenerators\KnightMovesGenerator.cs" />
+    <Compile Include="Boards\MoveGenerators\MovesParserBase.cs" />
+    <Compile Include="Boards\MoveGenerators\PawnMovesGenerator.cs" />
+    <Compile Include="Boards\MoveGenerators\RookMovesGenerator.cs" />
     <Compile Include="Commons\Axis.cs" />
     <Compile Include="Commons\Colors\Color.cs" />
     <Compile Include="Commons\Colors\ColorOperations.cs" />
@@ -69,8 +68,8 @@
     <Compile Include="Commons\PieceType.cs" />
     <Compile Include="Commons\Positions\Position.cs" />
     <Compile Include="Commons\Positions\PositionConverter.cs" />
-    <Compile Include="Boards\MoveGenerators\KnightMovesGenerator.cs" />
-    <Compile Include="Boards\MoveGenerators\PredefinedMoves.cs" />
+    <Compile Include="Boards\PatternGenerators\KnighPatternGenerator.cs" />
+    <Compile Include="Boards\PatternGenerators\PatternsContainer.cs" />
     <Compile Include="ProximaCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

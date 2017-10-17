@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Core.Boards.MoveGenerators
+namespace Core.Boards.PatternGenerators
 {
-    public class SlideMovesGenerator
+    public class SlidePatternGenerator
     {
-        public SlideMovesGenerator()
+        public SlidePatternGenerator()
         {
 
         }

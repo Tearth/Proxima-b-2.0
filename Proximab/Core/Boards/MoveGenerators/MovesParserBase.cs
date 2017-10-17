@@ -1,7 +1,7 @@
 ﻿using Core.Commons;
 using Core.Commons.Moves;
 
-namespace Core.Boards.MoveParsers
+namespace Core.Boards.MoveGenerators
 {
     public abstract class MovesParserBase
     {

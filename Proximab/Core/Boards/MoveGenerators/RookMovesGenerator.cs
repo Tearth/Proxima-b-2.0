@@ -1,15 +1,15 @@
-﻿using Core.Boards.MoveGenerators;
+﻿using Core.Boards.PatternGenerators;
 using Core.Commons;
 using Core.Commons.Colors;
 using Core.Commons.Moves;
 using Core.Commons.Positions;
 using System.Collections.Generic;
 
-namespace Core.Boards.MoveParsers
+namespace Core.Boards.MoveGenerators
 {
-    class RookMovesParser : MovesParserBase
+    class RookMovesGenerator : MovesParserBase
     {
-        public RookMovesParser()
+        public RookMovesGenerator()
         {
 
         }
@@ -90,7 +90,7 @@ namespace Core.Boards.MoveParsers
             var offset = piecePosition.Y - 1;
 
             var pieceRank = (byte)(occupancy >> (offset * 8));
-            var pattern = PredefinedMoves.SlideMoves[pieceRank, 8 - piecePosition.X];
+            var pattern = PatternsContainer.SlidePattern[pieceRank, 8 - piecePosition.X];
 
             return (ulong)pattern << (offset * 8);
         }
@@ -101,7 +101,7 @@ namespace Core.Boards.MoveParsers
             var rotatedOccupancy = BitOperations.Rotate90Right(occupancy);
 
             var pieceRank = (byte)(rotatedOccupancy >> (offset * 8));
-            var pattern = PredefinedMoves.SlideMoves[pieceRank, 8 - piecePosition.Y];
+            var pattern = PatternsContainer.SlidePattern[pieceRank, 8 - piecePosition.Y];
 
             return BitOperations.Rotate90Left(pattern) << offset;
         }
