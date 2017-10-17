@@ -76,8 +76,8 @@ namespace Core.Boards.MoveGenerators
             var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
             var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
 
-            rightRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A8H1, pieceLSB, rightRotatedBitBoardPattern, opt) ^ rightPattern;
-            leftRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A1H8, pieceLSB, leftRotatedBitBoardPattern, opt) ^ leftPattern;
+            rightRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A8H1, rightRotatedBitBoardPattern, opt) ^ rightPattern;
+            leftRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A1H8, leftRotatedBitBoardPattern, opt) ^ leftPattern;
 
             var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern) & ~opt.FriendlyOccupancy;
 
@@ -130,11 +130,12 @@ namespace Core.Boards.MoveGenerators
             return BitOperations.Rotate45Right((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) * 8));
         }
 
-        ulong ExpandPatternByFriendlyPieces(Diagonal diagonal, ulong pieceLSB, ulong pattern, GeneratorParameters opt)
+        ulong ExpandPatternByFriendlyPieces(Diagonal diagonal, ulong pattern, GeneratorParameters opt)
         {
             var expandedPattern = pattern;
 
             var blockers = pattern & opt.FriendlyOccupancy;
+            var patternLSB = BitOperations.GetLSB(ref pattern);
 
             var shift = diagonal == Diagonal.A1H8 ? 9 : 7;
             var mask = ~BitConstants.ARank & ~BitConstants.AFile & ~BitConstants.HRank & ~BitConstants.HFile;
@@ -147,7 +148,7 @@ namespace Core.Boards.MoveGenerators
 
                 if ((blockerLSB & (kingBlockers | pawnBlockers)) != 0)
                 {
-                    if (blockerLSB < pieceLSB)
+                    if (blockerLSB == patternLSB)
                     {
                         if (pawnBlockers == 0 || (pawnBlockers != 0 && opt.Color == Color.Black))
                         {
