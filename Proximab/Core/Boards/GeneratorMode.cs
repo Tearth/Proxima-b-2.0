@@ -1,8 +1,12 @@
-﻿namespace Core.Boards
+﻿using System;
+
+namespace Core.Boards
 {
+    [Flags]
     public enum GeneratorMode
     {
-        CalculateAll,
-        CalculateAttackFields,
+        None = 0,
+        CalculateMoves = 1,
+        CalculateAttacks = 2,
     }
 }

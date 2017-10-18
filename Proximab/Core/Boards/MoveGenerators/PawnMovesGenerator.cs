@@ -22,7 +22,7 @@ namespace Core.Boards.MoveGenerators
 
         void CalculateMovesForSinglePush(PieceType pieceType, GeneratorParameters opt)
         {
-            if (opt.Mode != GeneratorMode.CalculateAll)
+            if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
                 return;
 
             var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
@@ -47,7 +47,7 @@ namespace Core.Boards.MoveGenerators
 
         void CalculateMovesForDoublePush(PieceType pieceType, GeneratorParameters opt)
         {
-            if (opt.Mode != GeneratorMode.CalculateAll)
+            if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
                 return;
 
             var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
@@ -100,10 +100,11 @@ namespace Core.Boards.MoveGenerators
 
                 var pieceLSB = opt.Color == Color.White ? patternLSB >> 7 : patternLSB << 9;
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
-                var enPassantField = opt.EnPassant[(int)enemyColor] & patternLSB;
 
-                if (opt.Mode == GeneratorMode.CalculateAll)
+                if ((opt.Mode & GeneratorMode.CalculateMoves) != 0)
                 {
+                    var enPassantField = opt.EnPassant[(int)enemyColor] & patternLSB;
+
                     if ((patternLSB & opt.EnemyOccupancy) != 0 || enPassantField != 0)
                     {
                         var from = BitPositionConverter.ToPosition(pieceIndex);
@@ -114,7 +115,7 @@ namespace Core.Boards.MoveGenerators
                     }
                 }
 
-                if (opt.Mode == GeneratorMode.CalculateAll || opt.Mode == GeneratorMode.CalculateAttackFields)
+                if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
                 {
                     opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
                 }
@@ -136,10 +137,11 @@ namespace Core.Boards.MoveGenerators
 
                 var pieceLSB = opt.Color == Color.White ? patternLSB >> 9 : patternLSB << 7;
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
-                var enPassantField = opt.EnPassant[(int)enemyColor] & patternLSB;
 
-                if (opt.Mode == GeneratorMode.CalculateAll)
+                if ((opt.Mode & GeneratorMode.CalculateMoves) != 0)
                 {
+                    var enPassantField = opt.EnPassant[(int)enemyColor] & patternLSB;
+
                     if ((patternLSB & opt.EnemyOccupancy) != 0 || enPassantField != 0)
                     {
                         var from = BitPositionConverter.ToPosition(pieceIndex);
@@ -150,7 +152,7 @@ namespace Core.Boards.MoveGenerators
                     }
                 }
 
-                if (opt.Mode == GeneratorMode.CalculateAll || opt.Mode == GeneratorMode.CalculateAttackFields)
+                if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
                 {
                     opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
                 }

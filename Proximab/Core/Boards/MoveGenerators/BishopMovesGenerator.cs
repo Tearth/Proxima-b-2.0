@@ -34,7 +34,7 @@ namespace Core.Boards.MoveGenerators
 
         BishopPatternContainer CalculateMoves(PieceType pieceType, ulong pieceLSB, GeneratorParameters opt)
         {
-            if (opt.Mode != GeneratorMode.CalculateAll)
+            if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
                 return new BishopPatternContainer();
 
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
@@ -62,7 +62,7 @@ namespace Core.Boards.MoveGenerators
 
         void CalculateAttack(PieceType pieceType, ulong pieceLSB, BishopPatternContainer patternContainer, GeneratorParameters opt)
         {
-            if (opt.Mode != GeneratorMode.CalculateAll && opt.Mode != GeneratorMode.CalculateAttackFields)
+            if ((opt.Mode & GeneratorMode.CalculateAttacks) == 0)
                 return;
 
             var blockersToRemove = opt.Pieces[(int)opt.Color, (int)PieceType.Bishop] |

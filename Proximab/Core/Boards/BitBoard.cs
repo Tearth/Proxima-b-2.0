@@ -224,27 +224,32 @@ namespace Core.Boards
 
         void CalculateAvailableMoves(CalculationMode calculationMode)
         {
-            var whiteGeneratorMode = GeneratorMode.CalculateAll;
-            var blackGeneratorMode = GeneratorMode.CalculateAll;
+            var whiteGeneratorModeFlags = GeneratorMode.None;
+            var blackGeneratorModeFlags = GeneratorMode.None;
 
-            if(calculationMode == CalculationMode.WhiteMovesPlusAttacks)
+            if(calculationMode == CalculationMode.All)
             {
-                whiteGeneratorMode = GeneratorMode.CalculateAll;
-                blackGeneratorMode = GeneratorMode.CalculateAttackFields;
+                whiteGeneratorModeFlags = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
+                blackGeneratorModeFlags = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
+            }
+            else if(calculationMode == CalculationMode.WhiteMovesPlusAttacks)
+            {
+                whiteGeneratorModeFlags = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
+                blackGeneratorModeFlags = GeneratorMode.CalculateAttacks;
             }
             else if(calculationMode == CalculationMode.BlackMovesPlusAttacks)
             {
-                whiteGeneratorMode = GeneratorMode.CalculateAttackFields;
-                blackGeneratorMode = GeneratorMode.CalculateAll;
+                whiteGeneratorModeFlags = GeneratorMode.CalculateAttacks;
+                blackGeneratorModeFlags = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
             }
             else if(calculationMode == CalculationMode.OnlyAttacks)
             {
-                whiteGeneratorMode = GeneratorMode.CalculateAttackFields;
-                blackGeneratorMode = GeneratorMode.CalculateAttackFields;
+                whiteGeneratorModeFlags = GeneratorMode.CalculateAttacks;
+                blackGeneratorModeFlags = GeneratorMode.CalculateAttacks;
             }
 
-            CalculateAvailableMoves(Color.White, whiteGeneratorMode);
-            CalculateAvailableMoves(Color.Black, blackGeneratorMode);
+            CalculateAvailableMoves(Color.White, whiteGeneratorModeFlags);
+            CalculateAvailableMoves(Color.Black, blackGeneratorModeFlags);
         }
 
         void CalculateAvailableMoves(Color color, GeneratorMode mode)

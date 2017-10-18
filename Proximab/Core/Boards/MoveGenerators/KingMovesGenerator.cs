@@ -29,7 +29,7 @@ namespace Core.Boards.MoveGenerators
                     var patternLSB = BitOperations.GetLSB(ref pattern);
                     var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                    if(opt.Mode == GeneratorMode.CalculateAll)
+                    if ((opt.Mode & GeneratorMode.CalculateMoves) != 0)
                     {
                         var from = BitPositionConverter.ToPosition(pieceIndex);
                         var to = BitPositionConverter.ToPosition(patternIndex);
@@ -38,7 +38,7 @@ namespace Core.Boards.MoveGenerators
                         opt.Moves.AddLast(new Move(from, to, pieceType, opt.Color, moveType));
                     }
 
-                    if (opt.Mode == GeneratorMode.CalculateAll || opt.Mode == GeneratorMode.CalculateAttackFields)
+                    if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
                     {
                         opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
                     }
