@@ -6,11 +6,11 @@ using System.Diagnostics;
 
 namespace GUI.Source.Benchmarks
 {
-    internal class MovesGeneratorBenchmark
+    internal class MoveGeneratorsBenchmark
     {
         ConsoleManager _consoleManager;
 
-        public MovesGeneratorBenchmark(ConsoleManager consoleManager)
+        public MoveGeneratorsBenchmark(ConsoleManager consoleManager)
         {
             _consoleManager = consoleManager;
         }
@@ -19,11 +19,9 @@ namespace GUI.Source.Benchmarks
         {
             var benchmarkData = new BenchmarkData();
             var stopwatch = new Stopwatch();
+
             stopwatch.Start();
-
-            var freshBitBoard = new BitBoard(friendlyBoard);
-            CalculateBitBoard(initialColor, freshBitBoard, depth, verifyChecks, benchmarkData);
-
+            CalculateBitBoard(initialColor, new BitBoard(friendlyBoard), depth, verifyChecks, benchmarkData);
             benchmarkData.Ticks = stopwatch.Elapsed.Ticks;
 
             DisplayBenchmarkResult(benchmarkData);

@@ -47,7 +47,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Source\Benchmarks\BenchmarkData.cs" />
-    <Compile Include="Source\Benchmarks\MovesGeneratorBenchmark.cs" />
+    <Compile Include="Source\Benchmarks\MoveGeneratorsBenchmark.cs" />
     <Compile Include="Source\BoardSubsystem\Axes\AxesManager.cs" />
     <Compile Include="Source\BoardSubsystem\Board.cs" />
     <Compile Include="Source\BoardSubsystem\Persistence\BoardReader.cs" />

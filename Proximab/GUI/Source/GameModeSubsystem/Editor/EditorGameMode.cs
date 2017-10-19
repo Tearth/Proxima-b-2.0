@@ -161,7 +161,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
 
         void DoBenchmark(Command command)
         {
-            var benchmark = new MovesGeneratorBenchmark(_consoleManager);
+            var benchmark = new MoveGeneratorsBenchmark(_consoleManager);
             var depth = command.GetArgument<int>(0);
             var verifyChecks = command.GetArgument<bool>(1);
 
