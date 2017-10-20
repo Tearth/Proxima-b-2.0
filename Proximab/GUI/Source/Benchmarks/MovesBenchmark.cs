@@ -15,19 +15,19 @@ namespace GUI.Source.Benchmarks
             _consoleManager = consoleManager;
         }
 
-        public void Run(Color initialColor, FriendlyBoard friendlyBoard, int depth, bool verifyChecks, bool calculateEndNodes)
+        public void Run(Color initialColor, FriendlyBoard friendlyBoard, int depth, bool calculateEndNodes, bool verifyChecks)
         {
             var benchmarkData = new BenchmarkData();
             var stopwatch = new Stopwatch();
 
             stopwatch.Start();
-            CalculateBitBoard(initialColor, new BitBoard(friendlyBoard), depth, verifyChecks, calculateEndNodes, benchmarkData);
+            CalculateBitBoard(initialColor, new BitBoard(friendlyBoard), depth, calculateEndNodes, verifyChecks, benchmarkData);
             benchmarkData.Ticks = stopwatch.Elapsed.Ticks;
 
             DisplayBenchmarkResult(benchmarkData);
         }
 
-        void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool verifyChecks, bool calculateEndNodes, BenchmarkData benchmarkData)
+        void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool calculateEndNodes, bool verifyChecks, BenchmarkData benchmarkData)
         {
             var enemyColor = ColorOperations.Invert(color);
 
@@ -58,7 +58,7 @@ namespace GUI.Source.Benchmarks
                     if (verifyChecks && bitBoardAfterMove.IsCheck(color))
                         continue;
 
-                    CalculateBitBoard(enemyColor, bitBoardAfterMove, depth - 1, verifyChecks, calculateEndNodes, benchmarkData);
+                    CalculateBitBoard(enemyColor, bitBoardAfterMove, depth - 1, calculateEndNodes, verifyChecks, benchmarkData);
                 }
             }
 

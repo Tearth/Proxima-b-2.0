@@ -36,7 +36,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
                 case CommandType.Occupancy: { DrawOccupancy(command); break; }
                 case CommandType.SaveBoard: { SaveBoard(command); break; }
                 case CommandType.LoadBoard: { LoadBoard(command); break; }
-                case CommandType.BenchmarkMoves: { DoBenchmarkMoves(command); break; }
+                case CommandType.TestMoves: { DoBenchmarkMoves(command); break; }
                 case CommandType.IsCheck: { IsCheck(command); break; }
             }
         }
