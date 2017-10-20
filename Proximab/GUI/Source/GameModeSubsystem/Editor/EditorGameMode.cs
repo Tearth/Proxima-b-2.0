@@ -36,7 +36,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
                 case CommandType.Occupancy: { DrawOccupancy(command); break; }
                 case CommandType.SaveBoard: { SaveBoard(command); break; }
                 case CommandType.LoadBoard: { LoadBoard(command); break; }
-                case CommandType.Benchmark: { DoBenchmark(command); break; }
+                case CommandType.BenchmarkMoves: { DoBenchmarkMoves(command); break; }
                 case CommandType.IsCheck: { IsCheck(command); break; }
             }
         }
@@ -159,13 +159,15 @@ namespace GUI.Source.GameModeSubsystem.Editor
             UpdateBitBoard();
         }
 
-        void DoBenchmark(Command command)
+        void DoBenchmarkMoves(Command command)
         {
-            var benchmark = new MoveGeneratorsBenchmark(_consoleManager);
-            var depth = command.GetArgument<int>(0);
-            var verifyChecks = command.GetArgument<bool>(1);
+            var benchmark = new MovesBenchmark(_consoleManager);
 
-            benchmark.Run(Color.White, _board.GetFriendlyBoard(), depth, verifyChecks);
+            var calculateEndNodes = command.GetArgument<bool>(0);
+            var verifyChecks = command.GetArgument<bool>(1);
+            var depth = command.GetArgument<int>(2);
+
+            benchmark.Run(Color.White, _board.GetFriendlyBoard(), depth, calculateEndNodes, verifyChecks);
         }
 
         void IsCheck(Command command)

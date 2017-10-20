@@ -10,7 +10,7 @@
         LoadBoard,
         AddPiece,
         Occupancy,
-        Benchmark,
+        BenchmarkMoves,
         IsCheck
     }
 }

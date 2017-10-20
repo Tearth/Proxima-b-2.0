@@ -6,34 +6,38 @@ using System.Diagnostics;
 
 namespace GUI.Source.Benchmarks
 {
-    internal class MoveGeneratorsBenchmark
+    internal class MovesBenchmark
     {
         ConsoleManager _consoleManager;
 
-        public MoveGeneratorsBenchmark(ConsoleManager consoleManager)
+        public MovesBenchmark(ConsoleManager consoleManager)
         {
             _consoleManager = consoleManager;
         }
 
-        public void Run(Color initialColor, FriendlyBoard friendlyBoard, int depth, bool verifyChecks)
+        public void Run(Color initialColor, FriendlyBoard friendlyBoard, int depth, bool verifyChecks, bool calculateEndNodes)
         {
             var benchmarkData = new BenchmarkData();
             var stopwatch = new Stopwatch();
 
             stopwatch.Start();
-            CalculateBitBoard(initialColor, new BitBoard(friendlyBoard), depth, verifyChecks, benchmarkData);
+            CalculateBitBoard(initialColor, new BitBoard(friendlyBoard), depth, verifyChecks, calculateEndNodes, benchmarkData);
             benchmarkData.Ticks = stopwatch.Elapsed.Ticks;
 
             DisplayBenchmarkResult(benchmarkData);
         }
 
-        void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool verifyChecks, BenchmarkData benchmarkData)
+        void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool verifyChecks, bool calculateEndNodes, BenchmarkData benchmarkData)
         {
             var enemyColor = ColorOperations.Invert(color);
 
             if (depth <= 0)
             {
-                bitBoard.Calculate(CalculationMode.OnlyAttacks);
+                if(calculateEndNodes)
+                {
+                    bitBoard.Calculate(CalculationMode.OnlyAttacks);
+                }
+
                 benchmarkData.EndNodes++;
             }
             else
@@ -54,7 +58,7 @@ namespace GUI.Source.Benchmarks
                     if (verifyChecks && bitBoardAfterMove.IsCheck(color))
                         continue;
 
-                    CalculateBitBoard(enemyColor, bitBoardAfterMove, depth - 1, verifyChecks, benchmarkData);
+                    CalculateBitBoard(enemyColor, bitBoardAfterMove, depth - 1, verifyChecks, calculateEndNodes, benchmarkData);
                 }
             }
 

@@ -49,11 +49,12 @@
       </Item>
     
       <Item>
-        <Name>Benchmark</Name>
-        <EnumType>Benchmark</EnumType>
+        <Name>BenchmarkMoves</Name>
+        <EnumType>BenchmarkMoves</EnumType>
         <Arguments>
-          <Item>int</Item>
           <Item>bool</Item>
+          <Item>bool</Item>
+          <Item>int</Item>
         </Arguments>
       </Item>
     
