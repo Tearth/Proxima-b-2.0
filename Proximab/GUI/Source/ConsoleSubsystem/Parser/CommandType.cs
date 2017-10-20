@@ -11,7 +11,7 @@
         AddPiece,
         RemovePiece,
         Occupancy,
-        TestMoves,
+        MovesTest,
         IsCheck
     }
 }

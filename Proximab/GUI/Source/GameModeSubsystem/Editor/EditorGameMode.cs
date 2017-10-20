@@ -37,7 +37,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
                 case CommandType.Occupancy: { DrawOccupancy(command); break; }
                 case CommandType.SaveBoard: { SaveBoard(command); break; }
                 case CommandType.LoadBoard: { LoadBoard(command); break; }
-                case CommandType.TestMoves: { DoBenchmarkMoves(command); break; }
+                case CommandType.MovesTest: { DoMovesTest(command); break; }
                 case CommandType.IsCheck: { IsCheck(command); break; }
             }
         }
@@ -128,20 +128,19 @@ namespace GUI.Source.GameModeSubsystem.Editor
 
         void DrawOccupancy(Command command)
         {
-            var color = command.GetArgument<string>(0);
+            var colorArgument = command.GetArgument<string>(0);
             var occupancyArray = new bool[8, 8];
 
-            if (color == "all")
+            if (colorArgument == "all")
             {
                 occupancyArray = _bitBoard.GetFriendlyOccupancy();
             }
             else
             {
-                var colorTypeParseResult = Enum.TryParse(color, true, out Color colorType);
-
+                var colorTypeParseResult = Enum.TryParse(colorArgument, true, out Color colorType);
                 if (!colorTypeParseResult)
                 {
-                    _consoleManager.WriteLine($"$rInvalid color parameter ($R{color}$r)");
+                    _consoleManager.WriteLine($"$rInvalid color parameter ($R{colorArgument}$r)");
                     return;
                 }
 
@@ -153,17 +152,21 @@ namespace GUI.Source.GameModeSubsystem.Editor
 
         void SaveBoard(Command command)
         {
+            var boardNameArgument = command.GetArgument<string>(0);
+
             var boardWriter = new BoardWriter();
             var board = _board.GetFriendlyBoard();
 
-            var path = $"Boards\\{command.GetArgument<string>(0)}.board";
+            var path = $"Boards\\{boardNameArgument}.board";
             boardWriter.Write(path, board);
         }
 
         void LoadBoard(Command command)
         {
+            var boardNameArgument = command.GetArgument<string>(0);
+
             var boardReader = new BoardReader();
-            var path = $"Boards\\{command.GetArgument<string>(0)}.board";
+            var path = $"Boards\\{boardNameArgument}.board";
 
             if (!boardReader.BoardExists(path))
             {
@@ -176,27 +179,27 @@ namespace GUI.Source.GameModeSubsystem.Editor
             UpdateBitBoard();
         }
 
-        void DoBenchmarkMoves(Command command)
+        void DoMovesTest(Command command)
         {
-            var benchmark = new MovesBenchmark(_consoleManager);
+            var test = new MovesTest(_consoleManager);
 
-            var calculateEndNodes = command.GetArgument<bool>(0);
-            var verifyChecks = command.GetArgument<bool>(1);
-            var depth = command.GetArgument<int>(2);
+            var calculateEndNodesArgument = command.GetArgument<bool>(0);
+            var verifyChecksArgument = command.GetArgument<bool>(1);
+            var depthArgument = command.GetArgument<int>(2);
 
-            benchmark.Run(Color.White, _board.GetFriendlyBoard(), depth, calculateEndNodes, verifyChecks);
+            test.Run(Color.White, _board.GetFriendlyBoard(), depthArgument, calculateEndNodesArgument, verifyChecksArgument);
         }
 
         void IsCheck(Command command)
         {
-            var color = command.GetArgument<string>(0);
+            var colorArgument = command.GetArgument<string>(0);
             var colorType = Color.White;
 
-            if(color == "white" || color == "w")
+            if(colorArgument == "white" || colorArgument == "w")
             {
                 colorType = Color.White;
             }
-            else if (color == "black" || color == "b")
+            else if (colorArgument == "black" || colorArgument == "b")
             {
                 colorType = Color.Black;
             }

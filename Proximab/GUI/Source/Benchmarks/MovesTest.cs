@@ -6,11 +6,11 @@ using System.Diagnostics;
 
 namespace GUI.Source.Benchmarks
 {
-    internal class MovesBenchmark
+    internal class MovesTest
     {
         ConsoleManager _consoleManager;
 
-        public MovesBenchmark(ConsoleManager consoleManager)
+        public MovesTest(ConsoleManager consoleManager)
         {
             _consoleManager = consoleManager;
         }

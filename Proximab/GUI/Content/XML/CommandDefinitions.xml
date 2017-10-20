@@ -86,8 +86,8 @@
     
       <Item>
         <Name>TestMoves</Name>
-        <EnumType>TestMoves</EnumType>
-        <Description>Do test</Description>
+        <EnumType>MovesTest</EnumType>
+        <Description>Do moves test</Description>
         <Arguments>
           <Item>
             <Type>bool</Type>
