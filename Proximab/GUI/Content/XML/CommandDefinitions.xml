@@ -61,6 +61,18 @@
       </Item>
 
       <Item>
+        <Name>Remove</Name>
+        <EnumType>RemovePiece</EnumType>
+        <Description>Remove piece from current board</Description>
+        <Arguments>
+          <Item>
+            <Type>string</Type>
+            <Description>Position (a1, a2, ...)</Description>
+          </Item>
+        </Arguments>
+      </Item>
+
+      <Item>
         <Name>Occupancy</Name>
         <EnumType>Occupancy</EnumType>
         <Description>Display occupied fields</Description>

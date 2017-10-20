@@ -9,6 +9,7 @@
         SaveBoard,
         LoadBoard,
         AddPiece,
+        RemovePiece,
         Occupancy,
         TestMoves,
         IsCheck

@@ -33,6 +33,7 @@ namespace GUI.Source.GameModeSubsystem.Editor
             switch(command.Type)
             {
                 case CommandType.AddPiece: { AddPiece(command); break; }
+                case CommandType.RemovePiece: { RemovePiece(command); break; }
                 case CommandType.Occupancy: { DrawOccupancy(command); break; }
                 case CommandType.SaveBoard: { SaveBoard(command); break; }
                 case CommandType.LoadBoard: { LoadBoard(command); break; }
@@ -105,6 +106,22 @@ namespace GUI.Source.GameModeSubsystem.Editor
             }
 
             _board.AddPiece(fieldPosition, new FriendlyPiece(piece, color));
+
+            UpdateBitBoard();
+        }
+
+        void RemovePiece(Command command)
+        {
+            var fieldArgument = command.GetArgument<string>(0);
+            
+            var fieldPosition = PositionConverter.ToPosition(fieldArgument);
+            if (fieldPosition == null)
+            {
+                _consoleManager.WriteLine($"$rInvalid field ($R{fieldArgument}$r)");
+                return;
+            }
+
+            _board.GetFriendlyBoard().SetPiece(fieldPosition, null);
 
             UpdateBitBoard();
         }
