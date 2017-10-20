@@ -53,6 +53,11 @@ namespace GUI.Source.ConsoleSubsystem
             _consoleLoop.Start();
         }
 
+        public void WriteLine()
+        {
+            WriteLine("");
+        }
+
         public void WriteLine(string output)
         {
             var outputChunks = _outputParser.GetOutputChunks(output);
@@ -82,8 +87,6 @@ namespace GUI.Source.ConsoleSubsystem
                 {
                     WriteLine($"$c  <{argument.Type}>$w - {argument.Description}");
                 }
-
-                //WriteLine("");
             }
         }
 

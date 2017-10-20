@@ -67,14 +67,14 @@ namespace GUI.Source.Benchmarks
 
         void DisplayBenchmarkResult(BenchmarkData benchmarkData)
         {
-            _consoleManager.WriteLine("");
+            _consoleManager.WriteLine();
             _consoleManager.WriteLine("$wBenchmark result:");
             _consoleManager.WriteLine($"$wTotal nodes: $g{benchmarkData.TotalNodes} N");
             _consoleManager.WriteLine($"$wEnd nodes: $g{benchmarkData.EndNodes} N");
             _consoleManager.WriteLine($"$wNodes per second: $c{benchmarkData.NodesPerSecond / 1000} kN");
             _consoleManager.WriteLine($"$wTime per node: $c{benchmarkData.TimePerNode} ns");
             _consoleManager.WriteLine($"$wTime: $m{benchmarkData.Time} s");
-            _consoleManager.WriteLine("");
+            _consoleManager.WriteLine();
         }
     }
 }
