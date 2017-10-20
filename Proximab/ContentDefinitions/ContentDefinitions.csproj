@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Colors\ColorDefinition.cs" />
     <Compile Include="Colors\ColorDefinitionsContainer.cs" />
+    <Compile Include="Commands\CommandArgumentDefinition.cs" />
     <Compile Include="Commands\CommandDefinition.cs" />
     <Compile Include="Commands\CommandDefinitionsContainer.cs" />
     <Compile Include="Pieces\PieceDefinition.cs" />

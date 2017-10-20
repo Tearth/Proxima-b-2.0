@@ -4,7 +4,7 @@
     {
         None,
         Invalid,
-        Commands,
+        Help,
         Colors,
         SaveBoard,
         LoadBoard,

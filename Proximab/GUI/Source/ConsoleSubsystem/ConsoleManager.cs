@@ -65,7 +65,7 @@ namespace GUI.Source.ConsoleSubsystem
 
             switch (command.Type)
             {
-                case CommandType.Commands: { WriteCommandsList(); break; }
+                case CommandType.Help: { WriteCommandsList(); break; }
                 case CommandType.Colors: { WriteColorsList(); break; }
             }
         }
@@ -76,16 +76,14 @@ namespace GUI.Source.ConsoleSubsystem
 
             foreach (var commandDefinition in _commandDefinitionsContainer.Definitions)
             {
-                var argumentsStringBuilder = new StringBuilder();
+                WriteLine($"$g{commandDefinition.Name}$w - {commandDefinition.Description}");
 
-                foreach(var argument in commandDefinition.Arguments)
+                foreach (var argument in commandDefinition.Arguments)
                 {
-                    argumentsStringBuilder.Append("<$c");
-                    argumentsStringBuilder.Append(argument);
-                    argumentsStringBuilder.Append("$w> ");
+                    WriteLine($"$c  <{argument.Type}>$w - {argument.Description}");
                 }
 
-                WriteLine($"$w - $g{commandDefinition.Name}$w {argumentsStringBuilder.ToString()}");
+                //WriteLine("");
             }
         }
 

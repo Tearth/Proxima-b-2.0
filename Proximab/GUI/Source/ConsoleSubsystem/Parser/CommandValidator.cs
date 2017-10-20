@@ -13,10 +13,10 @@ namespace GUI.Source.ConsoleSubsystem.Parser
             
             for(int i=0; i<command.Arguments.Count; i++)
             {
-                var commandArg = command.Arguments[i];
-                var definitionArgType = definition.Arguments[i];
+                var commandArgument = command.Arguments[i];
+                var definitionArgument = definition.Arguments[i];
 
-                if (!TryParseToType(commandArg, definitionArgType))
+                if (!TryParseToType(commandArgument, definitionArgument.Type))
                     return false;
             }
 
