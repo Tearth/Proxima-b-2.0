@@ -258,6 +258,7 @@ namespace Proxima.Core.Boards
             {
                 Color = color,
                 Mode = mode,
+                CastlingData = _castlingData,
 
                 Occupancy = _occupancy[(int)Color.White] | _occupancy[(int)Color.Black],
                 FriendlyOccupancy = _occupancy[(int)color],

@@ -1,5 +1,4 @@
-﻿using Proxima.Core.Commons;
-using Proxima.Core.Commons.Positions;
+﻿using Proxima.Core.Commons.Positions;
 
 namespace Proxima.Core.Boards
 {

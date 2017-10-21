@@ -8,6 +8,7 @@ namespace Proxima.Core.Boards.MoveGenerators
     {
         public Color Color { get; set; }
         public GeneratorMode Mode { get; set; }
+        public CastlingData CastlingData { get; set; }
 
         public ulong Occupancy { get; set; }
         public ulong FriendlyOccupancy { get; set; }
