@@ -25,8 +25,8 @@ namespace Proxima.Core.Boards.MoveGenerators
             if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
                 return;
 
-            var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
-            var pattern = opt.Color == Color.White ? piecesToParse << 8 : piecesToParse >> 8;
+            var piecesToParse = opt.Pieces[(int)opt.FriendlyColor, (int)pieceType];
+            var pattern = opt.FriendlyColor == Color.White ? piecesToParse << 8 : piecesToParse >> 8;
             pattern &= ~opt.Occupancy;
 
             while(pattern != 0)
@@ -34,14 +34,14 @@ namespace Proxima.Core.Boards.MoveGenerators
                 var patternLSB = BitOperations.GetLSB(ref pattern);
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                var pieceLSB = opt.Color == Color.White ? patternLSB >> 8 : patternLSB << 8;
+                var pieceLSB = opt.FriendlyColor == Color.White ? patternLSB >> 8 : patternLSB << 8;
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
                 var from = BitPositionConverter.ToPosition(pieceIndex);
                 var to = BitPositionConverter.ToPosition(patternIndex);
                 var moveType = MoveType.Quiet;
 
-                opt.Moves.AddLast(new Move(from, to, pieceType, opt.Color, moveType));
+                opt.Moves.AddLast(new Move(from, to, pieceType, opt.FriendlyColor, moveType));
             }
         }
 
@@ -50,11 +50,11 @@ namespace Proxima.Core.Boards.MoveGenerators
             if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
                 return;
 
-            var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
+            var piecesToParse = opt.Pieces[(int)opt.FriendlyColor, (int)pieceType];
             var validPieces = 0ul;
             var pattern = 0ul;
 
-            if(opt.Color == Color.White)
+            if(opt.FriendlyColor == Color.White)
             {
                 validPieces = piecesToParse & BitConstants.BRank;
                 validPieces &= ~opt.Occupancy >> 8;
@@ -74,36 +74,35 @@ namespace Proxima.Core.Boards.MoveGenerators
                 var patternLSB = BitOperations.GetLSB(ref pattern);
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                var pieceLSB = opt.Color == Color.White ? patternLSB >> 16 : patternLSB << 16;
+                var pieceLSB = opt.FriendlyColor == Color.White ? patternLSB >> 16 : patternLSB << 16;
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
                 var from = BitPositionConverter.ToPosition(pieceIndex);
                 var to = BitPositionConverter.ToPosition(patternIndex);
                 var moveType = MoveType.DoublePush;
 
-                opt.Moves.AddLast(new Move(from, to, pieceType, opt.Color, moveType));
+                opt.Moves.AddLast(new Move(from, to, pieceType, opt.FriendlyColor, moveType));
             }
         }
 
         void CalculateMovesForRightAttack(PieceType pieceType, GeneratorParameters opt)
         {
-            var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
+            var piecesToParse = opt.Pieces[(int)opt.FriendlyColor, (int)pieceType];
             var validPieces = piecesToParse & ~BitConstants.HFile;
-            var enemyColor = ColorOperations.Invert(opt.Color);
 
-            var pattern = opt.Color == Color.White ? validPieces << 7 : validPieces >> 9;
+            var pattern = opt.FriendlyColor == Color.White ? validPieces << 7 : validPieces >> 9;
 
             while (pattern != 0)
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                var pieceLSB = opt.Color == Color.White ? patternLSB >> 7 : patternLSB << 9;
+                var pieceLSB = opt.FriendlyColor == Color.White ? patternLSB >> 7 : patternLSB << 9;
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
                 if ((opt.Mode & GeneratorMode.CalculateMoves) != 0)
                 {
-                    var enPassantField = opt.EnPassant[(int)enemyColor] & patternLSB;
+                    var enPassantField = opt.EnPassant[(int)opt.EnemyColor] & patternLSB;
 
                     if ((patternLSB & opt.EnemyOccupancy) != 0 || enPassantField != 0)
                     {
@@ -111,37 +110,36 @@ namespace Proxima.Core.Boards.MoveGenerators
                         var to = BitPositionConverter.ToPosition(patternIndex);
                         var moveType = enPassantField == 0 ? MoveType.Kill : MoveType.EnPassant;
 
-                        opt.Moves.AddLast(new Move(from, to, pieceType, opt.Color, moveType));
+                        opt.Moves.AddLast(new Move(from, to, pieceType, opt.FriendlyColor, moveType));
                     }
                 }
 
                 if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
                 {
                     opt.Attacks[patternIndex] |= pieceLSB;
-                    opt.AttacksSummary[(int)opt.Color] |= patternLSB;
+                    opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
                 }
             }
         }
 
         void CalculateMovesForLeftAttack(PieceType pieceType, GeneratorParameters opt)
         {
-            var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
+            var piecesToParse = opt.Pieces[(int)opt.FriendlyColor, (int)pieceType];
             var validPieces = piecesToParse & ~BitConstants.AFile;
-            var enemyColor = ColorOperations.Invert(opt.Color);
 
-            var pattern = opt.Color == Color.White ? validPieces << 9 : validPieces >> 7;
+            var pattern = opt.FriendlyColor == Color.White ? validPieces << 9 : validPieces >> 7;
 
             while (pattern != 0)
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                var pieceLSB = opt.Color == Color.White ? patternLSB >> 9 : patternLSB << 7;
+                var pieceLSB = opt.FriendlyColor == Color.White ? patternLSB >> 9 : patternLSB << 7;
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
                 if ((opt.Mode & GeneratorMode.CalculateMoves) != 0)
                 {
-                    var enPassantField = opt.EnPassant[(int)enemyColor] & patternLSB;
+                    var enPassantField = opt.EnPassant[(int)opt.EnemyColor] & patternLSB;
 
                     if ((patternLSB & opt.EnemyOccupancy) != 0 || enPassantField != 0)
                     {
@@ -149,14 +147,14 @@ namespace Proxima.Core.Boards.MoveGenerators
                         var to = BitPositionConverter.ToPosition(patternIndex);
                         var moveType = enPassantField == 0 ? MoveType.Kill : MoveType.EnPassant;
 
-                        opt.Moves.AddLast(new Move(from, to, pieceType, opt.Color, moveType));
+                        opt.Moves.AddLast(new Move(from, to, pieceType, opt.FriendlyColor, moveType));
                     }
                 }
 
                 if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
                 {
                     opt.Attacks[patternIndex] |= pieceLSB;
-                    opt.AttacksSummary[(int)opt.Color] |= patternLSB;
+                    opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
                 }
             }
         }

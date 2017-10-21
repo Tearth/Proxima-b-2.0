@@ -15,7 +15,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         public void GetMoves(PieceType pieceType, GeneratorParameters opt)
         {
-            var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
+            var piecesToParse = opt.Pieces[(int)opt.FriendlyColor, (int)pieceType];
 
             while (piecesToParse != 0)
             {
@@ -35,13 +35,13 @@ namespace Proxima.Core.Boards.MoveGenerators
                         var to = BitPositionConverter.ToPosition(patternIndex);
                         var moveType = GetMoveType(patternLSB, opt.EnemyOccupancy);
 
-                        opt.Moves.AddLast(new Move(from, to, pieceType, opt.Color, moveType));
+                        opt.Moves.AddLast(new Move(from, to, pieceType, opt.FriendlyColor, moveType));
                     }
 
                     if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
                     {
                         opt.Attacks[patternIndex] |= pieceLSB;
-                        opt.AttacksSummary[(int)opt.Color] |= patternLSB;
+                        opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
                     }
                 }
             }

@@ -6,7 +6,9 @@ namespace Proxima.Core.Boards.MoveGenerators
 {
     public class GeneratorParameters
     {
-        public Color Color { get; set; }
+        public Color FriendlyColor { get; set; }
+        public Color EnemyColor { get; set; }
+
         public GeneratorMode Mode { get; set; }
         public CastlingData CastlingData { get; set; }
 

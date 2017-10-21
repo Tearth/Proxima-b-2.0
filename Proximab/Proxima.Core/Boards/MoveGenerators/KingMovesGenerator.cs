@@ -28,7 +28,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         public void GetMoves(PieceType pieceType, GeneratorParameters opt)
         {
-            var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
+            var piecesToParse = opt.Pieces[(int)opt.FriendlyColor, (int)pieceType];
 
             while (piecesToParse != 0)
             {
@@ -48,13 +48,13 @@ namespace Proxima.Core.Boards.MoveGenerators
                         var to = BitPositionConverter.ToPosition(patternIndex);
                         var moveType = GetMoveType(patternLSB, opt.EnemyOccupancy);
 
-                        opt.Moves.AddLast(new Move(from, to, pieceType, opt.Color, moveType));
+                        opt.Moves.AddLast(new Move(from, to, pieceType, opt.FriendlyColor, moveType));
                     }
 
                     if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
                     {
                         opt.Attacks[patternIndex] |= pieceLSB;
-                        opt.AttacksSummary[(int)opt.Color] |= patternLSB;
+                        opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
                     }
                 }
             }
@@ -62,7 +62,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         public void GetCastling(PieceType pieceType, GeneratorParameters opt)
         {
-            if (opt.Color == Color.White)
+            if (opt.FriendlyColor == Color.White)
                 GetWhiteCastling(pieceType, opt);
         }
 
@@ -70,25 +70,23 @@ namespace Proxima.Core.Boards.MoveGenerators
         {
             if (!opt.CastlingData.WhiteShortCastlingPossible && !opt.CastlingData.WhiteLongCastlingPossible)
                 return;
-
-            var enemyColor = ColorOperations.Invert(opt.Color);
             
             if(opt.CastlingData.WhiteShortCastlingPossible &&
                IsCastlingAreaEmpty(WhiteShortCastlingMoveArea, opt.Occupancy) &&
-               !IsCastlingAreaChecked(enemyColor, WhiteShortCastlingCheckArea, opt))
+               !IsCastlingAreaChecked(opt.EnemyColor, WhiteShortCastlingCheckArea, opt))
             {
                 var move = new Move(InitialWhiteKingLSB, InitialWhiteKingLSB + new Position(2, 0), 
-                                    PieceType.King, opt.Color, MoveType.ShortCastling);
+                                    PieceType.King, opt.FriendlyColor, MoveType.ShortCastling);
 
                 opt.Moves.AddLast(move);
             }
             
             if(opt.CastlingData.WhiteLongCastlingPossible &&
                IsCastlingAreaEmpty(WhiteLongCastlingMoveArea, opt.Occupancy) &&
-               !IsCastlingAreaChecked(enemyColor, WhiteLongCastlingCheckArea, opt))
+               !IsCastlingAreaChecked(opt.EnemyColor, WhiteLongCastlingCheckArea, opt))
             {
                 var move = new Move(InitialWhiteKingLSB, InitialWhiteKingLSB - new Position(2, 0),
-                                    PieceType.King, opt.Color, MoveType.LongCastling);
+                                    PieceType.King, opt.FriendlyColor, MoveType.LongCastling);
 
                 opt.Moves.AddLast(move);
             }

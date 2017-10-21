@@ -307,7 +307,9 @@ namespace Proxima.Core.Boards
         {
             return new GeneratorParameters()
             {
-                Color = color,
+                FriendlyColor = color,
+                EnemyColor = ColorOperations.Invert(color),
+
                 Mode = mode,
                 CastlingData = _castlingData,
 

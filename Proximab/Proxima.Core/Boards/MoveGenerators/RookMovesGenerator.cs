@@ -21,7 +21,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         void Calculate(PieceType pieceType, GeneratorParameters opt)
         {
-            var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
+            var piecesToParse = opt.Pieces[(int)opt.FriendlyColor, (int)pieceType];
 
             while (piecesToParse != 0)
             {
@@ -53,10 +53,10 @@ namespace Proxima.Core.Boards.MoveGenerators
                 var to = BitPositionConverter.ToPosition(patternIndex);
                 var moveType = GetMoveType(patternLSB, opt.EnemyOccupancy);
 
-                opt.Moves.AddLast(new Move(piecePosition, to, pieceType, opt.Color, moveType));
+                opt.Moves.AddLast(new Move(piecePosition, to, pieceType, opt.FriendlyColor, moveType));
 
                 opt.Attacks[patternIndex] |= pieceLSB;
-                opt.AttacksSummary[(int)opt.Color] |= patternLSB;
+                opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
             }
 
             return new RookPatternContainer(horizontalPattern, verticalPattern);
@@ -67,8 +67,8 @@ namespace Proxima.Core.Boards.MoveGenerators
             if ((opt.Mode & GeneratorMode.CalculateAttacks) == 0)
                 return;
 
-            var blockersToRemove = opt.Pieces[(int)opt.Color, (int)PieceType.Rook] |
-                                   opt.Pieces[(int)opt.Color, (int)PieceType.Queen];
+            var blockersToRemove = opt.Pieces[(int)opt.FriendlyColor, (int)PieceType.Rook] |
+                                   opt.Pieces[(int)opt.FriendlyColor, (int)PieceType.Queen];
 
             var occupancyWithoutBlockers = opt.Occupancy & ~blockersToRemove;
             
@@ -92,7 +92,7 @@ namespace Proxima.Core.Boards.MoveGenerators
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
                 opt.Attacks[patternIndex] |= pieceLSB;
-                opt.AttacksSummary[(int)opt.Color] |= patternLSB;
+                opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
             }
         }
 
@@ -140,7 +140,7 @@ namespace Proxima.Core.Boards.MoveGenerators
             while(blockers != 0)
             {
                 var blockerLSB = BitOperations.GetLSB(ref blockers);
-                if ((blockerLSB & opt.Pieces[(int)opt.Color, (int)PieceType.King]) != 0)
+                if ((blockerLSB & opt.Pieces[(int)opt.FriendlyColor, (int)PieceType.King]) != 0)
                 {
                     if(blockerLSB < pieceLSB)
                     {
