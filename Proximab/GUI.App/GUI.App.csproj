@@ -46,8 +46,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Source\Benchmarks\BenchmarkData.cs" />
-    <Compile Include="Source\Benchmarks\MovesTest.cs" />
     <Compile Include="Source\BoardSubsystem\Axes\AxesManager.cs" />
     <Compile Include="Source\BoardSubsystem\Board.cs" />
     <Compile Include="Source\BoardSubsystem\PieceMovedEventArgs.cs" />

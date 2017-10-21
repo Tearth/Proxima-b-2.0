@@ -3,13 +3,13 @@ using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Moves;
 using Proxima.Core.Commons.Positions;
-using GUI.App.Source.Benchmarks;
 using GUI.App.Source.BoardSubsystem;
 using GUI.App.Source.ConsoleSubsystem;
 using GUI.App.Source.ConsoleSubsystem.Parser;
 using System;
 using System.Linq;
 using Proxima.Helpers.BoardSubsystem.Persistence;
+using Proxima.Helpers.Tests;
 
 namespace GUI.App.Source.GameModeSubsystem.Editor
 {
@@ -181,13 +181,21 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
 
         void DoMovesTest(Command command)
         {
-            var test = new MovesTest(_consoleManager);
+            var test = new MovesTest();
 
             var calculateEndNodesArgument = command.GetArgument<bool>(0);
             var verifyChecksArgument = command.GetArgument<bool>(1);
             var depthArgument = command.GetArgument<int>(2);
 
-            test.Run(Color.White, _board.GetFriendlyBoard(), depthArgument, calculateEndNodesArgument, verifyChecksArgument);
+            var result = test.Run(Color.White, _board.GetFriendlyBoard(), depthArgument, calculateEndNodesArgument, verifyChecksArgument);
+            _consoleManager.WriteLine();
+            _consoleManager.WriteLine("$wBenchmark result:");
+            _consoleManager.WriteLine($"$wTotal nodes: $g{result.TotalNodes} N");
+            _consoleManager.WriteLine($"$wEnd nodes: $g{result.EndNodes} N");
+            _consoleManager.WriteLine($"$wNodes per second: $c{result.NodesPerSecond / 1000} kN");
+            _consoleManager.WriteLine($"$wTime per node: $c{result.TimePerNode} ns");
+            _consoleManager.WriteLine($"$wTime: $m{result.Time} s");
+            _consoleManager.WriteLine();
         }
 
         void IsCheck(Command command)

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace GUI.App.Source.Benchmarks
+namespace Proxima.Helpers.Tests
 {
-    internal class BenchmarkData
+    public class MovesTestData
     {
         public int TotalNodes { get; set; }
         public int EndNodes { get; set; }
@@ -23,7 +23,7 @@ namespace GUI.App.Source.Benchmarks
             get { return TotalNodes != 0 ? (int)(Ticks / TotalNodes) * 100 : 0; }
         }
 
-        public BenchmarkData()
+        public MovesTestData()
         {
             TotalNodes = 0;
             EndNodes = 0;

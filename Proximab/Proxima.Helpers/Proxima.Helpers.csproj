@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tests\MovesTestData.cs" />
+    <Compile Include="Tests\MovesTest.cs" />
     <Compile Include="Persistence\BoardReader.cs" />
     <Compile Include="Persistence\BoardWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
