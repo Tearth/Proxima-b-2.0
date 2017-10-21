@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GUI.App.Source.ConsoleSubsystem.Output
+namespace ColorfulConsole.Output
 {
-    internal class OutputParser
+    public class OutputParser
     {
         ColorDefinitionsContainer _colorDefinitionsContainer;
 

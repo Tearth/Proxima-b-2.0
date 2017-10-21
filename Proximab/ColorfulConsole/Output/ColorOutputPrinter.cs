@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GUI.App.Source.ConsoleSubsystem.Output
+namespace ColorfulConsole.Output
 {
-    internal class ColorOutputPrinter
+    public class ColorOutputPrinter
     {
         public ColorOutputPrinter()
         {

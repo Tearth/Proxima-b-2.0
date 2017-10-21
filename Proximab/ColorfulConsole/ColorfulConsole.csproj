@@ -40,7 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorfulConsoleManager.cs" />
+    <Compile Include="Output\ColorOutputPrinter.cs" />
+    <Compile Include="Output\OutputChunk.cs" />
+    <Compile Include="Output\OutputParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GUI.ContentDefinitions\GUI.ContentDefinitions.csproj">
+      <Project>{93FFF5B7-FE43-46D0-8CAA-14AF8ADA6E53}</Project>
+      <Name>GUI.ContentDefinitions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

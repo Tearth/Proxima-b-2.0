@@ -55,9 +55,6 @@
     <Compile Include="Source\BoardSubsystem\Selections\SelectionsManager.cs" />
     <Compile Include="Source\BoardSubsystem\Selections\SelectionType.cs" />
     <Compile Include="Source\ConsoleSubsystem\NewCommandEventArgs.cs" />
-    <Compile Include="Source\ConsoleSubsystem\Output\ColorOutputPrinter.cs" />
-    <Compile Include="Source\ConsoleSubsystem\Output\OutputChunk.cs" />
-    <Compile Include="Source\ConsoleSubsystem\Output\OutputParser.cs" />
     <Compile Include="Source\ConsoleSubsystem\Parser\Command.cs" />
     <Compile Include="Source\ConsoleSubsystem\Parser\CommandParser.cs" />
     <Compile Include="Source\ConsoleSubsystem\ConsoleManager.cs" />
@@ -139,6 +136,10 @@
     <None Include="Content\Fonts\FPSFont.spritefont" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ColorfulConsole\ColorfulConsole.csproj">
+      <Project>{F168016D-AE15-4472-8E18-F1B1150A4A3A}</Project>
+      <Name>ColorfulConsole</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GUI.ContentDefinitions\GUI.ContentDefinitions.csproj">
       <Project>{93fff5b7-fe43-46d0-8caa-14af8ada6e53}</Project>
       <Name>GUI.ContentDefinitions</Name>

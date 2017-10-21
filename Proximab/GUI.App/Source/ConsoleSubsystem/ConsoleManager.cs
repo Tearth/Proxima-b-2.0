@@ -1,13 +1,12 @@
 ﻿using GUI.ContentDefinitions.Colors;
 using GUI.ContentDefinitions.Commands;
-using GUI.App.Source.ConsoleSubsystem.Output;
 using GUI.App.Source.ConsoleSubsystem.Parser;
 using GUI.App.Source.DiagnosticSubsystem;
 using Microsoft.Xna.Framework.Content;
 using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using ColorfulConsole;
 
 namespace GUI.App.Source.ConsoleSubsystem
 {
@@ -15,11 +14,11 @@ namespace GUI.App.Source.ConsoleSubsystem
     {
         public event EventHandler<NewCommandEventArgs> OnNewCommand;
 
+        ColorfulConsoleManager _colorfulConsole;
+
         Task _consoleLoop;
         CommandParser _commandParser;
         CommandValidator _commandValidator;
-        OutputParser _outputParser;
-        ColorOutputPrinter _outputPrinter;
         EnvironmentInfoProvider _environmentInfoProvider;
 
         CommandDefinitionsContainer _commandDefinitionsContainer;
@@ -31,10 +30,9 @@ namespace GUI.App.Source.ConsoleSubsystem
 
             OnNewCommand += ConsoleManager_OnNewCommand;
 
+            _colorfulConsole = new ColorfulConsoleManager();
             _commandParser = new CommandParser();
             _commandValidator = new CommandValidator();
-            _outputParser = new OutputParser();
-            _outputPrinter = new ColorOutputPrinter();
             _environmentInfoProvider = new EnvironmentInfoProvider();
         }        
 
@@ -43,7 +41,7 @@ namespace GUI.App.Source.ConsoleSubsystem
             _commandDefinitionsContainer = contentManager.Load<CommandDefinitionsContainer>("XML\\CommandDefinitions");
             _colorDefinitionsContainer = contentManager.Load<ColorDefinitionsContainer>("XML\\ColorDefinitions");
 
-            _outputParser.SetColorDefinitions(_colorDefinitionsContainer);
+            _colorfulConsole.LoadContent(_colorDefinitionsContainer);
 
             WriteConsoleHeader();
         }
@@ -55,13 +53,12 @@ namespace GUI.App.Source.ConsoleSubsystem
 
         public void WriteLine()
         {
-            WriteLine("");
+            _colorfulConsole.WriteLine();
         }
 
         public void WriteLine(string output)
         {
-            var outputChunks = _outputParser.GetOutputChunks(output);
-            _outputPrinter.WriteLine(outputChunks);
+            _colorfulConsole.WriteLine(output);
         }
 
         void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)

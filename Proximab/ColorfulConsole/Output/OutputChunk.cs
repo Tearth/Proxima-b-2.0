@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace GUI.App.Source.ConsoleSubsystem.Output
+namespace ColorfulConsole.Output
 {
-    internal class OutputChunk
+    public class OutputChunk
     {
         public ConsoleColor Color { get; set; }
         public string Text { get; set; }
