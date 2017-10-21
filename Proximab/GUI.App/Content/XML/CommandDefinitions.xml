@@ -83,6 +83,18 @@
           </Item>
         </Arguments>
       </Item>
+
+      <Item>
+        <Name>Attacks</Name>
+        <EnumType>Attacks</EnumType>
+        <Description>Display attacked fields</Description>
+        <Arguments>
+          <Item>
+            <Type>string</Type>
+            <Description>Side color (White/Black)</Description>
+          </Item>
+        </Arguments>
+      </Item>
     
       <Item>
         <Name>TestMoves</Name>

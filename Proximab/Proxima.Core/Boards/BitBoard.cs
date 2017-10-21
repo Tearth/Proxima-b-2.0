@@ -103,6 +103,17 @@ namespace Proxima.Core.Boards
             return BitPositionConverter.ToBoolArray(_occupancy[(int)color]);
         }
 
+        public bool[,] GetAttacks()
+        {
+            var attacks = _attacksSummary[(int)Color.White] | _attacksSummary[(int)Color.Black];
+            return BitPositionConverter.ToBoolArray(attacks);
+        }
+
+        public bool[,] GetAttacks(Color color)
+        {
+            return BitPositionConverter.ToBoolArray(_attacksSummary[(int)color]);
+        }
+
         public bool[,] GetFieldAttackers(Position position)
         {
             var bitIndex = BitPositionConverter.ToBitIndex(position);

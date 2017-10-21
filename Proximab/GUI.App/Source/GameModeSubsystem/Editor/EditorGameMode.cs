@@ -35,6 +35,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
                 case CommandType.AddPiece: { AddPiece(command); break; }
                 case CommandType.RemovePiece: { RemovePiece(command); break; }
                 case CommandType.Occupancy: { DrawOccupancy(command); break; }
+                case CommandType.Attacks: { DrawAttacks(command); break; }
                 case CommandType.SaveBoard: { SaveBoard(command); break; }
                 case CommandType.LoadBoard: { LoadBoard(command); break; }
                 case CommandType.MovesTest: { DoMovesTest(command); break; }
@@ -145,6 +146,30 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
                 }
 
                 occupancyArray = _bitBoard.GetFriendlyOccupancy(colorType);
+            }
+
+            _board.AddExternalSelections(occupancyArray);
+        }
+
+        void DrawAttacks(Command command)
+        {
+            var colorArgument = command.GetArgument<string>(0);
+            var occupancyArray = new bool[8, 8];
+
+            if (colorArgument == "all")
+            {
+                occupancyArray = _bitBoard.GetAttacks();
+            }
+            else
+            {
+                var colorTypeParseResult = Enum.TryParse(colorArgument, true, out Color colorType);
+                if (!colorTypeParseResult)
+                {
+                    _consoleManager.WriteLine($"$rInvalid color parameter ($R{colorArgument}$r)");
+                    return;
+                }
+
+                occupancyArray = _bitBoard.GetAttacks(colorType);
             }
 
             _board.AddExternalSelections(occupancyArray);

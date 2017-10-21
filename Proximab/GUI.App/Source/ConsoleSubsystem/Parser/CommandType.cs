@@ -11,6 +11,7 @@
         AddPiece,
         RemovePiece,
         Occupancy,
+        Attacks,
         MovesTest,
         IsCheck
     }
