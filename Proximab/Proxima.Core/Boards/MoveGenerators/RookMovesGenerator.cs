@@ -78,10 +78,10 @@ namespace Proxima.Core.Boards.MoveGenerators
             var horizontalPattern = GetHorizontalPattern(piecePosition, occupancyWithoutBlockers);
             var verticalPattern = GetVerticalPattern(piecePosition, occupancyWithoutBlockers);
 
-            horizontalPattern = ExpandPatternByFriendlyPieces(Axis.Rank, horizontalPattern, opt);
+            horizontalPattern = ExpandPatternByFriendlyPieces(Axis.Rank, horizontalPattern, pieceLSB, opt);
             horizontalPattern ^= patternContainer.Horizontal;
 
-            verticalPattern = ExpandPatternByFriendlyPieces(Axis.File, verticalPattern, opt);
+            verticalPattern = ExpandPatternByFriendlyPieces(Axis.File, verticalPattern, pieceLSB, opt);
             verticalPattern ^= patternContainer.Vertical;
 
             var pattern = horizontalPattern | verticalPattern;
@@ -117,12 +117,11 @@ namespace Proxima.Core.Boards.MoveGenerators
             return BitOperations.Rotate90Left(pattern) << offset;
         }
 
-        ulong ExpandPatternByFriendlyPieces(Axis axis, ulong pattern, GeneratorParameters opt)
+        ulong ExpandPatternByFriendlyPieces(Axis axis, ulong pattern, ulong pieceLSB, GeneratorParameters opt)
         {
             var expandedPattern = pattern;
 
             var blockers = pattern & opt.FriendlyOccupancy;
-            var patternLSB = BitOperations.GetLSB(ref pattern);
 
             var shift = 0;
             var mask = 0ul;
@@ -143,7 +142,7 @@ namespace Proxima.Core.Boards.MoveGenerators
                 var blockerLSB = BitOperations.GetLSB(ref blockers);
                 if ((blockerLSB & opt.Pieces[(int)opt.Color, (int)PieceType.King]) != 0)
                 {
-                    if(blockerLSB == patternLSB)
+                    if(blockerLSB < pieceLSB)
                     {
                         expandedPattern |= (blockerLSB & mask) >> shift;
                     }

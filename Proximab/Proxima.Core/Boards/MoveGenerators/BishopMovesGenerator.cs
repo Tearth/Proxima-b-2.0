@@ -78,10 +78,10 @@ namespace Proxima.Core.Boards.MoveGenerators
             var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
             var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
 
-            rightRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A1H8, rightRotatedBitBoardPattern, opt);
+            rightRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A1H8, rightRotatedBitBoardPattern, pieceLSB, opt);
             rightRotatedBitBoardPattern ^= patternContainer.A1H8Diagonal;
 
-            leftRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A8H1, leftRotatedBitBoardPattern, opt);
+            leftRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A8H1, leftRotatedBitBoardPattern, pieceLSB, opt);
             leftRotatedBitBoardPattern ^= patternContainer.A8H1Diagonal;
 
             var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern) & ~opt.FriendlyOccupancy;
@@ -136,12 +136,11 @@ namespace Proxima.Core.Boards.MoveGenerators
             return BitOperations.Rotate45Right((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) * 8));
         }
 
-        ulong ExpandPatternByFriendlyPieces(Diagonal diagonal, ulong pattern, GeneratorParameters opt)
+        ulong ExpandPatternByFriendlyPieces(Diagonal diagonal, ulong pattern, ulong pieceLSB, GeneratorParameters opt)
         {
             var expandedPattern = pattern;
 
             var blockers = pattern & opt.FriendlyOccupancy;
-            var patternLSB = BitOperations.GetLSB(ref pattern);
 
             var shift = diagonal == Diagonal.A1H8 ? 7 : 9;
             var mask = ~BitConstants.ARank & ~BitConstants.AFile & ~BitConstants.HRank & ~BitConstants.HFile;
@@ -154,7 +153,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
                 if ((blockerLSB & (kingBlockers | pawnBlockers)) != 0)
                 {
-                    if (blockerLSB == patternLSB)
+                    if (blockerLSB < pieceLSB)
                     {
                         if (pawnBlockers == 0 || (pawnBlockers != 0 && opt.Color == Color.Black))
                         {
