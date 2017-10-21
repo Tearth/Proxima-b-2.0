@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxima.Core", "Proxima.Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxima.Helpers", "Proxima.Helpers\Proxima.Helpers.csproj", "{E5515F32-EAEC-476D-A8AB-8EE93A84825C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorfulConsole", "ColorfulConsole\ColorfulConsole.csproj", "{F168016D-AE15-4472-8E18-F1B1150A4A3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{E5515F32-EAEC-476D-A8AB-8EE93A84825C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5515F32-EAEC-476D-A8AB-8EE93A84825C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5515F32-EAEC-476D-A8AB-8EE93A84825C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F168016D-AE15-4472-8E18-F1B1150A4A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F168016D-AE15-4472-8E18-F1B1150A4A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F168016D-AE15-4472-8E18-F1B1150A4A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F168016D-AE15-4472-8E18-F1B1150A4A3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
