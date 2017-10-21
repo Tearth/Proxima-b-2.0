@@ -14,7 +14,7 @@ namespace Proxima.Core.Boards
         ulong[] _occupancy;
         ulong[] _enPassant;
 
-        ulong[,] _attacks;
+        ulong[] _attacks;
         ulong[] _attacksSummary;
 
         LinkedList<Move> _moves;
@@ -34,7 +34,7 @@ namespace Proxima.Core.Boards
             _enPassant = new ulong[2];
 
             _attacksSummary = new ulong[2];
-            _attacks = new ulong[2, 64];
+            _attacks = new ulong[64];
 
             _moves = new LinkedList<Move>();
             _castlingData = new CastlingData();
@@ -121,7 +121,7 @@ namespace Proxima.Core.Boards
 
             for(int piece=0; piece < 6; piece++)
             {
-                array |= _attacks[(int)Color.White, bitIndex] | _attacks[(int)Color.Black, bitIndex];
+                array |= _attacks[bitIndex] | _attacks[bitIndex];
             }
 
             return BitPositionConverter.ToBoolArray(array);
@@ -134,7 +134,7 @@ namespace Proxima.Core.Boards
 
             for (int piece = 0; piece < 6; piece++)
             {
-                array |= _attacks[(int)color, bitIndex];
+                array |= _attacks[bitIndex];
             }
 
             return BitPositionConverter.ToBoolArray(array);
@@ -297,7 +297,7 @@ namespace Proxima.Core.Boards
 
         void CalculateCastling(GeneratorParameters generatorParameters)
         {
-            if ((generatorParameters.Mode & GeneratorMode.CalculateAttacks) != 0)
+            if ((generatorParameters.Mode & GeneratorMode.CalculateMoves) == 0)
                 return;
 
             _kingMovesGenerator.GetCastling(PieceType.King, generatorParameters);
