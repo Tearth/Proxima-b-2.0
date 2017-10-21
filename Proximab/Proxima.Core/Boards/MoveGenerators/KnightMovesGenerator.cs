@@ -40,7 +40,8 @@ namespace Proxima.Core.Boards.MoveGenerators
 
                     if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
                     {
-                        opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
+                        opt.Attacks[(int)opt.Color, (int)pieceType, patternIndex] |= pieceLSB;
+                        opt.AttacksSummary[(int)opt.Color] |= patternLSB;
                     }
                 }
             }

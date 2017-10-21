@@ -12,8 +12,10 @@ namespace Proxima.Core.Boards
     {
         ulong[,] _pieces;
         ulong[] _occupancy;
-        ulong[,] _attacks;
         ulong[] _enPassant;
+
+        ulong[,,] _attacks;
+        ulong[] _attacksSummary;
 
         LinkedList<Move> _moves;
 
@@ -29,8 +31,10 @@ namespace Proxima.Core.Boards
         {
             _pieces = new ulong[2, 6];
             _occupancy = new ulong[2];
-            _attacks = new ulong[2, 64];
             _enPassant = new ulong[2];
+
+            _attacksSummary = new ulong[2];
+            _attacks = new ulong[2, 6, 64];
 
             _moves = new LinkedList<Move>();
             _castlingData = new CastlingData();
@@ -102,7 +106,12 @@ namespace Proxima.Core.Boards
         public bool[,] GetFieldAttackers(Position position)
         {
             var bitIndex = BitPositionConverter.ToBitIndex(position);
-            var array = _attacks[(int)Color.White, bitIndex] | _attacks[(int)Color.Black, bitIndex];
+            var array = 0ul;
+
+            for(int piece=0; piece < 6; piece++)
+            {
+                array |= _attacks[(int)Color.White, piece, bitIndex] | _attacks[(int)Color.Black, piece, bitIndex];
+            }
 
             return BitPositionConverter.ToBoolArray(array);
         }
@@ -110,7 +119,12 @@ namespace Proxima.Core.Boards
         public bool[,] GetFieldAttackers(Position position, Color color)
         {
             var bitIndex = BitPositionConverter.ToBitIndex(position);
-            var array = _attacks[(int)color, bitIndex];
+            var array = 0ul;
+
+            for (int piece = 0; piece < 6; piece++)
+            {
+                array |= _attacks[(int)color, piece, bitIndex];
+            }
 
             return BitPositionConverter.ToBoolArray(array);
         }
@@ -123,9 +137,9 @@ namespace Proxima.Core.Boards
         public bool IsCheck(Color color)
         {
             var enemyColor = ColorOperations.Invert(color);
-            var kingIndex = BitOperations.GetBitIndex(_pieces[(int)color, (int)PieceType.King]);
+            var king = _pieces[(int)color, (int)PieceType.King];
 
-            return _attacks[(int)enemyColor, kingIndex] != 0;
+            return (_attacksSummary[(int)enemyColor] & king) != 0;
         }
 
         public void Calculate(CalculationMode calculationMode)
@@ -248,13 +262,39 @@ namespace Proxima.Core.Boards
                 blackGeneratorModeFlags = GeneratorMode.CalculateAttacks;
             }
 
-            CalculateAvailableMoves(Color.White, whiteGeneratorModeFlags);
-            CalculateAvailableMoves(Color.Black, blackGeneratorModeFlags);
+            var whiteGeneratorParameters = GetGeneratorParameters(Color.White, whiteGeneratorModeFlags);
+            var blackGeneratorParameters = GetGeneratorParameters(Color.Black, blackGeneratorModeFlags);
+
+            CalculateAvailableMoves(whiteGeneratorParameters);
+            CalculateAvailableMoves(blackGeneratorParameters);
+
+            CalculateCastling(whiteGeneratorParameters);
+            CalculateCastling(blackGeneratorParameters);
         }
 
-        void CalculateAvailableMoves(Color color, GeneratorMode mode)
+        void CalculateAvailableMoves(GeneratorParameters generatorParameters)
         {
-            var generatorParameters = new GeneratorParameters()
+            _knightMovesGenerator.GetMoves(PieceType.Knight, generatorParameters);
+            _kingMovesGenerator.GetMoves(PieceType.King, generatorParameters);
+            _rookMovesGenerator.GetMoves(PieceType.Rook, generatorParameters);
+            _bishopMovesGenerator.GetMoves(PieceType.Bishop, generatorParameters);
+            _pawnMovesGenerator.GetMoves(PieceType.Pawn, generatorParameters);
+
+            _rookMovesGenerator.GetMoves(PieceType.Queen, generatorParameters);
+            _bishopMovesGenerator.GetMoves(PieceType.Queen, generatorParameters);
+        }
+
+        void CalculateCastling(GeneratorParameters generatorParameters)
+        {
+            if ((generatorParameters.Mode & GeneratorMode.CalculateAttacks) != 0)
+                return;
+
+            _kingMovesGenerator.GetCastling(PieceType.King, generatorParameters);
+        }
+
+        GeneratorParameters GetGeneratorParameters(Color color, GeneratorMode mode)
+        {
+            return new GeneratorParameters()
             {
                 Color = color,
                 Mode = mode,
@@ -265,20 +305,13 @@ namespace Proxima.Core.Boards
                 EnemyOccupancy = _occupancy[(int)ColorOperations.Invert(color)],
 
                 Pieces = _pieces,
-                Attacks = _attacks,
                 EnPassant = _enPassant,
+
+                Attacks = _attacks,
+                AttacksSummary = _attacksSummary,
 
                 Moves = _moves
             };
-
-            _knightMovesGenerator.GetMoves(PieceType.Knight, generatorParameters);
-            _kingMovesGenerator.GetMoves(PieceType.King, generatorParameters);
-            _rookMovesGenerator.GetMoves(PieceType.Rook, generatorParameters);
-            _bishopMovesGenerator.GetMoves(PieceType.Bishop, generatorParameters);
-            _pawnMovesGenerator.GetMoves(PieceType.Pawn, generatorParameters);
-
-            _rookMovesGenerator.GetMoves(PieceType.Queen, generatorParameters);
-            _bishopMovesGenerator.GetMoves(PieceType.Queen, generatorParameters);
         }
     }
 }

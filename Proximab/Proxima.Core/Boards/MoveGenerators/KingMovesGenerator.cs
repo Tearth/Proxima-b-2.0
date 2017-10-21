@@ -40,10 +40,29 @@ namespace Proxima.Core.Boards.MoveGenerators
 
                     if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
                     {
-                        opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
+                        opt.Attacks[(int)opt.Color, (int)pieceType, patternIndex] |= pieceLSB;
+                        opt.AttacksSummary[(int)opt.Color] |= patternLSB;
                     }
                 }
             }
+        }
+
+        public void GetCastling(PieceType pieceType, GeneratorParameters opt)
+        {
+            if (opt.Color == Color.White)
+                GetWhiteCastlnig(pieceType, opt);
+        }
+
+        void GetWhiteCastlnig(PieceType pieceType, GeneratorParameters opt)
+        {
+            if (!opt.CastlingData.WhiteShortCastlingPossible && !opt.CastlingData.WhiteLongCastlingPossible)
+                return;
+
+            var enemyColor = ColorOperations.Invert(opt.Color);
+            var piecesToParse = opt.Pieces[(int)opt.Color, (int)pieceType];
+
+            var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
+            var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
         }
     }
 }

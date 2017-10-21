@@ -54,7 +54,9 @@ namespace Proxima.Core.Boards.MoveGenerators
                 var moveType = GetMoveType(patternLSB, opt.EnemyOccupancy);
 
                 opt.Moves.AddLast(new Move(piecePosition, to, pieceType, opt.Color, moveType));
-                opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
+
+                opt.Attacks[(int)opt.Color, (int)pieceType, patternIndex] |= pieceLSB;
+                opt.AttacksSummary[(int)opt.Color] |= patternLSB;
             }
 
             return new RookPatternContainer(horizontalPattern, verticalPattern);
@@ -89,7 +91,8 @@ namespace Proxima.Core.Boards.MoveGenerators
                 var patternLSB = BitOperations.GetLSB(ref pattern);
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
+                opt.Attacks[(int)opt.Color, (int)pieceType, patternIndex] |= pieceLSB;
+                opt.AttacksSummary[(int)opt.Color] |= patternLSB;
             }
         }
 
