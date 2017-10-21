@@ -1,11 +1,10 @@
 ﻿using Proxima.Core.Boards;
-using Proxima.Core.Commons;
 using Proxima.Core.Commons.Positions;
 using System.IO;
 
-namespace GUI.App.Source.BoardSubsystem.Persistence
+namespace Proxima.Helpers.BoardSubsystem.Persistence
 {
-    internal class BoardWriter
+    public class BoardWriter
     {
         public BoardWriter()
         {

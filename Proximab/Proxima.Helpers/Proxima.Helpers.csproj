@@ -40,7 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Persistence\BoardReader.cs" />
+    <Compile Include="Persistence\BoardWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Proxima.Core\Proxima.Core.csproj">
+      <Project>{ae7c5e5c-526c-4f20-ba32-427bf3c6a405}</Project>
+      <Name>Proxima.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

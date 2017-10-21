@@ -5,11 +5,11 @@ using Proxima.Core.Commons.Moves;
 using Proxima.Core.Commons.Positions;
 using GUI.App.Source.Benchmarks;
 using GUI.App.Source.BoardSubsystem;
-using GUI.App.Source.BoardSubsystem.Persistence;
 using GUI.App.Source.ConsoleSubsystem;
 using GUI.App.Source.ConsoleSubsystem.Parser;
 using System;
 using System.Linq;
+using Proxima.Helpers.BoardSubsystem.Persistence;
 
 namespace GUI.App.Source.GameModeSubsystem.Editor
 {

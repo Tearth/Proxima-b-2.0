@@ -5,9 +5,9 @@ using Proxima.Core.Commons.Positions;
 using System;
 using System.IO;
 
-namespace GUI.App.Source.BoardSubsystem.Persistence
+namespace Proxima.Helpers.BoardSubsystem.Persistence
 {
-    internal class BoardReader
+    public class BoardReader
     {
         public BoardReader()
         {

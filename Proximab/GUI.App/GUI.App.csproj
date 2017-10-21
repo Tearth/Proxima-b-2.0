@@ -50,8 +50,6 @@
     <Compile Include="Source\Benchmarks\MovesTest.cs" />
     <Compile Include="Source\BoardSubsystem\Axes\AxesManager.cs" />
     <Compile Include="Source\BoardSubsystem\Board.cs" />
-    <Compile Include="Source\BoardSubsystem\Persistence\BoardReader.cs" />
-    <Compile Include="Source\BoardSubsystem\Persistence\BoardWriter.cs" />
     <Compile Include="Source\BoardSubsystem\PieceMovedEventArgs.cs" />
     <Compile Include="Source\BoardSubsystem\Pieces\PiecesProvider.cs" />
     <Compile Include="Source\BoardSubsystem\FieldSelectedEventArgs.cs" />
@@ -150,6 +148,10 @@
     <ProjectReference Include="..\Proxima.Core\Proxima.Core.csproj">
       <Project>{ae7c5e5c-526c-4f20-ba32-427bf3c6a405}</Project>
       <Name>Proxima.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Proxima.Helpers\Proxima.Helpers.csproj">
+      <Project>{e5515f32-eaec-476d-a8ab-8ee93a84825c}</Project>
+      <Name>Proxima.Helpers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
