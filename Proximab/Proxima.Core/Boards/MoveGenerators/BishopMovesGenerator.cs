@@ -157,14 +157,14 @@ namespace Proxima.Core.Boards.MoveGenerators
                     {
                         if (pawnBlockers == 0 || (pawnBlockers != 0 && opt.Color == Color.Black))
                         {
-                            expandedPattern |= (blockerLSB & mask) >> shift;
+                            expandedPattern |= (blockerLSB & mask & ~opt.FriendlyOccupancy) >> shift;
                         }
                     }
                     else
                     {
                         if(pawnBlockers == 0 || (pawnBlockers != 0 && opt.Color == Color.White))
                         {
-                            expandedPattern |= (blockerLSB & mask) << shift;
+                            expandedPattern |= (blockerLSB & mask & ~opt.FriendlyOccupancy) << shift;
                         }
                     }
                 }

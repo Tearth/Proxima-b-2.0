@@ -144,11 +144,11 @@ namespace Proxima.Core.Boards.MoveGenerators
                 {
                     if(blockerLSB < pieceLSB)
                     {
-                        expandedPattern |= (blockerLSB & mask) >> shift;
+                        expandedPattern |= (blockerLSB & mask & ~opt.FriendlyOccupancy) >> shift;
                     }
                     else
                     {
-                        expandedPattern |= (blockerLSB & mask) << shift;
+                        expandedPattern |= (blockerLSB & mask & ~opt.FriendlyOccupancy) << shift;
                     }
                 }
             }
