@@ -3,16 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "GUI\GUI.csproj", "{0947E27C-CB7E-467B-91DE-4FE5CFF646CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI.App", "GUI.App\GUI.App.csproj", "{0947E27C-CB7E-467B-91DE-4FE5CFF646CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentDefinitions", "ContentDefinitions\ContentDefinitions.csproj", "{93FFF5B7-FE43-46D0-8CAA-14AF8ADA6E53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI.ContentDefinitions", "GUI.ContentDefinitions\GUI.ContentDefinitions.csproj", "{93FFF5B7-FE43-46D0-8CAA-14AF8ADA6E53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{AE7C5E5C-526C-4F20-BA32-427BF3C6A405}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxima.Core", "Proxima.Core\Proxima.Core.csproj", "{AE7C5E5C-526C-4F20-BA32-427BF3C6A405}"
 EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -36,6 +33,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E7211EE0-C0CC-48C9-84E9-8A4BD61205D6}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true

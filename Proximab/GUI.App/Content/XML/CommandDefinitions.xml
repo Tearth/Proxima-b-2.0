@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:ns="Microsoft.Xna.Framework">
+	<Asset Type="GUI.ContentDefinitions.Commands.CommandDefinitionsContainer">
+		<Definitions>
+      <Item>
+        <Name>Help</Name>
+        <EnumType>Help</EnumType>
+        <Description>Display list of commands</Description>
+        <Arguments></Arguments>
+      </Item>
+
+      <Item>
+				<Name>Colors</Name>
+				<EnumType>Colors</EnumType>
+        <Description>Display available colors</Description>
+				<Arguments></Arguments>
+			</Item>
+
+      <Item>
+        <Name>Save</Name>
+        <EnumType>SaveBoard</EnumType>
+        <Description>Save board with specific name</Description>
+        <Arguments>
+          <Item>
+            <Type>string</Type>
+            <Description>Board name</Description>
+          </Item>
+        </Arguments>
+      </Item>
+
+      <Item>
+        <Name>Load</Name>
+        <EnumType>LoadBoard</EnumType>
+        <Description>Load board with specific name</Description>
+        <Arguments>
+          <Item>
+            <Type>string</Type>
+            <Description>Board name</Description>
+          </Item>
+        </Arguments>
+      </Item>
+
+      <Item>
+        <Name>Add</Name>
+        <EnumType>AddPiece</EnumType>
+        <Description>Add piece to current board</Description>
+        <Arguments>
+          <Item>
+            <Type>string</Type>
+            <Description>Piece color (White/Black)</Description>
+          </Item>
+          <Item>
+            <Type>string</Type>
+            <Description>Piece type (Pawn/Rook/Knight/Bishop/Queen/King)</Description>
+          </Item>
+          <Item>
+            <Type>string</Type>
+            <Description>Position (a1, a2, ...)</Description>
+          </Item>
+        </Arguments>
+      </Item>
+
+      <Item>
+        <Name>Remove</Name>
+        <EnumType>RemovePiece</EnumType>
+        <Description>Remove piece from current board</Description>
+        <Arguments>
+          <Item>
+            <Type>string</Type>
+            <Description>Position (a1, a2, ...)</Description>
+          </Item>
+        </Arguments>
+      </Item>
+
+      <Item>
+        <Name>Occupancy</Name>
+        <EnumType>Occupancy</EnumType>
+        <Description>Display occupied fields</Description>
+        <Arguments>
+          <Item>
+            <Type>string</Type>
+            <Description>Side color (White/Black)</Description>
+          </Item>
+        </Arguments>
+      </Item>
+    
+      <Item>
+        <Name>TestMoves</Name>
+        <EnumType>MovesTest</EnumType>
+        <Description>Do moves test</Description>
+        <Arguments>
+          <Item>
+            <Type>bool</Type>
+            <Description>Enable end nodes calculation</Description>
+          </Item>
+          <Item>
+            <Type>bool</Type>
+            <Description>Enable checks verification</Description>
+          </Item>
+          <Item>
+            <Type>int</Type>
+            <Description>Depth</Description>
+          </Item>
+        </Arguments>
+      </Item>
+    
+      <Item>
+        <Name>IsCheck</Name>
+        <EnumType>IsCheck</EnumType>
+        <Description>Check if king with specified color is attacked</Description>
+        <Arguments>
+          <Item>
+            <Type>string</Type>
+            <Description>Color (White/Black)</Description>
+          </Item>
+        </Arguments>
+      </Item>
+		</Definitions>
+	</Asset>
+</XnaContent>

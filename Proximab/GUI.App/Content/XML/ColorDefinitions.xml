@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:ns="Microsoft.Xna.Framework">
+  <Asset Type="GUI.ContentDefinitions.Colors.ColorDefinitionsContainer">
+		<Definitions>
+			<Item>
+				<Color>White</Color>
+				<Symbol>w</Symbol>
+			</Item>
+			<Item>
+				<Color>Red</Color>
+				<Symbol>r</Symbol>
+			</Item>
+			<Item>
+				<Color>DarkRed</Color>
+				<Symbol>R</Symbol>
+			</Item>
+			<Item>
+				<Color>Green</Color>
+				<Symbol>g</Symbol>
+			</Item>
+			<Item>
+				<Color>DarkGreen</Color>
+				<Symbol>G</Symbol>
+			</Item>
+			<Item>
+				<Color>Blue</Color>
+				<Symbol>b</Symbol>
+			</Item>
+			<Item>
+				<Color>DarkBlue</Color>
+				<Symbol>B</Symbol>
+			</Item>
+			<Item>
+				<Color>Magenta</Color>
+				<Symbol>m</Symbol>
+			</Item>
+			<Item>
+				<Color>Yellow</Color>
+				<Symbol>y</Symbol>
+			</Item>
+			<Item>
+				<Color>Cyan</Color>
+				<Symbol>c</Symbol>
+			</Item>
+		</Definitions>
+  </Asset>
+</XnaContent>
