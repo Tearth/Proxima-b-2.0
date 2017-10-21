@@ -55,7 +55,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
                 opt.Moves.AddLast(new Move(from, to, pieceType, opt.Color, moveType));
 
-                opt.Attacks[(int)opt.Color, (int)pieceType, patternIndex] |= pieceLSB;
+                opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
                 opt.AttacksSummary[(int)opt.Color] |= patternLSB;
             }
 
@@ -91,7 +91,7 @@ namespace Proxima.Core.Boards.MoveGenerators
                 var patternLSB = BitOperations.GetLSB(ref pattern);
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                opt.Attacks[(int)opt.Color, (int)pieceType, patternIndex] |= pieceLSB;
+                opt.Attacks[(int)opt.Color, patternIndex] |= pieceLSB;
                 opt.AttacksSummary[(int)opt.Color] |= patternLSB;
             }
         }

@@ -14,7 +14,7 @@ namespace Proxima.Core.Boards
         ulong[] _occupancy;
         ulong[] _enPassant;
 
-        ulong[,,] _attacks;
+        ulong[,] _attacks;
         ulong[] _attacksSummary;
 
         LinkedList<Move> _moves;
@@ -34,7 +34,7 @@ namespace Proxima.Core.Boards
             _enPassant = new ulong[2];
 
             _attacksSummary = new ulong[2];
-            _attacks = new ulong[2, 6, 64];
+            _attacks = new ulong[2, 64];
 
             _moves = new LinkedList<Move>();
             _castlingData = new CastlingData();
@@ -121,7 +121,7 @@ namespace Proxima.Core.Boards
 
             for(int piece=0; piece < 6; piece++)
             {
-                array |= _attacks[(int)Color.White, piece, bitIndex] | _attacks[(int)Color.Black, piece, bitIndex];
+                array |= _attacks[(int)Color.White, bitIndex] | _attacks[(int)Color.Black, bitIndex];
             }
 
             return BitPositionConverter.ToBoolArray(array);
@@ -134,7 +134,7 @@ namespace Proxima.Core.Boards
 
             for (int piece = 0; piece < 6; piece++)
             {
-                array |= _attacks[(int)color, piece, bitIndex];
+                array |= _attacks[(int)color, bitIndex];
             }
 
             return BitPositionConverter.ToBoolArray(array);

@@ -17,7 +17,7 @@ namespace Proxima.Core.Boards.MoveGenerators
         public ulong[,] Pieces { get; set; }
         public ulong[] EnPassant { get; set; }
 
-        public ulong[,,] Attacks;
+        public ulong[,] Attacks;
         public ulong[] AttacksSummary;
 
         public LinkedList<Move> Moves { get; set; }
