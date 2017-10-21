@@ -19,8 +19,8 @@ namespace Proxima.Core.Commons.Positions
             X = x;
             Y = y;
 
-            if (!IsValid())
-                throw new PositionOutOfRangeException();
+            //if (!IsValid())
+            //    throw new PositionOutOfRangeException();
         }
 
         bool IsValid()
