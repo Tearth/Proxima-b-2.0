@@ -37,8 +37,9 @@ namespace Proxima.Core.Boards
             _attacksSummary = new ulong[2];
             _attacks = new ulong[64];
 
-            _moves = new LinkedList<Move>();
             _castling = new bool[4];
+
+            _moves = new LinkedList<Move>();
 
             _knightMovesGenerator = new KnightMovesGenerator();
             _kingMovesGenerator = new KingMovesGenerator();
@@ -171,10 +172,15 @@ namespace Proxima.Core.Boards
 
             if(move.Type == MoveType.Quiet)
             {
-                //if(move.Piece == PieceType.King)
-                //{
-               //     _castlingData.CastlingPossible[]
-               // }
+                if (move.Piece == PieceType.King)
+                {
+                    _castling[FastArray.GetIndex(move.Color, CastlingType.Short)] = false;
+                    _castling[FastArray.GetIndex(move.Color, CastlingType.Long)] = false;
+                }
+                else if(move.Piece == PieceType.Rook)
+                {
+
+                }
             }
             else if (move.Type == MoveType.Kill)
             {

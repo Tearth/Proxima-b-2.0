@@ -29,6 +29,8 @@ namespace GUI.App.Source.BoardSubsystem
         public Board()
         {
             _friendlyBoard = new FriendlyBoard();
+            _friendlyBoard.SetDefault();
+
             _selectionsManager = new SelectionsManager();
             _axesManager = new AxesManager();
             _piecesProvider = new PiecesProvider();

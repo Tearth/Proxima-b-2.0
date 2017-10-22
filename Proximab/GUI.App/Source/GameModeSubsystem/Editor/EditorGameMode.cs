@@ -19,7 +19,8 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
 
         public EditorGameMode(ConsoleManager consoleManager) : base(consoleManager)
         {
-            _bitBoard = new BitBoard();
+            _bitBoard = new BitBoard(_board.GetFriendlyBoard());
+            _bitBoard.Calculate(CalculationMode.All);
 
             _consoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
             _board.OnFieldSelection += Board_OnFieldSelection;
