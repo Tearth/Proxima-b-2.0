@@ -1,5 +1,4 @@
-﻿using Proxima.Core.Commons.Exceptions;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Proxima.Core.Commons.Positions
 {
@@ -18,9 +17,6 @@ namespace Proxima.Core.Commons.Positions
         {
             X = x;
             Y = y;
-
-            //if (!IsValid())
-            //    throw new PositionOutOfRangeException();
         }
 
         bool IsValid()

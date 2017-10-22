@@ -2,7 +2,7 @@
 {
     public enum Diagonal
     {
-        A1H8 = 0,
-        A8H1 = 1
+        A1H8,
+        A8H1
     }
 }

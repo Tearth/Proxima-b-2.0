@@ -2,8 +2,7 @@
 {
     public enum Axis
     {
-        None = 0,
-        File = 1,
-        Rank = 2
+        File,
+        Rank
     }
 }

@@ -12,7 +12,7 @@ namespace Proxima.Core.Commons.Performance
 
         public static int GetIndex(Color color, CastlingType castlingType)
         {
-            return ((int)color * 2) + (int)castlingType;
+            return ((int)color << 1) + (int)castlingType;
         }
     }
 }
