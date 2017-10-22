@@ -41,7 +41,7 @@ namespace GUI.App.Source.BoardSubsystem.Axes
 
                 var position = new Vector2(0, (i * Constants.FieldWidthHeight));
 
-                position.Y += Constants.FieldWidthHeight / 2;
+                position.Y += Constants.FieldWidthHeight >> 1;
                 position += Constants.BoardPosition;
                 position -= textCenterOffset;
 
@@ -65,7 +65,7 @@ namespace GUI.App.Source.BoardSubsystem.Axes
 
                 var position = new Vector2((i * Constants.FieldWidthHeight), 0);
 
-                position.X += Constants.FieldWidthHeight / 2;
+                position.X += Constants.FieldWidthHeight >> 1;
                 position += Constants.BoardPosition;
                 position -= textCenterOffset;
 

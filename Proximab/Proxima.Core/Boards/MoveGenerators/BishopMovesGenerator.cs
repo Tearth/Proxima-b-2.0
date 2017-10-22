@@ -104,10 +104,10 @@ namespace Proxima.Core.Boards.MoveGenerators
                 mask ^= 0xFF;
             }
 
-            var pieceRank = (byte)(rotatedOccupancy >> ((rotatedPiecePosition.Y - 1) * 8));
+            var pieceRank = (byte)(rotatedOccupancy >> ((rotatedPiecePosition.Y - 1) << 3));
             var availableMoves = PatternsContainer.SlidePattern[pieceRank, 8 - rotatedPiecePosition.X] & mask;
 
-            return BitOperations.Rotate45Left((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) * 8));
+            return BitOperations.Rotate45Left((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) << 3));
         }
 
         ulong GetLeftRotatedBitBoardPattern(ulong pieceLSB, ulong occupancy)
@@ -124,10 +124,10 @@ namespace Proxima.Core.Boards.MoveGenerators
                 mask ^= 0xFF;
             }
 
-            var pieceRank = (byte)(rotatedOccupancy >> ((rotatedPiecePosition.Y - 1) * 8));
+            var pieceRank = (byte)(rotatedOccupancy >> ((rotatedPiecePosition.Y - 1) << 3));
             var availableMoves = PatternsContainer.SlidePattern[pieceRank, 8 - rotatedPiecePosition.X] & mask;
 
-            return BitOperations.Rotate45Right((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) * 8));
+            return BitOperations.Rotate45Right((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) << 3));
         }
 
         ulong ExpandPatternByFriendlyPieces(Diagonal diagonal, ulong pattern, ulong pieceLSB, GeneratorParameters opt)

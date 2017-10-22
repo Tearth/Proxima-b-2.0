@@ -97,10 +97,10 @@ namespace Proxima.Core.Boards.MoveGenerators
         {
             var offset = piecePosition.Y - 1;
 
-            var pieceRank = (byte)(occupancy >> (offset * 8));
+            var pieceRank = (byte)(occupancy >> (offset << 3));
             var pattern = PatternsContainer.SlidePattern[pieceRank, 8 - piecePosition.X];
 
-            return (ulong)pattern << (offset * 8);
+            return (ulong)pattern << (offset << 3);
         }
 
         ulong GetVerticalPattern(Position piecePosition, ulong occupancy)
@@ -108,7 +108,7 @@ namespace Proxima.Core.Boards.MoveGenerators
             var offset = 8 - piecePosition.X;
             var rotatedOccupancy = BitOperations.Rotate90Right(occupancy);
 
-            var pieceRank = (byte)(rotatedOccupancy >> (offset * 8));
+            var pieceRank = (byte)(rotatedOccupancy >> (offset << 3));
             var pattern = PatternsContainer.SlidePattern[pieceRank, 8 - piecePosition.Y];
 
             return BitOperations.Rotate90Left(pattern) << offset;
