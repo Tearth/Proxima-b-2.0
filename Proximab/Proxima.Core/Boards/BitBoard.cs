@@ -171,14 +171,18 @@ namespace Proxima.Core.Boards
 
             _pieces[colorIndex, pieceIndex] &= ~from;
 
-            if(move.Type == MoveType.Kill)
+            if(move.Type == MoveType.Quiet)
+            {
+
+            }
+            else if (move.Type == MoveType.Kill)
             {
                 for (int i = 0; i < 6; i++)
                 {
                     _pieces[enemyColorIndex, i] &= ~to;
                 }
             }
-            else if(move.Type == MoveType.EnPassant)
+            else if (move.Type == MoveType.EnPassant)
             {
                 if (move.Color == Color.White)
                 {
@@ -187,6 +191,40 @@ namespace Proxima.Core.Boards
                 else
                 {
                     _pieces[enemyColorIndex, pieceIndex] &= ~(to << 8);
+                }
+            }
+            else if (move.Type == MoveType.ShortCastling)
+            {
+                if(move.Color == Color.White)
+                {
+                    _pieces[(int)move.Color, (int)PieceType.Rook] &= ~KingMovesGenerator.WhiteRightRookLSB;
+                    _pieces[(int)move.Color, (int)PieceType.Rook] |= (KingMovesGenerator.WhiteRightRookLSB << 2);
+
+                    _castlingData.WhiteShortCastlingPossible = false;
+                }
+                else
+                {
+                    _pieces[(int)move.Color, (int)PieceType.Rook] &= ~KingMovesGenerator.BlackRightRookLSB;
+                    _pieces[(int)move.Color, (int)PieceType.Rook] |= (KingMovesGenerator.BlackRightRookLSB << 2);
+
+                    _castlingData.BlackShortCastlingPossible = false;
+                }
+            }
+            else if (move.Type == MoveType.LongCastling)
+            {
+                if (move.Color == Color.White)
+                {
+                    _pieces[(int)move.Color, (int)PieceType.Rook] &= ~KingMovesGenerator.WhiteLeftRookLSB;
+                    _pieces[(int)move.Color, (int)PieceType.Rook] |= (KingMovesGenerator.WhiteLeftRookLSB >> 3);
+
+                    _castlingData.WhiteLongCastlingPossible = false;
+                }
+                else
+                {
+                    _pieces[(int)move.Color, (int)PieceType.Rook] &= ~KingMovesGenerator.BlackLeftRookLSB;
+                    _pieces[(int)move.Color, (int)PieceType.Rook] |= (KingMovesGenerator.BlackLeftRookLSB >> 3);
+
+                    _castlingData.BlackLongCastlingPossible = false;
                 }
             }
 
@@ -202,9 +240,9 @@ namespace Proxima.Core.Boards
                     if(move.From.Y == 2 && move.To.Y == 4)
                     {
                         var enPassantPosition = new Position(move.To.X, move.To.Y - 1);
-                        var enPassantByte = BitPositionConverter.ToULong(enPassantPosition);
+                        var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
 
-                        _enPassant[(int)Color.White] |= enPassantByte;
+                        _enPassant[(int)Color.White] |= enPassantLSB;
                     }
                 }
                 else
@@ -212,9 +250,9 @@ namespace Proxima.Core.Boards
                     if (move.From.Y == 7 && move.To.Y == 5)
                     {
                         var enPassantPosition = new Position(move.To.X, move.To.Y + 1);
-                        var enPassantByte = BitPositionConverter.ToULong(enPassantPosition);
+                        var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
 
-                        _enPassant[(int)Color.Black] |= enPassantByte;
+                        _enPassant[(int)Color.Black] |= enPassantLSB;
                     }
                 }
             }

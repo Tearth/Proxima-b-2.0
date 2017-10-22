@@ -8,18 +8,23 @@ namespace Proxima.Core.Boards.MoveGenerators
 {
     public class KingMovesGenerator : MovesParserBase
     {
-        const ulong WhiteShortCastlingCheckArea = 0x0eul;
-        const ulong WhiteLongCastlingCheckArea = 0x38ul;
-        const ulong BlackShortCastlingCheckArea = 0x0e00000000000000ul;
-        const ulong BlackLongCastlingCheckArea = 0x3800000000000000ul;
+        public const ulong WhiteRightRookLSB = 0x01;
+        public const ulong WhiteLeftRookLSB = 0x80;
+        public const ulong BlackRightRookLSB = 0x0100000000000000;
+        public const ulong BlackLeftRookLSB = 0x8000000000000000;
 
-        const ulong WhiteShortCastlingMoveArea = 0x06ul;
-        const ulong WhiteLongCastlingMoveArea = 0x70ul;
-        const ulong BlackShortCastlingMoveArea = 0x0600000000000000ul;
-        const ulong BlackLongCastlingMoveArea = 0x7000000000000000ul;
+        public const ulong WhiteShortCastlingCheckArea = 0x0eul;
+        public const ulong WhiteLongCastlingCheckArea  = 0x38ul;
+        public const ulong BlackShortCastlingCheckArea = 0x0e00000000000000ul;
+        public const ulong BlackLongCastlingCheckArea  = 0x3800000000000000ul;
 
-        readonly Position InitialWhiteKingLSB = new Position(5, 1);
-        readonly Position InitialBlackKingLSB = new Position(5, 8);    
+        public const ulong WhiteShortCastlingMoveArea = 0x06ul;
+        public const ulong WhiteLongCastlingMoveArea  = 0x70ul;
+        public const ulong BlackShortCastlingMoveArea = 0x0600000000000000ul;
+        public const ulong BlackLongCastlingMoveArea  = 0x7000000000000000ul;
+
+        public readonly Position InitialWhiteKingLSB = new Position(5, 1);
+        public readonly Position InitialBlackKingLSB = new Position(5, 8);    
 
         public KingMovesGenerator()
         {
