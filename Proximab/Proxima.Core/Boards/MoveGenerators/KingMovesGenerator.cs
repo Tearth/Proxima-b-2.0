@@ -33,7 +33,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         public void GetMoves(PieceType pieceType, GeneratorParameters opt)
         {
-            var piecesToParse = opt.Pieces[(int)opt.FriendlyColor, (int)pieceType];
+            var piecesToParse = opt.Pieces[((int)opt.FriendlyColor * 6) + (int)pieceType];
 
             while (piecesToParse != 0)
             {

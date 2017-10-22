@@ -16,7 +16,7 @@ namespace Proxima.Core.Boards.MoveGenerators
         public ulong FriendlyOccupancy { get; set; }
         public ulong EnemyOccupancy { get; set; }
 
-        public ulong[,] Pieces { get; set; }
+        public ulong[] Pieces { get; set; }
         public ulong[] EnPassant { get; set; }
 
         public ulong[] Attacks;

@@ -19,7 +19,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         void Calculate(PieceType pieceType, GeneratorParameters opt)
         {
-            var piecesToParse = opt.Pieces[(int)opt.FriendlyColor, (int)pieceType];
+            var piecesToParse = opt.Pieces[((int)opt.FriendlyColor * 6) + (int)pieceType];
             while (piecesToParse != 0)
             {
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
@@ -64,10 +64,10 @@ namespace Proxima.Core.Boards.MoveGenerators
             if ((opt.Mode & GeneratorMode.CalculateAttacks) == 0)
                 return;
 
-            var blockersToRemove = opt.Pieces[(int)opt.FriendlyColor, (int)PieceType.Bishop] |
-                                   opt.Pieces[(int)opt.FriendlyColor, (int)PieceType.Queen];
+            var blockersToRemove = opt.Pieces[((int)opt.FriendlyColor * 6) + (int)PieceType.Bishop] |
+                                   opt.Pieces[((int)opt.FriendlyColor * 6) + (int)PieceType.Queen];
 
-            var piecesToParse = opt.Pieces[(int)opt.FriendlyColor, (int)pieceType];
+            var piecesToParse = opt.Pieces[((int)opt.FriendlyColor * 6) + (int)pieceType];
             var allPiecesOccupancy = opt.Occupancy & ~blockersToRemove;
 
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
@@ -145,8 +145,8 @@ namespace Proxima.Core.Boards.MoveGenerators
             while (blockers != 0)
             {
                 var blockerLSB = BitOperations.GetLSB(ref blockers);
-                var kingBlockers = opt.Pieces[(int)opt.FriendlyColor, (int)PieceType.King];
-                var pawnBlockers = opt.Pieces[(int)opt.FriendlyColor, (int)PieceType.Pawn];
+                var kingBlockers = opt.Pieces[((int)opt.FriendlyColor * 6) + (int)PieceType.King];
+                var pawnBlockers = opt.Pieces[((int)opt.FriendlyColor * 6) + (int)PieceType.Pawn];
 
                 if ((blockerLSB & (kingBlockers | pawnBlockers)) != 0)
                 {

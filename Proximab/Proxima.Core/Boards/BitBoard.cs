@@ -10,7 +10,7 @@ namespace Proxima.Core.Boards
 {
     public class BitBoard
     {
-        ulong[,] _pieces;
+        ulong[] _pieces;
         ulong[] _occupancy;
         ulong[] _enPassant;
 
@@ -29,7 +29,7 @@ namespace Proxima.Core.Boards
 
         public BitBoard()
         {
-            _pieces = new ulong[2, 6];
+            _pieces = new ulong[12];
             _occupancy = new ulong[2];
             _enPassant = new ulong[2];
 
@@ -71,20 +71,17 @@ namespace Proxima.Core.Boards
         {
             var friendlyBoard = new FriendlyBoard();
 
-            for(int c=0; c<2; c++)
+            for (int i = 0; i < 12; i++)
             {
-                for (int i = 0; i < 6; i++)
+                var pieceArray = _pieces[i];
+
+                while (pieceArray != 0)
                 {
-                    var pieceArray = _pieces[c, i];
+                    var lsb = BitOperations.GetLSB(ref pieceArray);
+                    var bitIndex = BitOperations.GetBitIndex(lsb);
+                    var position = BitPositionConverter.ToPosition(bitIndex);
 
-                    while (pieceArray != 0)
-                    {
-                        var lsb = BitOperations.GetLSB(ref pieceArray);
-                        var bitIndex = BitOperations.GetBitIndex(lsb);
-                        var position = BitPositionConverter.ToPosition(bitIndex);
-
-                        friendlyBoard.SetPiece(position, new FriendlyPiece((PieceType)i, (Color)c));
-                    }
+                    friendlyBoard.SetPiece(position, new FriendlyPiece((PieceType)(i%6), (Color)(i/6)));
                 }
             }
 
@@ -149,7 +146,7 @@ namespace Proxima.Core.Boards
         public bool IsCheck(Color color)
         {
             var enemyColor = ColorOperations.Invert(color);
-            var king = _pieces[(int)color, (int)PieceType.King];
+            var king = _pieces[((int)color * 6) + (int)PieceType.King];
 
             return (_attacksSummary[(int)enemyColor] & king) != 0;
         }
@@ -170,7 +167,7 @@ namespace Proxima.Core.Boards
             var from = BitPositionConverter.ToULong(move.From);
             var to = BitPositionConverter.ToULong(move.To);
 
-            _pieces[colorIndex, pieceIndex] &= ~from;
+            _pieces[(colorIndex * 6) + pieceIndex] &= ~from;
 
             if(move.Type == MoveType.Quiet)
             {
@@ -180,26 +177,26 @@ namespace Proxima.Core.Boards
             {
                 for (int i = 0; i < 6; i++)
                 {
-                    _pieces[enemyColorIndex, i] &= ~to;
+                    _pieces[(enemyColorIndex * 6) + i] &= ~to;
                 }
             }
             else if (move.Type == MoveType.EnPassant)
             {
                 if (move.Color == Color.White)
                 {
-                    _pieces[enemyColorIndex, pieceIndex] &= ~(to >> 8);
+                    _pieces[(enemyColorIndex * 6) + pieceIndex] &= ~(to >> 8);
                 }
                 else
                 {
-                    _pieces[enemyColorIndex, pieceIndex] &= ~(to << 8);
+                    _pieces[(enemyColorIndex * 6) + pieceIndex] &= ~(to << 8);
                 }
             }
             else if (move.Type == MoveType.ShortCastling)
             {
                 var rookLSB = move.Color == Color.White ? KingMovesGenerator.WhiteRightRookLSB : KingMovesGenerator.BlackRightRookLSB;
 
-                _pieces[(int)move.Color, (int)PieceType.Rook] &= ~rookLSB;
-                _pieces[(int)move.Color, (int)PieceType.Rook] |= (rookLSB << 2);
+                _pieces[((int)move.Color * 6) + (int)PieceType.Rook] &= ~rookLSB;
+                _pieces[((int)move.Color * 6) + (int)PieceType.Rook] |= (rookLSB << 2);
 
                 _castlingData.CastlingPossible[((int)move.Color * 2) + CastlingData.ShortCastling] = false;
             }
@@ -207,13 +204,13 @@ namespace Proxima.Core.Boards
             {
                 var rookLSB = move.Color == Color.White ? KingMovesGenerator.WhiteLeftRookLSB : KingMovesGenerator.BlackLeftRookLSB;
 
-                _pieces[(int)move.Color, (int)PieceType.Rook] &= ~rookLSB;
-                _pieces[(int)move.Color, (int)PieceType.Rook] |= (rookLSB >> 3);
+                _pieces[((int)move.Color * 6) + (int)PieceType.Rook] &= ~rookLSB;
+                _pieces[((int)move.Color * 6) + (int)PieceType.Rook] |= (rookLSB >> 3);
 
                 _castlingData.CastlingPossible[((int)move.Color * 2) + CastlingData.LongCastling] = false;
             }
 
-            _pieces[colorIndex, pieceIndex] |= to;
+            _pieces[(colorIndex * 6) + pieceIndex] |= to;
         }
 
         void CalculateEnPassant(Move move)
@@ -255,20 +252,20 @@ namespace Proxima.Core.Boards
                     if (piece != null)
                     {
                         var bitPosition = BitPositionConverter.ToULong(position);
-                        _pieces[(int)piece.Color, (int)piece.Type] |= bitPosition;
+                        _pieces[((int)piece.Color * 6) + (int)piece.Type] |= bitPosition;
                     }
                 }
             }
 
-            //_castlingData = new CastlingData(friendlyBoard.CastlingData);
+            _castlingData = new CastlingData(friendlyBoard.CastlingData);
         }
 
         void CalculateOccupancy()
         {
             for(int i=0; i<6; i++)
             {
-                _occupancy[(int)Color.White] |= _pieces[(int)Color.White, i];
-                _occupancy[(int)Color.Black] |= _pieces[(int)Color.Black, i];
+                _occupancy[(int)Color.White] |= _pieces[((int)Color.White * 6) + i];
+                _occupancy[(int)Color.Black] |= _pieces[((int)Color.Black * 6) + i];
             }
         }
 
@@ -304,8 +301,8 @@ namespace Proxima.Core.Boards
             CalculateAvailableMoves(whiteGeneratorParameters);
             CalculateAvailableMoves(blackGeneratorParameters);
 
-           // CalculateCastling(whiteGeneratorParameters);
-           // CalculateCastling(blackGeneratorParameters);
+            CalculateCastling(whiteGeneratorParameters);
+            CalculateCastling(blackGeneratorParameters);
         }
 
         void CalculateAvailableMoves(GeneratorParameters generatorParameters)
