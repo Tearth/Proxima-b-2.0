@@ -1,29 +1,30 @@
-﻿namespace Proxima.Core.Boards
+﻿using System;
+
+namespace Proxima.Core.Boards
 {
     public class CastlingData
     {
-        public bool WhiteShortCastlingPossible { get; set; }
-        public bool WhiteLongCastlingPossible { get; set; }
+        public bool[,] CastlingPossible { get; set; }
 
-        public bool BlackShortCastlingPossible { get; set; }
-        public bool BlackLongCastlingPossible { get; set; }
+        public const int ShortCastling = 0;
+        public const int LongCastling = 1;
 
         public CastlingData()
         {
-            WhiteShortCastlingPossible = true;
-            WhiteLongCastlingPossible = true;
+            CastlingPossible = new bool[2, 2];
 
-            BlackShortCastlingPossible = true;
-            BlackLongCastlingPossible = true;
+            CastlingPossible[0, 0] = true;
+            CastlingPossible[1, 0] = true;
+            CastlingPossible[0, 1] = true;
+            CastlingPossible[1, 1] = true;
         }
 
         public CastlingData(CastlingData castlingData)
         {
-            WhiteShortCastlingPossible = castlingData.WhiteShortCastlingPossible;
-            WhiteLongCastlingPossible = castlingData.WhiteLongCastlingPossible;
+            CastlingPossible = new bool[2, 2];
 
-            BlackShortCastlingPossible = castlingData.BlackShortCastlingPossible;
-            BlackLongCastlingPossible = castlingData.BlackLongCastlingPossible;
+            Buffer.BlockCopy(castlingData.CastlingPossible, 0, CastlingPossible, 0, 
+                             castlingData.CastlingPossible.Length * sizeof(bool));
         }
     }
 }

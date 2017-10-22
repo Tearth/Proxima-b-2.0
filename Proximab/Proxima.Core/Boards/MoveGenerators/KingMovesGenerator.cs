@@ -76,10 +76,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         void GetWhiteCastling(PieceType pieceType, GeneratorParameters opt)
         {
-            if (!opt.CastlingData.WhiteShortCastlingPossible && !opt.CastlingData.WhiteLongCastlingPossible)
-                return;
-            
-            if(opt.CastlingData.WhiteShortCastlingPossible &&
+            if(opt.CastlingData.CastlingPossible[(int)Color.White, CastlingData.ShortCastling] &&
                IsCastlingAreaEmpty(WhiteShortCastlingMoveArea, opt.Occupancy) &&
                !IsCastlingAreaChecked(opt.EnemyColor, WhiteShortCastlingCheckArea, opt))
             {
@@ -89,7 +86,7 @@ namespace Proxima.Core.Boards.MoveGenerators
                 opt.Moves.AddLast(move);
             }
             
-            if(opt.CastlingData.WhiteLongCastlingPossible &&
+            if(opt.CastlingData.CastlingPossible[(int)Color.White, CastlingData.LongCastling] &&
                IsCastlingAreaEmpty(WhiteLongCastlingMoveArea, opt.Occupancy) &&
                !IsCastlingAreaChecked(opt.EnemyColor, WhiteLongCastlingCheckArea, opt))
             {
@@ -102,10 +99,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         void GetBlackCastling(PieceType pieceType, GeneratorParameters opt)
         {
-            if (!opt.CastlingData.BlackShortCastlingPossible && !opt.CastlingData.BlackLongCastlingPossible)
-                return;
-
-            if (opt.CastlingData.BlackShortCastlingPossible &&
+            if (opt.CastlingData.CastlingPossible[(int)Color.Black, CastlingData.ShortCastling] &&
                IsCastlingAreaEmpty(BlackShortCastlingMoveArea, opt.Occupancy) &&
                !IsCastlingAreaChecked(opt.EnemyColor, BlackShortCastlingCheckArea, opt))
             {
@@ -115,7 +109,7 @@ namespace Proxima.Core.Boards.MoveGenerators
                 opt.Moves.AddLast(move);
             }
 
-            if (opt.CastlingData.BlackLongCastlingPossible &&
+            if (opt.CastlingData.CastlingPossible[(int)Color.Black, CastlingData.LongCastling] &&
                IsCastlingAreaEmpty(BlackLongCastlingMoveArea, opt.Occupancy) &&
                !IsCastlingAreaChecked(opt.EnemyColor, BlackLongCastlingCheckArea, opt))
             {

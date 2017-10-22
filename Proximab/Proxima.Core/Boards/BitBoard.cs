@@ -48,7 +48,8 @@ namespace Proxima.Core.Boards
 
         public BitBoard(BitBoard bitBoard, Move move) : this()
         {
-            Buffer.BlockCopy(bitBoard._pieces, 0, _pieces, 0, bitBoard._pieces.Length * sizeof(ulong));
+            Buffer.BlockCopy(bitBoard._pieces, 0, _pieces, 0, 
+                             bitBoard._pieces.Length * sizeof(ulong));
 
             _castlingData = new CastlingData(bitBoard._castlingData);
 
@@ -87,7 +88,7 @@ namespace Proxima.Core.Boards
                 }
             }
 
-            _castlingData = new CastlingData(friendlyBoard.CastlingData);
+            friendlyBoard.CastlingData = new CastlingData(_castlingData);
 
             return friendlyBoard;
         }
@@ -195,37 +196,21 @@ namespace Proxima.Core.Boards
             }
             else if (move.Type == MoveType.ShortCastling)
             {
-                if(move.Color == Color.White)
-                {
-                    _pieces[(int)move.Color, (int)PieceType.Rook] &= ~KingMovesGenerator.WhiteRightRookLSB;
-                    _pieces[(int)move.Color, (int)PieceType.Rook] |= (KingMovesGenerator.WhiteRightRookLSB << 2);
+                var rookLSB = move.Color == Color.White ? KingMovesGenerator.WhiteRightRookLSB : KingMovesGenerator.BlackRightRookLSB;
 
-                    _castlingData.WhiteShortCastlingPossible = false;
-                }
-                else
-                {
-                    _pieces[(int)move.Color, (int)PieceType.Rook] &= ~KingMovesGenerator.BlackRightRookLSB;
-                    _pieces[(int)move.Color, (int)PieceType.Rook] |= (KingMovesGenerator.BlackRightRookLSB << 2);
+                _pieces[(int)move.Color, (int)PieceType.Rook] &= ~rookLSB;
+                _pieces[(int)move.Color, (int)PieceType.Rook] |= (rookLSB << 2);
 
-                    _castlingData.BlackShortCastlingPossible = false;
-                }
+                _castlingData.CastlingPossible[(int)move.Color, CastlingData.ShortCastling] = false;
             }
             else if (move.Type == MoveType.LongCastling)
             {
-                if (move.Color == Color.White)
-                {
-                    _pieces[(int)move.Color, (int)PieceType.Rook] &= ~KingMovesGenerator.WhiteLeftRookLSB;
-                    _pieces[(int)move.Color, (int)PieceType.Rook] |= (KingMovesGenerator.WhiteLeftRookLSB >> 3);
+                var rookLSB = move.Color == Color.White ? KingMovesGenerator.WhiteLeftRookLSB : KingMovesGenerator.BlackLeftRookLSB;
 
-                    _castlingData.WhiteLongCastlingPossible = false;
-                }
-                else
-                {
-                    _pieces[(int)move.Color, (int)PieceType.Rook] &= ~KingMovesGenerator.BlackLeftRookLSB;
-                    _pieces[(int)move.Color, (int)PieceType.Rook] |= (KingMovesGenerator.BlackLeftRookLSB >> 3);
+                _pieces[(int)move.Color, (int)PieceType.Rook] &= ~rookLSB;
+                _pieces[(int)move.Color, (int)PieceType.Rook] |= (rookLSB >> 3);
 
-                    _castlingData.BlackLongCastlingPossible = false;
-                }
+                _castlingData.CastlingPossible[(int)move.Color, CastlingData.LongCastling] = false;
             }
 
             _pieces[colorIndex, pieceIndex] |= to;
@@ -274,6 +259,8 @@ namespace Proxima.Core.Boards
                     }
                 }
             }
+
+            _castlingData = new CastlingData(friendlyBoard.CastlingData);
         }
 
         void CalculateOccupancy()
