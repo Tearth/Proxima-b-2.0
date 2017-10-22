@@ -1,5 +1,5 @@
-﻿using Proxima.Core.Commons;
-using Proxima.Core.Commons.BitHelpers;
+﻿using Proxima.Core.Commons.BitHelpers;
+using Proxima.Core.Commons.Performance;
 
 namespace Proxima.Core.Boards
 {

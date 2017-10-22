@@ -3,6 +3,7 @@ using Proxima.Core.Commons;
 using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Moves;
+using Proxima.Core.Commons.Performance;
 
 namespace Proxima.Core.Boards.MoveGenerators
 {
@@ -20,7 +21,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         void Calculate(PieceType pieceType, GeneratorParameters opt)
         {
-            var piecesToParse = opt.Pieces[((int)opt.FriendlyColor * 6) + (int)pieceType];
+            var piecesToParse = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, pieceType)];
             while (piecesToParse != 0)
             {
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
@@ -65,10 +66,10 @@ namespace Proxima.Core.Boards.MoveGenerators
             if ((opt.Mode & GeneratorMode.CalculateAttacks) == 0)
                 return;
 
-            var blockersToRemove = opt.Pieces[((int)opt.FriendlyColor * 6) + (int)PieceType.Bishop] |
-                                   opt.Pieces[((int)opt.FriendlyColor * 6) + (int)PieceType.Queen];
+            var blockersToRemove = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, PieceType.Bishop)] |
+                                   opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, PieceType.Queen)];
 
-            var piecesToParse = opt.Pieces[((int)opt.FriendlyColor * 6) + (int)pieceType];
+            var piecesToParse = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, pieceType)];
             var allPiecesOccupancy = opt.Occupancy & ~blockersToRemove;
 
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
@@ -146,8 +147,8 @@ namespace Proxima.Core.Boards.MoveGenerators
             while (blockers != 0)
             {
                 var blockerLSB = BitOperations.GetLSB(ref blockers);
-                var kingBlockers = opt.Pieces[((int)opt.FriendlyColor * 6) + (int)PieceType.King];
-                var pawnBlockers = opt.Pieces[((int)opt.FriendlyColor * 6) + (int)PieceType.Pawn];
+                var kingBlockers = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, PieceType.King)];
+                var pawnBlockers = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, PieceType.Pawn)];
 
                 if ((blockerLSB & (kingBlockers | pawnBlockers)) != 0)
                 {

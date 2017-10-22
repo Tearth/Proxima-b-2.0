@@ -2,6 +2,7 @@
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Moves;
+using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Positions;
 
 namespace Proxima.Core.Boards.MoveGenerators
@@ -33,7 +34,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         public void GetMoves(PieceType pieceType, GeneratorParameters opt)
         {
-            var piecesToParse = opt.Pieces[((int)opt.FriendlyColor * 6) + (int)pieceType];
+            var piecesToParse = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, pieceType)];
 
             while (piecesToParse != 0)
             {

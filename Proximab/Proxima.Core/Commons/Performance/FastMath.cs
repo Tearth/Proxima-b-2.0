@@ -1,4 +1,4 @@
-﻿namespace Proxima.Core.Commons
+﻿namespace Proxima.Core.Commons.Performance
 {
     public static class FastMath
     {
