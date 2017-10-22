@@ -1,4 +1,6 @@
-﻿namespace Proxima.Core.Boards.PatternGenerators
+﻿using Proxima.Core.Commons.BitHelpers;
+
+namespace Proxima.Core.Boards.PatternGenerators
 {
     public class KnighPatternGenerator
     {

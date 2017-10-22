@@ -1,5 +1,6 @@
 ﻿using Proxima.Core.Boards.PatternGenerators;
 using Proxima.Core.Commons;
+using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Moves;
 

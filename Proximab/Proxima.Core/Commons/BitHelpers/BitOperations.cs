@@ -1,4 +1,5 @@
 ﻿using Proxima.Core.Commons;
+using Proxima.Core.Commons.BitHelpers;
 
 namespace Proxima.Core.Boards
 {
