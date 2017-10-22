@@ -48,7 +48,7 @@ namespace Proxima.Core.Boards
 
         public BitBoard(BitBoard bitBoard, Move move) : this()
         {
-            Array.Copy(bitBoard._pieces, _pieces, 12);
+            Buffer.BlockCopy(bitBoard._pieces, 0, _pieces, 0, bitBoard._pieces.Length * sizeof(ulong));
 
             _castlingData = new CastlingData(bitBoard._castlingData);
 
