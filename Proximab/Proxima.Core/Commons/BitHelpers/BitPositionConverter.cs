@@ -11,12 +11,12 @@ namespace Proxima.Core.Boards
 
         public static int ToBitIndex(Position position)
         {
-            return (8 - position.X) + ((position.Y - 1) * 8);
+            return (8 - position.X) + ((position.Y - 1) << 3);
         }
 
         public static Position ToPosition(int bitIndex)
         {
-            return new Position(8 - (bitIndex % 8), (bitIndex / 8) + 1);
+            return new Position(8 - (bitIndex % 8), (bitIndex >> 3) + 1);
         }
 
         public static bool[,] ToBoolArray(ulong bitBoard)
