@@ -8,7 +8,7 @@ namespace Proxima.Core.Commons.Positions
         public int X { get; set; }
         public int Y { get; set; }
 
-        public Position() : this(1, 1)
+        public Position()
         {
 
         }

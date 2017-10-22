@@ -284,8 +284,8 @@ namespace Proxima.Core.Boards
 
         void CalculateAvailableMoves(CalculationMode calculationMode)
         {
-            var whiteGeneratorModeFlags = GeneratorMode.None;
-            var blackGeneratorModeFlags = GeneratorMode.None;
+            GeneratorMode whiteGeneratorModeFlags = GeneratorMode.CalculateMoves;
+            GeneratorMode blackGeneratorModeFlags = GeneratorMode.CalculateMoves;
 
             if(calculationMode == CalculationMode.All)
             {
@@ -320,11 +320,12 @@ namespace Proxima.Core.Boards
 
         void CalculateAvailableMoves(GeneratorParameters generatorParameters)
         {
-            _knightMovesGenerator.GetMoves(PieceType.Knight, generatorParameters);
-            _kingMovesGenerator.GetMoves(PieceType.King, generatorParameters);
+            _pawnMovesGenerator.GetMoves(generatorParameters);
+            _knightMovesGenerator.GetMoves(generatorParameters);
+            _kingMovesGenerator.GetMoves(generatorParameters);
+
             _rookMovesGenerator.GetMoves(PieceType.Rook, generatorParameters);
             _bishopMovesGenerator.GetMoves(PieceType.Bishop, generatorParameters);
-            _pawnMovesGenerator.GetMoves(PieceType.Pawn, generatorParameters);
 
             _rookMovesGenerator.GetMoves(PieceType.Queen, generatorParameters);
             _bishopMovesGenerator.GetMoves(PieceType.Queen, generatorParameters);
@@ -335,7 +336,7 @@ namespace Proxima.Core.Boards
             if ((generatorParameters.Mode & GeneratorMode.CalculateMoves) == 0)
                 return;
 
-            _kingMovesGenerator.GetCastling(PieceType.King, generatorParameters);
+            _kingMovesGenerator.GetCastling(generatorParameters);
         }
 
         GeneratorParameters GetGeneratorParameters(Color color, GeneratorMode mode)

@@ -13,15 +13,8 @@ namespace Proxima.Core.Boards
         public FriendlyBoard()
         {
             _friendlyPieces = new FriendlyPiece[8, 8];
-            Castling = new bool[4];
 
-            for (int x = 0; x < 8; x++)
-            {
-                for (int y = 0; y < 8; y++)
-                {
-                    _friendlyPieces[x, y] = null;
-                }
-            }
+            Castling = new bool[4];
         }
 
         public FriendlyPiece GetPiece(Position position)
