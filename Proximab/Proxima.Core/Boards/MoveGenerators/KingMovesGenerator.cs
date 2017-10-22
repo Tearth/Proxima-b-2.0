@@ -32,7 +32,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         }
 
-        public void GetMoves(GeneratorParameters opt)
+        public void Calculate(GeneratorParameters opt)
         {
             var piecesToParse = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, PieceType.King)];
 
@@ -67,8 +67,12 @@ namespace Proxima.Core.Boards.MoveGenerators
             }
         }
 
-        public void GetCastling(GeneratorParameters opt)
+        public void CalculateCastling(GeneratorParameters opt)
         {
+            if (!opt.Castling[FastArray.GetIndex(opt.FriendlyColor, CastlingType.Short)] &&
+                !opt.Castling[FastArray.GetIndex(opt.FriendlyColor, CastlingType.Long)])
+                return;
+
             Position initialKingLSB;
 
             var shortMoveArea = 0ul;

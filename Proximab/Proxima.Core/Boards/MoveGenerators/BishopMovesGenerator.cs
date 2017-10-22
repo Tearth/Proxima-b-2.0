@@ -14,12 +14,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         }
 
-        public void GetMoves(PieceType pieceType, GeneratorParameters opt)
-        {
-            Calculate(pieceType, opt);
-        }
-
-        void Calculate(PieceType pieceType, GeneratorParameters opt)
+        public void Calculate(PieceType pieceType, GeneratorParameters opt)
         {
             var piecesToParse = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, pieceType)];
             while (piecesToParse != 0)

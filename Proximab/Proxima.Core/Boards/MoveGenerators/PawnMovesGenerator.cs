@@ -14,7 +14,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         }
 
-        public void GetMoves(GeneratorParameters opt)
+        public void Calculate(GeneratorParameters opt)
         {
             CalculateMovesForSinglePush(opt);
             CalculateMovesForDoublePush(opt);
