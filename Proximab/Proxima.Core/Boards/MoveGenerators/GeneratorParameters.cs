@@ -10,7 +10,7 @@ namespace Proxima.Core.Boards.MoveGenerators
         public Color EnemyColor { get; set; }
 
         public GeneratorMode Mode { get; set; }
-        public CastlingData CastlingData { get; set; }
+        public bool[] Castling { get; set; }
 
         public ulong Occupancy { get; set; }
         public ulong FriendlyOccupancy { get; set; }

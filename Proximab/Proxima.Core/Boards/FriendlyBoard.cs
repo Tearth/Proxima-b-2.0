@@ -4,14 +4,14 @@ namespace Proxima.Core.Boards
 {
     public class FriendlyBoard
     {
-        public CastlingData CastlingData { get; set; }
+        public bool[] Castling { get; set; }
 
         FriendlyPiece[,] _friendlyPieces;
 
         public FriendlyBoard()
         {
             _friendlyPieces = new FriendlyPiece[8, 8];
-            CastlingData = new CastlingData();
+            Castling = new bool[4];
 
             for(int x=0; x<8; x++)
             {

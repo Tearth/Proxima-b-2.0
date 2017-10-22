@@ -49,7 +49,6 @@
     <Compile Include="Commons\BitHelpers\BitOperations.cs" />
     <Compile Include="Commons\BitHelpers\BitPositionConverter.cs" />
     <Compile Include="Boards\CalculationMode.cs" />
-    <Compile Include="Boards\CastlingData.cs" />
     <Compile Include="Boards\FriendlyBoard.cs" />
     <Compile Include="Boards\FriendlyPiece.cs" />
     <Compile Include="Boards\GeneratorMode.cs" />
