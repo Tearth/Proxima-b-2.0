@@ -22,14 +22,15 @@ namespace Proxima.Core.Boards.MoveGenerators
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
-                var pattern = PatternsContainer.KnightPattern[pieceIndex] & ~opt.FriendlyOccupancy;
+                var pattern = PatternsContainer.KnightPattern[pieceIndex];
 
                 while(pattern != 0)
                 {
                     var patternLSB = BitOperations.GetLSB(ref pattern);
                     var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                    if ((opt.Mode & GeneratorMode.CalculateMoves) != 0)
+                    if ((opt.Mode & GeneratorMode.CalculateMoves) != 0 &&
+                        (patternLSB & opt.FriendlyOccupancy) == 0)
                     {
                         var from = BitPositionConverter.ToPosition(pieceIndex);
                         var to = BitPositionConverter.ToPosition(patternIndex);

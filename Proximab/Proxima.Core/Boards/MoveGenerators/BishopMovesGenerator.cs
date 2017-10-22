@@ -2,9 +2,6 @@
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Moves;
-using Proxima.Core.Commons.Positions;
-using System;
-using System.Collections.Generic;
 
 namespace Proxima.Core.Boards.MoveGenerators
 {
@@ -39,10 +36,10 @@ namespace Proxima.Core.Boards.MoveGenerators
 
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
-            var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, opt.Occupancy);
-            var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, opt.Occupancy);
+            var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, opt.Occupancy) & ~opt.FriendlyOccupancy;
+            var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, opt.Occupancy) & ~opt.FriendlyOccupancy;
 
-            var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern) & ~opt.FriendlyOccupancy;
+            var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern);
 
             while (pattern != 0)
             {
@@ -84,7 +81,7 @@ namespace Proxima.Core.Boards.MoveGenerators
             leftRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A8H1, leftRotatedBitBoardPattern, pieceLSB, opt);
             leftRotatedBitBoardPattern ^= patternContainer.A8H1Diagonal;
 
-            var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern) & ~opt.FriendlyOccupancy;
+            var pattern = rightRotatedBitBoardPattern | leftRotatedBitBoardPattern;
 
             while (pattern != 0)
             {
@@ -157,14 +154,14 @@ namespace Proxima.Core.Boards.MoveGenerators
                     {
                         if (pawnBlockers == 0 || (pawnBlockers != 0 && opt.FriendlyColor == Color.Black))
                         {
-                            expandedPattern |= (blockerLSB & mask & ~opt.FriendlyOccupancy) >> shift;
+                            expandedPattern |= (blockerLSB & mask) >> shift;
                         }
                     }
                     else
                     {
                         if(pawnBlockers == 0 || (pawnBlockers != 0 && opt.FriendlyColor == Color.White))
                         {
-                            expandedPattern |= (blockerLSB & mask & ~opt.FriendlyOccupancy) << shift;
+                            expandedPattern |= (blockerLSB & mask) << shift;
                         }
                     }
                 }

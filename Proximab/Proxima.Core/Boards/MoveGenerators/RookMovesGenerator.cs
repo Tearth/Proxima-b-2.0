@@ -40,10 +40,10 @@ namespace Proxima.Core.Boards.MoveGenerators
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
             var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
-            var horizontalPattern = GetHorizontalPattern(piecePosition, opt.Occupancy);
-            var verticalPattern = GetVerticalPattern(piecePosition, opt.Occupancy);
+            var horizontalPattern = GetHorizontalPattern(piecePosition, opt.Occupancy) & ~opt.FriendlyOccupancy;
+            var verticalPattern = GetVerticalPattern(piecePosition, opt.Occupancy) & ~opt.FriendlyOccupancy;
 
-            var pattern = (horizontalPattern | verticalPattern) & ~opt.FriendlyOccupancy;
+            var pattern = horizontalPattern | verticalPattern;
 
             while (pattern != 0)
             {
@@ -144,11 +144,11 @@ namespace Proxima.Core.Boards.MoveGenerators
                 {
                     if(blockerLSB < pieceLSB)
                     {
-                        expandedPattern |= (blockerLSB & mask & ~opt.FriendlyOccupancy) >> shift;
+                        expandedPattern |= (blockerLSB & mask) >> shift;
                     }
                     else
                     {
-                        expandedPattern |= (blockerLSB & mask & ~opt.FriendlyOccupancy) << shift;
+                        expandedPattern |= (blockerLSB & mask) << shift;
                     }
                 }
             }
