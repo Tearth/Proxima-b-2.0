@@ -169,7 +169,10 @@ namespace Proxima.Core.Boards
 
             if(move.Type == MoveType.Quiet)
             {
-
+                //if(move.Piece == PieceType.King)
+                //{
+               //     _castlingData.CastlingPossible[]
+               // }
             }
             else if (move.Type == MoveType.Kill)
             {
@@ -195,8 +198,8 @@ namespace Proxima.Core.Boards
 
                 _pieces[FastArray.GetIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
                 _pieces[FastArray.GetIndex(move.Color, PieceType.Rook)] |= (rookLSB << 2);
-
-                _castlingData.CastlingPossible[((int)move.Color * 2) + CastlingData.ShortCastling] = false;
+                
+                _castlingData.CastlingPossible[FastArray.GetIndex(move.Color, CastlingType.Short)] = false;
             }
             else if (move.Type == MoveType.LongCastling)
             {
@@ -205,7 +208,7 @@ namespace Proxima.Core.Boards
                 _pieces[FastArray.GetIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
                 _pieces[FastArray.GetIndex(move.Color, PieceType.Rook)] |= (rookLSB >> 3);
 
-                _castlingData.CastlingPossible[((int)move.Color * 2) + CastlingData.LongCastling] = false;
+                _castlingData.CastlingPossible[FastArray.GetIndex(move.Color, CastlingType.Long)] = false;
             }
 
             _pieces[FastArray.GetIndex(move.Color, move.Piece)] |= to;
