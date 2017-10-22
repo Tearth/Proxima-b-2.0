@@ -1,5 +1,6 @@
 ﻿using Proxima.Core.Boards;
 using Proxima.Core.Commons.Colors;
+using System;
 using System.Diagnostics;
 
 namespace Proxima.Helpers.Tests
@@ -15,6 +16,8 @@ namespace Proxima.Helpers.Tests
         {
             var testData = new MovesTestData();
             var stopwatch = new Stopwatch();
+
+            GC.Collect();
 
             stopwatch.Start();
             CalculateBitBoard(initialColor, new BitBoard(friendlyBoard), depth, calculateEndNodes, verifyChecks, testData);
