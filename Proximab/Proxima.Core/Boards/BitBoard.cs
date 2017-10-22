@@ -179,7 +179,10 @@ namespace Proxima.Core.Boards
                 }
                 else if(move.Piece == PieceType.Rook)
                 {
-
+                    if(move.From == new Position(1, 1) || move.From == new Position(1, 8))
+                        _castling[FastArray.GetIndex(move.Color, CastlingType.Long)] = false;
+                    else if (move.From == new Position(8, 1) || move.From == new Position(8, 8))
+                        _castling[FastArray.GetIndex(move.Color, CastlingType.Short)] = false;
                 }
             }
             else if (move.Type == MoveType.Kill)
