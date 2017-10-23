@@ -4,11 +4,6 @@ namespace Proxima.Core.Boards
 {
     public static class BitPositionConverter
     {
-        public static ulong ToULong(Position position)
-        {
-            return 1ul << ToBitIndex(position);
-        }
-
         public static int ToBitIndex(Position position)
         {
             return (8 - position.X) + ((position.Y - 1) << 3);
@@ -33,6 +28,30 @@ namespace Proxima.Core.Boards
             }
 
             return boolArray;
+        }
+
+        public static ulong ToULong(Position position)
+        {
+            return 1ul << ToBitIndex(position);
+        }
+
+        public static ulong ToULong(bool[,] bitBoard)
+        {
+            ulong value = 0;
+            ulong currentBit = 1;
+
+            for(int y=0; y<8; y++)
+            {
+                for(int x=0; x<8; x++)
+                {
+                    if(bitBoard[7 - x, y])
+                        value |= currentBit;
+
+                    currentBit <<= 1;
+                }
+            }
+
+            return value;
         }
     }
 }
