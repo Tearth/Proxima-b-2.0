@@ -2,6 +2,7 @@
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Positions;
+using System;
 
 namespace Proxima.Core.Boards.Friendly
 {
@@ -16,7 +17,7 @@ namespace Proxima.Core.Boards.Friendly
             Castling = new bool[4];
         }
 
-        public FriendlyBoard(ulong[] piecesArray) : this()
+        public FriendlyBoard(ulong[] piecesArray, bool[] castling) : this()
         {
             for (int i = 0; i < 12; i++)
             {
@@ -31,6 +32,8 @@ namespace Proxima.Core.Boards.Friendly
                     SetPiece(position, new FriendlyPiece((PieceType)(i % 6), (Color)(i / 6)));
                 }
             }
+
+            Buffer.BlockCopy(castling, 0, Castling, 0, castling.Length * sizeof(bool));
         }
 
         public FriendlyPiece GetPiece(Position position)

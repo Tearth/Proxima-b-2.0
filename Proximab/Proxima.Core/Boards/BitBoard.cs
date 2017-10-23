@@ -51,11 +51,8 @@ namespace Proxima.Core.Boards
 
         public BitBoard(BitBoard bitBoard, Move move) : this()
         {
-            Buffer.BlockCopy(bitBoard._pieces, 0, _pieces, 0, 
-                             bitBoard._pieces.Length * sizeof(ulong));
-
-            Buffer.BlockCopy(bitBoard._castling, 0, _castling, 0,
-                             bitBoard._castling.Length * sizeof(bool));
+            Buffer.BlockCopy(bitBoard._pieces, 0, _pieces, 0, bitBoard._pieces.Length * sizeof(ulong));
+            Buffer.BlockCopy(bitBoard._castling, 0, _castling, 0, bitBoard._castling.Length * sizeof(bool));
 
             CalculateMove(bitBoard, move);
             CalculateEnPassant(move);
@@ -63,7 +60,9 @@ namespace Proxima.Core.Boards
 
         public BitBoard(FriendlyBoard friendlyBoard) : this()
         {
-            ConvertFromFriendlyBoard(friendlyBoard);
+            _pieces = friendlyBoard.GetPiecesArray();
+
+            Buffer.BlockCopy(friendlyBoard.Castling, 0, _castling, 0, friendlyBoard.Castling.Length * sizeof(bool));
         }
 
         public BitBoard Move(Move move)
@@ -73,7 +72,7 @@ namespace Proxima.Core.Boards
         
         public FriendlyBoard GetFriendlyBoard()
         {
-            var friendlyBoard = new FriendlyBoard(_pieces);
+            var friendlyBoard = new FriendlyBoard(_pieces, _castling);
 
             Buffer.BlockCopy(_castling, 0, friendlyBoard.Castling, 0,
                              _castling.Length * sizeof(bool));
@@ -202,6 +201,7 @@ namespace Proxima.Core.Boards
                 _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] |= (rookLSB << 2);
 
                 _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
+                _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
             }
             else if (move.Type == MoveType.LongCastling)
             {
@@ -210,6 +210,7 @@ namespace Proxima.Core.Boards
                 _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
                 _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] |= (rookLSB >> 3);
 
+                _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
                 _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
             }
 
@@ -241,14 +242,6 @@ namespace Proxima.Core.Boards
                     }
                 }
             }
-        }
-
-        void ConvertFromFriendlyBoard(FriendlyBoard friendlyBoard)
-        {
-            _pieces = friendlyBoard.GetPiecesArray();
-            
-            Buffer.BlockCopy(friendlyBoard.Castling, 0, _castling, 0,
-                             friendlyBoard.Castling.Length * sizeof(bool));
         }
 
         void CalculateOccupancy()
