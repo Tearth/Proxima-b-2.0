@@ -49,8 +49,8 @@
     <Compile Include="Commons\BitHelpers\BitOperations.cs" />
     <Compile Include="Commons\BitHelpers\BitPositionConverter.cs" />
     <Compile Include="Boards\CalculationMode.cs" />
-    <Compile Include="Boards\FriendlyBoard.cs" />
-    <Compile Include="Boards\FriendlyPiece.cs" />
+    <Compile Include="Boards\Friendly\FriendlyBoard.cs" />
+    <Compile Include="Boards\Friendly\FriendlyPiece.cs" />
     <Compile Include="Boards\GeneratorMode.cs" />
     <Compile Include="Boards\MoveGenerators\BishopPatternContainer.cs" />
     <Compile Include="Boards\MoveGenerators\GeneratorParameters.cs" />

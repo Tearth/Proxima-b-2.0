@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using Proxima.Helpers.BoardSubsystem.Persistence;
 using Proxima.Helpers.Tests;
+using Proxima.Core.Boards.Friendly;
 
 namespace GUI.App.Source.GameModeSubsystem.Editor
 {

@@ -1,7 +1,7 @@
 ﻿using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 
-namespace Proxima.Core.Boards
+namespace Proxima.Core.Boards.Friendly
 {
     public class FriendlyPiece
     {

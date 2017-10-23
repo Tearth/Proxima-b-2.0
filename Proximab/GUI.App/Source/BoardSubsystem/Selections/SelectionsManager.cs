@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Proxima.Core.Boards.Friendly;
 
 namespace GUI.App.Source.BoardSubsystem.Selections
 {

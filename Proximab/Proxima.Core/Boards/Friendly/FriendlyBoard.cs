@@ -2,7 +2,7 @@
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Positions;
 
-namespace Proxima.Core.Boards
+namespace Proxima.Core.Boards.Friendly
 {
     public class FriendlyBoard
     {

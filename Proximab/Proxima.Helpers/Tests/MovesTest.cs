@@ -1,4 +1,5 @@
 ﻿using Proxima.Core.Boards;
+using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
 using System;
 using System.Diagnostics;

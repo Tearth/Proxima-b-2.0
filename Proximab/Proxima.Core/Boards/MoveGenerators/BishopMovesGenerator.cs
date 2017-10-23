@@ -36,7 +36,7 @@ namespace Proxima.Core.Boards.MoveGenerators
             var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, opt.Occupancy) & ~opt.FriendlyOccupancy;
             var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, opt.Occupancy) & ~opt.FriendlyOccupancy;
 
-            var pattern = (rightRotatedBitBoardPattern | leftRotatedBitBoardPattern);
+            var pattern = rightRotatedBitBoardPattern | leftRotatedBitBoardPattern;
 
             while (pattern != 0)
             {
@@ -105,7 +105,7 @@ namespace Proxima.Core.Boards.MoveGenerators
             }
 
             var pieceRank = (byte)(rotatedOccupancy >> ((rotatedPiecePosition.Y - 1) << 3));
-             var availableMoves = PatternsContainer.SlidePattern[FastArray.GetSlideIndex(rotatedPiecePosition.X, pieceRank)] & mask;
+            var availableMoves = PatternsContainer.SlidePattern[FastArray.GetSlideIndex(rotatedPiecePosition.X, pieceRank)] & mask;
 
             return BitOperations.Rotate45Left((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) << 3));
         }
