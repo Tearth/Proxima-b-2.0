@@ -1,5 +1,6 @@
 ﻿using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
+using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Positions;
 
 namespace Proxima.Core.Boards.Friendly
@@ -17,6 +18,23 @@ namespace Proxima.Core.Boards.Friendly
             Castling = new bool[4];
         }
 
+        public FriendlyBoard(ulong[] piecesArray) : this()
+        {
+            for (int i = 0; i < 12; i++)
+            {
+                var pieceArray = piecesArray[i];
+
+                while (pieceArray != 0)
+                {
+                    var lsb = BitOperations.GetLSB(ref pieceArray);
+                    var bitIndex = BitOperations.GetBitIndex(lsb);
+                    var position = BitPositionConverter.ToPosition(bitIndex);
+
+                    SetPiece(position, new FriendlyPiece((PieceType)(i % 6), (Color)(i / 6)));
+                }
+            }
+        }
+
         public FriendlyPiece GetPiece(Position position)
         {
             return _friendlyPieces[position.X - 1, position.Y - 1];
@@ -25,6 +43,28 @@ namespace Proxima.Core.Boards.Friendly
         public void SetPiece(Position position, FriendlyPiece piece)
         {
             _friendlyPieces[position.X - 1, position.Y - 1] = piece;
+        }
+
+        public ulong[] GetPiecesArray()
+        {
+            var pieces = new ulong[12];
+
+            for (int x = 1; x <= 8; x++)
+            {
+                for (int y = 1; y <= 8; y++)
+                {
+                    var position = new Position(x, y);
+                    var piece = GetPiece(position);
+
+                    if (piece != null)
+                    {
+                        var bitPosition = BitPositionConverter.ToULong(position);
+                        pieces[FastArray.GetPieceIndex(piece.Color, piece.Type)] |= bitPosition;
+                    }
+                }
+            }
+
+            return pieces;
         }
 
         public void SetDefault()

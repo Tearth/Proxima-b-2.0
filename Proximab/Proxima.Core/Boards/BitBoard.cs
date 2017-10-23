@@ -73,22 +73,8 @@ namespace Proxima.Core.Boards
         
         public FriendlyBoard GetFriendlyBoard()
         {
-            var friendlyBoard = new FriendlyBoard();
+            var friendlyBoard = new FriendlyBoard(_pieces);
 
-            for (int i = 0; i < 12; i++)
-            {
-                var pieceArray = _pieces[i];
-
-                while (pieceArray != 0)
-                {
-                    var lsb = BitOperations.GetLSB(ref pieceArray);
-                    var bitIndex = BitOperations.GetBitIndex(lsb);
-                    var position = BitPositionConverter.ToPosition(bitIndex);
-
-                    friendlyBoard.SetPiece(position, new FriendlyPiece((PieceType)(i%6), (Color)(i/6)));
-                }
-            }
-            
             Buffer.BlockCopy(_castling, 0, friendlyBoard.Castling, 0,
                              _castling.Length * sizeof(bool));
 
@@ -180,10 +166,14 @@ namespace Proxima.Core.Boards
                 }
                 else if(move.Piece == PieceType.Rook)
                 {
-                    if(move.From == new Position(1, 1) || move.From == new Position(1, 8))
+                    if (move.From == new Position(1, 1) || move.From == new Position(1, 8))
+                    {
                         _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
+                    }
                     else if (move.From == new Position(8, 1) || move.From == new Position(8, 8))
+                    {
                         _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
+                    }
                 }
             }
             else if (move.Type == MoveType.Kill)
@@ -255,20 +245,7 @@ namespace Proxima.Core.Boards
 
         void ConvertFromFriendlyBoard(FriendlyBoard friendlyBoard)
         {
-            for (int x = 1; x <= 8; x++)
-            {
-                for (int y = 1; y <= 8; y++)
-                {
-                    var position = new Position(x, y);
-                    var piece = friendlyBoard.GetPiece(position);
-
-                    if (piece != null)
-                    {
-                        var bitPosition = BitPositionConverter.ToULong(position);
-                        _pieces[FastArray.GetPieceIndex(piece.Color, piece.Type)] |= bitPosition;
-                    }
-                }
-            }
+            _pieces = friendlyBoard.GetPiecesArray();
             
             Buffer.BlockCopy(friendlyBoard.Castling, 0, _castling, 0,
                              friendlyBoard.Castling.Length * sizeof(bool));
