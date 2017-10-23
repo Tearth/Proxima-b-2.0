@@ -26,26 +26,59 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
 
             using (var reader = new StreamReader(path))
             {
-                for(int y = 0; y < 8; y++)
+                while(!reader.EndOfStream)
                 {
-                    var line = reader.ReadLine();
-                    var splittedLine = line.Split(' ');
+                    var line = reader.ReadLine().Trim();
+                    if (line.Length == 0)
+                        continue;
 
-                    for(int x = 0; x < 8; x++)
+                    switch(line)
                     {
-                        if (splittedLine[x] == "0")
-                            continue;
-
-                        var color = (Color)Int32.Parse(splittedLine[x][0].ToString());
-                        var piece = (PieceType)Int32.Parse(splittedLine[x][1].ToString());
-
-                        var position = new Position(x + 1, 8 - y);
-                        friendlyBoard.SetPiece(position, new FriendlyPiece(piece, color));
-                    }
+                        case "!Board": { friendlyBoard.Pieces = ReadBoard(reader); break; }
+                        case "!Castling": { friendlyBoard.Castling = ReadCastling(reader); break; }
+                    }  
                 }
             }
 
             return friendlyBoard;
+        }
+
+        FriendlyPiece[,] ReadBoard(StreamReader reader)
+        {
+            var pieces = new FriendlyPiece[8, 8];
+
+            for (int y = 0; y < 8; y++)
+            {
+                var line = reader.ReadLine().Trim();
+                var splittedLine = line.Split(' ');
+
+                for (int x = 0; x < 8; x++)
+                {
+                    if (splittedLine[x] == "0")
+                        continue;
+
+                    var color = (Color)Int32.Parse(splittedLine[x][0].ToString());
+                    var piece = (PieceType)Int32.Parse(splittedLine[x][1].ToString());
+                    var friendlyPiece = new FriendlyPiece(piece, color);
+                    
+                    pieces[x, 7 - y] = friendlyPiece;
+                }
+            }
+
+            return pieces;
+        }
+
+        bool[] ReadCastling(StreamReader reader)
+        {
+            var castling = new bool[4];
+
+            for(int i=0; i<4; i++)
+            {
+                var line = reader.ReadLine().Trim();
+                castling[i] = Boolean.Parse(line);
+            }
+
+            return castling;
         }
     }
 }

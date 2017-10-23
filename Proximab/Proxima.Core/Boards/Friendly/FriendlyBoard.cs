@@ -7,14 +7,12 @@ namespace Proxima.Core.Boards.Friendly
 {
     public class FriendlyBoard
     {
+        public FriendlyPiece[,] Pieces { get; set; }
         public bool[] Castling { get; set; }
-
-        FriendlyPiece[,] _friendlyPieces;
 
         public FriendlyBoard()
         {
-            _friendlyPieces = new FriendlyPiece[8, 8];
-
+            Pieces = new FriendlyPiece[8, 8];
             Castling = new bool[4];
         }
 
@@ -37,12 +35,12 @@ namespace Proxima.Core.Boards.Friendly
 
         public FriendlyPiece GetPiece(Position position)
         {
-            return _friendlyPieces[position.X - 1, position.Y - 1];
+            return Pieces[position.X - 1, position.Y - 1];
         }
 
         public void SetPiece(Position position, FriendlyPiece piece)
         {
-            _friendlyPieces[position.X - 1, position.Y - 1] = piece;
+            Pieces[position.X - 1, position.Y - 1] = piece;
         }
 
         public ulong[] GetPiecesArray()

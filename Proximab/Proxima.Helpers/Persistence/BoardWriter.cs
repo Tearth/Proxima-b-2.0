@@ -16,13 +16,12 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
         {
             using (var writer = new StreamWriter(path))
             {
+                writer.WriteLine("!Board");
                 for(int y = 0; y < 8; y++)
                 {
                     for(int x = 0; x < 8; x++)
                     {
-                        var position = new Position(x + 1, 8 - y);
-
-                        var field = friendlyBoard.GetPiece(position);
+                        var field = friendlyBoard.Pieces[x, 7 - y];
 
                         if(field == null)
                         {
@@ -38,6 +37,14 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
                     }
 
                     writer.WriteLine();
+                }
+
+                writer.WriteLine();
+                writer.WriteLine("!Castling");
+
+                for(int i=0; i<4; i++)
+                {
+                    writer.WriteLine(friendlyBoard.Castling[i]);
                 }
             }
         }
