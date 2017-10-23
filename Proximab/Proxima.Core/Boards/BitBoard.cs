@@ -74,8 +74,7 @@ namespace Proxima.Core.Boards
         {
             var friendlyBoard = new FriendlyBoard(_pieces, _castling);
 
-            Buffer.BlockCopy(_castling, 0, friendlyBoard.Castling, 0,
-                             _castling.Length * sizeof(bool));
+            Buffer.BlockCopy(_castling, 0, friendlyBoard.Castling, 0, _castling.Length * sizeof(bool));
 
             return friendlyBoard;
         }
@@ -156,62 +155,75 @@ namespace Proxima.Core.Boards
 
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] &= ~from;
 
-            if(move.Type == MoveType.Quiet)
+            switch(move.Type)
             {
-                if (move.Piece == PieceType.King)
+                case MoveType.Quiet:
                 {
-                    _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
-                    _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
-                }
-                else if(move.Piece == PieceType.Rook)
-                {
-                    if (move.From == new Position(1, 1) || move.From == new Position(1, 8))
-                    {
-                        _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
-                    }
-                    else if (move.From == new Position(8, 1) || move.From == new Position(8, 8))
+                    if (move.Piece == PieceType.King)
                     {
                         _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
+                        _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
                     }
+                    else if (move.Piece == PieceType.Rook)
+                    {
+                        if (move.From == new Position(1, 1) || move.From == new Position(1, 8))
+                        {
+                            _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
+                        }
+                        else if (move.From == new Position(8, 1) || move.From == new Position(8, 8))
+                        {
+                            _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
+                        }
+                    }
+
+                    break;
                 }
-            }
-            else if (move.Type == MoveType.Kill)
-            {
-                for (int piece = 0; piece < 6; piece++)
+                case MoveType.Kill:
                 {
-                    _pieces[FastArray.GetPieceIndex(enemyColor, (PieceType)piece)] &= ~to;
+                    for (int piece = 0; piece < 6; piece++)
+                    {
+                        _pieces[FastArray.GetPieceIndex(enemyColor, (PieceType)piece)] &= ~to;
+                    }
+
+                    break;
                 }
-            }
-            else if (move.Type == MoveType.EnPassant)
-            {
-                if (move.Color == Color.White)
+                case MoveType.EnPassant:
                 {
-                    _pieces[FastArray.GetPieceIndex(enemyColor, move.Piece)] &= ~(to >> 8);
+                    if (move.Color == Color.White)
+                    {
+                        _pieces[FastArray.GetPieceIndex(enemyColor, move.Piece)] &= ~(to >> 8);
+                    }
+                    else
+                    {
+                        _pieces[FastArray.GetPieceIndex(enemyColor, move.Piece)] &= ~(to << 8);
+                    }
+
+                    break;
                 }
-                else
+                case MoveType.ShortCastling:
                 {
-                    _pieces[FastArray.GetPieceIndex(enemyColor, move.Piece)] &= ~(to << 8);
+                    var rookLSB = move.Color == Color.White ? KingMovesGenerator.WhiteRightRookLSB : KingMovesGenerator.BlackRightRookLSB;
+
+                    _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
+                    _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] |= (rookLSB << 2);
+
+                    _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
+                    _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
+
+                    break;
                 }
-            }
-            else if (move.Type == MoveType.ShortCastling)
-            {
-                var rookLSB = move.Color == Color.White ? KingMovesGenerator.WhiteRightRookLSB : KingMovesGenerator.BlackRightRookLSB;
+                case MoveType.LongCastling:
+                {
+                    var rookLSB = move.Color == Color.White ? KingMovesGenerator.WhiteLeftRookLSB : KingMovesGenerator.BlackLeftRookLSB;
 
-                _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
-                _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] |= (rookLSB << 2);
+                    _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
+                    _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] |= (rookLSB >> 3);
 
-                _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
-                _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
-            }
-            else if (move.Type == MoveType.LongCastling)
-            {
-                var rookLSB = move.Color == Color.White ? KingMovesGenerator.WhiteLeftRookLSB : KingMovesGenerator.BlackLeftRookLSB;
+                    _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
+                    _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
 
-                _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
-                _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] |= (rookLSB >> 3);
-
-                _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
-                _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
+                    break;
+                }
             }
 
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] |= to;
@@ -258,25 +270,36 @@ namespace Proxima.Core.Boards
             GeneratorMode whiteGeneratorModeFlags = GeneratorMode.CalculateMoves;
             GeneratorMode blackGeneratorModeFlags = GeneratorMode.CalculateMoves;
 
-            if(calculationMode == CalculationMode.All)
+            switch(calculationMode)
             {
-                whiteGeneratorModeFlags = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
-                blackGeneratorModeFlags = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
-            }
-            else if(calculationMode == CalculationMode.WhiteMovesPlusAttacks)
-            {
-                whiteGeneratorModeFlags = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
-                blackGeneratorModeFlags = GeneratorMode.CalculateAttacks;
-            }
-            else if(calculationMode == CalculationMode.BlackMovesPlusAttacks)
-            {
-                whiteGeneratorModeFlags = GeneratorMode.CalculateAttacks;
-                blackGeneratorModeFlags = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
-            }
-            else if(calculationMode == CalculationMode.OnlyAttacks)
-            {
-                whiteGeneratorModeFlags = GeneratorMode.CalculateAttacks;
-                blackGeneratorModeFlags = GeneratorMode.CalculateAttacks;
+                case CalculationMode.All:
+                {
+                    whiteGeneratorModeFlags = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
+                    blackGeneratorModeFlags = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
+
+                    break;
+                }
+                case CalculationMode.WhiteMovesPlusAttacks:
+                {
+                    whiteGeneratorModeFlags = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
+                    blackGeneratorModeFlags = GeneratorMode.CalculateAttacks;
+
+                    break;
+                }
+                case CalculationMode.BlackMovesPlusAttacks:
+                {
+                    whiteGeneratorModeFlags = GeneratorMode.CalculateAttacks;
+                    blackGeneratorModeFlags = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
+
+                    break;
+                }
+                case CalculationMode.OnlyAttacks:
+                {
+                    whiteGeneratorModeFlags = GeneratorMode.CalculateAttacks;
+                    blackGeneratorModeFlags = GeneratorMode.CalculateAttacks;
+
+                    break;
+                }
             }
 
             var whiteGeneratorParameters = GetGeneratorParameters(Color.White, whiteGeneratorModeFlags);
