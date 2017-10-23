@@ -150,7 +150,7 @@ namespace Proxima.Core.Boards
         public bool IsCheck(Color color)
         {
             var enemyColor = ColorOperations.Invert(color);
-            var king = _pieces[FastArray.GetIndex(color, PieceType.King)];
+            var king = _pieces[FastArray.GetPieceIndex(color, PieceType.King)];
 
             return (_attacksSummary[(int)enemyColor] & king) != 0;
         }
@@ -168,61 +168,61 @@ namespace Proxima.Core.Boards
             var from = BitPositionConverter.ToULong(move.From);
             var to = BitPositionConverter.ToULong(move.To);
 
-            _pieces[FastArray.GetIndex(move.Color, move.Piece)] &= ~from;
+            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] &= ~from;
 
             if(move.Type == MoveType.Quiet)
             {
                 if (move.Piece == PieceType.King)
                 {
-                    _castling[FastArray.GetIndex(move.Color, CastlingType.Short)] = false;
-                    _castling[FastArray.GetIndex(move.Color, CastlingType.Long)] = false;
+                    _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
+                    _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
                 }
                 else if(move.Piece == PieceType.Rook)
                 {
                     if(move.From == new Position(1, 1) || move.From == new Position(1, 8))
-                        _castling[FastArray.GetIndex(move.Color, CastlingType.Long)] = false;
+                        _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
                     else if (move.From == new Position(8, 1) || move.From == new Position(8, 8))
-                        _castling[FastArray.GetIndex(move.Color, CastlingType.Short)] = false;
+                        _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
                 }
             }
             else if (move.Type == MoveType.Kill)
             {
                 for (int piece = 0; piece < 6; piece++)
                 {
-                    _pieces[FastArray.GetIndex(enemyColor, (PieceType)piece)] &= ~to;
+                    _pieces[FastArray.GetPieceIndex(enemyColor, (PieceType)piece)] &= ~to;
                 }
             }
             else if (move.Type == MoveType.EnPassant)
             {
                 if (move.Color == Color.White)
                 {
-                    _pieces[FastArray.GetIndex(enemyColor, move.Piece)] &= ~(to >> 8);
+                    _pieces[FastArray.GetPieceIndex(enemyColor, move.Piece)] &= ~(to >> 8);
                 }
                 else
                 {
-                    _pieces[FastArray.GetIndex(enemyColor, move.Piece)] &= ~(to << 8);
+                    _pieces[FastArray.GetPieceIndex(enemyColor, move.Piece)] &= ~(to << 8);
                 }
             }
             else if (move.Type == MoveType.ShortCastling)
             {
                 var rookLSB = move.Color == Color.White ? KingMovesGenerator.WhiteRightRookLSB : KingMovesGenerator.BlackRightRookLSB;
 
-                _pieces[FastArray.GetIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
-                _pieces[FastArray.GetIndex(move.Color, PieceType.Rook)] |= (rookLSB << 2);
+                _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
+                _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] |= (rookLSB << 2);
 
-                _castling[FastArray.GetIndex(move.Color, CastlingType.Short)] = false;
+                _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
             }
             else if (move.Type == MoveType.LongCastling)
             {
                 var rookLSB = move.Color == Color.White ? KingMovesGenerator.WhiteLeftRookLSB : KingMovesGenerator.BlackLeftRookLSB;
 
-                _pieces[FastArray.GetIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
-                _pieces[FastArray.GetIndex(move.Color, PieceType.Rook)] |= (rookLSB >> 3);
+                _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
+                _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] |= (rookLSB >> 3);
 
-                _castling[FastArray.GetIndex(move.Color, CastlingType.Long)] = false;
+                _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
             }
 
-            _pieces[FastArray.GetIndex(move.Color, move.Piece)] |= to;
+            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] |= to;
         }
 
         void CalculateEnPassant(Move move)
@@ -264,7 +264,7 @@ namespace Proxima.Core.Boards
                     if (piece != null)
                     {
                         var bitPosition = BitPositionConverter.ToULong(position);
-                        _pieces[FastArray.GetIndex(piece.Color, piece.Type)] |= bitPosition;
+                        _pieces[FastArray.GetPieceIndex(piece.Color, piece.Type)] |= bitPosition;
                     }
                 }
             }
@@ -277,8 +277,8 @@ namespace Proxima.Core.Boards
         {
             for(int piece=0; piece<6; piece++)
             {
-                _occupancy[(int)Color.White] |= _pieces[FastArray.GetIndex(Color.White, (PieceType)piece)];
-                _occupancy[(int)Color.Black] |= _pieces[FastArray.GetIndex(Color.Black, (PieceType)piece)];
+                _occupancy[(int)Color.White] |= _pieces[FastArray.GetPieceIndex(Color.White, (PieceType)piece)];
+                _occupancy[(int)Color.Black] |= _pieces[FastArray.GetPieceIndex(Color.Black, (PieceType)piece)];
             }
         }
 

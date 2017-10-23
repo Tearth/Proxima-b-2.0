@@ -9,15 +9,15 @@ namespace Proxima.Core.Boards.PatternGenerators
 
         }
 
-        public byte[,] Generate()
+        public byte[] Generate()
         {
-            var predefinedMoves = new byte[256, 8];
+            var predefinedMoves = new byte[2048];
 
             for(int occupancy = 0; occupancy < 256; occupancy++)
             {
                 for(int field = 0; field < 8; field++)
                 {
-                    predefinedMoves[occupancy, field] = GetAvailableMoves((byte)occupancy, (byte)field);
+                    predefinedMoves[(occupancy << 3) + field] = GetAvailableMoves((byte)occupancy, (byte)field);
                 }
             }
 

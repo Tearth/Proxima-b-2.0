@@ -75,7 +75,7 @@
     <Compile Include="Commons\PieceType.cs" />
     <Compile Include="Commons\Positions\Position.cs" />
     <Compile Include="Commons\Positions\PositionConverter.cs" />
-    <Compile Include="Boards\PatternGenerators\KnighPatternGenerator.cs" />
+    <Compile Include="Boards\PatternGenerators\KnightPatternGenerator.cs" />
     <Compile Include="Boards\PatternGenerators\PatternsContainer.cs" />
     <Compile Include="ProximaCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

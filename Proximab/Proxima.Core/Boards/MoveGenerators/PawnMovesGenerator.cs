@@ -27,7 +27,7 @@ namespace Proxima.Core.Boards.MoveGenerators
             if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
                 return;
 
-            var piecesToParse = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, PieceType.Pawn)];
+            var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)];
             var pattern = opt.FriendlyColor == Color.White ? piecesToParse << 8 : piecesToParse >> 8;
             pattern &= ~opt.Occupancy;
 
@@ -52,7 +52,7 @@ namespace Proxima.Core.Boards.MoveGenerators
             if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
                 return;
 
-            var piecesToParse = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, PieceType.Pawn)];
+            var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)];
             var validPieces = 0ul;
             var pattern = 0ul;
 
@@ -89,7 +89,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         void CalculateMovesForRightAttack(GeneratorParameters opt)
         {
-            var piecesToParse = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, PieceType.Pawn)];
+            var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)];
             var validPieces = piecesToParse & ~BitConstants.HFile;
 
             var pattern = opt.FriendlyColor == Color.White ? validPieces << 7 : validPieces >> 9;
@@ -126,7 +126,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         void CalculateMovesForLeftAttack(GeneratorParameters opt)
         {
-            var piecesToParse = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, PieceType.Pawn)];
+            var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)];
             var validPieces = piecesToParse & ~BitConstants.AFile;
 
             var pattern = opt.FriendlyColor == Color.White ? validPieces << 9 : validPieces >> 7;

@@ -2,9 +2,9 @@
 
 namespace Proxima.Core.Boards.PatternGenerators
 {
-    public class KnighPatternGenerator
+    public class KnightPatternGenerator
     {
-        public KnighPatternGenerator()
+        public KnightPatternGenerator()
         {
 
         }
@@ -17,7 +17,7 @@ namespace Proxima.Core.Boards.PatternGenerators
             for(int i=0; i<64; i++)
             {
                 predefinedMoves[i] = GetPattern(bitPosition);
-                bitPosition = bitPosition << 1;
+                bitPosition <<= 1;
             }
 
             return predefinedMoves;

@@ -16,7 +16,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         public void Calculate(PieceType pieceType, GeneratorParameters opt)
         {
-            var piecesToParse = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, pieceType)];
+            var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, pieceType)];
             while (piecesToParse != 0)
             {
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
@@ -61,10 +61,10 @@ namespace Proxima.Core.Boards.MoveGenerators
             if ((opt.Mode & GeneratorMode.CalculateAttacks) == 0)
                 return;
 
-            var blockersToRemove = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, PieceType.Bishop)] |
-                                   opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, PieceType.Queen)];
+            var blockersToRemove = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Bishop)] |
+                                   opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Queen)];
 
-            var piecesToParse = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, pieceType)];
+            var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, pieceType)];
             var allPiecesOccupancy = opt.Occupancy & ~blockersToRemove;
 
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
@@ -105,7 +105,7 @@ namespace Proxima.Core.Boards.MoveGenerators
             }
 
             var pieceRank = (byte)(rotatedOccupancy >> ((rotatedPiecePosition.Y - 1) << 3));
-            var availableMoves = PatternsContainer.SlidePattern[pieceRank, 8 - rotatedPiecePosition.X] & mask;
+             var availableMoves = PatternsContainer.SlidePattern[FastArray.GetSlideIndex(rotatedPiecePosition.X, pieceRank)] & mask;
 
             return BitOperations.Rotate45Left((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) << 3));
         }
@@ -125,7 +125,7 @@ namespace Proxima.Core.Boards.MoveGenerators
             }
 
             var pieceRank = (byte)(rotatedOccupancy >> ((rotatedPiecePosition.Y - 1) << 3));
-            var availableMoves = PatternsContainer.SlidePattern[pieceRank, 8 - rotatedPiecePosition.X] & mask;
+            var availableMoves = PatternsContainer.SlidePattern[FastArray.GetSlideIndex(rotatedPiecePosition.X, pieceRank)] & mask;
 
             return BitOperations.Rotate45Right((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) << 3));
         }
@@ -142,8 +142,8 @@ namespace Proxima.Core.Boards.MoveGenerators
             while (blockers != 0)
             {
                 var blockerLSB = BitOperations.GetLSB(ref blockers);
-                var kingBlockers = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, PieceType.King)];
-                var pawnBlockers = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, PieceType.Pawn)];
+                var kingBlockers = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.King)];
+                var pawnBlockers = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)];
 
                 if ((blockerLSB & (kingBlockers | pawnBlockers)) != 0)
                 {

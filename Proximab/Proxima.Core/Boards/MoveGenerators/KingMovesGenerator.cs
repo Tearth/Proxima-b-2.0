@@ -34,7 +34,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         public void Calculate(GeneratorParameters opt)
         {
-            var piecesToParse = opt.Pieces[FastArray.GetIndex(opt.FriendlyColor, PieceType.King)];
+            var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.King)];
 
             while (piecesToParse != 0)
             {
@@ -69,8 +69,8 @@ namespace Proxima.Core.Boards.MoveGenerators
 
         public void CalculateCastling(GeneratorParameters opt)
         {
-            if (!opt.Castling[FastArray.GetIndex(opt.FriendlyColor, CastlingType.Short)] &&
-                !opt.Castling[FastArray.GetIndex(opt.FriendlyColor, CastlingType.Long)])
+            if (!opt.Castling[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)] &&
+                !opt.Castling[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Long)])
                 return;
 
             Position initialKingLSB;
@@ -101,7 +101,7 @@ namespace Proxima.Core.Boards.MoveGenerators
                 longCheckArea = BlackLongCastlingCheckArea;
             }
 
-            if (opt.Castling[FastArray.GetIndex(opt.FriendlyColor, CastlingType.Short)] &&
+            if (opt.Castling[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)] &&
                IsCastlingAreaEmpty(shortMoveArea, opt.Occupancy) &&
                !IsCastlingAreaChecked(opt.EnemyColor, shortCheckArea, opt))
             {
@@ -111,7 +111,7 @@ namespace Proxima.Core.Boards.MoveGenerators
                 opt.Moves.AddLast(move);
             }
             
-            if(opt.Castling[FastArray.GetIndex(opt.FriendlyColor, CastlingType.Long)] &&
+            if(opt.Castling[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Long)] &&
                IsCastlingAreaEmpty(longMoveArea, opt.Occupancy) &&
                !IsCastlingAreaChecked(opt.EnemyColor, longCheckArea, opt))
             {
