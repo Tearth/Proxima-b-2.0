@@ -24,7 +24,7 @@ namespace Proxima.Core.Boards
                 var bitIndex = BitOperations.GetBitIndex(lsb);
                 var position = ToPosition(bitIndex);
 
-                boolArray[position.X - 1, position.Y - 1] = true;
+                boolArray[position.X - 1, 8 - position.Y] = true;
             }
 
             return boolArray;
@@ -44,8 +44,13 @@ namespace Proxima.Core.Boards
             {
                 for(int x=0; x<8; x++)
                 {
-                    if(bitBoard[7 - x, y])
-                        value |= currentBit;
+                    if(bitBoard[x, 7 - y])
+                    {
+                        var position = new Position(x + 1, y + 1);
+                        var positionValue = ToULong(position);
+
+                        value |= positionValue;
+                    }
 
                     currentBit <<= 1;
                 }

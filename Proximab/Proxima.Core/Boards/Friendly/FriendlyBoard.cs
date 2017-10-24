@@ -47,12 +47,12 @@ namespace Proxima.Core.Boards.Friendly
 
         public FriendlyPiece GetPiece(Position position)
         {
-            return Pieces[position.X - 1, position.Y - 1];
+            return Pieces[position.X - 1, 8 - position.Y];
         }
 
         public void SetPiece(Position position, FriendlyPiece piece)
         {
-            Pieces[position.X - 1, position.Y - 1] = piece;
+            Pieces[position.X - 1, 8 - position.Y] = piece;
         }
 
         public ulong[] GetPiecesArray()
