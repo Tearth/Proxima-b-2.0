@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Boards\BitBoard.cs" />
     <Compile Include="Boards\CastlingType.cs" />
+    <Compile Include="Boards\Friendly\DefaultFriendlyBoard.cs" />
     <Compile Include="Commons\BitHelpers\BitConstants.cs" />
     <Compile Include="Commons\BitHelpers\BitOperations.cs" />
     <Compile Include="Commons\BitHelpers\BitPositionConverter.cs" />
