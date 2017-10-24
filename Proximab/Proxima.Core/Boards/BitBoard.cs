@@ -61,8 +61,8 @@ namespace Proxima.Core.Boards
         public BitBoard(FriendlyBoard friendlyBoard) : this()
         {
             _pieces = friendlyBoard.GetPiecesArray();
-
-            Buffer.BlockCopy(friendlyBoard.Castling, 0, _castling, 0, friendlyBoard.Castling.Length * sizeof(bool));
+            _castling = friendlyBoard.GetCastlingArray();
+            _enPassant = friendlyBoard.GetEnPassantArray();
         }
 
         public BitBoard Move(Move move)
@@ -72,11 +72,7 @@ namespace Proxima.Core.Boards
         
         public FriendlyBoard GetFriendlyBoard()
         {
-            var friendlyBoard = new FriendlyBoard(_pieces, _castling);
-
-            Buffer.BlockCopy(_castling, 0, friendlyBoard.Castling, 0, _castling.Length * sizeof(bool));
-
-            return friendlyBoard;
+            return new FriendlyBoard(_pieces, _castling, _enPassant);
         }
 
         public bool[,] GetFriendlyOccupancy()

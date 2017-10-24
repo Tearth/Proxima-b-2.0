@@ -1,4 +1,5 @@
-﻿using Proxima.Core.Commons;
+﻿using Proxima.Core.Boards.MoveGenerators;
+using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Positions;
@@ -9,15 +10,17 @@ namespace Proxima.Core.Boards.Friendly
     public class FriendlyBoard
     {
         public FriendlyPiece[,] Pieces { get; set; }
-        public bool[] Castling { get; set; }
+        public bool[,] Castling { get; set; }
+        public bool[][,] EnPassant { get; set; }
 
         public FriendlyBoard()
         {
             Pieces = new FriendlyPiece[8, 8];
-            Castling = new bool[4];
+            Castling = new bool[2,2];
+            EnPassant = new bool[2][,];
         }
 
-        public FriendlyBoard(ulong[] piecesArray, bool[] castling) : this()
+        public FriendlyBoard(ulong[] piecesArray, bool[] castling, ulong[] enPassant) : this()
         {
             for (int i = 0; i < 12; i++)
             {
@@ -32,8 +35,14 @@ namespace Proxima.Core.Boards.Friendly
                     SetPiece(position, new FriendlyPiece((PieceType)(i % 6), (Color)(i / 6)));
                 }
             }
+            
+            Castling[(int)Color.White, (int)CastlingType.Short] = castling[0];
+            Castling[(int)Color.White, (int)CastlingType.Long] = castling[1];
+            Castling[(int)Color.Black, (int)CastlingType.Short] = castling[2];
+            Castling[(int)Color.Black, (int)CastlingType.Long] = castling[3];
 
-            Buffer.BlockCopy(castling, 0, Castling, 0, castling.Length * sizeof(bool));
+            EnPassant[(int)Color.White] = BitPositionConverter.ToBoolArray(enPassant[(int)Color.White]);
+            EnPassant[(int)Color.Black] = BitPositionConverter.ToBoolArray(enPassant[(int)Color.Black]);
         }
 
         public FriendlyPiece GetPiece(Position position)
@@ -66,6 +75,28 @@ namespace Proxima.Core.Boards.Friendly
             }
 
             return pieces;
+        }
+
+        public bool[] GetCastlingArray()
+        {
+            var castling = new bool[4];
+
+            castling[0] = Castling[(int)Color.White, (int)CastlingType.Short];
+            castling[1] = Castling[(int)Color.White, (int)CastlingType.Long];
+            castling[2] = Castling[(int)Color.Black, (int)CastlingType.Short];
+            castling[3] = Castling[(int)Color.Black, (int)CastlingType.Long];
+
+            return castling;
+        }
+
+        public ulong[] GetEnPassantArray()
+        {
+            ulong[] enPassant = new ulong[2];
+
+            enPassant[(int)Color.White] = BitPositionConverter.ToULong(EnPassant[(int)Color.White]);
+            enPassant[(int)Color.Black] = BitPositionConverter.ToULong(EnPassant[(int)Color.Black]);
+
+            return enPassant;
         }
 
         public void SetDefault()
@@ -109,10 +140,14 @@ namespace Proxima.Core.Boards.Friendly
             SetPiece(new Position(8, 7), new FriendlyPiece(PieceType.Pawn, Color.Black));
 
             //Castling
-            Castling[0] = true;
-            Castling[1] = true;
-            Castling[2] = true;
-            Castling[3] = true;
+            Castling[(int)Color.White, (int)CastlingType.Short] = true;
+            Castling[(int)Color.White, (int)CastlingType.Long] = true;
+            Castling[(int)Color.Black, (int)CastlingType.Short] = true;
+            Castling[(int)Color.Black, (int)CastlingType.Long] = true;
+
+            //EnPassant
+            EnPassant[(int)Color.White] = new bool[8, 8];
+            EnPassant[(int)Color.Black] = new bool[8, 8];
         }
     }
 }

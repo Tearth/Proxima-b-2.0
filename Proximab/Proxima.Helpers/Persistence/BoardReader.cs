@@ -36,6 +36,8 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
                     {
                         case "!Board": { friendlyBoard.Pieces = ReadBoard(reader); break; }
                         case "!Castling": { friendlyBoard.Castling = ReadCastling(reader); break; }
+                        case "!WhiteEnPassant": { friendlyBoard.EnPassant[(int)Color.White] = ReadEnPassant(reader); break; }
+                        case "!BlackEnPassant": { friendlyBoard.EnPassant[(int)Color.Black] = ReadEnPassant(reader); break; }
                     }  
                 }
             }
@@ -68,17 +70,35 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
             return pieces;
         }
 
-        bool[] ReadCastling(StreamReader reader)
+        bool[,] ReadCastling(StreamReader reader)
         {
-            var castling = new bool[4];
+            var castling = new bool[2, 2];
 
             for(int i=0; i<4; i++)
             {
                 var line = reader.ReadLine().Trim();
-                castling[i] = Boolean.Parse(line);
+                castling[(i % 2), (i / 2)] = Boolean.Parse(line);
             }
 
             return castling;
+        }      
+
+        bool[,] ReadEnPassant(StreamReader reader)
+        {
+            bool[,] enPassant = new bool[8, 8];
+
+            for (int y = 0; y < 8; y++)
+            {
+                var line = reader.ReadLine().Trim();
+                var splittedLine = line.Split(' ');
+
+                for (int x = 0; x < 8; x++)
+                { 
+                    enPassant[x, 7 - y] = splittedLine[x] == "1";
+                }
+            }
+
+            return enPassant;
         }
     }
 }
