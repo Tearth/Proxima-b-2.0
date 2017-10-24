@@ -20,5 +20,23 @@ namespace Proxima.Core.Commons.Performance
         {
             return (rank << 3) + (8 - position);
         }
+
+        public static bool[,] Merge(bool[,] a, bool[,] b)
+        {
+            var xSize = a.GetLength(0);
+            var ySize = a.GetLength(1);
+
+            var mergedArray = new bool[xSize, ySize];
+
+            for (int x = 0; x < xSize; x++)
+            {
+                for (int y = 0; y < ySize; y++)
+                {
+                    mergedArray[x, y] = a[x, y] || b[x, y];
+                }
+            }
+
+            return mergedArray;
+        }
     }
 }

@@ -98,5 +98,33 @@ namespace Proxima.Core.Boards.Friendly
 
             return enPassant;
         }
+
+        public bool[,] GetOccupancy()
+        {
+            var whiteOccupancy = GetOccupancy(Color.White);
+            var blackOccupancy = GetOccupancy(Color.Black);
+
+            return FastArray.Merge(whiteOccupancy, blackOccupancy);
+        }
+
+        public bool[,] GetOccupancy(Color color)
+        {
+            bool[,] occupancy = new bool[8, 8];
+
+            for (int x = 0; x < 8; x++)
+            {
+                for (int y = 0; y < 8; y++)
+                {
+                    var friendlyPiece = Pieces[x, y];
+
+                    if(friendlyPiece != null && friendlyPiece.Color == color)
+                    {
+                        occupancy[x, 7 - y] = true;
+                    }
+                }
+            }
+
+            return occupancy;
+        }
     }
 }

@@ -75,17 +75,6 @@ namespace Proxima.Core.Boards
             return new FriendlyBoard(_pieces, _castling, _enPassant);
         }
 
-        public bool[,] GetFriendlyOccupancy()
-        {
-            var allOccupancy = _occupancy[(int)Color.White] | _occupancy[(int)Color.Black];
-            return BitPositionConverter.ToBoolArray(allOccupancy);
-        }
-
-        public bool[,] GetFriendlyOccupancy(Color color)
-        {
-            return BitPositionConverter.ToBoolArray(_occupancy[(int)color]);
-        }
-
         public bool[,] GetAttacks()
         {
             var attacks = _attacksSummary[(int)Color.White] | _attacksSummary[(int)Color.Black];
