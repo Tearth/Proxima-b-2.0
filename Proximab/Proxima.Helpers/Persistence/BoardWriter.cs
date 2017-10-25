@@ -33,7 +33,7 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
             {
                 for (int x = 0; x < 8; x++)
                 {
-                    var field = pieces[x, y];
+                    var field = pieces[x, 7 - y];
 
                     if (field == null)
                     {
@@ -80,7 +80,7 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
             {
                 for (int x = 0; x < 8; x++)
                 {
-                    var field = Convert.ToInt32(enPassant[x, y]);
+                    var field = Convert.ToInt32(enPassant[x, 7 - y]);
                     writer.Write(field);
                     writer.Write(' ');
                 }

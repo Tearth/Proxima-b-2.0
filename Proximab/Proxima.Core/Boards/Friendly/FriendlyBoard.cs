@@ -47,12 +47,12 @@ namespace Proxima.Core.Boards.Friendly
 
         public FriendlyPiece GetPiece(Position position)
         {
-            return Pieces[position.X - 1, 8 - position.Y];
+            return Pieces[position.X - 1, position.Y - 1];
         }
 
         public void SetPiece(Position position, FriendlyPiece piece)
         {
-            Pieces[position.X - 1, 8 - position.Y] = piece;
+            Pieces[position.X - 1, position.Y - 1] = piece;
         }
 
         public ulong[] GetPiecesArray()
@@ -119,7 +119,7 @@ namespace Proxima.Core.Boards.Friendly
 
                     if(friendlyPiece != null && friendlyPiece.Color == color)
                     {
-                        occupancy[x, 7 - y] = true;
+                        occupancy[x, y] = true;
                     }
                 }
             }

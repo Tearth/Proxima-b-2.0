@@ -63,7 +63,7 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
                     var piece = (PieceType)Int32.Parse(splittedLine[x][1].ToString());
                     var friendlyPiece = new FriendlyPiece(piece, color);
                     
-                    pieces[x, y] = friendlyPiece;
+                    pieces[x, 7 - y] = friendlyPiece;
                 }
             }
 
@@ -94,7 +94,7 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
 
                 for (int x = 0; x < 8; x++)
                 { 
-                    enPassant[x, y] = splittedLine[x] == "1";
+                    enPassant[x, 7 - y] = splittedLine[x] == "1";
                 }
             }
 
