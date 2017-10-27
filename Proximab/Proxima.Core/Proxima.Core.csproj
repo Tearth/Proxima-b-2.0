@@ -71,6 +71,7 @@
     <Compile Include="Boards\MoveGenerators\RookMovesGenerator.cs" />
     <Compile Include="Commons\Axis.cs" />
     <Compile Include="Commons\Colors\Color.cs" />
+    <Compile Include="Commons\Colors\ColorConverter.cs" />
     <Compile Include="Commons\Colors\ColorOperations.cs" />
     <Compile Include="Commons\Diagonal.cs" />
     <Compile Include="Commons\Exceptions\PositionOutOfRangeException.cs" />
