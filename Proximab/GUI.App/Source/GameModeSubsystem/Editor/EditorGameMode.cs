@@ -8,10 +8,10 @@ using GUI.App.Source.ConsoleSubsystem;
 using GUI.App.Source.ConsoleSubsystem.Parser;
 using System;
 using System.Linq;
-using Proxima.Helpers.BoardSubsystem.Persistence;
 using Proxima.Helpers.Tests;
 using Proxima.Core.Boards.Friendly;
 using System.Collections.Generic;
+using Proxima.Helpers.Persistence;
 
 namespace GUI.App.Source.GameModeSubsystem.Editor
 {

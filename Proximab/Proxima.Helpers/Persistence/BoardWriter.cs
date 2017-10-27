@@ -7,7 +7,7 @@ using System.Linq;
 using System.IO;
 using Proxima.Core.Commons.Notation;
 
-namespace Proxima.Helpers.BoardSubsystem.Persistence
+namespace Proxima.Helpers.Persistence
 {
     public class BoardWriter
     {
@@ -30,7 +30,7 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
 
         void WriteBoard(StreamWriter writer, FriendlyPiecesList pieces)
         {
-            writer.WriteLine("!Board");
+            writer.WriteLine(PersistenceContants.BoardSection);
             for (int y = 0; y < 8; y++)
             {
                 for (int x = 0; x < 8; x++)
@@ -39,7 +39,7 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
 
                     if (field == null)
                     {
-                        writer.Write("00");
+                        writer.Write(PersistenceContants.EmptyBoardField);
                     }
                     else
                     {
@@ -56,7 +56,7 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
 
         void WriteCastling(StreamWriter writer, FriendlyCastling castling)
         {
-            writer.WriteLine("!Castling");
+            writer.WriteLine(PersistenceContants.CastlingSection);
 
             writer.WriteLine(castling.WhiteShortCastling.ToString());
             writer.WriteLine(castling.WhiteLongCastling.ToString());
@@ -66,7 +66,7 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
 
         void WriteEnPassant(StreamWriter writer, FriendlyEnPassant enPassant)
         {
-            writer.WriteLine("!EnPassant");
+            writer.WriteLine(PersistenceContants.EnPassantSection);
 
             WritePosition(writer, enPassant.WhiteEnPassant);
             WritePosition(writer, enPassant.BlackEnPassant);
@@ -76,7 +76,7 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
         {
             if(position == null)
             {
-                writer.WriteLine("NULL");
+                writer.WriteLine(PersistenceContants.NullEnPassant);
                 return;
             }
 

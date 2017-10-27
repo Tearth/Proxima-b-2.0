@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Persistence\PersistenceContants.cs" />
     <Compile Include="Tests\MovesTestData.cs" />
     <Compile Include="Tests\MovesTest.cs" />
     <Compile Include="Persistence\BoardReader.cs" />

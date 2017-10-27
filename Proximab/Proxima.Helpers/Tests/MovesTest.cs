@@ -56,7 +56,9 @@ namespace Proxima.Helpers.Tests
                 {
                     var bitBoardAfterMove = bitBoard.Move(move);
                     if (verifyChecks && bitBoardAfterMove.IsCheck(color))
+                    {
                         continue;
+                    }
 
                     CalculateBitBoard(enemyColor, bitBoardAfterMove, depth - 1, calculateEndNodes, verifyChecks, testData);
                 }

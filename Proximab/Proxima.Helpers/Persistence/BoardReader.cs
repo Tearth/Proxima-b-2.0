@@ -4,10 +4,11 @@ using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Notation;
 using Proxima.Core.Commons.Positions;
+using Proxima.Helpers.Persistence;
 using System;
 using System.IO;
 
-namespace Proxima.Helpers.BoardSubsystem.Persistence
+namespace Proxima.Helpers.Persistence
 {
     public class BoardReader
     {
@@ -37,9 +38,9 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
 
                     switch(line)
                     {
-                        case "!Board": { pieces = ReadBoard(reader); break; }
-                        case "!Castling": { castling = ReadCastling(reader); break; }
-                        case "!EnPassant": { enPassant = ReadEnPassant(reader); break; }
+                        case PersistenceContants.BoardSection: { pieces = ReadBoard(reader); break; }
+                        case PersistenceContants.CastlingSection: { castling = ReadCastling(reader); break; }
+                        case PersistenceContants.EnPassantSection: { enPassant = ReadEnPassant(reader); break; }
                     }  
                 }
             }
@@ -58,7 +59,7 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
 
                 for (int x = 0; x < 8; x++)
                 {
-                    if (splittedLine[x] == "00")
+                    if (splittedLine[x] == PersistenceContants.EmptyBoardField)
                         continue;
 
                     var position = new Position(x + 1, 8 - y);
@@ -98,13 +99,10 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
         {
             var line = reader.ReadLine().Trim();
 
-            if (line == "NULL")
+            if (line == PersistenceContants.NullEnPassant)
                 return null;
 
-            var x = Int32.Parse(line[0].ToString());
-            var y = Int32.Parse(line[1].ToString());
-
-            return new Position(x, y);
+            return NotationConverter.ToPosition(line);
         }
     }
 }
