@@ -8,11 +8,6 @@ namespace Proxima.Helpers.Tests
 {
     public class MovesTest
     {
-        public MovesTest()
-        {
-
-        }
-
         public MovesTestData Run(Color initialColor, FriendlyBoard friendlyBoard, int depth, bool calculateEndNodes, bool verifyChecks)
         {
             var testData = new MovesTestData();

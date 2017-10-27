@@ -9,11 +9,6 @@ namespace Proxima.Helpers.Persistence
 {
     public class BoardReader
     {
-        public BoardReader()
-        {
-
-        }
-
         public bool BoardExists(string path)
         {
             return File.Exists(path);

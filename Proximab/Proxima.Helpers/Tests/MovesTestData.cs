@@ -22,12 +22,5 @@ namespace Proxima.Helpers.Tests
         {
             get { return TotalNodes != 0 ? (int)(Ticks / TotalNodes) * 100 : 0; }
         }
-
-        public MovesTestData()
-        {
-            TotalNodes = 0;
-            EndNodes = 0;
-            Ticks = 0;
-        }
     }
 }

@@ -9,11 +9,6 @@ namespace Proxima.Helpers.Persistence
 {
     public class BoardWriter
     {
-        public BoardWriter()
-        {
-
-        }
-
         public void Write(string path, FriendlyBoard friendlyBoard)
         {
             using (var writer = new StreamWriter(path))
