@@ -5,6 +5,7 @@ using Proxima.Core.Commons.Positions;
 using System;
 using System.Linq;
 using System.IO;
+using Proxima.Core.Commons.Notation;
 
 namespace Proxima.Helpers.BoardSubsystem.Persistence
 {
@@ -38,15 +39,15 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
 
                     if (field == null)
                     {
-                        writer.Write('0');
+                        writer.Write("00");
                     }
                     else
                     {
-                        writer.Write((int)field.Color);
-                        writer.Write((int)field.Type);
+                        writer.Write(ColorOperations.GetSymbol(field.Color));
+                        writer.Write(PieceOperations.GetSymbol(field.Type));
                     }
 
-                    writer.Write(' ');
+                    writer.Write(" ");
                 }
 
                 writer.WriteLine();
@@ -75,11 +76,11 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
         {
             if(position == null)
             {
-                writer.WriteLine("null");
+                writer.WriteLine("NULL");
                 return;
             }
 
-            writer.WriteLine(position.X.ToString() + position.Y.ToString());
+            writer.WriteLine(NotationConverter.ToString(position));
         }
     }
 }

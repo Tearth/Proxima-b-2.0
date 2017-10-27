@@ -97,7 +97,7 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
         {
             var line = reader.ReadLine().Trim();
 
-            if (line.ToLower() == "null")
+            if (line == "NULL")
                 return null;
 
             var x = Int32.Parse(line[0].ToString());
