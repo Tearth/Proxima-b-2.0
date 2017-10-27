@@ -22,9 +22,11 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
 
         public FriendlyBoard Read(string path)
         {
-            var friendlyBoard = new FriendlyBoard();
+            FriendlyPiecesList pieces = null;
+            FriendlyCastling castling = null;
+            FriendlyEnPassant enPassant = null;
 
-            /*using (var reader = new StreamReader(path))
+            using (var reader = new StreamReader(path))
             {
                 while(!reader.EndOfStream)
                 {
@@ -34,20 +36,19 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
 
                     switch(line)
                     {
-                        case "!Board": { friendlyBoard.Pieces = ReadBoard(reader); break; }
-                        case "!Castling": { friendlyBoard.Castling = ReadCastling(reader); break; }
-                        case "!WhiteEnPassant": { friendlyBoard.EnPassant[(int)Color.White] = ReadEnPassant(reader); break; }
-                        case "!BlackEnPassant": { friendlyBoard.EnPassant[(int)Color.Black] = ReadEnPassant(reader); break; }
+                        case "!Board": { pieces = ReadBoard(reader); break; }
+                        case "!Castling": { castling = ReadCastling(reader); break; }
+                        case "!EnPassant": { enPassant = ReadEnPassant(reader); break; }
                     }  
                 }
-            }*/
+            }
 
-            return friendlyBoard;
+            return new FriendlyBoard(pieces, castling, enPassant);
         }
 
-        FriendlyPiece[,] ReadBoard(StreamReader reader)
+        FriendlyPiecesList ReadBoard(StreamReader reader)
         {
-            var pieces = new FriendlyPiece[8, 8];
+            var pieces = new FriendlyPiecesList();
 
             for (int y = 0; y < 8; y++)
             {
@@ -59,46 +60,50 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
                     if (splittedLine[x] == "0")
                         continue;
 
+                    var position = new Position(x + 1, 8 - y);
                     var color = (Color)Int32.Parse(splittedLine[x][0].ToString());
                     var piece = (PieceType)Int32.Parse(splittedLine[x][1].ToString());
-                    //var friendlyPiece = new FriendlyPiece(piece, color);
-                    
-                    //pieces[x, 7 - y] = friendlyPiece;
+
+                    pieces.Add(new FriendlyPiece(position, piece, color));
                 }
             }
 
             return pieces;
         }
 
-        bool[,] ReadCastling(StreamReader reader)
+        FriendlyCastling ReadCastling(StreamReader reader)
         {
-            var castling = new bool[2, 2];
+            var castling = new FriendlyCastling();
 
-            for(int i=0; i<4; i++)
-            {
-                var line = reader.ReadLine().Trim();
-                castling[(i % 2), (i / 2)] = Boolean.Parse(line);
-            }
+            castling.WhiteShortCastling = Boolean.Parse(reader.ReadLine().Trim());
+            castling.WhiteLongCastling = Boolean.Parse(reader.ReadLine().Trim());
+            castling.BlackShortCastling = Boolean.Parse(reader.ReadLine().Trim());
+            castling.BlackLongCastling = Boolean.Parse(reader.ReadLine().Trim());
 
             return castling;
-        }      
+        }
 
-        bool[,] ReadEnPassant(StreamReader reader)
+        FriendlyEnPassant ReadEnPassant(StreamReader reader)
         {
-            bool[,] enPassant = new bool[8, 8];
+            var enPassant = new FriendlyEnPassant();
 
-            for (int y = 0; y < 8; y++)
-            {
-                var line = reader.ReadLine().Trim();
-                var splittedLine = line.Split(' ');
-
-                for (int x = 0; x < 8; x++)
-                { 
-                    enPassant[x, 7 - y] = splittedLine[x] == "1";
-                }
-            }
+            enPassant.WhiteEnPassant = ReadPosition(reader);
+            enPassant.BlackEnPassant = ReadPosition(reader);
 
             return enPassant;
+        }
+
+        Position ReadPosition(StreamReader reader)
+        {
+            var line = reader.ReadLine().Trim();
+
+            if (line.ToLower() == "null")
+                return null;
+
+            var x = Int32.Parse(line[0].ToString());
+            var y = Int32.Parse(line[1].ToString());
+
+            return new Position(x, y);
         }
     }
 }

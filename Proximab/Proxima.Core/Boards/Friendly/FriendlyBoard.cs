@@ -31,6 +31,13 @@ namespace Proxima.Core.Boards.Friendly
             _enPassant = new FriendlyEnPassant(enPassant);
         }
 
+        public FriendlyBoard(FriendlyPiecesList pieces, FriendlyCastling castling, FriendlyEnPassant enPassant)
+        {
+            _pieces = pieces;
+            _castling = castling;
+            _enPassant = enPassant;
+        }
+
         public FriendlyPiece GetPiece(Position position)
         {
             return _pieces.FirstOrDefault(p => p.Position == position);
