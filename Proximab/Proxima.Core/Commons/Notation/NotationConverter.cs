@@ -7,7 +7,7 @@ namespace Proxima.Core.Commons.Notation
     {
         public static string ToString(Position position)
         {
-            var file = ('a' + (position.X - 1)).ToString();
+            var file = ((char)('a' + position.X - 1)).ToString();
             var rank = position.Y.ToString();
 
             return file + rank; 

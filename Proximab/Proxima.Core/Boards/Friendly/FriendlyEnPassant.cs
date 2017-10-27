@@ -26,6 +26,11 @@ namespace Proxima.Core.Boards.Friendly
 
         Position GetEnPassantPosition(ulong enPassant)
         {
+            if(enPassant == 0)
+            {
+                return null;
+            }
+
             var lsb = BitOperations.GetLSB(ref enPassant);
             var bitIndex = BitOperations.GetBitIndex(lsb);
 

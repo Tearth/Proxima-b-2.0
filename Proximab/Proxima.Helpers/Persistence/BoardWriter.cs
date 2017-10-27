@@ -69,7 +69,7 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
             writer.WriteLine("!EnPassant");
 
             WritePosition(writer, enPassant.WhiteEnPassant);
-            WritePosition(writer, enPassant.WhiteEnPassant);
+            WritePosition(writer, enPassant.BlackEnPassant);
         }
 
         void WritePosition(StreamWriter writer, Position position)
