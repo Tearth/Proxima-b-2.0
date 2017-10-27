@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Proxima.Core.Commons.Notation
 {
-    public static class PieceOperations
+    public static class PieceConverter
     {
         public static string GetSymbol(PieceType piece)
         {
@@ -21,6 +21,21 @@ namespace Proxima.Core.Commons.Notation
             }
 
             return String.Empty;
+        }
+
+        public static PieceType GetPiece(char piece)
+        {
+            switch(piece)
+            {
+                case 'P': return PieceType.Pawn;
+                case 'R': return PieceType.Rook;
+                case 'N': return PieceType.Knight;
+                case 'B': return PieceType.Bishop;
+                case 'Q': return PieceType.Queen;
+                case 'K': return PieceType.King;
+            }
+
+            return PieceType.Pawn;
         }
     }
 }

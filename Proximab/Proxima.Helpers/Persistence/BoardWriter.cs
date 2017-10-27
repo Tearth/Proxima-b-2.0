@@ -43,8 +43,8 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
                     }
                     else
                     {
-                        writer.Write(ColorOperations.GetSymbol(field.Color));
-                        writer.Write(PieceOperations.GetSymbol(field.Type));
+                        writer.Write(ColorConverter.GetSymbol(field.Color));
+                        writer.Write(PieceConverter.GetSymbol(field.Type));
                     }
 
                     writer.Write(" ");

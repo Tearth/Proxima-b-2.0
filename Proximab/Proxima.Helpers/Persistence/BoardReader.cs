@@ -2,6 +2,7 @@
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
+using Proxima.Core.Commons.Notation;
 using Proxima.Core.Commons.Positions;
 using System;
 using System.IO;
@@ -57,12 +58,12 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
 
                 for (int x = 0; x < 8; x++)
                 {
-                    if (splittedLine[x] == "0")
+                    if (splittedLine[x] == "00")
                         continue;
 
                     var position = new Position(x + 1, 8 - y);
-                    var color = (Color)Int32.Parse(splittedLine[x][0].ToString());
-                    var piece = (PieceType)Int32.Parse(splittedLine[x][1].ToString());
+                    var color = ColorConverter.GetColor(splittedLine[x][0]);
+                    var piece = PieceConverter.GetPiece(splittedLine[x][1]);
 
                     pieces.Add(new FriendlyPiece(position, piece, color));
                 }

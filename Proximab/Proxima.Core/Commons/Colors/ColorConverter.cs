@@ -13,12 +13,12 @@ namespace Proxima.Core.Commons.Colors
             return color == Color.White ? "W" : "B";
         }
 
-        public static Color GetColor(string color)
+        public static Color GetColor(char color)
         {
             switch(color)
             {
-                case "W": return Color.White;
-                case "B": return Color.Black;
+                case 'W': return Color.White;
+                case 'B': return Color.Black;
             }
 
             return Color.White;
