@@ -11,6 +11,7 @@ using System.Linq;
 using Proxima.Helpers.BoardSubsystem.Persistence;
 using Proxima.Helpers.Tests;
 using Proxima.Core.Boards.Friendly;
+using System.Collections.Generic;
 
 namespace GUI.App.Source.GameModeSubsystem.Editor
 {
@@ -49,7 +50,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
         {
             if(e.Piece == null)
             {
-                var fieldAttackers = _bitBoard.GetFieldAttackers(e.Position);
+                var fieldAttackers = _board.GetFriendlyBoard().GetFieldAttackers(e.Position);
                 _board.AddExternalSelections(fieldAttackers);
             }
             else
@@ -108,7 +109,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
                 return;
             }
 
-            _board.AddPiece(fieldPosition, new FriendlyPiece(piece, color));
+            _board.GetFriendlyBoard().SetPiece(new FriendlyPiece(fieldPosition, piece, color));
 
             UpdateBitBoard();
         }
@@ -124,7 +125,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
                 return;
             }
 
-            _board.GetFriendlyBoard().SetPiece(fieldPosition, null);
+            _board.GetFriendlyBoard().RemovePiece(fieldPosition);
 
             UpdateBitBoard();
         }
@@ -132,11 +133,11 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
         void DrawOccupancy(Command command)
         {
             var colorArgument = command.GetArgument<string>(0);
-            var occupancyArray = new bool[8, 8];
 
+            List<Position> occupancy;
             if (colorArgument == "all")
             {
-                occupancyArray = _board.GetFriendlyBoard().GetOccupancy();
+                occupancy = _board.GetFriendlyBoard().GetOccupancy();
             }
             else
             {
@@ -147,20 +148,20 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
                     return;
                 }
 
-                occupancyArray = _board.GetFriendlyBoard().GetOccupancy(colorType);
+                occupancy = _board.GetFriendlyBoard().GetOccupancy(colorType);
             }
 
-            _board.AddExternalSelections(occupancyArray);
+            _board.AddExternalSelections(occupancy);
         }
 
         void DrawAttacks(Command command)
         {
             var colorArgument = command.GetArgument<string>(0);
-            var occupancyArray = new bool[8, 8];
 
+            List<Position> attacks;
             if (colorArgument == "all")
             {
-                occupancyArray = _bitBoard.GetAttacks();
+                attacks = _board.GetFriendlyBoard().GetAttacks();
             }
             else
             {
@@ -171,10 +172,10 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
                     return;
                 }
 
-                occupancyArray = _bitBoard.GetAttacks(colorType);
+                attacks = _board.GetFriendlyBoard().GetAttacks(colorType);
             }
 
-            _board.AddExternalSelections(occupancyArray);
+            _board.AddExternalSelections(attacks);
         }
 
         void SaveBoard(Command command)

@@ -11,6 +11,7 @@ namespace Proxima.Core.Boards.Friendly
     public class FriendlyAttack
     {
         public Color Color { get; set; }
+        public Position From { get; set; }
         public Position To { get; set; }
 
         public FriendlyAttack()
@@ -18,9 +19,10 @@ namespace Proxima.Core.Boards.Friendly
 
         }
 
-        public FriendlyAttack(Color color, Position to)
+        public FriendlyAttack(Color color, Position from, Position to)
         {
-            Color = Color;
+            Color = color;
+            From = from;
             To = to;
         }
     }

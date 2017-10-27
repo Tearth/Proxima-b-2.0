@@ -16,14 +16,14 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
 
         public void Write(string path, FriendlyBoard friendlyBoard)
         {
-            using (var writer = new StreamWriter(path))
+            /*using (var writer = new StreamWriter(path))
             {
                 WriteBoard(writer, friendlyBoard.Pieces);
                 writer.WriteLine();
                 WriteCastling(writer, friendlyBoard.Castling);
                 writer.WriteLine();
                 WriteEnPassant(writer, friendlyBoard.EnPassant);
-            }
+            }*/
         }
 
         void WriteBoard(StreamWriter writer, FriendlyPiece[,] pieces)

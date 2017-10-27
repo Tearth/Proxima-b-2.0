@@ -1,77 +1,65 @@
-﻿using Proxima.Core.Boards.MoveGenerators;
-using Proxima.Core.Commons;
+﻿using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Positions;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Proxima.Core.Boards.Friendly
 {
     public class FriendlyBoard
     {
-        public FriendlyPiece[,] Pieces { get; set; }
-        public bool[,] Castling { get; set; }
-        public bool[][,] EnPassant { get; set; }
+        protected FriendlyPiecesList _pieces;
+        protected FriendlyAttacksList _attacks;
+        protected FriendlyCastling _castling;
+        protected FriendlyEnPassant _enPassant;
 
         public FriendlyBoard()
         {
-            Pieces = new FriendlyPiece[8, 8];
-            Castling = new bool[2,2];
-            EnPassant = new bool[2][,];
+            _pieces = new FriendlyPiecesList();
+            _attacks = new FriendlyAttacksList();
+            _castling = new FriendlyCastling(true, true, true, true);
+            _enPassant = new FriendlyEnPassant();
         }
 
-        public FriendlyBoard(ulong[] piecesArray, bool[] castling, ulong[] enPassant) : this()
+        public FriendlyBoard(ulong[] pieces, ulong[] attacks, bool[] castling, ulong[] enPassant)
         {
-            for (int i = 0; i < 12; i++)
-            {
-                var pieceArray = piecesArray[i];
-
-                while (pieceArray != 0)
-                {
-                    var lsb = BitOperations.GetLSB(ref pieceArray);
-                    var bitIndex = BitOperations.GetBitIndex(lsb);
-                    var position = BitPositionConverter.ToPosition(bitIndex);
-
-                    SetPiece(position, new FriendlyPiece((PieceType)(i % 6), (Color)(i / 6)));
-                }
-            }
-            
-            Castling[(int)Color.White, (int)CastlingType.Short] = castling[0];
-            Castling[(int)Color.White, (int)CastlingType.Long] = castling[1];
-            Castling[(int)Color.Black, (int)CastlingType.Short] = castling[2];
-            Castling[(int)Color.Black, (int)CastlingType.Long] = castling[3];
-
-            EnPassant[(int)Color.White] = BitPositionConverter.ToBoolArray(enPassant[(int)Color.White]);
-            EnPassant[(int)Color.Black] = BitPositionConverter.ToBoolArray(enPassant[(int)Color.Black]);
+            _pieces = new FriendlyPiecesList(pieces);
+            _attacks = new FriendlyAttacksList(attacks, _pieces);
+            _castling = new FriendlyCastling(castling);
+            _enPassant = new FriendlyEnPassant(enPassant);
         }
 
         public FriendlyPiece GetPiece(Position position)
         {
-            return Pieces[position.X - 1, position.Y - 1];
+            return _pieces.FirstOrDefault(p => p.Position == position);
         }
 
-        public void SetPiece(Position position, FriendlyPiece piece)
+        public void SetPiece(FriendlyPiece piece)
         {
-            Pieces[position.X - 1, position.Y - 1] = piece;
+            RemovePiece(piece.Position);
+            _pieces.Add(piece);
+        }
+
+        public void RemovePiece(Position position)
+        {
+            var existingPiece = _pieces.FirstOrDefault(p => p.Position == position);
+
+            if (existingPiece != null)
+            {
+                _pieces.Remove(existingPiece);
+            }
         }
 
         public ulong[] GetPiecesArray()
         {
             var pieces = new ulong[12];
 
-            for (int x = 1; x <= 8; x++)
+            foreach(var piece in _pieces)
             {
-                for (int y = 1; y <= 8; y++)
-                {
-                    var position = new Position(x, y);
-                    var piece = GetPiece(position);
-
-                    if (piece != null)
-                    {
-                        var bitPosition = BitPositionConverter.ToULong(position);
-                        pieces[FastArray.GetPieceIndex(piece.Color, piece.Type)] |= bitPosition;
-                    }
-                }
+                var bitPosition = BitPositionConverter.ToULong(piece.Position);
+                pieces[FastArray.GetPieceIndex(piece.Color, piece.Type)] |= bitPosition;
             }
 
             return pieces;
@@ -81,10 +69,10 @@ namespace Proxima.Core.Boards.Friendly
         {
             var castling = new bool[4];
 
-            castling[0] = Castling[(int)Color.White, (int)CastlingType.Short];
-            castling[1] = Castling[(int)Color.White, (int)CastlingType.Long];
-            castling[2] = Castling[(int)Color.Black, (int)CastlingType.Short];
-            castling[3] = Castling[(int)Color.Black, (int)CastlingType.Long];
+            castling[0] = _castling.WhiteShortCastling;
+            castling[1] = _castling.WhiteLongCastling;
+            castling[2] = _castling.BlackShortCastling;
+            castling[3] = _castling.BlackLongCastling;
 
             return castling;
         }
@@ -93,38 +81,56 @@ namespace Proxima.Core.Boards.Friendly
         {
             ulong[] enPassant = new ulong[2];
 
-            enPassant[(int)Color.White] = BitPositionConverter.ToULong(EnPassant[(int)Color.White]);
-            enPassant[(int)Color.Black] = BitPositionConverter.ToULong(EnPassant[(int)Color.Black]);
+            if (_enPassant.WhiteEnPassant != null)
+            {
+                enPassant[(int)Color.White] = BitPositionConverter.ToULong(_enPassant.WhiteEnPassant);
+            }
+
+            if (_enPassant.BlackEnPassant != null)
+            {
+                enPassant[(int)Color.Black] = BitPositionConverter.ToULong(_enPassant.BlackEnPassant);
+            }
 
             return enPassant;
         }
 
-        public bool[,] GetOccupancy()
+        public List<Position> GetOccupancy()
         {
             var whiteOccupancy = GetOccupancy(Color.White);
             var blackOccupancy = GetOccupancy(Color.Black);
-
-            return FastArray.Merge(whiteOccupancy, blackOccupancy);
+            
+            return whiteOccupancy.Concat(blackOccupancy).ToList();
         }
 
-        public bool[,] GetOccupancy(Color color)
+        public List<Position> GetOccupancy(Color color)
         {
-            bool[,] occupancy = new bool[8, 8];
+            return _pieces.Where(p => p.Color == color).Select(p => p.Position).ToList();
+        }
 
-            for (int x = 0; x < 8; x++)
-            {
-                for (int y = 0; y < 8; y++)
-                {
-                    var friendlyPiece = Pieces[x, y];
+        public List<Position> GetAttacks()
+        {
+            var whiteAttacks = GetAttacks(Color.White);
+            var blackAttacks = GetAttacks(Color.Black);
 
-                    if(friendlyPiece != null && friendlyPiece.Color == color)
-                    {
-                        occupancy[x, y] = true;
-                    }
-                }
-            }
+            return whiteAttacks.Concat(blackAttacks).ToList();
+        }
 
-            return occupancy;
+        public List<Position> GetAttacks(Color color)
+        {
+            return _attacks.Where(p => p.Color == color).Select(p => p.To).ToList();
+        }
+
+        public List<Position> GetFieldAttackers(Position position)
+        {
+            var whiteAttacks = GetFieldAttackers(Color.White, position);
+            var blackAttacks = GetFieldAttackers(Color.Black, position);
+
+            return whiteAttacks.Concat(blackAttacks).ToList();
+        }
+
+        public List<Position> GetFieldAttackers(Color color, Position position)
+        {
+            return _attacks.Where(p => p.Color == color && p.To == position).Select(p => p.From).ToList();
         }
     }
 }

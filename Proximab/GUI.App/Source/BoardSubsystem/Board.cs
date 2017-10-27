@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Proxima.Core.Boards.Friendly;
+using System.Linq;
 
 namespace GUI.App.Source.BoardSubsystem
 {
@@ -100,37 +101,17 @@ namespace GUI.App.Source.BoardSubsystem
 
         public void AddPiece(Position position, FriendlyPiece piece)
         {
-            _friendlyBoard.SetPiece(position, piece);
+            _friendlyBoard.SetPiece(piece);
         }
 
         public void MovePiece(Position from, Position to)
         {
             var piece = _friendlyBoard.GetPiece(from);
-
-            _friendlyBoard.SetPiece(to, piece);
-            _friendlyBoard.SetPiece(from, new FriendlyPiece());
+            piece.Position = to;
         }
 
         public void AddExternalSelections(List<Position> selections)
         {
-            _selectionsManager.AddExternalSelections(selections);
-        }
-
-        public void AddExternalSelections(bool[,] boolArray)
-        {
-            var selections = new List<Position>();
-
-            for (int x = 0; x < 8; x++)
-            {
-                for (int y = 0; y < 8; y++)
-                {
-                    if (!boolArray[x, y])
-                        continue;
-
-                    selections.Add(new Position(x + 1, y + 1));
-                }
-            }
-
             _selectionsManager.AddExternalSelections(selections);
         }
 

@@ -29,20 +29,20 @@ namespace GUI.App.Source.BoardSubsystem.Pieces
                 var color = (Color)Enum.Parse(typeof(Color), pieceDefinition.ColorTypeValue);
                 var pieceTexture = contentManager.Load<Texture2D>(pieceDefinition.TexturePath);
 
-                var hash = GetFriendlyPieceHash(new FriendlyPiece(piece, color));
+                var hash = GetFriendlyPieceHash(color, piece);
                 _pieceTextures.Add(hash, pieceTexture);
             }
         }
 
         public Texture2D GetPieceTexture(FriendlyPiece piece)
         {
-            var hash = GetFriendlyPieceHash(piece);
+            var hash = GetFriendlyPieceHash(piece.Color, piece.Type);
             return _pieceTextures[hash];
         }
 
-        int GetFriendlyPieceHash(FriendlyPiece piece)
+        int GetFriendlyPieceHash(Color color, PieceType piece)
         {
-            return ((int)piece.Color * 100) + (int)piece.Type;
+            return ((int)color * 100) + (int)piece;
         }
     }
 }

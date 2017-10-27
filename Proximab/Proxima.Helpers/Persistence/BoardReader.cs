@@ -24,7 +24,7 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
         {
             var friendlyBoard = new FriendlyBoard();
 
-            using (var reader = new StreamReader(path))
+            /*using (var reader = new StreamReader(path))
             {
                 while(!reader.EndOfStream)
                 {
@@ -40,7 +40,7 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
                         case "!BlackEnPassant": { friendlyBoard.EnPassant[(int)Color.Black] = ReadEnPassant(reader); break; }
                     }  
                 }
-            }
+            }*/
 
             return friendlyBoard;
         }
@@ -61,9 +61,9 @@ namespace Proxima.Helpers.BoardSubsystem.Persistence
 
                     var color = (Color)Int32.Parse(splittedLine[x][0].ToString());
                     var piece = (PieceType)Int32.Parse(splittedLine[x][1].ToString());
-                    var friendlyPiece = new FriendlyPiece(piece, color);
+                    //var friendlyPiece = new FriendlyPiece(piece, color);
                     
-                    pieces[x, 7 - y] = friendlyPiece;
+                    //pieces[x, 7 - y] = friendlyPiece;
                 }
             }
 

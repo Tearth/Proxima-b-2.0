@@ -72,44 +72,7 @@ namespace Proxima.Core.Boards
         
         public FriendlyBoard GetFriendlyBoard()
         {
-            return new FriendlyBoard(_pieces, _castling, _enPassant);
-        }
-
-        public bool[,] GetAttacks()
-        {
-            var attacks = _attacksSummary[(int)Color.White] | _attacksSummary[(int)Color.Black];
-            return BitPositionConverter.ToBoolArray(attacks);
-        }
-
-        public bool[,] GetAttacks(Color color)
-        {
-            return BitPositionConverter.ToBoolArray(_attacksSummary[(int)color]);
-        }
-
-        public bool[,] GetFieldAttackers(Position position)
-        {
-            var bitIndex = BitPositionConverter.ToBitIndex(position);
-            var array = 0ul;
-
-            for(int piece=0; piece < 6; piece++)
-            {
-                array |= _attacks[bitIndex] | _attacks[bitIndex];
-            }
-
-            return BitPositionConverter.ToBoolArray(array);
-        }
-
-        public bool[,] GetFieldAttackers(Position position, Color color)
-        {
-            var bitIndex = BitPositionConverter.ToBitIndex(position);
-            var array = 0ul;
-
-            for (int piece = 0; piece < 6; piece++)
-            {
-                array |= _attacks[bitIndex];
-            }
-
-            return BitPositionConverter.ToBoolArray(array);
+            return new FriendlyBoard(_pieces, _attacks, _castling, _enPassant);
         }
 
         public LinkedList<Move> GetAvailableMoves()
