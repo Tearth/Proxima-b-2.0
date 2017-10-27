@@ -10,52 +10,52 @@ namespace Proxima.Core.Boards.Friendly
 {
     public class FriendlyBoard
     {
-        protected FriendlyPiecesList _pieces;
-        protected FriendlyAttacksList _attacks;
-        protected FriendlyCastling _castling;
-        protected FriendlyEnPassant _enPassant;
+        public FriendlyPiecesList Pieces { get; private set; }
+        public FriendlyAttacksList Attacks { get; private set; }
+        public FriendlyCastling Castling { get; private set; }
+        public FriendlyEnPassant EnPassant { get; private set; }
 
         public FriendlyBoard()
         {
-            _pieces = new FriendlyPiecesList();
-            _attacks = new FriendlyAttacksList();
-            _castling = new FriendlyCastling(true, true, true, true);
-            _enPassant = new FriendlyEnPassant();
+            Pieces = new FriendlyPiecesList();
+            Attacks = new FriendlyAttacksList();
+            Castling = new FriendlyCastling(true, true, true, true);
+            EnPassant = new FriendlyEnPassant();
         }
 
         public FriendlyBoard(ulong[] pieces, ulong[] attacks, bool[] castling, ulong[] enPassant)
         {
-            _pieces = new FriendlyPiecesList(pieces);
-            _attacks = new FriendlyAttacksList(attacks, _pieces);
-            _castling = new FriendlyCastling(castling);
-            _enPassant = new FriendlyEnPassant(enPassant);
+            Pieces = new FriendlyPiecesList(pieces);
+            Attacks = new FriendlyAttacksList(attacks, Pieces);
+            Castling = new FriendlyCastling(castling);
+            EnPassant = new FriendlyEnPassant(enPassant);
         }
 
         public FriendlyBoard(FriendlyPiecesList pieces, FriendlyCastling castling, FriendlyEnPassant enPassant)
         {
-            _pieces = pieces;
-            _castling = castling;
-            _enPassant = enPassant;
+            Pieces = pieces;
+            Castling = castling;
+            EnPassant = enPassant;
         }
 
         public FriendlyPiece GetPiece(Position position)
         {
-            return _pieces.FirstOrDefault(p => p.Position == position);
+            return Pieces.FirstOrDefault(p => p.Position == position);
         }
 
         public void SetPiece(FriendlyPiece piece)
         {
             RemovePiece(piece.Position);
-            _pieces.Add(piece);
+            Pieces.Add(piece);
         }
 
         public void RemovePiece(Position position)
         {
-            var existingPiece = _pieces.FirstOrDefault(p => p.Position == position);
+            var existingPiece = Pieces.FirstOrDefault(p => p.Position == position);
 
             if (existingPiece != null)
             {
-                _pieces.Remove(existingPiece);
+                Pieces.Remove(existingPiece);
             }
         }
 
@@ -63,7 +63,7 @@ namespace Proxima.Core.Boards.Friendly
         {
             var pieces = new ulong[12];
 
-            foreach(var piece in _pieces)
+            foreach(var piece in Pieces)
             {
                 var bitPosition = BitPositionConverter.ToULong(piece.Position);
                 pieces[FastArray.GetPieceIndex(piece.Color, piece.Type)] |= bitPosition;
@@ -76,10 +76,10 @@ namespace Proxima.Core.Boards.Friendly
         {
             var castling = new bool[4];
 
-            castling[0] = _castling.WhiteShortCastling;
-            castling[1] = _castling.WhiteLongCastling;
-            castling[2] = _castling.BlackShortCastling;
-            castling[3] = _castling.BlackLongCastling;
+            castling[0] = Castling.WhiteShortCastling;
+            castling[1] = Castling.WhiteLongCastling;
+            castling[2] = Castling.BlackShortCastling;
+            castling[3] = Castling.BlackLongCastling;
 
             return castling;
         }
@@ -88,14 +88,14 @@ namespace Proxima.Core.Boards.Friendly
         {
             ulong[] enPassant = new ulong[2];
 
-            if (_enPassant.WhiteEnPassant != null)
+            if (EnPassant.WhiteEnPassant != null)
             {
-                enPassant[(int)Color.White] = BitPositionConverter.ToULong(_enPassant.WhiteEnPassant);
+                enPassant[(int)Color.White] = BitPositionConverter.ToULong(EnPassant.WhiteEnPassant);
             }
 
-            if (_enPassant.BlackEnPassant != null)
+            if (EnPassant.BlackEnPassant != null)
             {
-                enPassant[(int)Color.Black] = BitPositionConverter.ToULong(_enPassant.BlackEnPassant);
+                enPassant[(int)Color.Black] = BitPositionConverter.ToULong(EnPassant.BlackEnPassant);
             }
 
             return enPassant;
@@ -111,7 +111,7 @@ namespace Proxima.Core.Boards.Friendly
 
         public List<Position> GetOccupancy(Color color)
         {
-            return _pieces.Where(p => p.Color == color).Select(p => p.Position).ToList();
+            return Pieces.Where(p => p.Color == color).Select(p => p.Position).ToList();
         }
 
         public List<Position> GetAttacks()
@@ -124,7 +124,7 @@ namespace Proxima.Core.Boards.Friendly
 
         public List<Position> GetAttacks(Color color)
         {
-            return _attacks.Where(p => p.Color == color).Select(p => p.To).ToList();
+            return Attacks.Where(p => p.Color == color).Select(p => p.To).ToList();
         }
 
         public List<Position> GetFieldAttackers(Position position)
@@ -137,7 +137,7 @@ namespace Proxima.Core.Boards.Friendly
 
         public List<Position> GetFieldAttackers(Color color, Position position)
         {
-            return _attacks.Where(p => p.Color == color && p.To == position).Select(p => p.From).ToList();
+            return Attacks.Where(p => p.Color == color && p.To == position).Select(p => p.From).ToList();
         }
     }
 }

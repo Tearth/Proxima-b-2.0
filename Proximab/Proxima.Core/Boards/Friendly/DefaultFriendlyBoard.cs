@@ -47,14 +47,14 @@ namespace Proxima.Core.Boards.Friendly
             SetPiece(new FriendlyPiece(new Position(8, 7), PieceType.Pawn, Color.Black));
 
             //Castling
-            _castling.WhiteShortCastling = true;
-            _castling.WhiteLongCastling = true;
-            _castling.BlackShortCastling = true;
-            _castling.BlackLongCastling = true;
+            Castling.WhiteShortCastling = true;
+            Castling.WhiteLongCastling = true;
+            Castling.BlackShortCastling = true;
+            Castling.BlackLongCastling = true;
 
             //EnPassant
-            _enPassant.WhiteEnPassant = null;
-            _enPassant.BlackEnPassant = null;
+            EnPassant.WhiteEnPassant = null;
+            EnPassant.BlackEnPassant = null;
         }
     }
 }
