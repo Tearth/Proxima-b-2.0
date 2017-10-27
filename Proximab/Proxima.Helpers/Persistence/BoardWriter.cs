@@ -1,11 +1,9 @@
-﻿using Proxima.Core.Boards;
-using Proxima.Core.Boards.Friendly;
+﻿using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
-using Proxima.Core.Commons.Positions;
-using System;
-using System.Linq;
-using System.IO;
 using Proxima.Core.Commons.Notation;
+using Proxima.Core.Commons.Positions;
+using System.IO;
+using System.Linq;
 
 namespace Proxima.Helpers.Persistence
 {

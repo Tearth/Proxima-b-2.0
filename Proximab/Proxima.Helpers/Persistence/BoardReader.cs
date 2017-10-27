@@ -1,10 +1,7 @@
-﻿using Proxima.Core.Boards;
-using Proxima.Core.Boards.Friendly;
-using Proxima.Core.Commons;
+﻿using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Notation;
 using Proxima.Core.Commons.Positions;
-using Proxima.Helpers.Persistence;
 using System;
 using System.IO;
 

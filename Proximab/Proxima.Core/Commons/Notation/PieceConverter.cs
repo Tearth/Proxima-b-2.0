@@ -8,31 +8,38 @@ namespace Proxima.Core.Commons.Notation
 {
     public static class PieceConverter
     {
-        public static string GetSymbol(PieceType piece)
+        public const char PawnSymbol = 'P';
+        public const char RookSymbol = 'R';
+        public const char KnightSymbol = 'N';
+        public const char BishopSymbol = 'B';
+        public const char QueenSymbol = 'Q';
+        public const char KingSymbol = 'K';
+
+        public static char GetSymbol(PieceType piece)
         {
             switch(piece)
             {
-                case PieceType.Pawn: return "P";
-                case PieceType.Rook: return "R";
-                case PieceType.Knight: return "N";
-                case PieceType.Bishop: return "B";
-                case PieceType.Queen: return "Q";
-                case PieceType.King: return "K";
+                case PieceType.Pawn: return PawnSymbol;
+                case PieceType.Rook: return RookSymbol;
+                case PieceType.Knight: return KnightSymbol;
+                case PieceType.Bishop: return BishopSymbol;
+                case PieceType.Queen: return QueenSymbol;
+                case PieceType.King: return KingSymbol;
             }
 
-            return String.Empty;
+            return ' ';
         }
 
         public static PieceType GetPiece(char piece)
         {
             switch(piece)
             {
-                case 'P': return PieceType.Pawn;
-                case 'R': return PieceType.Rook;
-                case 'N': return PieceType.Knight;
-                case 'B': return PieceType.Bishop;
-                case 'Q': return PieceType.Queen;
-                case 'K': return PieceType.King;
+                case PawnSymbol: return PieceType.Pawn;
+                case RookSymbol: return PieceType.Rook;
+                case KnightSymbol: return PieceType.Knight;
+                case BishopSymbol: return PieceType.Bishop;
+                case QueenSymbol: return PieceType.Queen;
+                case KingSymbol: return PieceType.King;
             }
 
             return PieceType.Pawn;
