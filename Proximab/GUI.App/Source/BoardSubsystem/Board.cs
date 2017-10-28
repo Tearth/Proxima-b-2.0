@@ -28,13 +28,14 @@ namespace GUI.App.Source.BoardSubsystem
         Texture2D _field1;
         Texture2D _field2;
 
-        public Board()
+        public Board(PiecesProvider piecesProvider)
         {
             _friendlyBoard = new FriendlyBoard();
 
             _selectionsManager = new SelectionsManager();
             _axesManager = new AxesManager();
-            _piecesProvider = new PiecesProvider();
+
+            _piecesProvider = piecesProvider;
         }
 
         public void LoadContent(ContentManager contentManager)
@@ -44,7 +45,6 @@ namespace GUI.App.Source.BoardSubsystem
 
             _selectionsManager.LoadContent(contentManager);
             _axesManager.LoadContent(contentManager);
-            _piecesProvider.LoadContent(contentManager);
         }
 
         public void Input(InputManager inputManager)
