@@ -16,7 +16,7 @@ namespace GUI.App.Source.Helpers
         public static readonly int BoardWidthHeight = FieldWidthHeight * 8;
 
         //Promotion window
-        public static readonly Rectangle PromotionWindowSize = new Rectangle(0, 0, 192, 64);
+        public static readonly Rectangle PromotionWindowSize = new Rectangle(0, 0, 256, 64);
         public static readonly Vector2 PromotionWindowPosition = (WindowSize - new Vector2(PromotionWindowSize.Width, PromotionWindowSize.Height)) / 2;
     }
 }

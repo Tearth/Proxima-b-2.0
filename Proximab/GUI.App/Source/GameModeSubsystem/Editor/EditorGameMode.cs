@@ -63,6 +63,8 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
 
                 _board.AddExternalSelections(movesForPiece);
             }
+
+            _promotionWindow.Display(Color.White);
         }
 
         void Board_OnPieceMove(object sender, PieceMovedEventArgs e)

@@ -34,9 +34,9 @@ namespace GUI.App.Source.BoardSubsystem.Pieces
             }
         }
 
-        public Texture2D GetPieceTexture(FriendlyPiece piece)
+        public Texture2D GetPieceTexture(Color color, PieceType type)
         {
-            var hash = GetFriendlyPieceHash(piece.Color, piece.Type);
+            var hash = GetFriendlyPieceHash(color, type);
             return _pieceTextures[hash];
         }
 

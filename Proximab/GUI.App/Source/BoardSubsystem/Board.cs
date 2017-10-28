@@ -171,7 +171,7 @@ namespace GUI.App.Source.BoardSubsystem
                         continue;
 
                     var position = new Microsoft.Xna.Framework.Vector2(boardPosition.X - 1, 8 - boardPosition.Y) * Constants.FieldWidthHeight;
-                    var texture = _piecesProvider.GetPieceTexture(piece);
+                    var texture = _piecesProvider.GetPieceTexture(piece.Color, piece.Type);
 
                     spriteBatch.Draw(texture, position + Constants.BoardPosition, Constants.FieldSize, Microsoft.Xna.Framework.Color.White);
                 }

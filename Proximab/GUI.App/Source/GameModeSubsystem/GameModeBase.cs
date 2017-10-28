@@ -24,7 +24,7 @@ namespace GUI.App.Source.GameModeSubsystem
             _piecesProvider = new PiecesProvider();
 
             _board = new Board(_piecesProvider);
-            _promotionWindow = new PromotionWindow();
+            _promotionWindow = new PromotionWindow(_piecesProvider);
         }
 
         public virtual void LoadContent(ContentManager contentManager)
