@@ -74,6 +74,8 @@
     <Compile Include="Commons\Colors\ColorConverter.cs" />
     <Compile Include="Commons\Colors\ColorOperations.cs" />
     <Compile Include="Commons\Diagonal.cs" />
+    <Compile Include="Commons\Exceptions\ColorSymbolNotFoundException.cs" />
+    <Compile Include="Commons\Exceptions\PieceSymbolNotFoundException.cs" />
     <Compile Include="Commons\Exceptions\PositionOutOfRangeException.cs" />
     <Compile Include="Commons\Notation\NotationConverter.cs" />
     <Compile Include="Commons\Notation\PieceConverter.cs" />

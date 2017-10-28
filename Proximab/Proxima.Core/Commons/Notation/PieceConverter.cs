@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Proxima.Core.Commons.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,12 +28,12 @@ namespace Proxima.Core.Commons.Notation
                 case PieceType.King: return KingSymbol;
             }
 
-            return ' ';
+            throw new PieceSymbolNotFoundException();
         }
 
-        public static PieceType GetPiece(char piece)
+        public static PieceType GetPiece(char pieceSymbol)
         {
-            switch(piece)
+            switch(pieceSymbol)
             {
                 case PawnSymbol: return PieceType.Pawn;
                 case RookSymbol: return PieceType.Rook;
@@ -42,7 +43,7 @@ namespace Proxima.Core.Commons.Notation
                 case KingSymbol: return PieceType.King;
             }
 
-            return PieceType.Pawn;
+            throw new PieceSymbolNotFoundException();
         }
     }
 }

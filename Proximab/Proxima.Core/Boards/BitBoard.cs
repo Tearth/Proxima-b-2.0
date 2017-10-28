@@ -97,8 +97,10 @@ namespace Proxima.Core.Boards
 
         void CalculateMove(BitBoard bitBoard, Move move)
         {
-            if (!move.From.IsValid() || !move.To.IsValid())
+            if (!move.IsValid())
+            {
                 throw new PositionOutOfRangeException();
+            }
 
             var enemyColor = ColorOperations.Invert(move.Color);
             var from = BitPositionConverter.ToULong(move.From);

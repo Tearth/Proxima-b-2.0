@@ -1,4 +1,6 @@
-﻿namespace Proxima.Core.Commons.Colors
+﻿using Proxima.Core.Commons.Exceptions;
+
+namespace Proxima.Core.Commons.Colors
 {
     public static class ColorConverter
     {
@@ -7,7 +9,13 @@
 
         public static char GetSymbol(Color color)
         {
-            return color == Color.White ? WhiteColorSymbol : BlackColorSymbol;
+            switch(color)
+            {
+                case Color.White: return WhiteColorSymbol;
+                case Color.Black: return BlackColorSymbol;
+            }
+
+            throw new ColorSymbolNotFoundException();
         }
 
         public static Color GetColor(char color)
@@ -18,7 +26,7 @@
                 case BlackColorSymbol: return Color.Black;
             }
 
-            return Color.White;
+            throw new ColorSymbolNotFoundException();
         }
     }
 }

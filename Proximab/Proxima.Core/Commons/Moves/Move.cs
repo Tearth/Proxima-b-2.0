@@ -27,5 +27,10 @@ namespace Proxima.Core.Commons.Moves
             Color = color;
             Type = type;
         }
+
+        public bool IsValid()
+        {
+            return From.IsValid() && To.IsValid();
+        }
     }
 }

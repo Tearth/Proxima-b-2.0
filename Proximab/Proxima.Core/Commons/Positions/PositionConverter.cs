@@ -1,4 +1,6 @@
-﻿namespace Proxima.Core.Commons.Positions
+﻿using Proxima.Core.Commons.Exceptions;
+
+namespace Proxima.Core.Commons.Positions
 {
     public static class PositionConverter
     {
@@ -9,10 +11,13 @@
             var x = 8 - ('h' - fixedTextNotation[0]);
             var y = 8 - ('8' - fixedTextNotation[1]);
 
-            if (x < 1 || y < 1 || x > 8 || y > 8)
-                return null;
+            var position = new Position(x, y);
+            if (!position.IsValid())
+            {
+                throw new PositionOutOfRangeException();
+            }
 
-            return new Position(x, y);
+            return position;
         }
     }
 }

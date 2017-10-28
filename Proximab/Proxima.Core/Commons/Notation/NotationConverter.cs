@@ -1,4 +1,5 @@
-﻿using Proxima.Core.Commons.Positions;
+﻿using Proxima.Core.Commons.Exceptions;
+using Proxima.Core.Commons.Positions;
 using System;
 
 namespace Proxima.Core.Commons.Notation
@@ -20,7 +21,13 @@ namespace Proxima.Core.Commons.Notation
             var file = 'h' - fixedStringPosition[0] + 1;
             var rank = '8' - fixedStringPosition[1] + 1;
 
-            return new Position(file, rank);
+            var position = new Position(file, rank);
+            if(!position.IsValid())
+            {
+                throw new PositionOutOfRangeException();
+            }
+
+            return position;
         }
     }
 }
