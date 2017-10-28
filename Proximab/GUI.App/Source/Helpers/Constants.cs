@@ -5,14 +5,18 @@ namespace GUI.App.Source.Helpers
     internal static class Constants
     {
         //Window
-        public static Vector2 WindowSize = new Vector2(548, 548);
+        public static readonly Vector2 WindowSize = new Vector2(548, 548);
 
         //Field
-        public static int FieldWidthHeight { get; } = 64;
-        public static Rectangle FieldSize { get; } = new Rectangle(0, 0, FieldWidthHeight, FieldWidthHeight);
+        public static readonly int FieldWidthHeight = 64;
+        public static readonly Rectangle FieldSize = new Rectangle(0, 0, FieldWidthHeight, FieldWidthHeight);
 
         //Board
-        public static Vector2 BoardPosition { get; } = new Vector2(18, 18);
-        public static int BoardWidthHeight { get; } = FieldWidthHeight * 8;
+        public static readonly Vector2 BoardPosition = new Vector2(18, 18);
+        public static readonly int BoardWidthHeight = FieldWidthHeight * 8;
+
+        //Promotion window
+        public static readonly Rectangle PromotionWindowSize = new Rectangle(0, 0, 192, 64);
+        public static readonly Vector2 PromotionWindowPosition = (WindowSize - new Vector2(PromotionWindowSize.Width, PromotionWindowSize.Height)) / 2;
     }
 }
