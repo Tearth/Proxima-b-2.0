@@ -30,7 +30,7 @@ namespace GUI.App.Source.BoardSubsystem
 
         public Board()
         {
-            _friendlyBoard = new DefaultFriendlyBoard();
+            _friendlyBoard = new FriendlyBoard();
 
             _selectionsManager = new SelectionsManager();
             _axesManager = new AxesManager();
