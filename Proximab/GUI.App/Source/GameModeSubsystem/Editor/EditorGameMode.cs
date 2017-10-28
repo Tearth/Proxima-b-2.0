@@ -21,10 +21,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
 
         public EditorGameMode(ConsoleManager consoleManager) : base(consoleManager)
         {
-            _bitBoard = new BitBoard(new DefaultFriendlyBoard());
-            _bitBoard.Calculate(CalculationMode.All);
-
-            _board.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
+            UpdateBitBoard(new DefaultFriendlyBoard());
 
             _consoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
             _board.OnFieldSelection += Board_OnFieldSelection;
@@ -112,8 +109,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
 
             _board.GetFriendlyBoard().SetPiece(new FriendlyPiece(fieldPosition, piece, color));
-
-            UpdateBitBoard();
+            UpdateBitBoard(_board.GetFriendlyBoard());
         }
 
         void RemovePiece(Command command)
@@ -128,8 +124,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
 
             _board.GetFriendlyBoard().RemovePiece(fieldPosition);
-
-            UpdateBitBoard();
+            UpdateBitBoard(_board.GetFriendlyBoard());
         }
 
         void DrawOccupancy(Command command)
@@ -204,9 +199,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
                 return;
             }
 
-            _board.SetFriendlyBoard(boardReader.Read(path));
-
-            UpdateBitBoard();
+            UpdateBitBoard(boardReader.Read(path));
         }
 
         void DoMovesTest(Command command)
@@ -257,10 +250,12 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
         }
 
-        void UpdateBitBoard()
+        void UpdateBitBoard(FriendlyBoard friendlyBoard)
         {
-            _bitBoard = new BitBoard(_board.GetFriendlyBoard());
+            _bitBoard = new BitBoard(friendlyBoard);
             _bitBoard.Calculate(CalculationMode.All);
+
+            _board.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
         }
     }
 }
