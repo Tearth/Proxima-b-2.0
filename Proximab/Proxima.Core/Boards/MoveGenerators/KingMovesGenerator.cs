@@ -7,7 +7,7 @@ using Proxima.Core.Commons.Positions;
 
 namespace Proxima.Core.Boards.MoveGenerators
 {
-    public class KingMovesGenerator : MovesParserBase
+    public class KingMovesGenerator
     {
         public const ulong WhiteRightRookLSB = 0x01;
         public const ulong WhiteLeftRookLSB = 0x80;

@@ -7,7 +7,7 @@ using Proxima.Core.Commons.Performance;
 
 namespace Proxima.Core.Boards.MoveGenerators
 {
-    public class BishopMovesGenerator : MovesParserBase
+    public class BishopMovesGenerator
     {
         public BishopMovesGenerator()
         {

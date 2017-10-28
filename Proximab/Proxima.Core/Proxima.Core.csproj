@@ -66,7 +66,6 @@
     <Compile Include="Boards\MoveGenerators\BishopMovesGenerator.cs" />
     <Compile Include="Boards\MoveGenerators\KingMovesGenerator.cs" />
     <Compile Include="Boards\MoveGenerators\KnightMovesGenerator.cs" />
-    <Compile Include="Boards\MoveGenerators\MovesParserBase.cs" />
     <Compile Include="Boards\MoveGenerators\PawnMovesGenerator.cs" />
     <Compile Include="Boards\MoveGenerators\RookMovesGenerator.cs" />
     <Compile Include="Commons\Axis.cs" />

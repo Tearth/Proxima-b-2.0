@@ -20,7 +20,7 @@ namespace Proxima.Core.Boards
         ulong[] _attacks;
         ulong[] _attacksSummary;
 
-        bool[] _castling { get; set; }
+        bool[] _castling;
 
         LinkedList<Move> _moves;
 
@@ -308,7 +308,9 @@ namespace Proxima.Core.Boards
         void CalculateCastling(GeneratorParameters generatorParameters)
         {
             if ((generatorParameters.Mode & GeneratorMode.CalculateMoves) == 0)
+            {
                 return;
+            }
 
             _kingMovesGenerator.CalculateCastling(generatorParameters);
         }

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Proxima.Core.Boards.MoveGenerators
 {
-    public class KnightMovesGenerator : MovesParserBase
+    public class KnightMovesGenerator
     {
         public KnightMovesGenerator()
         {
