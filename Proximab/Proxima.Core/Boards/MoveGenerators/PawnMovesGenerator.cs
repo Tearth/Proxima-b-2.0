@@ -28,10 +28,24 @@ namespace Proxima.Core.Boards.MoveGenerators
                 return;
 
             var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)];
-            var pattern = opt.FriendlyColor == Color.White ? piecesToParse << 8 : piecesToParse >> 8;
+
+            var pattern = 0ul;
+            var promotionLine = 0ul;
+
+            if (opt.FriendlyColor == Color.White)
+            {
+                pattern = piecesToParse << 8;
+                promotionLine = BitConstants.HRank;
+            }
+            else
+            {
+                pattern = piecesToParse >> 8;
+                promotionLine = BitConstants.ARank;
+            }
+
             pattern &= ~opt.Occupancy;
 
-            while(pattern != 0)
+            while (pattern != 0)
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
@@ -41,9 +55,19 @@ namespace Proxima.Core.Boards.MoveGenerators
 
                 var from = BitPositionConverter.ToPosition(pieceIndex);
                 var to = BitPositionConverter.ToPosition(patternIndex);
-                var moveType = MoveType.Quiet;
 
-                opt.Moves.AddLast(new Move(from, to, PieceType.Pawn, opt.FriendlyColor, moveType));
+                if((patternLSB & promotionLine) != 0)
+                {
+                    opt.Moves.AddLast(new PromotionMove(from, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Queen));
+                    opt.Moves.AddLast(new PromotionMove(from, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Rook));
+                    opt.Moves.AddLast(new PromotionMove(from, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Bishop));
+                    opt.Moves.AddLast(new PromotionMove(from, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Knight));
+                }
+                else
+                {
+                    opt.Moves.AddLast(new QuietMove(from, to, PieceType.Pawn, opt.FriendlyColor));
+                }
+
             }
         }
 
@@ -81,9 +105,8 @@ namespace Proxima.Core.Boards.MoveGenerators
 
                 var from = BitPositionConverter.ToPosition(pieceIndex);
                 var to = BitPositionConverter.ToPosition(patternIndex);
-                var moveType = MoveType.DoublePush;
 
-                opt.Moves.AddLast(new Move(from, to, PieceType.Pawn, opt.FriendlyColor, moveType));
+                opt.Moves.AddLast(new QuietMove(from, to, PieceType.Pawn, opt.FriendlyColor));
             }
         }
 
@@ -110,9 +133,15 @@ namespace Proxima.Core.Boards.MoveGenerators
                     {
                         var from = BitPositionConverter.ToPosition(pieceIndex);
                         var to = BitPositionConverter.ToPosition(patternIndex);
-                        var moveType = enPassantField == 0 ? MoveType.Kill : MoveType.EnPassant;
 
-                        opt.Moves.AddLast(new Move(from, to, PieceType.Pawn, opt.FriendlyColor, moveType));
+                        if (enPassantField == 0)
+                        {
+                            opt.Moves.AddLast(new KillMove(from, to, PieceType.Pawn, opt.FriendlyColor));
+                        }
+                        else
+                        {
+                            opt.Moves.AddLast(new EnPassantMove(from, to, PieceType.Pawn, opt.FriendlyColor));
+                        }
                     }
                 }
 
@@ -147,9 +176,15 @@ namespace Proxima.Core.Boards.MoveGenerators
                     {
                         var from = BitPositionConverter.ToPosition(pieceIndex);
                         var to = BitPositionConverter.ToPosition(patternIndex);
-                        var moveType = enPassantField == 0 ? MoveType.Kill : MoveType.EnPassant;
 
-                        opt.Moves.AddLast(new Move(from, to, PieceType.Pawn, opt.FriendlyColor, moveType));
+                        if (enPassantField == 0)
+                        {
+                            opt.Moves.AddLast(new KillMove(from, to, PieceType.Pawn, opt.FriendlyColor));
+                        }
+                        else
+                        {
+                            opt.Moves.AddLast(new EnPassantMove(from, to, PieceType.Pawn, opt.FriendlyColor));
+                        }
                     }
                 }
 

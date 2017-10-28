@@ -12,20 +12,18 @@ namespace Proxima.Core.Commons.Moves
 
         public PieceType Piece { get; set; }
         public Color Color { get; set; }
-        public MoveType Type { get; set; }
 
         public Move()
         {
 
         }
 
-        public Move(Position from, Position to, PieceType piece, Color color, MoveType type)
+        public Move(Position from, Position to, PieceType piece, Color color)
         {
             From = from;
             To = to;
             Piece = piece;
             Color = color;
-            Type = type;
         }
 
         public bool IsValid()

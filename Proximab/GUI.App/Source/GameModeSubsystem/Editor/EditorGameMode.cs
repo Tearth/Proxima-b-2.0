@@ -75,7 +75,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
 
             if(move == null)
             {
-                move = new Move(e.From, e.To, e.Piece.Type, e.Piece.Color, MoveType.Quiet);
+                move = new QuietMove(e.From, e.To, e.Piece.Type, e.Piece.Color);
             }
 
             _bitBoard = _bitBoard.Move(move);

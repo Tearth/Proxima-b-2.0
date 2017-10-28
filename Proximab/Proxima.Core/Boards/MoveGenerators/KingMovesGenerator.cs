@@ -24,8 +24,8 @@ namespace Proxima.Core.Boards.MoveGenerators
         public const ulong BlackShortCastlingMoveArea = 0x0600000000000000ul;
         public const ulong BlackLongCastlingMoveArea  = 0x7000000000000000ul;
 
-        public readonly Position InitialWhiteKingLSB = new Position(5, 1);
-        public readonly Position InitialBlackKingLSB = new Position(5, 8);    
+        public readonly Position InitialWhiteKingPosition = new Position(5, 1);
+        public readonly Position InitialBlackKingPosition = new Position(5, 8);    
 
         public KingMovesGenerator()
         {
@@ -53,9 +53,15 @@ namespace Proxima.Core.Boards.MoveGenerators
                     {
                         var from = BitPositionConverter.ToPosition(pieceIndex);
                         var to = BitPositionConverter.ToPosition(patternIndex);
-                        var moveType = GetMoveType(patternLSB, opt.EnemyOccupancy);
 
-                        opt.Moves.AddLast(new Move(from, to, PieceType.King, opt.FriendlyColor, moveType));
+                        if ((patternLSB & opt.EnemyOccupancy) == 0)
+                        {
+                            opt.Moves.AddLast(new QuietMove(from, to, PieceType.King, opt.FriendlyColor));
+                        }
+                        else
+                        {
+                            opt.Moves.AddLast(new KillMove(from, to, PieceType.King, opt.FriendlyColor));
+                        }
                     }
 
                     if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
@@ -73,7 +79,7 @@ namespace Proxima.Core.Boards.MoveGenerators
                 !opt.Castling[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Long)])
                 return;
 
-            Position initialKingLSB;
+            Position initialKingPosition;
 
             var shortMoveArea = 0ul;
             var shortCheckArea = 0ul;
@@ -82,7 +88,7 @@ namespace Proxima.Core.Boards.MoveGenerators
 
             if(opt.FriendlyColor == Color.White)
             {
-                initialKingLSB = InitialWhiteKingLSB;
+                initialKingPosition = InitialWhiteKingPosition;
 
                 shortMoveArea = WhiteShortCastlingMoveArea;
                 shortCheckArea =  WhiteShortCastlingCheckArea;
@@ -92,7 +98,7 @@ namespace Proxima.Core.Boards.MoveGenerators
             }
             else
             {
-                initialKingLSB = InitialBlackKingLSB;
+                initialKingPosition = InitialBlackKingPosition;
 
                 shortMoveArea = BlackShortCastlingMoveArea;
                 shortCheckArea = BlackShortCastlingCheckArea;
@@ -105,8 +111,8 @@ namespace Proxima.Core.Boards.MoveGenerators
                IsCastlingAreaEmpty(shortMoveArea, opt.Occupancy) &&
                !IsCastlingAreaChecked(opt.EnemyColor, shortCheckArea, opt))
             {
-                var move = new Move(initialKingLSB, initialKingLSB + new Position(2, 0), 
-                                    PieceType.King, opt.FriendlyColor, MoveType.ShortCastling);
+                var to = initialKingPosition + new Position(2, 0);
+                var move = new CastlingMove(initialKingPosition, to, PieceType.King, opt.FriendlyColor, CastlingType.Short);
 
                 opt.Moves.AddLast(move);
             }
@@ -115,8 +121,8 @@ namespace Proxima.Core.Boards.MoveGenerators
                IsCastlingAreaEmpty(longMoveArea, opt.Occupancy) &&
                !IsCastlingAreaChecked(opt.EnemyColor, longCheckArea, opt))
             {
-                var move = new Move(initialKingLSB, initialKingLSB - new Position(2, 0),
-                                    PieceType.King, opt.FriendlyColor, MoveType.LongCastling);
+                var to = initialKingPosition - new Position(2, 0);
+                var move = new CastlingMove(initialKingPosition, to, PieceType.King, opt.FriendlyColor, CastlingType.Long);
 
                 opt.Moves.AddLast(move);
             }
