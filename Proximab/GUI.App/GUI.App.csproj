@@ -165,13 +165,14 @@
     <Content Include="Content\Textures\Field1.png" />
     <Content Include="Content\Textures\Field2.png" />
     <Content Include="Content\Textures\InternalSelection.png" />
+    <Content Include="Content\Textures\PromotionWindowBackground.png" />
+    <Content Include="Content\Textures\PromotionWindowHighlight.png" />
     <Content Include="Content\Textures\WhiteBishop.png" />
     <Content Include="Content\Textures\WhiteKing.png" />
     <Content Include="Content\Textures\WhiteKnight.png" />
     <Content Include="Content\Textures\WhitePawn.png" />
     <Content Include="Content\Textures\WhiteQueen.png" />
     <Content Include="Content\Textures\WhiteRook.png" />
-    <Content Include="Content\Textures\WindowBackground.png" />
     <Content Include="Content\XML\ColorDefinitions.xml" />
     <Content Include="Content\XML\CommandDefinitions.xml" />
     <Content Include="Content\XML\PieceDefinitions.xml" />
