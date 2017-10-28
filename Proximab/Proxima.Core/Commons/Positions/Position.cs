@@ -19,9 +19,9 @@ namespace Proxima.Core.Commons.Positions
             Y = y;
         }
 
-        bool IsValid()
+        public bool IsValid()
         {
-            return (X >= 1 && X <= 8) && (Y >= 1 && Y <= 8);
+            return X >= 1 && X <= 8 && Y >= 1 && Y <= 8;
         }
 
         public static bool operator ==(Position a, Position b)

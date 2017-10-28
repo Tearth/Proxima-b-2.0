@@ -2,6 +2,7 @@
 using Proxima.Core.Boards.MoveGenerators;
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
+using Proxima.Core.Commons.Exceptions;
 using Proxima.Core.Commons.Moves;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Positions;
@@ -96,8 +97,10 @@ namespace Proxima.Core.Boards
 
         void CalculateMove(BitBoard bitBoard, Move move)
         {
+            if (!move.From.IsValid() || !move.To.IsValid())
+                throw new PositionOutOfRangeException();
+
             var enemyColor = ColorOperations.Invert(move.Color);
-            
             var from = BitPositionConverter.ToULong(move.From);
             var to = BitPositionConverter.ToULong(move.To);
 

@@ -7,6 +7,6 @@
         public const string EnPassantSection = "!EnPassant";
 
         public const string EmptyBoardField = "--";
-        public const string NullEnPassant = "NULL";
+        public const string NullEnPassant = "Null";
     }
 }
