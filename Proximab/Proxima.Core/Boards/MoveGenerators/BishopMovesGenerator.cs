@@ -73,8 +73,6 @@ namespace Proxima.Core.Boards.MoveGenerators
             var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, pieceType)];
             var allPiecesOccupancy = opt.Occupancy & ~blockersToRemove;
 
-            var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
-
             var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
             var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
 

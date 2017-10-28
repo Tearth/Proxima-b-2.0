@@ -128,10 +128,10 @@ namespace Proxima.Core.Boards.MoveGenerators
 
                 var pieceLSB = opt.FriendlyColor == Color.White ? patternLSB >> 7 : patternLSB << 9;
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
-                var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
                 if ((opt.Mode & GeneratorMode.CalculateMoves) != 0)
                 {
+                    var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
                     var enPassantField = opt.EnPassant[(int)opt.EnemyColor] & patternLSB;
 
                     if ((patternLSB & opt.EnemyOccupancy) != 0 || enPassantField != 0)
@@ -171,10 +171,10 @@ namespace Proxima.Core.Boards.MoveGenerators
 
                 var pieceLSB = opt.FriendlyColor == Color.White ? patternLSB >> 9 : patternLSB << 7;
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
-                var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
                 if ((opt.Mode & GeneratorMode.CalculateMoves) != 0)
                 {
+                    var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
                     var enPassantField = opt.EnPassant[(int)opt.EnemyColor] & patternLSB;
 
                     if ((patternLSB & opt.EnemyOccupancy) != 0 || enPassantField != 0)
