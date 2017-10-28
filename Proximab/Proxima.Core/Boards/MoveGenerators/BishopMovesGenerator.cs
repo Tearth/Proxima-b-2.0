@@ -32,6 +32,7 @@ namespace Proxima.Core.Boards.MoveGenerators
                 return new BishopPatternContainer();
 
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
+            var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
             var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, opt.Occupancy) & ~opt.FriendlyOccupancy;
             var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, opt.Occupancy) & ~opt.FriendlyOccupancy;
@@ -43,16 +44,15 @@ namespace Proxima.Core.Boards.MoveGenerators
                 var patternLSB = BitOperations.GetLSB(ref pattern);
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                var from = BitPositionConverter.ToPosition(pieceIndex);
                 var to = BitPositionConverter.ToPosition(patternIndex);
 
                 if((patternLSB & opt.EnemyOccupancy) == 0)
                 {
-                    opt.Moves.AddLast(new QuietMove(from, to, pieceType, opt.FriendlyColor));
+                    opt.Moves.AddLast(new QuietMove(piecePosition, to, pieceType, opt.FriendlyColor));
                 }
                 else
                 {
-                    opt.Moves.AddLast(new KillMove(from, to, pieceType, opt.FriendlyColor));
+                    opt.Moves.AddLast(new KillMove(piecePosition, to, pieceType, opt.FriendlyColor));
                 }
 
                 opt.Attacks[patternIndex] |= pieceLSB;

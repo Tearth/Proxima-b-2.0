@@ -22,6 +22,7 @@ namespace Proxima.Core.Boards.MoveGenerators
             {
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
+                var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
                 var pattern = PatternsContainer.KnightPattern[pieceIndex];
 
@@ -33,16 +34,15 @@ namespace Proxima.Core.Boards.MoveGenerators
                     if ((opt.Mode & GeneratorMode.CalculateMoves) != 0 &&
                         (patternLSB & opt.FriendlyOccupancy) == 0)
                     {
-                        var from = BitPositionConverter.ToPosition(pieceIndex);
                         var to = BitPositionConverter.ToPosition(patternIndex);
 
                         if ((patternLSB & opt.EnemyOccupancy) == 0)
                         {
-                            opt.Moves.AddLast(new QuietMove(from, to, PieceType.Knight, opt.FriendlyColor));
+                            opt.Moves.AddLast(new QuietMove(piecePosition, to, PieceType.Knight, opt.FriendlyColor));
                         }
                         else
                         {
-                            opt.Moves.AddLast(new KillMove(from, to, PieceType.Knight, opt.FriendlyColor));
+                            opt.Moves.AddLast(new KillMove(piecePosition, to, PieceType.Knight, opt.FriendlyColor));
                         }
                     }
 

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Proxima.Core.Boards.MoveGenerators
 {
-    class RookMovesGenerator
+    public class RookMovesGenerator
     {
         public RookMovesGenerator()
         {
