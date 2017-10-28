@@ -101,91 +101,18 @@ namespace Proxima.Core.Boards
             {
                 throw new PositionOutOfRangeException();
             }
-
-            var enemyColor = ColorOperations.Invert(move.Color);
+            
             var from = BitPositionConverter.ToULong(move.From);
-            var to = BitPositionConverter.ToULong(move.To);
-
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] &= ~from;
 
             switch(move)
             {
-                case QuietMove quietMove:
-                {
-                    if (quietMove.Piece == PieceType.King)
-                    {
-                        _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
-                        _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
-                    }
-                    else if (quietMove.Piece == PieceType.Rook)
-                    {
-                        if (quietMove.From == new Position(1, 1) || quietMove.From == new Position(1, 8))
-                        {
-                            _castling[FastArray.GetCastlingIndex(quietMove.Color, CastlingType.Long)] = false;
-                        }
-                        else if (quietMove.From == new Position(8, 1) || quietMove.From == new Position(8, 8))
-                        {
-                            _castling[FastArray.GetCastlingIndex(quietMove.Color, CastlingType.Short)] = false;
-                        }
-                    }
-
-                    break;
-                }
-                case KillMove killMove:
-                {
-                    for (int piece = 0; piece < 6; piece++)
-                    {
-                        _pieces[FastArray.GetPieceIndex(enemyColor, (PieceType)piece)] &= ~to;
-                    }
-
-                    break;
-                }
-                case EnPassantMove enPassantMove:
-                {
-                    if (enPassantMove.Color == Color.White)
-                    {
-                        _pieces[FastArray.GetPieceIndex(enemyColor, enPassantMove.Piece)] &= ~(to >> 8);
-                    }
-                    else
-                    {
-                        _pieces[FastArray.GetPieceIndex(enemyColor, enPassantMove.Piece)] &= ~(to << 8);
-                    }
-
-                    break;
-                }
-                case CastlingMove castlingMove:
-                {
-                    switch(castlingMove.CastlingType)
-                    {
-                        case CastlingType.Short:
-                        {
-                            var rookLSB = castlingMove.Color == Color.White ? KingMovesGenerator.WhiteRightRookLSB : KingMovesGenerator.BlackRightRookLSB;
-
-                            _pieces[FastArray.GetPieceIndex(castlingMove.Color, PieceType.Rook)] &= ~rookLSB;
-                            _pieces[FastArray.GetPieceIndex(castlingMove.Color, PieceType.Rook)] |= (rookLSB << 2);
-
-                            _castling[FastArray.GetCastlingIndex(castlingMove.Color, CastlingType.Short)] = false;
-                            _castling[FastArray.GetCastlingIndex(castlingMove.Color, CastlingType.Long)] = false;
-                            break;
-                        }
-                        case CastlingType.Long:
-                        {
-                            var rookLSB = castlingMove.Color == Color.White ? KingMovesGenerator.WhiteLeftRookLSB : KingMovesGenerator.BlackLeftRookLSB;
-
-                            _pieces[FastArray.GetPieceIndex(castlingMove.Color, PieceType.Rook)] &= ~rookLSB;
-                            _pieces[FastArray.GetPieceIndex(castlingMove.Color, PieceType.Rook)] |= (rookLSB >> 3);
-
-                            _castling[FastArray.GetCastlingIndex(castlingMove.Color, CastlingType.Short)] = false;
-                            _castling[FastArray.GetCastlingIndex(castlingMove.Color, CastlingType.Long)] = false;
-                            break;
-                        }
-                    }
-
-                    break;
-                }
+                case QuietMove quietMove: { CalculateQuietMove(quietMove); break; }
+                case KillMove killMove: { CalculateKillMove(killMove); break; }
+                case EnPassantMove enPassantMove: { CalculateEnPassantMove(enPassantMove); break; }
+                case CastlingMove castlingMove: { CalculateCastlingMove(castlingMove); break; }
+                case PromotionMove promotionMove: { CalculatePromotionMove(promotionMove); break; }
             }
-
-            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] |= to;
         }
 
         void CalculateEnPassant(Move move)
@@ -213,6 +140,100 @@ namespace Proxima.Core.Boards
                     }
                 }
             }
+        }
+
+        void CalculateQuietMove(QuietMove move)
+        {
+            var to = BitPositionConverter.ToULong(move.To);
+
+            if (move.Piece == PieceType.King)
+            {
+                _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
+                _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
+            }
+            else if (move.Piece == PieceType.Rook)
+            {
+                if (move.From == new Position(1, 1) || move.From == new Position(1, 8))
+                {
+                    _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
+                }
+                else if (move.From == new Position(8, 1) || move.From == new Position(8, 8))
+                {
+                    _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
+                }
+            }
+
+            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] |= to;
+        }
+
+        void CalculateKillMove(KillMove move)
+        {
+            var enemyColor = ColorOperations.Invert(move.Color);
+            var to = BitPositionConverter.ToULong(move.To);
+
+            for (int piece = 0; piece < 6; piece++)
+            {
+                _pieces[FastArray.GetPieceIndex(enemyColor, (PieceType)piece)] &= ~to;
+            }
+
+            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] |= to;
+        }
+
+        void CalculateCastlingMove(CastlingMove move)
+        {
+            var to = BitPositionConverter.ToULong(move.To);
+
+            switch (move.CastlingType)
+            {
+                case CastlingType.Short:
+                {
+                    var rookLSB = move.Color == Color.White ? KingMovesGenerator.WhiteRightRookLSB : KingMovesGenerator.BlackRightRookLSB;
+
+                    _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
+                    _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] |= (rookLSB << 2);
+
+                    _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
+                    _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
+                    break;
+                }
+                case CastlingType.Long:
+                {
+                    var rookLSB = move.Color == Color.White ? KingMovesGenerator.WhiteLeftRookLSB : KingMovesGenerator.BlackLeftRookLSB;
+
+                    _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
+                    _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] |= (rookLSB >> 3);
+
+                    _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
+                    _castling[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
+                    break;
+                }
+            }
+
+            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] |= to;
+        }
+
+        void CalculateEnPassantMove(EnPassantMove move)
+        {
+            var enemyColor = ColorOperations.Invert(move.Color);
+            var to = BitPositionConverter.ToULong(move.To);
+
+            if (move.Color == Color.White)
+            {
+                _pieces[FastArray.GetPieceIndex(enemyColor, move.Piece)] &= ~(to >> 8);
+            }
+            else
+            {
+                _pieces[FastArray.GetPieceIndex(enemyColor, move.Piece)] &= ~(to << 8);
+            }
+
+            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] |= to;
+        }
+
+        void CalculatePromotionMove(PromotionMove move)
+        {
+            var to = BitPositionConverter.ToULong(move.To);
+
+            _pieces[FastArray.GetPieceIndex(move.Color, move.PromotionPiece)] |= to;
         }
 
         void CalculateOccupancy()
