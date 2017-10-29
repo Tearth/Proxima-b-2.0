@@ -12,6 +12,8 @@ namespace GUI.App.Source.PromotionSubsystem
 {
     internal class PromotionWindow
     {
+        public bool Active { get; private set; }
+
         Texture2D _windowBackground;
         Texture2D _windowHighlight;
 
@@ -22,52 +24,66 @@ namespace GUI.App.Source.PromotionSubsystem
 
         public PromotionWindow(PiecesProvider piecesProvider)
         {
+            Active = false;
+
             _piecesProvider = piecesProvider;
             _availablePieces = new List<Texture2D>();
 
             _highlightPosition = null;
         }
 
-        public virtual void LoadContent(ContentManager contentManager)
+        public void LoadContent(ContentManager contentManager)
         {
             _windowBackground = contentManager.Load<Texture2D>("Textures\\PromotionWindowBackground");
             _windowHighlight = contentManager.Load<Texture2D>("Textures\\PromotionWindowHighlight");
         }
 
-        public virtual void Input(InputManager inputManager)
+        public void Input(InputManager inputManager)
         {
             var mousePosition = inputManager.GetMousePosition();
             _highlightPosition = null;
 
-            if (mousePosition.Y >= Constants.PromotionWindowPosition.Y &&
-                mousePosition.Y <= Constants.PromotionWindowPosition.Y + Constants.PromotionWindowSize.Height)
+            if (IsMouseOverPromotionWindow(mousePosition))
             {
-                var pieceIndex = (int)Math.Floor((mousePosition.X - Constants.PromotionWindowPosition.X) / Constants.FieldWidthHeight);
-                if(pieceIndex >= 0 && pieceIndex <= 3)
-                {
-                    _highlightPosition = Constants.PromotionWindowPosition + new Vector2(pieceIndex * Constants.FieldWidthHeight, 0);
-                }
+                var pieceIndex = GetPieceIndex(mousePosition);
+                _highlightPosition = GetHighlightPosition(pieceIndex);
             }
         }
 
-        public virtual void Logic()
+        public void Logic()
         {
 
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if(Active)
+            {
+                DrawBackground(spriteBatch);
+                DrawHighlight(spriteBatch);
+                DrawPieces(spriteBatch);
+            }
+        }
+
+        void DrawBackground(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_windowBackground, Constants.PromotionWindowPosition, Constants.PromotionWindowSize, Color.White);
+        }
 
-            if(_highlightPosition.HasValue)
+        void DrawHighlight(SpriteBatch spriteBatch)
+        {
+            if (_highlightPosition.HasValue)
             {
                 spriteBatch.Draw(_windowHighlight, _highlightPosition.Value, Constants.FieldSize, Color.White);
             }
+        }
 
-            for (int i=0; i<_availablePieces.Count; i++)
+        void DrawPieces(SpriteBatch spriteBatch)
+        {
+            for (int i = 0; i < _availablePieces.Count; i++)
             {
                 var piece = _availablePieces[i];
-                var position = Constants.PromotionWindowPosition + new Vector2(Constants.FieldWidthHeight * i, 0);
+                var position = GetHighlightPosition(i);
 
                 spriteBatch.Draw(piece, position, Constants.FieldSize, Color.White);
             }
@@ -75,12 +91,34 @@ namespace GUI.App.Source.PromotionSubsystem
 
         public void Display(Proxima.Core.Commons.Colors.Color color)
         {
-            _availablePieces.Clear();
-
             _availablePieces.Add(_piecesProvider.GetPieceTexture(color, PieceType.Queen));
             _availablePieces.Add(_piecesProvider.GetPieceTexture(color, PieceType.Rook));
             _availablePieces.Add(_piecesProvider.GetPieceTexture(color, PieceType.Bishop));
             _availablePieces.Add(_piecesProvider.GetPieceTexture(color, PieceType.Knight));
+
+            Active = true;
+        }
+
+        public void Hide()
+        {
+            _availablePieces.Clear();
+            Active = false;
+        }
+
+        bool IsMouseOverPromotionWindow(Point mousePosition)
+        {
+            return mousePosition.Y >= Constants.PromotionWindowPosition.Y &&
+                   mousePosition.Y <= Constants.PromotionWindowPosition.Y + Constants.PromotionWindowSize.Height;
+        }
+
+        int GetPieceIndex(Point mousePosition)
+        {
+            return (int)Math.Floor((mousePosition.X - Constants.PromotionWindowPosition.X) / Constants.FieldWidthHeight);
+        }
+
+        Vector2 GetHighlightPosition(int pieceIndex)
+        {
+            return Constants.PromotionWindowPosition + new Vector2(pieceIndex * Constants.FieldWidthHeight, 0);
         }
     }
 }
