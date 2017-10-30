@@ -36,7 +36,11 @@ namespace GUI.App.Source.GameModeSubsystem
 
         public virtual void Input(InputManager inputManager)
         {
-            _board.Input(inputManager);
+            if(!_promotionWindow.Active)
+            {
+                _board.Input(inputManager);
+            }
+
             _promotionWindow.Input(inputManager);
         }
 

@@ -40,6 +40,9 @@ namespace GUI.App.Source.PromotionSubsystem
 
         public void Input(InputManager inputManager)
         {
+            if (!Active || inputManager.GetMouseMoveDelta().Length() == 0)
+                return;
+
             var mousePosition = inputManager.GetMousePosition();
             _highlightPosition = null;
 
@@ -57,12 +60,12 @@ namespace GUI.App.Source.PromotionSubsystem
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if(Active)
-            {
-                DrawBackground(spriteBatch);
-                DrawHighlight(spriteBatch);
-                DrawPieces(spriteBatch);
-            }
+            if (!Active)
+                return;
+
+            DrawBackground(spriteBatch);
+            DrawHighlight(spriteBatch);
+            DrawPieces(spriteBatch);
         }
 
         void DrawBackground(SpriteBatch spriteBatch)
@@ -107,7 +110,9 @@ namespace GUI.App.Source.PromotionSubsystem
 
         bool IsMouseOverPromotionWindow(Point mousePosition)
         {
-            return mousePosition.Y >= Constants.PromotionWindowPosition.Y &&
+            return mousePosition.X >= Constants.PromotionWindowPosition.X &&
+                   mousePosition.X <= Constants.PromotionWindowPosition.X + Constants.PromotionWindowSize.Width &&
+                   mousePosition.Y >= Constants.PromotionWindowPosition.Y &&
                    mousePosition.Y <= Constants.PromotionWindowPosition.Y + Constants.PromotionWindowSize.Height;
         }
 
