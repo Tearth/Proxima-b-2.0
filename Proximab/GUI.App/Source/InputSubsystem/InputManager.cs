@@ -39,40 +39,33 @@ namespace GUI.App.Source.InputSubsystem
 
         public void Logic()
         {
+            _leftMouseButtonJustPressed = false;
+            _rightMouseButtonJustPressed = false;
+            _leftMouseButtonJustReleased = false;
+            _rightMouseButtonJustReleased = false;
+
             ProcessMouse();
             ProcessKeyboard();
         }
 
         public bool IsLeftMouseButtonJustPressed()
         {
-            var currentState = _leftMouseButtonJustPressed;
-            _leftMouseButtonJustPressed = false;
-
-            return currentState;
+            return _leftMouseButtonJustPressed;
         }
 
         public bool IsRightMouseButtonJustPressed()
         {
-            var currentState = _rightMouseButtonJustPressed;
-            _rightMouseButtonJustPressed = false;
-
-            return currentState;
+            return _rightMouseButtonJustPressed;
         }
 
         public bool IsLeftMouseButtonJustReleased()
         {
-            var currentState = _leftMouseButtonJustReleased;
-            _leftMouseButtonJustReleased = false;
-
-            return currentState;
+            return _leftMouseButtonJustReleased;
         }
 
         public bool IsRightMouseButtonJustReleased()
         {
-            var currentState = _rightMouseButtonJustReleased;
-            _rightMouseButtonJustReleased = false;
-
-            return currentState;
+            return _rightMouseButtonJustReleased;
         }
 
         public bool IsKeyJustPressed(Keys key)
@@ -125,8 +118,6 @@ namespace GUI.App.Source.InputSubsystem
 
             if(mouseState.LeftButton == ButtonState.Released)
             {
-                _leftMouseButtonJustPressed = false;
-
                 if(_leftMouseButtonPreviousState == ButtonState.Pressed)
                 {
                     _leftMouseButtonJustReleased = true;
@@ -135,8 +126,6 @@ namespace GUI.App.Source.InputSubsystem
 
             if (mouseState.RightButton == ButtonState.Released)
             {
-                _rightMouseButtonJustPressed = false;
-
                 if (_rightMouseButtonPreviousState == ButtonState.Pressed)
                 {
                     _rightMouseButtonJustReleased = true;

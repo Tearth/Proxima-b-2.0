@@ -70,6 +70,7 @@
     <Compile Include="Source\Helpers\Constants.cs" />
     <Compile Include="Source\InputSubsystem\FPSCounter.cs" />
     <Compile Include="Source\InputSubsystem\InputManager.cs" />
+    <Compile Include="Source\PromotionSubsystem\PromotionPiece.cs" />
     <Compile Include="Source\PromotionSubsystem\PromotionSelectedEventArgs.cs" />
     <Compile Include="Source\PromotionSubsystem\PromotionWindow.cs" />
   </ItemGroup>

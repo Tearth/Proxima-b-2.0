@@ -8,6 +8,7 @@ using Proxima.Core.Commons;
 using Proxima.Core.Commons.Moves;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GUI.App.Source.PromotionSubsystem
 {
@@ -15,14 +16,17 @@ namespace GUI.App.Source.PromotionSubsystem
     {
         public bool Active { get; private set; }
 
+        public event EventHandler<PromotionSelectedEventArgs> OnPromotionSelection;
+
         Texture2D _windowBackground;
         Texture2D _windowHighlight;
 
         Vector2? _highlightPosition;
 
         PiecesProvider _piecesProvider;
-        List<Texture2D> _availablePieces;
 
+        List<PieceType> _predefinedPieceTypes;
+        List<PromotionPiece> _availablePieces;
         List<PromotionMove> _promotionMoves;
 
         public PromotionWindow(PiecesProvider piecesProvider)
@@ -32,7 +36,8 @@ namespace GUI.App.Source.PromotionSubsystem
             _highlightPosition = null;
             _piecesProvider = piecesProvider;
 
-            _availablePieces = new List<Texture2D>();
+            _predefinedPieceTypes = new List<PieceType>() { PieceType.Queen, PieceType.Rook, PieceType.Bishop, PieceType.Knight };
+            _availablePieces = new List<PromotionPiece>();
             _promotionMoves = new List<PromotionMove>();
         }
 
@@ -44,7 +49,7 @@ namespace GUI.App.Source.PromotionSubsystem
 
         public void Input(InputManager inputManager)
         {
-            if (!Active || inputManager.GetMouseMoveDelta().Length() == 0)
+            if (!Active)
                 return;
 
             var mousePosition = inputManager.GetMousePosition();
@@ -54,6 +59,14 @@ namespace GUI.App.Source.PromotionSubsystem
             {
                 var pieceIndex = GetPieceIndex(mousePosition);
                 _highlightPosition = GetHighlightPosition(pieceIndex);
+
+                if(inputManager.IsLeftMouseButtonJustPressed())
+                {
+                    var pieceType = _predefinedPieceTypes[pieceIndex];
+                    var move = _promotionMoves.First(p => p.PromotionPiece == pieceType);
+
+                    OnPromotionSelection?.Invoke(this, new PromotionSelectedEventArgs(move));
+                }
             }
         }
 
@@ -92,7 +105,7 @@ namespace GUI.App.Source.PromotionSubsystem
                 var piece = _availablePieces[i];
                 var position = GetHighlightPosition(i);
 
-                spriteBatch.Draw(piece, position, Constants.FieldSize, Color.White);
+                spriteBatch.Draw(piece.Texture, position, Constants.FieldSize, Color.White);
             }
         }
 
@@ -100,10 +113,11 @@ namespace GUI.App.Source.PromotionSubsystem
         {
             _promotionMoves.AddRange(promotionMoves);
 
-            _availablePieces.Add(_piecesProvider.GetPieceTexture(color, PieceType.Queen));
-            _availablePieces.Add(_piecesProvider.GetPieceTexture(color, PieceType.Rook));
-            _availablePieces.Add(_piecesProvider.GetPieceTexture(color, PieceType.Bishop));
-            _availablePieces.Add(_piecesProvider.GetPieceTexture(color, PieceType.Knight));
+            foreach(var predefinedPiece in _predefinedPieceTypes)
+            {
+                var piece = new PromotionPiece(_piecesProvider.GetPieceTexture(color, predefinedPiece), predefinedPiece);
+                _availablePieces.Add(piece);
+            }
 
             Active = true;
         }

@@ -12,6 +12,7 @@ using Proxima.Helpers.Tests;
 using Proxima.Core.Boards.Friendly;
 using System.Collections.Generic;
 using Proxima.Helpers.Persistence;
+using GUI.App.Source.PromotionSubsystem;
 
 namespace GUI.App.Source.GameModeSubsystem.Editor
 {
@@ -24,6 +25,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             _consoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
             _visualBoard.OnFieldSelection += Board_OnFieldSelection;
             _visualBoard.OnPieceMove += Board_OnPieceMove;
+            _promotionWindow.OnPromotionSelection += PromotionWindow_OnPromotionSelection;
         }
 
         void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
@@ -76,6 +78,12 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             {
                 CalculateBitBoard(move);
             }
+        }
+
+        void PromotionWindow_OnPromotionSelection(object sender, PromotionSelectedEventArgs e)
+        {
+            CalculateBitBoard(e.Move);
+            _promotionWindow.Hide();
         }
 
         void AddPiece(Command command)
