@@ -7,9 +7,9 @@ namespace GUI.App.Source.BoardSubsystem
 {
     internal class PieceMovedEventArgs
     {
-        public FriendlyPiece Piece;
-        public Position From;
-        public Position To;
+        public FriendlyPiece Piece { get; private set; }
+        public Position From { get; private set; }
+        public Position To { get; private set; }
 
         public PieceMovedEventArgs(FriendlyPiece piece, Position from, Position to)
         {

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Proxima.Core.Commons;
+using Proxima.Core.Commons.Moves;
 using System;
 using System.Collections.Generic;
 
@@ -22,14 +23,17 @@ namespace GUI.App.Source.PromotionSubsystem
         PiecesProvider _piecesProvider;
         List<Texture2D> _availablePieces;
 
+        List<PromotionMove> _promotionMoves;
+
         public PromotionWindow(PiecesProvider piecesProvider)
         {
             Active = false;
 
-            _piecesProvider = piecesProvider;
-            _availablePieces = new List<Texture2D>();
-
             _highlightPosition = null;
+            _piecesProvider = piecesProvider;
+
+            _availablePieces = new List<Texture2D>();
+            _promotionMoves = new List<PromotionMove>();
         }
 
         public void LoadContent(ContentManager contentManager)
@@ -92,8 +96,10 @@ namespace GUI.App.Source.PromotionSubsystem
             }
         }
 
-        public void Display(Proxima.Core.Commons.Colors.Color color)
+        public void Display(Proxima.Core.Commons.Colors.Color color, IEnumerable<PromotionMove> promotionMoves)
         {
+            _promotionMoves.AddRange(promotionMoves);
+
             _availablePieces.Add(_piecesProvider.GetPieceTexture(color, PieceType.Queen));
             _availablePieces.Add(_piecesProvider.GetPieceTexture(color, PieceType.Rook));
             _availablePieces.Add(_piecesProvider.GetPieceTexture(color, PieceType.Bishop));
@@ -104,7 +110,9 @@ namespace GUI.App.Source.PromotionSubsystem
 
         public void Hide()
         {
+            _promotionMoves.Clear();
             _availablePieces.Clear();
+
             Active = false;
         }
 

@@ -8,8 +8,8 @@ namespace GUI.App.Source.BoardSubsystem
 {
     internal class FieldSelectedEventArgs : EventArgs
     {
-        public Position Position { get; set; }
-        public FriendlyPiece Piece { get; set; }
+        public Position Position { get; private set; }
+        public FriendlyPiece Piece { get; private set; }
 
         public FieldSelectedEventArgs(Position position, FriendlyPiece piece)
         {

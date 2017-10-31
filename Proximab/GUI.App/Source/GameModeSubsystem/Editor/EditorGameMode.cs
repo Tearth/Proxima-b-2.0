@@ -65,14 +65,17 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             
             if(move == null)
             {
-                move = new QuietMove(e.From, e.To, e.Piece.Type, e.Piece.Color);
+                CalculateBitBoard(new QuietMove(e.From, e.To, e.Piece.Type, e.Piece.Color));
             }
             else if(move is PromotionMove promotionMove)
             {
-
+                var promotionMoves = availableMoves.Where(p => p.From == move.From && p is PromotionMove).Cast<PromotionMove>();
+                _promotionWindow.Display(move.Color, promotionMoves);
             }
-
-            CalculateBitBoard(move);
+            else
+            {
+                CalculateBitBoard(move);
+            }
         }
 
         void AddPiece(Command command)
