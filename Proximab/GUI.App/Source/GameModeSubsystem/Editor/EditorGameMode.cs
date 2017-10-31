@@ -19,7 +19,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
     {
         public EditorGameMode(ConsoleManager consoleManager) : base(consoleManager)
         {
-            UpdateBitBoard(new DefaultFriendlyBoard());
+            CalculateBitBoard(new DefaultFriendlyBoard());
 
             _consoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
             _visualBoard.OnFieldSelection += Board_OnFieldSelection;
@@ -66,23 +66,13 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             if(move == null)
             {
                 move = new QuietMove(e.From, e.To, e.Piece.Type, e.Piece.Color);
-
-                _bitBoard = _bitBoard.Move(move);
-                _bitBoard.Calculate();
-
-                _visualBoard.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
             }
             else if(move is PromotionMove promotionMove)
             {
 
             }
-            else
-            {
-                _bitBoard = _bitBoard.Move(move);
-                _bitBoard.Calculate();
 
-                _visualBoard.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
-            }
+            CalculateBitBoard(move);
         }
 
         void AddPiece(Command command)
@@ -113,7 +103,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
 
             _visualBoard.GetFriendlyBoard().SetPiece(new FriendlyPiece(fieldPosition, piece, color));
-            UpdateBitBoard(_visualBoard.GetFriendlyBoard());
+            CalculateBitBoard(_visualBoard.GetFriendlyBoard());
         }
 
         void RemovePiece(Command command)
@@ -128,7 +118,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
 
             _visualBoard.GetFriendlyBoard().RemovePiece(fieldPosition);
-            UpdateBitBoard(_visualBoard.GetFriendlyBoard());
+            CalculateBitBoard(_visualBoard.GetFriendlyBoard());
         }
         
         void DoMovesTest(Command command)

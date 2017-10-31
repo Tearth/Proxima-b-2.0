@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
+using Proxima.Core.Commons.Moves;
 using Proxima.Core.Commons.Positions;
 using Proxima.Helpers.Persistence;
 using System;
@@ -66,10 +67,30 @@ namespace GUI.App.Source.GameModeSubsystem
             _promotionWindow.Draw(spriteBatch);
         }
 
-        protected void UpdateBitBoard(FriendlyBoard friendlyBoard)
+        protected void CalculateBitBoard(FriendlyBoard friendlyBoard)
+        {
+            var mode = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
+            CalculateBitBoard(friendlyBoard, mode, mode);
+        }
+
+        protected void CalculateBitBoard(Move move)
+        {
+            var mode = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
+            CalculateBitBoard(move, mode, mode);
+        }
+
+        protected void CalculateBitBoard(FriendlyBoard friendlyBoard, GeneratorMode whiteMode, GeneratorMode blackMode)
         {
             _bitBoard = new BitBoard(friendlyBoard);
-            _bitBoard.Calculate();
+            _bitBoard.Calculate(whiteMode, blackMode);
+
+            _visualBoard.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
+        }
+
+        protected void CalculateBitBoard(Move move, GeneratorMode whiteMode, GeneratorMode blackMode)
+        {
+            _bitBoard = _bitBoard.Move(move);
+            _bitBoard.Calculate(whiteMode, blackMode);
 
             _visualBoard.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
         }
@@ -160,7 +181,7 @@ namespace GUI.App.Source.GameModeSubsystem
                 return;
             }
 
-            UpdateBitBoard(boardReader.Read(path));
+            CalculateBitBoard(boardReader.Read(path));
         }
 
         void IsCheck(Command command)
