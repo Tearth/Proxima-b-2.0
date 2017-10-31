@@ -17,8 +17,6 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
 {
     internal class EditorGameMode : GameModeBase
     {
-        BitBoard _bitBoard;
-
         public EditorGameMode(ConsoleManager consoleManager) : base(consoleManager)
         {
             UpdateBitBoard(new DefaultFriendlyBoard());
@@ -36,12 +34,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             {
                 case CommandType.AddPiece: { AddPiece(command); break; }
                 case CommandType.RemovePiece: { RemovePiece(command); break; }
-                case CommandType.Occupancy: { DrawOccupancy(command); break; }
-                case CommandType.Attacks: { DrawAttacks(command); break; }
-                case CommandType.SaveBoard: { SaveBoard(command); break; }
-                case CommandType.LoadBoard: { LoadBoard(command); break; }
                 case CommandType.MovesTest: { DoMovesTest(command); break; }
-                case CommandType.IsCheck: { IsCheck(command); break; }
             }
         }
 
@@ -137,82 +130,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             _visualBoard.GetFriendlyBoard().RemovePiece(fieldPosition);
             UpdateBitBoard(_visualBoard.GetFriendlyBoard());
         }
-
-        void DrawOccupancy(Command command)
-        {
-            var colorArgument = command.GetArgument<string>(0);
-
-            List<Position> occupancy;
-            if (colorArgument == "all")
-            {
-                occupancy = _visualBoard.GetFriendlyBoard().GetOccupancy();
-            }
-            else
-            {
-                var colorTypeParseResult = Enum.TryParse(colorArgument, true, out Color colorType);
-                if (!colorTypeParseResult)
-                {
-                    _consoleManager.WriteLine($"$rInvalid color parameter ($R{colorArgument}$r)");
-                    return;
-                }
-
-                occupancy = _visualBoard.GetFriendlyBoard().GetOccupancy(colorType);
-            }
-
-            _visualBoard.AddExternalSelections(occupancy);
-        }
-
-        void DrawAttacks(Command command)
-        {
-            var colorArgument = command.GetArgument<string>(0);
-
-            List<Position> attacks;
-            if (colorArgument == "all")
-            {
-                attacks = _visualBoard.GetFriendlyBoard().GetAttacks();
-            }
-            else
-            {
-                var colorTypeParseResult = Enum.TryParse(colorArgument, true, out Color colorType);
-                if (!colorTypeParseResult)
-                {
-                    _consoleManager.WriteLine($"$rInvalid color parameter ($R{colorArgument}$r)");
-                    return;
-                }
-
-                attacks = _visualBoard.GetFriendlyBoard().GetAttacks(colorType);
-            }
-
-            _visualBoard.AddExternalSelections(attacks);
-        }
-
-        void SaveBoard(Command command)
-        {
-            var boardNameArgument = command.GetArgument<string>(0);
-
-            var boardWriter = new BoardWriter();
-            var board = _visualBoard.GetFriendlyBoard();
-
-            var path = $"Boards\\{boardNameArgument}.board";
-            boardWriter.Write(path, board);
-        }
-
-        void LoadBoard(Command command)
-        {
-            var boardNameArgument = command.GetArgument<string>(0);
-
-            var boardReader = new BoardReader();
-            var path = $"Boards\\{boardNameArgument}.board";
-
-            if (!boardReader.BoardExists(path))
-            {
-                _consoleManager.WriteLine($"$rBoard {path} not found");
-                return;
-            }
-
-            UpdateBitBoard(boardReader.Read(path));
-        }
-
+        
         void DoMovesTest(Command command)
         {
             var test = new MovesTest();
@@ -230,43 +148,6 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             _consoleManager.WriteLine($"$wTime per node: $c{result.TimePerNode} ns");
             _consoleManager.WriteLine($"$wTime: $m{result.Time} s");
             _consoleManager.WriteLine();
-        }
-
-        void IsCheck(Command command)
-        {
-            var colorArgument = command.GetArgument<string>(0);
-            var colorType = Color.White;
-
-            if(colorArgument == "white" || colorArgument == "w")
-            {
-                colorType = Color.White;
-            }
-            else if (colorArgument == "black" || colorArgument == "b")
-            {
-                colorType = Color.Black;
-            }
-            else
-            {
-                _consoleManager.WriteLine($"$rInvalid color name");
-                return;
-            }
-
-            if(_bitBoard.IsCheck(colorType))
-            {
-                _consoleManager.WriteLine($"$gYES");
-            }
-            else
-            {
-                _consoleManager.WriteLine($"$rNO");
-            }
-        }
-
-        void UpdateBitBoard(FriendlyBoard friendlyBoard)
-        {
-            _bitBoard = new BitBoard(friendlyBoard);
-            _bitBoard.Calculate(CalculationMode.All);
-
-            _visualBoard.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
         }
     }
 }
