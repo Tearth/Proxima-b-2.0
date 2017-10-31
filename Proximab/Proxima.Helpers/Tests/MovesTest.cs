@@ -30,21 +30,17 @@ namespace Proxima.Helpers.Tests
             {
                 if(calculateEndNodes)
                 {
-                    bitBoard.Calculate(CalculationMode.OnlyAttacks);
+                    bitBoard.Calculate(GeneratorMode.CalculateAttacks, GeneratorMode.CalculateAttacks);
                 }
 
                 testData.EndNodes++;
             }
             else
             {
-                if(color == Color.White)
-                {
-                    bitBoard.Calculate(CalculationMode.WhiteMovesPlusAttacks);
-                }
-                else
-                {
-                    bitBoard.Calculate(CalculationMode.BlackMovesPlusAttacks);
-                }
+                var whiteMode = color == Color.White ? GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks : GeneratorMode.CalculateAttacks;
+                var blackMode = color == Color.Black ? GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks : GeneratorMode.CalculateAttacks;
+
+                bitBoard.Calculate(whiteMode, blackMode);
 
                 var availableMoves = bitBoard.GetAvailableMoves();
                 foreach (var move in availableMoves)

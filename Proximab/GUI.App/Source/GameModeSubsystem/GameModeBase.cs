@@ -69,7 +69,7 @@ namespace GUI.App.Source.GameModeSubsystem
         protected void UpdateBitBoard(FriendlyBoard friendlyBoard)
         {
             _bitBoard = new BitBoard(friendlyBoard);
-            _bitBoard.Calculate(CalculationMode.All);
+            _bitBoard.Calculate();
 
             _visualBoard.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
         }

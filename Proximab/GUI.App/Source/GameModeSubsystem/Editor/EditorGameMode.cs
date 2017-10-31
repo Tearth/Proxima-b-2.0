@@ -68,7 +68,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
                 move = new QuietMove(e.From, e.To, e.Piece.Type, e.Piece.Color);
 
                 _bitBoard = _bitBoard.Move(move);
-                _bitBoard.Calculate(CalculationMode.All);
+                _bitBoard.Calculate();
 
                 _visualBoard.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
             }
@@ -79,7 +79,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             else
             {
                 _bitBoard = _bitBoard.Move(move);
-                _bitBoard.Calculate(CalculationMode.All);
+                _bitBoard.Calculate();
 
                 _visualBoard.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
             }

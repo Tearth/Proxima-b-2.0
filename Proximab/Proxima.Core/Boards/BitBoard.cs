@@ -89,10 +89,16 @@ namespace Proxima.Core.Boards
             return (_attacksSummary[(int)enemyColor] & king) != 0;
         }
 
-        public void Calculate(CalculationMode calculationMode)
+        public void Calculate()
+        {
+            var generatorMode = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
+            Calculate(generatorMode, generatorMode);
+        }
+
+        public void Calculate(GeneratorMode whiteMode, GeneratorMode blackMode)
         {
             CalculateOccupancy();
-            CalculateAvailableMoves(calculationMode);
+            CalculateAvailableMoves(whiteMode, blackMode);
         }
 
         void CalculateMove(BitBoard bitBoard, Move move)
@@ -245,45 +251,10 @@ namespace Proxima.Core.Boards
             }
         }
 
-        void CalculateAvailableMoves(CalculationMode calculationMode)
+        void CalculateAvailableMoves(GeneratorMode whiteMode, GeneratorMode blackMode)
         {
-            GeneratorMode whiteGeneratorModeFlags = GeneratorMode.CalculateMoves;
-            GeneratorMode blackGeneratorModeFlags = GeneratorMode.CalculateMoves;
-
-            switch(calculationMode)
-            {
-                case CalculationMode.All:
-                {
-                    whiteGeneratorModeFlags = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
-                    blackGeneratorModeFlags = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
-
-                    break;
-                }
-                case CalculationMode.WhiteMovesPlusAttacks:
-                {
-                    whiteGeneratorModeFlags = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
-                    blackGeneratorModeFlags = GeneratorMode.CalculateAttacks;
-
-                    break;
-                }
-                case CalculationMode.BlackMovesPlusAttacks:
-                {
-                    whiteGeneratorModeFlags = GeneratorMode.CalculateAttacks;
-                    blackGeneratorModeFlags = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
-
-                    break;
-                }
-                case CalculationMode.OnlyAttacks:
-                {
-                    whiteGeneratorModeFlags = GeneratorMode.CalculateAttacks;
-                    blackGeneratorModeFlags = GeneratorMode.CalculateAttacks;
-
-                    break;
-                }
-            }
-
-            var whiteGeneratorParameters = GetGeneratorParameters(Color.White, whiteGeneratorModeFlags);
-            var blackGeneratorParameters = GetGeneratorParameters(Color.Black, blackGeneratorModeFlags);
+            var whiteGeneratorParameters = GetGeneratorParameters(Color.White, whiteMode);
+            var blackGeneratorParameters = GetGeneratorParameters(Color.Black, blackMode);
 
             CalculateAvailableMoves(whiteGeneratorParameters);
             CalculateAvailableMoves(blackGeneratorParameters);
