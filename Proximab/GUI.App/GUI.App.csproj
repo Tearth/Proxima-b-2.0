@@ -47,7 +47,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Source\BoardSubsystem\Axes\AxesManager.cs" />
-    <Compile Include="Source\BoardSubsystem\Board.cs" />
+    <Compile Include="Source\BoardSubsystem\VisualBoard.cs" />
     <Compile Include="Source\BoardSubsystem\PieceMovedEventArgs.cs" />
     <Compile Include="Source\BoardSubsystem\Pieces\PiecesProvider.cs" />
     <Compile Include="Source\BoardSubsystem\FieldSelectedEventArgs.cs" />

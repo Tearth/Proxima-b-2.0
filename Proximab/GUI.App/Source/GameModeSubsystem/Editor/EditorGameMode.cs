@@ -24,8 +24,8 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             UpdateBitBoard(new DefaultFriendlyBoard());
 
             _consoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
-            _board.OnFieldSelection += Board_OnFieldSelection;
-            _board.OnPieceMove += Board_OnPieceMove;
+            _visualBoard.OnFieldSelection += Board_OnFieldSelection;
+            _visualBoard.OnPieceMove += Board_OnPieceMove;
         }
 
         void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
@@ -49,8 +49,8 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
         {
             if(e.Piece == null)
             {
-                var fieldAttackers = _board.GetFriendlyBoard().GetFieldAttackers(e.Position);
-                _board.AddExternalSelections(fieldAttackers);
+                var fieldAttackers = _visualBoard.GetFriendlyBoard().GetFieldAttackers(e.Position);
+                _visualBoard.AddExternalSelections(fieldAttackers);
             }
             else
             {
@@ -61,26 +61,35 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
                     .Select(p => p.To)
                     .ToList();
 
-                _board.AddExternalSelections(movesForPiece);
+                _visualBoard.AddExternalSelections(movesForPiece);
             }
-
-            _promotionWindow.Display(Color.White);
         }
 
         void Board_OnPieceMove(object sender, PieceMovedEventArgs e)
         {
             var availableMoves = _bitBoard.GetAvailableMoves();
             var move = availableMoves.FirstOrDefault(p => p.From == e.From && p.To == e.To);
-
+            
             if(move == null)
             {
                 move = new QuietMove(e.From, e.To, e.Piece.Type, e.Piece.Color);
+
+                _bitBoard = _bitBoard.Move(move);
+                _bitBoard.Calculate(CalculationMode.All);
+
+                _visualBoard.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
             }
+            else if(move is PromotionMove promotionMove)
+            {
 
-            _bitBoard = _bitBoard.Move(move);
-            _bitBoard.Calculate(CalculationMode.All);
+            }
+            else
+            {
+                _bitBoard = _bitBoard.Move(move);
+                _bitBoard.Calculate(CalculationMode.All);
 
-            _board.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
+                _visualBoard.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
+            }
         }
 
         void AddPiece(Command command)
@@ -110,8 +119,8 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
                 return;
             }
 
-            _board.GetFriendlyBoard().SetPiece(new FriendlyPiece(fieldPosition, piece, color));
-            UpdateBitBoard(_board.GetFriendlyBoard());
+            _visualBoard.GetFriendlyBoard().SetPiece(new FriendlyPiece(fieldPosition, piece, color));
+            UpdateBitBoard(_visualBoard.GetFriendlyBoard());
         }
 
         void RemovePiece(Command command)
@@ -125,8 +134,8 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
                 return;
             }
 
-            _board.GetFriendlyBoard().RemovePiece(fieldPosition);
-            UpdateBitBoard(_board.GetFriendlyBoard());
+            _visualBoard.GetFriendlyBoard().RemovePiece(fieldPosition);
+            UpdateBitBoard(_visualBoard.GetFriendlyBoard());
         }
 
         void DrawOccupancy(Command command)
@@ -136,7 +145,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             List<Position> occupancy;
             if (colorArgument == "all")
             {
-                occupancy = _board.GetFriendlyBoard().GetOccupancy();
+                occupancy = _visualBoard.GetFriendlyBoard().GetOccupancy();
             }
             else
             {
@@ -147,10 +156,10 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
                     return;
                 }
 
-                occupancy = _board.GetFriendlyBoard().GetOccupancy(colorType);
+                occupancy = _visualBoard.GetFriendlyBoard().GetOccupancy(colorType);
             }
 
-            _board.AddExternalSelections(occupancy);
+            _visualBoard.AddExternalSelections(occupancy);
         }
 
         void DrawAttacks(Command command)
@@ -160,7 +169,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             List<Position> attacks;
             if (colorArgument == "all")
             {
-                attacks = _board.GetFriendlyBoard().GetAttacks();
+                attacks = _visualBoard.GetFriendlyBoard().GetAttacks();
             }
             else
             {
@@ -171,10 +180,10 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
                     return;
                 }
 
-                attacks = _board.GetFriendlyBoard().GetAttacks(colorType);
+                attacks = _visualBoard.GetFriendlyBoard().GetAttacks(colorType);
             }
 
-            _board.AddExternalSelections(attacks);
+            _visualBoard.AddExternalSelections(attacks);
         }
 
         void SaveBoard(Command command)
@@ -182,7 +191,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             var boardNameArgument = command.GetArgument<string>(0);
 
             var boardWriter = new BoardWriter();
-            var board = _board.GetFriendlyBoard();
+            var board = _visualBoard.GetFriendlyBoard();
 
             var path = $"Boards\\{boardNameArgument}.board";
             boardWriter.Write(path, board);
@@ -212,7 +221,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             var verifyChecksArgument = command.GetArgument<bool>(1);
             var depthArgument = command.GetArgument<int>(2);
 
-            var result = test.Run(Color.White, _board.GetFriendlyBoard(), depthArgument, calculateEndNodesArgument, verifyChecksArgument);
+            var result = test.Run(Color.White, _visualBoard.GetFriendlyBoard(), depthArgument, calculateEndNodesArgument, verifyChecksArgument);
             _consoleManager.WriteLine();
             _consoleManager.WriteLine("$wBenchmark result:");
             _consoleManager.WriteLine($"$wTotal nodes: $g{result.TotalNodes} N");
@@ -257,7 +266,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             _bitBoard = new BitBoard(friendlyBoard);
             _bitBoard.Calculate(CalculationMode.All);
 
-            _board.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
+            _visualBoard.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
         }
     }
 }

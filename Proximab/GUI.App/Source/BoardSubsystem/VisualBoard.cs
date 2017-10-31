@@ -1,21 +1,18 @@
-﻿using Proxima.Core.Boards;
-using Proxima.Core.Commons;
-using Proxima.Core.Commons.Positions;
-using GUI.App.Source.BoardSubsystem.Axes;
+﻿using GUI.App.Source.BoardSubsystem.Axes;
 using GUI.App.Source.BoardSubsystem.Pieces;
 using GUI.App.Source.BoardSubsystem.Selections;
 using GUI.App.Source.Helpers;
 using GUI.App.Source.InputSubsystem;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Proxima.Core.Boards.Friendly;
+using Proxima.Core.Commons.Positions;
 using System;
 using System.Collections.Generic;
-using Proxima.Core.Boards.Friendly;
-using System.Linq;
 
 namespace GUI.App.Source.BoardSubsystem
 {
-    internal class Board
+    internal class VisualBoard
     {
         public event EventHandler<FieldSelectedEventArgs> OnFieldSelection;
         public event EventHandler<PieceMovedEventArgs> OnPieceMove;
@@ -28,7 +25,7 @@ namespace GUI.App.Source.BoardSubsystem
         Texture2D _field1;
         Texture2D _field2;
 
-        public Board(PiecesProvider piecesProvider)
+        public VisualBoard(PiecesProvider piecesProvider)
         {
             _friendlyBoard = new FriendlyBoard();
 

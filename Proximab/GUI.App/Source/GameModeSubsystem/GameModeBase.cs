@@ -13,7 +13,7 @@ namespace GUI.App.Source.GameModeSubsystem
         protected ConsoleManager _consoleManager;
         protected PiecesProvider _piecesProvider;
 
-        protected Board _board;
+        protected VisualBoard _visualBoard;
         protected PromotionWindow _promotionWindow;
 
         public GameModeBase(ConsoleManager consoleManager)
@@ -23,14 +23,14 @@ namespace GUI.App.Source.GameModeSubsystem
 
             _piecesProvider = new PiecesProvider();
 
-            _board = new Board(_piecesProvider);
+            _visualBoard = new VisualBoard(_piecesProvider);
             _promotionWindow = new PromotionWindow(_piecesProvider);
         }
 
         public virtual void LoadContent(ContentManager contentManager)
         {
             _piecesProvider.LoadContent(contentManager);
-            _board.LoadContent(contentManager);
+            _visualBoard.LoadContent(contentManager);
             _promotionWindow.LoadContent(contentManager);
         }
 
@@ -38,7 +38,7 @@ namespace GUI.App.Source.GameModeSubsystem
         {
             if(!_promotionWindow.Active)
             {
-                _board.Input(inputManager);
+                _visualBoard.Input(inputManager);
             }
 
             _promotionWindow.Input(inputManager);
@@ -46,13 +46,13 @@ namespace GUI.App.Source.GameModeSubsystem
 
         public virtual void Logic()
         {
-            _board.Logic();
+            _visualBoard.Logic();
             _promotionWindow.Logic();
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            _board.Draw(spriteBatch);
+            _visualBoard.Draw(spriteBatch);
             _promotionWindow.Draw(spriteBatch);
         }
 
