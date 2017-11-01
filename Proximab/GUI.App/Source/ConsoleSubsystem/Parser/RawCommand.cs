@@ -4,8 +4,8 @@ namespace GUI.App.Source.ConsoleSubsystem.Parser
 {
     public class RawCommand
     {
-        public string Name { get; set; }
-        public IList<string> Arguments { get; set; }
+        public string Name { get; private set; }
+        public IList<string> Arguments { get; private set; }
 
         public RawCommand()
         {

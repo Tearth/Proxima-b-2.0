@@ -4,8 +4,8 @@ namespace ColorfulConsole.Output
 {
     public class OutputChunk
     {
-        public ConsoleColor Color { get; set; }
-        public string Text { get; set; }
+        public ConsoleColor Color { get; private set; }
+        public string Text { get; private set; }
 
         public OutputChunk()
         {

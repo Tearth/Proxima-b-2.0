@@ -7,11 +7,11 @@ namespace Proxima.Core.Commons.Moves
     [DebuggerDisplay("{Color} {Piece} from [{From.X} {From.Y}] to [{To.X} {To.Y}]")]
     public class Move
     {
-        public Position From { get; set; }
-        public Position To { get; set; }
+        public Position From { get; private set; }
+        public Position To { get; private set; }
 
-        public PieceType Piece { get; set; }
-        public Color Color { get; set; }
+        public PieceType Piece { get; private set; }
+        public Color Color { get; private set; }
 
         public Move()
         {

@@ -6,7 +6,7 @@ namespace Proxima.Core.Commons.Moves
 {
     public class CastlingMove : Move
     {
-        public CastlingType CastlingType { get; set; }
+        public CastlingType CastlingType { get; private set; }
 
         public CastlingMove(Position from, Position to, PieceType piece, Color color, CastlingType castlingType) 
             : base(from, to, piece, color)

@@ -2,8 +2,8 @@
 {
     public class RookPatternContainer
     {
-        public ulong Horizontal { get; set; }
-        public ulong Vertical { get; set; }
+        public ulong Horizontal { get; private set; }
+        public ulong Vertical { get; private set; }
 
         public RookPatternContainer()
         {

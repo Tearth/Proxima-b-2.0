@@ -6,9 +6,9 @@ namespace Proxima.Core.Boards.Friendly
 {
     public class FriendlyPiece
     {
-        public Position Position { get; set; }
-        public PieceType Type { get; set; }
-        public Color Color { get; set; }
+        public Position Position { get; private set; }
+        public PieceType Type { get; private set; }
+        public Color Color { get; private set; }
 
         public FriendlyPiece()
         {

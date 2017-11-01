@@ -6,8 +6,8 @@ namespace GUI.App.Source.ConsoleSubsystem.Parser
 {
     internal class Command
     {
-        public CommandType Type { get; set; }
-        public IList<string> Arguments { get; set; }
+        public CommandType Type { get; private set; }
+        public IList<string> Arguments { get; private set; }
 
         public Command()
         {

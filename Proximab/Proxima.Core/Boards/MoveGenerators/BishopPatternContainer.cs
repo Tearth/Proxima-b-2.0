@@ -2,8 +2,8 @@
 {
     public class BishopPatternContainer
     {
-        public ulong A1H8Diagonal { get; set; }
-        public ulong A8H1Diagonal { get; set; }
+        public ulong A1H8Diagonal { get; private set; }
+        public ulong A8H1Diagonal { get; private set; }
 
         public BishopPatternContainer()
         {

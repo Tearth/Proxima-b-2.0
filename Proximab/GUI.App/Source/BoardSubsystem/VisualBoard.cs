@@ -101,12 +101,6 @@ namespace GUI.App.Source.BoardSubsystem
             _friendlyBoard.SetPiece(piece);
         }
 
-        public void MovePiece(Position from, Position to)
-        {
-            var piece = _friendlyBoard.GetPiece(from);
-            piece.Position = to;
-        }
-
         public void AddExternalSelections(List<Position> selections)
         {
             _selectionsManager.AddExternalSelections(selections);

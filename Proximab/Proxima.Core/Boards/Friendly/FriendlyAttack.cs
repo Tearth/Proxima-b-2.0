@@ -1,18 +1,13 @@
 ﻿using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Positions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Proxima.Core.Boards.Friendly
 {
     public class FriendlyAttack
     {
-        public Color Color { get; set; }
-        public Position From { get; set; }
-        public Position To { get; set; }
+        public Color Color { get; private set; }
+        public Position From { get; private set; }
+        public Position To { get; private set; }
 
         public FriendlyAttack()
         {
