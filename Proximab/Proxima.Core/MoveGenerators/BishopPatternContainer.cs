@@ -1,4 +1,4 @@
-﻿namespace Proxima.Core.Boards.MoveGenerators
+﻿namespace Proxima.Core.MoveGenerators
 {
     public class BishopPatternContainer
     {

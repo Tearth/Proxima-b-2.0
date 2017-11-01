@@ -1,13 +1,14 @@
-﻿using Proxima.Core.Boards.PatternGenerators;
+﻿using Proxima.Core.Boards;
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Moves;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Positions;
+using Proxima.Core.MoveGenerators.PatternGenerators;
 using System.Collections.Generic;
 
-namespace Proxima.Core.Boards.MoveGenerators
+namespace Proxima.Core.MoveGenerators
 {
     public class RookMovesGenerator
     {

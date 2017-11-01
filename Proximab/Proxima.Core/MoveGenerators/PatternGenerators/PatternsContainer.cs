@@ -1,4 +1,4 @@
-﻿namespace Proxima.Core.Boards.PatternGenerators
+﻿namespace Proxima.Core.MoveGenerators.PatternGenerators
 {
     public static class PatternsContainer
     {

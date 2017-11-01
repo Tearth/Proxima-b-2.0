@@ -1,5 +1,5 @@
 ﻿using Proxima.Core.Boards.Friendly;
-using Proxima.Core.Boards.MoveGenerators;
+using Proxima.Core.MoveGenerators;
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Exceptions;

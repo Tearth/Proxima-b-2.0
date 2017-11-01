@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Proxima.Core.Boards.PatternGenerators
+﻿namespace Proxima.Core.MoveGenerators.PatternGenerators
 {
     public class SlidePatternGenerator
     {

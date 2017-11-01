@@ -57,16 +57,16 @@
     <Compile Include="Boards\Friendly\FriendlyBoard.cs" />
     <Compile Include="Boards\Friendly\FriendlyPiece.cs" />
     <Compile Include="Boards\GeneratorMode.cs" />
-    <Compile Include="Boards\MoveGenerators\BishopPatternContainer.cs" />
-    <Compile Include="Boards\MoveGenerators\GeneratorParameters.cs" />
-    <Compile Include="Boards\MoveGenerators\RookPatternContainer.cs" />
-    <Compile Include="Boards\PatternGenerators\KingPatternGenerator.cs" />
-    <Compile Include="Boards\PatternGenerators\SlidePatternGenerator.cs" />
-    <Compile Include="Boards\MoveGenerators\BishopMovesGenerator.cs" />
-    <Compile Include="Boards\MoveGenerators\KingMovesGenerator.cs" />
-    <Compile Include="Boards\MoveGenerators\KnightMovesGenerator.cs" />
-    <Compile Include="Boards\MoveGenerators\PawnMovesGenerator.cs" />
-    <Compile Include="Boards\MoveGenerators\RookMovesGenerator.cs" />
+    <Compile Include="MoveGenerators\BishopPatternContainer.cs" />
+    <Compile Include="MoveGenerators\GeneratorParameters.cs" />
+    <Compile Include="MoveGenerators\RookPatternContainer.cs" />
+    <Compile Include="MoveGenerators\PatternGenerators\KingPatternGenerator.cs" />
+    <Compile Include="MoveGenerators\PatternGenerators\SlidePatternGenerator.cs" />
+    <Compile Include="MoveGenerators\BishopMovesGenerator.cs" />
+    <Compile Include="MoveGenerators\KingMovesGenerator.cs" />
+    <Compile Include="MoveGenerators\KnightMovesGenerator.cs" />
+    <Compile Include="MoveGenerators\PawnMovesGenerator.cs" />
+    <Compile Include="MoveGenerators\RookMovesGenerator.cs" />
     <Compile Include="Commons\Axis.cs" />
     <Compile Include="Commons\Colors\Color.cs" />
     <Compile Include="Commons\Colors\ColorConverter.cs" />
@@ -88,8 +88,8 @@
     <Compile Include="Commons\PieceType.cs" />
     <Compile Include="Commons\Positions\Position.cs" />
     <Compile Include="Commons\Positions\PositionConverter.cs" />
-    <Compile Include="Boards\PatternGenerators\KnightPatternGenerator.cs" />
-    <Compile Include="Boards\PatternGenerators\PatternsContainer.cs" />
+    <Compile Include="MoveGenerators\PatternGenerators\KnightPatternGenerator.cs" />
+    <Compile Include="MoveGenerators\PatternGenerators\PatternsContainer.cs" />
     <Compile Include="ProximaCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

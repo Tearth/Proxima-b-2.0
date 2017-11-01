@@ -1,6 +1,6 @@
 ﻿using Proxima.Core.Commons.BitHelpers;
 
-namespace Proxima.Core.Boards.PatternGenerators
+namespace Proxima.Core.MoveGenerators.PatternGenerators
 {
     public class KnightPatternGenerator
     {

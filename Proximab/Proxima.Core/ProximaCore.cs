@@ -1,4 +1,4 @@
-﻿using Proxima.Core.Boards.PatternGenerators;
+﻿using Proxima.Core.MoveGenerators.PatternGenerators;
 
 namespace Proxima.Core
 {
