@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorfulConsoleHelpers.cs" />
     <Compile Include="ColorfulConsoleManager.cs" />
     <Compile Include="Output\ColorOutputPrinter.cs" />
     <Compile Include="Output\OutputChunk.cs" />

@@ -1,4 +1,5 @@
-﻿using GUI.App.Source.BoardSubsystem;
+﻿using ColorfulConsole;
+using GUI.App.Source.BoardSubsystem;
 using GUI.App.Source.BoardSubsystem.Pieces;
 using GUI.App.Source.ConsoleSubsystem;
 using GUI.App.Source.ConsoleSubsystem.Parser;
@@ -196,24 +197,17 @@ namespace GUI.App.Source.GameModeSubsystem
                 return;
             }
 
-            if (_bitBoard.IsCheck(colorType))
-            {
-                _consoleManager.WriteLine($"$gYES");
-            }
-            else
-            {
-                _consoleManager.WriteLine($"$rNO");
-            }
+            _consoleManager.WriteLine(ColorfulConsoleHelpers.ParseBool(_bitBoard.IsCheck(colorType)));
         }
 
         void DisplayCastlingFlags(Command command)
         {
             var castlingFlags = _visualBoard.GetFriendlyBoard().Castling;
 
-            _consoleManager.WriteLine($"$wWhite short: $c{castlingFlags.WhiteShortCastling}$w");
-            _consoleManager.WriteLine($"$wWhite long : $c{castlingFlags.WhiteLongCastling}$w");
-            _consoleManager.WriteLine($"$wBlack short: $c{castlingFlags.BlackShortCastling}$w");
-            _consoleManager.WriteLine($"$wBlack long : $c{castlingFlags.BlackLongCastling}$w");
+            _consoleManager.WriteLine($"$wWhite short: $c{ColorfulConsoleHelpers.ParseBool(castlingFlags.WhiteShortCastling)}$w");
+            _consoleManager.WriteLine($"$wWhite long : $c{ColorfulConsoleHelpers.ParseBool(castlingFlags.WhiteLongCastling)}$w");
+            _consoleManager.WriteLine($"$wBlack short: $c{ColorfulConsoleHelpers.ParseBool(castlingFlags.BlackShortCastling)}$w");
+            _consoleManager.WriteLine($"$wBlack long : $c{ColorfulConsoleHelpers.ParseBool(castlingFlags.BlackLongCastling)}$w");
         }
     }
 }
