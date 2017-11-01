@@ -188,19 +188,11 @@ namespace GUI.App.Source.GameModeSubsystem
         void DisplayIsCheck(Command command)
         {
             var colorArgument = command.GetArgument<string>(0);
-            var colorType = Color.White;
 
-            if (colorArgument == "white" || colorArgument == "w")
+            var colorTypeParseResult = Enum.TryParse(colorArgument, true, out Color colorType);
+            if (!colorTypeParseResult)
             {
-                colorType = Color.White;
-            }
-            else if (colorArgument == "black" || colorArgument == "b")
-            {
-                colorType = Color.Black;
-            }
-            else
-            {
-                _consoleManager.WriteLine($"$rInvalid color name");
+                _consoleManager.WriteLine($"$rInvalid color parameter ($R{colorArgument}$r)");
                 return;
             }
 
