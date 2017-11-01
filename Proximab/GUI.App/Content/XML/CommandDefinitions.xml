@@ -127,6 +127,14 @@
           </Item>
         </Arguments>
       </Item>
+      
+      <Item>
+        <Name>Castling</Name>
+        <EnumType>Castling</EnumType>
+        <Description>Display castling flags</Description>
+        <Arguments>
+        </Arguments>
+      </Item>
 		</Definitions>
 	</Asset>
 </XnaContent>

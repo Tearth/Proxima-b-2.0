@@ -105,7 +105,8 @@ namespace GUI.App.Source.GameModeSubsystem
                 case CommandType.Attacks: { DrawAttacks(command); break; }
                 case CommandType.SaveBoard: { SaveBoard(command); break; }
                 case CommandType.LoadBoard: { LoadBoard(command); break; }
-                case CommandType.IsCheck: { IsCheck(command); break; }
+                case CommandType.IsCheck: { DisplayIsCheck(command); break; }
+                case CommandType.Castling: { DisplayCastlingFlags(command); break; }
             }
         }
 
@@ -184,7 +185,7 @@ namespace GUI.App.Source.GameModeSubsystem
             CalculateBitBoard(boardReader.Read(path));
         }
 
-        void IsCheck(Command command)
+        void DisplayIsCheck(Command command)
         {
             var colorArgument = command.GetArgument<string>(0);
             var colorType = Color.White;
@@ -211,6 +212,16 @@ namespace GUI.App.Source.GameModeSubsystem
             {
                 _consoleManager.WriteLine($"$rNO");
             }
+        }
+
+        void DisplayCastlingFlags(Command command)
+        {
+            var castlingFlags = _visualBoard.GetFriendlyBoard().Castling;
+
+            _consoleManager.WriteLine($"$wWhite short: $c{castlingFlags.WhiteShortCastling}$w");
+            _consoleManager.WriteLine($"$wWhite long : $c{castlingFlags.WhiteLongCastling}$w");
+            _consoleManager.WriteLine($"$wBlack short: $c{castlingFlags.BlackShortCastling}$w");
+            _consoleManager.WriteLine($"$wBlack long : $c{castlingFlags.BlackLongCastling}$w");
         }
     }
 }

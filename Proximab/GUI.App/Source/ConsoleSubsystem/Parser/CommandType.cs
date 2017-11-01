@@ -13,6 +13,7 @@
         Occupancy,
         Attacks,
         MovesTest,
-        IsCheck
+        IsCheck,
+        Castling
     }
 }
