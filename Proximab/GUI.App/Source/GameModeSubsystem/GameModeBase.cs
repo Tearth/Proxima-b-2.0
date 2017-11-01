@@ -12,6 +12,7 @@ using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Moves;
 using Proxima.Core.Commons.Positions;
+using Proxima.Core.MoveGenerators;
 using Proxima.Helpers.Persistence;
 using System;
 using System.Collections.Generic;

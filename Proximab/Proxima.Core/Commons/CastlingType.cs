@@ -1,4 +1,4 @@
-﻿namespace Proxima.Core.Boards
+﻿namespace Proxima.Core.Commons
 {
     public enum CastlingType
     {

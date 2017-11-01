@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Boards\BitBoard.cs" />
-    <Compile Include="Boards\CastlingType.cs" />
+    <Compile Include="Commons\CastlingType.cs" />
     <Compile Include="Boards\Friendly\DefaultFriendlyBoard.cs" />
     <Compile Include="Boards\Friendly\FriendlyAttack.cs" />
     <Compile Include="Boards\Friendly\FriendlyAttacksList.cs" />
@@ -56,7 +56,7 @@
     <Compile Include="Commons\BitHelpers\BitPositionConverter.cs" />
     <Compile Include="Boards\Friendly\FriendlyBoard.cs" />
     <Compile Include="Boards\Friendly\FriendlyPiece.cs" />
-    <Compile Include="Boards\GeneratorMode.cs" />
+    <Compile Include="MoveGenerators\GeneratorMode.cs" />
     <Compile Include="MoveGenerators\BishopPatternContainer.cs" />
     <Compile Include="MoveGenerators\GeneratorParameters.cs" />
     <Compile Include="MoveGenerators\RookPatternContainer.cs" />

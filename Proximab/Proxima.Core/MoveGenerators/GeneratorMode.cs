@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Proxima.Core.Boards
+namespace Proxima.Core.MoveGenerators
 {
     [Flags]
     public enum GeneratorMode
