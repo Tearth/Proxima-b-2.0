@@ -59,6 +59,7 @@
     <Compile Include="Heuristics\Heuristic.cs" />
     <Compile Include="Heuristics\HeuristicConstants.cs" />
     <Compile Include="Heuristics\HeuristicParameters.cs" />
+    <Compile Include="Heuristics\HeuristicResult.cs" />
     <Compile Include="MoveGenerators\GeneratorMode.cs" />
     <Compile Include="MoveGenerators\BishopPatternContainer.cs" />
     <Compile Include="MoveGenerators\GeneratorParameters.cs" />

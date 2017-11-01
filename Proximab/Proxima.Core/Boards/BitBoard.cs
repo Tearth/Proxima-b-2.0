@@ -101,6 +101,12 @@ namespace Proxima.Core.Boards
             CalculateAvailableMoves(whiteMode, blackMode);
         }
 
+        public float GetValue()
+        {
+            var heuristicParameters = GetHeuristicParameters();
+            return new Heuristic().GetBoardValue(heuristicParameters);
+        }
+
         void CalculateMove(BitBoard bitBoard, Move move)
         {
             if (!move.IsValid())
