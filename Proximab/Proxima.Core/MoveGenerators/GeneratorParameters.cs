@@ -11,16 +11,16 @@ namespace Proxima.Core.MoveGenerators
         public Color EnemyColor { get; set; }
         public GeneratorMode Mode { get; set; }
 
-        public ulong Occupancy { get; set; }
-        public ulong FriendlyOccupancy { get; set; }
-        public ulong EnemyOccupancy { get; set; }
-
         public ulong[] Pieces { get; set; }
         public bool[] Castling { get; set; }
         public ulong[] EnPassant { get; set; }
 
         public ulong[] Attacks { get; set; }
         public ulong[] AttacksSummary { get; set; }
+
+        public ulong Occupancy { get; set; }
+        public ulong FriendlyOccupancy { get; set; }
+        public ulong EnemyOccupancy { get; set; }
 
         public LinkedList<Move> Moves { get; set; }
     }

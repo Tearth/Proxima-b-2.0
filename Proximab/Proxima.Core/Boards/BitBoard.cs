@@ -8,6 +8,7 @@ using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Positions;
 using System;
 using System.Collections.Generic;
+using Proxima.Core.Heuristics;
 
 namespace Proxima.Core.Boards
 {
@@ -291,21 +292,34 @@ namespace Proxima.Core.Boards
             {
                 FriendlyColor = color,
                 EnemyColor = ColorOperations.Invert(color),
-
                 Mode = mode,
+
+                Pieces = _pieces,
+                EnPassant = _enPassant,
                 Castling = _castling,
+
+                Attacks = _attacks,
+                AttacksSummary = _attacksSummary,
 
                 Occupancy = _occupancy[(int)Color.White] | _occupancy[(int)Color.Black],
                 FriendlyOccupancy = _occupancy[(int)color],
                 EnemyOccupancy = _occupancy[(int)ColorOperations.Invert(color)],
 
+                Moves = _moves
+            };
+        }
+
+        HeuristicParameters GetHeuristicParameters()
+        {
+            return new HeuristicParameters()
+            {
                 Pieces = _pieces,
+                Occupancy = _occupancy,
                 EnPassant = _enPassant,
+                Castling = _castling,
 
                 Attacks = _attacks,
-                AttacksSummary = _attacksSummary,
-
-                Moves = _moves
+                AttacksSummary = _attacksSummary
             };
         }
     }
