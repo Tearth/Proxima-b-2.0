@@ -34,12 +34,11 @@ namespace Proxima.Core.Boards
         {
             _pieces = new ulong[12];
             _occupancy = new ulong[2];
+            _castling = new bool[4];
             _enPassant = new ulong[2];
 
             _attacksSummary = new ulong[2];
             _attacks = new ulong[64];
-
-            _castling = new bool[4];
 
             _moves = new LinkedList<Move>();
 

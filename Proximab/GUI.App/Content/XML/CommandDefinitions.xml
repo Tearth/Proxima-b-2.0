@@ -117,14 +117,10 @@
       </Item>
     
       <Item>
-        <Name>IsCheck</Name>
-        <EnumType>IsCheck</EnumType>
-        <Description>Check if king with specified color is attacked</Description>
+        <Name>Check</Name>
+        <EnumType>Check</EnumType>
+        <Description>Display status of kings (attacked or not)</Description>
         <Arguments>
-          <Item>
-            <Type>string</Type>
-            <Description>Color (White/Black)</Description>
-          </Item>
         </Arguments>
       </Item>
       

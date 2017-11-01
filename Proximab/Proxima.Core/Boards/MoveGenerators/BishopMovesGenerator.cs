@@ -22,7 +22,7 @@ namespace Proxima.Core.Boards.MoveGenerators
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
 
                 var patternContainer = CalculateMoves(pieceType, pieceLSB, opt);
-                CalculateAttack(pieceType, pieceLSB, patternContainer, opt);
+                CalculateAttacks(pieceType, pieceLSB, patternContainer, opt);
             }
         }
 
@@ -62,7 +62,7 @@ namespace Proxima.Core.Boards.MoveGenerators
             return new BishopPatternContainer(rightRotatedBitBoardPattern, leftRotatedBitBoardPattern);
         }
 
-        void CalculateAttack(PieceType pieceType, ulong pieceLSB, BishopPatternContainer patternContainer, GeneratorParameters opt)
+        void CalculateAttacks(PieceType pieceType, ulong pieceLSB, BishopPatternContainer patternContainer, GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateAttacks) == 0)
                 return;

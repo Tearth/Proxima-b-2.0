@@ -106,7 +106,7 @@ namespace GUI.App.Source.GameModeSubsystem
                 case CommandType.Attacks: { DrawAttacks(command); break; }
                 case CommandType.SaveBoard: { SaveBoard(command); break; }
                 case CommandType.LoadBoard: { LoadBoard(command); break; }
-                case CommandType.IsCheck: { DisplayIsCheck(command); break; }
+                case CommandType.Check: { DisplayCheckStatus(command); break; }
                 case CommandType.Castling: { DisplayCastlingFlags(command); break; }
             }
         }
@@ -186,28 +186,23 @@ namespace GUI.App.Source.GameModeSubsystem
             CalculateBitBoard(boardReader.Read(path));
         }
 
-        void DisplayIsCheck(Command command)
+        void DisplayCheckStatus(Command command)
         {
-            var colorArgument = command.GetArgument<string>(0);
+            var whiteCheck = _bitBoard.IsCheck(Color.White);
+            var blackCheck = _bitBoard.IsCheck(Color.Black);
 
-            var colorTypeParseResult = Enum.TryParse(colorArgument, true, out Color colorType);
-            if (!colorTypeParseResult)
-            {
-                _consoleManager.WriteLine($"$rInvalid color parameter ($R{colorArgument}$r)");
-                return;
-            }
-
-            _consoleManager.WriteLine(ColorfulConsoleHelpers.ParseBool(_bitBoard.IsCheck(colorType)));
+            _consoleManager.WriteLine($"$cWhite king checked: ${ColorfulConsoleHelpers.ParseBool(whiteCheck)}");
+            _consoleManager.WriteLine($"$cBlack king checked: ${ColorfulConsoleHelpers.ParseBool(blackCheck)}");
         }
 
         void DisplayCastlingFlags(Command command)
         {
             var castlingFlags = _visualBoard.GetFriendlyBoard().Castling;
 
-            _consoleManager.WriteLine($"$wWhite short: $c{ColorfulConsoleHelpers.ParseBool(castlingFlags.WhiteShortCastling)}$w");
-            _consoleManager.WriteLine($"$wWhite long : $c{ColorfulConsoleHelpers.ParseBool(castlingFlags.WhiteLongCastling)}$w");
-            _consoleManager.WriteLine($"$wBlack short: $c{ColorfulConsoleHelpers.ParseBool(castlingFlags.BlackShortCastling)}$w");
-            _consoleManager.WriteLine($"$wBlack long : $c{ColorfulConsoleHelpers.ParseBool(castlingFlags.BlackLongCastling)}$w");
+            _consoleManager.WriteLine($"$cWhite short: {ColorfulConsoleHelpers.ParseBool(castlingFlags.WhiteShortCastling)}");
+            _consoleManager.WriteLine($"$cWhite long : {ColorfulConsoleHelpers.ParseBool(castlingFlags.WhiteLongCastling)}");
+            _consoleManager.WriteLine($"$cBlack short: {ColorfulConsoleHelpers.ParseBool(castlingFlags.BlackShortCastling)}");
+            _consoleManager.WriteLine($"$cBlack long : {ColorfulConsoleHelpers.ParseBool(castlingFlags.BlackLongCastling)}");
         }
     }
 }
