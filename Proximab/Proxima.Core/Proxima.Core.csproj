@@ -56,8 +56,8 @@
     <Compile Include="Commons\BitHelpers\BitPositionConverter.cs" />
     <Compile Include="Boards\Friendly\FriendlyBoard.cs" />
     <Compile Include="Boards\Friendly\FriendlyPiece.cs" />
-    <Compile Include="Evaluation\Calculators\MaterialCalculator.cs" />
-    <Compile Include="Evaluation\Calculators\MaterialResult.cs" />
+    <Compile Include="Evaluation\Material\MaterialCalculator.cs" />
+    <Compile Include="Evaluation\Material\MaterialResult.cs" />
     <Compile Include="Evaluation\EvaluationCalculator.cs" />
     <Compile Include="Evaluation\EvaluationConstants.cs" />
     <Compile Include="Evaluation\EvaluationParameters.cs" />

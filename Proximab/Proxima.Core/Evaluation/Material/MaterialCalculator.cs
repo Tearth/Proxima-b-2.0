@@ -3,7 +3,7 @@ using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 
-namespace Proxima.Core.Evaluation.Calculators
+namespace Proxima.Core.Evaluation.Material
 {
     public class MaterialCalculator
     {

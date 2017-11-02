@@ -1,4 +1,4 @@
-﻿namespace Proxima.Core.Evaluation.Calculators
+﻿namespace Proxima.Core.Evaluation.Material
 {
     public class MaterialResult
     {
