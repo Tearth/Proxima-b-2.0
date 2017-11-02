@@ -11,16 +11,23 @@ namespace Proxima.Core.Evaluation.Calculators
         {
             var material = new int[2];
 
-            for (int color = 0; color < 2; color++)
+            material[(int)Color.White] = GetMaterial(Color.White, parameters.Pieces);
+            material[(int)Color.Black] = GetMaterial(Color.Black, parameters.Pieces);
+
+            return material;
+        }
+
+        int GetMaterial(Color color, ulong[] pieces)
+        {
+            var material = 0;
+
+            for (int piece = 0; piece < 6; piece++)
             {
-                for (int piece = 0; piece < 6; piece++)
+                var piecesToParse = pieces[FastArray.GetPieceIndex(color, (PieceType)piece)];
+                while (piecesToParse != 0)
                 {
-                    var pieces = parameters.Pieces[FastArray.GetPieceIndex((Color)color, (PieceType)piece)];
-                    while(pieces != 0)
-                    {
-                        var lsb = BitOperations.GetLSB(ref pieces);
-                        material[color] += GetPieceValue((PieceType)piece);
-                    }
+                    var lsb = BitOperations.GetLSB(ref piecesToParse);
+                    material += GetPieceValue((PieceType)piece);
                 }
             }
 
