@@ -8,7 +8,7 @@ using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Positions;
 using System;
 using System.Collections.Generic;
-using Proxima.Core.Heuristics;
+using Proxima.Core.Evaluation;
 
 namespace Proxima.Core.Boards
 {
@@ -101,10 +101,12 @@ namespace Proxima.Core.Boards
             CalculateAvailableMoves(whiteMode, blackMode);
         }
 
-        public float GetValue()
+        public EvaluationResult GetEvaluation()
         {
-            var heuristicParameters = GetHeuristicParameters();
-            return new Heuristic().GetBoardValue(heuristicParameters);
+            var evaluationCalculator = new EvaluationCalculator();
+            var evaluationParameters = GetEvaluationParameters();
+
+            return evaluationCalculator.GetEvaluation(evaluationParameters);
         }
 
         void CalculateMove(BitBoard bitBoard, Move move)
@@ -315,9 +317,9 @@ namespace Proxima.Core.Boards
             };
         }
 
-        HeuristicParameters GetHeuristicParameters()
+        EvaluationParameters GetEvaluationParameters()
         {
-            return new HeuristicParameters()
+            return new EvaluationParameters()
             {
                 Pieces = _pieces,
                 Occupancy = _occupancy,

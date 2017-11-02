@@ -1,8 +1,8 @@
 ﻿using Proxima.Core.Commons.Colors;
 
-namespace Proxima.Core.Heuristics
+namespace Proxima.Core.Evaluation
 {
-    public class HeuristicResult
+    public class EvaluationResult
     {
         public int[] Material { get; set; }
 

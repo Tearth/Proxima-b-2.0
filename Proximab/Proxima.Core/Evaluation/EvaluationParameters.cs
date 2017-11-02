@@ -1,6 +1,6 @@
-﻿namespace Proxima.Core.Heuristics
+﻿namespace Proxima.Core.Evaluation
 {
-    public class HeuristicParameters
+    public class EvaluationParameters
     {
         public ulong[] Pieces { get; set; }
         public ulong[] Occupancy { get; set; }

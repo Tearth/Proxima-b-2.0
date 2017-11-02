@@ -109,6 +109,7 @@ namespace GUI.App.Source.GameModeSubsystem
                 case CommandType.LoadBoard: { LoadBoard(command); break; }
                 case CommandType.Check: { DisplayCheckStatus(command); break; }
                 case CommandType.Castling: { DisplayCastlingFlags(command); break; }
+                case CommandType.Evaluation: { DisplayEvaluation(command); break; }
             }
         }
 
@@ -204,6 +205,17 @@ namespace GUI.App.Source.GameModeSubsystem
             _consoleManager.WriteLine($"$cWhite long : {ColorfulConsoleHelpers.ParseBool(castlingFlags.WhiteLongCastling)}");
             _consoleManager.WriteLine($"$cBlack short: {ColorfulConsoleHelpers.ParseBool(castlingFlags.BlackShortCastling)}");
             _consoleManager.WriteLine($"$cBlack long : {ColorfulConsoleHelpers.ParseBool(castlingFlags.BlackLongCastling)}");
+        }
+
+        void DisplayEvaluation(Command command)
+        {
+            var evaluation = _bitBoard.GetEvaluation();
+
+            _consoleManager.WriteLine($"$c\t\tWhite\tBlack");
+            _consoleManager.WriteLine($"$cMaterial:\t$w{evaluation.Material[(int)Color.White]}\t{evaluation.Material[(int)Color.Black]}");
+
+            _consoleManager.WriteLine();
+            _consoleManager.WriteLine($"$cTotal: $w{evaluation.Total}");
         }
     }
 }

@@ -14,6 +14,7 @@
         Attacks,
         MovesTest,
         Check,
-        Castling
+        Castling,
+        Evaluation
     }
 }
