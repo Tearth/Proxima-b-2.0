@@ -7,12 +7,12 @@ namespace Proxima.Core.Evaluation.Calculators
 {
     public class MaterialCalculator
     {
-        public int[] Calculate(EvaluationParameters parameters)
+        public MaterialResult Calculate(EvaluationParameters parameters)
         {
-            var material = new int[2];
+            var material = new MaterialResult();
 
-            material[(int)Color.White] = GetMaterial(Color.White, parameters.Pieces);
-            material[(int)Color.Black] = GetMaterial(Color.Black, parameters.Pieces);
+            material.WhiteMaterial = GetMaterial(Color.White, parameters.Pieces);
+            material.BlackMaterial = GetMaterial(Color.Black, parameters.Pieces);
 
             return material;
         }

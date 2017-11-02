@@ -1,16 +1,16 @@
-﻿using Proxima.Core.Commons.Colors;
+﻿using Proxima.Core.Evaluation.Calculators;
 
 namespace Proxima.Core.Evaluation
 {
     public class EvaluationResult
     {
-        public int[] Material { get; set; }
+        public MaterialResult Material { get; set; }
 
         public int Total
         {
             get
             {
-                return (Material[(int)Color.White] - Material[(int)Color.Black]);
+                return Material.Difference;
             }
         }
     }

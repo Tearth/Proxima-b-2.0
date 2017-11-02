@@ -212,7 +212,7 @@ namespace GUI.App.Source.GameModeSubsystem
             var evaluation = _bitBoard.GetEvaluation();
 
             _consoleManager.WriteLine($"$c\t\tWhite\tBlack");
-            _consoleManager.WriteLine($"$cMaterial:\t$w{evaluation.Material[(int)Color.White]}\t{evaluation.Material[(int)Color.Black]}");
+            _consoleManager.WriteLine($"$cMaterial:\t$w{evaluation.Material.WhiteMaterial}\t{evaluation.Material.BlackMaterial}");
 
             _consoleManager.WriteLine();
             _consoleManager.WriteLine($"$cTotal: $w{evaluation.Total}");
