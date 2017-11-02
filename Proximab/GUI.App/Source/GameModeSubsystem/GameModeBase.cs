@@ -213,6 +213,7 @@ namespace GUI.App.Source.GameModeSubsystem
 
             _consoleManager.WriteLine($"$c\t\tWhite\tBlack");
             _consoleManager.WriteLine($"$cMaterial:\t$w{evaluation.Material.WhiteMaterial}\t{evaluation.Material.BlackMaterial}");
+            _consoleManager.WriteLine($"$cMobility:\t$w{evaluation.Mobility.WhiteMobility}\t{evaluation.Mobility.BlackMobility}");
 
             _consoleManager.WriteLine();
             _consoleManager.WriteLine($"$cTotal: $w{evaluation.Total}");
