@@ -32,6 +32,7 @@ namespace Proxima.Helpers.Tests
                 if(calculateEndNodes)
                 {
                     bitBoard.Calculate(GeneratorMode.CalculateAttacks, GeneratorMode.CalculateAttacks);
+                    bitBoard.GetEvaluation();
                 }
 
                 testData.EndNodes++;
