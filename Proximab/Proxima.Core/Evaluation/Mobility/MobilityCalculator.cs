@@ -1,6 +1,7 @@
 ﻿using Proxima.Core.Boards;
 using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Colors;
+using System.Runtime.CompilerServices;
 
 namespace Proxima.Core.Evaluation.Mobility
 {
@@ -27,14 +28,16 @@ namespace Proxima.Core.Evaluation.Mobility
                     continue;
 
                 var attacksArray = attacks[i] & occupancy[(int)color];
-                var mobilityRatio = GetMobilityRatio(field);
 
-                mobility += BitOperations.Count(attacksArray) * mobilityRatio;
+                if(attacksArray != 0)
+                {
+                    mobility += BitOperations.Count(attacksArray) * GetMobilityRatio(field);
+                }
             }
        
             return mobility;
         }
-
+        
         int GetMobilityRatio(ulong field)
         {
             if      ((field & BitConstants.SmallCenter) != 0) return EvaluationConstants.MobilitySmallCenterRatio;
