@@ -69,10 +69,13 @@ namespace Proxima.Helpers.Persistence
         {
             var castling = new FriendlyCastling();
 
-            castling.WhiteShortCastling = Boolean.Parse(reader.ReadLine().Trim());
-            castling.WhiteLongCastling = Boolean.Parse(reader.ReadLine().Trim());
-            castling.BlackShortCastling = Boolean.Parse(reader.ReadLine().Trim());
-            castling.BlackLongCastling = Boolean.Parse(reader.ReadLine().Trim());
+            castling.WhiteShortCastlingPossibility = Boolean.Parse(reader.ReadLine().Trim());
+            castling.WhiteLongCastlingPossibility = Boolean.Parse(reader.ReadLine().Trim());
+            castling.BlackShortCastlingPossibility = Boolean.Parse(reader.ReadLine().Trim());
+            castling.BlackLongCastlingPossibility = Boolean.Parse(reader.ReadLine().Trim());
+
+            castling.WhiteCastlingDone = Boolean.Parse(reader.ReadLine().Trim());
+            castling.BlackCastlingDone = Boolean.Parse(reader.ReadLine().Trim());
 
             return castling;
         }

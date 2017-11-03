@@ -51,10 +51,13 @@ namespace Proxima.Helpers.Persistence
         {
             writer.WriteLine(PersistenceContants.CastlingSection);
 
-            writer.WriteLine(castling.WhiteShortCastling.ToString());
-            writer.WriteLine(castling.WhiteLongCastling.ToString());
-            writer.WriteLine(castling.BlackShortCastling.ToString());
-            writer.WriteLine(castling.BlackLongCastling.ToString());
+            writer.WriteLine(castling.WhiteShortCastlingPossibility.ToString());
+            writer.WriteLine(castling.WhiteLongCastlingPossibility.ToString());
+            writer.WriteLine(castling.BlackShortCastlingPossibility.ToString());
+            writer.WriteLine(castling.BlackLongCastlingPossibility.ToString());
+
+            writer.WriteLine(castling.WhiteCastlingDone.ToString());
+            writer.WriteLine(castling.BlackCastlingDone.ToString());
         }
 
         void WriteEnPassant(StreamWriter writer, FriendlyEnPassant enPassant)

@@ -201,10 +201,13 @@ namespace GUI.App.Source.GameModeSubsystem
         {
             var castlingFlags = _visualBoard.GetFriendlyBoard().Castling;
 
-            _consoleManager.WriteLine($"$cWhite short: {ColorfulConsoleHelpers.ParseBool(castlingFlags.WhiteShortCastling)}");
-            _consoleManager.WriteLine($"$cWhite long : {ColorfulConsoleHelpers.ParseBool(castlingFlags.WhiteLongCastling)}");
-            _consoleManager.WriteLine($"$cBlack short: {ColorfulConsoleHelpers.ParseBool(castlingFlags.BlackShortCastling)}");
-            _consoleManager.WriteLine($"$cBlack long : {ColorfulConsoleHelpers.ParseBool(castlingFlags.BlackLongCastling)}");
+            _consoleManager.WriteLine($"$cWhite short possibility: {ColorfulConsoleHelpers.ParseBool(castlingFlags.WhiteShortCastlingPossibility)}");
+            _consoleManager.WriteLine($"$cWhite long possibility: {ColorfulConsoleHelpers.ParseBool(castlingFlags.WhiteLongCastlingPossibility)}");
+            _consoleManager.WriteLine($"$cBlack short possibility: {ColorfulConsoleHelpers.ParseBool(castlingFlags.BlackShortCastlingPossibility)}");
+            _consoleManager.WriteLine($"$cBlack long possibility: {ColorfulConsoleHelpers.ParseBool(castlingFlags.BlackLongCastlingPossibility)}");
+
+            _consoleManager.WriteLine($"$cWhite done: {ColorfulConsoleHelpers.ParseBool(castlingFlags.WhiteCastlingDone)}");
+            _consoleManager.WriteLine($"$cBlack done: {ColorfulConsoleHelpers.ParseBool(castlingFlags.BlackCastlingDone)}");
         }
 
         void DisplayEvaluation(Command command)

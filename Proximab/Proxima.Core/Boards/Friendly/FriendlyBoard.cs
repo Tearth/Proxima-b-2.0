@@ -19,15 +19,15 @@ namespace Proxima.Core.Boards.Friendly
         {
             Pieces = new FriendlyPiecesList();
             Attacks = new FriendlyAttacksList();
-            Castling = new FriendlyCastling(true, true, true, true);
+            Castling = new FriendlyCastling(true, true, true, true, false, false);
             EnPassant = new FriendlyEnPassant();
         }
 
-        public FriendlyBoard(ulong[] pieces, ulong[] attacks, bool[] castling, ulong[] enPassant)
+        public FriendlyBoard(ulong[] pieces, ulong[] attacks, bool[] castlingPossibility, bool[] castlingDone, ulong[] enPassant)
         {
             Pieces = new FriendlyPiecesList(pieces);
             Attacks = new FriendlyAttacksList(attacks, Pieces);
-            Castling = new FriendlyCastling(castling);
+            Castling = new FriendlyCastling(castlingPossibility, castlingDone);
             EnPassant = new FriendlyEnPassant(enPassant);
         }
 
@@ -72,14 +72,24 @@ namespace Proxima.Core.Boards.Friendly
             return pieces;
         }
 
-        public bool[] GetCastlingArray()
+        public bool[] GetCastlingPossibilityArray()
         {
             var castling = new bool[4];
 
-            castling[0] = Castling.WhiteShortCastling;
-            castling[1] = Castling.WhiteLongCastling;
-            castling[2] = Castling.BlackShortCastling;
-            castling[3] = Castling.BlackLongCastling;
+            castling[0] = Castling.WhiteShortCastlingPossibility;
+            castling[1] = Castling.WhiteLongCastlingPossibility;
+            castling[2] = Castling.BlackShortCastlingPossibility;
+            castling[3] = Castling.BlackLongCastlingPossibility;
+
+            return castling;
+        }
+
+        public bool[] GetCastlingDoneArray()
+        {
+            var castling = new bool[2];
+
+            castling[0] = Castling.WhiteCastlingDone;
+            castling[1] = Castling.BlackCastlingDone;
 
             return castling;
         }
