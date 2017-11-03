@@ -13,6 +13,19 @@ namespace Proxima.Core.Boards
             return (ulong)(valueWithSign & -valueWithSign);
         }
 
+        public static int Count(ulong value)
+        {
+            int count = 0;
+
+            while(value != 0)
+            {
+                GetLSB(ref value);
+                count++;
+            }
+
+            return count;
+        }
+
         public static int GetBitIndex(ulong value)
         {
             return FastMath.Log2(value);
