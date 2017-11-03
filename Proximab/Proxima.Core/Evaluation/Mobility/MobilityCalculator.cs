@@ -1,4 +1,5 @@
 ﻿using Proxima.Core.Boards;
+using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Colors;
 
 namespace Proxima.Core.Evaluation.Mobility
@@ -9,28 +10,37 @@ namespace Proxima.Core.Evaluation.Mobility
         {
             var mobility = new MobilityResult();
 
-            mobility.WhiteMobility = GetMobility(Color.White, GetAttacks(Color.White, parameters.AttacksSummary, parameters.Occupancy));
-            mobility.BlackMobility = GetMobility(Color.Black, GetAttacks(Color.Black, parameters.AttacksSummary, parameters.Occupancy));
+            mobility.WhiteMobility = GetMobility(Color.White, parameters.Attacks, parameters.Occupancy);
+            mobility.BlackMobility = GetMobility(Color.Black, parameters.Attacks, parameters.Occupancy);
 
             return mobility;
         }
 
-        ulong GetAttacks(Color color, ulong[] attacksSummary, ulong[] occupancy)
-        {
-            return attacksSummary[(int)color] & ~occupancy[(int)color];
-        }
-
-        int GetMobility(Color color, ulong attacksSummary)
+        int GetMobility(Color color, ulong[] attacks, ulong[] occupancy)
         {
             var mobility = 0;
 
-            while(attacksSummary != 0)
+            for (int i = 0; i < 64; i++)
             {
-                BitOperations.GetLSB(ref attacksSummary);
-                mobility++;
-            }
+                var field = 1ul << i;
+                if ((field & occupancy[(int)color]) != 0)
+                    continue;
 
-            return mobility * EvaluationConstants.MobilityRatio;
+                var attacksArray = attacks[i] & occupancy[(int)color];
+                var mobilityRatio = GetMobilityRatio(field);
+
+                mobility += BitOperations.Count(attacksArray) * mobilityRatio;
+            }
+       
+            return mobility;
+        }
+
+        int GetMobilityRatio(ulong field)
+        {
+            if      ((field & BitConstants.SmallCenter) != 0) return EvaluationConstants.MobilitySmallCenterRatio;
+            else if ((field & BitConstants.BigCenter)   != 0) return EvaluationConstants.MobilityBigCenterRatio;
+
+            return EvaluationConstants.MobilityRatio;
         }
     }
 }

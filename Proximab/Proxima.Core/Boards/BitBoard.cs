@@ -38,8 +38,8 @@ namespace Proxima.Core.Boards
             _occupancy = new ulong[2];
             _enPassant = new ulong[2];
 
-            _attacksSummary = new ulong[2];
             _attacks = new ulong[64];
+            _attacksSummary = new ulong[2];
 
             _castlingPossibility = new bool[4];
             _castlingDone = new bool[2];

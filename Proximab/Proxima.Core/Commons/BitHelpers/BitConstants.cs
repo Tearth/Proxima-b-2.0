@@ -20,9 +20,12 @@
         public const ulong GRank = 0x00FF000000000000ul;
         public const ulong HRank = 0xFF00000000000000ul;
 
-        public const ulong LeftTopBoardPart = 0xfefcf8f0e0c08000ul;
-        public const ulong LeftBottomBoardPart = 0x80c0e0f0f8fcfefful;
-        public const ulong RightTopBoardPart = 0x7f3f1f0f07030100ul;
-        public const ulong RightBottomBoardPart = 0x103070f1f3f7ffful;
+        public const ulong LeftTopBoardPart     = 0xfefcf8f0e0c08000ul;
+        public const ulong LeftBottomBoardPart  = 0x80c0e0f0f8fcfefful;
+        public const ulong RightTopBoardPart    = 0x7f3f1f0f07030100ul;
+        public const ulong RightBottomBoardPart = 0x0103070f1f3f7ffful;
+
+        public const ulong SmallCenter = 0x0000001818000000ul;
+        public const ulong BigCenter   = 0x00003c3c3c3c0000ul;
     }
 }
