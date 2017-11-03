@@ -1,10 +1,12 @@
 ﻿using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Performance;
+using System.Runtime.CompilerServices;
 
 namespace Proxima.Core.Boards
 {
     public static class BitOperations
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong GetLSB(ref ulong value)
         {
             var valueWithSign = (long)value;
@@ -13,6 +15,7 @@ namespace Proxima.Core.Boards
             return (ulong)(valueWithSign & -valueWithSign);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Count(ulong value)
         {
             int count = 0;
@@ -26,11 +29,13 @@ namespace Proxima.Core.Boards
             return count;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetBitIndex(ulong value)
         {
             return FastMath.Log2(value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong FlipVertical(ulong bitBoard)
         {
             return ((bitBoard << 56)) |
@@ -43,6 +48,7 @@ namespace Proxima.Core.Boards
                    ((bitBoard >> 56));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong FlipHorizontal(ulong bitBoard)
         {
             const ulong k1 = 0x5555555555555555;
@@ -55,6 +61,7 @@ namespace Proxima.Core.Boards
             return bitBoard;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong FlipDiagonalA1H8(ulong bitBoard)
         {
             ulong temp = 0;
@@ -75,6 +82,7 @@ namespace Proxima.Core.Boards
             return bitBoard;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong FlipDiagonalA8H1(ulong bitBoard)
         {
             ulong temp = 0;
@@ -95,26 +103,31 @@ namespace Proxima.Core.Boards
             return bitBoard;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Rotate90Right(ulong bitBoard)
         {
             return FlipDiagonalA1H8(FlipVertical(bitBoard));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Rotate90Right(ulong bitBoard, int bitsToShift)
         {
             return (bitBoard >> bitsToShift) | (bitBoard << (64 - bitsToShift));
         }
-        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Rotate90Left(ulong bitBoard)
         {
             return FlipVertical(FlipDiagonalA1H8(bitBoard));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Rotate90Left(ulong bitBoard, int bitsToShift)
         {
             return (bitBoard << bitsToShift) | (bitBoard >> (64 - bitsToShift));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Rotate45Right(ulong bitBoard)
         {
             const ulong k1 = 0x5555555555555555;
@@ -128,6 +141,7 @@ namespace Proxima.Core.Boards
             return bitBoard;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Rotate45Left(ulong bitBoard)
         {
             const ulong k1 = 0xAAAAAAAAAAAAAAAA;

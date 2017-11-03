@@ -1,7 +1,10 @@
-﻿namespace Proxima.Core.Commons.Performance
+﻿using System.Runtime.CompilerServices;
+
+namespace Proxima.Core.Commons.Performance
 {
     public static class FastMath
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Log2(ulong value)
         {
             var bits = 0;
