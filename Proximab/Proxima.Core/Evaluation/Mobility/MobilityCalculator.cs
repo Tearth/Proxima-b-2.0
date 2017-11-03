@@ -26,11 +26,11 @@ namespace Proxima.Core.Evaluation.Mobility
 
             while(attacksSummary != 0)
             {
-                var lsb = BitOperations.GetLSB(ref attacksSummary);
+                BitOperations.GetLSB(ref attacksSummary);
                 mobility++;
             }
 
-            return mobility;
+            return mobility * EvaluationConstants.MobilityRatio;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Proxima.Core.MoveGenerators
         public GeneratorMode Mode { get; set; }
 
         public ulong[] Pieces { get; set; }
-        public bool[] Castling { get; set; }
+        public bool[] CastlingPossibility { get; set; }
         public ulong[] EnPassant { get; set; }
 
         public ulong[] Attacks { get; set; }

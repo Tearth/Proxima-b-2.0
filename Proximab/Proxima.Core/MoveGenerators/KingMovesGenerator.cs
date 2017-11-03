@@ -76,8 +76,8 @@ namespace Proxima.Core.MoveGenerators
 
         public void CalculateCastling(GeneratorParameters opt)
         {
-            if (!opt.Castling[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)] &&
-                !opt.Castling[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Long)])
+            if (!opt.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)] &&
+                !opt.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Long)])
                 return;
 
             Position initialKingPosition;
@@ -108,7 +108,7 @@ namespace Proxima.Core.MoveGenerators
                 longCheckArea = BlackLongCastlingCheckArea;
             }
 
-            if (opt.Castling[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)] &&
+            if (opt.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)] &&
                IsCastlingAreaEmpty(shortMoveArea, opt.Occupancy) &&
                !IsCastlingAreaChecked(opt.EnemyColor, shortCheckArea, opt))
             {
@@ -118,7 +118,7 @@ namespace Proxima.Core.MoveGenerators
                 opt.Moves.AddLast(move);
             }
             
-            if(opt.Castling[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Long)] &&
+            if(opt.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Long)] &&
                IsCastlingAreaEmpty(longMoveArea, opt.Occupancy) &&
                !IsCastlingAreaChecked(opt.EnemyColor, longCheckArea, opt))
             {

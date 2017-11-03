@@ -1,4 +1,5 @@
-﻿using Proxima.Core.Evaluation.Material;
+﻿using Proxima.Core.Evaluation.Castling;
+using Proxima.Core.Evaluation.Material;
 using Proxima.Core.Evaluation.Mobility;
 
 namespace Proxima.Core.Evaluation
@@ -7,11 +8,13 @@ namespace Proxima.Core.Evaluation
     {
         MaterialCalculator _materialCalculator;
         MobilityCalculator _mobilityCalculator;
+        CastlingCalculator _castlingCalculator;
 
         public EvaluationCalculator()
         {
             _materialCalculator = new MaterialCalculator();
             _mobilityCalculator = new MobilityCalculator();
+            _castlingCalculator = new CastlingCalculator();
         }
 
         public EvaluationResult GetEvaluation(EvaluationParameters parameters)
@@ -19,7 +22,8 @@ namespace Proxima.Core.Evaluation
             return new EvaluationResult()
             {
                 Material = _materialCalculator.Calculate(parameters),
-                Mobility = _mobilityCalculator.Calculate(parameters)
+                Mobility = _mobilityCalculator.Calculate(parameters),
+                Castling = _castlingCalculator.Calculate(parameters)
             };
         }
     }
