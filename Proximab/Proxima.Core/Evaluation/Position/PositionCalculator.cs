@@ -53,10 +53,15 @@ namespace Proxima.Core.Evaluation.Position
         {
             switch(pieceType)
             {
-                case (PieceType.Pawn): return PawnValues.Values;
+                case (PieceType.Pawn):      return PawnValues.Values;
+                case (PieceType.Knight):    return KnightValues.Values;
+                case (PieceType.Bishop):    return BishopValues.Values;
+                case (PieceType.Rook):      return RookValues.Values;
+                case (PieceType.Queen):     return QueenValues.Values;
+                case (PieceType.King):      return KingValues.Values;
             }
 
-            return PawnValues.Values;
+            return null;
         }
     }
 }

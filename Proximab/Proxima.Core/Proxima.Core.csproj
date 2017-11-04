@@ -71,7 +71,12 @@
     <Compile Include="Evaluation\Mobility\MobilityValues.cs" />
     <Compile Include="Evaluation\Position\PositionCalculator.cs" />
     <Compile Include="Evaluation\Position\PositionResult.cs" />
+    <Compile Include="Evaluation\Position\Values\BishopValues.cs" />
+    <Compile Include="Evaluation\Position\Values\KingValues.cs" />
+    <Compile Include="Evaluation\Position\Values\KnightValues.cs" />
     <Compile Include="Evaluation\Position\Values\PawnValues.cs" />
+    <Compile Include="Evaluation\Position\Values\QueenValues.cs" />
+    <Compile Include="Evaluation\Position\Values\RookValues.cs" />
     <Compile Include="MoveGenerators\GeneratorMode.cs" />
     <Compile Include="MoveGenerators\BishopPatternContainer.cs" />
     <Compile Include="MoveGenerators\GeneratorParameters.cs" />
