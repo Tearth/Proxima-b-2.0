@@ -327,6 +327,8 @@ namespace Proxima.Core.Boards
         {
             return new EvaluationParameters()
             {
+                GamePhase = GamePhase.Regular,
+
                 Pieces = _pieces,
                 Occupancy = _occupancy,
                 EnPassant = _enPassant,

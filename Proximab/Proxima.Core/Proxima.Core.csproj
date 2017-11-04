@@ -56,8 +56,10 @@
     <Compile Include="Commons\BitHelpers\BitPositionConverter.cs" />
     <Compile Include="Boards\Friendly\FriendlyBoard.cs" />
     <Compile Include="Boards\Friendly\FriendlyPiece.cs" />
+    <Compile Include="Commons\GamePhase.cs" />
     <Compile Include="Evaluation\Castling\CastlingCalculator.cs" />
     <Compile Include="Evaluation\Castling\CastlingResult.cs" />
+    <Compile Include="Evaluation\Castling\CastlingValues.cs" />
     <Compile Include="Evaluation\Material\MaterialCalculator.cs" />
     <Compile Include="Evaluation\Material\MaterialResult.cs" />
     <Compile Include="Evaluation\EvaluationCalculator.cs" />

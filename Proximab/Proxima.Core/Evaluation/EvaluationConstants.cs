@@ -14,8 +14,5 @@
         public const int MobilityRatio = 1;
         public const int MobilityBigCenterRatio = 2;
         public const int MobilitySmallCenterRatio = 4;
-
-        //Castling
-        public const int CastlingRatio = 10;
     }
 }
