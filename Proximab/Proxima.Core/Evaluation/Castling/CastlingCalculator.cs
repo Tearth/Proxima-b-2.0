@@ -19,7 +19,7 @@ namespace Proxima.Core.Evaluation.Castling
 
         int GetCastling(Color color, bool[] castlingDone)
         {
-            return Convert.ToInt32(castlingDone[(int)color]) * CastlingValues.CastlingRatio;
+            return Convert.ToInt32(castlingDone[(int)color]) * CastlingValues.Ratio;
         }
     }
 }

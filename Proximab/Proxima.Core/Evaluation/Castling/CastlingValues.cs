@@ -2,6 +2,6 @@
 {
     public static class CastlingValues
     {
-        public const int CastlingRatio = 10;
+        public const int Ratio = 10;
     }
 }

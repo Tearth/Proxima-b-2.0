@@ -63,12 +63,12 @@
     <Compile Include="Evaluation\Material\MaterialCalculator.cs" />
     <Compile Include="Evaluation\Material\MaterialResult.cs" />
     <Compile Include="Evaluation\EvaluationCalculator.cs" />
-    <Compile Include="Evaluation\EvaluationConstants.cs" />
     <Compile Include="Evaluation\EvaluationParameters.cs" />
     <Compile Include="Evaluation\EvaluationResult.cs" />
     <Compile Include="Evaluation\Material\MaterialValues.cs" />
     <Compile Include="Evaluation\Mobility\MobilityCalculator.cs" />
     <Compile Include="Evaluation\Mobility\MobilityResult.cs" />
+    <Compile Include="Evaluation\Mobility\MobilityValues.cs" />
     <Compile Include="MoveGenerators\GeneratorMode.cs" />
     <Compile Include="MoveGenerators\BishopPatternContainer.cs" />
     <Compile Include="MoveGenerators\GeneratorParameters.cs" />

@@ -22,7 +22,7 @@ namespace Proxima.Core.Evaluation
             return new EvaluationResult()
             {
                 Material = _materialCalculator.Calculate(parameters),
-                Mobility = new MobilityResult(),
+                Mobility = _mobilityCalculator.Calculate(parameters),
                 Castling = _castlingCalculator.Calculate(parameters)
             };
         }

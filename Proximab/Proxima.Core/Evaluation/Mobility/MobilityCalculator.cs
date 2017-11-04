@@ -1,7 +1,7 @@
 ﻿using Proxima.Core.Boards;
+using Proxima.Core.Commons;
 using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Colors;
-using System.Runtime.CompilerServices;
 
 namespace Proxima.Core.Evaluation.Mobility
 {
@@ -9,41 +9,40 @@ namespace Proxima.Core.Evaluation.Mobility
     {
         public MobilityResult Calculate(EvaluationParameters parameters)
         {
-            var mobility = new MobilityResult();
-
-            mobility.WhiteMobility = GetMobility(Color.White, parameters.Attacks, parameters.Occupancy);
-            mobility.BlackMobility = GetMobility(Color.Black, parameters.Attacks, parameters.Occupancy);
-
-            return mobility;
+            return new MobilityResult()
+            {
+                WhiteMobility = GetMobility(Color.White, parameters),
+                BlackMobility = GetMobility(Color.Black, parameters)
+            };
         }
 
-        int GetMobility(Color color, ulong[] attacks, ulong[] occupancy)
+        int GetMobility(Color color, EvaluationParameters parameters)
         {
             var mobility = 0;
 
             for (int i = 0; i < 64; i++)
             {
                 var field = 1ul << i;
-                if ((field & occupancy[(int)color]) != 0)
+                if ((field & parameters.Occupancy[(int)color]) != 0)
                     continue;
 
-                var attacksArray = attacks[i] & occupancy[(int)color];
+                var attacksArray = parameters.Attacks[i] & parameters.Occupancy[(int)color];
 
                 if(attacksArray != 0)
                 {
-                    mobility += BitOperations.Count(attacksArray) * GetMobilityRatio(field);
+                    mobility += BitOperations.Count(attacksArray) * GetMobilityRatio(field, parameters.GamePhase);
                 }
             }
        
             return mobility;
         }
         
-        int GetMobilityRatio(ulong field)
+        int GetMobilityRatio(ulong field, GamePhase gamePhase)
         {
-            if      ((field & BitConstants.SmallCenter) != 0) return EvaluationConstants.MobilitySmallCenterRatio;
-            else if ((field & BitConstants.BigCenter)   != 0) return EvaluationConstants.MobilityBigCenterRatio;
+            if      ((field & BitConstants.SmallCenter) != 0) return MobilityValues.SmallCenterRatio[(int)gamePhase];
+            else if ((field & BitConstants.BigCenter)   != 0) return MobilityValues.BigCenterRatio[(int)gamePhase];
 
-            return EvaluationConstants.MobilityRatio;
+            return MobilityValues.Ratio;
         }
     }
 }
