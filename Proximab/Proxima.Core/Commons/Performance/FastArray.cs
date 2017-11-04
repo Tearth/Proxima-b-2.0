@@ -26,6 +26,13 @@ namespace Proxima.Core.Commons.Performance
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int GetPositionValueIndex(Color color, GamePhase gamePhase, int pieceIndex)
+        {
+            var arrayPieceIndex = color == Color.White ? 64 - pieceIndex - 1: pieceIndex;
+            return ((int)gamePhase * 64) + arrayPieceIndex;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool[,] Merge(bool[,] a, bool[,] b)
         {
             var xSize = a.GetLength(0);

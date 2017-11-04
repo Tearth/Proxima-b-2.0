@@ -69,6 +69,9 @@
     <Compile Include="Evaluation\Mobility\MobilityCalculator.cs" />
     <Compile Include="Evaluation\Mobility\MobilityResult.cs" />
     <Compile Include="Evaluation\Mobility\MobilityValues.cs" />
+    <Compile Include="Evaluation\Position\PositionCalculator.cs" />
+    <Compile Include="Evaluation\Position\PositionResult.cs" />
+    <Compile Include="Evaluation\Position\Values\PawnValues.cs" />
     <Compile Include="MoveGenerators\GeneratorMode.cs" />
     <Compile Include="MoveGenerators\BishopPatternContainer.cs" />
     <Compile Include="MoveGenerators\GeneratorParameters.cs" />

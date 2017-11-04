@@ -27,7 +27,6 @@ namespace Proxima.Core.Evaluation.Mobility
                     continue;
 
                 var attacksArray = parameters.Attacks[i] & parameters.Occupancy[(int)color];
-
                 if(attacksArray != 0)
                 {
                     mobility += BitOperations.Count(attacksArray) * GetMobilityRatio(field, parameters.GamePhase);

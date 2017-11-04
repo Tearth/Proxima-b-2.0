@@ -1,6 +1,7 @@
 ﻿using Proxima.Core.Evaluation.Castling;
 using Proxima.Core.Evaluation.Material;
 using Proxima.Core.Evaluation.Mobility;
+using Proxima.Core.Evaluation.Position;
 
 namespace Proxima.Core.Evaluation
 {
@@ -9,6 +10,7 @@ namespace Proxima.Core.Evaluation
         public MaterialResult Material { get; set; }
         public MobilityResult Mobility { get; set; }
         public CastlingResult Castling { get; set; }
+        public PositionResult Position { get; set; }
 
         public int Total
         {
@@ -16,7 +18,8 @@ namespace Proxima.Core.Evaluation
             {
                 return Material.Difference +
                        Mobility.Difference +
-                       Castling.Difference;
+                       Castling.Difference +
+                       Position.Difference;
             }
         }
     }
