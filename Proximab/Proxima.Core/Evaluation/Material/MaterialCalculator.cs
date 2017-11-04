@@ -9,12 +9,11 @@ namespace Proxima.Core.Evaluation.Material
     {
         public MaterialResult Calculate(EvaluationParameters parameters)
         {
-            var material = new MaterialResult();
-
-            material.WhiteMaterial = GetMaterial(Color.White, parameters.Pieces);
-            material.BlackMaterial = GetMaterial(Color.Black, parameters.Pieces);
-
-            return material;
+            return new MaterialResult
+            {
+                WhiteMaterial = GetMaterial(Color.White, parameters.Pieces),
+                BlackMaterial = GetMaterial(Color.Black, parameters.Pieces)
+            };
         }
 
         int GetMaterial(Color color, ulong[] pieces)

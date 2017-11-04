@@ -3,7 +3,6 @@ using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Evaluation.Position.Values;
-using System.Linq;
 
 namespace Proxima.Core.Evaluation.Position
 {
@@ -11,12 +10,11 @@ namespace Proxima.Core.Evaluation.Position
     {
         public PositionResult Calculate(EvaluationParameters parameters)
         {
-            var position = new PositionResult();
-
-            position.WhitePosition = GetPosition(Color.White, parameters.GamePhase, parameters.Pieces);
-            position.BlackPosition = GetPosition(Color.Black, parameters.GamePhase, parameters.Pieces);
-
-            return position;
+            return new PositionResult()
+            {
+                WhitePosition = GetPosition(Color.White, parameters.GamePhase, parameters.Pieces),
+                BlackPosition = GetPosition(Color.Black, parameters.GamePhase, parameters.Pieces)
+            };
         }
 
         int GetPosition(Color color, GamePhase gamePhase, ulong[] pieces)
@@ -35,12 +33,11 @@ namespace Proxima.Core.Evaluation.Position
         int GetPositionValue(Color color, PieceType pieceType, GamePhase gamePhase, ulong piecesToParse)
         {
             var position = 0;
+            var array = GetPositionValuesArray(pieceType);
 
             while (piecesToParse != 0)
             {
                 var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
-
-                var array = GetPositionValuesArray(pieceType);
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
                 position += array[FastArray.GetPositionValueIndex(color, gamePhase, pieceIndex)];
