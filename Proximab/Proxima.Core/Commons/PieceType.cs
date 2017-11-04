@@ -3,9 +3,9 @@
     public enum PieceType : int
     {
         Pawn,
-        Rook,
         Knight,
         Bishop,
+        Rook,
         Queen,
         King,
     }

@@ -2,10 +2,6 @@
 {
     public static class CastlingValues
     {
-        public static readonly int[] CastlingRatio = new int[2]
-        {
-            10,
-            0
-        };
+        public const int CastlingRatio = 10;
     }
 }

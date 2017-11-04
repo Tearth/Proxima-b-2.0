@@ -21,7 +21,7 @@ namespace Proxima.Core.Evaluation
         {
             return new EvaluationResult()
             {
-                Material = new MaterialResult(),
+                Material = _materialCalculator.Calculate(parameters),
                 Mobility = new MobilityResult(),
                 Castling = _castlingCalculator.Calculate(parameters)
             };
