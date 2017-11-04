@@ -219,7 +219,8 @@ namespace GUI.App.Source.GameModeSubsystem
             _consoleManager.WriteLine($"$cMobility:\t$w{evaluation.Mobility.WhiteMobility}\t{evaluation.Mobility.BlackMobility}");
             _consoleManager.WriteLine($"$cCastling:\t$w{evaluation.Castling.WhiteCastling}\t{evaluation.Castling.BlackCastling}");
             _consoleManager.WriteLine($"$cPosition:\t$w{evaluation.Position.WhitePosition}\t{evaluation.Position.BlackPosition}");
-            _consoleManager.WriteLine($"$cPawn str:\t$w{evaluation.PawnStructureResult.WhiteDoublePawns}\t{evaluation.PawnStructureResult.BlackDoublePawns}");
+            _consoleManager.WriteLine($"$cPawn str:\t$w{evaluation.PawnStructureResult.WhiteDoubledPawns}\t{evaluation.PawnStructureResult.BlackDoubledPawns}");
+            _consoleManager.WriteLine($"$cPawn iso:\t$w{evaluation.PawnStructureResult.WhiteIsolatedPawns}\t{evaluation.PawnStructureResult.BlackIsolatedPawns}");
 
             _consoleManager.WriteLine();
             _consoleManager.WriteLine($"$cTotal: $w{evaluation.Total}");

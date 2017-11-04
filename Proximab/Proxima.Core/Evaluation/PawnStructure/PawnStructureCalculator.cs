@@ -12,32 +12,54 @@ namespace Proxima.Core.Evaluation.PawnStructure
         {
             return new PawnStructureResult()
             {
-                WhiteDoublePawns = GetDoublePawns(Color.White, parameters),
-                BlackDoublePawns = GetDoublePawns(Color.Black, parameters)
+                WhiteDoubledPawns = GetDoubledPawns(Color.White, parameters),
+                BlackDoubledPawns = GetDoubledPawns(Color.Black, parameters),
+
+                WhiteIsolatedPawns = GetIsolatedPawns(Color.White, parameters),
+                BlackIsolatedPawns = GetIsolatedPawns(Color.Black, parameters)
             };
         }
 
-        int GetDoublePawns(Color color, EvaluationParameters parameters)
+        int GetDoubledPawns(Color color, EvaluationParameters parameters)
         {
-            var doublePawns = 0;
-
+            var doubledPawns = 0;
             var pawns = parameters.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];
-            var file = BitConstants.HFile;
-
-            for(int i=0; i<7; i++)
+            
+            for(int i=0; i<8; i++)
             {
-                file <<= 1;
+                var file = BitConstants.HFile << i;
 
                 var pawnsInFile = pawns & file;
                 var pawnLSB = BitOperations.GetLSB(ref pawnsInFile);
 
                 if(pawnsInFile != 0)
                 {
-                    doublePawns += BitOperations.Count(pawnsInFile);
+                    doubledPawns += BitOperations.Count(pawnsInFile);
                 }
             }
 
-            return doublePawns * PawnStructureValues.DoublePawnsPenalty[(int)parameters.GamePhase];
+            return doubledPawns * PawnStructureValues.DoubledPawnsPenalty[(int)parameters.GamePhase];
+        }
+
+        int GetIsolatedPawns(Color color, EvaluationParameters parameters)
+        {
+            var isolatedPawns = 0;
+            /*var pawns = parameters.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];      
+
+            for (int i = 0; i < 8; i++)
+            {
+                var file = BitConstants.HFile << i;
+
+                var pawnsInFile = pawns & file;
+                if (pawnsInFile != 0 && 
+                   (pawns & ((file & ~BitConstants.AFile) << 1)) == 0 && 
+                   (pawns & ((file & ~BitConstants.HFile) >> 1)) == 0)
+                {
+                    isolatedPawns += BitOperations.Count(pawnsInFile);
+                } 
+            }
+            */
+            return isolatedPawns * PawnStructureValues.IsolatededPawnsPenalty[(int)parameters.GamePhase];
         }
     }
 }

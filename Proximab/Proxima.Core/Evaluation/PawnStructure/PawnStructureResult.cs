@@ -2,12 +2,19 @@
 {
     public class PawnStructureResult
     {
-        public int WhiteDoublePawns { get; set; }
-        public int BlackDoublePawns { get; set; }
+        public int WhiteDoubledPawns { get; set; }
+        public int BlackDoubledPawns { get; set; }
+
+        public int WhiteIsolatedPawns { get; set; }
+        public int BlackIsolatedPawns { get; set; }
 
         public int Difference
         {
-            get { return WhiteDoublePawns - BlackDoublePawns; }
+            get
+            {
+                return (WhiteDoubledPawns - BlackDoubledPawns) + 
+                       (WhiteIsolatedPawns - BlackIsolatedPawns);
+            }
         }
     }
 }
