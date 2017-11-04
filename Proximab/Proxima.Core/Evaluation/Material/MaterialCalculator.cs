@@ -11,18 +11,18 @@ namespace Proxima.Core.Evaluation.Material
         {
             return new MaterialResult
             {
-                WhiteMaterial = GetMaterial(Color.White, parameters.Pieces),
-                BlackMaterial = GetMaterial(Color.Black, parameters.Pieces)
+                WhiteMaterial = GetMaterial(Color.White, parameters),
+                BlackMaterial = GetMaterial(Color.Black, parameters)
             };
         }
 
-        int GetMaterial(Color color, ulong[] pieces)
+        int GetMaterial(Color color, EvaluationParameters parameters)
         {
             var material = 0;
 
             for (int piece = 0; piece < 6; piece++)
             {
-                var piecesToParse = pieces[FastArray.GetPieceIndex(color, (PieceType)piece)];
+                var piecesToParse = parameters.Pieces[FastArray.GetPieceIndex(color, (PieceType)piece)];
                 var piecesCount = BitOperations.Count(piecesToParse);
                 
                 material += piecesCount * MaterialValues.PieceValues[piece];

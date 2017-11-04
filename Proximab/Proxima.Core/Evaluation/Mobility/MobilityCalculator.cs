@@ -41,7 +41,7 @@ namespace Proxima.Core.Evaluation.Mobility
             if      ((field & BitConstants.SmallCenter) != 0) return MobilityValues.SmallCenterRatio[(int)gamePhase];
             else if ((field & BitConstants.BigCenter)   != 0) return MobilityValues.BigCenterRatio[(int)gamePhase];
 
-            return MobilityValues.Ratio;
+            return MobilityValues.Ratio[(int)gamePhase];
         }
     }
 }

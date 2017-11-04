@@ -2,7 +2,11 @@
 {
     public static class MobilityValues
     {
-        public const int Ratio = 1;
+        public static readonly int[] Ratio = new int[2]
+        {
+            1,  //Regular
+            1   //End
+        };
 
         public static readonly int[] BigCenterRatio = new int[2]
         {

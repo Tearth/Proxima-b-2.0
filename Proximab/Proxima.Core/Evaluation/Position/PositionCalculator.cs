@@ -12,19 +12,19 @@ namespace Proxima.Core.Evaluation.Position
         {
             return new PositionResult()
             {
-                WhitePosition = GetPosition(Color.White, parameters.GamePhase, parameters.Pieces),
-                BlackPosition = GetPosition(Color.Black, parameters.GamePhase, parameters.Pieces)
+                WhitePosition = GetPosition(Color.White, parameters),
+                BlackPosition = GetPosition(Color.Black, parameters)
             };
         }
 
-        int GetPosition(Color color, GamePhase gamePhase, ulong[] pieces)
+        int GetPosition(Color color, EvaluationParameters parameters)
         {
             var position = 0;
 
             for (int piece = 0; piece < 6; piece++)
             {
-                var piecesToParse = pieces[FastArray.GetPieceIndex(color, (PieceType)piece)];
-                position += GetPositionValue(color, (PieceType)piece, gamePhase, piecesToParse);
+                var piecesToParse = parameters.Pieces[FastArray.GetPieceIndex(color, (PieceType)piece)];
+                position += GetPositionValue(color, (PieceType)piece, parameters.GamePhase, piecesToParse);
             }
 
             return position;

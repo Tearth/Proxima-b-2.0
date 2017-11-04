@@ -16,6 +16,13 @@ namespace Proxima.Core.Boards
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsSingleBit(ulong value)
+        {
+            GetLSB(ref value);
+            return value == 0;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Count(ulong value)
         {
             int count = 0;
