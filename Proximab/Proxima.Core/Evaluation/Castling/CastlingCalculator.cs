@@ -11,14 +11,17 @@ namespace Proxima.Core.Evaluation.Castling
         {
             return new CastlingResult()
             {
-                WhiteCastling = GetCastling(Color.White, parameters),
-                BlackCastling = GetCastling(Color.Black, parameters)
+                WhiteCastling = GetCastlingValue(Color.White, parameters),
+                BlackCastling = GetCastlingValue(Color.Black, parameters)
             };
         }
 
-        int GetCastling(Color color, EvaluationParameters parameters)
+        int GetCastlingValue(Color color, EvaluationParameters parameters)
         {
-            return Convert.ToInt32(parameters.CastlingDone[(int)color]) * CastlingValues.Ratio[(int)parameters.GamePhase];
+            var castlingDone = Convert.ToInt32(parameters.CastlingDone[(int)color]);
+            var ratio = CastlingValues.Ratio[(int)parameters.GamePhase];
+
+            return castlingDone * ratio;
         }
     }
 }

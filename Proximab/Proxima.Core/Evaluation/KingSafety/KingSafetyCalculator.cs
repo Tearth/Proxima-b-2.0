@@ -12,12 +12,12 @@ namespace Proxima.Core.Evaluation.KingSafety
         {
             return new KingSafetyResult
             {
-                WhiteAttackedNeighbours = GetAttackedNeighbours(Color.White, parameters),
-                BlackAttackedNeighbours = GetAttackedNeighbours(Color.Black, parameters)
+                WhiteAttackedNeighbours = GetAttackedNeighboursValue(Color.White, parameters),
+                BlackAttackedNeighbours = GetAttackedNeighboursValue(Color.Black, parameters)
             };
         }
 
-        int GetAttackedNeighbours(Color color, EvaluationParameters parameters)
+        int GetAttackedNeighboursValue(Color color, EvaluationParameters parameters)
         {
             var attackedNeightbours = 0;
 

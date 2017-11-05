@@ -11,12 +11,12 @@ namespace Proxima.Core.Evaluation.Mobility
         {
             return new MobilityResult()
             {
-                WhiteMobility = GetMobility(Color.White, parameters),
-                BlackMobility = GetMobility(Color.Black, parameters)
+                WhiteMobility = GetMobilityValue(Color.White, parameters),
+                BlackMobility = GetMobilityValue(Color.Black, parameters)
             };
         }
 
-        int GetMobility(Color color, EvaluationParameters parameters)
+        int GetMobilityValue(Color color, EvaluationParameters parameters)
         {
             var mobility = 0;
 
