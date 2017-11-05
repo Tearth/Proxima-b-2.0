@@ -26,7 +26,7 @@ namespace Proxima.Core.Evaluation.PawnStructure.Doubled
                 }
             }
 
-            return doubledPawns * PawnStructureValues.DoubledPawnsPenalty[(int)parameters.GamePhase];
+            return doubledPawns * PawnStructureValues.DoubledPawnsRatio[(int)parameters.GamePhase];
         }
     }
 }

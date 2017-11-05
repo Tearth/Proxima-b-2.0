@@ -28,7 +28,7 @@ namespace Proxima.Core.Evaluation.PawnStructure.Isolated
                 }
             }
 
-            return isolatedPawns * PawnStructureValues.IsolatededPawnsPenalty[(int)parameters.GamePhase];
+            return isolatedPawns * PawnStructureValues.IsolatededPawnsRatio[(int)parameters.GamePhase];
         }
     }
 }
