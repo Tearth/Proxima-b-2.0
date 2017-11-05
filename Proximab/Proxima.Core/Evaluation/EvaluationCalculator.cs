@@ -1,4 +1,5 @@
 ﻿using Proxima.Core.Evaluation.Castling;
+using Proxima.Core.Evaluation.KingSafety;
 using Proxima.Core.Evaluation.Material;
 using Proxima.Core.Evaluation.Mobility;
 using Proxima.Core.Evaluation.PawnStructure;
@@ -16,7 +17,8 @@ namespace Proxima.Core.Evaluation
                 Mobility = new MobilityCalculator().Calculate(parameters),
                 Castling = new CastlingCalculator().Calculate(parameters),
                 Position = new PositionCalculator().Calculate(parameters),
-                PawnStructureResult = new PawnStructureCalculator().Calculate(parameters)
+                PawnStructure = new PawnStructureCalculator().Calculate(parameters),
+                KingSafety = new KingSafetyCalculator().Calculate(parameters)
             };
         }
     }

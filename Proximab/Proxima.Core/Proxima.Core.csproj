@@ -60,6 +60,9 @@
     <Compile Include="Evaluation\Castling\CastlingCalculator.cs" />
     <Compile Include="Evaluation\Castling\CastlingResult.cs" />
     <Compile Include="Evaluation\Castling\CastlingValues.cs" />
+    <Compile Include="Evaluation\KingSafety\KingSafetyCalculator.cs" />
+    <Compile Include="Evaluation\KingSafety\KingSafetyResult.cs" />
+    <Compile Include="Evaluation\KingSafety\KingSafetyValues.cs" />
     <Compile Include="Evaluation\Material\MaterialCalculator.cs" />
     <Compile Include="Evaluation\Material\MaterialResult.cs" />
     <Compile Include="Evaluation\EvaluationCalculator.cs" />

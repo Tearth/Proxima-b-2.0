@@ -18,7 +18,7 @@ namespace Proxima.Core.Evaluation.Castling
 
         int GetCastling(Color color, EvaluationParameters parameters)
         {
-            return Convert.ToInt32(parameters.CastlingDone[(int)color]) * CastlingValues.Ratio;
+            return Convert.ToInt32(parameters.CastlingDone[(int)color]) * CastlingValues.Ratio[(int)parameters.GamePhase];
         }
     }
 }

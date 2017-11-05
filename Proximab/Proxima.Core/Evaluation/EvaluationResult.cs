@@ -1,4 +1,5 @@
 ﻿using Proxima.Core.Evaluation.Castling;
+using Proxima.Core.Evaluation.KingSafety;
 using Proxima.Core.Evaluation.Material;
 using Proxima.Core.Evaluation.Mobility;
 using Proxima.Core.Evaluation.PawnStructure;
@@ -12,7 +13,8 @@ namespace Proxima.Core.Evaluation
         public MobilityResult Mobility { get; set; }
         public CastlingResult Castling { get; set; }
         public PositionResult Position { get; set; }
-        public PawnStructureResult PawnStructureResult { get; set; }
+        public PawnStructureResult PawnStructure { get; set; }
+        public KingSafetyResult KingSafety;
 
         public int Total
         {
@@ -22,7 +24,8 @@ namespace Proxima.Core.Evaluation
                        Mobility.Difference +
                        Castling.Difference +
                        Position.Difference +
-                       PawnStructureResult.Difference;
+                       PawnStructure.Difference + 
+                       KingSafety.Difference;
             }
         }
     }

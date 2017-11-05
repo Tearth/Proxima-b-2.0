@@ -2,6 +2,10 @@
 {
     public static class CastlingValues
     {
-        public const int Ratio = 10;
+        public static readonly int[] Ratio = new int[2]
+        {
+            10,  //Regular
+            10   //End
+        };
     }
 }

@@ -25,8 +25,6 @@ namespace Proxima.Helpers.Tests
 
         void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool calculateEndNodes, bool verifyChecks, MovesTestData testData)
         {
-            var enemyColor = ColorOperations.Invert(color);
-
             if (depth <= 0)
             {
                 if(calculateEndNodes)
@@ -39,6 +37,7 @@ namespace Proxima.Helpers.Tests
             }
             else
             {
+                var enemyColor = ColorOperations.Invert(color);
                 var whiteMode = color == Color.White ? GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks : GeneratorMode.CalculateAttacks;
                 var blackMode = color == Color.Black ? GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks : GeneratorMode.CalculateAttacks;
 
