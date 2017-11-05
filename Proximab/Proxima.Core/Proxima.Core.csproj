@@ -72,6 +72,7 @@
     <Compile Include="Evaluation\Mobility\MobilityCalculator.cs" />
     <Compile Include="Evaluation\Mobility\MobilityResult.cs" />
     <Compile Include="Evaluation\Mobility\MobilityValues.cs" />
+    <Compile Include="Evaluation\PawnStructure\Chain\PawnChainCalculator.cs" />
     <Compile Include="Evaluation\PawnStructure\Doubled\DoubledPawnsCalculator.cs" />
     <Compile Include="Evaluation\PawnStructure\Isolated\IsolatedPawnsCalculator.cs" />
     <Compile Include="Evaluation\PawnStructure\PawnStructureCalculator.cs" />
@@ -122,8 +123,6 @@
     <Compile Include="ProximaCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Evaluation\PawnStructure\Chain\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

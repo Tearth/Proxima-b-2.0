@@ -8,12 +8,16 @@
         public int WhiteIsolatedPawns { get; set; }
         public int BlackIsolatedPawns { get; set; }
 
+        public int WhitePawnChain { get; set; }
+        public int BlackPawnChain { get; set; }
+
         public int Difference
         {
             get
             {
                 return (WhiteDoubledPawns - BlackDoubledPawns) + 
-                       (WhiteIsolatedPawns - BlackIsolatedPawns);
+                       (WhiteIsolatedPawns - BlackIsolatedPawns) + 
+                       (WhitePawnChain - BlackPawnChain);
             }
         }
     }

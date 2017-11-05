@@ -9,7 +9,7 @@ namespace Proxima.Core.Evaluation.PawnStructure.Isolated
 {
     public class IsolatedPawnsCalculator
     {
-        public int GetIsolatedPawns(Color color, EvaluationParameters parameters)
+        public int GetIsolatedPawnsValue(Color color, EvaluationParameters parameters)
         {
             var isolatedPawns = 0;
             var pawns = parameters.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];

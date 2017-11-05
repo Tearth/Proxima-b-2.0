@@ -221,7 +221,8 @@ namespace GUI.App.Source.GameModeSubsystem
             _consoleManager.WriteLine($"$cPosition:\t$w{evaluation.Position.WhitePosition}\t{evaluation.Position.BlackPosition}");
             _consoleManager.WriteLine($"$cDoubled pawns:\t$w{evaluation.PawnStructure.WhiteDoubledPawns}\t{evaluation.PawnStructure.BlackDoubledPawns}");
             _consoleManager.WriteLine($"$cIsolated pawns:\t$w{evaluation.PawnStructure.WhiteIsolatedPawns}\t{evaluation.PawnStructure.BlackIsolatedPawns}");
-            _consoleManager.WriteLine($"$cKing neigbours:\t$w{evaluation.KingSafety.WhiteAttackedNeighbours}\t{evaluation.KingSafety.BlackAttackedNeighbours}");
+            _consoleManager.WriteLine($"$cPawn chain:\t$w{evaluation.PawnStructure.WhitePawnChain}\t{evaluation.PawnStructure.BlackPawnChain}");
+            _consoleManager.WriteLine($"$cKing neighbrs:\t$w{evaluation.KingSafety.WhiteAttackedNeighbours}\t{evaluation.KingSafety.BlackAttackedNeighbours}");
 
             _consoleManager.WriteLine();
             _consoleManager.WriteLine($"$cTotal: $w{evaluation.Total}");

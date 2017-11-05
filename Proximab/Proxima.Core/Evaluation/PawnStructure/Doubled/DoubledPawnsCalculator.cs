@@ -8,7 +8,7 @@ namespace Proxima.Core.Evaluation.PawnStructure.Doubled
 {
     public class DoubledPawnsCalculator
     {
-        public int GetDoubledPawns(Color color, EvaluationParameters parameters)
+        public int GetDoubledPawnsValue(Color color, EvaluationParameters parameters)
         {
             var doubledPawns = 0;
             var pawns = parameters.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];
