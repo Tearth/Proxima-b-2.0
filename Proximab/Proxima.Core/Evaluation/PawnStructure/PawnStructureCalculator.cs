@@ -44,21 +44,22 @@ namespace Proxima.Core.Evaluation.PawnStructure
         int GetIsolatedPawns(Color color, EvaluationParameters parameters)
         {
             var isolatedPawns = 0;
-            /*var pawns = parameters.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];      
+            var pawns = parameters.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];      
 
             for (int i = 0; i < 8; i++)
             {
                 var file = BitConstants.HFile << i;
 
                 var pawnsInFile = pawns & file;
-                if (pawnsInFile != 0 && 
-                   (pawns & ((file & ~BitConstants.AFile) << 1)) == 0 && 
-                   (pawns & ((file & ~BitConstants.HFile) >> 1)) == 0)
+                var previousLinePawns = pawns & ((file & ~BitConstants.AFile) << 1);
+                var nextLinePawns = pawns & ((file & ~BitConstants.HFile) >> 1);
+
+                if (pawnsInFile != 0 && previousLinePawns == 0 && nextLinePawns == 0)
                 {
                     isolatedPawns += BitOperations.Count(pawnsInFile);
                 } 
             }
-            */
+
             return isolatedPawns * PawnStructureValues.IsolatededPawnsPenalty[(int)parameters.GamePhase];
         }
     }
