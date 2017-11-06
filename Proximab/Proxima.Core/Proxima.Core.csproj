@@ -89,9 +89,11 @@
     <Compile Include="MoveGenerators\GeneratorMode.cs" />
     <Compile Include="MoveGenerators\BishopPatternContainer.cs" />
     <Compile Include="MoveGenerators\GeneratorParameters.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\MagicBitboardsGenerator.cs" />
+    <Compile Include="MoveGenerators\PatternGenerators\BishopPatternGenerator.cs" />
     <Compile Include="MoveGenerators\RookPatternContainer.cs" />
     <Compile Include="MoveGenerators\PatternGenerators\KingPatternGenerator.cs" />
-    <Compile Include="MoveGenerators\PatternGenerators\SlidePatternGenerator.cs" />
+    <Compile Include="MoveGenerators\PatternGenerators\RookPatternGenerator.cs" />
     <Compile Include="MoveGenerators\BishopMovesGenerator.cs" />
     <Compile Include="MoveGenerators\KingMovesGenerator.cs" />
     <Compile Include="MoveGenerators\KnightMovesGenerator.cs" />

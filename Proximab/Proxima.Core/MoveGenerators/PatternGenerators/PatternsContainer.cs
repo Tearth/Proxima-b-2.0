@@ -4,17 +4,18 @@
     {
         public static ulong[] KnightPattern { get; private set; }
         public static ulong[] KingPattern { get; private set; }
+        public static ulong[] RookPattern { get; private set; }
         public static byte[] SlidePattern { get; private set; }
-        
+        public static ulong[] BishopPattern { get; private set; }
+
         public static void GeneratePatterns()
         {
-            var knightPatternGenerator = new KnightPatternGenerator();
-            var kingPatternGenerator = new KingPatternGenerator();
-            var slidePatternGenerator = new SlidePatternGenerator();
+            KnightPattern = new KnightPatternGenerator().Generate();
+            KingPattern = new KingPatternGenerator().Generate();
+            RookPattern = new RookPatternGenerator().Generate();
+            BishopPattern = new BishopPatternGenerator().Generate();
 
-            KnightPattern = knightPatternGenerator.Generate();
-            KingPattern = kingPatternGenerator.Generate();
-            SlidePattern = slidePatternGenerator.Generate();
+            SlidePattern = new byte[64];
         }
     }
 }
