@@ -15,7 +15,8 @@ namespace Proxima.Core.MoveGenerators.PatternGenerators
                 var upperPattern = GetUpperPattern(fieldBit, 7) | GetUpperPattern(fieldBit, 9);
                 var bottomPattern = GetBottomPattern(fieldBit, 7) | GetBottomPattern(fieldBit, 9);
 
-                predefinedMoves[i] = fieldBit | upperPattern | bottomPattern;
+                var pattern = (upperPattern | bottomPattern) & BitConstants.BitBoardWithoutEdges;
+                predefinedMoves[i] = fieldBit | pattern;
             }
 
             return predefinedMoves;

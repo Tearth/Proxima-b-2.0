@@ -90,6 +90,7 @@
     <Compile Include="MoveGenerators\BishopPatternContainer.cs" />
     <Compile Include="MoveGenerators\GeneratorParameters.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\MagicBitboardsGenerator.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\MagicBitboardsPatternContainer.cs" />
     <Compile Include="MoveGenerators\PatternGenerators\BishopPatternGenerator.cs" />
     <Compile Include="MoveGenerators\RookPatternContainer.cs" />
     <Compile Include="MoveGenerators\PatternGenerators\KingPatternGenerator.cs" />

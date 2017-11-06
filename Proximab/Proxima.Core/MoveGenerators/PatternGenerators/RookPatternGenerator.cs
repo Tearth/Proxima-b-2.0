@@ -12,11 +12,13 @@ namespace Proxima.Core.MoveGenerators.PatternGenerators
 
             for(int i=0; i<64; i++)
             {
+                var fieldBit = 1ul << i;
                 var position = BitPositionConverter.ToPosition(i);
-                var filePattern = GetFilePattern(position);
-                var rankPattern = GetRankPattern(position);
 
-                predefinedMoves[i] = filePattern | rankPattern;
+                var filePattern = GetFilePattern(position) & ~BitConstants.TopBottomEdge;
+                var rankPattern = GetRankPattern(position) & ~BitConstants.RightLeftEdge;
+
+                predefinedMoves[i] = fieldBit | filePattern | rankPattern;
             }
 
             return predefinedMoves;
