@@ -1,4 +1,5 @@
-﻿using Proxima.Core.MoveGenerators.PatternGenerators;
+﻿using Proxima.Core.MoveGenerators.MagicBitboards;
+using Proxima.Core.MoveGenerators.PatternGenerators;
 
 namespace Proxima.Core
 {
@@ -7,6 +8,7 @@ namespace Proxima.Core
         public static void Init()
         {
             PatternsContainer.GeneratePatterns();
+            MagicBitboardsContainer.GenerateAttacks();
         }
     }
 }

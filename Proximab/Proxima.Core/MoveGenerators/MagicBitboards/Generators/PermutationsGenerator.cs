@@ -5,7 +5,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Generators
 {
     public class PermutationsGenerator
     {
-        public List<ulong> GetMaskPermuatations(ulong mask)
+        public List<ulong> GetMaskPermutations(ulong mask)
         {
             var permuatations = new List<ulong>();
             var bitIndexes = GetBitIndexes(mask);

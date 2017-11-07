@@ -1,5 +1,6 @@
 ﻿using Proxima.Core.Boards;
 using Proxima.Core.Commons.BitHelpers;
+using Proxima.Core.Commons.Positions;
 
 namespace Proxima.Core.MoveGenerators.PatternGenerators
 {
@@ -11,49 +12,36 @@ namespace Proxima.Core.MoveGenerators.PatternGenerators
 
             for (int i = 0; i < 64; i++)
             {
-                var fieldBit = 1ul << i;
-                var upperPattern = GetUpperPattern(fieldBit, 7) | GetUpperPattern(fieldBit, 9);
-                var bottomPattern = GetBottomPattern(fieldBit, 7) | GetBottomPattern(fieldBit, 9);
+                var rightTopPattern = CalculatePattern(i, new Position(-1, 1));
+                var leftTopPattern = CalculatePattern(i, new Position(1, 1));
+                var rightBottomPattern = CalculatePattern(i, new Position(-1,- 1));
+                var leftBottomPattern = CalculatePattern(i, new Position(1, -1));
+                
+                var pattern = (rightTopPattern | leftTopPattern | rightBottomPattern | leftBottomPattern);
+                pattern &= BitConstants.BitBoardWithoutEdges;
 
-                var pattern = (upperPattern | bottomPattern) & BitConstants.BitBoardWithoutEdges;
-                predefinedMoves[i] = fieldBit | pattern;
+                predefinedMoves[i] = pattern;
             }
 
             return predefinedMoves;
         }
 
-        public ulong GetUpperPattern(ulong fieldBit, int shift)
+        public ulong CalculatePattern(int fieldIndex, Position shift)
         {
-            if((fieldBit & BitConstants.BitBoardWithoutEdges) == 0 &&
-              ((fieldBit << shift) & BitConstants.BitBoardWithoutEdges) == 0)
-                return 0;
+            var attacks = 0ul;
+            var currentPosition = BitPositionConverter.ToPosition(fieldIndex);
 
-            var pattern = 0ul;
-            do
+            currentPosition += shift;
+            while (currentPosition.IsValid())
             {
-                fieldBit <<= shift;
-                pattern |= fieldBit;
+                var positionBitIndex = BitPositionConverter.ToBitIndex(currentPosition);
+                var bit = 1ul << positionBitIndex;
+                attacks |= bit;
+
+                currentPosition += shift;
             }
-            while ((fieldBit & BitConstants.BitBoardWithoutEdges) != 0);
 
-            return pattern;
-        }
-
-        public ulong GetBottomPattern(ulong fieldBit, int shift)
-        {
-            if ((fieldBit & BitConstants.BitBoardWithoutEdges) == 0 &&
-               ((fieldBit >> shift) & BitConstants.BitBoardWithoutEdges) == 0)
-                return 0;
-
-            var pattern = 0ul;
-            do
-            {
-                fieldBit >>= shift;
-                pattern |= fieldBit;
-            }
-            while ((fieldBit & BitConstants.BitBoardWithoutEdges) != 0);
-
-            return pattern;
+            return attacks;
         }
     }
 }

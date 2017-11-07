@@ -57,6 +57,7 @@
     <Compile Include="Boards\Friendly\FriendlyBoard.cs" />
     <Compile Include="Boards\Friendly\FriendlyPiece.cs" />
     <Compile Include="Commons\GamePhase.cs" />
+    <Compile Include="Commons\Randoms\Random64.cs" />
     <Compile Include="Evaluation\Castling\CastlingCalculator.cs" />
     <Compile Include="Evaluation\Castling\CastlingResult.cs" />
     <Compile Include="Evaluation\Castling\CastlingValues.cs" />
@@ -89,8 +90,11 @@
     <Compile Include="MoveGenerators\GeneratorMode.cs" />
     <Compile Include="MoveGenerators\BishopPatternContainer.cs" />
     <Compile Include="MoveGenerators\GeneratorParameters.cs" />
-    <Compile Include="MoveGenerators\MagicBitboards\MagicBitboardsGenerator.cs" />
-    <Compile Include="MoveGenerators\MagicBitboards\MagicBitboardsPatternContainer.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\Generators\FieldPattern.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\Generators\PermutationsGenerator.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\Generators\RookAttacksGenerator.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\MagicBitboardsContainer.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\Generators\MagicKeyGenerator.cs" />
     <Compile Include="MoveGenerators\PatternGenerators\BishopPatternGenerator.cs" />
     <Compile Include="MoveGenerators\RookPatternContainer.cs" />
     <Compile Include="MoveGenerators\PatternGenerators\KingPatternGenerator.cs" />
