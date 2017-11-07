@@ -7,6 +7,15 @@ namespace Proxima.Core.Boards
     public static class BitOperations
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int GetLSB(ref int value)
+        {
+            var valueWithSign = value;
+            value &= value - 1;
+
+            return valueWithSign & -valueWithSign;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong GetLSB(ref ulong value)
         {
             var valueWithSign = (long)value;
