@@ -3,7 +3,7 @@ using System.IO;
 
 namespace MagicKeysGenerator
 {
-    class Program
+    internal class Program
     {
         static void Main(string[] args)
         {
@@ -23,7 +23,7 @@ namespace MagicKeysGenerator
 
         static void SaveKeysToFile(ulong[] keys)
         {
-            using (var writer = new StreamWriter("keys.txt"))
+            using (var writer = new StreamWriter("Keys/RookKeys.txt"))
             {
                 foreach(var key in keys)
                 {

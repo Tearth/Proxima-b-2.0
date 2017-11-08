@@ -1,4 +1,4 @@
-﻿using Proxima.Core.MoveGenerators.MagicBitboards.Generators;
+﻿using Proxima.Core.MoveGenerators.MagicBitboards.Keys;
 
 namespace Proxima.Core.MoveGenerators.MagicBitboards
 {
@@ -10,9 +10,17 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
         public static ulong[] RookKeys { get; private set; }
         public static ulong[] BishopKeys { get; private set; }
         
+        public static void LoadKeys()
+        {
+            var keysLoader = new MagicKeysLoader();
+
+            RookKeys = keysLoader.LoadRookKeys();
+            //BishopKeys = keysLoader.LoadBishopKeys();
+        }
+
         public static void GenerateAttacks()
         {
-
+            
         }
     }
 }

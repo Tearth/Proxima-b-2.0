@@ -1,7 +1,7 @@
 ﻿using Proxima.Core.Boards;
 using System.Collections.Generic;
 
-namespace Proxima.Core.MoveGenerators.MagicBitboards.Generators
+namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
 {
     public class PermutationsGenerator
     {

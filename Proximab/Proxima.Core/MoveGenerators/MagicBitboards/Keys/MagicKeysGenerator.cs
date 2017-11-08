@@ -1,10 +1,10 @@
 ﻿using Proxima.Core.Boards;
 using Proxima.Core.Commons.Randoms;
-using Proxima.Core.MoveGenerators.MagicBitboards.Generators;
+using Proxima.Core.MoveGenerators.MagicBitboards.Attacks;
 using System;
 using System.Collections.Generic;
 
-namespace Proxima.Core.MoveGenerators.MagicBitboards.Generators
+namespace Proxima.Core.MoveGenerators.MagicBitboards.Keys
 {
     public class MagicKeyGenerator
     {

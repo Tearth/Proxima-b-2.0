@@ -90,11 +90,12 @@
     <Compile Include="MoveGenerators\GeneratorMode.cs" />
     <Compile Include="MoveGenerators\BishopPatternContainer.cs" />
     <Compile Include="MoveGenerators\GeneratorParameters.cs" />
-    <Compile Include="MoveGenerators\MagicBitboards\Generators\FieldPattern.cs" />
-    <Compile Include="MoveGenerators\MagicBitboards\Generators\PermutationsGenerator.cs" />
-    <Compile Include="MoveGenerators\MagicBitboards\Generators\RookAttacksGenerator.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\Attacks\FieldPattern.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\Attacks\PermutationsGenerator.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\Attacks\RookAttacksGenerator.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\Keys\MagicKeysLoader.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\MagicBitboardsContainer.cs" />
-    <Compile Include="MoveGenerators\MagicBitboards\Generators\MagicKeyGenerator.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\Keys\MagicKeysGenerator.cs" />
     <Compile Include="MoveGenerators\PatternGenerators\BishopPatternGenerator.cs" />
     <Compile Include="MoveGenerators\RookPatternContainer.cs" />
     <Compile Include="MoveGenerators\PatternGenerators\KingPatternGenerator.cs" />

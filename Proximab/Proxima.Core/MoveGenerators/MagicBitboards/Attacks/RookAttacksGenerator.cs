@@ -1,9 +1,10 @@
 ﻿using Proxima.Core.Boards;
 using Proxima.Core.Commons.Positions;
+using Proxima.Core.MoveGenerators.MagicBitboards.Keys;
 using Proxima.Core.MoveGenerators.PatternGenerators;
 using System.Collections.Generic;
 
-namespace Proxima.Core.MoveGenerators.MagicBitboards.Generators
+namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
 {
     public class RookAttacksGenerator
     {

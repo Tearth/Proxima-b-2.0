@@ -1,4 +1,4 @@
-﻿namespace Proxima.Core.MoveGenerators.MagicBitboards.Generators
+﻿namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
 {
     public class FieldPattern
     {

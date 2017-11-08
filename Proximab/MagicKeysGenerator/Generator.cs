@@ -1,6 +1,7 @@
 ﻿using Proxima.Core;
 using Proxima.Core.Boards;
-using Proxima.Core.MoveGenerators.MagicBitboards.Generators;
+using Proxima.Core.MoveGenerators.MagicBitboards.Attacks;
+using Proxima.Core.MoveGenerators.MagicBitboards.Keys;
 using Proxima.Core.MoveGenerators.PatternGenerators;
 using System;
 
@@ -16,7 +17,7 @@ namespace MagicKeysGenerator
             _magicKeyGenerator = new MagicKeyGenerator();
             _rookAttacksGenerator = new RookAttacksGenerator();
 
-            ProximaCore.Init();
+            PatternsContainer.GeneratePatterns();
         }
 
         public ulong[] GetKeys()
