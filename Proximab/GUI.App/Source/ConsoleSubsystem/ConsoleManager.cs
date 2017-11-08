@@ -74,7 +74,7 @@ namespace GUI.App.Source.ConsoleSubsystem
 
         void WriteCommandsList()
         {
-            WriteLine($"$wAvailable commands ({_commandDefinitionsContainer.Definitions.Count}):");
+            WriteLine($"$wAvaliable commands ({_commandDefinitionsContainer.Definitions.Count}):");
 
             foreach (var commandDefinition in _commandDefinitionsContainer.Definitions)
             {
@@ -89,7 +89,7 @@ namespace GUI.App.Source.ConsoleSubsystem
 
         void WriteColorsList()
         {
-            WriteLine($"$wAvailable colors ({_colorDefinitionsContainer.Definitions.Count}):");
+            WriteLine($"$wAvaliable colors ({_colorDefinitionsContainer.Definitions.Count}):");
 
             foreach (var colorDefinition in _colorDefinitionsContainer.Definitions)
             {
@@ -160,7 +160,8 @@ namespace GUI.App.Source.ConsoleSubsystem
             var processPlatform = _environmentInfoProvider.GetProcessPlatformVersion();
             var coresCount = _environmentInfoProvider.GetCPUCoresCount();
 
-            WriteLine($"$gProxima b 2.0 GUI$w | {osInfo} (CPU $c{cpuPlatform}$w, {coresCount}$w | Process $c{processPlatform}$w)");
+            WriteLine($"$gProxima b 2.0 GUI$w | {osInfo} " +
+                      $"(CPU $c{cpuPlatform}$w, {coresCount}$w | Process $c{processPlatform}$w)");
         }
     }
 }
