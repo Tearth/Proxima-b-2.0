@@ -5,7 +5,7 @@ using Proxima.Core.MoveGenerators.MagicBitboards.Keys;
 using Proxima.Core.MoveGenerators.PatternGenerators;
 using System;
 
-namespace MagicKeysGenerator
+namespace Proxima.MagicKeysGenerator
 {
     internal class Generator
     {

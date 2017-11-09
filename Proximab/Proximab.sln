@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxima.Helpers", "Proxima.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorfulConsole", "ColorfulConsole\ColorfulConsole.csproj", "{F168016D-AE15-4472-8E18-F1B1150A4A3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicKeysGenerator", "MagicKeysGenerator\MagicKeysGenerator.csproj", "{5DABB56F-4D18-482B-930B-BA147509B305}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxima.MagicKeysGenerator", "Proxima.MagicKeysGenerator\Proxima.MagicKeysGenerator.csproj", "{5DABB56F-4D18-482B-930B-BA147509B305}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

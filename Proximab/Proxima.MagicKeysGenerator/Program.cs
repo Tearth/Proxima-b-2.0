@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace MagicKeysGenerator
+namespace Proxima.MagicKeysGenerator
 {
     internal class Program
     {
