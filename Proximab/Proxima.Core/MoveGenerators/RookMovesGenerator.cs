@@ -43,7 +43,7 @@ namespace Proxima.Core.MoveGenerators
             //var verticalPattern = GetVerticalPattern(piecePosition, opt.Occupancy) & ~opt.FriendlyOccupancy;
 
             //var pattern = horizontalPattern | verticalPattern;
-            var pattern = MagicBitboardsContainer.GetRookAttacks(pieceIndex, opt.Occupancy);
+            var pattern = MagicContainer.GetRookAttacks(pieceIndex, opt.Occupancy);
             pattern &= ~opt.FriendlyOccupancy;
 
             while (pattern != 0)
@@ -92,7 +92,7 @@ namespace Proxima.Core.MoveGenerators
             //verticalPattern ^= patternContainer.Vertical;
 
             //var pattern = horizontalPattern | verticalPattern;
-            var pattern = MagicBitboardsContainer.GetRookAttacks(pieceIndex, opt.Occupancy);
+            var pattern = MagicContainer.GetRookAttacks(pieceIndex, occupancyWithoutBlockers);
             pattern ^= movesPattern;
             pattern &= ~opt.FriendlyOccupancy;
 

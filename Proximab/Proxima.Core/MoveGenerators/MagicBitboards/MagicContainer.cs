@@ -5,7 +5,7 @@ using Proxima.Core.MoveGenerators.PatternGenerators;
 
 namespace Proxima.Core.MoveGenerators.MagicBitboards
 {
-    public static class MagicBitboardsContainer
+    public static class MagicContainer
     {
         public static ulong[] RookAttacks { get; private set; }
         public static ulong[] BishopAttacks { get; private set; }
@@ -38,7 +38,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
             var occupancyWithMask = occupancy & mask;
 
             var hash = (occupancyWithMask * key) >> (64 - bitsCount);
-            var attacks = RookAttacks[(4096 * fieldIndex) + (int)hash];
+            var attacks = RookAttacks[(MagicConstants.RookMovesPerField * fieldIndex) + (int)hash];
 
             return attacks;
         }
@@ -52,7 +52,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
             var occupancyWithMask = occupancy & mask;
 
             var hash = (occupancyWithMask * key) >> (64 - bitsCount);
-            var attacks = BishopAttacks[(512 * fieldIndex) + (int)hash];
+            var attacks = BishopAttacks[(MagicConstants.BishopMovesPerField * fieldIndex) + (int)hash];
 
             return attacks;
         }

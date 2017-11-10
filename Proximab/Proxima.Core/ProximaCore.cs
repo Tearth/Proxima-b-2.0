@@ -8,8 +8,8 @@ namespace Proxima.Core
         public static void Init()
         {
             PatternsContainer.GeneratePatterns();
-            MagicBitboardsContainer.LoadKeys();
-            MagicBitboardsContainer.GenerateAttacks();
+            MagicContainer.LoadKeys();
+            MagicContainer.GenerateAttacks();
         }
     }
 }

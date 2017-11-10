@@ -40,7 +40,7 @@ namespace Proxima.Core.MoveGenerators
             //var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, opt.Occupancy) & ~opt.FriendlyOccupancy;
 
             //var pattern = rightRotatedBitBoardPattern | leftRotatedBitBoardPattern;
-            var pattern = MagicBitboardsContainer.GetBishopAttacks(pieceIndex, opt.Occupancy);
+            var pattern = MagicContainer.GetBishopAttacks(pieceIndex, opt.Occupancy);
             pattern &= ~opt.FriendlyOccupancy;
 
             while (pattern != 0)
@@ -88,7 +88,7 @@ namespace Proxima.Core.MoveGenerators
             //leftRotatedBitBoardPattern ^= patternContainer.A8H1Diagonal;
 
             //var pattern = rightRotatedBitBoardPattern | leftRotatedBitBoardPattern;
-            var pattern = MagicBitboardsContainer.GetBishopAttacks(pieceIndex, opt.Occupancy);
+            var pattern = MagicContainer.GetBishopAttacks(pieceIndex, allPiecesOccupancy);
             pattern ^= movesPattern;
             pattern &= ~opt.FriendlyOccupancy;
 

@@ -98,8 +98,9 @@
     <Compile Include="MoveGenerators\MagicBitboards\Attacks\PermutationsGenerator.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Attacks\RookAttacksGenerator.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Keys\MagicKeysLoader.cs" />
-    <Compile Include="MoveGenerators\MagicBitboards\MagicBitboardsContainer.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\MagicContainer.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Keys\MagicKeysGenerator.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\MagicConstants.cs" />
     <Compile Include="MoveGenerators\PatternGenerators\BishopPatternGenerator.cs" />
     <Compile Include="MoveGenerators\RookPatternContainer.cs" />
     <Compile Include="MoveGenerators\PatternGenerators\KingPatternGenerator.cs" />

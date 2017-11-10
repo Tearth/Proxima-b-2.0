@@ -18,14 +18,14 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
 
         public ulong[] ParseRookAttacks()
         {
-            var rookAttacks = new ulong[64 * 4096];
+            var rookAttacks = new ulong[MagicConstants.RookArraySize];
 
             for (int i = 0; i < 64; i++)
             {
                 var patterns = _rookAttacksGenerator.Generate(i);
                 var mask = PatternsContainer.RookPattern[i];
 
-                ParsePatterns(patterns, rookAttacks, MagicBitboardsContainer.RookKeys, mask, i, 4096);
+                ParsePatterns(patterns, rookAttacks, MagicContainer.RookKeys, mask, i, MagicConstants.RookMovesPerField);
             }
 
             return rookAttacks;
@@ -33,14 +33,14 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
 
         public ulong[] ParseBishopAttacks()
         {
-            var bishopAttacks = new ulong[64 * 512];
+            var bishopAttacks = new ulong[MagicConstants.BishopArraySize];
 
             for (int i = 0; i < 64; i++)
             {
                 var patterns = _bishopAttacksGenerator.Generate(i);
                 var mask = PatternsContainer.BishopPattern[i];
 
-                ParsePatterns(patterns, bishopAttacks, MagicBitboardsContainer.BishopKeys, mask, i, 512);
+                ParsePatterns(patterns, bishopAttacks, MagicContainer.BishopKeys, mask, i, MagicConstants.BishopMovesPerField);
             }
 
             return bishopAttacks;
@@ -54,7 +54,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
                 var bitsCount = BitOperations.Count(mask);
                 var hash = (pattern.Occupancy * key) >> (64 - bitsCount);
                 var index = (patternsPerField * fieldIndex) + (int)hash;
-
+                
                 if (attacks[index] != 0 && attacks[index] != pattern.Attacks)
                 {
                     throw new InvalidMagicKeyException();
