@@ -92,6 +92,7 @@
     <Compile Include="MoveGenerators\GeneratorParameters.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Attacks\AttacksGenerator.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Attacks\BishopAttacksGenerator.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\Exceptions\InvalidMagicKeyException.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\FieldPattern.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Attacks\PermutationsGenerator.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Attacks\RookAttacksGenerator.cs" />
