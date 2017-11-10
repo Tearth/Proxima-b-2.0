@@ -40,6 +40,7 @@ namespace Proxima.Core.MoveGenerators
             var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
             var pattern = MagicContainer.GetRookAttacks(pieceIndex, opt.Occupancy);
+            var excludeFromAttacks = pattern;
             pattern &= ~opt.FriendlyOccupancy;
 
             while (pattern != 0)
@@ -62,7 +63,7 @@ namespace Proxima.Core.MoveGenerators
                 opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
             }
 
-            return pattern;
+            return excludeFromAttacks;
         }
 
         void CalculateAttacks(PieceType pieceType, ulong pieceLSB, ulong movesPattern, GeneratorParameters opt)
@@ -78,16 +79,6 @@ namespace Proxima.Core.MoveGenerators
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
             var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
-            //var horizontalPattern = GetHorizontalPattern(piecePosition, occupancyWithoutBlockers);
-            //var verticalPattern = GetVerticalPattern(piecePosition, occupancyWithoutBlockers);
-
-            //horizontalPattern = ExpandPatternByFriendlyPieces(Axis.Rank, horizontalPattern, pieceLSB, opt);
-            //horizontalPattern ^= patternContainer.Horizontal;
-
-            //verticalPattern = ExpandPatternByFriendlyPieces(Axis.File, verticalPattern, pieceLSB, opt);
-            //verticalPattern ^= patternContainer.Vertical;
-
-            //var pattern = horizontalPattern | verticalPattern;
             var pattern = MagicContainer.GetRookAttacks(pieceIndex, occupancyWithoutBlockers);
             pattern ^= movesPattern;
             pattern &= ~opt.FriendlyOccupancy;
@@ -101,65 +92,5 @@ namespace Proxima.Core.MoveGenerators
                 opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
             }
         }
-
-        /*ulong GetHorizontalPattern(Position piecePosition, ulong occupancy)
-        {
-            var offset = piecePosition.Y - 1;
-
-            var pieceRank = (byte)(occupancy >> (offset << 3));
-            var pattern = PatternsContainer.SlidePattern[FastArray.GetSlideIndex(piecePosition.X, pieceRank)];
-            
-            return (ulong)pattern << (offset << 3);
-        }
-
-        ulong GetVerticalPattern(Position piecePosition, ulong occupancy)
-        {
-            var offset = 8 - piecePosition.X;
-            var rotatedOccupancy = BitOperations.Rotate90Right(occupancy);
-
-            var pieceRank = (byte)(rotatedOccupancy >> (offset << 3));
-            var pattern = PatternsContainer.SlidePattern[FastArray.GetSlideIndex(piecePosition.Y, pieceRank)];
-
-            return BitOperations.Rotate90Left(pattern) << offset;
-        }
-
-        /*ulong ExpandPatternByFriendlyPieces(Axis axis, ulong pattern, ulong pieceLSB, GeneratorParameters opt)
-        {
-            var expandedPattern = pattern;
-
-            var blockers = pattern & opt.FriendlyOccupancy;
-
-            var shift = 0;
-            var mask = 0ul;
-
-            if(axis == Axis.File)
-            {
-                mask = ~BitConstants.ARank & ~BitConstants.HRank;
-                shift = 8;
-            }
-            else
-            {
-                mask = ~BitConstants.AFile & ~BitConstants.HFile;
-                shift = 1;
-            }
-
-            while(blockers != 0)
-            {
-                var blockerLSB = BitOperations.GetLSB(ref blockers);
-                if ((blockerLSB & opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.King)]) != 0)
-                {
-                    if(blockerLSB < pieceLSB)
-                    {
-                        expandedPattern |= (blockerLSB & mask) >> shift;
-                    }
-                    else
-                    {
-                        expandedPattern |= (blockerLSB & mask) << shift;
-                    }
-                }
-            }
-
-            return expandedPattern;
-        }*/
     }
 }
