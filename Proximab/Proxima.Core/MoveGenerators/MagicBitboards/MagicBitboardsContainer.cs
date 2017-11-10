@@ -38,7 +38,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
             var occupancyWithMask = occupancy & mask;
 
             var hash = (occupancyWithMask * key) >> (64 - bitsCount);
-            var attacks = RookAttacks[hash];
+            var attacks = RookAttacks[(4096 * fieldIndex) + (int)hash];
 
             return attacks;
         }
@@ -52,7 +52,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
             var occupancyWithMask = occupancy & mask;
 
             var hash = (occupancyWithMask * key) >> (64 - bitsCount);
-            var attacks = BishopAttacks[hash];
+            var attacks = BishopAttacks[(512 * fieldIndex) + (int)hash];
 
             return attacks;
         }

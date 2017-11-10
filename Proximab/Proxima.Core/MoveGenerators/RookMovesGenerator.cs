@@ -31,10 +31,10 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
-        RookPatternContainer CalculateMoves(PieceType pieceType, ulong pieceLSB, GeneratorParameters opt)
+        ulong CalculateMoves(PieceType pieceType, ulong pieceLSB, GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
-                return new RookPatternContainer();
+                return 0;
 
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
             var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
@@ -44,7 +44,8 @@ namespace Proxima.Core.MoveGenerators
 
             //var pattern = horizontalPattern | verticalPattern;
             var pattern = MagicBitboardsContainer.GetRookAttacks(pieceIndex, opt.Occupancy);
-    
+            pattern &= ~opt.FriendlyOccupancy;
+
             while (pattern != 0)
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
@@ -65,10 +66,10 @@ namespace Proxima.Core.MoveGenerators
                 opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
             }
 
-            return new RookPatternContainer(0, 0);
+            return pattern;
         }
 
-        void CalculateAttacks(PieceType pieceType, ulong pieceLSB, RookPatternContainer patternContainer, GeneratorParameters opt)
+        void CalculateAttacks(PieceType pieceType, ulong pieceLSB, ulong movesPattern, GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateAttacks) == 0)
                 return;
@@ -92,6 +93,8 @@ namespace Proxima.Core.MoveGenerators
 
             //var pattern = horizontalPattern | verticalPattern;
             var pattern = MagicBitboardsContainer.GetRookAttacks(pieceIndex, opt.Occupancy);
+            pattern ^= movesPattern;
+            pattern &= ~opt.FriendlyOccupancy;
 
             while (pattern != 0)
             {

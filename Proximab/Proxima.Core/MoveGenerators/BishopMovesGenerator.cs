@@ -28,10 +28,10 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
-        BishopPatternContainer CalculateMoves(PieceType pieceType, ulong pieceLSB, GeneratorParameters opt)
+        ulong CalculateMoves(PieceType pieceType, ulong pieceLSB, GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
-                return new BishopPatternContainer();
+                return 0;
 
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
             var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
@@ -41,6 +41,7 @@ namespace Proxima.Core.MoveGenerators
 
             //var pattern = rightRotatedBitBoardPattern | leftRotatedBitBoardPattern;
             var pattern = MagicBitboardsContainer.GetBishopAttacks(pieceIndex, opt.Occupancy);
+            pattern &= ~opt.FriendlyOccupancy;
 
             while (pattern != 0)
             {
@@ -62,10 +63,10 @@ namespace Proxima.Core.MoveGenerators
                 opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
             }
 
-            return new BishopPatternContainer(0, 0);
+            return pattern;
         }
 
-        void CalculateAttacks(PieceType pieceType, ulong pieceLSB, BishopPatternContainer patternContainer, GeneratorParameters opt)
+        void CalculateAttacks(PieceType pieceType, ulong pieceLSB, ulong movesPattern, GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateAttacks) == 0)
                 return;
@@ -88,6 +89,8 @@ namespace Proxima.Core.MoveGenerators
 
             //var pattern = rightRotatedBitBoardPattern | leftRotatedBitBoardPattern;
             var pattern = MagicBitboardsContainer.GetBishopAttacks(pieceIndex, opt.Occupancy);
+            pattern ^= movesPattern;
+            pattern &= ~opt.FriendlyOccupancy;
 
             while (pattern != 0)
             {
