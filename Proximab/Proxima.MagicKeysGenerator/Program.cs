@@ -11,19 +11,22 @@ namespace Proxima.MagicKeysGenerator
             Console.WriteLine();
 
             var generator = new Generator();
-            var keys = generator.GetKeys();
 
-            SaveKeysToFile(keys);
+            Console.WriteLine("Rook magic keys...");
+            SaveKeysToFile(generator.GetRookKeys(), "Keys/RookKeys.txt");
 
             Console.WriteLine();
-            Console.WriteLine("Keys saved to keys.txt");
+            Console.WriteLine("Bishop magic keys...");
+            SaveKeysToFile(generator.GetBishopKeys(), "Keys/BishopKeys.txt");
+
+            Console.WriteLine();
             Console.WriteLine("Operation completed!");
             Console.ReadLine();
         }
 
-        static void SaveKeysToFile(ulong[] keys)
+        static void SaveKeysToFile(ulong[] keys, string fileName)
         {
-            using (var writer = new StreamWriter("Keys/RookKeys.txt"))
+            using (var writer = new StreamWriter(fileName))
             {
                 foreach(var key in keys)
                 {
