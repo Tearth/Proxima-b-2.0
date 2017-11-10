@@ -15,7 +15,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
             var keysLoader = new MagicKeysLoader();
 
             RookKeys = keysLoader.LoadRookKeys();
-            //BishopKeys = keysLoader.LoadBishopKeys();
+            BishopKeys = keysLoader.LoadBishopKeys();
         }
 
         public static void GenerateAttacks()
