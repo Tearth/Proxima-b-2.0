@@ -1,17 +1,19 @@
-﻿using Proxima.Core.Boards;
-using Proxima.Core.Commons.Positions;
-using Proxima.Core.MoveGenerators.MagicBitboards.Keys;
+﻿using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators.PatternGenerators;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
 {
-    public class RookAttacksGenerator
+    public class BishopAttacksGenerator
     {
         PermutationsGenerator _permutationsGenerator;
         AttacksGenerator _attacksGenerator;
 
-        public RookAttacksGenerator()
+        public BishopAttacksGenerator()
         {
             _permutationsGenerator = new PermutationsGenerator();
             _attacksGenerator = new AttacksGenerator();
@@ -19,10 +21,10 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
 
         public List<FieldPattern> Generate(int fieldIndex)
         {
-            var mask = PatternsContainer.RookPattern[fieldIndex];
+            var mask = PatternsContainer.BishopPattern[fieldIndex];
             var occupancyPermutations = _permutationsGenerator.GetMaskPermutations(mask);
             var fieldPatterns = GetFieldPatterns(fieldIndex, mask, occupancyPermutations);
-     
+
             return fieldPatterns;
         }
 
@@ -30,19 +32,19 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
         {
             var patterns = new List<FieldPattern>();
 
-            foreach(var permutation in occupancyPermutations)
+            foreach (var permutation in occupancyPermutations)
             {
-                var rightAttacks = _attacksGenerator.Calculate(fieldIndex, permutation, new Position(-1, 0));
-                var leftAttacks = _attacksGenerator.Calculate(fieldIndex, permutation, new Position(1, 0));
-                var topAttacks = _attacksGenerator.Calculate(fieldIndex, permutation, new Position(0, 1));
-                var bottomAttacks = _attacksGenerator.Calculate(fieldIndex, permutation, new Position(0, -1));
+                var topRightAttacks = _attacksGenerator.Calculate(fieldIndex, permutation, new Position(1, 1));
+                var topLeftAttacks = _attacksGenerator.Calculate(fieldIndex, permutation, new Position(-1, 1));
+                var bottomRightAttacks = _attacksGenerator.Calculate(fieldIndex, permutation, new Position(1, -1));
+                var bottomLeftAttacks = _attacksGenerator.Calculate(fieldIndex, permutation, new Position(-1, -1));
 
-                var attacks = rightAttacks | leftAttacks | topAttacks | bottomAttacks;
+                var attacks = topRightAttacks | topLeftAttacks | bottomRightAttacks | bottomLeftAttacks;
 
                 patterns.Add(new FieldPattern(permutation, attacks));
             }
 
             return patterns;
-        } 
+        }
     }
 }

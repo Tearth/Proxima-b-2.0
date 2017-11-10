@@ -91,6 +91,7 @@
     <Compile Include="MoveGenerators\BishopPatternContainer.cs" />
     <Compile Include="MoveGenerators\GeneratorParameters.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Attacks\AttacksGenerator.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\Attacks\BishopAttacksGenerator.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Attacks\FieldPattern.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Attacks\PermutationsGenerator.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Attacks\RookAttacksGenerator.cs" />
