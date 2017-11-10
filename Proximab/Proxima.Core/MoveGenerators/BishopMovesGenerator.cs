@@ -36,10 +36,6 @@ namespace Proxima.Core.MoveGenerators
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
             var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
-            //var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, opt.Occupancy) & ~opt.FriendlyOccupancy;
-            //var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, opt.Occupancy) & ~opt.FriendlyOccupancy;
-
-            //var pattern = rightRotatedBitBoardPattern | leftRotatedBitBoardPattern;
             var pattern = MagicContainer.GetBishopAttacks(pieceIndex, opt.Occupancy);
             pattern &= ~opt.FriendlyOccupancy;
 
@@ -101,82 +97,5 @@ namespace Proxima.Core.MoveGenerators
                 opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
             }
         }
-
-        /*ulong GetRightRotatedBitBoardPattern(ulong pieceLSB, ulong occupancy)
-        {
-            var rotatedOccupancy = BitOperations.Rotate45Right(occupancy);
-            var rotatedPieceLSB = BitOperations.Rotate45Right(pieceLSB);
-            var rotatedPieceIndex = BitOperations.GetBitIndex(rotatedPieceLSB);
-            var rotatedPiecePosition = BitPositionConverter.ToPosition(rotatedPieceIndex);
-
-            var mask = (1 << (rotatedPiecePosition.Y - 1)) - 1;
-
-            if((rotatedPieceLSB & BitConstants.LeftBottomBoardPart) != 0)
-            {
-                mask ^= 0xFF;
-            }
-
-            var pieceRank = (byte)(rotatedOccupancy >> ((rotatedPiecePosition.Y - 1) << 3));
-            var availableMoves = PatternsContainer.SlidePattern[FastArray.GetSlideIndex(rotatedPiecePosition.X, pieceRank)] & mask;
-
-            return BitOperations.Rotate45Left((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) << 3));
-        }
-
-        ulong GetLeftRotatedBitBoardPattern(ulong pieceLSB, ulong occupancy)
-        {
-            var rotatedOccupancy = BitOperations.Rotate45Left(occupancy);
-            var rotatedPieceLSB = BitOperations.Rotate45Left(pieceLSB);
-            var rotatedPieceIndex = BitOperations.GetBitIndex(rotatedPieceLSB);
-            var rotatedPiecePosition = BitPositionConverter.ToPosition(rotatedPieceIndex);
-
-            var mask = (1 << (8 - rotatedPiecePosition.Y + 1)) - 1;
-
-            if ((rotatedPieceLSB & BitConstants.LeftTopBoardPart) != 0)
-            {
-                mask ^= 0xFF;
-            }
-
-            var pieceRank = (byte)(rotatedOccupancy >> ((rotatedPiecePosition.Y - 1) << 3));
-            var availableMoves = PatternsContainer.SlidePattern[FastArray.GetSlideIndex(rotatedPiecePosition.X, pieceRank)] & mask;
-
-            return BitOperations.Rotate45Right((ulong)availableMoves << ((rotatedPiecePosition.Y - 2) << 3));
-        }
-
-        ulong ExpandPatternByFriendlyPieces(Diagonal diagonal, ulong pattern, ulong pieceLSB, GeneratorParameters opt)
-        {
-            var expandedPattern = pattern;
-
-            var blockers = pattern & opt.FriendlyOccupancy;
-
-            var shift = diagonal == Diagonal.A1H8 ? 7 : 9;
-            var mask = ~BitConstants.ARank & ~BitConstants.AFile & ~BitConstants.HRank & ~BitConstants.HFile;
-
-            while (blockers != 0)
-            {
-                var blockerLSB = BitOperations.GetLSB(ref blockers);
-                var kingBlockers = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.King)];
-                var pawnBlockers = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)];
-
-                if ((blockerLSB & (kingBlockers | pawnBlockers)) != 0)
-                {
-                    if (blockerLSB < pieceLSB)
-                    {
-                        if (pawnBlockers == 0 || (pawnBlockers != 0 && opt.FriendlyColor == Color.Black))
-                        {
-                            expandedPattern |= (blockerLSB & mask) >> shift;
-                        }
-                    }
-                    else
-                    {
-                        if(pawnBlockers == 0 || (pawnBlockers != 0 && opt.FriendlyColor == Color.White))
-                        {
-                            expandedPattern |= (blockerLSB & mask) << shift;
-                        }
-                    }
-                }
-            }
-
-            return expandedPattern;
-        }*/
     }
 }

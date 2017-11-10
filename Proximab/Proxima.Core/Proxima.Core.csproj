@@ -88,7 +88,6 @@
     <Compile Include="Evaluation\Position\Values\QueenValues.cs" />
     <Compile Include="Evaluation\Position\Values\RookValues.cs" />
     <Compile Include="MoveGenerators\GeneratorMode.cs" />
-    <Compile Include="MoveGenerators\BishopPatternContainer.cs" />
     <Compile Include="MoveGenerators\GeneratorParameters.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Attacks\AttacksGenerator.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Attacks\AttacksParser.cs" />
@@ -102,7 +101,6 @@
     <Compile Include="MoveGenerators\MagicBitboards\Keys\MagicKeysGenerator.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\MagicConstants.cs" />
     <Compile Include="MoveGenerators\PatternGenerators\BishopPatternGenerator.cs" />
-    <Compile Include="MoveGenerators\RookPatternContainer.cs" />
     <Compile Include="MoveGenerators\PatternGenerators\KingPatternGenerator.cs" />
     <Compile Include="MoveGenerators\PatternGenerators\RookPatternGenerator.cs" />
     <Compile Include="MoveGenerators\BishopMovesGenerator.cs" />

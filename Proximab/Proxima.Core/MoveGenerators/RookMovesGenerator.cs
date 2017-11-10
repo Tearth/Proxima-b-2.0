@@ -39,10 +39,6 @@ namespace Proxima.Core.MoveGenerators
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
             var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
-            //var horizontalPattern = GetHorizontalPattern(piecePosition, opt.Occupancy) & ~opt.FriendlyOccupancy;
-            //var verticalPattern = GetVerticalPattern(piecePosition, opt.Occupancy) & ~opt.FriendlyOccupancy;
-
-            //var pattern = horizontalPattern | verticalPattern;
             var pattern = MagicContainer.GetRookAttacks(pieceIndex, opt.Occupancy);
             pattern &= ~opt.FriendlyOccupancy;
 
