@@ -1,4 +1,5 @@
-﻿using Proxima.Core.MoveGenerators.MagicBitboards.Keys;
+﻿using Proxima.Core.MoveGenerators.MagicBitboards.Attacks;
+using Proxima.Core.MoveGenerators.MagicBitboards.Keys;
 
 namespace Proxima.Core.MoveGenerators.MagicBitboards
 {
@@ -20,7 +21,10 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
 
         public static void GenerateAttacks()
         {
-            
+            var attacksParser = new AttacksParser();
+
+            RookAttacks = attacksParser.ParseRookAttacks();
+            BishopAttacks = attacksParser.ParseBishopAttacks();
         }
     }
 }
