@@ -9,12 +9,12 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
     public class RookAttacksGenerator
     {
         PermutationsGenerator _permutationsGenerator;
-        MagicKeyGenerator _magicKeyGenerator;
+        AttacksGenerator _attacksGenerator;
 
         public RookAttacksGenerator()
         {
             _permutationsGenerator = new PermutationsGenerator();
-            _magicKeyGenerator = new MagicKeyGenerator();
+            _attacksGenerator = new AttacksGenerator();
         }
 
         public List<FieldPattern> Generate(int fieldIndex)
@@ -32,10 +32,10 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
 
             foreach(var permutation in occupancyPermutations)
             {
-                var rightAttacks = CalculateAttacks(fieldIndex, permutation, new Position(-1, 0));
-                var leftAttacks = CalculateAttacks(fieldIndex, permutation, new Position(1, 0));
-                var topAttacks = CalculateAttacks(fieldIndex, permutation, new Position(0, 1));
-                var bottomAttacks = CalculateAttacks(fieldIndex, permutation, new Position(0, -1));
+                var rightAttacks = _attacksGenerator.Calculate(fieldIndex, permutation, new Position(-1, 0));
+                var leftAttacks = _attacksGenerator.Calculate(fieldIndex, permutation, new Position(1, 0));
+                var topAttacks = _attacksGenerator.Calculate(fieldIndex, permutation, new Position(0, 1));
+                var bottomAttacks = _attacksGenerator.Calculate(fieldIndex, permutation, new Position(0, -1));
 
                 var attacks = rightAttacks | leftAttacks | topAttacks | bottomAttacks;
 
@@ -45,27 +45,6 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
             return patterns;
         }
 
-        ulong CalculateAttacks(int initialFieldIndex, ulong occupancy, Position shift)
-        {
-            var attacks = 0ul;
-            var currentPosition = BitPositionConverter.ToPosition(initialFieldIndex);
-
-            currentPosition += shift;
-            while (currentPosition.IsValid())
-            {
-                var positionBitIndex = BitPositionConverter.ToBitIndex(currentPosition);
-                var bit = 1ul << positionBitIndex;
-                attacks |= bit;
-
-                if ((bit & occupancy) != 0)
-                {
-                    break;
-                }
-
-                currentPosition += shift;
-            }
-
-            return attacks;
-        }
+        
     }
 }
