@@ -5,6 +5,7 @@ using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Moves;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Positions;
+using Proxima.Core.MoveGenerators.MagicBitboards;
 using Proxima.Core.MoveGenerators.PatternGenerators;
 using System.Collections.Generic;
 
@@ -38,11 +39,12 @@ namespace Proxima.Core.MoveGenerators
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
             var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
-            var horizontalPattern = GetHorizontalPattern(piecePosition, opt.Occupancy) & ~opt.FriendlyOccupancy;
-            var verticalPattern = GetVerticalPattern(piecePosition, opt.Occupancy) & ~opt.FriendlyOccupancy;
+            //var horizontalPattern = GetHorizontalPattern(piecePosition, opt.Occupancy) & ~opt.FriendlyOccupancy;
+            //var verticalPattern = GetVerticalPattern(piecePosition, opt.Occupancy) & ~opt.FriendlyOccupancy;
 
-            var pattern = horizontalPattern | verticalPattern;
-
+            //var pattern = horizontalPattern | verticalPattern;
+            var pattern = MagicBitboardsContainer.GetRookAttacks(pieceIndex, opt.Occupancy);
+    
             while (pattern != 0)
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
@@ -63,7 +65,7 @@ namespace Proxima.Core.MoveGenerators
                 opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
             }
 
-            return new RookPatternContainer(horizontalPattern, verticalPattern);
+            return new RookPatternContainer(0, 0);
         }
 
         void CalculateAttacks(PieceType pieceType, ulong pieceLSB, RookPatternContainer patternContainer, GeneratorParameters opt)
@@ -79,16 +81,17 @@ namespace Proxima.Core.MoveGenerators
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
             var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
-            var horizontalPattern = GetHorizontalPattern(piecePosition, occupancyWithoutBlockers);
-            var verticalPattern = GetVerticalPattern(piecePosition, occupancyWithoutBlockers);
+            //var horizontalPattern = GetHorizontalPattern(piecePosition, occupancyWithoutBlockers);
+            //var verticalPattern = GetVerticalPattern(piecePosition, occupancyWithoutBlockers);
 
-            horizontalPattern = ExpandPatternByFriendlyPieces(Axis.Rank, horizontalPattern, pieceLSB, opt);
-            horizontalPattern ^= patternContainer.Horizontal;
+            //horizontalPattern = ExpandPatternByFriendlyPieces(Axis.Rank, horizontalPattern, pieceLSB, opt);
+            //horizontalPattern ^= patternContainer.Horizontal;
 
-            verticalPattern = ExpandPatternByFriendlyPieces(Axis.File, verticalPattern, pieceLSB, opt);
-            verticalPattern ^= patternContainer.Vertical;
+            //verticalPattern = ExpandPatternByFriendlyPieces(Axis.File, verticalPattern, pieceLSB, opt);
+            //verticalPattern ^= patternContainer.Vertical;
 
-            var pattern = horizontalPattern | verticalPattern;
+            //var pattern = horizontalPattern | verticalPattern;
+            var pattern = MagicBitboardsContainer.GetRookAttacks(pieceIndex, opt.Occupancy);
 
             while (pattern != 0)
             {
@@ -100,7 +103,7 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
-        ulong GetHorizontalPattern(Position piecePosition, ulong occupancy)
+        /*ulong GetHorizontalPattern(Position piecePosition, ulong occupancy)
         {
             var offset = piecePosition.Y - 1;
 
@@ -121,7 +124,7 @@ namespace Proxima.Core.MoveGenerators
             return BitOperations.Rotate90Left(pattern) << offset;
         }
 
-        ulong ExpandPatternByFriendlyPieces(Axis axis, ulong pattern, ulong pieceLSB, GeneratorParameters opt)
+        /*ulong ExpandPatternByFriendlyPieces(Axis axis, ulong pattern, ulong pieceLSB, GeneratorParameters opt)
         {
             var expandedPattern = pattern;
 
@@ -158,6 +161,6 @@ namespace Proxima.Core.MoveGenerators
             }
 
             return expandedPattern;
-        }
+        }*/
     }
 }

@@ -4,6 +4,7 @@ using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Moves;
 using Proxima.Core.Commons.Performance;
+using Proxima.Core.MoveGenerators.MagicBitboards;
 using Proxima.Core.MoveGenerators.PatternGenerators;
 
 namespace Proxima.Core.MoveGenerators
@@ -35,10 +36,11 @@ namespace Proxima.Core.MoveGenerators
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
             var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
-            var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, opt.Occupancy) & ~opt.FriendlyOccupancy;
-            var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, opt.Occupancy) & ~opt.FriendlyOccupancy;
+            //var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, opt.Occupancy) & ~opt.FriendlyOccupancy;
+            //var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, opt.Occupancy) & ~opt.FriendlyOccupancy;
 
-            var pattern = rightRotatedBitBoardPattern | leftRotatedBitBoardPattern;
+            //var pattern = rightRotatedBitBoardPattern | leftRotatedBitBoardPattern;
+            var pattern = MagicBitboardsContainer.GetBishopAttacks(pieceIndex, opt.Occupancy);
 
             while (pattern != 0)
             {
@@ -60,7 +62,7 @@ namespace Proxima.Core.MoveGenerators
                 opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
             }
 
-            return new BishopPatternContainer(rightRotatedBitBoardPattern, leftRotatedBitBoardPattern);
+            return new BishopPatternContainer(0, 0);
         }
 
         void CalculateAttacks(PieceType pieceType, ulong pieceLSB, BishopPatternContainer patternContainer, GeneratorParameters opt)
@@ -68,22 +70,24 @@ namespace Proxima.Core.MoveGenerators
             if ((opt.Mode & GeneratorMode.CalculateAttacks) == 0)
                 return;
 
+            var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
             var blockersToRemove = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Bishop)] |
                                    opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Queen)];
 
             var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, pieceType)];
             var allPiecesOccupancy = opt.Occupancy & ~blockersToRemove;
 
-            var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
-            var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
+            //var rightRotatedBitBoardPattern = GetRightRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
+            //var leftRotatedBitBoardPattern = GetLeftRotatedBitBoardPattern(pieceLSB, allPiecesOccupancy);
 
-            rightRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A1H8, rightRotatedBitBoardPattern, pieceLSB, opt);
-            rightRotatedBitBoardPattern ^= patternContainer.A1H8Diagonal;
+            //rightRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A1H8, rightRotatedBitBoardPattern, pieceLSB, opt);
+            //rightRotatedBitBoardPattern ^= patternContainer.A1H8Diagonal;
 
-            leftRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A8H1, leftRotatedBitBoardPattern, pieceLSB, opt);
-            leftRotatedBitBoardPattern ^= patternContainer.A8H1Diagonal;
+            //leftRotatedBitBoardPattern = ExpandPatternByFriendlyPieces(Diagonal.A8H1, leftRotatedBitBoardPattern, pieceLSB, opt);
+            //leftRotatedBitBoardPattern ^= patternContainer.A8H1Diagonal;
 
-            var pattern = rightRotatedBitBoardPattern | leftRotatedBitBoardPattern;
+            //var pattern = rightRotatedBitBoardPattern | leftRotatedBitBoardPattern;
+            var pattern = MagicBitboardsContainer.GetBishopAttacks(pieceIndex, opt.Occupancy);
 
             while (pattern != 0)
             {
@@ -95,7 +99,7 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
-        ulong GetRightRotatedBitBoardPattern(ulong pieceLSB, ulong occupancy)
+        /*ulong GetRightRotatedBitBoardPattern(ulong pieceLSB, ulong occupancy)
         {
             var rotatedOccupancy = BitOperations.Rotate45Right(occupancy);
             var rotatedPieceLSB = BitOperations.Rotate45Right(pieceLSB);
@@ -170,6 +174,6 @@ namespace Proxima.Core.MoveGenerators
             }
 
             return expandedPattern;
-        }
+        }*/
     }
 }
