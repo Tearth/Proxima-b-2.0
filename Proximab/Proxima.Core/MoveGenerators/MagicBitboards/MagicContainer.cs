@@ -13,12 +13,19 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
         public static ulong[] RookKeys { get; private set; }
         public static ulong[] BishopKeys { get; private set; }
 
+        public static int[] RookMaskBitsCount { get; private set; }
+        public static int[] BishopMaskBitsCount { get; private set; }
+
         public static void LoadKeys()
         {
             var keysLoader = new MagicKeysLoader();
+            var maskBitsCountCalculator = new MaskBitsCountCalculator();
 
             RookKeys = keysLoader.LoadRookKeys();
             BishopKeys = keysLoader.LoadBishopKeys();
+
+            RookMaskBitsCount = maskBitsCountCalculator.Calculate(PatternsContainer.RookPattern);
+            BishopMaskBitsCount = maskBitsCountCalculator.Calculate(PatternsContainer.BishopPattern);
         }
 
         public static void GenerateAttacks()
@@ -34,7 +41,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
             var mask = PatternsContainer.RookPattern[fieldIndex];
             var key = RookKeys[fieldIndex];
 
-            var bitsCount = BitOperations.Count(mask);
+            var bitsCount = RookMaskBitsCount[fieldIndex];
             var occupancyWithMask = occupancy & mask;
 
             var hash = (occupancyWithMask * key) >> (64 - bitsCount);
@@ -48,7 +55,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
             var mask = PatternsContainer.BishopPattern[fieldIndex];
             var key = BishopKeys[fieldIndex];
 
-            var bitsCount = BitOperations.Count(mask);
+            var bitsCount = BishopMaskBitsCount[fieldIndex];
             var occupancyWithMask = occupancy & mask;
 
             var hash = (occupancyWithMask * key) >> (64 - bitsCount);
