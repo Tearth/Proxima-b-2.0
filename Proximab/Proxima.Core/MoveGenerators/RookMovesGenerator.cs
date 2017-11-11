@@ -40,9 +40,9 @@ namespace Proxima.Core.MoveGenerators
             var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
             var pattern = MagicContainer.GetRookAttacks(pieceIndex, opt.Occupancy);
-            var excludeFromAttacks = pattern;
             pattern &= ~opt.FriendlyOccupancy;
 
+            var excludeFromAttacks = pattern;
             while (pattern != 0)
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
@@ -74,14 +74,11 @@ namespace Proxima.Core.MoveGenerators
             var blockersToRemove = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Rook)] |
                                    opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Queen)];
 
-            var occupancyWithoutBlockers = opt.Occupancy & ~blockersToRemove;
-            
+            var occupancyWithoutBlockers = opt.Occupancy & ~blockersToRemove;          
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
-            var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
             var pattern = MagicContainer.GetRookAttacks(pieceIndex, occupancyWithoutBlockers);
             pattern ^= movesPattern;
-            pattern &= ~opt.FriendlyOccupancy;
 
             while (pattern != 0)
             {

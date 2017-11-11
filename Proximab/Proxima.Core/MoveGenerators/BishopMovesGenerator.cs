@@ -37,9 +37,9 @@ namespace Proxima.Core.MoveGenerators
             var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
             var pattern = MagicContainer.GetBishopAttacks(pieceIndex, opt.Occupancy);
-            var excludeFromAttacks = pattern;
             pattern &= ~opt.FriendlyOccupancy;
 
+            var excludeFromAttacks = pattern;
             while (pattern != 0)
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
@@ -76,8 +76,9 @@ namespace Proxima.Core.MoveGenerators
             var allPiecesOccupancy = opt.Occupancy & ~blockersToRemove;
 
             var pattern = MagicContainer.GetBishopAttacks(pieceIndex, allPiecesOccupancy);
+            pattern = CalculateFriendlyBlockers(pieceIndex, pattern, opt);
+    
             pattern ^= movesPattern;
-            pattern &= ~opt.FriendlyOccupancy;
 
             while (pattern != 0)
             {
@@ -87,6 +88,53 @@ namespace Proxima.Core.MoveGenerators
                 opt.Attacks[patternIndex] |= pieceLSB;
                 opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
             }
+        }
+
+        ulong CalculateFriendlyBlockers(int pieceIndex, ulong pattern, GeneratorParameters opt)
+        {
+            var patternWithFriendlyBlockers = pattern;
+
+            var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
+            var friendlyBlockers = pattern & opt.FriendlyOccupancy;
+
+            while(friendlyBlockers != 0)
+            {
+                var friendlyBlockerLSB = BitOperations.GetLSB(ref friendlyBlockers);
+
+                if ((opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)] & friendlyBlockerLSB) == 0 &&
+                    (opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.King)] & friendlyBlockerLSB) == 0)
+                    continue;
+
+                var friendlyBlockerIndex = BitOperations.GetBitIndex(friendlyBlockerLSB);
+                var friendlyBlockerPosition = BitPositionConverter.ToPosition(friendlyBlockerIndex);
+
+                if(friendlyBlockerPosition.X > piecePosition.X && friendlyBlockerPosition.Y > piecePosition.Y &&
+                  (friendlyBlockerLSB & (BitConstants.HFile | BitConstants.HRank)) == 0)
+                {
+                    patternWithFriendlyBlockers |= friendlyBlockerLSB << 7;
+                }
+                else
+                if(friendlyBlockerPosition.X < piecePosition.X && friendlyBlockerPosition.Y > piecePosition.Y &&
+                  (friendlyBlockerLSB & (BitConstants.AFile | BitConstants.HRank)) == 0)
+                {
+                    patternWithFriendlyBlockers |= friendlyBlockerLSB << 9;
+                }
+
+                else
+                if(friendlyBlockerPosition.X > piecePosition.X && friendlyBlockerPosition.Y < piecePosition.Y &&
+                  (friendlyBlockerLSB & (BitConstants.HFile | BitConstants.ARank)) == 0)
+                {
+                    patternWithFriendlyBlockers |= friendlyBlockerLSB >> 9;
+                }
+                else
+                if(friendlyBlockerPosition.X < piecePosition.X && friendlyBlockerPosition.Y < piecePosition.Y &&
+                  (friendlyBlockerLSB & (BitConstants.AFile | BitConstants.ARank)) == 0)
+                {
+                    patternWithFriendlyBlockers |= friendlyBlockerLSB >> 7;
+                }
+            }
+
+            return patternWithFriendlyBlockers;
         }
     }
 }
