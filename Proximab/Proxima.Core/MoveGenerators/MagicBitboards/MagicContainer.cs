@@ -7,8 +7,8 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
 {
     public static class MagicContainer
     {
-        public static ulong[] RookAttacks { get; private set; }
-        public static ulong[] BishopAttacks { get; private set; }
+        public static ulong[][] RookAttacks { get; private set; }
+        public static ulong[][] BishopAttacks { get; private set; }
 
         public static ulong[] RookKeys { get; private set; }
         public static ulong[] BishopKeys { get; private set; }
@@ -45,7 +45,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
             var occupancyWithMask = occupancy & mask;
 
             var hash = (occupancyWithMask * key) >> (64 - bitsCount);
-            var attacks = RookAttacks[(MagicConstants.RookMovesPerField * fieldIndex) + (int)hash];
+            var attacks = RookAttacks[fieldIndex][hash];
 
             return attacks;
         }
@@ -59,7 +59,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
             var occupancyWithMask = occupancy & mask;
 
             var hash = (occupancyWithMask * key) >> (64 - bitsCount);
-            var attacks = BishopAttacks[(MagicConstants.BishopMovesPerField * fieldIndex) + (int)hash];
+            var attacks = BishopAttacks[fieldIndex][hash];
 
             return attacks;
         }
