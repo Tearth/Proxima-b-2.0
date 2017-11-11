@@ -38,30 +38,24 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
 
         public static ulong GetRookAttacks(int fieldIndex, ulong occupancy)
         {
-            var mask = PatternsContainer.RookPattern[fieldIndex];
-            var key = RookKeys[fieldIndex];
-
-            var bitsCount = RookMaskBitsCount[fieldIndex];
-            var occupancyWithMask = occupancy & mask;
-
-            var hash = (occupancyWithMask * key) >> (64 - bitsCount);
-            var attacks = RookAttacks[fieldIndex][hash];
-
-            return attacks;
+            return GetAttacks(fieldIndex, occupancy, PatternsContainer.RookPattern, RookAttacks, RookKeys, RookMaskBitsCount);
         }
 
         public static ulong GetBishopAttacks(int fieldIndex, ulong occupancy)
         {
-            var mask = PatternsContainer.BishopPattern[fieldIndex];
-            var key = BishopKeys[fieldIndex];
+            return GetAttacks(fieldIndex, occupancy, PatternsContainer.BishopPattern, BishopAttacks, BishopKeys, BishopMaskBitsCount);
+        }
 
-            var bitsCount = BishopMaskBitsCount[fieldIndex];
+        static ulong GetAttacks(int fieldIndex, ulong occupancy, ulong[] patterns, ulong[][] attacks, ulong[] keys, int[] maskBitsCount)
+        {
+            var mask = patterns[fieldIndex];
+            var key = keys[fieldIndex];
+
+            var bitsCount = maskBitsCount[fieldIndex];
             var occupancyWithMask = occupancy & mask;
 
             var hash = (occupancyWithMask * key) >> (64 - bitsCount);
-            var attacks = BishopAttacks[fieldIndex][hash];
-
-            return attacks;
+            return attacks[fieldIndex][hash];
         }
     }
 }

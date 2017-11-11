@@ -16,8 +16,8 @@
 
         public static readonly int[] PawnChainRatio = new int[2]
         {
-            -10,  //Regular
-            -5    //End
+            10,  //Regular
+            5    //End
         };
     }
 }
