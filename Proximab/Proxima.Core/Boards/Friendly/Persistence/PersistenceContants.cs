@@ -1,4 +1,4 @@
-﻿namespace Proxima.Helpers.Persistence
+﻿namespace Proxima.Core.Boards.Friendly.Persistence
 {
     public static class PersistenceContants
     {

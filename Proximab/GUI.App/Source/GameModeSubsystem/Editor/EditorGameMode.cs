@@ -11,7 +11,6 @@ using System.Linq;
 using Proxima.Helpers.Tests;
 using Proxima.Core.Boards.Friendly;
 using System.Collections.Generic;
-using Proxima.Helpers.Persistence;
 using GUI.App.Source.PromotionSubsystem;
 
 namespace GUI.App.Source.GameModeSubsystem.Editor

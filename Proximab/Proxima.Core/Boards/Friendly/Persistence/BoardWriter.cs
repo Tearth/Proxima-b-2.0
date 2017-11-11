@@ -5,7 +5,7 @@ using Proxima.Core.Commons.Positions;
 using System.IO;
 using System.Linq;
 
-namespace Proxima.Helpers.Persistence
+namespace Proxima.Core.Boards.Friendly.Persistence
 {
     public class BoardWriter
     {

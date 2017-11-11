@@ -44,6 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Boards\BitBoard.cs" />
+    <Compile Include="Boards\Friendly\Persistence\BoardReader.cs" />
+    <Compile Include="Boards\Friendly\Persistence\BoardWriter.cs" />
+    <Compile Include="Boards\Friendly\Persistence\PersistenceContants.cs" />
     <Compile Include="Commons\CastlingType.cs" />
     <Compile Include="Boards\Friendly\DefaultFriendlyBoard.cs" />
     <Compile Include="Boards\Friendly\FriendlyAttack.cs" />
