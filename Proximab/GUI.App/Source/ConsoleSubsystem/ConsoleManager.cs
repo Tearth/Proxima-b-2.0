@@ -1,12 +1,12 @@
-﻿using GUI.ContentDefinitions.Colors;
-using GUI.ContentDefinitions.Commands;
+﻿using ColorfulConsole;
 using GUI.App.Source.ConsoleSubsystem.Parser;
 using GUI.App.Source.DiagnosticSubsystem;
+using GUI.ContentDefinitions.Colors;
+using GUI.ContentDefinitions.Commands;
 using Microsoft.Xna.Framework.Content;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ColorfulConsole;
 
 namespace GUI.App.Source.ConsoleSubsystem
 {
@@ -74,7 +74,7 @@ namespace GUI.App.Source.ConsoleSubsystem
 
         void WriteCommandsList()
         {
-            WriteLine($"$wAvaliable commands ({_commandDefinitionsContainer.Definitions.Count}):");
+            WriteLine($"$wAvailable commands ({_commandDefinitionsContainer.Definitions.Count}):");
 
             foreach (var commandDefinition in _commandDefinitionsContainer.Definitions)
             {
@@ -89,7 +89,7 @@ namespace GUI.App.Source.ConsoleSubsystem
 
         void WriteColorsList()
         {
-            WriteLine($"$wAvaliable colors ({_colorDefinitionsContainer.Definitions.Count}):");
+            WriteLine($"$wAvailable colors ({_colorDefinitionsContainer.Definitions.Count}):");
 
             foreach (var colorDefinition in _colorDefinitionsContainer.Definitions)
             {
@@ -160,7 +160,7 @@ namespace GUI.App.Source.ConsoleSubsystem
             var processPlatform = _environmentInfoProvider.GetProcessPlatformVersion();
             var coresCount = _environmentInfoProvider.GetCPUCoresCount();
 
-            WriteLine($"$gProxima b 2.0 GUI$w | {osInfo} " +
+            WriteLine($"$gProxima b 2.0dev GUI$w | {osInfo} " +
                       $"(CPU $c{cpuPlatform}$w, {coresCount}$w | Process $c{processPlatform}$w)");
         }
     }
