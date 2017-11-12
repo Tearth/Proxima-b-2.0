@@ -29,7 +29,7 @@ namespace Proxima.Core.Commons.Performance
         public static int GetPositionValueIndex(Color color, GamePhase gamePhase, int pieceIndex)
         {
             var arrayPieceIndex = color == Color.White ? 64 - pieceIndex - 1: pieceIndex;
-            return ((int)gamePhase * 64) + arrayPieceIndex;
+            return ((int)gamePhase << 6) + arrayPieceIndex;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

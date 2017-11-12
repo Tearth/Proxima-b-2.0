@@ -270,7 +270,7 @@ namespace Proxima.Core.Boards
         {
             var whiteGeneratorParameters = GetGeneratorParameters(Color.White, whiteMode);
             var blackGeneratorParameters = GetGeneratorParameters(Color.Black, blackMode);
-
+            
             CalculateAvailableMoves(whiteGeneratorParameters);
             CalculateAvailableMoves(blackGeneratorParameters);
 

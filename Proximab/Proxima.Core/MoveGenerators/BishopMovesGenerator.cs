@@ -55,8 +55,11 @@ namespace Proxima.Core.MoveGenerators
                     opt.Moves.AddLast(new KillMove(piecePosition, to, pieceType, opt.FriendlyColor));
                 }
 
-                opt.Attacks[patternIndex] |= pieceLSB;
-                opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
+                if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
+                {
+                    opt.Attacks[patternIndex] |= pieceLSB;
+                    opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
+                }
             }
 
             return excludeFromAttacks;
