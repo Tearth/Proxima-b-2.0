@@ -9,6 +9,7 @@ using Proxima.Core.Commons.Positions;
 using System;
 using System.Collections.Generic;
 using Proxima.Core.Evaluation;
+using Proxima.Core.Boards.Hashing;
 
 namespace Proxima.Core.Boards
 {
@@ -112,6 +113,11 @@ namespace Proxima.Core.Boards
             var evaluationParameters = GetEvaluationParameters();
 
             return evaluationCalculator.GetEvaluation(evaluationParameters);
+        }
+
+        public ulong GetHash()
+        {
+            return new ZobristHash().Calculate();
         }
 
         void CalculateMove(BitBoard bitBoard, Move move)

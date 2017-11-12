@@ -139,6 +139,14 @@
         <Arguments>
         </Arguments>
       </Item>
+
+      <Item>
+        <Name>Hash</Name>
+        <EnumType>Hash</EnumType>
+        <Description>Display Zorbrist hash of current bitboard</Description>
+        <Arguments>
+        </Arguments>
+      </Item>
 		</Definitions>
 	</Asset>
 </XnaContent>

@@ -110,6 +110,7 @@ namespace GUI.App.Source.GameModeSubsystem
                 case CommandType.Check: { DisplayCheckStatus(command); break; }
                 case CommandType.Castling: { DisplayCastlingFlags(command); break; }
                 case CommandType.Evaluation: { DisplayEvaluation(command); break; }
+                case CommandType.Hash: { DisplayBoardHash(command); break; }
             }
         }
 
@@ -226,6 +227,12 @@ namespace GUI.App.Source.GameModeSubsystem
 
             _consoleManager.WriteLine();
             _consoleManager.WriteLine($"$cTotal: $w{evaluation.Total}");
+        }
+
+        void DisplayBoardHash(Command command)
+        {
+            var hash = _bitBoard.GetHash().ToString();
+            _consoleManager.WriteLine($"$c{hash}");
         }
     }
 }

@@ -15,6 +15,7 @@
         MovesTest,
         Check,
         Castling,
-        Evaluation
+        Evaluation,
+        Hash
     }
 }
