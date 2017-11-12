@@ -140,33 +140,6 @@ namespace Proxima.Core.Boards
             }
         }
 
-        void CalculateEnPassant(Move move)
-        {
-            if(move.Piece == PieceType.Pawn)
-            {
-                if(move.Color == Color.White)
-                {
-                    if(move.From.Y == 2 && move.To.Y == 4)
-                    {
-                        var enPassantPosition = new Position(move.To.X, move.To.Y - 1);
-                        var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
-
-                        _enPassant[(int)Color.White] |= enPassantLSB;
-                    }
-                }
-                else
-                {
-                    if (move.From.Y == 7 && move.To.Y == 5)
-                    {
-                        var enPassantPosition = new Position(move.To.X, move.To.Y + 1);
-                        var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
-
-                        _enPassant[(int)Color.Black] |= enPassantLSB;
-                    }
-                }
-            }
-        }
-
         void CalculateQuietMove(QuietMove move)
         {
             var to = BitPositionConverter.ToULong(move.To);
@@ -202,6 +175,33 @@ namespace Proxima.Core.Boards
             }
 
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] |= to;
+        }
+
+        void CalculateEnPassant(Move move)
+        {
+            if (move.Piece == PieceType.Pawn)
+            {
+                if (move.Color == Color.White)
+                {
+                    if (move.From.Y == 2 && move.To.Y == 4)
+                    {
+                        var enPassantPosition = new Position(move.To.X, move.To.Y - 1);
+                        var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
+
+                        _enPassant[(int)Color.White] |= enPassantLSB;
+                    }
+                }
+                else
+                {
+                    if (move.From.Y == 7 && move.To.Y == 5)
+                    {
+                        var enPassantPosition = new Position(move.To.X, move.To.Y + 1);
+                        var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
+
+                        _enPassant[(int)Color.Black] |= enPassantLSB;
+                    }
+                }
+            }
         }
 
         void CalculateCastlingMove(CastlingMove move)

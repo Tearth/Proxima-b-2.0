@@ -44,7 +44,6 @@ namespace Proxima.Core.MoveGenerators
             {
                 var patternLSB = BitOperations.GetLSB(ref pattern);
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
-
                 var to = BitPositionConverter.ToPosition(patternIndex);
 
                 if((patternLSB & opt.EnemyOccupancy) == 0)
@@ -77,7 +76,6 @@ namespace Proxima.Core.MoveGenerators
 
             var pattern = MagicContainer.GetBishopAttacks(pieceIndex, allPiecesOccupancy);
             pattern = CalculatePawnBlockers(pieceIndex, pattern, opt);
-    
             pattern ^= movesPattern;
 
             while (pattern != 0)

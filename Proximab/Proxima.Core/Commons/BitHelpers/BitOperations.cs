@@ -34,7 +34,7 @@ namespace Proxima.Core.Boards
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Count(ulong value)
         {
-            int count = 0;
+            var count = 0;
 
             while(value != 0)
             {

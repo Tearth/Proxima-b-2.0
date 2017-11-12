@@ -13,7 +13,8 @@ namespace Proxima.Core.Boards.Hashing
 
         public ulong Calculate()
         {
-            return 0;
+            var hash = 0ul;
+            return hash;
         }
     }
 }
