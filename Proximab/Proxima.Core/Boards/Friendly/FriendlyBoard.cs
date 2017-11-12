@@ -100,12 +100,12 @@ namespace Proxima.Core.Boards.Friendly
 
             if (EnPassant.WhiteEnPassant != null)
             {
-                enPassant[(int)Color.White] = BitPositionConverter.ToULong(EnPassant.WhiteEnPassant);
+                enPassant[(int)Color.White] = BitPositionConverter.ToULong(EnPassant.WhiteEnPassant.Value);
             }
 
             if (EnPassant.BlackEnPassant != null)
             {
-                enPassant[(int)Color.Black] = BitPositionConverter.ToULong(EnPassant.BlackEnPassant);
+                enPassant[(int)Color.Black] = BitPositionConverter.ToULong(EnPassant.BlackEnPassant.Value);
             }
 
             return enPassant;

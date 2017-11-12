@@ -3,15 +3,10 @@
 namespace Proxima.Core.Commons.Positions
 {
     [DebuggerDisplay("[{X} {Y}]")]
-    public class Position
+    public struct Position
     {
         public int X { get; set; }
         public int Y { get; set; }
-
-        public Position()
-        {
-
-        }
 
         public Position(int x, int y)
         {
@@ -49,7 +44,7 @@ namespace Proxima.Core.Commons.Positions
 
         public override bool Equals(object obj)
         {
-            var position = obj as Position;
+            var position = (Position)obj;
             return position != null &&
                    X == position.X &&
                    Y == position.Y;

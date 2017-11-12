@@ -64,8 +64,8 @@ namespace Proxima.Core.Boards.Friendly.Persistence
         {
             writer.WriteLine(PersistenceContants.EnPassantSection);
 
-            WritePosition(writer, enPassant.WhiteEnPassant);
-            WritePosition(writer, enPassant.BlackEnPassant);
+            WritePosition(writer, enPassant.WhiteEnPassant.Value);
+            WritePosition(writer, enPassant.BlackEnPassant.Value);
         }
 
         void WritePosition(StreamWriter writer, Position position)

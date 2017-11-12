@@ -4,8 +4,8 @@ namespace Proxima.Core.Boards.Friendly
 {
     public class FriendlyEnPassant
     {
-        public Position WhiteEnPassant { get; set; }
-        public Position BlackEnPassant { get; set; }
+        public Position? WhiteEnPassant { get; set; }
+        public Position? BlackEnPassant { get; set; }
 
         public FriendlyEnPassant()
         {
@@ -24,7 +24,7 @@ namespace Proxima.Core.Boards.Friendly
             BlackEnPassant = GetEnPassantPosition(enPassant[1]);
         }
 
-        Position GetEnPassantPosition(ulong enPassant)
+        Position? GetEnPassantPosition(ulong enPassant)
         {
             if(enPassant == 0)
             {

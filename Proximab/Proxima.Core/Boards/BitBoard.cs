@@ -122,11 +122,6 @@ namespace Proxima.Core.Boards
 
         void CalculateMove(BitBoard bitBoard, Move move)
         {
-            if (!move.IsValid())
-            {
-                throw new PositionOutOfRangeException();
-            }
-            
             var from = BitPositionConverter.ToULong(move.From);
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] &= ~from;
 

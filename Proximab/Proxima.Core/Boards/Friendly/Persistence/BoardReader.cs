@@ -90,7 +90,7 @@ namespace Proxima.Core.Boards.Friendly.Persistence
             return enPassant;
         }
 
-        Position ReadPosition(StreamReader reader)
+        Position? ReadPosition(StreamReader reader)
         {
             var line = reader.ReadLine().Trim();
 
