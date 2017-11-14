@@ -1,4 +1,4 @@
-﻿using ColorfulConsole;
+﻿using GUI.ColorfulConsole;
 using GUI.App.Source.BoardSubsystem;
 using GUI.App.Source.BoardSubsystem.Pieces;
 using GUI.App.Source.ConsoleSubsystem;

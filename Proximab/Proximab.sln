@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxima.Core", "Proxima.Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxima.Helpers", "Proxima.Helpers\Proxima.Helpers.csproj", "{E5515F32-EAEC-476D-A8AB-8EE93A84825C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorfulConsole", "ColorfulConsole\ColorfulConsole.csproj", "{F168016D-AE15-4472-8E18-F1B1150A4A3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI.ColorfulConsole", "GUI.ColorfulConsole\GUI.ColorfulConsole.csproj", "{F168016D-AE15-4472-8E18-F1B1150A4A3A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxima.MagicKeysGenerator", "Proxima.MagicKeysGenerator\Proxima.MagicKeysGenerator.csproj", "{5DABB56F-4D18-482B-930B-BA147509B305}"
 EndProject

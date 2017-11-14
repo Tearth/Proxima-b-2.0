@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ColorfulConsole.Output
+namespace GUI.ColorfulConsole.Output
 {
     public class OutputParser
     {

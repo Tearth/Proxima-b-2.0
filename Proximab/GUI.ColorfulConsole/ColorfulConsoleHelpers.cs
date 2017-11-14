@@ -1,4 +1,4 @@
-﻿namespace ColorfulConsole
+﻿namespace GUI.ColorfulConsole
 {
     public static class ColorfulConsoleHelpers
     {

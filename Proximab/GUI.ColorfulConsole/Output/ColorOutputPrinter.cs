@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ColorfulConsole.Output
+namespace GUI.ColorfulConsole.Output
 {
     public class ColorOutputPrinter
     {

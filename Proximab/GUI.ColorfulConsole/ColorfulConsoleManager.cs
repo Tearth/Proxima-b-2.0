@@ -1,7 +1,7 @@
-﻿using ColorfulConsole.Output;
+﻿using GUI.ColorfulConsole.Output;
 using GUI.ContentDefinitions.Colors;
 
-namespace ColorfulConsole
+namespace GUI.ColorfulConsole
 {
     public class ColorfulConsoleManager
     {

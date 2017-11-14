@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ColorfulConsole.Output
+namespace GUI.ColorfulConsole.Output
 {
     public class OutputChunk
     {

@@ -1,4 +1,4 @@
-﻿using ColorfulConsole;
+﻿using GUI.ColorfulConsole;
 using GUI.App.Source.ConsoleSubsystem.Parser;
 using GUI.App.Source.DiagnosticSubsystem;
 using GUI.ContentDefinitions.Colors;
