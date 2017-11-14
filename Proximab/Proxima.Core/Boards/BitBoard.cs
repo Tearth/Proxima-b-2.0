@@ -117,7 +117,7 @@ namespace Proxima.Core.Boards
 
         public ulong GetHash()
         {
-            return new ZobristHash().Calculate();
+            return new ZobristHash().Calculate(_pieces, _castlingPossibility, _enPassant);
         }
 
         void CalculateMove(BitBoard bitBoard, Move move)

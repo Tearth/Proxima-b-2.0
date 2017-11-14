@@ -14,6 +14,12 @@ namespace Proxima.Core.Commons.Performance
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int GetZobristPieceIndex(Color color, PieceType pieceType, int field)
+        {
+            return ((((int)color * 6) + (int)pieceType) << 6) + field;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetCastlingIndex(Color color, CastlingType castlingType)
         {
             return ((int)color << 1) + (int)castlingType;
