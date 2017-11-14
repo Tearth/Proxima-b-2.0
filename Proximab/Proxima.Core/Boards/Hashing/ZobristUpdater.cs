@@ -15,11 +15,14 @@ namespace Proxima.Core.Boards.Hashing
             hash ^= ZobristContainer.Pieces[index];
         }
 
-        public void RemoveCastlingPossibility(ref ulong hash, Color color, CastlingType castlingType)
+        public void RemoveCastlingPossibility(ref ulong hash, bool[] castling, Color color, CastlingType castlingType)
         {
-            var index = FastArray.GetCastlingIndex(color, castlingType);
+            var castlingIndex = FastArray.GetCastlingIndex(color, castlingType);
 
-            hash ^= ZobristContainer.Castling[index];
+            if (castling[castlingIndex])
+            {
+                hash ^= ZobristContainer.Castling[castlingIndex];
+            }
         }
 
         public void AddEnPassant(ref ulong hash, Color color, ulong field)
@@ -28,6 +31,20 @@ namespace Proxima.Core.Boards.Hashing
             var fieldPosition = BitPositionConverter.ToPosition(fieldIndex);
 
             hash ^= ZobristContainer.EnPassant[fieldPosition.X - 1];
+        }
+
+        public void ClearEnPassant(ref ulong hash, Color color, ulong[] _enPassant)
+        {
+            var enPassantToParse = _enPassant[(int)color];
+
+            while(enPassantToParse != 0)
+            {
+                var fieldLSB = BitOperations.GetLSB(ref enPassantToParse);
+                var fieldIndex = BitOperations.GetBitIndex(fieldLSB);
+                var fieldPosition = BitPositionConverter.ToPosition(fieldIndex);
+
+                hash ^= ZobristContainer.EnPassant[fieldPosition.X - 1];
+            }
         }
     }
 }
