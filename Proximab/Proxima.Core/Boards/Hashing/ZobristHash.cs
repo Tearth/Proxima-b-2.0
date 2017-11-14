@@ -71,7 +71,7 @@ namespace Proxima.Core.Boards.Hashing
                 var fieldIndex = BitOperations.GetBitIndex(pieceLSB);
                 var fieldPosition = BitPositionConverter.ToPosition(fieldIndex);
 
-                hash ^= ZobristContainer.EnPassant[fieldPosition.Y - 1];
+                hash ^= ZobristContainer.EnPassant[fieldPosition.X - 1];
             }
 
             return hash;

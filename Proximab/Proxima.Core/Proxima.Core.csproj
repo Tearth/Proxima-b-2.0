@@ -50,6 +50,7 @@
     <Compile Include="Boards\Friendly\Persistence\PersistenceContants.cs" />
     <Compile Include="Boards\Hashing\ZobristContainer.cs" />
     <Compile Include="Boards\Hashing\ZobristHash.cs" />
+    <Compile Include="Boards\Hashing\ZobristUpdater.cs" />
     <Compile Include="Commons\CastlingType.cs" />
     <Compile Include="Boards\Friendly\DefaultFriendlyBoard.cs" />
     <Compile Include="Boards\Friendly\FriendlyAttack.cs" />
