@@ -19,7 +19,6 @@ namespace Proxima.Core.Evaluation.Mobility
         int GetMobilityValue(Color color, EvaluationParameters parameters)
         {
             var mobility = 0;
-            var fieldsToParse = ~parameters.Occupancy[(int)color];
 
             for (int i = 0; i < 64; i++)
             {

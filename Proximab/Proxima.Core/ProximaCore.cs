@@ -1,4 +1,5 @@
-﻿using Proxima.Core.MoveGenerators.MagicBitboards;
+﻿using Proxima.Core.Boards.Hashing;
+using Proxima.Core.MoveGenerators.MagicBitboards;
 using Proxima.Core.MoveGenerators.PatternGenerators;
 
 namespace Proxima.Core
@@ -10,6 +11,7 @@ namespace Proxima.Core
             PatternsContainer.GeneratePatterns();
             MagicContainer.LoadKeys();
             MagicContainer.GenerateAttacks();
+            ZobristContainer.Init();
         }
     }
 }
