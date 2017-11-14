@@ -7,6 +7,7 @@ namespace Proxima.Helpers.Tests
         public int TotalNodes { get; set; }
         public int EndNodes { get; set; }
         public long Ticks { get; set; }
+        public bool HashCorrect { get; set; }
 
         public float Time
         {
@@ -21,6 +22,11 @@ namespace Proxima.Helpers.Tests
         public int TimePerNode
         {
             get { return TotalNodes != 0 ? (int)(Ticks / TotalNodes) * 100 : 0; }
+        }
+
+        public MovesTestData()
+        {
+            HashCorrect = true;
         }
     }
 }

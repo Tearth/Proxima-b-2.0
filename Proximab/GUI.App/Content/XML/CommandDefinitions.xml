@@ -107,7 +107,7 @@
           </Item>
           <Item>
             <Type>bool</Type>
-            <Description>Enable checks verification</Description>
+            <Description>Enable hash verification</Description>
           </Item>
           <Item>
             <Type>int</Type>
