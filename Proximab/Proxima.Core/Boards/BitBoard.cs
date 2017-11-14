@@ -25,8 +25,11 @@ namespace Proxima.Core.Boards
         bool[] _castlingPossibility;
         bool[] _castlingDone;
 
+        ulong _hash;
+
         LinkedList<Move> _moves;
 
+        ZobristUpdater _zobristUpdater;
         KnightMovesGenerator _knightMovesGenerator;
         KingMovesGenerator _kingMovesGenerator;
         RookMovesGenerator _rookMovesGenerator;
@@ -47,6 +50,7 @@ namespace Proxima.Core.Boards
 
             _moves = new LinkedList<Move>();
 
+            _zobristUpdater = new ZobristUpdater();
             _knightMovesGenerator = new KnightMovesGenerator();
             _kingMovesGenerator = new KingMovesGenerator();
             _rookMovesGenerator = new RookMovesGenerator();
@@ -56,6 +60,8 @@ namespace Proxima.Core.Boards
 
         public BitBoard(BitBoard bitBoard, Move move) : this()
         {
+            _hash = bitBoard._hash;
+
             Buffer.BlockCopy(bitBoard._pieces, 0, _pieces, 0, bitBoard._pieces.Length * sizeof(ulong));
             Buffer.BlockCopy(bitBoard._castlingPossibility, 0, _castlingPossibility, 0, bitBoard._castlingPossibility.Length * sizeof(bool));
             Buffer.BlockCopy(bitBoard._castlingDone, 0, _castlingDone, 0, bitBoard._castlingDone.Length * sizeof(bool));
@@ -70,6 +76,8 @@ namespace Proxima.Core.Boards
             _castlingPossibility = friendlyBoard.GetCastlingPossibilityArray();
             _castlingDone = friendlyBoard.GetCastlingDoneArray();
             _enPassant = friendlyBoard.GetEnPassantArray();
+
+            _hash = new ZobristHash().Calculate(_pieces, _castlingPossibility, _enPassant);
         }
 
         public BitBoard Move(Move move)
@@ -117,13 +125,15 @@ namespace Proxima.Core.Boards
 
         public ulong GetHash()
         {
-            return new ZobristHash().Calculate(_pieces, _castlingPossibility, _enPassant);
+            return _hash;
         }
 
         void CalculateMove(BitBoard bitBoard, Move move)
         {
             var from = BitPositionConverter.ToULong(move.From);
+
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] &= ~from;
+            _zobristUpdater.AddOrRemovePiece(ref _hash, move.Color, move.Piece, from);
 
             switch(move)
             {
@@ -143,20 +153,26 @@ namespace Proxima.Core.Boards
             {
                 _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
                 _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
+
+                _zobristUpdater.RemoveCastlingPossibility(ref _hash, move.Color, CastlingType.Short);
+                _zobristUpdater.RemoveCastlingPossibility(ref _hash, move.Color, CastlingType.Long);
             }
             else if (move.Piece == PieceType.Rook)
             {
                 if (move.From == new Position(1, 1) || move.From == new Position(1, 8))
                 {
                     _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
+                    _zobristUpdater.RemoveCastlingPossibility(ref _hash, move.Color, CastlingType.Long);
                 }
                 else if (move.From == new Position(8, 1) || move.From == new Position(8, 8))
                 {
                     _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
+                    _zobristUpdater.RemoveCastlingPossibility(ref _hash, move.Color, CastlingType.Short);
                 }
             }
 
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] |= to;
+            _zobristUpdater.AddOrRemovePiece(ref _hash, move.Color, move.Piece, to);
         }
 
         void CalculateKillMove(KillMove move)
@@ -166,10 +182,18 @@ namespace Proxima.Core.Boards
 
             for (int piece = 0; piece < 6; piece++)
             {
-                _pieces[FastArray.GetPieceIndex(enemyColor, (PieceType)piece)] &= ~to;
+                var index = FastArray.GetPieceIndex(enemyColor, (PieceType)piece);
+                if((_pieces[index] & to) != 0)
+                {
+                    _pieces[index] &= ~to;
+                    _zobristUpdater.AddOrRemovePiece(ref _hash, enemyColor, (PieceType)piece, to);
+
+                    break;
+                }
             }
 
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] |= to;
+            _zobristUpdater.AddOrRemovePiece(ref _hash, move.Color, move.Piece, to);
         }
 
         void CalculateEnPassant(Move move)
@@ -212,8 +236,6 @@ namespace Proxima.Core.Boards
                     _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
                     _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] |= (rookLSB << 2);
 
-                    _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
-                    _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
                     break;
                 }
                 case CastlingType.Long:
@@ -223,14 +245,20 @@ namespace Proxima.Core.Boards
                     _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
                     _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] |= (rookLSB >> 3);
 
-                    _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
-                    _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
                     break;
                 }
             }
 
-            _castlingDone[(int)move.Color] = true;
+            _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
+            _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
+
+            _zobristUpdater.RemoveCastlingPossibility(ref _hash, move.Color, CastlingType.Short);
+            _zobristUpdater.RemoveCastlingPossibility(ref _hash, move.Color, CastlingType.Long);
+
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] |= to;
+            _zobristUpdater.AddOrRemovePiece(ref _hash, move.Color, move.Piece, to);
+
+            _castlingDone[(int)move.Color] = true;
         }
 
         void CalculateEnPassantMove(EnPassantMove move)
@@ -255,6 +283,7 @@ namespace Proxima.Core.Boards
             var to = BitPositionConverter.ToULong(move.To);
 
             _pieces[FastArray.GetPieceIndex(move.Color, move.PromotionPiece)] |= to;
+            _zobristUpdater.AddOrRemovePiece(ref _hash, move.Color, move.PromotionPiece, to);
         }
 
         void CalculateOccupancy()
