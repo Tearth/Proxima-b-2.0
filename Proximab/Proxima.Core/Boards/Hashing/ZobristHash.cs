@@ -63,6 +63,17 @@ namespace Proxima.Core.Boards.Hashing
 
         ulong CalculateEnPassant(ulong hash, ulong[] enPassant)
         {
+            for(int colorIndex=0; colorIndex < 2; colorIndex++)
+            {
+                var enPassantToParse = enPassant[colorIndex];
+
+                var pieceLSB = BitOperations.GetLSB(ref enPassantToParse);
+                var fieldIndex = BitOperations.GetBitIndex(pieceLSB);
+                var fieldPosition = BitPositionConverter.ToPosition(fieldIndex);
+
+                hash ^= ZobristContainer.EnPassant[fieldPosition.Y - 1];
+            }
+
             return hash;
         }
     }
