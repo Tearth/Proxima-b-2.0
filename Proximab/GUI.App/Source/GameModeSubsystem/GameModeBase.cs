@@ -231,8 +231,11 @@ namespace GUI.App.Source.GameModeSubsystem
 
         void DisplayBoardHash(Command command)
         {
-            var hash = _bitBoard.GetHash().ToString();
-            _consoleManager.WriteLine($"$c{hash}");
+            var trueHash = _bitBoard.GetHash(true).ToString();
+            var internalHash = _bitBoard.GetHash(false).ToString();
+
+            _consoleManager.WriteLine($"$cCalc:\t$w{trueHash}");
+            _consoleManager.WriteLine($"$cTrue:\t$w{internalHash}");
         }
     }
 }

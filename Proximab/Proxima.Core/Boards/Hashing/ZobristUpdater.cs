@@ -21,5 +21,13 @@ namespace Proxima.Core.Boards.Hashing
 
             hash ^= ZobristContainer.Castling[index];
         }
+
+        public void AddEnPassant(ref ulong hash, Color color, ulong field)
+        {
+            var fieldIndex = BitOperations.GetBitIndex(field);
+            var fieldPosition = BitPositionConverter.ToPosition(fieldIndex);
+
+            hash ^= ZobristContainer.EnPassant[fieldPosition.X - 1];
+        }
     }
 }

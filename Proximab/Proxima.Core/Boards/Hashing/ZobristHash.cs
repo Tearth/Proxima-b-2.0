@@ -67,11 +67,14 @@ namespace Proxima.Core.Boards.Hashing
             {
                 var enPassantToParse = enPassant[colorIndex];
 
-                var pieceLSB = BitOperations.GetLSB(ref enPassantToParse);
-                var fieldIndex = BitOperations.GetBitIndex(pieceLSB);
-                var fieldPosition = BitPositionConverter.ToPosition(fieldIndex);
+                while(enPassantToParse != 0)
+                {
+                    var pieceLSB = BitOperations.GetLSB(ref enPassantToParse);
+                    var fieldIndex = BitOperations.GetBitIndex(pieceLSB);
+                    var fieldPosition = BitPositionConverter.ToPosition(fieldIndex);
 
-                hash ^= ZobristContainer.EnPassant[fieldPosition.X - 1];
+                    hash ^= ZobristContainer.EnPassant[fieldPosition.X - 1];
+                }
             }
 
             return hash;

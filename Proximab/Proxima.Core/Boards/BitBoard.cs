@@ -77,7 +77,7 @@ namespace Proxima.Core.Boards
             _castlingDone = friendlyBoard.GetCastlingDoneArray();
             _enPassant = friendlyBoard.GetEnPassantArray();
 
-            _hash = new ZobristHash().Calculate(_pieces, _castlingPossibility, _enPassant);
+            _hash = GetHash(true);
         }
 
         public BitBoard Move(Move move)
@@ -123,8 +123,13 @@ namespace Proxima.Core.Boards
             return evaluationCalculator.GetEvaluation(evaluationParameters);
         }
 
-        public ulong GetHash()
+        public ulong GetHash(bool generateNew)
         {
+            if(generateNew)
+            {
+                return new ZobristHash().Calculate(_pieces, _castlingPossibility, _enPassant);
+            }
+
             return _hash;
         }
 
@@ -196,33 +201,6 @@ namespace Proxima.Core.Boards
             _zobristUpdater.AddOrRemovePiece(ref _hash, move.Color, move.Piece, to);
         }
 
-        void CalculateEnPassant(Move move)
-        {
-            if (move.Piece == PieceType.Pawn)
-            {
-                if (move.Color == Color.White)
-                {
-                    if (move.From.Y == 2 && move.To.Y == 4)
-                    {
-                        var enPassantPosition = new Position(move.To.X, move.To.Y - 1);
-                        var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
-
-                        _enPassant[(int)Color.White] |= enPassantLSB;
-                    }
-                }
-                else
-                {
-                    if (move.From.Y == 7 && move.To.Y == 5)
-                    {
-                        var enPassantPosition = new Position(move.To.X, move.To.Y + 1);
-                        var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
-
-                        _enPassant[(int)Color.Black] |= enPassantLSB;
-                    }
-                }
-            }
-        }
-
         void CalculateCastlingMove(CastlingMove move)
         {
             var to = BitPositionConverter.ToULong(move.To);
@@ -235,6 +213,9 @@ namespace Proxima.Core.Boards
 
                     _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
                     _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] |= (rookLSB << 2);
+                        
+                    _zobristUpdater.AddOrRemovePiece(ref _hash, move.Color, PieceType.Rook, rookLSB);
+                    _zobristUpdater.AddOrRemovePiece(ref _hash, move.Color, PieceType.Rook, rookLSB << 2);
 
                     break;
                 }
@@ -244,6 +225,9 @@ namespace Proxima.Core.Boards
 
                     _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
                     _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] |= (rookLSB >> 3);
+
+                    _zobristUpdater.AddOrRemovePiece(ref _hash, move.Color, PieceType.Rook, rookLSB);
+                    _zobristUpdater.AddOrRemovePiece(ref _hash, move.Color, PieceType.Rook, rookLSB >> 3);
 
                     break;
                 }
@@ -284,6 +268,35 @@ namespace Proxima.Core.Boards
 
             _pieces[FastArray.GetPieceIndex(move.Color, move.PromotionPiece)] |= to;
             _zobristUpdater.AddOrRemovePiece(ref _hash, move.Color, move.PromotionPiece, to);
+        }
+
+        void CalculateEnPassant(Move move)
+        {
+            if (move.Piece == PieceType.Pawn)
+            {
+                if (move.Color == Color.White)
+                {
+                    if (move.From.Y == 2 && move.To.Y == 4)
+                    {
+                        var enPassantPosition = new Position(move.To.X, move.To.Y - 1);
+                        var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
+
+                        _enPassant[(int)Color.White] |= enPassantLSB;
+                        _zobristUpdater.AddEnPassant(ref _hash, Color.White, enPassantLSB);
+                    }
+                }
+                else
+                {
+                    if (move.From.Y == 7 && move.To.Y == 5)
+                    {
+                        var enPassantPosition = new Position(move.To.X, move.To.Y + 1);
+                        var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
+
+                        _enPassant[(int)Color.Black] |= enPassantLSB;
+                        _zobristUpdater.AddEnPassant(ref _hash, Color.Black, enPassantLSB);
+                    }
+                }
+            }
         }
 
         void CalculateOccupancy()
