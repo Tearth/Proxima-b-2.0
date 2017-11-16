@@ -46,9 +46,23 @@ namespace GUI.App.Source.ConsoleSubsystem
             WriteConsoleHeader();
         }
 
-        public void Run()
+        public async void Run()
         {
-            _consoleLoop.Start();
+            try
+            {
+                _consoleLoop.Start();
+                await _consoleLoop;
+            }
+            catch(Exception ex)
+            {
+                WriteLine("$rCritical error");
+                WriteLine($"$r{ex.Message}");
+
+                if(ex.InnerException != null)
+                {
+                    WriteLine($"$r{ex.InnerException}");
+                }
+            }
         }
 
         public void WriteLine()
