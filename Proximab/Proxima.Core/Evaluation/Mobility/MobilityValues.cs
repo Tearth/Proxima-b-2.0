@@ -1,23 +1,38 @@
-﻿namespace Proxima.Core.Evaluation.Mobility
+﻿using Proxima.Core.Commons.Colors;
+
+namespace Proxima.Core.Evaluation.Mobility
 {
     public static class MobilityValues
     {
-        public static readonly int[] Ratio = new int[2]
+        public static readonly int[] RatioPattern = new int[2 * 64]
         {
-            1,  //Regular
-            1   //End
+            //Regular
+             1,   1,   1,   1,   1,   1,   1,   1,
+             1,   1,   1,   1,   1,   1,   1,   1,
+             1,   1,   2,   2,   2,   2,   1,   1,
+             1,   1,   2,   4,   4,   2,   1,   1,
+             1,   1,   2,   4,   4,   2,   1,   1,
+             1,   1,   2,   2,   2,   2,   1,   1,
+             1,   1,   1,   1,   1,   1,   1,   1,
+             1,   1,   1,   1,   1,   1,   1,   1,
+
+             //End
+             1,   1,   1,   1,   1,   1,   1,   1,
+             1,   1,   1,   1,   1,   1,   1,   1,
+             1,   1,   1,   1,   1,   1,   1,   1,
+             1,   1,   1,   1,   1,   1,   1,   1,
+             1,   1,   1,   1,   1,   1,   1,   1,
+             1,   1,   1,   1,   1,   1,   1,   1,
+             1,   1,   1,   1,   1,   1,   1,   1,
+             1,   1,   1,   1,   1,   1,   1,   1,
         };
 
-        public static readonly int[] BigCenterRatio = new int[2]
-        {
-            2,  //Regular
-            1   //End
-        };
+        public static readonly int[] WhiteRatio = EvaluationFlipper.CalculateWhiteArray(RatioPattern);
+        public static readonly int[] BlackRatio = EvaluationFlipper.CalculateBlackArray(RatioPattern);
 
-        public static readonly int[] SmallCenterRatio = new int[2]
+        public static int[] GetRatio(Color color)
         {
-            4,  //Regular
-            1   //End
-        };
+            return color == Color.White ? WhiteRatio : BlackRatio;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Colors;
+using Proxima.Core.Commons.Performance;
 
 namespace Proxima.Core.Evaluation.Mobility
 {
@@ -19,6 +20,7 @@ namespace Proxima.Core.Evaluation.Mobility
         int GetMobilityValue(Color color, EvaluationParameters parameters)
         {
             var mobility = 0;
+            var array = MobilityValues.GetRatio(color);
 
             for (int i = 0; i < 64; i++)
             {
@@ -29,19 +31,11 @@ namespace Proxima.Core.Evaluation.Mobility
                 var attacksArray = parameters.Attacks[i] & parameters.Occupancy[(int)color];
                 if(attacksArray != 0)
                 {
-                    mobility += BitOperations.Count(attacksArray) * GetMobilityRatio(field, parameters.GamePhase);
+                    mobility += BitOperations.Count(attacksArray) * array[FastArray.GetEvaluationValueIndex(parameters.GamePhase, i)];
                 }
             }
        
             return mobility;
-        }
-        
-        int GetMobilityRatio(ulong field, GamePhase gamePhase)
-        {
-            if      ((field & BitConstants.SmallCenter) != 0) return MobilityValues.SmallCenterRatio[(int)gamePhase];
-            else if ((field & BitConstants.BigCenter)   != 0) return MobilityValues.BigCenterRatio[(int)gamePhase];
-
-            return MobilityValues.Ratio[(int)gamePhase];
         }
     }
 }

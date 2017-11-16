@@ -1,8 +1,10 @@
-﻿namespace Proxima.Core.Evaluation.Position.Values
+﻿using Proxima.Core.Commons.Colors;
+
+namespace Proxima.Core.Evaluation.Position.Values
 {
     public static class KnightValues
     {
-        public static readonly int[] Values = new int[2 * 64]
+        public static readonly int[] Pattern = new int[2 * 64]
         {
             //Regular
             -50, -40, -30, -30, -30, -30, -40, -50,
@@ -24,5 +26,13 @@
             -40, -20,  0,   5,   5,   0,  -20, -40,
             -50, -40, -30, -30, -30, -30, -40, -50,
         };
+
+        public static readonly int[] WhiteValues = EvaluationFlipper.CalculateWhiteArray(Pattern);
+        public static readonly int[] BlackValues = EvaluationFlipper.CalculateBlackArray(Pattern);
+
+        public static int[] GetValues(Color color)
+        {
+            return color == Color.White ? WhiteValues : BlackValues;
+        }
     }
 }

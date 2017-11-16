@@ -32,10 +32,9 @@ namespace Proxima.Core.Commons.Performance
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int GetPositionValueIndex(Color color, GamePhase gamePhase, int pieceIndex)
+        public static int GetEvaluationValueIndex(GamePhase gamePhase, int pieceIndex)
         {
-            var arrayPieceIndex = color == Color.White ? 64 - pieceIndex - 1: pieceIndex;
-            return ((int)gamePhase << 6) + arrayPieceIndex;
+            return ((int)gamePhase << 6) + pieceIndex;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

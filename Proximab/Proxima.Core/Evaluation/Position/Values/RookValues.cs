@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Proxima.Core.Commons.Colors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Proxima.Core.Evaluation.Position.Values
 {
     public static class RookValues
     {
-        public static readonly int[] Values = new int[2 * 64]
+        public static readonly int[] Pattern = new int[2 * 64]
         {
             //Regular
             0,   0,   0,   0,   0,   0,   0,   0,
@@ -30,5 +31,13 @@ namespace Proxima.Core.Evaluation.Position.Values
            -5,   0,   0,   0,   0,   0,   0,  -5,
             0,   0,   0,   5,   5,   0,   0,   0
         };
+
+        public static readonly int[] WhiteValues = EvaluationFlipper.CalculateWhiteArray(Pattern);
+        public static readonly int[] BlackValues = EvaluationFlipper.CalculateBlackArray(Pattern);
+
+        public static int[] GetValues(Color color)
+        {
+            return color == Color.White ? WhiteValues : BlackValues;
+        }
     }
 }
