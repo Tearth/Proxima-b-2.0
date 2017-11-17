@@ -7,33 +7,35 @@ namespace Proxima.Core.Boards.Hashing
 {
     public class ZobristUpdater
     {
-        public void AddOrRemovePiece(ref ulong hash, Color color, PieceType pieceType, ulong field)
+        public ulong AddOrRemovePiece(ulong hash, Color color, PieceType pieceType, ulong field)
         {
             var fieldIndex = BitOperations.GetBitIndex(field);
             var index = FastArray.GetZobristPieceIndex(color, pieceType, fieldIndex);
 
-            hash ^= ZobristContainer.Pieces[index];
+            return hash ^ ZobristContainer.Pieces[index];
         }
 
-        public void RemoveCastlingPossibility(ref ulong hash, bool[] castling, Color color, CastlingType castlingType)
+        public ulong RemoveCastlingPossibility(ulong hash, bool[] castling, Color color, CastlingType castlingType)
         {
             var castlingIndex = FastArray.GetCastlingIndex(color, castlingType);
 
             if (castling[castlingIndex])
             {
-                hash ^= ZobristContainer.Castling[castlingIndex];
+                return hash ^ ZobristContainer.Castling[castlingIndex];
             }
+
+            return hash;
         }
 
-        public void AddEnPassant(ref ulong hash, Color color, ulong field)
+        public ulong AddEnPassant(ulong hash, Color color, ulong field)
         {
             var fieldIndex = BitOperations.GetBitIndex(field);
             var fieldPosition = BitPositionConverter.ToPosition(fieldIndex);
 
-            hash ^= ZobristContainer.EnPassant[fieldPosition.X - 1];
+            return hash ^ ZobristContainer.EnPassant[fieldPosition.X - 1];
         }
 
-        public void ClearEnPassant(ref ulong hash, Color color, ulong[] _enPassant)
+        public ulong ClearEnPassant(ulong hash, Color color, ulong[] _enPassant)
         {
             var enPassantToParse = _enPassant[(int)color];
 
@@ -47,6 +49,8 @@ namespace Proxima.Core.Boards.Hashing
 
                 hash ^= ZobristContainer.EnPassant[fieldPosition.X - 1];
             }
+
+            return hash;
         }
     }
 }
