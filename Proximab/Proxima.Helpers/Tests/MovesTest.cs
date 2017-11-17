@@ -10,7 +10,7 @@ namespace Proxima.Helpers.Tests
 {
     public class MovesTest
     {
-        public MovesTestData Run(Color initialColor, FriendlyBoard friendlyBoard, int depth, bool calculateEndNodes, bool verifyHash)
+        public MovesTestData Run(Color initialColor, FriendlyBoard friendlyBoard, int depth, bool calculateEndNodes, bool verifyIntegrity)
         {
             var testData = new MovesTestData();
             var stopwatch = new Stopwatch();
@@ -18,15 +18,15 @@ namespace Proxima.Helpers.Tests
             GC.Collect();
 
             stopwatch.Start();
-            CalculateBitBoard(initialColor, new BitBoard(friendlyBoard), depth, calculateEndNodes, verifyHash, testData);
+            CalculateBitBoard(initialColor, new BitBoard(friendlyBoard), depth, calculateEndNodes, verifyIntegrity, testData);
             testData.Ticks = stopwatch.Elapsed.Ticks;
 
             return testData;
         }
 
-        void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool calculateEndNodes, bool verifyHash, MovesTestData testData)
+        void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool calculateEndNodes, bool verifyIntegrity, MovesTestData testData)
         {
-            if (verifyHash && bitBoard.GetHash(false) != bitBoard.GetHash(true))
+            if (verifyIntegrity && !bitBoard.VerifyIntegrity())
             {
                 testData.HashCorrect = false;
             }
@@ -48,9 +48,8 @@ namespace Proxima.Helpers.Tests
                 var blackMode = color == Color.Black ? GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks : GeneratorMode.CalculateAttacks;
 
                 bitBoard.Calculate(whiteMode, blackMode);
-
-                var availableMoves = bitBoard.GetAvailableMoves();
-                foreach (var move in availableMoves)
+                
+                foreach (var move in bitBoard.Moves)
                 {
                     var bitBoardAfterMove = bitBoard.Move(move);
                     if (bitBoardAfterMove.IsCheck(color))
@@ -58,7 +57,7 @@ namespace Proxima.Helpers.Tests
                         continue;
                     }
 
-                    CalculateBitBoard(enemyColor, bitBoardAfterMove, depth - 1, calculateEndNodes, verifyHash, testData);
+                    CalculateBitBoard(enemyColor, bitBoardAfterMove, depth - 1, calculateEndNodes, verifyIntegrity, testData);
                 }
             }
 

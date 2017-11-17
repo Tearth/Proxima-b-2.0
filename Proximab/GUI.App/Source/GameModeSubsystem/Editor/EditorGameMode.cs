@@ -49,9 +49,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
             else
             {
-                var availableMoves = _bitBoard.GetAvailableMoves();
-
-                var movesForPiece = availableMoves
+                var movesForPiece = _bitBoard.Moves
                     .Where(p => p.From == e.Position)
                     .Select(p => p.To)
                     .ToList();
@@ -62,8 +60,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
 
         void Board_OnPieceMove(object sender, PieceMovedEventArgs e)
         {
-            var availableMoves = _bitBoard.GetAvailableMoves();
-            var move = availableMoves.FirstOrDefault(p => p.From == e.From && p.To == e.To);
+            var move = _bitBoard.Moves.FirstOrDefault(p => p.From == e.From && p.To == e.To);
             
             if(move == null)
             {
@@ -71,7 +68,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
             else if(move is PromotionMove promotionMove)
             {
-                var promotionMoves = availableMoves.Where(p => p.From == move.From && p is PromotionMove).Cast<PromotionMove>();
+                var promotionMoves = _bitBoard.Moves.Where(p => p.From == move.From && p is PromotionMove).Cast<PromotionMove>();
                 _promotionWindow.Display(move.Color, promotionMoves);
             }
             else
