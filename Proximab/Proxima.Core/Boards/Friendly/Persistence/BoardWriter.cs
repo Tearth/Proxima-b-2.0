@@ -64,19 +64,19 @@ namespace Proxima.Core.Boards.Friendly.Persistence
         {
             writer.WriteLine(PersistenceContants.EnPassantSection);
 
-            WritePosition(writer, enPassant.WhiteEnPassant.Value);
-            WritePosition(writer, enPassant.BlackEnPassant.Value);
+            WritePosition(writer, enPassant.WhiteEnPassant);
+            WritePosition(writer, enPassant.BlackEnPassant);
         }
 
-        void WritePosition(StreamWriter writer, Position position)
+        void WritePosition(StreamWriter writer, Position? position)
         {
-            if(position == null)
+            if(!position.HasValue)
             {
                 writer.WriteLine(PersistenceContants.NullEnPassant);
                 return;
             }
 
-            writer.WriteLine(NotationConverter.ToString(position));
+            writer.WriteLine(NotationConverter.ToString(position.Value));
         }
     }
 }
