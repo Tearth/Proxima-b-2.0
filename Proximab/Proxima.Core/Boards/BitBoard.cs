@@ -135,12 +135,6 @@ namespace Proxima.Core.Boards
 
         void CalculateMove(BitBoard bitBoard, Move move)
         {
-            var from = BitPositionConverter.ToULong(move.From);
-
-            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] &= ~from;
-            Hash = _zobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
-            _occupancy[(int)move.Color] ^= from;
-
             switch(move)
             {
                 case QuietMove quietMove:           { CalculateQuietMove(quietMove); break; }
@@ -153,7 +147,9 @@ namespace Proxima.Core.Boards
 
         void CalculateQuietMove(QuietMove move)
         {
+            var from = BitPositionConverter.ToULong(move.From);
             var to = BitPositionConverter.ToULong(move.To);
+            var change = from | to;
 
             if (move.Piece == PieceType.King)
             {
@@ -180,15 +176,20 @@ namespace Proxima.Core.Boards
                 }
             }
 
-            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] |= to;
+            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
+            _occupancy[(int)move.Color] ^= change;
+
+            Hash = _zobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
             Hash = _zobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
-            _occupancy[(int)move.Color] ^= to;
         }
 
         void CalculateKillMove(KillMove move)
         {
-            var enemyColor = ColorOperations.Invert(move.Color);
+            var from = BitPositionConverter.ToULong(move.From);
             var to = BitPositionConverter.ToULong(move.To);
+            var change = from | to;
+
+            var enemyColor = ColorOperations.Invert(move.Color);
 
             for (int piece = 0; piece < 6; piece++)
             {
@@ -196,98 +197,112 @@ namespace Proxima.Core.Boards
                 if((_pieces[index] & to) != 0)
                 {
                     _pieces[index] &= ~to;
-                    Hash = _zobristUpdater.AddOrRemovePiece(Hash, enemyColor, (PieceType)piece, to);
                     _occupancy[(int)enemyColor] ^= to;
 
+                    Hash = _zobristUpdater.AddOrRemovePiece(Hash, enemyColor, (PieceType)piece, to);
                     break;
                 }
             }
 
-            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] |= to;
+            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
+            _occupancy[(int)move.Color] ^= change;
+
+            Hash = _zobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
             Hash = _zobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
-            _occupancy[(int)move.Color] ^= to;
         }
 
         void CalculateCastlingMove(CastlingMove move)
         {
+            var from = BitPositionConverter.ToULong(move.From);
             var to = BitPositionConverter.ToULong(move.To);
+            var change = from | to;
 
             switch (move.CastlingType)
             {
                 case CastlingType.Short:
                 {
                     var rookLSB = move.Color == Color.White ? KingMovesGenerator.WhiteRightRookLSB : KingMovesGenerator.BlackRightRookLSB;
+                    var rookChange = rookLSB | (rookLSB << 2);
 
-                    _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
-                    _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] |= (rookLSB << 2);
-                        
+                    _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] ^= rookChange;
+                    _occupancy[(int)move.Color] ^= rookChange;
+
                     Hash = _zobristUpdater.AddOrRemovePiece(Hash, move.Color, PieceType.Rook, rookLSB);
                     Hash = _zobristUpdater.AddOrRemovePiece(Hash, move.Color, PieceType.Rook, rookLSB << 2);
-                    _occupancy[(int)move.Color] ^= rookLSB;
-                    _occupancy[(int)move.Color] ^= rookLSB << 2;
 
                     break;
                 }
                 case CastlingType.Long:
                 {
                     var rookLSB = move.Color == Color.White ? KingMovesGenerator.WhiteLeftRookLSB : KingMovesGenerator.BlackLeftRookLSB;
+                    var rookChange = rookLSB | (rookLSB >> 3);
 
-                    _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] &= ~rookLSB;
-                    _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] |= (rookLSB >> 3);
+                    _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] ^= rookChange;
+                    _occupancy[(int)move.Color] ^= rookChange;
 
                     Hash = _zobristUpdater.AddOrRemovePiece(Hash, move.Color, PieceType.Rook, rookLSB);
                     Hash = _zobristUpdater.AddOrRemovePiece(Hash, move.Color, PieceType.Rook, rookLSB >> 3);
-
-                    _occupancy[(int)move.Color] ^= rookLSB;
-                    _occupancy[(int)move.Color] ^= rookLSB >> 3;
 
                     break;
                 }
             }
 
+            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
+            _occupancy[(int)move.Color] ^= change;
+
+            Hash = _zobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
+            Hash = _zobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
             Hash = _zobristUpdater.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Short);
             Hash = _zobristUpdater.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Long);
 
             _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
             _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
 
-            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] |= to;
-            Hash = _zobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
-            _occupancy[(int)move.Color] ^= to;
-
             _castlingDone[(int)move.Color] = true;
         }
 
         void CalculateEnPassantMove(EnPassantMove move)
         {
-            var enemyColor = ColorOperations.Invert(move.Color);
+            var from = BitPositionConverter.ToULong(move.From);
             var to = BitPositionConverter.ToULong(move.To);
+            var change = from | to;
+
+            var enemyColor = ColorOperations.Invert(move.Color);
 
             if (move.Color == Color.White)
             {
                 _pieces[FastArray.GetPieceIndex(enemyColor, move.Piece)] &= ~(to >> 8);
-                Hash = _zobristUpdater.AddOrRemovePiece(Hash, enemyColor, move.Piece, to >> 8);
                 _occupancy[(int)enemyColor] ^= to >> 8;
+
+                Hash = _zobristUpdater.AddOrRemovePiece(Hash, enemyColor, move.Piece, to >> 8);
             }
             else
             {
                 _pieces[FastArray.GetPieceIndex(enemyColor, move.Piece)] &= ~(to << 8);
-                Hash = _zobristUpdater.AddOrRemovePiece(Hash, enemyColor, move.Piece, to << 8);
                 _occupancy[(int)enemyColor] ^= to << 8;
+
+                Hash = _zobristUpdater.AddOrRemovePiece(Hash, enemyColor, move.Piece, to << 8);
             }
 
-            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] |= to;
+            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
+            _occupancy[(int)move.Color] ^= change;
+
+            Hash = _zobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
             Hash = _zobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
-            _occupancy[(int)move.Color] ^= to;
         }
 
         void CalculatePromotionMove(PromotionMove move)
         {
+            var from = BitPositionConverter.ToULong(move.From);
             var to = BitPositionConverter.ToULong(move.To);
+            var change = from | to;
 
+            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] &= ~from;
             _pieces[FastArray.GetPieceIndex(move.Color, move.PromotionPiece)] |= to;
+            _occupancy[(int)move.Color] ^= change;
+
+            Hash = _zobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
             Hash = _zobristUpdater.AddOrRemovePiece(Hash, move.Color, move.PromotionPiece, to);
-            _occupancy[(int)move.Color] ^= to;
         }
 
         void CalculateEnPassant(Move move)
