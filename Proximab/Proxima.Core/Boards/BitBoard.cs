@@ -143,11 +143,11 @@ namespace Proxima.Core.Boards
 
             switch(move)
             {
-                case QuietMove quietMove: { CalculateQuietMove(quietMove); break; }
-                case KillMove killMove: { CalculateKillMove(killMove); break; }
-                case EnPassantMove enPassantMove: { CalculateEnPassantMove(enPassantMove); break; }
-                case CastlingMove castlingMove: { CalculateCastlingMove(castlingMove); break; }
-                case PromotionMove promotionMove: { CalculatePromotionMove(promotionMove); break; }
+                case QuietMove quietMove:           { CalculateQuietMove(quietMove); break; }
+                case KillMove killMove:             { CalculateKillMove(killMove); break; }
+                case EnPassantMove enPassantMove:   { CalculateEnPassantMove(enPassantMove); break; }
+                case CastlingMove castlingMove:     { CalculateCastlingMove(castlingMove); break; }
+                case PromotionMove promotionMove:   { CalculatePromotionMove(promotionMove); break; }
             }
         }
 
