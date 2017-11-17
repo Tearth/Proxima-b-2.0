@@ -18,7 +18,8 @@ namespace Proxima.Core.Evaluation.PawnStructure.Doubled
                 var file = BitConstants.HFile << i;
 
                 var pawnsInFile = pawns & file;
-                var pawnLSB = BitOperations.GetLSB(ref pawnsInFile);
+                var pawnLSB = BitOperations.GetLSB(pawnsInFile);
+                pawnsInFile = BitOperations.PopLSB(pawnsInFile);
 
                 if (pawnsInFile != 0)
                 {

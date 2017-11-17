@@ -39,7 +39,9 @@ namespace Proxima.Core.Boards.Hashing
 
             while(enPassantToParse != 0)
             {
-                var fieldLSB = BitOperations.GetLSB(ref enPassantToParse);
+                var fieldLSB = BitOperations.GetLSB(enPassantToParse);
+                enPassantToParse = BitOperations.PopLSB(enPassantToParse);
+
                 var fieldIndex = BitOperations.GetBitIndex(fieldLSB);
                 var fieldPosition = BitPositionConverter.ToPosition(fieldIndex);
 

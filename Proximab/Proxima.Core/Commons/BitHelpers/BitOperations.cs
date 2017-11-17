@@ -7,27 +7,34 @@ namespace Proxima.Core.Boards
     public static class BitOperations
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int GetLSB(ref int value)
+        public static int GetLSB(int value)
         {
-            var valueWithSign = value;
-            value &= value - 1;
-
-            return valueWithSign & -valueWithSign;
+            return value & -value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong GetLSB(ref ulong value)
+        public static ulong GetLSB(ulong value)
         {
-            var valueWithSign = (long)value;
-            value &= value - 1;
-            
+            var valueWithSign = (long)value;          
             return (ulong)(valueWithSign & -valueWithSign);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int PopLSB(int value)
+        {
+            return value & (value - 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong PopLSB(ulong value)
+        {
+            return value & (value - 1);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsSingleBit(ulong value)
         {
-            GetLSB(ref value);
+            value = PopLSB(value);
             return value == 0;
         }
 
@@ -38,7 +45,7 @@ namespace Proxima.Core.Boards
 
             while(value != 0)
             {
-                GetLSB(ref value);
+                value = PopLSB(value);
                 count++;
             }
 

@@ -21,7 +21,8 @@ namespace Proxima.Core.MoveGenerators
             var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, pieceType)];
             while (piecesToParse != 0)
             {
-                var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
+                var pieceLSB = BitOperations.GetLSB(piecesToParse);
+                piecesToParse = BitOperations.PopLSB(piecesToParse);
 
                 var patternContainer = CalculateMoves(pieceType, pieceLSB, opt);
                 CalculateAttacks(pieceType, pieceLSB, patternContainer, opt);
@@ -42,7 +43,9 @@ namespace Proxima.Core.MoveGenerators
             var excludeFromAttacks = pattern;
             while (pattern != 0)
             {
-                var patternLSB = BitOperations.GetLSB(ref pattern);
+                var patternLSB = BitOperations.GetLSB(pattern);
+                pattern = BitOperations.PopLSB(pattern);
+
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
                 var to = BitPositionConverter.ToPosition(patternIndex);
 
@@ -83,7 +86,9 @@ namespace Proxima.Core.MoveGenerators
 
             while (pattern != 0)
             {
-                var patternLSB = BitOperations.GetLSB(ref pattern);
+                var patternLSB = BitOperations.GetLSB(pattern);
+                pattern = BitOperations.PopLSB(pattern);
+
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
                 opt.Attacks[patternIndex] |= pieceLSB;
@@ -101,7 +106,9 @@ namespace Proxima.Core.MoveGenerators
 
             while (friendlyBlockers != 0)
             {
-                var friendlyBlockerLSB = BitOperations.GetLSB(ref friendlyBlockers);
+                var friendlyBlockerLSB = BitOperations.GetLSB(friendlyBlockers);
+                friendlyBlockers = BitOperations.PopLSB(friendlyBlockers);
+
                 var friendlyBlockerIndex = BitOperations.GetBitIndex(friendlyBlockerLSB);
                 var friendlyBlockerPosition = BitPositionConverter.ToPosition(friendlyBlockerIndex);
 

@@ -17,7 +17,9 @@ namespace Proxima.Core.Evaluation.PawnStructure.Chain
 
             while(pawnsToParse != 0)
             {
-                var pawnLSB = BitOperations.GetLSB(ref pawnsToParse);
+                var pawnLSB = BitOperations.GetLSB(pawnsToParse);
+                pawnsToParse = BitOperations.PopLSB(pawnsToParse);
+
                 var chainMask = GetChainMask(color, pawnLSB);
 
                 chain += BitOperations.Count(pawns & chainMask);

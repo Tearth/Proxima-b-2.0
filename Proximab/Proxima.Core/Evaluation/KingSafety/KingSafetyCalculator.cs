@@ -27,7 +27,9 @@ namespace Proxima.Core.Evaluation.KingSafety
             
             while(kingMoves != 0)
             {
-                var fieldLSB = BitOperations.GetLSB(ref kingMoves);
+                var fieldLSB = BitOperations.GetLSB(kingMoves);
+                kingMoves = BitOperations.PopLSB(kingMoves);
+
                 var fieldIndex = BitOperations.GetBitIndex(fieldLSB);
                 var attacks = parameters.Attacks[fieldIndex] & ~parameters.Occupancy[(int)color];
 

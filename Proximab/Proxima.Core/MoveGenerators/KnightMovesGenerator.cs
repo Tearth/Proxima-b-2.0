@@ -21,7 +21,9 @@ namespace Proxima.Core.MoveGenerators
 
             while (piecesToParse != 0)
             {
-                var pieceLSB = BitOperations.GetLSB(ref piecesToParse);
+                var pieceLSB = BitOperations.GetLSB(piecesToParse);
+                piecesToParse = BitOperations.PopLSB(piecesToParse);
+
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
                 var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
@@ -29,7 +31,9 @@ namespace Proxima.Core.MoveGenerators
 
                 while(pattern != 0)
                 {
-                    var patternLSB = BitOperations.GetLSB(ref pattern);
+                    var patternLSB = BitOperations.GetLSB(pattern);
+                    pattern = BitOperations.PopLSB(pattern);
+
                     var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
                     if ((opt.Mode & GeneratorMode.CalculateMoves) != 0 &&

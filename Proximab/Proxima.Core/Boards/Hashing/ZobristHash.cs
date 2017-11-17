@@ -37,7 +37,9 @@ namespace Proxima.Core.Boards.Hashing
 
                     while(piecesArray != 0)
                     {
-                        var pieceLSB = BitOperations.GetLSB(ref piecesArray);
+                        var pieceLSB = BitOperations.GetLSB(piecesArray);
+                        piecesArray = BitOperations.PopLSB(piecesArray);
+
                         var fieldIndex = BitOperations.GetBitIndex(pieceLSB);
 
                         hash ^= ZobristContainer.Pieces[FastArray.GetZobristPieceIndex(color, piece, fieldIndex)];
@@ -69,7 +71,9 @@ namespace Proxima.Core.Boards.Hashing
 
                 while(enPassantToParse != 0)
                 {
-                    var pieceLSB = BitOperations.GetLSB(ref enPassantToParse);
+                    var pieceLSB = BitOperations.GetLSB(enPassantToParse);
+                    enPassantToParse = BitOperations.PopLSB(enPassantToParse);
+
                     var fieldIndex = BitOperations.GetBitIndex(pieceLSB);
                     var fieldPosition = BitPositionConverter.ToPosition(fieldIndex);
 

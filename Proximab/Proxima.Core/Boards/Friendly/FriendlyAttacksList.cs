@@ -22,7 +22,9 @@ namespace Proxima.Core.Boards.Friendly
 
                 while(fieldAttackers != 0)
                 {
-                    var attackerLSB = BitOperations.GetLSB(ref fieldAttackers);
+                    var attackerLSB = BitOperations.GetLSB(fieldAttackers);
+                    fieldAttackers = BitOperations.PopLSB(fieldAttackers);
+
                     var attackerIndex = BitOperations.GetBitIndex(attackerLSB);
                     var attackerPosition = BitPositionConverter.ToPosition(attackerIndex);
                     var attackerColor = pieces.First(p => p.Position == attackerPosition).Color;

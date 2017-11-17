@@ -50,7 +50,9 @@ namespace Proxima.Core.MoveGenerators
 
             while (pattern != 0)
             {
-                var patternLSB = BitOperations.GetLSB(ref pattern);
+                var patternLSB = BitOperations.GetLSB(pattern);
+                pattern = BitOperations.PopLSB(pattern);
+
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
                 var pieceLSB = opt.FriendlyColor == Color.White ? patternLSB >> 8 : patternLSB << 8;
@@ -102,7 +104,9 @@ namespace Proxima.Core.MoveGenerators
 
             while (pattern != 0)
             {
-                var patternLSB = BitOperations.GetLSB(ref pattern);
+                var patternLSB = BitOperations.GetLSB(pattern);
+                pattern = BitOperations.PopLSB(pattern);
+
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
                 var pieceLSB = opt.FriendlyColor == Color.White ? patternLSB >> 16 : patternLSB << 16;
@@ -124,7 +128,9 @@ namespace Proxima.Core.MoveGenerators
 
             while (pattern != 0)
             {
-                var patternLSB = BitOperations.GetLSB(ref pattern);
+                var patternLSB = BitOperations.GetLSB(pattern);
+                pattern = BitOperations.PopLSB(pattern);
+
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
                 var pieceLSB = opt.FriendlyColor == Color.White ? patternLSB >> 7 : patternLSB << 9;
@@ -167,7 +173,9 @@ namespace Proxima.Core.MoveGenerators
 
             while (pattern != 0)
             {
-                var patternLSB = BitOperations.GetLSB(ref pattern);
+                var patternLSB = BitOperations.GetLSB(pattern);
+                pattern = BitOperations.PopLSB(pattern);
+
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
                 var pieceLSB = opt.FriendlyColor == Color.White ? patternLSB >> 9 : patternLSB << 7;
