@@ -16,16 +16,28 @@ namespace Proxima.Core.Evaluation
         static PawnStructureCalculator PawnStructure = new PawnStructureCalculator();
         static KingSafetyCalculator KingSafety = new KingSafetyCalculator();
 
-        public static EvaluationData GetEvaluation(EvaluationParameters parameters)
+        public static int GetEvaluation(EvaluationParameters parameters, IncrementalEvaluationData incrementalEvaluationData)
         {
-            return new EvaluationData()
+            var material = Material.Calculate(parameters);
+            var mobility = Mobility.Calculate(parameters);
+            var castling = Castling.Calculate(parameters);
+            var position = Position.Calculate(parameters);
+            var pawnStructure = PawnStructure.Calculate(parameters);
+            var kingSafety = KingSafety.Calculate(parameters);
+
+            return material + mobility + castling + position + pawnStructure + kingSafety;
+        }
+
+        public static DetailedEvaluationData GetDetailedEvaluation(EvaluationParameters parameters)
+        {
+            return new DetailedEvaluationData()
             {
-                Material = Material.Calculate(parameters),
-                Mobility = Mobility.Calculate(parameters),
-                Castling = Castling.Calculate(parameters),
-                Position = Position.Calculate(parameters),
-                PawnStructure = PawnStructure.Calculate(parameters),
-                KingSafety = KingSafety.Calculate(parameters)
+                Material = Material.CalculateDetailed(parameters),
+                Mobility = Mobility.CalculateDetailed(parameters),
+                Castling = Castling.CalculateDetailed(parameters),
+                Position = Position.CalculateDetailed(parameters),
+                PawnStructure = PawnStructure.CalculateDetailed(parameters),
+                KingSafety = KingSafety.CalculateDetailed(parameters)
             };
         }
     }

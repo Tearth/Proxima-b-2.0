@@ -213,7 +213,7 @@ namespace GUI.App.Source.GameModeSubsystem
 
         void DisplayEvaluation(Command command)
         {
-            var evaluation = _bitBoard.GetEvaluation();
+            var evaluation = _bitBoard.GetDetailedEvaluation();
 
             _consoleManager.WriteLine($"$c\t\tWhite\tBlack");
             _consoleManager.WriteLine($"$cMaterial:\t$w{evaluation.Material.WhiteMaterial}\t{evaluation.Material.BlackMaterial}");

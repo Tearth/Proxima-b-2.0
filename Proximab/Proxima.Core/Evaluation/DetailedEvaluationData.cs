@@ -7,7 +7,7 @@ using Proxima.Core.Evaluation.Position;
 
 namespace Proxima.Core.Evaluation
 {
-    public class EvaluationData
+    public class DetailedEvaluationData
     {
         public MaterialData Material { get; set; }
         public MobilityData Mobility { get; set; }

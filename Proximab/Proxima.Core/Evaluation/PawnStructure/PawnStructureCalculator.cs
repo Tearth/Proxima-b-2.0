@@ -7,22 +7,45 @@ namespace Proxima.Core.Evaluation.PawnStructure
 {
     public class PawnStructureCalculator
     {
-        public PawnStructureData Calculate(EvaluationParameters parameters)
-        {
-            var doubledPawnsCalculator = new DoubledPawnsCalculator();
-            var isolatedPawnsCalculator = new IsolatedPawnsCalculator();
-            var pawnChainCalculator = new PawnChainCalculator();
+        DoubledPawnsCalculator _doubledPawnsCalculator;
+        IsolatedPawnsCalculator _isolatedPawnsCalculator;
+        PawnChainCalculator _pawnChainCalculator;
 
+        public PawnStructureCalculator()
+        {
+            _doubledPawnsCalculator = new DoubledPawnsCalculator();
+            _isolatedPawnsCalculator = new IsolatedPawnsCalculator();
+            _pawnChainCalculator = new PawnChainCalculator();
+        }
+
+        public int Calculate(EvaluationParameters parameters)
+        {
+            var whiteDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.White, parameters);
+            var blackDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.Black, parameters);
+
+            var whiteIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.White, parameters);
+            var blackIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.Black, parameters);
+
+            var whitePawnChains = _pawnChainCalculator.GetChainValue(Color.White, parameters);
+            var blackPawnChains = _pawnChainCalculator.GetChainValue(Color.Black, parameters);
+
+            return (whiteDoubledPawns - blackDoubledPawns) + 
+                   (whiteIsolatedPawns - blackIsolatedPawns) + 
+                   (whitePawnChains - blackPawnChains);
+        }
+
+        public PawnStructureData CalculateDetailed(EvaluationParameters parameters)
+        {
             return new PawnStructureData()
             {
-                WhiteDoubledPawns = doubledPawnsCalculator.GetDoubledPawnsValue(Color.White, parameters),
-                BlackDoubledPawns = doubledPawnsCalculator.GetDoubledPawnsValue(Color.Black, parameters),
+                WhiteDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.White, parameters),
+                BlackDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.Black, parameters),
 
-                WhiteIsolatedPawns = isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.White, parameters),
-                BlackIsolatedPawns = isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.Black, parameters),
+                WhiteIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.White, parameters),
+                BlackIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.Black, parameters),
 
-                WhitePawnChain = pawnChainCalculator.GetChainValue(Color.White, parameters),
-                BlackPawnChain = pawnChainCalculator.GetChainValue(Color.Black, parameters),
+                WhitePawnChain = _pawnChainCalculator.GetChainValue(Color.White, parameters),
+                BlackPawnChain = _pawnChainCalculator.GetChainValue(Color.Black, parameters),
             };
         }
     }

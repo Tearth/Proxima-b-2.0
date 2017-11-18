@@ -28,6 +28,8 @@ namespace Proxima.Core.Boards
         bool[] _castlingPossibility;
         bool[] _castlingDone;
 
+        IncrementalEvaluationData _incrementalEvaluationData;
+
         public BitBoard()
         {
             Moves = new LinkedList<Move>();
@@ -41,6 +43,8 @@ namespace Proxima.Core.Boards
 
             _castlingPossibility = new bool[4];
             _castlingDone = new bool[2];
+
+            _incrementalEvaluationData = new IncrementalEvaluationData();
         }
 
         public BitBoard(BitBoard bitBoard, Move move) : this()
@@ -52,6 +56,8 @@ namespace Proxima.Core.Boards
             Buffer.BlockCopy(bitBoard._castlingPossibility, 0, _castlingPossibility, 0, bitBoard._castlingPossibility.Length * sizeof(bool));
             Buffer.BlockCopy(bitBoard._castlingDone, 0, _castlingDone, 0, bitBoard._castlingDone.Length * sizeof(bool));
             Buffer.BlockCopy(bitBoard._occupancy, 0, _occupancy, 0, bitBoard._occupancy.Length * sizeof(ulong));
+
+            _incrementalEvaluationData = bitBoard._incrementalEvaluationData;
 
             CalculateMove(bitBoard, move);
             CalculateEnPassant(move);
@@ -97,10 +103,16 @@ namespace Proxima.Core.Boards
             CalculateAvailableMoves(whiteMode, blackMode);
         }
 
-        public EvaluationData GetEvaluation()
+        public int GetEvaluation()
         {
             var evaluationParameters = GetEvaluationParameters();
-            return EvaluationCalculator.GetEvaluation(evaluationParameters);
+            return EvaluationCalculator.GetEvaluation(evaluationParameters, _incrementalEvaluationData);
+        }
+
+        public DetailedEvaluationData GetDetailedEvaluation()
+        {
+            var evaluationParameters = GetEvaluationParameters();
+            return EvaluationCalculator.GetDetailedEvaluation(evaluationParameters);
         }
 
         public bool VerifyIntegrity()

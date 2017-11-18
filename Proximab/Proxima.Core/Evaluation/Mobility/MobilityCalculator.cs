@@ -8,7 +8,15 @@ namespace Proxima.Core.Evaluation.Mobility
 {
     public class MobilityCalculator
     {
-        public MobilityData Calculate(EvaluationParameters parameters)
+        public int Calculate(EvaluationParameters parameters)
+        {
+            var whiteMobility = GetMobilityValue(Color.White, parameters);
+            var blackMobility = GetMobilityValue(Color.Black, parameters);
+            
+            return whiteMobility - blackMobility;
+        }
+
+        public MobilityData CalculateDetailed(EvaluationParameters parameters)
         {
             return new MobilityData()
             {

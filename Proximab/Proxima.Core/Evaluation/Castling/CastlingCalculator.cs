@@ -1,13 +1,19 @@
-﻿using Proxima.Core.Commons;
-using Proxima.Core.Commons.Colors;
-using Proxima.Core.Commons.Performance;
+﻿using Proxima.Core.Commons.Colors;
 using System;
 
 namespace Proxima.Core.Evaluation.Castling
 {
     public class CastlingCalculator
     {
-        public CastlingData Calculate(EvaluationParameters parameters)
+        public int Calculate(EvaluationParameters parameters)
+        {
+            var whiteCastling = GetCastlingValue(Color.White, parameters);
+            var blackCastling = GetCastlingValue(Color.Black, parameters);
+
+            return whiteCastling - blackCastling;
+        }
+
+        public CastlingData CalculateDetailed(EvaluationParameters parameters)
         {
             return new CastlingData()
             {

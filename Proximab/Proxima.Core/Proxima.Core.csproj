@@ -69,6 +69,7 @@
     <Compile Include="Evaluation\Castling\CastlingData.cs" />
     <Compile Include="Evaluation\Castling\CastlingValues.cs" />
     <Compile Include="Evaluation\EvaluationFlipper.cs" />
+    <Compile Include="Evaluation\IncrementalEvaluationData.cs" />
     <Compile Include="Evaluation\KingSafety\KingSafetyCalculator.cs" />
     <Compile Include="Evaluation\KingSafety\KingSafetyData.cs" />
     <Compile Include="Evaluation\KingSafety\KingSafetyValues.cs" />
@@ -77,7 +78,7 @@
     <Compile Include="Evaluation\Material\MaterialData.cs" />
     <Compile Include="Evaluation\EvaluationCalculator.cs" />
     <Compile Include="Evaluation\EvaluationParameters.cs" />
-    <Compile Include="Evaluation\EvaluationData.cs" />
+    <Compile Include="Evaluation\DetailedEvaluationData.cs" />
     <Compile Include="Evaluation\Material\MaterialValues.cs" />
     <Compile Include="Evaluation\Mobility\MobilityCalculator.cs" />
     <Compile Include="Evaluation\Mobility\MobilityData.cs" />
