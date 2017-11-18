@@ -82,10 +82,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Icon.ico" />
-    <EmbeddedResource Include="Icon.bmp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\SDL2.dll">
       <Link>x86\SDL2.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -133,7 +129,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="app.manifest" />
+    <EmbeddedResource Include="app.manifest" />
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="Content\Fonts\AxisFont.spritefont" />
     <None Include="Content\Fonts\FPSFont.spritefont" />
@@ -178,6 +174,8 @@
     <Content Include="Content\XML\ColorDefinitions.xml" />
     <Content Include="Content\XML\CommandDefinitions.xml" />
     <Content Include="Content\XML\PieceDefinitions.xml" />
+    <EmbeddedResource Include="Icon.bmp" />
+    <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
