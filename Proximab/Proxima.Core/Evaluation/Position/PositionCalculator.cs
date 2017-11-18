@@ -41,7 +41,7 @@ namespace Proxima.Core.Evaluation.Position
         int GetPositionValue(Color color, PieceType pieceType, GamePhase gamePhase, ulong piecesToParse)
         {
             var position = 0;
-            var array = GetPositionValuesArray(color, pieceType);
+            var array = PositionValues.GetValues(color, pieceType);
 
             while (piecesToParse != 0)
             {
@@ -54,21 +54,6 @@ namespace Proxima.Core.Evaluation.Position
             }
 
             return position;
-        }
-
-        int[] GetPositionValuesArray(Color color, PieceType pieceType)
-        {
-            switch (pieceType)
-            {
-                case (PieceType.Pawn):      return PawnValues.GetValues(color);
-                case (PieceType.Knight):    return KnightValues.GetValues(color);
-                case (PieceType.Bishop):    return BishopValues.GetValues(color);
-                case (PieceType.Rook):      return RookValues.GetValues(color);
-                case (PieceType.Queen):     return QueenValues.GetValues(color);
-                case (PieceType.King):      return KingValues.GetValues(color);
-            }
-
-            return null;
         }
     }
 }

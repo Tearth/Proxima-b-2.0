@@ -89,12 +89,14 @@
     <Compile Include="Evaluation\PawnStructure\PawnStructureCalculator.cs" />
     <Compile Include="Evaluation\PawnStructure\PawnStructureData.cs" />
     <Compile Include="Evaluation\PawnStructure\PawnStructureValues.cs" />
+    <Compile Include="Evaluation\Position\IncrementalPosition.cs" />
     <Compile Include="Evaluation\Position\PositionCalculator.cs" />
     <Compile Include="Evaluation\Position\PositionData.cs" />
     <Compile Include="Evaluation\Position\Values\BishopValues.cs" />
     <Compile Include="Evaluation\Position\Values\KingValues.cs" />
     <Compile Include="Evaluation\Position\Values\KnightValues.cs" />
     <Compile Include="Evaluation\Position\Values\PawnValues.cs" />
+    <Compile Include="Evaluation\Position\Values\PositionValues.cs" />
     <Compile Include="Evaluation\Position\Values\QueenValues.cs" />
     <Compile Include="Evaluation\Position\Values\RookValues.cs" />
     <Compile Include="MoveGenerators\GeneratorMode.cs" />

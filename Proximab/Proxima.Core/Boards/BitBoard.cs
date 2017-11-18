@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using Proxima.Core.Evaluation;
 using Proxima.Core.Boards.Hashing;
 using Proxima.Core.Evaluation.Material;
+using Proxima.Core.Evaluation.Position;
 
 namespace Proxima.Core.Boards
 {
@@ -44,8 +45,6 @@ namespace Proxima.Core.Boards
 
             _castlingPossibility = new bool[4];
             _castlingDone = new bool[2];
-
-            _incrementalEvaluation = new IncrementalEvaluationData();
         }
 
         public BitBoard(BitBoard bitBoard, Move move) : this()
@@ -58,7 +57,7 @@ namespace Proxima.Core.Boards
             Buffer.BlockCopy(bitBoard._castlingDone, 0, _castlingDone, 0, bitBoard._castlingDone.Length * sizeof(bool));
             Buffer.BlockCopy(bitBoard._occupancy, 0, _occupancy, 0, bitBoard._occupancy.Length * sizeof(ulong));
 
-            _incrementalEvaluation = bitBoard._incrementalEvaluation;
+            _incrementalEvaluation = new IncrementalEvaluationData(bitBoard._incrementalEvaluation);
 
             CalculateMove(bitBoard, move);
             CalculateEnPassant(move);
@@ -72,7 +71,7 @@ namespace Proxima.Core.Boards
             _enPassant = friendlyBoard.GetEnPassantArray();
             _occupancy = CalculateOccupancy();
 
-            _incrementalEvaluation.Set(GetDetailedEvaluation());
+            _incrementalEvaluation = new IncrementalEvaluationData(GetDetailedEvaluation());
 
             Hash = GetNewHash();
         }
@@ -126,7 +125,8 @@ namespace Proxima.Core.Boards
             return Hash == GetNewHash() &&
                    _occupancy[(int)Color.White] == calculatedOccupancy[(int)Color.White] &&
                    _occupancy[(int)Color.Black] == calculatedOccupancy[(int)Color.Black] &&
-                   _incrementalEvaluation.Material == calculatedEvaluation.Material.Difference;
+                   _incrementalEvaluation.Material == calculatedEvaluation.Material.Difference &&
+                   _incrementalEvaluation.Position == calculatedEvaluation.Position.Difference ;
         }
 
         ulong GetNewHash()
@@ -180,6 +180,9 @@ namespace Proxima.Core.Boards
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
             _occupancy[(int)move.Color] ^= change;
 
+            _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, move.Color, move.Piece, from, GamePhase.Regular);
+            _incrementalEvaluation.Position = IncrementalPosition.AddPiece(_incrementalEvaluation.Position, move.Color, move.Piece, to, GamePhase.Regular);
+
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
         }
@@ -201,6 +204,7 @@ namespace Proxima.Core.Boards
                     _occupancy[(int)enemyColor] ^= to;
 
                     _incrementalEvaluation.Material = IncrementalMaterial.RemovePiece(_incrementalEvaluation.Material, (PieceType)piece, enemyColor);
+                    _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, enemyColor, (PieceType)piece, to, GamePhase.Regular);
                     Hash = IncrementalZobrist.AddOrRemovePiece(Hash, enemyColor, (PieceType)piece, to);
                     break;
                 }
@@ -208,6 +212,9 @@ namespace Proxima.Core.Boards
 
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
             _occupancy[(int)move.Color] ^= change;
+
+            _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, move.Color, move.Piece, from, GamePhase.Regular);
+            _incrementalEvaluation.Position = IncrementalPosition.AddPiece(_incrementalEvaluation.Position, move.Color, move.Piece, to, GamePhase.Regular);
 
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
@@ -229,6 +236,9 @@ namespace Proxima.Core.Boards
                     _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] ^= rookChange;
                     _occupancy[(int)move.Color] ^= rookChange;
 
+                    _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, move.Color, PieceType.Rook, rookLSB, GamePhase.Regular);
+                    _incrementalEvaluation.Position = IncrementalPosition.AddPiece(_incrementalEvaluation.Position, move.Color, PieceType.Rook, rookLSB << 2, GamePhase.Regular);
+
                     Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, PieceType.Rook, rookLSB);
                     Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, PieceType.Rook, rookLSB << 2);
 
@@ -241,6 +251,9 @@ namespace Proxima.Core.Boards
 
                     _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] ^= rookChange;
                     _occupancy[(int)move.Color] ^= rookChange;
+
+                    _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, move.Color, PieceType.Rook, rookLSB, GamePhase.Regular);
+                    _incrementalEvaluation.Position = IncrementalPosition.AddPiece(_incrementalEvaluation.Position, move.Color, PieceType.Rook, rookLSB >> 3, GamePhase.Regular);
 
                     Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, PieceType.Rook, rookLSB);
                     Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, PieceType.Rook, rookLSB >> 3);
@@ -256,6 +269,9 @@ namespace Proxima.Core.Boards
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
             Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Short);
             Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Long);
+            
+            _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, move.Color, move.Piece, from, GamePhase.Regular);
+            _incrementalEvaluation.Position = IncrementalPosition.AddPiece(_incrementalEvaluation.Position, move.Color, move.Piece, to, GamePhase.Regular);
 
             _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
             _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
@@ -277,6 +293,7 @@ namespace Proxima.Core.Boards
                 _occupancy[(int)enemyColor] ^= to >> 8;
 
                 _incrementalEvaluation.Material = IncrementalMaterial.RemovePiece(_incrementalEvaluation.Material, PieceType.Pawn, enemyColor);
+                _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, enemyColor, PieceType.Pawn, to >> 8, GamePhase.Regular);
                 Hash = IncrementalZobrist.AddOrRemovePiece(Hash, enemyColor, PieceType.Pawn, to >> 8);
             }
             else
@@ -285,11 +302,15 @@ namespace Proxima.Core.Boards
                 _occupancy[(int)enemyColor] ^= to << 8;
 
                 _incrementalEvaluation.Material = IncrementalMaterial.RemovePiece(_incrementalEvaluation.Material, PieceType.Pawn, enemyColor);
+                _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, enemyColor, PieceType.Pawn, to << 8, GamePhase.Regular);
                 Hash = IncrementalZobrist.AddOrRemovePiece(Hash, enemyColor, PieceType.Pawn, to << 8);
             }
 
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
             _occupancy[(int)move.Color] ^= change;
+
+            _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, move.Color, move.Piece, from, GamePhase.Regular);
+            _incrementalEvaluation.Position = IncrementalPosition.AddPiece(_incrementalEvaluation.Position, move.Color, move.Piece, to, GamePhase.Regular);
 
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
@@ -307,6 +328,9 @@ namespace Proxima.Core.Boards
 
             _incrementalEvaluation.Material = IncrementalMaterial.RemovePiece(_incrementalEvaluation.Material, move.Piece, move.Color);
             _incrementalEvaluation.Material = IncrementalMaterial.AddPiece(_incrementalEvaluation.Material, move.PromotionPiece, move.Color);
+
+            _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, move.Color, move.Piece, from, GamePhase.Regular);
+            _incrementalEvaluation.Position = IncrementalPosition.AddPiece(_incrementalEvaluation.Position, move.Color, move.PromotionPiece, to, GamePhase.Regular);
 
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.PromotionPiece, to);
