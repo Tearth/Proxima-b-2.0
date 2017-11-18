@@ -18,7 +18,7 @@ namespace Proxima.Core.Evaluation
 
         public static int GetEvaluation(EvaluationParameters parameters, IncrementalEvaluationData incrementalEvaluationData)
         {
-            var material = Material.Calculate(parameters);
+            var material = incrementalEvaluationData.Material;
             var mobility = Mobility.Calculate(parameters);
             var castling = Castling.Calculate(parameters);
             var position = Position.Calculate(parameters);

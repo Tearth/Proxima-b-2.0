@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using Proxima.Core.Evaluation;
 using Proxima.Core.Boards.Hashing;
+using Proxima.Core.Evaluation.Material;
 
 namespace Proxima.Core.Boards
 {
@@ -28,7 +29,7 @@ namespace Proxima.Core.Boards
         bool[] _castlingPossibility;
         bool[] _castlingDone;
 
-        IncrementalEvaluationData _incrementalEvaluationData;
+        IncrementalEvaluationData _incrementalEvaluation;
 
         public BitBoard()
         {
@@ -44,7 +45,7 @@ namespace Proxima.Core.Boards
             _castlingPossibility = new bool[4];
             _castlingDone = new bool[2];
 
-            _incrementalEvaluationData = new IncrementalEvaluationData();
+            _incrementalEvaluation = new IncrementalEvaluationData();
         }
 
         public BitBoard(BitBoard bitBoard, Move move) : this()
@@ -57,7 +58,7 @@ namespace Proxima.Core.Boards
             Buffer.BlockCopy(bitBoard._castlingDone, 0, _castlingDone, 0, bitBoard._castlingDone.Length * sizeof(bool));
             Buffer.BlockCopy(bitBoard._occupancy, 0, _occupancy, 0, bitBoard._occupancy.Length * sizeof(ulong));
 
-            _incrementalEvaluationData = bitBoard._incrementalEvaluationData;
+            _incrementalEvaluation = bitBoard._incrementalEvaluation;
 
             CalculateMove(bitBoard, move);
             CalculateEnPassant(move);
@@ -70,6 +71,8 @@ namespace Proxima.Core.Boards
             _castlingDone = friendlyBoard.GetCastlingDoneArray();
             _enPassant = friendlyBoard.GetEnPassantArray();
             _occupancy = CalculateOccupancy();
+
+            _incrementalEvaluation.Set(GetDetailedEvaluation());
 
             Hash = GetNewHash();
         }
@@ -106,7 +109,7 @@ namespace Proxima.Core.Boards
         public int GetEvaluation()
         {
             var evaluationParameters = GetEvaluationParameters();
-            return EvaluationCalculator.GetEvaluation(evaluationParameters, _incrementalEvaluationData);
+            return EvaluationCalculator.GetEvaluation(evaluationParameters, _incrementalEvaluation);
         }
 
         public DetailedEvaluationData GetDetailedEvaluation()
@@ -118,10 +121,12 @@ namespace Proxima.Core.Boards
         public bool VerifyIntegrity()
         {
             var calculatedOccupancy = CalculateOccupancy();
+            var calculatedEvaluation = GetDetailedEvaluation();
 
             return Hash == GetNewHash() &&
                    _occupancy[(int)Color.White] == calculatedOccupancy[(int)Color.White] &&
-                   _occupancy[(int)Color.Black] == calculatedOccupancy[(int)Color.Black];
+                   _occupancy[(int)Color.Black] == calculatedOccupancy[(int)Color.Black] &&
+                   _incrementalEvaluation.Material == calculatedEvaluation.Material.Difference;
         }
 
         ulong GetNewHash()
@@ -195,6 +200,7 @@ namespace Proxima.Core.Boards
                     _pieces[index] &= ~to;
                     _occupancy[(int)enemyColor] ^= to;
 
+                    _incrementalEvaluation.Material = IncrementalMaterial.RemovePiece(_incrementalEvaluation.Material, (PieceType)piece, enemyColor);
                     Hash = IncrementalZobrist.AddOrRemovePiece(Hash, enemyColor, (PieceType)piece, to);
                     break;
                 }
@@ -267,17 +273,19 @@ namespace Proxima.Core.Boards
 
             if (move.Color == Color.White)
             {
-                _pieces[FastArray.GetPieceIndex(enemyColor, move.Piece)] &= ~(to >> 8);
+                _pieces[FastArray.GetPieceIndex(enemyColor, PieceType.Pawn)] &= ~(to >> 8);
                 _occupancy[(int)enemyColor] ^= to >> 8;
 
-                Hash = IncrementalZobrist.AddOrRemovePiece(Hash, enemyColor, move.Piece, to >> 8);
+                _incrementalEvaluation.Material = IncrementalMaterial.RemovePiece(_incrementalEvaluation.Material, PieceType.Pawn, enemyColor);
+                Hash = IncrementalZobrist.AddOrRemovePiece(Hash, enemyColor, PieceType.Pawn, to >> 8);
             }
             else
             {
-                _pieces[FastArray.GetPieceIndex(enemyColor, move.Piece)] &= ~(to << 8);
+                _pieces[FastArray.GetPieceIndex(enemyColor, PieceType.Pawn)] &= ~(to << 8);
                 _occupancy[(int)enemyColor] ^= to << 8;
 
-                Hash = IncrementalZobrist.AddOrRemovePiece(Hash, enemyColor, move.Piece, to << 8);
+                _incrementalEvaluation.Material = IncrementalMaterial.RemovePiece(_incrementalEvaluation.Material, PieceType.Pawn, enemyColor);
+                Hash = IncrementalZobrist.AddOrRemovePiece(Hash, enemyColor, PieceType.Pawn, to << 8);
             }
 
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
@@ -296,6 +304,9 @@ namespace Proxima.Core.Boards
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] &= ~from;
             _pieces[FastArray.GetPieceIndex(move.Color, move.PromotionPiece)] |= to;
             _occupancy[(int)move.Color] ^= change;
+
+            _incrementalEvaluation.Material = IncrementalMaterial.RemovePiece(_incrementalEvaluation.Material, move.Piece, move.Color);
+            _incrementalEvaluation.Material = IncrementalMaterial.AddPiece(_incrementalEvaluation.Material, move.PromotionPiece, move.Color);
 
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.PromotionPiece, to);
