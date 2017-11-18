@@ -1,6 +1,6 @@
 ﻿namespace Proxima.Core.Evaluation.Castling
 {
-    public class CastlingResult
+    public class CastlingData
     {
         public int WhiteCastling { get; set; }
         public int BlackCastling { get; set; }

@@ -8,9 +8,9 @@ namespace Proxima.Core.Evaluation.Position
 {
     public class PositionCalculator
     {
-        public PositionResult Calculate(EvaluationParameters parameters)
+        public PositionData Calculate(EvaluationParameters parameters)
         {
-            return new PositionResult()
+            return new PositionData()
             {
                 WhitePosition = GetPosition(Color.White, parameters),
                 BlackPosition = GetPosition(Color.Black, parameters)

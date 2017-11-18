@@ -8,9 +8,9 @@ namespace Proxima.Core.Evaluation.KingSafety
 {
     public class KingSafetyCalculator
     {
-        public KingSafetyResult Calculate(EvaluationParameters parameters)
+        public KingSafetyData Calculate(EvaluationParameters parameters)
         {
-            return new KingSafetyResult
+            return new KingSafetyData
             {
                 WhiteAttackedNeighbours = GetAttackedNeighboursValue(Color.White, parameters),
                 BlackAttackedNeighbours = GetAttackedNeighboursValue(Color.Black, parameters)

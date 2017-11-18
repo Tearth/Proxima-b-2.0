@@ -97,7 +97,7 @@ namespace Proxima.Core.Boards
             CalculateAvailableMoves(whiteMode, blackMode);
         }
 
-        public EvaluationResult GetEvaluation()
+        public EvaluationData GetEvaluation()
         {
             var evaluationParameters = GetEvaluationParameters();
             return EvaluationCalculator.GetEvaluation(evaluationParameters);

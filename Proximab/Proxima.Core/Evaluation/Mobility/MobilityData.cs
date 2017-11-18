@@ -1,6 +1,6 @@
 ﻿namespace Proxima.Core.Evaluation.Mobility
 {
-    public class MobilityResult
+    public class MobilityData
     {
         public int WhiteMobility { get; set; }
         public int BlackMobility { get; set; }

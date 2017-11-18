@@ -7,13 +7,13 @@ namespace Proxima.Core.Evaluation.PawnStructure
 {
     public class PawnStructureCalculator
     {
-        public PawnStructureResult Calculate(EvaluationParameters parameters)
+        public PawnStructureData Calculate(EvaluationParameters parameters)
         {
             var doubledPawnsCalculator = new DoubledPawnsCalculator();
             var isolatedPawnsCalculator = new IsolatedPawnsCalculator();
             var pawnChainCalculator = new PawnChainCalculator();
 
-            return new PawnStructureResult()
+            return new PawnStructureData()
             {
                 WhiteDoubledPawns = doubledPawnsCalculator.GetDoubledPawnsValue(Color.White, parameters),
                 BlackDoubledPawns = doubledPawnsCalculator.GetDoubledPawnsValue(Color.Black, parameters),

@@ -16,9 +16,9 @@ namespace Proxima.Core.Evaluation
         static PawnStructureCalculator PawnStructure = new PawnStructureCalculator();
         static KingSafetyCalculator KingSafety = new KingSafetyCalculator();
 
-        public static EvaluationResult GetEvaluation(EvaluationParameters parameters)
+        public static EvaluationData GetEvaluation(EvaluationParameters parameters)
         {
-            return new EvaluationResult()
+            return new EvaluationData()
             {
                 Material = Material.Calculate(parameters),
                 Mobility = Mobility.Calculate(parameters),

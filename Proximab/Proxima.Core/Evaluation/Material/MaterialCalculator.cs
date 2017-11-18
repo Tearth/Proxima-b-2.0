@@ -7,9 +7,9 @@ namespace Proxima.Core.Evaluation.Material
 {
     public class MaterialCalculator
     {
-        public MaterialResult Calculate(EvaluationParameters parameters)
+        public MaterialData Calculate(EvaluationParameters parameters)
         {
-            return new MaterialResult
+            return new MaterialData
             {
                 WhiteMaterial = GetMaterialValue(Color.White, parameters),
                 BlackMaterial = GetMaterialValue(Color.Black, parameters)

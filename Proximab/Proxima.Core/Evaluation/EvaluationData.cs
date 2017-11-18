@@ -7,14 +7,14 @@ using Proxima.Core.Evaluation.Position;
 
 namespace Proxima.Core.Evaluation
 {
-    public class EvaluationResult
+    public class EvaluationData
     {
-        public MaterialResult Material { get; set; }
-        public MobilityResult Mobility { get; set; }
-        public CastlingResult Castling { get; set; }
-        public PositionResult Position { get; set; }
-        public PawnStructureResult PawnStructure { get; set; }
-        public KingSafetyResult KingSafety;
+        public MaterialData Material { get; set; }
+        public MobilityData Mobility { get; set; }
+        public CastlingData Castling { get; set; }
+        public PositionData Position { get; set; }
+        public PawnStructureData PawnStructure { get; set; }
+        public KingSafetyData KingSafety;
 
         public int Total
         {

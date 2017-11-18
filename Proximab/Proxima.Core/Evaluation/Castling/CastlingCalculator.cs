@@ -7,9 +7,9 @@ namespace Proxima.Core.Evaluation.Castling
 {
     public class CastlingCalculator
     {
-        public CastlingResult Calculate(EvaluationParameters parameters)
+        public CastlingData Calculate(EvaluationParameters parameters)
         {
-            return new CastlingResult()
+            return new CastlingData()
             {
                 WhiteCastling = GetCastlingValue(Color.White, parameters),
                 BlackCastling = GetCastlingValue(Color.Black, parameters)

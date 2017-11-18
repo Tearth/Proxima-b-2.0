@@ -1,6 +1,6 @@
 ﻿namespace Proxima.Core.Evaluation.KingSafety
 {
-    public class KingSafetyResult
+    public class KingSafetyData
     {
         public int WhiteAttackedNeighbours { get; set; }
         public int BlackAttackedNeighbours { get; set; }

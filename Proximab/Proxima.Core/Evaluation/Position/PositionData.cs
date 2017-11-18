@@ -1,6 +1,6 @@
 ﻿namespace Proxima.Core.Evaluation.Position
 {
-    public class PositionResult
+    public class PositionData
     {
         public int WhitePosition { get; set; }
         public int BlackPosition { get; set; }

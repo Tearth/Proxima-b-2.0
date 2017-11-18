@@ -1,6 +1,6 @@
 ﻿namespace Proxima.Core.Evaluation.PawnStructure
 {
-    public class PawnStructureResult
+    public class PawnStructureData
     {
         public int WhiteDoubledPawns { get; set; }
         public int BlackDoubledPawns { get; set; }
