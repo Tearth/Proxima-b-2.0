@@ -5,7 +5,7 @@ using Proxima.Core.Commons.Performance;
 
 namespace Proxima.Core.Boards.Hashing
 {
-    public static class ZobristUpdater
+    public static class IncrementalZobrist
     {
         public static ulong AddOrRemovePiece(ulong hash, Color color, PieceType pieceType, ulong field)
         {

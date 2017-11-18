@@ -46,7 +46,7 @@ namespace Proxima.Core.Boards
         public BitBoard(BitBoard bitBoard, Move move) : this()
         {
             Hash = bitBoard.Hash;
-            Hash = ZobristUpdater.ClearEnPassant(Hash, ColorOperations.Invert(move.Color), bitBoard._enPassant);
+            Hash = IncrementalZobrist.ClearEnPassant(Hash, ColorOperations.Invert(move.Color), bitBoard._enPassant);
 
             Buffer.BlockCopy(bitBoard._pieces, 0, _pieces, 0, bitBoard._pieces.Length * sizeof(ulong));
             Buffer.BlockCopy(bitBoard._castlingPossibility, 0, _castlingPossibility, 0, bitBoard._castlingPossibility.Length * sizeof(bool));
@@ -140,8 +140,8 @@ namespace Proxima.Core.Boards
                 var shortCastlingIndex = FastArray.GetCastlingIndex(move.Color, CastlingType.Short);
                 var longCastlingIndex = FastArray.GetCastlingIndex(move.Color, CastlingType.Long);
 
-                Hash = ZobristUpdater.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Short);
-                Hash = ZobristUpdater.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Long);
+                Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Short);
+                Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Long);
 
                 _castlingPossibility[shortCastlingIndex] = false;
                 _castlingPossibility[longCastlingIndex] = false;
@@ -150,12 +150,12 @@ namespace Proxima.Core.Boards
             {
                 if (move.From == new Position(1, 1) || move.From == new Position(1, 8))
                 {
-                    Hash = ZobristUpdater.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Long);
+                    Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Long);
                     _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
                 }
                 else if (move.From == new Position(8, 1) || move.From == new Position(8, 8))
                 {
-                    Hash = ZobristUpdater.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Short);
+                    Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Short);
                     _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
                 }
             }
@@ -163,8 +163,8 @@ namespace Proxima.Core.Boards
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
             _occupancy[(int)move.Color] ^= change;
 
-            Hash = ZobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
-            Hash = ZobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
+            Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
+            Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
         }
 
         void CalculateKillMove(KillMove move)
@@ -183,7 +183,7 @@ namespace Proxima.Core.Boards
                     _pieces[index] &= ~to;
                     _occupancy[(int)enemyColor] ^= to;
 
-                    Hash = ZobristUpdater.AddOrRemovePiece(Hash, enemyColor, (PieceType)piece, to);
+                    Hash = IncrementalZobrist.AddOrRemovePiece(Hash, enemyColor, (PieceType)piece, to);
                     break;
                 }
             }
@@ -191,8 +191,8 @@ namespace Proxima.Core.Boards
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
             _occupancy[(int)move.Color] ^= change;
 
-            Hash = ZobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
-            Hash = ZobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
+            Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
+            Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
         }
 
         void CalculateCastlingMove(CastlingMove move)
@@ -211,8 +211,8 @@ namespace Proxima.Core.Boards
                     _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] ^= rookChange;
                     _occupancy[(int)move.Color] ^= rookChange;
 
-                    Hash = ZobristUpdater.AddOrRemovePiece(Hash, move.Color, PieceType.Rook, rookLSB);
-                    Hash = ZobristUpdater.AddOrRemovePiece(Hash, move.Color, PieceType.Rook, rookLSB << 2);
+                    Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, PieceType.Rook, rookLSB);
+                    Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, PieceType.Rook, rookLSB << 2);
 
                     break;
                 }
@@ -224,8 +224,8 @@ namespace Proxima.Core.Boards
                     _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] ^= rookChange;
                     _occupancy[(int)move.Color] ^= rookChange;
 
-                    Hash = ZobristUpdater.AddOrRemovePiece(Hash, move.Color, PieceType.Rook, rookLSB);
-                    Hash = ZobristUpdater.AddOrRemovePiece(Hash, move.Color, PieceType.Rook, rookLSB >> 3);
+                    Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, PieceType.Rook, rookLSB);
+                    Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, PieceType.Rook, rookLSB >> 3);
 
                     break;
                 }
@@ -234,10 +234,10 @@ namespace Proxima.Core.Boards
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
             _occupancy[(int)move.Color] ^= change;
 
-            Hash = ZobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
-            Hash = ZobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
-            Hash = ZobristUpdater.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Short);
-            Hash = ZobristUpdater.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Long);
+            Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
+            Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
+            Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Short);
+            Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Long);
 
             _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
             _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
@@ -258,21 +258,21 @@ namespace Proxima.Core.Boards
                 _pieces[FastArray.GetPieceIndex(enemyColor, move.Piece)] &= ~(to >> 8);
                 _occupancy[(int)enemyColor] ^= to >> 8;
 
-                Hash = ZobristUpdater.AddOrRemovePiece(Hash, enemyColor, move.Piece, to >> 8);
+                Hash = IncrementalZobrist.AddOrRemovePiece(Hash, enemyColor, move.Piece, to >> 8);
             }
             else
             {
                 _pieces[FastArray.GetPieceIndex(enemyColor, move.Piece)] &= ~(to << 8);
                 _occupancy[(int)enemyColor] ^= to << 8;
 
-                Hash = ZobristUpdater.AddOrRemovePiece(Hash, enemyColor, move.Piece, to << 8);
+                Hash = IncrementalZobrist.AddOrRemovePiece(Hash, enemyColor, move.Piece, to << 8);
             }
 
             _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
             _occupancy[(int)move.Color] ^= change;
 
-            Hash = ZobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
-            Hash = ZobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
+            Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
+            Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
         }
 
         void CalculatePromotionMove(PromotionMove move)
@@ -285,8 +285,8 @@ namespace Proxima.Core.Boards
             _pieces[FastArray.GetPieceIndex(move.Color, move.PromotionPiece)] |= to;
             _occupancy[(int)move.Color] ^= change;
 
-            Hash = ZobristUpdater.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
-            Hash = ZobristUpdater.AddOrRemovePiece(Hash, move.Color, move.PromotionPiece, to);
+            Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
+            Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.PromotionPiece, to);
         }
 
         void CalculateEnPassant(Move move)
@@ -301,7 +301,7 @@ namespace Proxima.Core.Boards
                         var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
 
                         _enPassant[(int)Color.White] |= enPassantLSB;
-                        Hash = ZobristUpdater.AddEnPassant(Hash, Color.White, enPassantLSB);
+                        Hash = IncrementalZobrist.AddEnPassant(Hash, Color.White, enPassantLSB);
                     }
                 }
                 else
@@ -312,7 +312,7 @@ namespace Proxima.Core.Boards
                         var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
 
                         _enPassant[(int)Color.Black] |= enPassantLSB;
-                        Hash = ZobristUpdater.AddEnPassant(Hash, Color.Black, enPassantLSB);
+                        Hash = IncrementalZobrist.AddEnPassant(Hash, Color.Black, enPassantLSB);
                     }
                 }
             }
