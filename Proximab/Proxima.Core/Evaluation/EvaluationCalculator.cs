@@ -20,7 +20,7 @@ namespace Proxima.Core.Evaluation
         {
             var material = incrementalEvaluationData.Material;
             var mobility = Mobility.Calculate(parameters);
-            var castling = Castling.Calculate(parameters);
+            var castling = incrementalEvaluationData.Castling;
             var position = incrementalEvaluationData.Position;
             var pawnStructure = PawnStructure.Calculate(parameters);
             var kingSafety = KingSafety.Calculate(parameters);

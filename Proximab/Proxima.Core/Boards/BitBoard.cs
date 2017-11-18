@@ -1,17 +1,17 @@
 ﻿using Proxima.Core.Boards.Friendly;
-using Proxima.Core.MoveGenerators;
+using Proxima.Core.Boards.Hashing;
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
-using Proxima.Core.Commons.Exceptions;
 using Proxima.Core.Commons.Moves;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Positions;
-using System;
-using System.Collections.Generic;
 using Proxima.Core.Evaluation;
-using Proxima.Core.Boards.Hashing;
+using Proxima.Core.Evaluation.Castling;
 using Proxima.Core.Evaluation.Material;
 using Proxima.Core.Evaluation.Position;
+using Proxima.Core.MoveGenerators;
+using System;
+using System.Collections.Generic;
 
 namespace Proxima.Core.Boards
 {
@@ -57,7 +57,7 @@ namespace Proxima.Core.Boards
             Buffer.BlockCopy(bitBoard._castlingDone, 0, _castlingDone, 0, bitBoard._castlingDone.Length * sizeof(bool));
             Buffer.BlockCopy(bitBoard._occupancy, 0, _occupancy, 0, bitBoard._occupancy.Length * sizeof(ulong));
 
-            _incrementalEvaluation = new IncrementalEvaluationData(bitBoard._incrementalEvaluation);
+            _incrementalEvaluation = bitBoard._incrementalEvaluation;
 
             CalculateMove(bitBoard, move);
             CalculateEnPassant(move);
@@ -126,7 +126,8 @@ namespace Proxima.Core.Boards
                    _occupancy[(int)Color.White] == calculatedOccupancy[(int)Color.White] &&
                    _occupancy[(int)Color.Black] == calculatedOccupancy[(int)Color.Black] &&
                    _incrementalEvaluation.Material == calculatedEvaluation.Material.Difference &&
-                   _incrementalEvaluation.Position == calculatedEvaluation.Position.Difference ;
+                   _incrementalEvaluation.Position == calculatedEvaluation.Position.Difference &&
+                   _incrementalEvaluation.Castling == calculatedEvaluation.Castling.Difference;
         }
 
         ulong GetNewHash()
@@ -276,6 +277,7 @@ namespace Proxima.Core.Boards
             _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
             _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
 
+            _incrementalEvaluation.Castling = IncrementalCastling.SetCastlingDone(_incrementalEvaluation.Castling, move.Color, GamePhase.Regular);
             _castlingDone[(int)move.Color] = true;
         }
 

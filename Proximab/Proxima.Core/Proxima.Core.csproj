@@ -68,6 +68,7 @@
     <Compile Include="Evaluation\Castling\CastlingCalculator.cs" />
     <Compile Include="Evaluation\Castling\CastlingData.cs" />
     <Compile Include="Evaluation\Castling\CastlingValues.cs" />
+    <Compile Include="Evaluation\Castling\IncrementalCastling.cs" />
     <Compile Include="Evaluation\EvaluationFlipper.cs" />
     <Compile Include="Evaluation\IncrementalEvaluationData.cs" />
     <Compile Include="Evaluation\KingSafety\KingSafetyCalculator.cs" />

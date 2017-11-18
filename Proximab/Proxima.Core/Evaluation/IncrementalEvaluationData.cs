@@ -4,17 +4,13 @@
     {
         public int Material { get; set; }
         public int Position { get; set; }
-
-        public IncrementalEvaluationData(IncrementalEvaluationData incrementalEvaluation)
-        {
-            Material = incrementalEvaluation.Material;
-            Position = incrementalEvaluation.Position;
-        }
+        public int Castling { get; set; }
 
         public IncrementalEvaluationData(DetailedEvaluationData detailedEvaluationData)
         {
             Material = detailedEvaluationData.Material.Difference;
             Position = detailedEvaluationData.Position.Difference;
+            Castling = detailedEvaluationData.Castling.Difference;
         }
     }
 }

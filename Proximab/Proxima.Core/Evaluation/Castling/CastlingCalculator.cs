@@ -24,10 +24,12 @@ namespace Proxima.Core.Evaluation.Castling
 
         int GetCastlingValue(Color color, EvaluationParameters parameters)
         {
-            var castlingDone = Convert.ToInt32(parameters.CastlingDone[(int)color]);
-            var ratio = CastlingValues.Ratio[(int)parameters.GamePhase];
+            if(parameters.CastlingDone[(int)color])
+            {
+                return CastlingValues.Ratio[(int)parameters.GamePhase];
+            }
 
-            return castlingDone * ratio;
+            return 0;
         }
     }
 }
