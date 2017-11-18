@@ -8,14 +8,9 @@ using System.Collections.Generic;
 
 namespace Proxima.Core.MoveGenerators
 {
-    public class PawnMovesGenerator
+    public static class PawnMovesGenerator
     {
-        public PawnMovesGenerator()
-        {
-
-        }
-
-        public void Calculate(GeneratorParameters opt)
+        public static void Calculate(GeneratorParameters opt)
         {
             CalculateMovesForSinglePush(opt);
             CalculateMovesForDoublePush(opt);
@@ -23,7 +18,7 @@ namespace Proxima.Core.MoveGenerators
             CalculateMovesForLeftAttack(opt);
         }
 
-        void CalculateMovesForSinglePush(GeneratorParameters opt)
+        static void CalculateMovesForSinglePush(GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
             {
@@ -76,7 +71,7 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
-        void CalculateMovesForDoublePush(GeneratorParameters opt)
+        static void CalculateMovesForDoublePush(GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
             {
@@ -119,7 +114,7 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
-        void CalculateMovesForRightAttack(GeneratorParameters opt)
+        static void CalculateMovesForRightAttack(GeneratorParameters opt)
         {
             var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)];
             var validPieces = piecesToParse & ~BitConstants.HFile;
@@ -164,7 +159,7 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
-        void CalculateMovesForLeftAttack(GeneratorParameters opt)
+        static void CalculateMovesForLeftAttack(GeneratorParameters opt)
         {
             var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)];
             var validPieces = piecesToParse & ~BitConstants.AFile;

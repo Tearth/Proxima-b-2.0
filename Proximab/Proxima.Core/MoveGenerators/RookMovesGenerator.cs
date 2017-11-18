@@ -11,14 +11,9 @@ using System.Collections.Generic;
 
 namespace Proxima.Core.MoveGenerators
 {
-    public class RookMovesGenerator
+    public static class RookMovesGenerator
     {
-        public RookMovesGenerator()
-        {
-
-        }
-
-        public void Calculate(PieceType pieceType, GeneratorParameters opt)
+        public static void Calculate(PieceType pieceType, GeneratorParameters opt)
         {
             var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, pieceType)];
 
@@ -32,7 +27,7 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
-        ulong CalculateMoves(PieceType pieceType, ulong pieceLSB, GeneratorParameters opt)
+        static ulong CalculateMoves(PieceType pieceType, ulong pieceLSB, GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
                 return 0;
@@ -72,7 +67,7 @@ namespace Proxima.Core.MoveGenerators
             return excludeFromAttacks;
         }
 
-        void CalculateAttacks(PieceType pieceType, ulong pieceLSB, ulong movesPattern, GeneratorParameters opt)
+        static void CalculateAttacks(PieceType pieceType, ulong pieceLSB, ulong movesPattern, GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateAttacks) == 0)
                 return;

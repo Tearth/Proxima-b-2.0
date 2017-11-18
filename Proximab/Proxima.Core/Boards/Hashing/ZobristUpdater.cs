@@ -5,9 +5,9 @@ using Proxima.Core.Commons.Performance;
 
 namespace Proxima.Core.Boards.Hashing
 {
-    public class ZobristUpdater
+    public static class ZobristUpdater
     {
-        public ulong AddOrRemovePiece(ulong hash, Color color, PieceType pieceType, ulong field)
+        public static ulong AddOrRemovePiece(ulong hash, Color color, PieceType pieceType, ulong field)
         {
             var fieldIndex = BitOperations.GetBitIndex(field);
             var index = FastArray.GetZobristPieceIndex(color, pieceType, fieldIndex);
@@ -15,7 +15,7 @@ namespace Proxima.Core.Boards.Hashing
             return hash ^ ZobristContainer.Pieces[index];
         }
 
-        public ulong RemoveCastlingPossibility(ulong hash, bool[] castling, Color color, CastlingType castlingType)
+        public static ulong RemoveCastlingPossibility(ulong hash, bool[] castling, Color color, CastlingType castlingType)
         {
             var castlingIndex = FastArray.GetCastlingIndex(color, castlingType);
 
@@ -27,7 +27,7 @@ namespace Proxima.Core.Boards.Hashing
             return hash;
         }
 
-        public ulong AddEnPassant(ulong hash, Color color, ulong field)
+        public static ulong AddEnPassant(ulong hash, Color color, ulong field)
         {
             var fieldIndex = BitOperations.GetBitIndex(field);
             var fieldPosition = BitPositionConverter.ToPosition(fieldIndex);
@@ -35,7 +35,7 @@ namespace Proxima.Core.Boards.Hashing
             return hash ^ ZobristContainer.EnPassant[fieldPosition.X - 1];
         }
 
-        public ulong ClearEnPassant(ulong hash, Color color, ulong[] _enPassant)
+        public static ulong ClearEnPassant(ulong hash, Color color, ulong[] _enPassant)
         {
             var enPassantToParse = _enPassant[(int)color];
 

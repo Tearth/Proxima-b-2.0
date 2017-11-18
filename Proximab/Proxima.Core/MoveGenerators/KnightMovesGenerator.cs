@@ -8,14 +8,9 @@ using System.Collections.Generic;
 
 namespace Proxima.Core.MoveGenerators
 {
-    public class KnightMovesGenerator
+    public static class KnightMovesGenerator
     {
-        public KnightMovesGenerator()
-        {
-
-        }
-
-        public void Calculate(GeneratorParameters opt)
+        public static void Calculate(GeneratorParameters opt)
         {
             var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Knight)];
 

@@ -5,16 +5,11 @@ using Proxima.Core.Commons.Randoms;
 
 namespace Proxima.Core.Boards.Hashing
 {
-    public class ZobristHash
+    public static class ZobristHash
     {
-        Random64 _random64;
+        static Random64 _random64 = new Random64();
 
-        public ZobristHash()
-        {
-            _random64 = new Random64();
-        }
-
-        public ulong Calculate(ulong[] pieces, bool[] castling, ulong[] enPassant)
+        public static ulong Calculate(ulong[] pieces, bool[] castling, ulong[] enPassant)
         {
             var hash = 0ul;
 
@@ -25,7 +20,7 @@ namespace Proxima.Core.Boards.Hashing
             return hash;
         }
 
-        ulong CalculatePieces(ulong hash, ulong[] pieces)
+        static ulong CalculatePieces(ulong hash, ulong[] pieces)
         {
             for(int colorIndex=0; colorIndex < 2; colorIndex++)
             {
@@ -50,7 +45,7 @@ namespace Proxima.Core.Boards.Hashing
             return hash;
         }
 
-        ulong CalculateCastling(ulong hash, bool[] castling)
+        static ulong CalculateCastling(ulong hash, bool[] castling)
         {
             for(int i=0; i<4; i++)
             {
@@ -63,7 +58,7 @@ namespace Proxima.Core.Boards.Hashing
             return hash;
         }
 
-        ulong CalculateEnPassant(ulong hash, ulong[] enPassant)
+        static ulong CalculateEnPassant(ulong hash, ulong[] enPassant)
         {
             for(int colorIndex=0; colorIndex < 2; colorIndex++)
             {

@@ -9,14 +9,9 @@ using Proxima.Core.MoveGenerators.PatternGenerators;
 
 namespace Proxima.Core.MoveGenerators
 {
-    public class BishopMovesGenerator
+    public static class BishopMovesGenerator
     {
-        public BishopMovesGenerator()
-        {
-
-        }
-
-        public void Calculate(PieceType pieceType, GeneratorParameters opt)
+        public static void Calculate(PieceType pieceType, GeneratorParameters opt)
         {
             var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, pieceType)];
             while (piecesToParse != 0)
@@ -29,7 +24,7 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
-        ulong CalculateMoves(PieceType pieceType, ulong pieceLSB, GeneratorParameters opt)
+        static ulong CalculateMoves(PieceType pieceType, ulong pieceLSB, GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
                 return 0;
@@ -68,7 +63,7 @@ namespace Proxima.Core.MoveGenerators
             return excludeFromAttacks;
         }
 
-        void CalculateAttacks(PieceType pieceType, ulong pieceLSB, ulong movesPattern, GeneratorParameters opt)
+        static void CalculateAttacks(PieceType pieceType, ulong pieceLSB, ulong movesPattern, GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateAttacks) == 0)
                 return;
@@ -96,7 +91,7 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
-        ulong CalculatePawnBlockers(int pieceIndex, ulong pattern, GeneratorParameters opt)
+        static ulong CalculatePawnBlockers(int pieceIndex, ulong pattern, GeneratorParameters opt)
         {
             var patternWithFriendlyBlockers = pattern;
             var allowedBlockers = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)];

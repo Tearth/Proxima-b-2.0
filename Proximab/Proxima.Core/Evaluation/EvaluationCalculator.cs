@@ -7,18 +7,25 @@ using Proxima.Core.Evaluation.Position;
 
 namespace Proxima.Core.Evaluation
 {
-    public class EvaluationCalculator
+    public static class EvaluationCalculator
     {
-        public EvaluationResult GetEvaluation(EvaluationParameters parameters)
+        static MaterialCalculator Material = new MaterialCalculator();
+        static MobilityCalculator Mobility = new MobilityCalculator();
+        static CastlingCalculator Castling = new CastlingCalculator();
+        static PositionCalculator Position = new PositionCalculator();
+        static PawnStructureCalculator PawnStructure = new PawnStructureCalculator();
+        static KingSafetyCalculator KingSafety = new KingSafetyCalculator();
+
+        public static EvaluationResult GetEvaluation(EvaluationParameters parameters)
         {
             return new EvaluationResult()
             {
-                Material = new MaterialCalculator().Calculate(parameters),
-                Mobility = new MobilityCalculator().Calculate(parameters),
-                Castling = new CastlingCalculator().Calculate(parameters),
-                Position = new PositionCalculator().Calculate(parameters),
-                PawnStructure = new PawnStructureCalculator().Calculate(parameters),
-                KingSafety = new KingSafetyCalculator().Calculate(parameters)
+                Material = Material.Calculate(parameters),
+                Mobility = Mobility.Calculate(parameters),
+                Castling = Castling.Calculate(parameters),
+                Position = Position.Calculate(parameters),
+                PawnStructure = PawnStructure.Calculate(parameters),
+                KingSafety = KingSafety.Calculate(parameters)
             };
         }
     }

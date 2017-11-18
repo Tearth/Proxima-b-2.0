@@ -8,7 +8,7 @@ using Proxima.Core.MoveGenerators.PatternGenerators;
 
 namespace Proxima.Core.MoveGenerators
 {
-    public class KingMovesGenerator
+    public static class KingMovesGenerator
     {
         public const ulong WhiteRightRookLSB = 0x01;
         public const ulong WhiteLeftRookLSB = 0x80;
@@ -25,15 +25,10 @@ namespace Proxima.Core.MoveGenerators
         public const ulong BlackShortCastlingMoveArea = 0x0600000000000000ul;
         public const ulong BlackLongCastlingMoveArea  = 0x7000000000000000ul;
 
-        public readonly Position InitialWhiteKingPosition = new Position(5, 1);
-        public readonly Position InitialBlackKingPosition = new Position(5, 8);    
+        public static readonly Position InitialWhiteKingPosition = new Position(5, 1);
+        public static readonly Position InitialBlackKingPosition = new Position(5, 8);    
 
-        public KingMovesGenerator()
-        {
-
-        }
-
-        public void Calculate(GeneratorParameters opt)
+        public static void Calculate(GeneratorParameters opt)
         {
             var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.King)];
 
@@ -78,7 +73,7 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
-        public void CalculateCastling(GeneratorParameters opt)
+        public static void CalculateCastling(GeneratorParameters opt)
         {
             if (!opt.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)] &&
                 !opt.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Long)])
@@ -132,13 +127,13 @@ namespace Proxima.Core.MoveGenerators
                 opt.Moves.AddLast(move);
             }
         }
-        
-        bool IsCastlingAreaEmpty(ulong areaToCheck, ulong occupancy)
+
+        static bool IsCastlingAreaEmpty(ulong areaToCheck, ulong occupancy)
         {
             return (areaToCheck & occupancy) == 0;
         }
 
-        bool IsCastlingAreaChecked(Color enemyColor, ulong areaToCheck, GeneratorParameters opt)
+        static bool IsCastlingAreaChecked(Color enemyColor, ulong areaToCheck, GeneratorParameters opt)
         {
             return (opt.AttacksSummary[(int)enemyColor] & areaToCheck) != 0;
         }
