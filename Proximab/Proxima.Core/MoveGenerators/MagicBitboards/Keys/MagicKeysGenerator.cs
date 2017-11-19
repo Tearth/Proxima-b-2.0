@@ -15,7 +15,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Keys
             _random64 = new Random64();
         }
 
-        public ulong GenerateKey(List<FieldPattern> patterns, ulong mask)
+        public ulong GenerateKey(List<FieldPattern> patterns, int maskLength)
         {
             var attacks = new ulong[MagicConstants.RookMovesPerField];
 
@@ -28,11 +28,10 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Keys
                 fail = false;
 
                 Array.Clear(attacks, 0, MagicConstants.RookMovesPerField);
-                var bitsCount = BitOperations.Count(mask);
 
                 foreach (var pattern in patterns)
                 {
-                    var hash = (pattern.Occupancy * key) >> (64 - bitsCount);
+                    var hash = (pattern.Occupancy * key) >> (64 - maskLength);
 
                     if (attacks[hash] != 0 && attacks[hash] != pattern.Attacks)
                     {

@@ -1,0 +1,1 @@
+﻿# Magic keys generator for Proxima b chess engine

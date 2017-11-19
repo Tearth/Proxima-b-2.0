@@ -3,25 +3,21 @@ using Proxima.Core.Commons.Positions;
 
 namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
 {
-    public class AttacksGenerator
+    public class AvailableMovesGenerator
     {
         public ulong Calculate(int initialFieldIndex, ulong occupancy, Position shift)
         {
             var attacks = 0ul;
+            var bit = 0ul;
             var currentPosition = BitPositionConverter.ToPosition(initialFieldIndex);
 
             currentPosition += shift;
-            while (currentPosition.IsValid())
+            while (currentPosition.IsValid() && (bit & occupancy) == 0)
             {
                 var positionBitIndex = BitPositionConverter.ToBitIndex(currentPosition);
 
-                var bit = 1ul << positionBitIndex;
+                bit = 1ul << positionBitIndex;
                 attacks |= bit;
-
-                if ((bit & occupancy) != 0)
-                {
-                    break;
-                }
 
                 currentPosition += shift;
             }

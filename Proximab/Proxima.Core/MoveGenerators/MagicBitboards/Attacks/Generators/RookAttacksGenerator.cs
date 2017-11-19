@@ -1,20 +1,21 @@
 ﻿using Proxima.Core.Boards;
 using Proxima.Core.Commons.Positions;
+using Proxima.Core.MoveGenerators.MagicBitboards.Attacks.Generators;
 using Proxima.Core.MoveGenerators.MagicBitboards.Keys;
 using Proxima.Core.MoveGenerators.PatternGenerators;
 using System.Collections.Generic;
 
-namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
+namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks.Generators
 {
-    public class RookAttacksGenerator
+    public class RookAttacksGenerator : IAttacksGenerator
     {
         PermutationsGenerator _permutationsGenerator;
-        AttacksGenerator _attacksGenerator;
+        AvailableMovesGenerator _attacksGenerator;
 
         public RookAttacksGenerator()
         {
             _permutationsGenerator = new PermutationsGenerator();
-            _attacksGenerator = new AttacksGenerator();
+            _attacksGenerator = new AvailableMovesGenerator();
         }
 
         public List<FieldPattern> Generate(int fieldIndex)

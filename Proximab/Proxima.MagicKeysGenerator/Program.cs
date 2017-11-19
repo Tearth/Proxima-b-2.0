@@ -7,16 +7,17 @@ namespace Proxima.MagicKeysGenerator
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Starting magic keys generator...");
-            Console.WriteLine();
-
             var generator = new Generator();
 
+            Console.WriteLine("Proxima b magic keys generator");
+            Console.WriteLine();
             Console.WriteLine("Rook magic keys...");
+
             SaveKeysToFile(generator.GetRookKeys(), "Keys/RookKeys.txt");
 
             Console.WriteLine();
             Console.WriteLine("Bishop magic keys...");
+
             SaveKeysToFile(generator.GetBishopKeys(), "Keys/BishopKeys.txt");
 
             Console.WriteLine();
@@ -24,6 +25,9 @@ namespace Proxima.MagicKeysGenerator
             Console.ReadLine();
         }
 
+        /// <summary>
+        /// Saves magic keys to the specified file. Each key is on a separate line.
+        /// </summary>
         static void SaveKeysToFile(ulong[] keys, string fileName)
         {
             using (var writer = new StreamWriter(fileName))

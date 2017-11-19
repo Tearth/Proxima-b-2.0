@@ -102,13 +102,14 @@
     <Compile Include="Evaluation\Position\Values\RookValues.cs" />
     <Compile Include="MoveGenerators\GeneratorMode.cs" />
     <Compile Include="MoveGenerators\GeneratorParameters.cs" />
-    <Compile Include="MoveGenerators\MagicBitboards\Attacks\AttacksGenerator.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\Attacks\AvailableMovesGenerator.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Attacks\AttacksParser.cs" />
-    <Compile Include="MoveGenerators\MagicBitboards\Attacks\BishopAttacksGenerator.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\Attacks\Generators\BishopAttacksGenerator.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\Attacks\Generators\IAttacksGenerator.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Exceptions\InvalidMagicKeyException.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\FieldPattern.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Attacks\PermutationsGenerator.cs" />
-    <Compile Include="MoveGenerators\MagicBitboards\Attacks\RookAttacksGenerator.cs" />
+    <Compile Include="MoveGenerators\MagicBitboards\Attacks\Generators\RookAttacksGenerator.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Keys\MagicKeysLoader.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\MagicContainer.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Keys\MagicKeysGenerator.cs" />

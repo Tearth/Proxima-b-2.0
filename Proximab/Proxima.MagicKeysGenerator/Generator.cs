@@ -1,14 +1,17 @@
-﻿using Proxima.Core;
-using Proxima.Core.Boards;
-using Proxima.Core.MoveGenerators.MagicBitboards;
-using Proxima.Core.MoveGenerators.MagicBitboards.Attacks;
+﻿using Proxima.Core.Boards;
+using Proxima.Core.MoveGenerators.MagicBitboards.Attacks.Generators;
 using Proxima.Core.MoveGenerators.MagicBitboards.Keys;
 using Proxima.Core.MoveGenerators.PatternGenerators;
 using System;
-using System.Collections.Generic;
 
 namespace Proxima.MagicKeysGenerator
 {
+    /// <summary>
+    /// Generator of magic keys for bishop and rook. Because generating keys for
+    /// every field can take a few seconds, it cannot be done every time when chess engine is
+    /// starting. Therefore all magic keys are once saved to the specified files and loaded
+    /// every time when main app is starting which is of course a lot faster.
+    /// </summary>
     internal class Generator
     {
         MagicKeyGenerator _magicKeyGenerator;
@@ -24,57 +27,53 @@ namespace Proxima.MagicKeysGenerator
             PatternsContainer.GeneratePatterns();
         }
 
+        /// <summary>
+        /// Returns 64-element array of magic keys for rook
+        /// </summary>
         public ulong[] GetRookKeys()
         {
-            var keys = new ulong[64];
-
-            for(int i=0; i<64; i++)
-            {
-                var patterns = GetRookPatterns(i, out var mask, out var maskSize);
-
-                keys[i] = _magicKeyGenerator.GenerateKey(patterns, mask);
-                DisplayStatus(i, keys[i], maskSize, patterns.Count);
-            }
-
-            return keys;
+            return GetKeys(new RookAttacksGenerator(), PatternsContainer.RookPattern);
         }
 
+        /// <summary>
+        /// Returns 64-element array of magic keys for bishop
+        /// </summary>
         public ulong[] GetBishopKeys()
         {
+            return GetKeys(new BishopAttacksGenerator(), PatternsContainer.BishopPattern);
+        }
+
+        /// <summary>
+        /// Returns 64-element array of magic keys for the specified piece:
+        ///  - Rook:    RookAttacksGenerator and PatternsContainer.RookPattern
+        ///  - Bishop:  BishopAttacksGenerator and PatternsContainer.BishopPattern
+        /// </summary>
+        ulong[] GetKeys(IAttacksGenerator attacksGenerator, ulong[] pieceAttackPatterns)
+        {
             var keys = new ulong[64];
 
-            for (int i = 0; i < 64; i++)
+            for(int fieldIndex=0; fieldIndex < 64; fieldIndex++)
             {
-                var patterns = GetBishopPatterns(i, out var mask, out var maskSize);
+                var mask = pieceAttackPatterns[fieldIndex];
+                var maskLength = BitOperations.Count(mask);
 
-                keys[i] = _magicKeyGenerator.GenerateKey(patterns, mask);
-                DisplayStatus(i, keys[i], maskSize, patterns.Count);
+                var patterns = attacksGenerator.Generate(fieldIndex);
+
+                keys[fieldIndex] = _magicKeyGenerator.GenerateKey(patterns, maskLength);
+                DisplayStatus(fieldIndex, keys[fieldIndex], maskLength, patterns.Count);
             }
 
             return keys;
         }
 
-        List<FieldPattern> GetRookPatterns(int fieldIndex, out ulong mask, out int maskSize)
-        {
-            mask = PatternsContainer.RookPattern[fieldIndex];
-            maskSize = BitOperations.Count(mask);
-
-            return _rookAttacksGenerator.Generate(fieldIndex);
-        }
-
-        List<FieldPattern> GetBishopPatterns(int fieldIndex, out ulong mask, out int maskSize)
-        {
-            mask = PatternsContainer.BishopPattern[fieldIndex];
-            maskSize = BitOperations.Count(mask);
-
-            return _bishopAttacksGenerator.Generate(fieldIndex);
-        }
-
-        void DisplayStatus(int fieldIndex, ulong magicKey, int maskSize, int patternSize)
+        /// <summary>
+        /// Displays information about magic key in console in more friendly-user way.
+        /// </summary>
+        void DisplayStatus(int fieldIndex, ulong magicKey, int maskLength, int patternLength)
         {
             Console.WriteLine($"Key {fieldIndex} = {magicKey}, " +
-                              $"mask size: {maskSize}, " +
-                              $"patterns size: {patternSize}");
+                              $"mask size: {maskLength}, " +
+                              $"patterns size: {patternLength}");
         }
     }
 }

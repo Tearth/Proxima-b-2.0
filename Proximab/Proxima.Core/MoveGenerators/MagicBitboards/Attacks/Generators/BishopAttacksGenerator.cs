@@ -1,22 +1,18 @@
 ﻿using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators.PatternGenerators;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
+namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks.Generators
 {
-    public class BishopAttacksGenerator
+    public class BishopAttacksGenerator : IAttacksGenerator
     {
         PermutationsGenerator _permutationsGenerator;
-        AttacksGenerator _attacksGenerator;
+        AvailableMovesGenerator _attacksGenerator;
 
         public BishopAttacksGenerator()
         {
             _permutationsGenerator = new PermutationsGenerator();
-            _attacksGenerator = new AttacksGenerator();
+            _attacksGenerator = new AvailableMovesGenerator();
         }
 
         public List<FieldPattern> Generate(int fieldIndex)
