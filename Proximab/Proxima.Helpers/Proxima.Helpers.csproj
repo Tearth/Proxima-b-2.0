@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tests\Exceptions\InvalidHashException.cs" />
     <Compile Include="Tests\MovesTestData.cs" />
     <Compile Include="Tests\MovesTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -50,6 +49,9 @@
       <Project>{ae7c5e5c-526c-4f20-ba32-427bf3c6a405}</Project>
       <Name>Proxima.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

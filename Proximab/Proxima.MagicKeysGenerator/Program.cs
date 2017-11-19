@@ -5,6 +5,9 @@ namespace Proxima.MagicKeysGenerator
 {
     internal class Program
     {
+        static readonly string RookKeysFileName = "Keys/RookKeys.txt";
+        static readonly string BishopKeysFileName = "Keys/BishopKeys.txt";
+
         static void Main(string[] args)
         {
             var generator = new Generator();
@@ -13,12 +16,12 @@ namespace Proxima.MagicKeysGenerator
             Console.WriteLine();
             Console.WriteLine("Rook magic keys...");
 
-            SaveKeysToFile(generator.GetRookKeys(), "Keys/RookKeys.txt");
+            SaveKeysToFile(generator.GetRookKeys(), RookKeysFileName);
 
             Console.WriteLine();
             Console.WriteLine("Bishop magic keys...");
 
-            SaveKeysToFile(generator.GetBishopKeys(), "Keys/BishopKeys.txt");
+            SaveKeysToFile(generator.GetBishopKeys(), BishopKeysFileName);
 
             Console.WriteLine();
             Console.WriteLine("Operation completed!");

@@ -2,33 +2,43 @@
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.MoveGenerators;
-using Proxima.Helpers.Tests.Exceptions;
-using System;
 using System.Diagnostics;
 
 namespace Proxima.Helpers.Tests
 {
+    /// <summary>
+    /// Class for testing speed of move generators and evaluation functions. 
+    /// </summary>
     public class MovesTest
     {
-        public MovesTestData Run(Color initialColor, FriendlyBoard friendlyBoard, int depth, bool calculateEndNodes, bool verifyIntegrity)
+        readonly Color InitialColor = Color.White;
+
+        /// <summary>
+        /// Runs moves test with specific board and depth (0 = one level, 1 = two levels, ...).
+        /// If verifyIntegrity is false, then flag in returned MovesTestData object will be
+        /// always true.
+        /// </summary>
+        public MovesTestData Run(FriendlyBoard friendlyBoard, int depth, bool calculateEndNodes, bool verifyIntegrity)
         {
             var testData = new MovesTestData();
             var stopwatch = new Stopwatch();
 
-            GC.Collect();
-
             stopwatch.Start();
-            CalculateBitBoard(initialColor, new BitBoard(friendlyBoard), depth, calculateEndNodes, verifyIntegrity, testData);
+            CalculateBitBoard(InitialColor, new BitBoard(friendlyBoard), depth, calculateEndNodes, verifyIntegrity, testData);
             testData.Ticks = stopwatch.Elapsed.Ticks;
 
             return testData;
         }
 
+        /// <summary>
+        /// Recursive method for calculating bitboard. If depth is equal or less than zero, then
+        /// current node is the last and next CalculateBitBoard call will not be executed.
+        /// </summary>
         void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool calculateEndNodes, bool verifyIntegrity, MovesTestData testData)
         {
             if (verifyIntegrity && !bitBoard.VerifyIntegrity())
             {
-                testData.HashCorrect = false;
+                testData.Integrity = false;
             }
 
             if (depth <= 0)
@@ -44,8 +54,8 @@ namespace Proxima.Helpers.Tests
             else
             {
                 var enemyColor = ColorOperations.Invert(color);
-                var whiteMode = color == Color.White ? GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks : GeneratorMode.CalculateAttacks;
-                var blackMode = color == Color.Black ? GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks : GeneratorMode.CalculateAttacks;
+                var whiteMode = GetGeneratorMode(color);
+                var blackMode = GetGeneratorMode(enemyColor);
 
                 bitBoard.Calculate(whiteMode, blackMode);
                 
@@ -62,6 +72,18 @@ namespace Proxima.Helpers.Tests
             }
 
             testData.TotalNodes++;
+        }
+
+        /// <summary>
+        /// Returns generator mode for the specific color. If current color and initial color are
+        /// the same, then returned enum will have flags for calculating moves and attacks. Otherwise,
+        /// it will have only attacks flag.
+        /// </summary>
+        GeneratorMode GetGeneratorMode(Color currentColor)
+        {
+            return currentColor == Color.White && currentColor == InitialColor ? 
+                GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks : 
+                GeneratorMode.CalculateAttacks;
         }
     }
 }

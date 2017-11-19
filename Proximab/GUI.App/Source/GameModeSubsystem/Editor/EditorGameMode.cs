@@ -137,12 +137,12 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             var verifyHashArgument = command.GetArgument<bool>(1);
             var depthArgument = command.GetArgument<int>(2);
 
-            var result = test.Run(Color.White, _visualBoard.GetFriendlyBoard(), depthArgument, calculateEndNodesArgument, verifyHashArgument);
+            var result = test.Run(_visualBoard.GetFriendlyBoard(), depthArgument, calculateEndNodesArgument, verifyHashArgument);
             _consoleManager.WriteLine();
             _consoleManager.WriteLine("$wBenchmark result:");
             _consoleManager.WriteLine($"$wTotal nodes: $g{result.TotalNodes} N");
             _consoleManager.WriteLine($"$wEnd nodes: $g{result.EndNodes} N");
-            _consoleManager.WriteLine($"$wHash correct: {ColorfulConsoleHelpers.ParseBool(result.HashCorrect)}");
+            _consoleManager.WriteLine($"$wHash correct: {ColorfulConsoleHelpers.ParseBool(result.Integrity)}");
             _consoleManager.WriteLine($"$wNodes per second: $c{result.NodesPerSecond / 1000} kN");
             _consoleManager.WriteLine($"$wTime per node: $c{result.TimePerNode} ns");
             _consoleManager.WriteLine($"$wTime: $m{result.Time} s");
