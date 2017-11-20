@@ -8,27 +8,27 @@ namespace Proxima.Helpers.Tests
     public class MovesTestData
     {
         /// <summary>
-        /// Number of total nodes (includes end nodes)
+        /// Gets or sets the number of total nodes (includes end nodes)
         /// </summary>
         public int TotalNodes { get; set; }
 
         /// <summary>
-        /// Number of end nodes
+        /// Gets or sets the number of end nodes
         /// </summary>
         public int EndNodes { get; set; }
 
         /// <summary>
-        /// Number of ticks required for whole test.
+        /// Gets or sets the number of ticks required for whole test.
         /// </summary>
         public long Ticks { get; set; }
 
         /// <summary>
-        /// Flag indicating whether all boards were correctly generated.
+        /// Gets or sets the flag indicating whether all boards were correctly generated.
         /// </summary>
         public bool Integrity { get; set; }
 
         /// <summary>
-        /// Total time required for whole test.
+        /// Gets the total time required for whole test.
         /// </summary>
         public float Time
         {
@@ -36,7 +36,7 @@ namespace Proxima.Helpers.Tests
         }
 
         /// <summary>
-        /// Number of nodes per second (TotalNodes / Time).
+        /// Gets the number of nodes per second (TotalNodes / Time).
         /// </summary>
         public int NodesPerSecond
         {
@@ -44,7 +44,7 @@ namespace Proxima.Helpers.Tests
         }
 
         /// <summary>
-        /// Number of nanoseconds per node ((Ticks / TotalNodes) * 100).
+        /// Gets the number of nanoseconds per node ((Ticks / TotalNodes) * 100).
         /// </summary>
         public int TimePerNode
         {

@@ -7,11 +7,14 @@ using System;
 namespace Proxima.MagicKeysGenerator
 {
     /// <summary>
-    /// Generator of magic keys for bishop and rook. Because generating keys for
-    /// every field can take a few seconds, it cannot be done every time when chess engine is
-    /// starting. Therefore all magic keys are once saved to the specified files and loaded
-    /// every time when main app is starting which is of course a lot faster.
+    /// Represents set of methods for generating magic keys for bishop and rook.
     /// </summary>
+    /// <remarks>
+    /// Because generating keys for every field can take a few seconds, it cannot be done every
+    /// time when chess engine is starting. Therefore all magic keys are once saved to 
+    /// the specified files and loaded every time when main app is starting which is of course 
+    /// a lot faster.
+    /// </remarks>
     internal class Generator
     {
         MagicKeyGenerator _magicKeyGenerator;
@@ -28,26 +31,33 @@ namespace Proxima.MagicKeysGenerator
         }
 
         /// <summary>
-        /// Returns 64-element array of magic keys for rook
+        /// Calculates magic keys for rook.
         /// </summary>
+        /// <returns>
+        /// 64-element array of magic keys.
+        /// </returns>
         public ulong[] GetRookKeys()
         {
             return GetKeys(new RookAttacksGenerator(), PatternsContainer.RookPattern);
         }
 
         /// <summary>
-        /// Returns 64-element array of magic keys for bishop
+        /// Calculates magic keys for bishop.
         /// </summary>
+        /// <returns>
+        /// 64-element array of magic keys.
+        /// </returns>
         public ulong[] GetBishopKeys()
         {
             return GetKeys(new BishopAttacksGenerator(), PatternsContainer.BishopPattern);
         }
 
         /// <summary>
-        /// Returns 64-element array of magic keys for the specified piece:
-        ///  - Rook:    RookAttacksGenerator and PatternsContainer.RookPattern
-        ///  - Bishop:  BishopAttacksGenerator and PatternsContainer.BishopPattern
+        /// Calculates magic keys for the specified piece.
         /// </summary>
+        /// <param name="attacksGenerator">RookAttacksGenerator for rook or BishopAttacksGenerator for bishop</param>
+        /// <param name="pieceAttackPatterns">BishopAttacksGenerator for rook PatternsContainer.BishopPattern for bishop</param>
+        /// <returns>Array of magic keys for the specified piece</returns>
         ulong[] GetKeys(IAttacksGenerator attacksGenerator, ulong[] pieceAttackPatterns)
         {
             var keys = new ulong[64];
@@ -69,6 +79,10 @@ namespace Proxima.MagicKeysGenerator
         /// <summary>
         /// Displays information about magic key in console in more friendly-user way.
         /// </summary>
+        /// <param name="fieldIndex">Index of the currently processed field</param>
+        /// <param name="magicKey">Calculated magic key</param>
+        /// <param name="maskLength">Length (number of set bits) of the mask.</param>
+        /// <param name="patternLength">Length (number of set bits) of the pattern.</param>
         void DisplayStatus(int fieldIndex, ulong magicKey, int maskLength, int patternLength)
         {
             Console.WriteLine($"Key {fieldIndex} = {magicKey}, " +

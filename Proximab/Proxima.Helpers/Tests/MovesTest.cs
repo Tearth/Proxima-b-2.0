@@ -7,7 +7,7 @@ using System.Diagnostics;
 namespace Proxima.Helpers.Tests
 {
     /// <summary>
-    /// Class for testing speed of move generators and evaluation functions. 
+    /// Represents a set of methods for testing speed of move generators and evaluation functions. 
     /// </summary>
     public class MovesTest
     {
@@ -18,6 +18,11 @@ namespace Proxima.Helpers.Tests
         /// If verifyIntegrity is false, then flag in returned MovesTestData object will be
         /// always true.
         /// </summary>
+        /// <param name="friendlyBoard">Initial board from which test will begin.</param>
+        /// <param name="depth">Number of in-depth nodes (where 0 means calculating moves only for initial board.</param>
+        /// <param name="calculateEndNodes">If true, every end node will calculate attacks and evaluation function./param>
+        /// <param name="verifyIntegrity">If true, every board will be checked whether incremental-updating parameters are correctly calculated.</param>
+        /// <returns>Result of the test.</returns>
         public MovesTestData Run(FriendlyBoard friendlyBoard, int depth, bool calculateEndNodes, bool verifyIntegrity)
         {
             var testData = new MovesTestData();
@@ -34,6 +39,12 @@ namespace Proxima.Helpers.Tests
         /// Recursive method for calculating bitboard. If depth is equal or less than zero, then
         /// current node is the last and next CalculateBitBoard call will not be executed.
         /// </summary>
+        /// <param name="color">Color of the current player.</param>
+        /// <param name="bitBoard">Curently calculated bitboard</param>
+        /// <param name="depth">Current depth</param>
+        /// <param name="calculateEndNodes">If true, every end node will calculate attacks and evaluation function.</param>
+        /// <param name="verifyIntegrity">If true, every board will be checked whether incremental-updating parameters are correctly calculated.</param>
+        /// <param name="testData">Container for test data which will be returned when test is done.</param>
         void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool calculateEndNodes, bool verifyIntegrity, MovesTestData testData)
         {
             if (verifyIntegrity && !bitBoard.VerifyIntegrity())
@@ -75,10 +86,12 @@ namespace Proxima.Helpers.Tests
         }
 
         /// <summary>
-        /// Returns generator mode for the specific color. If current color and initial color are
+        /// Calculates generator mode for the specific color.If current color and initial color are
         /// the same, then returned enum will have flags for calculating moves and attacks. Otherwise,
         /// it will have only attacks flag.
         /// </summary>
+        /// <param name="currentColor">Color of the current player.</param>
+        /// <returns>Generator mode for the specified color.</returns>
         GeneratorMode GetGeneratorMode(Color currentColor)
         {
             return currentColor == Color.White && currentColor == InitialColor ? 

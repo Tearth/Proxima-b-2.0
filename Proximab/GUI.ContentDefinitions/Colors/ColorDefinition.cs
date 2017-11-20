@@ -1,14 +1,17 @@
 ﻿namespace GUI.ContentDefinitions.Colors
 {
+    /// <summary>
+    /// Represents information about the color definition
+    /// </summary>
     public class ColorDefinition
     {
         /// <summary>
-        /// Name of the ConsoleColor enum value.
+        /// Gets or sets the ConsoleColor enum value.
         /// </summary>
         public string Color { get; set; }
 
         /// <summary>
-        /// Symbol of the color.
+        /// Gets or sets the symbol of the color.
         /// </summary>
         public string Symbol { get; set; }
     }

@@ -7,6 +7,9 @@ namespace GUI.ContentDefinitions.Pieces
     /// </summary>
     public class PieceDefinitionsContainer
     {
+        /// <summary>
+        /// Gets or sets the piece definitions list.
+        /// </summary>
         public List<PieceDefinition> Definitions { get; set; }
     }
 }
