@@ -14,11 +14,6 @@ namespace GUI.ColorfulConsole.Output
 
         readonly char[] Separators = { '$' };
 
-        public OutputParser()
-        {
-
-        }
-
         /// <summary>
         /// Sets color definitions. Must be called before first use.
         /// </summary>
@@ -33,7 +28,7 @@ namespace GUI.ColorfulConsole.Output
         /// </summary>
         /// <param name="text">Input text</param>
         /// <returns>
-        /// The list of chunks (splitted output text with assigned colors) which can 
+        /// The list of chunks (splitted output text with assigned color enums) which can 
         /// be easily printed on the console.
         /// </returns>
         public IList<OutputChunk> GetOutputChunks(string text)
