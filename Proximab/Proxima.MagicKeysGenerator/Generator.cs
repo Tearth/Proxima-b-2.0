@@ -34,7 +34,7 @@ namespace Proxima.MagicKeysGenerator
         /// Calculates magic keys for rook.
         /// </summary>
         /// <returns>
-        /// 64-element array of magic keys.
+        /// The 64-element array of magic keys.
         /// </returns>
         public ulong[] GetRookKeys()
         {
@@ -45,7 +45,7 @@ namespace Proxima.MagicKeysGenerator
         /// Calculates magic keys for bishop.
         /// </summary>
         /// <returns>
-        /// 64-element array of magic keys.
+        /// The 64-element array of magic keys.
         /// </returns>
         public ulong[] GetBishopKeys()
         {
@@ -66,7 +66,7 @@ namespace Proxima.MagicKeysGenerator
             {
                 var mask = pieceAttackPatterns[fieldIndex];
                 var maskLength = BitOperations.Count(mask);
-
+                
                 var patterns = attacksGenerator.Generate(fieldIndex);
 
                 keys[fieldIndex] = _magicKeyGenerator.GenerateKey(patterns, maskLength);

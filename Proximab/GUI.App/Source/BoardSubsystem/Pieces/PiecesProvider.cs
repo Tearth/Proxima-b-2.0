@@ -1,15 +1,16 @@
 ﻿using GUI.ContentDefinitions.Pieces;
-using Proxima.Core.Boards;
-using Proxima.Core.Commons;
-using Proxima.Core.Commons.Colors;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Proxima.Core.Commons;
+using Proxima.Core.Commons.Colors;
 using System;
 using System.Collections.Generic;
-using Proxima.Core.Boards.Friendly;
 
 namespace GUI.App.Source.BoardSubsystem.Pieces
 {
+    /// <summary>
+    /// Represents a set of methods for loading and getting piece textures.
+    /// </summary>
     internal class PiecesProvider
     {
         Dictionary<int, Texture2D> _pieceTextures;
@@ -19,6 +20,10 @@ namespace GUI.App.Source.BoardSubsystem.Pieces
             _pieceTextures = new Dictionary<int, Texture2D>();
         }
 
+        /// <summary>
+        /// Loads resources. Must be called before first use.
+        /// </summary>
+        /// <param name="contentManager">Monogame content manager</param>
         public void LoadContent(ContentManager contentManager)
         {
             var pieceDefinitionsContainer = contentManager.Load<PieceDefinitionsContainer>("XML\\PieceDefinitions");
@@ -34,12 +39,24 @@ namespace GUI.App.Source.BoardSubsystem.Pieces
             }
         }
 
+        /// <summary>
+        /// Searches a texture for the specified piece.
+        /// </summary>
+        /// <param name="color">The piece color</param>
+        /// <param name="type">The piece type</param>
+        /// <returns>Texture2D for the specified piece.</returns>
         public Texture2D GetPieceTexture(Color color, PieceType type)
         {
             var hash = GetFriendlyPieceHash(color, type);
             return _pieceTextures[hash];
         }
 
+        /// <summary>
+        /// Calculates a hash for the specified piece color and type.
+        /// </summary>
+        /// <param name="color">The piece color</param>
+        /// <param name="piece">The piece type</param>
+        /// <returns>The hash for the specified piece.</returns>
         int GetFriendlyPieceHash(Color color, PieceType piece)
         {
             return ((int)color * 100) + (int)piece;

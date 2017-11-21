@@ -6,10 +6,25 @@ using System;
 
 namespace GUI.App.Source.BoardSubsystem.Axes
 {
+    /// <summary>
+    /// Represents a set of methods for displaying board axes.
+    /// </summary>
     internal class AxesManager
     {
+        /// <summary>
+        /// Gets or sets the color of axe chars.
+        /// </summary>
         public Color Color { get; set; }
+
+        /// <summary>
+        /// Gets or sets the offset of horizontal axes.
+        /// </summary>
         public Vector2 HorizontalOffset { get; set; }
+
+
+        /// <summary>
+        /// Gets or sets the offset of vertial axes.
+        /// </summary>
         public Vector2 VerticalOffset { get; set; }
 
         SpriteFont _axeFont;
@@ -21,17 +36,29 @@ namespace GUI.App.Source.BoardSubsystem.Axes
             VerticalOffset = new Vector2(-9, -1);
         }
 
+        /// <summary>
+        /// Loads resources. Must be called before first use.
+        /// </summary>
+        /// <param name="content">Monogame content manager</param>
         public void LoadContent(ContentManager content)
         {
             _axeFont = content.Load<SpriteFont>("Fonts\\AxisFont");
         }
 
+        /// <summary>
+        /// Draws board axes
+        /// </summary>
+        /// <param name="spriteBatch">Monogame sprite batch</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             DrawHorizontalAxes(spriteBatch);
             DrawVerticalAxes(spriteBatch);
         }
 
+        /// <summary>
+        /// Draws vertical axes
+        /// </summary>
+        /// <param name="spriteBatch">Monogame sprite batch</param>
         void DrawVerticalAxes(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < 8; i++)
@@ -56,6 +83,10 @@ namespace GUI.App.Source.BoardSubsystem.Axes
             }
         }
 
+        /// <summary>
+        /// Draws horizontal axes.
+        /// </summary>
+        /// <param name="spriteBatch">Monogame sprite batch</param>
         void DrawHorizontalAxes(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < 8; i++)
@@ -80,6 +111,11 @@ namespace GUI.App.Source.BoardSubsystem.Axes
             }
         }
 
+        /// <summary>
+        /// Calculates center of the specified text (based on the loaded font).
+        /// </summary>
+        /// <param name="text">Text to calculate.</param>
+        /// <returns>Center of passed text.</returns>
         Vector2 GetCenterOffset(string text)
         {
             var textSize = _axeFont.MeasureString(text) / 2;

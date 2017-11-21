@@ -1,16 +1,23 @@
-﻿using Proxima.Core.Boards;
-using Proxima.Core.Commons.Positions;
-using GUI.App.Source.Helpers;
+﻿using GUI.App.Source.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Proxima.Core.Boards.Friendly;
+using Proxima.Core.Commons.Positions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Proxima.Core.Boards.Friendly;
 
 namespace GUI.App.Source.BoardSubsystem.Selections
 {
+    /// <summary>
+    /// Represents a set of methods to manage selections on the board.
+    /// </summary>
+    /// <remarks>
+    /// There are two types of selection:
+    ///  - internal - every selection made by clicking left mouse button.
+    ///  - external - every other selections added via AddExternalSelections method
+    /// </remarks>
     internal class SelectionsManager
     {
         Texture2D _internalSelection;
@@ -23,12 +30,20 @@ namespace GUI.App.Source.BoardSubsystem.Selections
             _selections = new List<Selection>();
         }
 
+        /// <summary>
+        /// Loads resources. Must be called before first use.
+        /// </summary>
+        /// <param name="content">Monogame content manager</param>
         public void LoadContent(ContentManager contentManager)
         {
             _internalSelection = contentManager.Load<Texture2D>("Textures\\InternalSelection");
             _externalSelection = contentManager.Load<Texture2D>("Textures\\ExternalSelection");
         }
 
+        /// <summary>
+        /// Draws board axes.
+        /// </summary>
+        /// <param name="spriteBatch">Monogame sprite batch</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (var selection in _selections)
@@ -49,6 +64,10 @@ namespace GUI.App.Source.BoardSubsystem.Selections
             }
         }
 
+        /// <summary>
+        /// Adds external selections.
+        /// </summary>
+        /// <param name="selections">The list of external selections.</param>
         public void AddExternalSelections(IEnumerable<Position> selections)
         {
             foreach (var position in selections)
@@ -60,7 +79,12 @@ namespace GUI.App.Source.BoardSubsystem.Selections
             }
         }
 
-        public Position SelectField(Point clickPoint, FriendlyBoard board)
+        /// <summary>
+        /// Adds internal selection by calculating click point and converting it to board position.
+        /// </summary>
+        /// <param name="clickPoint">Position of mouse cursor when left button has been clicked.</param>
+        /// <returns>Board position of selected field.</returns>
+        public Position SelectField(Point clickPoint)
         {
             var fieldX = (int)((clickPoint.X - Constants.BoardPosition.X) / Constants.FieldWidthHeight) + 1;
             var fieldY = 8 - (int)((clickPoint.Y - Constants.BoardPosition.Y) / Constants.FieldWidthHeight);
@@ -77,11 +101,18 @@ namespace GUI.App.Source.BoardSubsystem.Selections
             return position;
         }
 
+        /// <summary>
+        /// Searches internal selections.
+        /// </summary>
+        /// <returns>The internal selection if exists, otherwise null.</returns>
         public Selection GetInternalSelection()
         {
             return _selections.FirstOrDefault(p => p.Type == SelectionType.Internal);
         }
 
+        /// <summary>
+        /// Removes all (internal and external) selections.
+        /// </summary>
         public void RemoveAllSelections()
         {
             _selections.Clear();

@@ -53,7 +53,7 @@ namespace GUI.App.Source.BoardSubsystem
                 var previousSelection = _selectionsManager.GetInternalSelection();
                 _selectionsManager.RemoveAllSelections();
 
-                var selectedFieldPosition = _selectionsManager.SelectField(mousePosition, _friendlyBoard);
+                var selectedFieldPosition = _selectionsManager.SelectField(mousePosition);
                 var selectedPiece = _friendlyBoard.GetPiece(selectedFieldPosition);
                 
                 if (previousSelection == null)
