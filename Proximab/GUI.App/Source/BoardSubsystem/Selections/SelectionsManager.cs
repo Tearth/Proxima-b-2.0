@@ -35,7 +35,7 @@ namespace GUI.App.Source.BoardSubsystem.Selections
         /// <summary>
         /// Loads resources. Must be called before first use.
         /// </summary>
-        /// <param name="content">Monogame content manager</param>
+        /// <param name="contentManager">Monogame content manager</param>
         public void LoadContent(ContentManager contentManager)
         {
             _internalSelection = contentManager.Load<Texture2D>("Textures\\InternalSelection");
@@ -53,8 +53,16 @@ namespace GUI.App.Source.BoardSubsystem.Selections
                 Texture2D texture = null;
                 switch (selection.Type)
                 {
-                    case SelectionType.Internal: { texture = _internalSelection; break; }
-                    case SelectionType.External: { texture = _externalSelection; break; }
+                    case SelectionType.Internal:
+                    {
+                        texture = _internalSelection;
+                        break;
+                    }
+                    case SelectionType.External:
+                    {
+                        texture = _externalSelection;
+                        break;
+                    }
                 }
 
                 var x = (selection.Position.X - 1) * Constants.FieldWidthHeight;

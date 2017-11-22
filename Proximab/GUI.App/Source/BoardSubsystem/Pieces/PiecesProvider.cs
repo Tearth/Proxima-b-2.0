@@ -13,7 +13,7 @@ namespace GUI.App.Source.BoardSubsystem.Pieces
     /// </summary>
     internal class PiecesProvider
     {
-        Dictionary<int, Texture2D> _pieceTextures;
+        private Dictionary<int, Texture2D> _pieceTextures;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PiecesProvider"/> class.

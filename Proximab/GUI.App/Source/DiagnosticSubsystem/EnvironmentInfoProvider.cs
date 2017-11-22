@@ -2,26 +2,41 @@
 
 namespace GUI.App.Source.DiagnosticSubsystem
 {
+    /// <summary>
+    /// Represents a set of methods for retrieving OS information.
+    /// </summary>
     internal class EnvironmentInfoProvider
     {
-        public string GetOSInfo()
+        /// <summary>
+        /// Gets the full operating system version.
+        /// </summary>
+        public string OSInfo
         {
-            return Environment.OSVersion.VersionString;
+             get { return Environment.OSVersion.VersionString; }
         }
 
-        public string GetCPUPlatformVersion()
+        /// <summary>
+        /// Returns the platform version (32/64 bits).
+        /// </summary>
+        public string CPUPlatformVersion
         {
-            return Environment.Is64BitProcess ? "64bit" : "32bit";
+             get { return Environment.Is64BitProcess ? "64bit" : "32bit"; }
         }
 
-        public string GetProcessPlatformVersion()
+        /// <summary>
+        /// Gets the process version (32/64 bits).
+        /// </summary>
+        public string ProcessPlatformVersion
         {
-            return Environment.Is64BitProcess ? "64bit" : "32bit";
+             get { return Environment.Is64BitProcess ? "64bit" : "32bit"; }
         }
 
-        public string GetCPUCoresCount()
+        /// <summary>
+        /// Returns the number of available cores.
+        /// </summary>
+        public string CPUCoresCount
         {
-            return Environment.ProcessorCount + " cores";
+             get { return Environment.ProcessorCount + " cores"; }
         }
     }
 }

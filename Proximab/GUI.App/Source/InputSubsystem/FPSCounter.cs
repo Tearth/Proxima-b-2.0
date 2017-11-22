@@ -6,10 +6,24 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GUI.App.Source.InputSubsystem
 {
+    /// <summary>
+    /// Represents a set of methods to calculating and displaying FPS (frames per second).
+    /// </summary>
     internal class FPSCounter
     {
+        /// <summary>
+        /// Gets the FPS (frames per second).
+        /// </summary>
         public int FPS { get; private set; }
+
+        /// <summary>
+        /// Represents the position of FPS text.
+        /// </summary>
         public Vector2 FPSPosition { get; set; }
+
+        /// <summary>
+        /// Represents the color of FPS text.
+        /// </summary>
         public Color FPSColor { get; set; }
 
         private int _currentSecond;
@@ -18,6 +32,9 @@ namespace GUI.App.Source.InputSubsystem
 
         private SpriteFont _fpsFont;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FPSCounter"/> class.
+        /// </summary>
         public FPSCounter()
         {
             FPS = 0;
@@ -30,11 +47,18 @@ namespace GUI.App.Source.InputSubsystem
             _displayFPS = false;
         }
 
+        /// <summary>
+        /// Loads resources. Must be called before first use.
+        /// </summary>
+        /// <param name="contentManager">Monogame content manager.</param>
         public void LoadContent(ContentManager contentManager)
         {
             _fpsFont = contentManager.Load<SpriteFont>("Fonts\\FPSFont");
         }
 
+        /// <summary>
+        /// Processes all logic related to the FPS counter.
+        /// </summary>
         public void Logic()
         {
             var second = DateTime.Now.Second;
@@ -48,6 +72,10 @@ namespace GUI.App.Source.InputSubsystem
             _currentSecond = second;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputManager"></param>
         public void Input(InputManager inputManager)
         {
             if (inputManager.IsKeyJustPressed(Keys.Tab))

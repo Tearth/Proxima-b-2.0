@@ -27,7 +27,11 @@ namespace GUI.App.Source.BoardSubsystem
         /// </summary>
         public event EventHandler<PieceMovedEventArgs> OnPieceMove;
 
-        private FriendlyBoard _friendlyBoard;
+        /// <summary>
+        /// Gets or sets the friendly board.
+        /// </summary>
+        public FriendlyBoard FriendlyBoard { get; set; }
+
         private SelectionsManager _selectionsManager;
         private AxesManager _axesManager;
         private PiecesProvider _piecesProvider;
@@ -41,7 +45,7 @@ namespace GUI.App.Source.BoardSubsystem
         /// <param name="piecesProvider">The pieces provider.</param>
         public VisualBoard(PiecesProvider piecesProvider)
         {
-            _friendlyBoard = new FriendlyBoard();
+            FriendlyBoard = new FriendlyBoard();
 
             _selectionsManager = new SelectionsManager();
             _axesManager = new AxesManager();
@@ -49,6 +53,10 @@ namespace GUI.App.Source.BoardSubsystem
             _piecesProvider = piecesProvider;
         }
 
+        /// <summary>
+        /// Loads resources. Must be called before first use.
+        /// </summary>
+        /// <param name="contentManager">Monogame content manager</param>
         public void LoadContent(ContentManager contentManager)
         {
             _field1 = contentManager.Load<Texture2D>("Textures\\Field1");
@@ -58,6 +66,10 @@ namespace GUI.App.Source.BoardSubsystem
             _axesManager.LoadContent(contentManager);
         }
 
+        /// <summary>
+        /// Processes all events related to mouse and keyboard.
+        /// </summary>
+        /// <param name="inputManager">InputManager instance.</param>
         public void Input(InputManager inputManager)
         {
             var mousePosition = inputManager.GetMousePosition();
@@ -68,7 +80,7 @@ namespace GUI.App.Source.BoardSubsystem
                 _selectionsManager.RemoveAllSelections();
 
                 var selectedFieldPosition = _selectionsManager.SelectField(mousePosition);
-                var selectedPiece = _friendlyBoard.GetPiece(selectedFieldPosition);
+                var selectedPiece = FriendlyBoard.GetPiece(selectedFieldPosition);
 
                 if (previousSelection == null)
                 {
@@ -86,11 +98,17 @@ namespace GUI.App.Source.BoardSubsystem
             }
         }
 
+        /// <summary>
+        /// Processes all logic related to the visual board.
+        /// </summary>
         public void Logic()
         {
-
         }
 
+        /// <summary>
+        /// Draws the board with axes and selections.
+        /// </summary>
+        /// <param name="spriteBatch">Monogame sprite batch</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             DrawBackground(spriteBatch);
@@ -100,35 +118,30 @@ namespace GUI.App.Source.BoardSubsystem
             _axesManager.Draw(spriteBatch);
         }
 
-        public FriendlyBoard GetFriendlyBoard()
-        {
-            return _friendlyBoard;
-        }
-
-        public void SetFriendlyBoard(FriendlyBoard friendlyBoard)
-        {
-            _friendlyBoard = friendlyBoard;
-        }
-
-        public void AddPiece(Position position, FriendlyPiece piece)
-        {
-            _friendlyBoard.SetPiece(piece);
-        }
-
+        /// <summary>
+        /// Adds list of external selections.
+        /// </summary>
+        /// <param name="selections">The list of selections.</param>
         public void AddExternalSelections(List<Position> selections)
         {
             _selectionsManager.AddExternalSelections(selections);
         }
 
-        private void ProcessLeftButtonPressWithPreviousSelection(Selection previousSelection, Position selectedPosition, FriendlyPiece selectedPieceType)
+        /// <summary>
+        /// Processes the left button press when there is another selection present.
+        /// </summary>
+        /// <param name="previousSelection">Previous selection.</param>
+        /// <param name="selectedPosition">Selection position on board.</param>
+        /// <param name="selectedPiece">Selected piece (null if the selected field is empty).</param>
+        private void ProcessLeftButtonPressWithPreviousSelection(Selection previousSelection, Position selectedPosition, FriendlyPiece selectedPiece)
         {
-            var previousSelectedPiece = _friendlyBoard.GetPiece(previousSelection.Position);
+            var previousSelectedPiece = FriendlyBoard.GetPiece(previousSelection.Position);
 
             if (previousSelectedPiece == null)
             {
-                OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(selectedPosition, selectedPieceType));
+                OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(selectedPosition, selectedPiece));
             }
-            else if (previousSelectedPiece != null && selectedPieceType == null)
+            else if (previousSelectedPiece != null && selectedPiece == null)
             {
                 var from = previousSelection.Position;
                 var to = selectedPosition;
@@ -139,11 +152,20 @@ namespace GUI.App.Source.BoardSubsystem
             }
         }
 
-        private void ProcessLeftButtonPressWithoutPreviousSelection(Position selectedPosition, FriendlyPiece selectedPieceType)
+        /// <summary>
+        /// Processes the left button press when there is no previous selection.
+        /// </summary>
+        /// <param name="selectionPosition">Selection position on board.</param>
+        /// <param name="selectedPieceType">Selected piece type (null if the selected field empty)/</param>
+        private void ProcessLeftButtonPressWithoutPreviousSelection(Position selectionPosition, FriendlyPiece selectedPieceType)
         {
-            OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(selectedPosition, selectedPieceType));
+            OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(selectionPosition, selectedPieceType));
         }
 
+        /// <summary>
+        /// Draws background (white and black tiles).
+        /// </summary>
+        /// <param name="spriteBatch">Monogame sprite batch.</param>
         private void DrawBackground(SpriteBatch spriteBatch)
         {
             bool fieldInversion = false;
@@ -163,6 +185,10 @@ namespace GUI.App.Source.BoardSubsystem
             }
         }
 
+        /// <summary>
+        /// Draws the board.
+        /// </summary>
+        /// <param name="spriteBatch">Monogame sprite batch.</param>
         private void DrawPieces(SpriteBatch spriteBatch)
         {
             for (int x = 1; x <= 8; x++)
@@ -170,10 +196,12 @@ namespace GUI.App.Source.BoardSubsystem
                 for (int y = 1; y <= 8; y++)
                 {
                     var boardPosition = new Position(x, y);
-                    var piece = _friendlyBoard.GetPiece(boardPosition);
+                    var piece = FriendlyBoard.GetPiece(boardPosition);
 
                     if (piece == null)
+                    {
                         continue;
+                    }
 
                     var position = new Microsoft.Xna.Framework.Vector2(boardPosition.X - 1, 8 - boardPosition.Y) * Constants.FieldWidthHeight;
                     var texture = _piecesProvider.GetPieceTexture(piece.Color, piece.Type);

@@ -20,10 +20,10 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
         {
             CalculateBitBoard(new DefaultFriendlyBoard());
 
-            _consoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
-            _visualBoard.OnFieldSelection += Board_OnFieldSelection;
-            _visualBoard.OnPieceMove += Board_OnPieceMove;
-            _promotionWindow.OnPromotionSelection += PromotionWindow_OnPromotionSelection;
+            ConsoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
+            VisualBoard.OnFieldSelection += Board_OnFieldSelection;
+            VisualBoard.OnPieceMove += Board_OnPieceMove;
+            PromotionWindow.OnPromotionSelection += PromotionWindow_OnPromotionSelection;
         }
 
         private void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
@@ -42,23 +42,23 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
         {
             if (e.Piece == null)
             {
-                var fieldAttackers = _visualBoard.GetFriendlyBoard().GetFieldAttackers(e.Position);
-                _visualBoard.AddExternalSelections(fieldAttackers);
+                var fieldAttackers = VisualBoard.FriendlyBoard.GetFieldAttackers(e.Position);
+                VisualBoard.AddExternalSelections(fieldAttackers);
             }
             else
             {
-                var movesForPiece = _bitBoard.Moves
+                var movesForPiece = BitBoard.Moves
                     .Where(p => p.From == e.Position)
                     .Select(p => p.To)
                     .ToList();
 
-                _visualBoard.AddExternalSelections(movesForPiece);
+                VisualBoard.AddExternalSelections(movesForPiece);
             }
         }
 
         private void Board_OnPieceMove(object sender, PieceMovedEventArgs e)
         {
-            var move = _bitBoard.Moves.FirstOrDefault(p => p.From == e.From && p.To == e.To);
+            var move = BitBoard.Moves.FirstOrDefault(p => p.From == e.From && p.To == e.To);
 
             if (move == null)
             {
@@ -66,8 +66,8 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
             else if (move is PromotionMove promotionMove)
             {
-                var promotionMoves = _bitBoard.Moves.Where(p => p.From == move.From && p is PromotionMove).Cast<PromotionMove>();
-                _promotionWindow.Display(move.Color, promotionMoves);
+                var promotionMoves = BitBoard.Moves.Where(p => p.From == move.From && p is PromotionMove).Cast<PromotionMove>();
+                PromotionWindow.Display(move.Color, promotionMoves);
             }
             else
             {
@@ -78,7 +78,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
         private void PromotionWindow_OnPromotionSelection(object sender, PromotionSelectedEventArgs e)
         {
             CalculateBitBoard(e.Move);
-            _promotionWindow.Hide();
+            PromotionWindow.Hide();
         }
 
         private void AddPiece(Command command)
@@ -90,26 +90,26 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             var colorParseResult = Enum.TryParse(colorArgument, true, out Color color);
             if (!colorParseResult)
             {
-                _consoleManager.WriteLine($"$rInvalid color type ($R{color}$r)");
+                ConsoleManager.WriteLine($"$rInvalid color type ($R{color}$r)");
                 return;
             }
 
             var pieceParseResult = Enum.TryParse(pieceArgument, true, out PieceType piece);
             if (!pieceParseResult)
             {
-                _consoleManager.WriteLine($"$rInvalid piece type ($R{piece}$r)");
+                ConsoleManager.WriteLine($"$rInvalid piece type ($R{piece}$r)");
                 return;
             }
 
             var fieldPosition = PositionConverter.ToPosition(fieldArgument);
             if (fieldPosition == null)
             {
-                _consoleManager.WriteLine($"$rInvalid field ($R{fieldArgument}$r)");
+                ConsoleManager.WriteLine($"$rInvalid field ($R{fieldArgument}$r)");
                 return;
             }
 
-            _visualBoard.GetFriendlyBoard().SetPiece(new FriendlyPiece(fieldPosition, piece, color));
-            CalculateBitBoard(_visualBoard.GetFriendlyBoard());
+            VisualBoard.FriendlyBoard.SetPiece(new FriendlyPiece(fieldPosition, piece, color));
+            CalculateBitBoard(VisualBoard.FriendlyBoard);
         }
 
         private void RemovePiece(Command command)
@@ -119,12 +119,12 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             var fieldPosition = PositionConverter.ToPosition(fieldArgument);
             if (fieldPosition == null)
             {
-                _consoleManager.WriteLine($"$rInvalid field ($R{fieldArgument}$r)");
+                ConsoleManager.WriteLine($"$rInvalid field ($R{fieldArgument}$r)");
                 return;
             }
 
-            _visualBoard.GetFriendlyBoard().RemovePiece(fieldPosition);
-            CalculateBitBoard(_visualBoard.GetFriendlyBoard());
+            VisualBoard.FriendlyBoard.RemovePiece(fieldPosition);
+            CalculateBitBoard(VisualBoard.FriendlyBoard);
         }
 
         private void DoMovesTest(Command command)
@@ -135,16 +135,16 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             var verifyHashArgument = command.GetArgument<bool>(1);
             var depthArgument = command.GetArgument<int>(2);
 
-            var result = test.Run(_visualBoard.GetFriendlyBoard(), depthArgument, calculateEndNodesArgument, verifyHashArgument);
-            _consoleManager.WriteLine();
-            _consoleManager.WriteLine("$wBenchmark result:");
-            _consoleManager.WriteLine($"$wTotal nodes: $g{result.TotalNodes} N");
-            _consoleManager.WriteLine($"$wEnd nodes: $g{result.EndNodes} N");
-            _consoleManager.WriteLine($"$wHash correct: {ColorfulConsoleHelpers.ParseBool(result.Integrity)}");
-            _consoleManager.WriteLine($"$wNodes per second: $c{result.NodesPerSecond / 1000} kN");
-            _consoleManager.WriteLine($"$wTime per node: $c{result.TimePerNode} ns");
-            _consoleManager.WriteLine($"$wTime: $m{result.Time} s");
-            _consoleManager.WriteLine();
+            var result = test.Run(VisualBoard.FriendlyBoard, depthArgument, calculateEndNodesArgument, verifyHashArgument);
+            ConsoleManager.WriteLine();
+            ConsoleManager.WriteLine("$wBenchmark result:");
+            ConsoleManager.WriteLine($"$wTotal nodes: $g{result.TotalNodes} N");
+            ConsoleManager.WriteLine($"$wEnd nodes: $g{result.EndNodes} N");
+            ConsoleManager.WriteLine($"$wHash correct: {ColorfulConsoleHelpers.ParseBool(result.Integrity)}");
+            ConsoleManager.WriteLine($"$wNodes per second: $c{result.NodesPerSecond / 1000} kN");
+            ConsoleManager.WriteLine($"$wTime per node: $c{result.TimePerNode} ns");
+            ConsoleManager.WriteLine($"$wTime: $m{result.Time} s");
+            ConsoleManager.WriteLine();
         }
     }
 }

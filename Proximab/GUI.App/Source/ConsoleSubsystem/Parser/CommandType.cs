@@ -1,5 +1,8 @@
 ﻿namespace GUI.App.Source.ConsoleSubsystem.Parser
 {
+    /// <summary>
+    /// Represents available type of commands.
+    /// </summary>
     internal enum CommandType
     {
         None,

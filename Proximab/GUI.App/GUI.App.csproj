@@ -61,6 +61,7 @@
     <Compile Include="Source\ConsoleSubsystem\Parser\CommandType.cs" />
     <Compile Include="Source\ConsoleSubsystem\Parser\CommandValidator.cs" />
     <Compile Include="Source\ConsoleSubsystem\Parser\RawCommand.cs" />
+    <Compile Include="Source\ConsoleSubsystem\Parser\TypeNotFoundException.cs" />
     <Compile Include="Source\DiagnosticSubsystem\EnvironmentInfoProvider.cs" />
     <Compile Include="Source\GameModeSubsystem\Editor\EditorGameMode.cs" />
     <Compile Include="Source\GameModeSubsystem\GameModeBase.cs" />

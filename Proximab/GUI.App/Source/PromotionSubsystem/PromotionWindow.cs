@@ -74,7 +74,6 @@ namespace GUI.App.Source.PromotionSubsystem
 
         public void Logic()
         {
-
         }
 
         public void Draw(SpriteBatch spriteBatch)

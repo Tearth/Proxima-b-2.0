@@ -169,10 +169,10 @@ namespace GUI.App.Source.ConsoleSubsystem
 
         private void WriteConsoleHeader()
         {
-            var osInfo = _environmentInfoProvider.GetOSInfo();
-            var cpuPlatform = _environmentInfoProvider.GetCPUPlatformVersion();
-            var processPlatform = _environmentInfoProvider.GetProcessPlatformVersion();
-            var coresCount = _environmentInfoProvider.GetCPUCoresCount();
+            var osInfo = _environmentInfoProvider.OSInfo;
+            var cpuPlatform = _environmentInfoProvider.CPUPlatformVersion;
+            var processPlatform = _environmentInfoProvider.ProcessPlatformVersion;
+            var coresCount = _environmentInfoProvider.CPUCoresCount;
 
             WriteLine($"$gProxima b 2.0dev GUI$w | {osInfo} " +
                       $"(CPU $c{cpuPlatform}$w, {coresCount}$w | Process $c{processPlatform}$w)");
