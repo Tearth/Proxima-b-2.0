@@ -1,8 +1,8 @@
-﻿using Proxima.Core.Boards;
+﻿using System.Diagnostics;
+using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.MoveGenerators;
-using System.Diagnostics;
 
 namespace Proxima.Helpers.Tests
 {
@@ -11,7 +11,10 @@ namespace Proxima.Helpers.Tests
     /// </summary>
     public class MovesTest
     {
-        readonly Color InitialColor = Color.White;
+        /// <summary>
+        /// Represents a color of initial player.
+        /// </summary>
+        private readonly Color _initialColor = Color.White;
 
         /// <summary>
         /// Runs moves test with specific board and depth (0 = one level, 1 = two levels, ...).
@@ -20,7 +23,7 @@ namespace Proxima.Helpers.Tests
         /// </summary>
         /// <param name="friendlyBoard">Initial board from which test will begin.</param>
         /// <param name="depth">Number of in-depth nodes (where 0 means calculating moves only for initial board.</param>
-        /// <param name="calculateEndNodes">If true, every end node will calculate attacks and evaluation function./param>
+        /// <param name="calculateEndNodes">If true, every end node will calculate attacks and evaluation function.</param>
         /// <param name="verifyIntegrity">If true, every board will be checked whether incremental-updating parameters are correctly calculated.</param>
         /// <returns>Result of the test.</returns>
         public MovesTestData Run(FriendlyBoard friendlyBoard, int depth, bool calculateEndNodes, bool verifyIntegrity)
@@ -29,7 +32,7 @@ namespace Proxima.Helpers.Tests
             var stopwatch = new Stopwatch();
 
             stopwatch.Start();
-            CalculateBitBoard(InitialColor, new BitBoard(friendlyBoard), depth, calculateEndNodes, verifyIntegrity, testData);
+            CalculateBitBoard(_initialColor, new BitBoard(friendlyBoard), depth, calculateEndNodes, verifyIntegrity, testData);
             testData.Ticks = stopwatch.Elapsed.Ticks;
 
             return testData;
@@ -45,7 +48,7 @@ namespace Proxima.Helpers.Tests
         /// <param name="calculateEndNodes">If true, every end node will calculate attacks and evaluation function.</param>
         /// <param name="verifyIntegrity">If true, every board will be checked whether incremental-updating parameters are correctly calculated.</param>
         /// <param name="testData">Container for test data which will be returned when test is done.</param>
-        void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool calculateEndNodes, bool verifyIntegrity, MovesTestData testData)
+        private void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool calculateEndNodes, bool verifyIntegrity, MovesTestData testData)
         {
             if (verifyIntegrity && !bitBoard.VerifyIntegrity())
             {
@@ -54,12 +57,12 @@ namespace Proxima.Helpers.Tests
 
             if (depth <= 0)
             {
-                if(calculateEndNodes)
+                if (calculateEndNodes)
                 {
                     bitBoard.Calculate(GeneratorMode.CalculateAttacks, GeneratorMode.CalculateAttacks);
                     bitBoard.GetEvaluation();
                 }
-                
+
                 testData.EndNodes++;
             }
             else
@@ -69,7 +72,7 @@ namespace Proxima.Helpers.Tests
                 var blackMode = GetGeneratorMode(enemyColor);
 
                 bitBoard.Calculate(whiteMode, blackMode);
-                
+
                 foreach (var move in bitBoard.Moves)
                 {
                     var bitBoardAfterMove = bitBoard.Move(move);
@@ -92,10 +95,10 @@ namespace Proxima.Helpers.Tests
         /// </summary>
         /// <param name="currentColor">Color of the current player.</param>
         /// <returns>Generator mode for the specified color.</returns>
-        GeneratorMode GetGeneratorMode(Color currentColor)
+        private GeneratorMode GetGeneratorMode(Color currentColor)
         {
-            return currentColor == Color.White && currentColor == InitialColor ? 
-                GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks : 
+            return currentColor == Color.White && currentColor == _initialColor ?
+                GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks :
                 GeneratorMode.CalculateAttacks;
         }
     }

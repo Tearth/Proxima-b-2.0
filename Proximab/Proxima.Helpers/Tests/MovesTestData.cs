@@ -23,7 +23,7 @@ namespace Proxima.Helpers.Tests
         public long Ticks { get; set; }
 
         /// <summary>
-        /// Gets or sets the flag indicating whether all boards were correctly generated.
+        /// Gets or sets a value indicating whether all boards were correctly generated.
         /// </summary>
         public bool Integrity { get; set; }
 
@@ -51,6 +51,9 @@ namespace Proxima.Helpers.Tests
             get { return TotalNodes != 0 ? (int)(Ticks / TotalNodes) * 100 : 0; }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MovesTestData"/> class.
+        /// </summary>
         public MovesTestData()
         {
             Integrity = true;
