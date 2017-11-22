@@ -1,8 +1,8 @@
-﻿using GUI.App.Source.Helpers;
+﻿using System;
+using GUI.App.Source.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace GUI.App.Source.BoardSubsystem.Axes
 {
@@ -21,14 +21,16 @@ namespace GUI.App.Source.BoardSubsystem.Axes
         /// </summary>
         public Vector2 HorizontalOffset { get; set; }
 
-
         /// <summary>
         /// Gets or sets the offset of vertial axes.
         /// </summary>
         public Vector2 VerticalOffset { get; set; }
 
-        SpriteFont _axeFont;
+        private SpriteFont _axeFont;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AxesManager"/> class.
+        /// </summary>
         public AxesManager()
         {
             Color = Color.White;
@@ -59,7 +61,7 @@ namespace GUI.App.Source.BoardSubsystem.Axes
         /// Draws vertical axes
         /// </summary>
         /// <param name="spriteBatch">Monogame sprite batch</param>
-        void DrawVerticalAxes(SpriteBatch spriteBatch)
+        private void DrawVerticalAxes(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < 8; i++)
             {
@@ -87,7 +89,7 @@ namespace GUI.App.Source.BoardSubsystem.Axes
         /// Draws horizontal axes.
         /// </summary>
         /// <param name="spriteBatch">Monogame sprite batch</param>
-        void DrawHorizontalAxes(SpriteBatch spriteBatch)
+        private void DrawHorizontalAxes(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < 8; i++)
             {
@@ -116,7 +118,7 @@ namespace GUI.App.Source.BoardSubsystem.Axes
         /// </summary>
         /// <param name="text">Text to calculate.</param>
         /// <returns>Center of passed text.</returns>
-        Vector2 GetCenterOffset(string text)
+        private Vector2 GetCenterOffset(string text)
         {
             var textSize = _axeFont.MeasureString(text) / 2;
             textSize.X = (float)Math.Round(textSize.X);

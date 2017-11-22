@@ -1,6 +1,5 @@
-﻿using GUI.ContentDefinitions.Commands;
-using System;
-using System.Globalization;
+﻿using System.Globalization;
+using GUI.ContentDefinitions.Commands;
 
 namespace GUI.App.Source.ConsoleSubsystem.Parser
 {
@@ -10,8 +9,8 @@ namespace GUI.App.Source.ConsoleSubsystem.Parser
         {
             if (command.Arguments.Count != definition.Arguments.Count)
                 return false;
-            
-            for(int i=0; i<command.Arguments.Count; i++)
+
+            for (int i = 0; i < command.Arguments.Count; i++)
             {
                 var commandArgument = command.Arguments[i];
                 var definitionArgument = definition.Arguments[i];
@@ -23,16 +22,16 @@ namespace GUI.App.Source.ConsoleSubsystem.Parser
             return true;
         }
 
-        bool TryParseToType(string value, string type)
+        private bool TryParseToType(string value, string type)
         {
             var result = false;
 
             switch (type)
             {
                 case "string": { result = true; break; }
-                case "int":  { result = Int32.TryParse(value, out _); break; }
-                case "bool": { result = Boolean.TryParse(value, out _); break; }
-                case "float": { result = Single.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out _); break; }
+                case "int": { result = int.TryParse(value, out _); break; }
+                case "bool": { result = bool.TryParse(value, out _); break; }
+                case "float": { result = float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out _); break; }
             }
 
             return result;

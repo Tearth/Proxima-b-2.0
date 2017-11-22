@@ -1,10 +1,10 @@
-﻿using GUI.ContentDefinitions.Pieces;
+﻿using System;
+using System.Collections.Generic;
+using GUI.ContentDefinitions.Pieces;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
-using System;
-using System.Collections.Generic;
 
 namespace GUI.App.Source.BoardSubsystem.Pieces
 {
@@ -15,6 +15,9 @@ namespace GUI.App.Source.BoardSubsystem.Pieces
     {
         Dictionary<int, Texture2D> _pieceTextures;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PiecesProvider"/> class.
+        /// </summary>
         public PiecesProvider()
         {
             _pieceTextures = new Dictionary<int, Texture2D>();
@@ -28,7 +31,7 @@ namespace GUI.App.Source.BoardSubsystem.Pieces
         {
             var pieceDefinitionsContainer = contentManager.Load<PieceDefinitionsContainer>("XML\\PieceDefinitions");
 
-            foreach(var pieceDefinition in pieceDefinitionsContainer.Definitions)
+            foreach (var pieceDefinition in pieceDefinitionsContainer.Definitions)
             {
                 var piece = (PieceType)Enum.Parse(typeof(PieceType), pieceDefinition.PieceTypeValue);
                 var color = (Color)Enum.Parse(typeof(Color), pieceDefinition.ColorTypeValue);
@@ -57,7 +60,7 @@ namespace GUI.App.Source.BoardSubsystem.Pieces
         /// <param name="color">The piece color</param>
         /// <param name="piece">The piece type</param>
         /// <returns>The hash for the specified piece.</returns>
-        int GetFriendlyPieceHash(Color color, PieceType piece)
+        private int GetFriendlyPieceHash(Color color, PieceType piece)
         {
             return ((int)color * 100) + (int)piece;
         }

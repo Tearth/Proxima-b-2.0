@@ -1,5 +1,5 @@
-﻿using GUI.App.Source.ConsoleSubsystem.Parser;
-using System;
+﻿using System;
+using GUI.App.Source.ConsoleSubsystem.Parser;
 
 namespace GUI.App.Source.ConsoleSubsystem
 {

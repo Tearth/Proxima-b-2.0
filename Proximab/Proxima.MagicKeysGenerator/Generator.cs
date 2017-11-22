@@ -17,19 +17,8 @@ namespace Proxima.MagicKeysGenerator
     /// </remarks>
     internal class Generator
     {
-        /// <summary>
-        /// Magic keys generator.
-        /// </summary>
         private MagicKeyGenerator _magicKeyGenerator;
-
-        /// <summary>
-        /// Rook atacks generator.
-        /// </summary>
         private RookAttacksGenerator _rookAttacksGenerator;
-
-        /// <summary>
-        /// Bishop attacks generator.
-        /// </summary>
         private BishopAttacksGenerator _bishopAttacksGenerator;
 
         /// <summary>

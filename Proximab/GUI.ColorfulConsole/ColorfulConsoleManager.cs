@@ -9,14 +9,7 @@ namespace GUI.ColorfulConsole
     /// </summary>
     public class ColorfulConsoleManager
     {
-        /// <summary>
-        /// The output parser.
-        /// </summary>
         private OutputParser _outputParser;
-
-        /// <summary>
-        /// The output printer.
-        /// </summary>
         private ColorOutputPrinter _outputPrinter;
 
         /// <summary>

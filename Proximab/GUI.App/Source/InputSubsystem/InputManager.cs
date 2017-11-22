@@ -1,24 +1,24 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
 
 namespace GUI.App.Source.InputSubsystem
 {
     internal class InputManager
     {
-        List<Keys> _keyboardJustPressedKeys;
-        KeyboardState _keyboardKeysPreviousState;
+        private List<Keys> _keyboardJustPressedKeys;
+        private KeyboardState _keyboardKeysPreviousState;
 
-        bool _leftMouseButtonJustPressed;
-        bool _rightMouseButtonJustPressed;
+        private bool _leftMouseButtonJustPressed;
+        private bool _rightMouseButtonJustPressed;
 
-        bool _leftMouseButtonJustReleased;
-        bool _rightMouseButtonJustReleased;
+        private bool _leftMouseButtonJustReleased;
+        private bool _rightMouseButtonJustReleased;
 
-        ButtonState _leftMouseButtonPreviousState;
-        ButtonState _rightMouseButtonPreviousState;
+        private ButtonState _leftMouseButtonPreviousState;
+        private ButtonState _rightMouseButtonPreviousState;
 
-        Point _lastMouseMovePosition;
+        private Point _lastMouseMovePosition;
 
         public InputManager()
         {
@@ -71,7 +71,7 @@ namespace GUI.App.Source.InputSubsystem
         public bool IsKeyJustPressed(Keys key)
         {
             var pressed = _keyboardJustPressedKeys.Exists(p => p == key);
-            if(pressed)
+            if (pressed)
             {
                 _keyboardJustPressedKeys.Remove(key);
             }
@@ -102,7 +102,7 @@ namespace GUI.App.Source.InputSubsystem
             return new Vector2(_lastMouseMovePosition.X - currentState.X, _lastMouseMovePosition.Y - currentState.Y);
         }
 
-        void ProcessMouse()
+        private void ProcessMouse()
         {
             var mouseState = Mouse.GetState();
 
@@ -116,9 +116,9 @@ namespace GUI.App.Source.InputSubsystem
                 _rightMouseButtonJustPressed = true;
             }
 
-            if(mouseState.LeftButton == ButtonState.Released)
+            if (mouseState.LeftButton == ButtonState.Released)
             {
-                if(_leftMouseButtonPreviousState == ButtonState.Pressed)
+                if (_leftMouseButtonPreviousState == ButtonState.Pressed)
                 {
                     _leftMouseButtonJustReleased = true;
                 }
@@ -136,23 +136,23 @@ namespace GUI.App.Source.InputSubsystem
             _rightMouseButtonPreviousState = mouseState.RightButton;
         }
 
-        void ProcessKeyboard()
+        private void ProcessKeyboard()
         {
             var keyboardState = Keyboard.GetState();
             var pressedKeys = keyboardState.GetPressedKeys();
 
             foreach (var key in pressedKeys)
             {
-                if(_keyboardKeysPreviousState.IsKeyUp(key) && !_keyboardJustPressedKeys.Exists(p => p == key))
+                if (_keyboardKeysPreviousState.IsKeyUp(key) && !_keyboardJustPressedKeys.Exists(p => p == key))
                 {
                     _keyboardJustPressedKeys.Add(key);
                 }
             }
 
-            for(int i = _keyboardJustPressedKeys.Count - 1; i >= 0; i--)
+            for (int i = _keyboardJustPressedKeys.Count - 1; i >= 0; i--)
             {
                 var key = _keyboardJustPressedKeys[i];
-                if(keyboardState.IsKeyUp(key))
+                if (keyboardState.IsKeyUp(key))
                 {
                     _keyboardJustPressedKeys.Remove(key);
                 }

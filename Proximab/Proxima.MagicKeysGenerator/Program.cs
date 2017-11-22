@@ -8,14 +8,7 @@ namespace Proxima.MagicKeysGenerator
     /// </summary>
     internal class Program
     {
-        /// <summary>
-        /// The name of the file where all magic keys for a rook will be stored.
-        /// </summary>
         private static readonly string RookKeysFileName = "Keys/RookKeys.txt";
-
-        /// <summary>
-        /// The name of the file where all magic keys for a bishop will be stored.
-        /// </summary>
         private static readonly string BishopKeysFileName = "Keys/BishopKeys.txt";
 
         /// <summary>

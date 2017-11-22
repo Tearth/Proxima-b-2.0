@@ -1,12 +1,11 @@
-﻿using GUI.App.Source.Helpers;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using GUI.App.Source.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Positions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace GUI.App.Source.BoardSubsystem.Selections
 {
@@ -20,11 +19,14 @@ namespace GUI.App.Source.BoardSubsystem.Selections
     /// </remarks>
     internal class SelectionsManager
     {
-        Texture2D _internalSelection;
-        Texture2D _externalSelection;
+        private Texture2D _internalSelection;
+        private Texture2D _externalSelection;
 
-        List<Selection> _selections;
+        private List<Selection> _selections;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SelectionsManager"/> class.
+        /// </summary>
         public SelectionsManager()
         {
             _selections = new List<Selection>();

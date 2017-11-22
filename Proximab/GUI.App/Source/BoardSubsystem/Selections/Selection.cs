@@ -8,20 +8,25 @@ namespace GUI.App.Source.BoardSubsystem.Selections
     internal class Selection
     {
         /// <summary>
-        /// Gets the position of the selection (for board these will be values from 1 to 8).
+        /// Gets the selection position (for board these will be values from 1 to 8).
         /// </summary>
         public Position Position { get; private set; }
 
         /// <summary>
-        /// Gets the type of the selection.
+        /// Gets selection type.
         /// </summary>
         public SelectionType Type { get; private set; }
 
-        public Selection()
-        {
-            
-        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Selection"/> class.
+        /// </summary>
+        public Selection() { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Selection"/> class.
+        /// </summary>
+        /// <param name="position">The selection position</param>
+        /// <param name="type">The selection type</param>
         public Selection(Position position, SelectionType type)
         {
             Position = position;

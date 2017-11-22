@@ -1,8 +1,6 @@
-﻿using Proxima.Core.Boards;
+﻿using System;
 using Proxima.Core.Boards.Friendly;
-using Proxima.Core.Commons;
 using Proxima.Core.Commons.Positions;
-using System;
 
 namespace GUI.App.Source.BoardSubsystem
 {
@@ -17,10 +15,15 @@ namespace GUI.App.Source.BoardSubsystem
         public Position Position { get; private set; }
 
         /// <summary>
-        /// Gets the selected piece (null in empty field).
+        /// Gets the selected piece (null if the selected field is empty).
         /// </summary>
         public FriendlyPiece Piece { get; private set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FieldSelectedEventArgs"/> class.
+        /// </summary>
+        /// <param name="position">The selected field position.</param>
+        /// <param name="piece">The selected piece (null if the selected field is empty)</param>
         public FieldSelectedEventArgs(Position position, FriendlyPiece piece)
         {
             Position = position;

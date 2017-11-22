@@ -1,4 +1,6 @@
-﻿using GUI.App.Source.BoardSubsystem.Axes;
+﻿using System;
+using System.Collections.Generic;
+using GUI.App.Source.BoardSubsystem.Axes;
 using GUI.App.Source.BoardSubsystem.Pieces;
 using GUI.App.Source.BoardSubsystem.Selections;
 using GUI.App.Source.Helpers;
@@ -7,24 +9,36 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Positions;
-using System;
-using System.Collections.Generic;
 
 namespace GUI.App.Source.BoardSubsystem
 {
+    /// <summary>
+    /// Represents a board drawed on window. It's the bridge between the GUI project ang Monogame library.
+    /// </summary>
     internal class VisualBoard
     {
+        /// <summary>
+        /// The event triggered when some field on the board is selected.
+        /// </summary>
         public event EventHandler<FieldSelectedEventArgs> OnFieldSelection;
+
+        /// <summary>
+        /// The event triggered whem some piece on the board is moved.
+        /// </summary>
         public event EventHandler<PieceMovedEventArgs> OnPieceMove;
-        
-        FriendlyBoard _friendlyBoard;
-        SelectionsManager _selectionsManager;
-        AxesManager _axesManager;
-        PiecesProvider _piecesProvider;
 
-        Texture2D _field1;
-        Texture2D _field2;
+        private FriendlyBoard _friendlyBoard;
+        private SelectionsManager _selectionsManager;
+        private AxesManager _axesManager;
+        private PiecesProvider _piecesProvider;
 
+        private Texture2D _field1;
+        private Texture2D _field2;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VisualBoard"/> class.
+        /// </summary>
+        /// <param name="piecesProvider">The pieces provider.</param>
         public VisualBoard(PiecesProvider piecesProvider)
         {
             _friendlyBoard = new FriendlyBoard();
@@ -55,7 +69,7 @@ namespace GUI.App.Source.BoardSubsystem
 
                 var selectedFieldPosition = _selectionsManager.SelectField(mousePosition);
                 var selectedPiece = _friendlyBoard.GetPiece(selectedFieldPosition);
-                
+
                 if (previousSelection == null)
                 {
                     ProcessLeftButtonPressWithoutPreviousSelection(selectedFieldPosition, selectedPiece);
@@ -106,11 +120,11 @@ namespace GUI.App.Source.BoardSubsystem
             _selectionsManager.AddExternalSelections(selections);
         }
 
-        void ProcessLeftButtonPressWithPreviousSelection(Selection previousSelection, Position selectedPosition, FriendlyPiece selectedPieceType)
+        private void ProcessLeftButtonPressWithPreviousSelection(Selection previousSelection, Position selectedPosition, FriendlyPiece selectedPieceType)
         {
             var previousSelectedPiece = _friendlyBoard.GetPiece(previousSelection.Position);
 
-            if(previousSelectedPiece == null)
+            if (previousSelectedPiece == null)
             {
                 OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(selectedPosition, selectedPieceType));
             }
@@ -125,12 +139,12 @@ namespace GUI.App.Source.BoardSubsystem
             }
         }
 
-        void ProcessLeftButtonPressWithoutPreviousSelection(Position selectedPosition, FriendlyPiece selectedPieceType)
+        private void ProcessLeftButtonPressWithoutPreviousSelection(Position selectedPosition, FriendlyPiece selectedPieceType)
         {
             OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(selectedPosition, selectedPieceType));
         }
 
-        void DrawBackground(SpriteBatch spriteBatch)
+        private void DrawBackground(SpriteBatch spriteBatch)
         {
             bool fieldInversion = false;
 
@@ -149,7 +163,7 @@ namespace GUI.App.Source.BoardSubsystem
             }
         }
 
-        void DrawPieces(SpriteBatch spriteBatch)
+        private void DrawPieces(SpriteBatch spriteBatch)
         {
             for (int x = 1; x <= 8; x++)
             {

@@ -1,12 +1,12 @@
-﻿using GUI.ColorfulConsole;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using GUI.App.Source.ConsoleSubsystem.Parser;
 using GUI.App.Source.DiagnosticSubsystem;
+using GUI.ColorfulConsole;
 using GUI.ContentDefinitions.Colors;
 using GUI.ContentDefinitions.Commands;
 using Microsoft.Xna.Framework.Content;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GUI.App.Source.ConsoleSubsystem
 {
@@ -14,15 +14,15 @@ namespace GUI.App.Source.ConsoleSubsystem
     {
         public event EventHandler<NewCommandEventArgs> OnNewCommand;
 
-        ColorfulConsoleManager _colorfulConsole;
+        private ColorfulConsoleManager _colorfulConsole;
 
-        Task _consoleLoop;
-        CommandParser _commandParser;
-        CommandValidator _commandValidator;
-        EnvironmentInfoProvider _environmentInfoProvider;
+        private Task _consoleLoop;
+        private CommandParser _commandParser;
+        private CommandValidator _commandValidator;
+        private EnvironmentInfoProvider _environmentInfoProvider;
 
-        CommandDefinitionsContainer _commandDefinitionsContainer;
-        ColorDefinitionsContainer _colorDefinitionsContainer;
+        private CommandDefinitionsContainer _commandDefinitionsContainer;
+        private ColorDefinitionsContainer _colorDefinitionsContainer;
 
         public ConsoleManager()
         {
@@ -34,7 +34,7 @@ namespace GUI.App.Source.ConsoleSubsystem
             _commandParser = new CommandParser();
             _commandValidator = new CommandValidator();
             _environmentInfoProvider = new EnvironmentInfoProvider();
-        }        
+        }
 
         public void LoadContent(ContentManager contentManager)
         {
@@ -53,12 +53,12 @@ namespace GUI.App.Source.ConsoleSubsystem
                 _consoleLoop.Start();
                 await _consoleLoop;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 WriteLine("$rCritical error");
                 WriteLine($"$r{ex.Message}");
 
-                if(ex.InnerException != null)
+                if (ex.InnerException != null)
                 {
                     WriteLine($"$r{ex.InnerException}");
                 }
@@ -75,7 +75,7 @@ namespace GUI.App.Source.ConsoleSubsystem
             _colorfulConsole.WriteLine(output);
         }
 
-        void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
+        private void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
         {
             var command = e.Command;
 
@@ -86,7 +86,7 @@ namespace GUI.App.Source.ConsoleSubsystem
             }
         }
 
-        void WriteCommandsList()
+        private void WriteCommandsList()
         {
             WriteLine($"$wAvailable commands ({_commandDefinitionsContainer.Definitions.Count}):");
 
@@ -101,7 +101,7 @@ namespace GUI.App.Source.ConsoleSubsystem
             }
         }
 
-        void WriteColorsList()
+        private void WriteColorsList()
         {
             WriteLine($"$wAvailable colors ({_colorDefinitionsContainer.Definitions.Count}):");
 
@@ -111,18 +111,18 @@ namespace GUI.App.Source.ConsoleSubsystem
             }
         }
 
-        void Loop()
+        private void Loop()
         {
-            while(true)
+            while (true)
             {
                 ProcessCommand(Console.ReadLine());
             }
         }
 
-        void ProcessCommand(string input)
+        private void ProcessCommand(string input)
         {
             var rawCommand = _commandParser.Parse(input.ToLower().Trim());
-            if(rawCommand == null)
+            if (rawCommand == null)
             {
                 WriteEmptyCommandMessage();
                 return;
@@ -131,14 +131,14 @@ namespace GUI.App.Source.ConsoleSubsystem
             var definition = _commandDefinitionsContainer.Definitions
                 .FirstOrDefault(p => p.Name.ToLower().Trim() == rawCommand.Name);
 
-            if(definition == null)
+            if (definition == null)
             {
                 WriteCommandNotFoundMessage(input);
                 return;
             }
 
             var validationResult = _commandValidator.Validate(rawCommand, definition);
-            if(!validationResult)
+            if (!validationResult)
             {
                 WriteInvalidCommandFormatMessage(input);
                 return;
@@ -152,22 +152,22 @@ namespace GUI.App.Source.ConsoleSubsystem
             OnNewCommand?.Invoke(this, commandEventArgs);
         }
 
-        void WriteEmptyCommandMessage()
+        private void WriteEmptyCommandMessage()
         {
             WriteLine("$rEmpty command");
         }
 
-        void WriteCommandNotFoundMessage(string command)
+        private void WriteCommandNotFoundMessage(string command)
         {
             WriteLine($"$rCommand not found: {command}");
         }
 
-        void WriteInvalidCommandFormatMessage(string command)
+        private void WriteInvalidCommandFormatMessage(string command)
         {
             WriteLine($"$rInvalid command format: {command}");
         }
 
-        void WriteConsoleHeader()
+        private void WriteConsoleHeader()
         {
             var osInfo = _environmentInfoProvider.GetOSInfo();
             var cpuPlatform = _environmentInfoProvider.GetCPUPlatformVersion();

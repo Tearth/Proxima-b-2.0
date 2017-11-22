@@ -10,14 +10,7 @@ namespace GUI.ColorfulConsole.Output
     /// </summary>
     public class OutputParser
     {
-        /// <summary>
-        /// The list of available color tags.
-        /// </summary>
         private readonly char[] _separators = { '$' };
-
-        /// <summary>
-        /// The color definitions container.
-        /// </summary>
         private ColorDefinitionsContainer _colorDefinitionsContainer;
 
         /// <summary>

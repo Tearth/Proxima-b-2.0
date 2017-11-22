@@ -10,14 +10,14 @@ namespace GUI.App.Source
 {
     internal class GUICore : Game
     {
-        GraphicsDeviceManager _graphics;
-        SpriteBatch _spriteBatch;
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
 
-        ConsoleManager _consoleManager;
-        InputManager _inputManager;
-        FPSCounter _fpsCounter;
+        private ConsoleManager _consoleManager;
+        private InputManager _inputManager;
+        private FPSCounter _fpsCounter;
 
-        GameModeBase _gameMode;
+        private GameModeBase _gameMode;
 
         public GUICore(ConsoleManager consoleManager)
         {
@@ -82,7 +82,7 @@ namespace GUI.App.Source
             base.Draw(gameTime);
         }
 
-        void Input()
+        private void Input()
         {
             _inputManager.Logic();
 

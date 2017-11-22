@@ -6,7 +6,7 @@ namespace GUI.App.Source.ConsoleSubsystem.Parser
 {
     internal class CommandParser
     {
-        readonly char[] Separators = { ' ' };
+        private readonly char[] Separators = { ' ' };
 
         public CommandParser()
         {
@@ -26,7 +26,7 @@ namespace GUI.App.Source.ConsoleSubsystem.Parser
             return new RawCommand(name, arguments);
         }
 
-        IList<string> SplitInput(string input)
+        private IList<string> SplitInput(string input)
         {
             return input.Split(Separators, StringSplitOptions.RemoveEmptyEntries);
         }

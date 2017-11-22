@@ -1,10 +1,12 @@
-﻿using GUI.ColorfulConsole;
+﻿using System;
+using System.Collections.Generic;
 using GUI.App.Source.BoardSubsystem;
 using GUI.App.Source.BoardSubsystem.Pieces;
 using GUI.App.Source.ConsoleSubsystem;
 using GUI.App.Source.ConsoleSubsystem.Parser;
 using GUI.App.Source.InputSubsystem;
 using GUI.App.Source.PromotionSubsystem;
+using GUI.ColorfulConsole;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Proxima.Core.Boards;
@@ -14,8 +16,6 @@ using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Moves;
 using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators;
-using System;
-using System.Collections.Generic;
 
 namespace GUI.App.Source.GameModeSubsystem
 {
@@ -49,7 +49,7 @@ namespace GUI.App.Source.GameModeSubsystem
 
         public virtual void Input(InputManager inputManager)
         {
-            if(!_promotionWindow.Active)
+            if (!_promotionWindow.Active)
             {
                 _visualBoard.Input(inputManager);
             }
@@ -97,7 +97,7 @@ namespace GUI.App.Source.GameModeSubsystem
             _visualBoard.SetFriendlyBoard(_bitBoard.GetFriendlyBoard());
         }
 
-        void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
+        private void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
         {
             var command = e.Command;
 
@@ -114,7 +114,7 @@ namespace GUI.App.Source.GameModeSubsystem
             }
         }
 
-        void DrawOccupancy(Command command)
+        private void DrawOccupancy(Command command)
         {
             var colorArgument = command.GetArgument<string>(0);
 
@@ -138,7 +138,7 @@ namespace GUI.App.Source.GameModeSubsystem
             _visualBoard.AddExternalSelections(occupancy);
         }
 
-        void DrawAttacks(Command command)
+        private void DrawAttacks(Command command)
         {
             var colorArgument = command.GetArgument<string>(0);
 
@@ -162,7 +162,7 @@ namespace GUI.App.Source.GameModeSubsystem
             _visualBoard.AddExternalSelections(attacks);
         }
 
-        void SaveBoard(Command command)
+        private void SaveBoard(Command command)
         {
             var boardNameArgument = command.GetArgument<string>(0);
 
@@ -173,7 +173,7 @@ namespace GUI.App.Source.GameModeSubsystem
             boardWriter.Write(path, board);
         }
 
-        void LoadBoard(Command command)
+        private void LoadBoard(Command command)
         {
             var boardNameArgument = command.GetArgument<string>(0);
 
@@ -189,7 +189,7 @@ namespace GUI.App.Source.GameModeSubsystem
             CalculateBitBoard(boardReader.Read(path));
         }
 
-        void DisplayCheckStatus(Command command)
+        private void DisplayCheckStatus(Command command)
         {
             var whiteCheck = _bitBoard.IsCheck(Color.White);
             var blackCheck = _bitBoard.IsCheck(Color.Black);
@@ -198,7 +198,7 @@ namespace GUI.App.Source.GameModeSubsystem
             _consoleManager.WriteLine($"$cBlack king checked: ${ColorfulConsoleHelpers.ParseBool(blackCheck)}");
         }
 
-        void DisplayCastlingFlags(Command command)
+        private void DisplayCastlingFlags(Command command)
         {
             var castlingFlags = _visualBoard.GetFriendlyBoard().Castling;
 
@@ -211,7 +211,7 @@ namespace GUI.App.Source.GameModeSubsystem
             _consoleManager.WriteLine($"$cBlack done: {ColorfulConsoleHelpers.ParseBool(castlingFlags.BlackCastlingDone)}");
         }
 
-        void DisplayEvaluation(Command command)
+        private void DisplayEvaluation(Command command)
         {
             var evaluation = _bitBoard.GetDetailedEvaluation();
 
@@ -229,10 +229,10 @@ namespace GUI.App.Source.GameModeSubsystem
             _consoleManager.WriteLine($"$cTotal: $w{evaluation.Total}");
         }
 
-        void DisplayBoardHash(Command command)
+        private void DisplayBoardHash(Command command)
         {
             var trueHash = _bitBoard.Hash.ToString();
-            _consoleManager.WriteLine($"$c{trueHash}");;
+            _consoleManager.WriteLine($"$c{trueHash}");
         }
     }
 }

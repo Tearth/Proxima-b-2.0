@@ -1,4 +1,7 @@
-﻿using GUI.App.Source.BoardSubsystem.Pieces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using GUI.App.Source.BoardSubsystem.Pieces;
 using GUI.App.Source.Helpers;
 using GUI.App.Source.InputSubsystem;
 using Microsoft.Xna.Framework;
@@ -6,9 +9,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.Moves;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace GUI.App.Source.PromotionSubsystem
 {
@@ -18,16 +18,16 @@ namespace GUI.App.Source.PromotionSubsystem
 
         public event EventHandler<PromotionSelectedEventArgs> OnPromotionSelection;
 
-        Texture2D _windowBackground;
-        Texture2D _windowHighlight;
+        private Texture2D _windowBackground;
+        private Texture2D _windowHighlight;
 
-        Vector2? _highlightPosition;
+        private Vector2? _highlightPosition;
 
-        PiecesProvider _piecesProvider;
+        private PiecesProvider _piecesProvider;
 
-        List<PieceType> _predefinedPieceTypes;
-        List<PromotionPiece> _availablePieces;
-        List<PromotionMove> _promotionMoves;
+        private List<PieceType> _predefinedPieceTypes;
+        private List<PromotionPiece> _availablePieces;
+        private List<PromotionMove> _promotionMoves;
 
         public PromotionWindow(PiecesProvider piecesProvider)
         {
@@ -50,7 +50,9 @@ namespace GUI.App.Source.PromotionSubsystem
         public void Input(InputManager inputManager)
         {
             if (!Active)
+            {
                 return;
+            }
 
             var mousePosition = inputManager.GetMousePosition();
             _highlightPosition = null;
@@ -60,7 +62,7 @@ namespace GUI.App.Source.PromotionSubsystem
                 var pieceIndex = GetPieceIndex(mousePosition);
                 _highlightPosition = GetHighlightPosition(pieceIndex);
 
-                if(inputManager.IsLeftMouseButtonJustPressed())
+                if (inputManager.IsLeftMouseButtonJustPressed())
                 {
                     var pieceType = _predefinedPieceTypes[pieceIndex];
                     var move = _promotionMoves.First(p => p.PromotionPiece == pieceType);
@@ -78,19 +80,42 @@ namespace GUI.App.Source.PromotionSubsystem
         public void Draw(SpriteBatch spriteBatch)
         {
             if (!Active)
+            {
                 return;
+            }
 
             DrawBackground(spriteBatch);
             DrawHighlight(spriteBatch);
             DrawPieces(spriteBatch);
         }
 
-        void DrawBackground(SpriteBatch spriteBatch)
+        public void Display(Proxima.Core.Commons.Colors.Color color, IEnumerable<PromotionMove> promotionMoves)
+        {
+            _promotionMoves.AddRange(promotionMoves);
+
+            foreach (var predefinedPiece in _predefinedPieceTypes)
+            {
+                var piece = new PromotionPiece(_piecesProvider.GetPieceTexture(color, predefinedPiece), predefinedPiece);
+                _availablePieces.Add(piece);
+            }
+
+            Active = true;
+        }
+        
+        public void Hide()
+        {
+            _promotionMoves.Clear();
+            _availablePieces.Clear();
+
+            Active = false;
+        }
+
+        private void DrawBackground(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_windowBackground, Constants.PromotionWindowPosition, Constants.PromotionWindowSize, Color.White);
         }
 
-        void DrawHighlight(SpriteBatch spriteBatch)
+        private void DrawHighlight(SpriteBatch spriteBatch)
         {
             if (_highlightPosition.HasValue)
             {
@@ -98,7 +123,7 @@ namespace GUI.App.Source.PromotionSubsystem
             }
         }
 
-        void DrawPieces(SpriteBatch spriteBatch)
+        private void DrawPieces(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < _availablePieces.Count; i++)
             {
@@ -109,28 +134,7 @@ namespace GUI.App.Source.PromotionSubsystem
             }
         }
 
-        public void Display(Proxima.Core.Commons.Colors.Color color, IEnumerable<PromotionMove> promotionMoves)
-        {
-            _promotionMoves.AddRange(promotionMoves);
-
-            foreach(var predefinedPiece in _predefinedPieceTypes)
-            {
-                var piece = new PromotionPiece(_piecesProvider.GetPieceTexture(color, predefinedPiece), predefinedPiece);
-                _availablePieces.Add(piece);
-            }
-
-            Active = true;
-        }
-
-        public void Hide()
-        {
-            _promotionMoves.Clear();
-            _availablePieces.Clear();
-
-            Active = false;
-        }
-
-        bool IsMouseOverPromotionWindow(Point mousePosition)
+        private bool IsMouseOverPromotionWindow(Point mousePosition)
         {
             return mousePosition.X >= Constants.PromotionWindowPosition.X &&
                    mousePosition.X <= Constants.PromotionWindowPosition.X + Constants.PromotionWindowSize.Width &&
@@ -138,12 +142,12 @@ namespace GUI.App.Source.PromotionSubsystem
                    mousePosition.Y <= Constants.PromotionWindowPosition.Y + Constants.PromotionWindowSize.Height;
         }
 
-        int GetPieceIndex(Point mousePosition)
+        private int GetPieceIndex(Point mousePosition)
         {
             return (int)Math.Floor((mousePosition.X - Constants.PromotionWindowPosition.X) / Constants.FieldWidthHeight);
         }
 
-        Vector2 GetHighlightPosition(int pieceIndex)
+        private Vector2 GetHighlightPosition(int pieceIndex)
         {
             return Constants.PromotionWindowPosition + new Vector2(pieceIndex * Constants.FieldWidthHeight, 0);
         }

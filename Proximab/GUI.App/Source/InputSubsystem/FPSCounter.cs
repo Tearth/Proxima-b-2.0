@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 
 namespace GUI.App.Source.InputSubsystem
 {
@@ -12,11 +12,11 @@ namespace GUI.App.Source.InputSubsystem
         public Vector2 FPSPosition { get; set; }
         public Color FPSColor { get; set; }
 
-        int _currentSecond;
-        int _currentFPS;
-        bool _displayFPS;
+        private int _currentSecond;
+        private int _currentFPS;
+        private bool _displayFPS;
 
-        SpriteFont _fpsFont;
+        private SpriteFont _fpsFont;
 
         public FPSCounter()
         {
@@ -39,7 +39,7 @@ namespace GUI.App.Source.InputSubsystem
         {
             var second = DateTime.Now.Second;
 
-            if(_currentSecond != second)
+            if (_currentSecond != second)
             {
                 FPS = _currentFPS;
                 _currentFPS = 0;
@@ -50,7 +50,7 @@ namespace GUI.App.Source.InputSubsystem
 
         public void Input(InputManager inputManager)
         {
-            if(inputManager.IsKeyJustPressed(Keys.Tab))
+            if (inputManager.IsKeyJustPressed(Keys.Tab))
             {
                 _displayFPS = !_displayFPS;
             }
@@ -63,7 +63,7 @@ namespace GUI.App.Source.InputSubsystem
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if(_displayFPS)
+            if (_displayFPS)
             {
                 var text = "FPS: " + FPS;
 

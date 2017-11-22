@@ -1,18 +1,16 @@
-﻿using Proxima.Core.Boards;
+﻿using System;
+using System.Linq;
+using GUI.App.Source.BoardSubsystem;
+using GUI.App.Source.ConsoleSubsystem;
+using GUI.App.Source.ConsoleSubsystem.Parser;
+using GUI.App.Source.PromotionSubsystem;
+using GUI.ColorfulConsole;
+using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Moves;
 using Proxima.Core.Commons.Positions;
-using GUI.App.Source.BoardSubsystem;
-using GUI.App.Source.ConsoleSubsystem;
-using GUI.App.Source.ConsoleSubsystem.Parser;
-using System;
-using System.Linq;
 using Proxima.Helpers.Tests;
-using Proxima.Core.Boards.Friendly;
-using System.Collections.Generic;
-using GUI.App.Source.PromotionSubsystem;
-using GUI.ColorfulConsole;
 
 namespace GUI.App.Source.GameModeSubsystem.Editor
 {
@@ -28,11 +26,11 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             _promotionWindow.OnPromotionSelection += PromotionWindow_OnPromotionSelection;
         }
 
-        void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
+        private void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
         {
             var command = e.Command;
 
-            switch(command.Type)
+            switch (command.Type)
             {
                 case CommandType.AddPiece: { AddPiece(command); break; }
                 case CommandType.RemovePiece: { RemovePiece(command); break; }
@@ -40,9 +38,9 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
         }
 
-        void Board_OnFieldSelection(object sender, FieldSelectedEventArgs e)
+        private void Board_OnFieldSelection(object sender, FieldSelectedEventArgs e)
         {
-            if(e.Piece == null)
+            if (e.Piece == null)
             {
                 var fieldAttackers = _visualBoard.GetFriendlyBoard().GetFieldAttackers(e.Position);
                 _visualBoard.AddExternalSelections(fieldAttackers);
@@ -58,15 +56,15 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
         }
 
-        void Board_OnPieceMove(object sender, PieceMovedEventArgs e)
+        private void Board_OnPieceMove(object sender, PieceMovedEventArgs e)
         {
             var move = _bitBoard.Moves.FirstOrDefault(p => p.From == e.From && p.To == e.To);
-            
-            if(move == null)
+
+            if (move == null)
             {
                 CalculateBitBoard(new QuietMove(e.From, e.To, e.Piece.Type, e.Piece.Color));
             }
-            else if(move is PromotionMove promotionMove)
+            else if (move is PromotionMove promotionMove)
             {
                 var promotionMoves = _bitBoard.Moves.Where(p => p.From == move.From && p is PromotionMove).Cast<PromotionMove>();
                 _promotionWindow.Display(move.Color, promotionMoves);
@@ -77,13 +75,13 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
         }
 
-        void PromotionWindow_OnPromotionSelection(object sender, PromotionSelectedEventArgs e)
+        private void PromotionWindow_OnPromotionSelection(object sender, PromotionSelectedEventArgs e)
         {
             CalculateBitBoard(e.Move);
             _promotionWindow.Hide();
         }
 
-        void AddPiece(Command command)
+        private void AddPiece(Command command)
         {
             var colorArgument = command.GetArgument<string>(0);
             var pieceArgument = command.GetArgument<string>(1);
@@ -114,10 +112,10 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             CalculateBitBoard(_visualBoard.GetFriendlyBoard());
         }
 
-        void RemovePiece(Command command)
+        private void RemovePiece(Command command)
         {
             var fieldArgument = command.GetArgument<string>(0);
-            
+
             var fieldPosition = PositionConverter.ToPosition(fieldArgument);
             if (fieldPosition == null)
             {
@@ -128,8 +126,8 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             _visualBoard.GetFriendlyBoard().RemovePiece(fieldPosition);
             CalculateBitBoard(_visualBoard.GetFriendlyBoard());
         }
-        
-        void DoMovesTest(Command command)
+
+        private void DoMovesTest(Command command)
         {
             var test = new MovesTest();
 
