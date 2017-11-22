@@ -12,7 +12,7 @@ namespace Proxima.Helpers.Tests
     public class MovesTest
     {
         /// <summary>
-        /// Represents a color of initial player.
+        /// The color of the initial player.
         /// </summary>
         private readonly Color _initialColor = Color.White;
 

@@ -31,9 +31,9 @@ namespace GUI.ColorfulConsole.Output
         /// Iterates through the outputChunks list and writes a text with the specified colors.
         /// </summary>
         /// <param name="outputChunks">The list of chunks to write.</param>
-        void WriteWithColor(IList<OutputChunk> outputChunks)
+        private void WriteWithColor(IList<OutputChunk> outputChunks)
         {
-            foreach(var chunk in outputChunks)
+            foreach (var chunk in outputChunks)
             {
                 Console.ForegroundColor = chunk.Color;
                 Console.Write(chunk.Text);

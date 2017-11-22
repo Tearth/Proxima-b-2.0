@@ -1,4 +1,5 @@
-﻿using GUI.ColorfulConsole.Output;
+﻿using System;
+using GUI.ColorfulConsole.Output;
 using GUI.ContentDefinitions.Colors;
 
 namespace GUI.ColorfulConsole
@@ -8,9 +9,19 @@ namespace GUI.ColorfulConsole
     /// </summary>
     public class ColorfulConsoleManager
     {
-        OutputParser _outputParser;
-        ColorOutputPrinter _outputPrinter;
+        /// <summary>
+        /// The output parser.
+        /// </summary>
+        private OutputParser _outputParser;
 
+        /// <summary>
+        /// The output printer.
+        /// </summary>
+        private ColorOutputPrinter _outputPrinter;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ColorfulConsoleManager"/> class.
+        /// </summary>
         public ColorfulConsoleManager()
         {
             _outputParser = new OutputParser();
@@ -31,7 +42,7 @@ namespace GUI.ColorfulConsole
         /// </summary>
         public void WriteLine()
         {
-            WriteLine("");
+            WriteLine(string.Empty);
         }
 
         /// <summary>

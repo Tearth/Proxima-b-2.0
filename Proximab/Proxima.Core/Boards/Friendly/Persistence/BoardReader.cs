@@ -67,27 +67,25 @@ namespace Proxima.Core.Boards.Friendly.Persistence
 
         FriendlyCastling ReadCastling(StreamReader reader)
         {
-            var castling = new FriendlyCastling();
+            return new FriendlyCastling
+            {
+                WhiteShortCastlingPossibility = Boolean.Parse(reader.ReadLine().Trim()),
+                WhiteLongCastlingPossibility = Boolean.Parse(reader.ReadLine().Trim()),
+                BlackShortCastlingPossibility = Boolean.Parse(reader.ReadLine().Trim()),
+                BlackLongCastlingPossibility = Boolean.Parse(reader.ReadLine().Trim()),
 
-            castling.WhiteShortCastlingPossibility = Boolean.Parse(reader.ReadLine().Trim());
-            castling.WhiteLongCastlingPossibility = Boolean.Parse(reader.ReadLine().Trim());
-            castling.BlackShortCastlingPossibility = Boolean.Parse(reader.ReadLine().Trim());
-            castling.BlackLongCastlingPossibility = Boolean.Parse(reader.ReadLine().Trim());
-
-            castling.WhiteCastlingDone = Boolean.Parse(reader.ReadLine().Trim());
-            castling.BlackCastlingDone = Boolean.Parse(reader.ReadLine().Trim());
-
-            return castling;
+                WhiteCastlingDone = Boolean.Parse(reader.ReadLine().Trim()),
+                BlackCastlingDone = Boolean.Parse(reader.ReadLine().Trim())
+            };
         }
 
         FriendlyEnPassant ReadEnPassant(StreamReader reader)
         {
-            var enPassant = new FriendlyEnPassant();
-
-            enPassant.WhiteEnPassant = ReadPosition(reader);
-            enPassant.BlackEnPassant = ReadPosition(reader);
-
-            return enPassant;
+            return new FriendlyEnPassant
+            {
+                WhiteEnPassant = ReadPosition(reader),
+                BlackEnPassant = ReadPosition(reader)
+            };
         }
 
         Position? ReadPosition(StreamReader reader)

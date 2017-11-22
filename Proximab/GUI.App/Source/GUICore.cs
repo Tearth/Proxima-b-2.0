@@ -23,9 +23,11 @@ namespace GUI.App.Source
         {
             _consoleManager = consoleManager;
 
-            _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferWidth = (int)Constants.WindowSize.X;
-            _graphics.PreferredBackBufferHeight = (int)Constants.WindowSize.Y;
+            _graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredBackBufferWidth = (int)Constants.WindowSize.X,
+                PreferredBackBufferHeight = (int)Constants.WindowSize.Y
+            };
 
             _inputManager = new InputManager();
             _fpsCounter = new FPSCounter();

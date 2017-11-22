@@ -1,7 +1,7 @@
-﻿using GUI.ContentDefinitions.Colors;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GUI.ContentDefinitions.Colors;
 
 namespace GUI.ColorfulConsole.Output
 {
@@ -10,9 +10,15 @@ namespace GUI.ColorfulConsole.Output
     /// </summary>
     public class OutputParser
     {
-        ColorDefinitionsContainer _colorDefinitionsContainer;
+        /// <summary>
+        /// The list of available color tags.
+        /// </summary>
+        private readonly char[] _separators = { '$' };
 
-        readonly char[] Separators = { '$' };
+        /// <summary>
+        /// The color definitions container.
+        /// </summary>
+        private ColorDefinitionsContainer _colorDefinitionsContainer;
 
         /// <summary>
         /// Sets color definitions. Must be called before first use.
@@ -34,9 +40,9 @@ namespace GUI.ColorfulConsole.Output
         public IList<OutputChunk> GetOutputChunks(string text)
         {
             var outputChunks = new List<OutputChunk>();
-            var splittedOutput = text.Split(Separators, StringSplitOptions.RemoveEmptyEntries);
+            var splittedOutput = text.Split(_separators, StringSplitOptions.RemoveEmptyEntries);
 
-            foreach(var chunk in splittedOutput)
+            foreach (var chunk in splittedOutput)
             {
                 var colorSymbol = chunk[0].ToString();
                 var content = chunk.Remove(0, 1);
@@ -55,9 +61,9 @@ namespace GUI.ColorfulConsole.Output
         /// </summary>
         /// <param name="color">The color name</param>
         /// <returns>ConsoleColor enum value</returns>
-        ConsoleColor ParseColorValue(string color)
+        private ConsoleColor ParseColorValue(string color)
         {
-            if(color != null)
+            if (color != null)
             {
                 return (ConsoleColor)Enum.Parse(typeof(ConsoleColor), color);
             }

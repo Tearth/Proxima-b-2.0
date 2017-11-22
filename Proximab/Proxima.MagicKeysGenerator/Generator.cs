@@ -1,8 +1,8 @@
-﻿using Proxima.Core.Boards;
+﻿using System;
+using Proxima.Core.Boards;
 using Proxima.Core.MoveGenerators.MagicBitboards.Attacks.Generators;
 using Proxima.Core.MoveGenerators.MagicBitboards.Keys;
 using Proxima.Core.MoveGenerators.PatternGenerators;
-using System;
 
 namespace Proxima.MagicKeysGenerator
 {
@@ -17,10 +17,24 @@ namespace Proxima.MagicKeysGenerator
     /// </remarks>
     internal class Generator
     {
-        MagicKeyGenerator _magicKeyGenerator;
-        RookAttacksGenerator _rookAttacksGenerator;
-        BishopAttacksGenerator _bishopAttacksGenerator;
+        /// <summary>
+        /// Magic keys generator.
+        /// </summary>
+        private MagicKeyGenerator _magicKeyGenerator;
 
+        /// <summary>
+        /// Rook atacks generator.
+        /// </summary>
+        private RookAttacksGenerator _rookAttacksGenerator;
+
+        /// <summary>
+        /// Bishop attacks generator.
+        /// </summary>
+        private BishopAttacksGenerator _bishopAttacksGenerator;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Generator"/> class.
+        /// </summary>
         public Generator()
         {
             _magicKeyGenerator = new MagicKeyGenerator();
@@ -58,15 +72,15 @@ namespace Proxima.MagicKeysGenerator
         /// <param name="attacksGenerator">RookAttacksGenerator for rook or BishopAttacksGenerator for bishop</param>
         /// <param name="pieceAttackPatterns">BishopAttacksGenerator for rook PatternsContainer.BishopPattern for bishop</param>
         /// <returns>Array of magic keys for the specified piece</returns>
-        ulong[] GetKeys(IAttacksGenerator attacksGenerator, ulong[] pieceAttackPatterns)
+        private ulong[] GetKeys(IAttacksGenerator attacksGenerator, ulong[] pieceAttackPatterns)
         {
             var keys = new ulong[64];
 
-            for(int fieldIndex=0; fieldIndex < 64; fieldIndex++)
+            for (int fieldIndex = 0; fieldIndex < 64; fieldIndex++)
             {
                 var mask = pieceAttackPatterns[fieldIndex];
                 var maskLength = BitOperations.Count(mask);
-                
+
                 var patterns = attacksGenerator.Generate(fieldIndex);
 
                 keys[fieldIndex] = _magicKeyGenerator.GenerateKey(patterns, maskLength);
@@ -83,7 +97,7 @@ namespace Proxima.MagicKeysGenerator
         /// <param name="magicKey">Calculated magic key</param>
         /// <param name="maskLength">Length (number of set bits) of the mask.</param>
         /// <param name="patternLength">Length (number of set bits) of the pattern.</param>
-        void DisplayStatus(int fieldIndex, ulong magicKey, int maskLength, int patternLength)
+        private void DisplayStatus(int fieldIndex, ulong magicKey, int maskLength, int patternLength)
         {
             Console.WriteLine($"Key {fieldIndex} = {magicKey}, " +
                               $"mask size: {maskLength}, " +
