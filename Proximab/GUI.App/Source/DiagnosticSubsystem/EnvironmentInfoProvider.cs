@@ -16,7 +16,7 @@ namespace GUI.App.Source.DiagnosticSubsystem
         }
 
         /// <summary>
-        /// Returns the platform version (32/64 bits).
+        /// Gets the platform version (32/64 bits).
         /// </summary>
         public string CPUPlatformVersion
         {
@@ -32,7 +32,7 @@ namespace GUI.App.Source.DiagnosticSubsystem
         }
 
         /// <summary>
-        /// Returns the number of available cores.
+        /// Gets the number of available cores.
         /// </summary>
         public string CPUCoresCount
         {

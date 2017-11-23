@@ -21,7 +21,9 @@ namespace GUI.App.Source.ConsoleSubsystem.Parser
             var splittedInput = SplitInput(input.Trim());
 
             if (splittedInput.Count == 0)
+            {
                 return null;
+            }
 
             var name = splittedInput.First();
             var arguments = splittedInput.Skip(1).ToList();

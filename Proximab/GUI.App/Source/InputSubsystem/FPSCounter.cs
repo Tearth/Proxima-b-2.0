@@ -17,12 +17,12 @@ namespace GUI.App.Source.InputSubsystem
         public int FPS { get; private set; }
 
         /// <summary>
-        /// Represents the position of FPS text.
+        /// Gets or sets the position of FPS text.
         /// </summary>
         public Vector2 FPSPosition { get; set; }
 
         /// <summary>
-        /// Represents the color of FPS text.
+        /// Gets or sets the color of FPS text.
         /// </summary>
         public Color FPSColor { get; set; }
 
@@ -73,9 +73,9 @@ namespace GUI.App.Source.InputSubsystem
         }
 
         /// <summary>
-        /// 
+        /// Processes all events related to mouse and keyboard.
         /// </summary>
-        /// <param name="inputManager"></param>
+        /// <param name="inputManager">InputManager instance.</param>
         public void Input(InputManager inputManager)
         {
             if (inputManager.IsKeyJustPressed(Keys.Tab))
@@ -84,11 +84,18 @@ namespace GUI.App.Source.InputSubsystem
             }
         }
 
+        /// <summary>
+        /// Adds frame to the internal counter.
+        /// </summary>
         public void AddFrame()
         {
             _currentFPS++;
         }
 
+        /// <summary>
+        /// Draws the FPS counter text.
+        /// </summary>
+        /// <param name="spriteBatch">Monogame sprite batch.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             if (_displayFPS)

@@ -13,7 +13,7 @@ using Proxima.Core.Commons.Positions;
 namespace GUI.App.Source.BoardSubsystem
 {
     /// <summary>
-    /// Represents a board drawed on window. It's the bridge between the GUI project ang Monogame library.
+    /// Represents a board drawed on window.
     /// </summary>
     internal class VisualBoard
     {
@@ -23,7 +23,7 @@ namespace GUI.App.Source.BoardSubsystem
         public event EventHandler<FieldSelectedEventArgs> OnFieldSelection;
 
         /// <summary>
-        /// The event triggered whem some piece on the board is moved.
+        /// The event triggered when some piece on the board is moved.
         /// </summary>
         public event EventHandler<PieceMovedEventArgs> OnPieceMove;
 
@@ -72,9 +72,9 @@ namespace GUI.App.Source.BoardSubsystem
         /// <param name="inputManager">InputManager instance.</param>
         public void Input(InputManager inputManager)
         {
-            var mousePosition = inputManager.GetMousePosition();
+            var mousePosition = inputManager.MousePosition;
 
-            if (inputManager.IsLeftMouseButtonJustPressed())
+            if (inputManager.LeftMouseButtonJustPressed)
             {
                 var previousSelection = _selectionsManager.GetInternalSelection();
                 _selectionsManager.RemoveAllSelections();
@@ -92,7 +92,7 @@ namespace GUI.App.Source.BoardSubsystem
                 }
             }
 
-            if (inputManager.IsRightMouseButtonJustPressed())
+            if (inputManager.RightMouseButtonJustPressed)
             {
                 _selectionsManager.RemoveAllSelections();
             }

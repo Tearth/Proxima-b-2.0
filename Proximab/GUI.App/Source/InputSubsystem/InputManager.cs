@@ -4,70 +4,102 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GUI.App.Source.InputSubsystem
 {
+    /// <summary>
+    /// Represents a set of methods to manage application input.
+    /// </summary>
     internal class InputManager
     {
+        /// <summary>
+        /// Gets a value indicating whether right mouse button is just pressed.
+        /// </summary>
+        public bool RightMouseButtonJustPressed { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether left mouse button is just pressed.
+        /// </summary>
+        public bool LeftMouseButtonJustPressed { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether right mouse button is just released.
+        /// </summary>
+        public bool RightMouseButtonJustReleased { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether left mouse button is just released.
+        /// </summary>
+        public bool LeftMouseButtonJustReleased { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether left mouse button is pressed.
+        /// </summary>
+        public bool IsLeftMouseButtonPressed
+        {
+            get { return Mouse.GetState().LeftButton == ButtonState.Pressed; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether right mouse button is pressed.
+        /// </summary>
+        public bool IsRightMouseButtonPressed
+        {
+            get { return Mouse.GetState().RightButton == ButtonState.Pressed; }
+        }
+
+        /// <summary>
+        /// Gets the current mouse position.
+        /// </summary>
+        public Point MousePosition
+        {
+            get { return Mouse.GetState().Position; }
+        }
+
         private List<Keys> _keyboardJustPressedKeys;
         private KeyboardState _keyboardKeysPreviousState;
-
-        private bool _leftMouseButtonJustPressed;
-        private bool _rightMouseButtonJustPressed;
-
-        private bool _leftMouseButtonJustReleased;
-        private bool _rightMouseButtonJustReleased;
 
         private ButtonState _leftMouseButtonPreviousState;
         private ButtonState _rightMouseButtonPreviousState;
 
         private Point _lastMouseMovePosition;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InputManager"/> class.
+        /// </summary>
         public InputManager()
         {
             _keyboardJustPressedKeys = new List<Keys>();
             _keyboardKeysPreviousState = Keyboard.GetState();
 
-            _leftMouseButtonJustPressed = false;
-            _rightMouseButtonJustPressed = false;
+            LeftMouseButtonJustPressed = false;
+            RightMouseButtonJustPressed = false;
 
-            _leftMouseButtonJustReleased = false;
-            _rightMouseButtonJustReleased = false;
+            LeftMouseButtonJustReleased = false;
+            RightMouseButtonJustReleased = false;
 
             _leftMouseButtonPreviousState = ButtonState.Released;
             _rightMouseButtonPreviousState = ButtonState.Released;
 
-            _lastMouseMovePosition = GetMousePosition();
+            _lastMouseMovePosition = MousePosition;
         }
 
+        /// <summary>
+        /// Processes all logic related to the input.
+        /// </summary>
         public void Logic()
         {
-            _leftMouseButtonJustPressed = false;
-            _rightMouseButtonJustPressed = false;
-            _leftMouseButtonJustReleased = false;
-            _rightMouseButtonJustReleased = false;
+            LeftMouseButtonJustPressed = false;
+            RightMouseButtonJustPressed = false;
+            LeftMouseButtonJustReleased = false;
+            RightMouseButtonJustReleased = false;
 
             ProcessMouse();
             ProcessKeyboard();
         }
 
-        public bool IsLeftMouseButtonJustPressed()
-        {
-            return _leftMouseButtonJustPressed;
-        }
-
-        public bool IsRightMouseButtonJustPressed()
-        {
-            return _rightMouseButtonJustPressed;
-        }
-
-        public bool IsLeftMouseButtonJustReleased()
-        {
-            return _leftMouseButtonJustReleased;
-        }
-
-        public bool IsRightMouseButtonJustReleased()
-        {
-            return _rightMouseButtonJustReleased;
-        }
-
+        /// <summary>
+        /// Checks if the specified key is just pressed.
+        /// </summary>
+        /// <param name="key">The key to check.</param>
+        /// <returns>True if the specified key is pressed, otherwise false.</returns>
         public bool IsKeyJustPressed(Keys key)
         {
             var pressed = _keyboardJustPressedKeys.Exists(p => p == key);
@@ -78,49 +110,41 @@ namespace GUI.App.Source.InputSubsystem
 
             return pressed;
         }
-
-        public bool IsLeftMouseButtonPressed()
-        {
-            return Mouse.GetState().LeftButton == ButtonState.Pressed;
-        }
-
-        public bool IsRightMouseButtonPressed()
-        {
-            return Mouse.GetState().RightButton == ButtonState.Pressed;
-        }
-
-        public Point GetMousePosition()
-        {
-            return Mouse.GetState().Position;
-        }
-
+        
+        /// <summary>
+        /// Calculates the mouse move delta (before previous and current position).
+        /// </summary>
+        /// <returns>The move delta</returns>
         public Vector2 GetMouseMoveDelta()
         {
             var currentState = _lastMouseMovePosition;
-            _lastMouseMovePosition = GetMousePosition();
+            _lastMouseMovePosition = MousePosition;
 
             return new Vector2(_lastMouseMovePosition.X - currentState.X, _lastMouseMovePosition.Y - currentState.Y);
         }
 
+        /// <summary>
+        /// Processes mouse events.
+        /// </summary>
         private void ProcessMouse()
         {
             var mouseState = Mouse.GetState();
 
             if (mouseState.LeftButton == ButtonState.Pressed && _leftMouseButtonPreviousState == ButtonState.Released)
             {
-                _leftMouseButtonJustPressed = true;
+                LeftMouseButtonJustPressed = true;
             }
 
             if (mouseState.RightButton == ButtonState.Pressed && _rightMouseButtonPreviousState == ButtonState.Released)
             {
-                _rightMouseButtonJustPressed = true;
+                RightMouseButtonJustPressed = true;
             }
 
             if (mouseState.LeftButton == ButtonState.Released)
             {
                 if (_leftMouseButtonPreviousState == ButtonState.Pressed)
                 {
-                    _leftMouseButtonJustReleased = true;
+                    LeftMouseButtonJustReleased = true;
                 }
             }
 
@@ -128,7 +152,7 @@ namespace GUI.App.Source.InputSubsystem
             {
                 if (_rightMouseButtonPreviousState == ButtonState.Pressed)
                 {
-                    _rightMouseButtonJustReleased = true;
+                    RightMouseButtonJustReleased = true;
                 }
             }
 
@@ -136,6 +160,9 @@ namespace GUI.App.Source.InputSubsystem
             _rightMouseButtonPreviousState = mouseState.RightButton;
         }
 
+        /// <summary>
+        /// Processes keyboard events.
+        /// </summary>
         private void ProcessKeyboard()
         {
             var keyboardState = Keyboard.GetState();

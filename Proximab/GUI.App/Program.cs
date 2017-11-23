@@ -5,13 +5,19 @@ using Proxima.Core;
 
 namespace GUI.App
 {
+    /// <summary>
+    /// Represents the entry point class with Main method.
+    /// </summary>
     public static class Program
     {
+        /// <summary>
+        /// Entry point.
+        /// </summary>
         [STAThread]
         public static void Main()
         {
             var consoleManager = new ConsoleManager();
-            consoleManager.Run();
+            consoleManager.RunAsync();
 
             ProximaCore.Init();
 

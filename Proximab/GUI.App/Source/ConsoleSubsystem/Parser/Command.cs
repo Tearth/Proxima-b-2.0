@@ -5,7 +5,7 @@ using System.Globalization;
 namespace GUI.App.Source.ConsoleSubsystem.Parser
 {
     /// <summary>
-    /// Represents information about command.
+    /// Represents information about the command.
     /// </summary>
     internal class Command
     {

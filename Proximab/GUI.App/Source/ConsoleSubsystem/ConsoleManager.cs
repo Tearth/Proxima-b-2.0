@@ -10,8 +10,14 @@ using Microsoft.Xna.Framework.Content;
 
 namespace GUI.App.Source.ConsoleSubsystem
 {
+    /// <summary>
+    /// Represents a set of methods to manage a console.
+    /// </summary>
     internal class ConsoleManager
     {
+        /// <summary>
+        /// Event triggered when there is a new command from user.
+        /// </summary>
         public event EventHandler<NewCommandEventArgs> OnNewCommand;
 
         private ColorfulConsoleManager _colorfulConsole;
@@ -24,6 +30,9 @@ namespace GUI.App.Source.ConsoleSubsystem
         private CommandDefinitionsContainer _commandDefinitionsContainer;
         private ColorDefinitionsContainer _colorDefinitionsContainer;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConsoleManager"/> class.
+        /// </summary>
         public ConsoleManager()
         {
             _consoleLoop = new Task(() => Loop());
@@ -36,6 +45,10 @@ namespace GUI.App.Source.ConsoleSubsystem
             _environmentInfoProvider = new EnvironmentInfoProvider();
         }
 
+        /// <summary>
+        /// Loads resources. Must be called before first use.
+        /// </summary>
+        /// <param name="contentManager">Monogame content manager.</param>
         public void LoadContent(ContentManager contentManager)
         {
             _commandDefinitionsContainer = contentManager.Load<CommandDefinitionsContainer>("XML\\CommandDefinitions");
@@ -46,7 +59,10 @@ namespace GUI.App.Source.ConsoleSubsystem
             WriteConsoleHeader();
         }
 
-        public async void Run()
+        /// <summary>
+        /// Runs asynchronously the task with console loop.
+        /// </summary>
+        public async void RunAsync()
         {
             try
             {
@@ -65,16 +81,28 @@ namespace GUI.App.Source.ConsoleSubsystem
             }
         }
 
+        /// <summary>
+        /// Writes empty line to the output console.
+        /// </summary>
         public void WriteLine()
         {
             _colorfulConsole.WriteLine();
         }
 
+        /// <summary>
+        /// Writes the specified text to the output console.
+        /// </summary>
+        /// <param name="output">The text to write.</param>
         public void WriteLine(string output)
         {
             _colorfulConsole.WriteLine(output);
         }
 
+        /// <summary>
+        /// The event handler for new commands.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
         private void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
         {
             var command = e.Command;
@@ -86,6 +114,9 @@ namespace GUI.App.Source.ConsoleSubsystem
             }
         }
 
+        /// <summary>
+        /// Writes a list of all commands to the output console.
+        /// </summary>
         private void WriteCommandsList()
         {
             WriteLine($"$wAvailable commands ({_commandDefinitionsContainer.Definitions.Count}):");
@@ -101,6 +132,9 @@ namespace GUI.App.Source.ConsoleSubsystem
             }
         }
 
+        /// <summary>
+        /// Writes a list of all colors to the output console.
+        /// </summary>
         private void WriteColorsList()
         {
             WriteLine($"$wAvailable colors ({_colorDefinitionsContainer.Definitions.Count}):");
@@ -111,6 +145,9 @@ namespace GUI.App.Source.ConsoleSubsystem
             }
         }
 
+        /// <summary>
+        /// Runs console loop.
+        /// </summary>
         private void Loop()
         {
             while (true)
@@ -119,6 +156,10 @@ namespace GUI.App.Source.ConsoleSubsystem
             }
         }
 
+        /// <summary>
+        /// Processes all incoming commands from output console.
+        /// </summary>
+        /// <param name="input">The console input to parse.</param>
         private void ProcessCommand(string input)
         {
             var rawCommand = _commandParser.Parse(input.ToLower().Trim());
@@ -152,21 +193,35 @@ namespace GUI.App.Source.ConsoleSubsystem
             OnNewCommand?.Invoke(this, commandEventArgs);
         }
 
+        /// <summary>
+        /// Writes empty command message to the output console.
+        /// </summary>
         private void WriteEmptyCommandMessage()
         {
             WriteLine("$rEmpty command");
         }
 
+        /// <summary>
+        /// Writes command not found message to the output console.
+        /// </summary>
+        /// <param name="command">The invalid command.</param>
         private void WriteCommandNotFoundMessage(string command)
         {
             WriteLine($"$rCommand not found: {command}");
         }
 
+        /// <summary>
+        /// Writes invalid command format message to the output console.
+        /// </summary>
+        /// <param name="command">The invalid command.</param>
         private void WriteInvalidCommandFormatMessage(string command)
         {
             WriteLine($"$rInvalid command format: {command}");
         }
 
+        /// <summary>
+        /// Writes header to the output console (should be called only once at program startup).
+        /// </summary>
         private void WriteConsoleHeader()
         {
             var osInfo = _environmentInfoProvider.OSInfo;

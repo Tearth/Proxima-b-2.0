@@ -19,16 +19,40 @@ using Proxima.Core.MoveGenerators;
 
 namespace GUI.App.Source.GameModeSubsystem
 {
+    /// <summary>
+    /// Represents a set of methods common for all game modes (logic, drawing, commands). 
+    /// </summary>
     internal abstract class GameModeBase
     {
+        /// <summary>
+        /// Gets or sets the console manager.
+        /// </summary>
         protected ConsoleManager ConsoleManager { get; set; }
+
+        /// <summary>
+        /// Gets or sets the pieces provider.
+        /// </summary>
         protected PiecesProvider PiecesProvider { get; set; }
 
+        /// <summary>
+        /// Gets or sets the visual board.
+        /// </summary>
         protected VisualBoard VisualBoard { get; set; }
+
+        /// <summary>
+        /// Gets or sets the promotion window.
+        /// </summary>
         protected PromotionWindow PromotionWindow { get; set; }
 
+        /// <summary>
+        /// Gets or sets the bitboard.
+        /// </summary>
         protected BitBoard BitBoard { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameModeBase"/> class.
+        /// </summary>
+        /// <param name="consoleManager">ConsoleManager instance</param>
         public GameModeBase(ConsoleManager consoleManager)
         {
             ConsoleManager = consoleManager;
@@ -40,6 +64,10 @@ namespace GUI.App.Source.GameModeSubsystem
             PromotionWindow = new PromotionWindow(PiecesProvider);
         }
 
+        /// <summary>
+        /// Loads resources. Must be called before first use.
+        /// </summary>
+        /// <param name="contentManager">Monogame content manager.</param>
         public virtual void LoadContent(ContentManager contentManager)
         {
             PiecesProvider.LoadContent(contentManager);
@@ -47,6 +75,10 @@ namespace GUI.App.Source.GameModeSubsystem
             PromotionWindow.LoadContent(contentManager);
         }
 
+        /// <summary>
+        /// Processes all events related to mouse and keyboard.
+        /// </summary>
+        /// <param name="inputManager">InputManager instance.</param>
         public virtual void Input(InputManager inputManager)
         {
             if (!PromotionWindow.Active)
@@ -57,30 +89,51 @@ namespace GUI.App.Source.GameModeSubsystem
             PromotionWindow.Input(inputManager);
         }
 
+        /// <summary>
+        /// Processes all logic related to the base game mode.
+        /// </summary>
         public virtual void Logic()
         {
             VisualBoard.Logic();
             PromotionWindow.Logic();
         }
 
+        /// <summary>
+        /// Draws board and promotion window (optionally).
+        /// </summary>
+        /// <param name="spriteBatch">Monogame sprite batch.</param>
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             VisualBoard.Draw(spriteBatch);
             PromotionWindow.Draw(spriteBatch);
         }
 
+        /// <summary>
+        /// Applies friendly board to the bitboard and updates the visual board (generator mode is set to CalculateAttacks for both colors).
+        /// </summary>
+        /// <param name="friendlyBoard">The friendly board to apply.</param>
         protected void CalculateBitBoard(FriendlyBoard friendlyBoard)
         {
             var mode = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
             CalculateBitBoard(friendlyBoard, mode, mode);
         }
 
+        /// <summary>
+        /// Applies move to the bitboard and updates the visual board (generator mode is set to CalculateAttacks for both colors).
+        /// </summary>
+        /// <param name="move">The move to apply.</param>
         protected void CalculateBitBoard(Move move)
         {
             var mode = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
             CalculateBitBoard(move, mode, mode);
         }
 
+        /// <summary>
+        /// Applies friendly board to the bitboard and updates the visual board.
+        /// </summary>
+        /// <param name="friendlyBoard">The friendly board to apply.</param>
+        /// <param name="whiteMode">The white generator mode.</param>
+        /// <param name="blackMode">The black generator mode.</param>
         protected void CalculateBitBoard(FriendlyBoard friendlyBoard, GeneratorMode whiteMode, GeneratorMode blackMode)
         {
             BitBoard = new BitBoard(friendlyBoard);
@@ -89,6 +142,12 @@ namespace GUI.App.Source.GameModeSubsystem
             VisualBoard.FriendlyBoard = BitBoard.GetFriendlyBoard();
         }
 
+        /// <summary>
+        /// Applies move to the bitboard and updates the visual board.
+        /// </summary>
+        /// <param name="move">The move to apply.</param>
+        /// <param name="whiteMode">The white generator mode.</param>
+        /// <param name="blackMode">The black generator mode.</param>
         protected void CalculateBitBoard(Move move, GeneratorMode whiteMode, GeneratorMode blackMode)
         {
             BitBoard = BitBoard.Move(move);
@@ -97,6 +156,11 @@ namespace GUI.App.Source.GameModeSubsystem
             VisualBoard.FriendlyBoard = BitBoard.GetFriendlyBoard();
         }
 
+        /// <summary>
+        /// The event handler for new commands.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
         private void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
         {
             var command = e.Command;
@@ -114,6 +178,10 @@ namespace GUI.App.Source.GameModeSubsystem
             }
         }
 
+        /// <summary>
+        /// Draws occupancy (nonempty fields) by pieces with the specified color.
+        /// </summary>
+        /// <param name="command">The passed command.</param>
         private void DrawOccupancy(Command command)
         {
             var colorArgument = command.GetArgument<string>(0);
@@ -138,6 +206,10 @@ namespace GUI.App.Source.GameModeSubsystem
             VisualBoard.AddExternalSelections(occupancy);
         }
 
+        /// <summary>
+        /// Draws all fields attacked by pieces with the specified color.
+        /// </summary>
+        /// <param name="command">The passed command.</param>
         private void DrawAttacks(Command command)
         {
             var colorArgument = command.GetArgument<string>(0);
@@ -162,6 +234,10 @@ namespace GUI.App.Source.GameModeSubsystem
             VisualBoard.AddExternalSelections(attacks);
         }
 
+        /// <summary>
+        /// Saves a board to the specified file.
+        /// </summary>
+        /// <param name="command">The passed command.</param>
         private void SaveBoard(Command command)
         {
             var boardNameArgument = command.GetArgument<string>(0);
@@ -173,6 +249,10 @@ namespace GUI.App.Source.GameModeSubsystem
             boardWriter.Write(path, board);
         }
 
+        /// <summary>
+        /// Loads a board from the specified file and updates bitboard.
+        /// </summary>
+        /// <param name="command">The passed command.</param>
         private void LoadBoard(Command command)
         {
             var boardNameArgument = command.GetArgument<string>(0);
@@ -189,6 +269,10 @@ namespace GUI.App.Source.GameModeSubsystem
             CalculateBitBoard(boardReader.Read(path));
         }
 
+        /// <summary>
+        /// Displays check status on the console.
+        /// </summary>
+        /// <param name="command">The passed command.</param>
         private void DisplayCheckStatus(Command command)
         {
             var whiteCheck = BitBoard.IsCheck(Color.White);
@@ -198,6 +282,10 @@ namespace GUI.App.Source.GameModeSubsystem
             ConsoleManager.WriteLine($"$cBlack king checked: ${ColorfulConsoleHelpers.ParseBool(blackCheck)}");
         }
 
+        /// <summary>
+        /// Displays castling flags on the console.
+        /// </summary>
+        /// <param name="command">The passed command.</param>
         private void DisplayCastlingFlags(Command command)
         {
             var castlingFlags = VisualBoard.FriendlyBoard.Castling;
@@ -211,6 +299,10 @@ namespace GUI.App.Source.GameModeSubsystem
             ConsoleManager.WriteLine($"$cBlack done: {ColorfulConsoleHelpers.ParseBool(castlingFlags.BlackCastlingDone)}");
         }
 
+        /// <summary>
+        /// Displays evaluation result on the console.
+        /// </summary>
+        /// <param name="command">The passed command.</param>
         private void DisplayEvaluation(Command command)
         {
             var evaluation = BitBoard.GetDetailedEvaluation();
@@ -229,6 +321,10 @@ namespace GUI.App.Source.GameModeSubsystem
             ConsoleManager.WriteLine($"$cTotal: $w{evaluation.Total}");
         }
 
+        /// <summary>
+        /// Displays board hash on the console.
+        /// </summary>
+        /// <param name="command">The passed command.</param>
         private void DisplayBoardHash(Command command)
         {
             var trueHash = BitBoard.Hash.ToString();

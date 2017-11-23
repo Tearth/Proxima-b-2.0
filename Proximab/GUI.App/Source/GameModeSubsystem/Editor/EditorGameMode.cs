@@ -14,8 +14,15 @@ using Proxima.Helpers.Tests;
 
 namespace GUI.App.Source.GameModeSubsystem.Editor
 {
+    /// <summary>
+    /// Represents the editor game mode (allows to add/remove pieces, do tests and some other non-typical actions).
+    /// </summary>
     internal class EditorGameMode : GameModeBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EditorGameMode"/> class.
+        /// </summary>
+        /// <param name="consoleManager">The console manager instance.</param>
         public EditorGameMode(ConsoleManager consoleManager) : base(consoleManager)
         {
             CalculateBitBoard(new DefaultFriendlyBoard());
@@ -26,6 +33,11 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             PromotionWindow.OnPromotionSelection += PromotionWindow_OnPromotionSelection;
         }
 
+        /// <summary>
+        /// The event handler for OnNewCommand.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
         private void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
         {
             var command = e.Command;
@@ -38,6 +50,11 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
         }
 
+        /// <summary>
+        /// The event handler for OnFieldSelection.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
         private void Board_OnFieldSelection(object sender, FieldSelectedEventArgs e)
         {
             if (e.Piece == null)
@@ -56,6 +73,11 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
         }
 
+        /// <summary>
+        /// The event handler for OnPieceMove.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
         private void Board_OnPieceMove(object sender, PieceMovedEventArgs e)
         {
             var move = BitBoard.Moves.FirstOrDefault(p => p.From == e.From && p.To == e.To);
@@ -75,12 +97,21 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
         }
 
+        /// <summary>
+        /// The event handler for OnPromotionSelection.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
         private void PromotionWindow_OnPromotionSelection(object sender, PromotionSelectedEventArgs e)
         {
             CalculateBitBoard(e.Move);
             PromotionWindow.Hide();
         }
 
+        /// <summary>
+        /// Adds a piece specified in the command to the visual board and updates bitboard.
+        /// </summary>
+        /// <param name="command">The AddPiece command.</param>
         private void AddPiece(Command command)
         {
             var colorArgument = command.GetArgument<string>(0);
@@ -112,6 +143,10 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             CalculateBitBoard(VisualBoard.FriendlyBoard);
         }
 
+        /// <summary>
+        /// Removes piece specified in the command from the visual board and updates bitboard.
+        /// </summary>
+        /// <param name="command">The RemovePiece command.</param>
         private void RemovePiece(Command command)
         {
             var fieldArgument = command.GetArgument<string>(0);
@@ -127,6 +162,10 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             CalculateBitBoard(VisualBoard.FriendlyBoard);
         }
 
+        /// <summary>
+        /// Does moves test with parameters specified in the command.
+        /// </summary>
+        /// <param name="command">The DoMovesTest command</param>
         private void DoMovesTest(Command command)
         {
             var test = new MovesTest();

@@ -12,10 +12,19 @@ using Proxima.Core.Commons.Moves;
 
 namespace GUI.App.Source.PromotionSubsystem
 {
+    /// <summary>
+    /// Represents a promotion window (with selectable pieces).
+    /// </summary>
     internal class PromotionWindow
     {
+        /// <summary>
+        /// Gets a value indicating whether window is displayer or not.
+        /// </summary>
         public bool Active { get; private set; }
 
+        /// <summary>
+        /// The event triggered when some promotion piece is selected.
+        /// </summary>
         public event EventHandler<PromotionSelectedEventArgs> OnPromotionSelection;
 
         private Texture2D _windowBackground;
@@ -29,6 +38,10 @@ namespace GUI.App.Source.PromotionSubsystem
         private List<PromotionPiece> _availablePieces;
         private List<PromotionMove> _promotionMoves;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PromotionWindow"/> class.
+        /// </summary>
+        /// <param name="piecesProvider">PiecesProvider instance.</param>
         public PromotionWindow(PiecesProvider piecesProvider)
         {
             Active = false;
@@ -41,12 +54,20 @@ namespace GUI.App.Source.PromotionSubsystem
             _promotionMoves = new List<PromotionMove>();
         }
 
+        /// <summary>
+        /// Loads resources. Must be called before first use.
+        /// </summary>
+        /// <param name="contentManager">Monogame content manager.</param>
         public void LoadContent(ContentManager contentManager)
         {
             _windowBackground = contentManager.Load<Texture2D>("Textures\\PromotionWindowBackground");
             _windowHighlight = contentManager.Load<Texture2D>("Textures\\PromotionWindowHighlight");
         }
 
+        /// <summary>
+        /// Processes all events related to mouse and keyboard.
+        /// </summary>
+        /// <param name="inputManager">InputManager instance.</param>
         public void Input(InputManager inputManager)
         {
             if (!Active)
@@ -54,7 +75,7 @@ namespace GUI.App.Source.PromotionSubsystem
                 return;
             }
 
-            var mousePosition = inputManager.GetMousePosition();
+            var mousePosition = inputManager.MousePosition;
             _highlightPosition = null;
 
             if (IsMouseOverPromotionWindow(mousePosition))
@@ -62,7 +83,7 @@ namespace GUI.App.Source.PromotionSubsystem
                 var pieceIndex = GetPieceIndex(mousePosition);
                 _highlightPosition = GetHighlightPosition(pieceIndex);
 
-                if (inputManager.IsLeftMouseButtonJustPressed())
+                if (inputManager.LeftMouseButtonJustPressed)
                 {
                     var pieceType = _predefinedPieceTypes[pieceIndex];
                     var move = _promotionMoves.First(p => p.PromotionPiece == pieceType);
@@ -72,10 +93,17 @@ namespace GUI.App.Source.PromotionSubsystem
             }
         }
 
+        /// <summary>
+        /// Processes all logic related to the promotion window.
+        /// </summary>
         public void Logic()
         {
         }
 
+        /// <summary>
+        /// Draws promotion window (only if <see cref="Active"/> is true).
+        /// </summary>
+        /// <param name="spriteBatch">Monogame sprite batch.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             if (!Active)
@@ -88,6 +116,11 @@ namespace GUI.App.Source.PromotionSubsystem
             DrawPieces(spriteBatch);
         }
 
+        /// <summary>
+        /// Shows the promotion window for the specified color.  It must be called only once.
+        /// </summary>
+        /// <param name="color">The color of promotion pieces.</param>
+        /// <param name="promotionMoves">The promotion moves list.</param>
         public void Display(Proxima.Core.Commons.Colors.Color color, IEnumerable<PromotionMove> promotionMoves)
         {
             _promotionMoves.AddRange(promotionMoves);
@@ -101,6 +134,9 @@ namespace GUI.App.Source.PromotionSubsystem
             Active = true;
         }
         
+        /// <summary>
+        /// Hides promotion window.
+        /// </summary>
         public void Hide()
         {
             _promotionMoves.Clear();
@@ -109,11 +145,19 @@ namespace GUI.App.Source.PromotionSubsystem
             Active = false;
         }
 
+        /// <summary>
+        /// Draws promotion window background.
+        /// </summary>
+        /// <param name="spriteBatch">Monogame sprite batch.</param>
         private void DrawBackground(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_windowBackground, Constants.PromotionWindowPosition, Constants.PromotionWindowSize, Color.White);
         }
 
+        /// <summary>
+        /// Draws highlight (when mouse is over some promotion piece).
+        /// </summary>
+        /// <param name="spriteBatch">Monogame sprite batch.</param>
         private void DrawHighlight(SpriteBatch spriteBatch)
         {
             if (_highlightPosition.HasValue)
@@ -122,6 +166,10 @@ namespace GUI.App.Source.PromotionSubsystem
             }
         }
 
+        /// <summary>
+        /// Draws promotion pieces.
+        /// </summary>
+        /// <param name="spriteBatch">Monogame sprite batch.</param>
         private void DrawPieces(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < _availablePieces.Count; i++)
@@ -133,6 +181,11 @@ namespace GUI.App.Source.PromotionSubsystem
             }
         }
 
+        /// <summary>
+        /// Checks if mouse is over some promotion piece.
+        /// </summary>
+        /// <param name="mousePosition">The current mouse position.</param>
+        /// <returns>True if the mouse is over promotion piece, otherwise false.</returns>
         private bool IsMouseOverPromotionWindow(Point mousePosition)
         {
             return mousePosition.X >= Constants.PromotionWindowPosition.X &&
@@ -141,11 +194,21 @@ namespace GUI.App.Source.PromotionSubsystem
                    mousePosition.Y <= Constants.PromotionWindowPosition.Y + Constants.PromotionWindowSize.Height;
         }
 
+        /// <summary>
+        /// Calculates piece index basing on current mouse position (from 0 to 3).
+        /// </summary>
+        /// <param name="mousePosition">The current mouse position.</param>
+        /// <returns>The index of the currently selected piece.</returns>
         private int GetPieceIndex(Point mousePosition)
         {
             return (int)Math.Floor((mousePosition.X - Constants.PromotionWindowPosition.X) / Constants.FieldWidthHeight);
         }
 
+        /// <summary>
+        /// Calculates the higlight position basing on the promotion piece index.
+        /// </summary>
+        /// <param name="pieceIndex">The promotion piece index.</param>
+        /// <returns>The position of the highlight.</returns>
         private Vector2 GetHighlightPosition(int pieceIndex)
         {
             return Constants.PromotionWindowPosition + new Vector2(pieceIndex * Constants.FieldWidthHeight, 0);

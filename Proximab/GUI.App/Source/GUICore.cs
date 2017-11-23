@@ -8,6 +8,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GUI.App.Source
 {
+    /// <summary>
+    /// The main class of project. Represents a set of methods for drawing and processing logic.
+    /// It's the bridge between the whole GUI and Monogame library.
+    /// </summary>
     internal class GUICore : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -19,6 +23,10 @@ namespace GUI.App.Source
 
         private GameModeBase _gameMode;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GUICore"/> class.
+        /// </summary>
+        /// <param name="consoleManager">The console manager instance.</param>
         public GUICore(ConsoleManager consoleManager)
         {
             _consoleManager = consoleManager;
@@ -38,11 +46,17 @@ namespace GUI.App.Source
             IsMouseVisible = true;
         }
 
+        /// <summary>
+        /// Initializes Monogame library.
+        /// </summary>
         protected override void Initialize()
         {
             base.Initialize();
         }
         
+        /// <summary>
+        /// Loads resources. Must be called before first use.
+        /// </summary>
         protected override void LoadContent()
         {
             _fpsCounter.LoadContent(Content);
@@ -52,10 +66,17 @@ namespace GUI.App.Source
             _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
         
+        /// <summary>
+        /// Releases resources.
+        /// </summary>
         protected override void UnloadContent()
         {
         }
         
+        /// <summary>
+        /// Updates all game objects with specified delta time.
+        /// </summary>
+        /// <param name="gameTime">Time parameters.</param>
         protected override void Update(GameTime gameTime)
         {
             Input();
@@ -66,6 +87,10 @@ namespace GUI.App.Source
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Draws all game objects.
+        /// </summary>
+        /// <param name="gameTime">Time parameters.</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
@@ -81,6 +106,9 @@ namespace GUI.App.Source
             base.Draw(gameTime);
         }
 
+        /// <summary>
+        /// Processes all input events.
+        /// </summary>
         private void Input()
         {
             _inputManager.Logic();
