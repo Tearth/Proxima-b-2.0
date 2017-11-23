@@ -29,6 +29,8 @@ namespace GUI.App.Source.GameModeSubsystem
         /// </summary>
         protected ConsoleManager ConsoleManager { get; set; }
 
+        protected CommandsManager CommandsManager { get; set; }
+
         /// <summary>
         /// Gets or sets the pieces provider.
         /// </summary>
@@ -53,10 +55,10 @@ namespace GUI.App.Source.GameModeSubsystem
         /// Initializes a new instance of the <see cref="GameModeBase"/> class.
         /// </summary>
         /// <param name="consoleManager">ConsoleManager instance</param>
-        public GameModeBase(ConsoleManager consoleManager)
+        public GameModeBase(ConsoleManager consoleManager, CommandsManager commandsManager)
         {
             ConsoleManager = consoleManager;
-            ConsoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
+            CommandsManager = commandsManager;
 
             PiecesProvider = new PiecesProvider();
 
@@ -108,6 +110,18 @@ namespace GUI.App.Source.GameModeSubsystem
             PromotionWindow.Draw(spriteBatch);
         }
 
+        protected virtual void SetCommandHandlers()
+        {
+            CommandsManager.AddCommandHandler(CommandType.Occupancy, DrawOccupancy);
+            CommandsManager.AddCommandHandler(CommandType.Attacks, DrawAttacks);
+            CommandsManager.AddCommandHandler(CommandType.SaveBoard, SaveBoard);
+            CommandsManager.AddCommandHandler(CommandType.LoadBoard, LoadBoard);
+            CommandsManager.AddCommandHandler(CommandType.Check, DisplayCheckStatus);
+            CommandsManager.AddCommandHandler(CommandType.Castling, DisplayCastlingFlags);
+            CommandsManager.AddCommandHandler(CommandType.Evaluation, DisplayEvaluation);
+            CommandsManager.AddCommandHandler(CommandType.Hash, DisplayBoardHash);
+        }
+
         /// <summary>
         /// Applies friendly board to the bitboard and updates the visual board (generator mode is set to CalculateAttacks for both colors).
         /// </summary>
@@ -154,28 +168,6 @@ namespace GUI.App.Source.GameModeSubsystem
             BitBoard.Calculate(whiteMode, blackMode);
 
             VisualBoard.FriendlyBoard = BitBoard.GetFriendlyBoard();
-        }
-
-        /// <summary>
-        /// The event handler for new commands.
-        /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
-        private void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
-        {
-            var command = e.Command;
-
-            switch (command.Type)
-            {
-                case CommandType.Occupancy: { DrawOccupancy(command); break; }
-                case CommandType.Attacks: { DrawAttacks(command); break; }
-                case CommandType.SaveBoard: { SaveBoard(command); break; }
-                case CommandType.LoadBoard: { LoadBoard(command); break; }
-                case CommandType.Check: { DisplayCheckStatus(command); break; }
-                case CommandType.Castling: { DisplayCastlingFlags(command); break; }
-                case CommandType.Evaluation: { DisplayEvaluation(command); break; }
-                case CommandType.Hash: { DisplayBoardHash(command); break; }
-            }
         }
 
         /// <summary>

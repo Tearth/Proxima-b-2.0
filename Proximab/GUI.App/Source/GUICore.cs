@@ -1,4 +1,5 @@
-﻿using GUI.App.Source.ConsoleSubsystem;
+﻿using GUI.App.Source.CommandsSubsystem;
+using GUI.App.Source.ConsoleSubsystem;
 using GUI.App.Source.GameModeSubsystem;
 using GUI.App.Source.GameModeSubsystem.Editor;
 using GUI.App.Source.Helpers;
@@ -18,6 +19,7 @@ namespace GUI.App.Source
         private SpriteBatch _spriteBatch;
 
         private ConsoleManager _consoleManager;
+        private CommandsManager _commandsManager;
         private InputManager _inputManager;
         private FPSCounter _fpsCounter;
 
@@ -27,9 +29,10 @@ namespace GUI.App.Source
         /// Initializes a new instance of the <see cref="GUICore"/> class.
         /// </summary>
         /// <param name="consoleManager">The console manager instance.</param>
-        public GUICore(ConsoleManager consoleManager)
+        public GUICore(ConsoleManager consoleManager, CommandsManager commandsManager)
         {
             _consoleManager = consoleManager;
+            _commandsManager = commandsManager;
 
             _graphics = new GraphicsDeviceManager(this)
             {
@@ -40,7 +43,7 @@ namespace GUI.App.Source
             _inputManager = new InputManager();
             _fpsCounter = new FPSCounter();
 
-            _gameMode = new EditorGameMode(consoleManager);
+            _gameMode = new EditorGameMode(_consoleManager, _commandsManager);
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;

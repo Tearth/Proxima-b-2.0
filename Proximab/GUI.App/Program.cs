@@ -1,5 +1,6 @@
 ﻿using System;
 using GUI.App.Source;
+using GUI.App.Source.CommandsSubsystem;
 using GUI.App.Source.ConsoleSubsystem;
 using Proxima.Core;
 
@@ -16,12 +17,14 @@ namespace GUI.App
         [STAThread]
         public static void Main()
         {
-            var consoleManager = new ConsoleManager();
+            var commandsManager = new CommandsManager();
+
+            var consoleManager = new ConsoleManager(commandsManager);
             consoleManager.RunAsync();
 
             ProximaCore.Init();
 
-            using (var game = new GUICore(consoleManager))
+            using (var game = new GUICore(consoleManager, commandsManager))
             {
                 game.Run();
             }

@@ -17,16 +17,12 @@ namespace GUI.App.Source.ConsoleSubsystem
     /// </summary>
     internal class ConsoleManager
     {
-        /// <summary>
-        /// Event triggered when there is a new command from user.
-        /// </summary>
-        public event EventHandler<NewCommandEventArgs> OnNewCommand;
-
         private ColorfulConsoleManager _colorfulConsole;
 
         private Task _consoleLoop;
         private CommandParser _commandParser;
         private CommandValidator _commandValidator;
+        private CommandsManager _commandsManager;
         private EnvironmentInfoProvider _environmentInfoProvider;
 
         private CommandDefinitionsContainer _commandDefinitionsContainer;
@@ -35,16 +31,17 @@ namespace GUI.App.Source.ConsoleSubsystem
         /// <summary>
         /// Initializes a new instance of the <see cref="ConsoleManager"/> class.
         /// </summary>
-        public ConsoleManager()
+        public ConsoleManager(CommandsManager commandsManager)
         {
+            _commandsManager = commandsManager;
             _consoleLoop = new Task(() => Loop());
-
-            OnNewCommand += ConsoleManager_OnNewCommand;
 
             _colorfulConsole = new ColorfulConsoleManager();
             _commandParser = new CommandParser();
             _commandValidator = new CommandValidator();
             _environmentInfoProvider = new EnvironmentInfoProvider();
+
+            SetCommandHandlers();
         }
 
         /// <summary>
@@ -100,26 +97,16 @@ namespace GUI.App.Source.ConsoleSubsystem
             _colorfulConsole.WriteLine(output);
         }
 
-        /// <summary>
-        /// The event handler for new commands.
-        /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
-        private void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
+        private void SetCommandHandlers()
         {
-            var command = e.Command;
-
-            switch (command.Type)
-            {
-                case CommandType.Help: { WriteCommandsList(); break; }
-                case CommandType.Colors: { WriteColorsList(); break; }
-            }
+            _commandsManager.AddCommandHandler(CommandType.Help, WriteCommandsList);
+            _commandsManager.AddCommandHandler(CommandType.Colors, WriteColorsList);
         }
 
         /// <summary>
         /// Writes a list of all commands to the output console.
         /// </summary>
-        private void WriteCommandsList()
+        private void WriteCommandsList(Command command)
         {
             WriteLine($"$wAvailable commands ({_commandDefinitionsContainer.Definitions.Count}):");
 
@@ -137,7 +124,7 @@ namespace GUI.App.Source.ConsoleSubsystem
         /// <summary>
         /// Writes a list of all colors to the output console.
         /// </summary>
-        private void WriteColorsList()
+        private void WriteColorsList(Command command)
         {
             WriteLine($"$wAvailable colors ({_colorDefinitionsContainer.Definitions.Count}):");
 
@@ -190,9 +177,7 @@ namespace GUI.App.Source.ConsoleSubsystem
             var enumType = (CommandType)Enum.Parse(typeof(CommandType), definition.EnumType);
 
             var command = new Command(enumType, rawCommand.Arguments);
-            var commandEventArgs = new NewCommandEventArgs(DateTime.Now, command);
-
-            OnNewCommand?.Invoke(this, commandEventArgs);
+            _commandsManager.Execute(command);
         }
 
         /// <summary>

@@ -57,7 +57,6 @@
     <Compile Include="Source\CommandsSubsystem\CommandsManager.cs" />
     <Compile Include="Source\CommandsSubsystem\Exceptions\CommandHandlerAlreadyRegisteredException.cs" />
     <Compile Include="Source\CommandsSubsystem\Exceptions\CommandHandlerNotFoundException.cs" />
-    <Compile Include="Source\ConsoleSubsystem\NewCommandEventArgs.cs" />
     <Compile Include="Source\CommandsSubsystem\Command.cs" />
     <Compile Include="Source\CommandsSubsystem\Parsers\CommandParser.cs" />
     <Compile Include="Source\ConsoleSubsystem\ConsoleManager.cs" />

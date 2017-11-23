@@ -23,31 +23,24 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
         /// Initializes a new instance of the <see cref="EditorGameMode"/> class.
         /// </summary>
         /// <param name="consoleManager">The console manager instance.</param>
-        public EditorGameMode(ConsoleManager consoleManager) : base(consoleManager)
+        public EditorGameMode(ConsoleManager consoleManager, CommandsManager commandsManager) : base(consoleManager, commandsManager)
         {
             CalculateBitBoard(new DefaultFriendlyBoard());
-
-            ConsoleManager.OnNewCommand += ConsoleManager_OnNewCommand;
+            
             VisualBoard.OnFieldSelection += Board_OnFieldSelection;
             VisualBoard.OnPieceMove += Board_OnPieceMove;
             PromotionWindow.OnPromotionSelection += PromotionWindow_OnPromotionSelection;
+
+            SetCommandHandlers();
         }
 
-        /// <summary>
-        /// The event handler for OnNewCommand.
-        /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
-        private void ConsoleManager_OnNewCommand(object sender, NewCommandEventArgs e)
+        protected override void SetCommandHandlers()
         {
-            var command = e.Command;
+            CommandsManager.AddCommandHandler(CommandType.AddPiece, AddPiece);
+            CommandsManager.AddCommandHandler(CommandType.RemovePiece, RemovePiece);
+            CommandsManager.AddCommandHandler(CommandType.MovesTest, DoMovesTest);
 
-            switch (command.Type)
-            {
-                case CommandType.AddPiece: { AddPiece(command); break; }
-                case CommandType.RemovePiece: { RemovePiece(command); break; }
-                case CommandType.MovesTest: { DoMovesTest(command); break; }
-            }
+            base.SetCommandHandlers();
         }
 
         /// <summary>
