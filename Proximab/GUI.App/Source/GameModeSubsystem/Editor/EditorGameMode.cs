@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using GUI.App.Source.BoardSubsystem;
+using GUI.App.Source.CommandsSubsystem;
 using GUI.App.Source.ConsoleSubsystem;
-using GUI.App.Source.ConsoleSubsystem.Parser;
 using GUI.App.Source.PromotionSubsystem;
 using GUI.ColorfulConsole;
 using Proxima.Core.Boards.Friendly;

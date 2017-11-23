@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using GUI.App.Source.ConsoleSubsystem.Parser;
+using GUI.App.Source.CommandsSubsystem;
+using GUI.App.Source.CommandsSubsystem.Parsers;
+using GUI.App.Source.CommandsSubsystem.Validators;
 using GUI.App.Source.DiagnosticSubsystem;
 using GUI.ColorfulConsole;
 using GUI.ContentDefinitions.Colors;

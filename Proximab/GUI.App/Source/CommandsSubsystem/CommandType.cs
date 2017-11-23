@@ -1,4 +1,4 @@
-﻿namespace GUI.App.Source.ConsoleSubsystem.Parser
+﻿namespace GUI.App.Source.CommandsSubsystem
 {
     /// <summary>
     /// Represents available type of commands.

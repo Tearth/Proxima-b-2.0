@@ -58,6 +58,7 @@ namespace GUI.App.Source.BoardSubsystem.Selections
                         texture = _internalSelection;
                         break;
                     }
+
                     case SelectionType.External:
                     {
                         texture = _externalSelection;

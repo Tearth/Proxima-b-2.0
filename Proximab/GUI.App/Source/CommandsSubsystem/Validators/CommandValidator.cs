@@ -1,7 +1,9 @@
 ﻿using System.Globalization;
+using GUI.App.Source.CommandsSubsystem.Exceptions;
+using GUI.App.Source.CommandsSubsystem.Parsers;
 using GUI.ContentDefinitions.Commands;
 
-namespace GUI.App.Source.ConsoleSubsystem.Parser
+namespace GUI.App.Source.CommandsSubsystem.Validators
 {
     /// <summary>
     /// Represents a set of methods to validate command.

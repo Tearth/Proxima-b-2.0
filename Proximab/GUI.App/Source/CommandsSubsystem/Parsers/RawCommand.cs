@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GUI.App.Source.ConsoleSubsystem.Parser
+namespace GUI.App.Source.CommandsSubsystem.Parsers
 {
     /// <summary>
     /// Represents information about raw (without enum values) command.

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GUI.App.Source.ConsoleSubsystem.Parser
+namespace GUI.App.Source.CommandsSubsystem.Parsers
 {
     /// <summary>
     /// Represents a set of methods to parse commands (from text to RawCommand objects).

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace GUI.App.Source.ConsoleSubsystem.Parser
+namespace GUI.App.Source.CommandsSubsystem.Exceptions
 {
     /// <summary>
     /// The exception that is thrown when a type specified in the command is not supported.

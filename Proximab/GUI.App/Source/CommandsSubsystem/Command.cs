@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace GUI.App.Source.ConsoleSubsystem.Parser
+namespace GUI.App.Source.CommandsSubsystem
 {
     /// <summary>
     /// Represents information about the command.
