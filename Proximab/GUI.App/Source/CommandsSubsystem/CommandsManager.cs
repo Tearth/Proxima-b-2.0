@@ -3,11 +3,11 @@ using GUI.App.Source.CommandsSubsystem.Exceptions;
 
 namespace GUI.App.Source.CommandsSubsystem
 {
-    delegate void ExecuteCommandDelegate(Command command);
+    internal delegate void ExecuteCommandDelegate(Command command);
 
     internal class CommandsManager
     {
-        Dictionary<CommandType, ExecuteCommandDelegate> _commandHandlers;
+        private Dictionary<CommandType, ExecuteCommandDelegate> _commandHandlers;
 
         public CommandsManager()
         {
@@ -16,7 +16,7 @@ namespace GUI.App.Source.CommandsSubsystem
 
         public void AddCommandHandler(CommandType commandType, ExecuteCommandDelegate handler)
         {
-            if(_commandHandlers.ContainsKey(commandType))
+            if (_commandHandlers.ContainsKey(commandType))
             {
                 throw new CommandHandlerAlreadyRegisteredException();
             }
@@ -31,7 +31,7 @@ namespace GUI.App.Source.CommandsSubsystem
 
         public void Execute(Command command)
         {
-            if(!_commandHandlers.ContainsKey(command.Type))
+            if (!_commandHandlers.ContainsKey(command.Type))
             {
                 throw new CommandHandlerNotFoundException();
             }

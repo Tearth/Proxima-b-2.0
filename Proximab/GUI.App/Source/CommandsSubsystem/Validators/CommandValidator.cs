@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using GUI.App.Source.CommandsSubsystem.Exceptions;
 using GUI.App.Source.CommandsSubsystem.Parsers;
 using GUI.ContentDefinitions.Commands;
@@ -10,6 +11,16 @@ namespace GUI.App.Source.CommandsSubsystem.Validators
     /// </summary>
     internal class CommandValidator
     {
+        private delegate bool ValidationHandlerDelegate(string value);
+        private Dictionary<string, ValidationHandlerDelegate> _validationHandlers;
+
+        public CommandValidator()
+        {
+            _validationHandlers = new Dictionary<string, ValidationHandlerDelegate>();
+
+            SetValidationHandlers();
+        }
+
         /// <summary>
         /// Validates the specified command by checking number of arguments and their types.
         /// </summary>
@@ -37,6 +48,14 @@ namespace GUI.App.Source.CommandsSubsystem.Validators
             return true;
         }
 
+        private void SetValidationHandlers()
+        {
+            _validationHandlers.Add("string", (value) => { return true; });
+            _validationHandlers.Add("int", TryParseToInt);
+            _validationHandlers.Add("bool", TryParseToBool);
+            _validationHandlers.Add("float", TryParseToFloat);
+        }
+
         /// <summary>
         /// Checks if the specified value is convertible to the specified type.
         /// </summary>
@@ -46,18 +65,27 @@ namespace GUI.App.Source.CommandsSubsystem.Validators
         /// <returns>True if the specified value is convertible to the specified type, otherwise false.</returns>
         private bool TryParseToType(string value, string type)
         {
-            var result = false;
-
-            switch (type)
+            if (!_validationHandlers.ContainsKey(type))
             {
-                case "string": { result = true; break; }
-                case "int": { result = int.TryParse(value, out _); break; }
-                case "bool": { result = bool.TryParse(value, out _); break; }
-                case "float": { result = float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out _); break; }
-                default: { throw new TypeNotFoundException(); }
+                throw new TypeNotFoundException();
             }
-            
-            return result;
+
+            return _validationHandlers[type].Invoke(value);
+        }
+
+        private bool TryParseToInt(string value)
+        {
+            return int.TryParse(value, out _);
+        }
+
+        private bool TryParseToBool(string value)
+        {
+            return bool.TryParse(value, out _);
+        }
+
+        private bool TryParseToFloat(string value)
+        {
+            return float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out _);
         }
     }
 }

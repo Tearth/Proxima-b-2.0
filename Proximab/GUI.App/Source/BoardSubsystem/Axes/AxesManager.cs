@@ -68,7 +68,7 @@ namespace GUI.App.Source.BoardSubsystem.Axes
                 var text = (8 - i).ToString();
                 var textCenterOffset = GetCenterOffset(text);
 
-                var position = new Vector2(0, (i * Constants.FieldWidthHeight));
+                var position = new Vector2(0, i * Constants.FieldWidthHeight);
 
                 position.Y += Constants.FieldWidthHeight >> 1;
                 position += Constants.BoardPosition;
@@ -96,7 +96,7 @@ namespace GUI.App.Source.BoardSubsystem.Axes
                 var text = ((char)('A' + i)).ToString();
                 var textCenterOffset = GetCenterOffset(text);
 
-                var position = new Vector2((i * Constants.FieldWidthHeight), 0);
+                var position = new Vector2(i * Constants.FieldWidthHeight, 0);
 
                 position.X += Constants.FieldWidthHeight >> 1;
                 position += Constants.BoardPosition;
