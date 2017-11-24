@@ -23,6 +23,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
         /// Initializes a new instance of the <see cref="EditorGameMode"/> class.
         /// </summary>
         /// <param name="consoleManager">The console manager instance.</param>
+        /// <param name="commandsManager">The commands manager instance.</param>
         public EditorGameMode(ConsoleManager consoleManager, CommandsManager commandsManager) : base(consoleManager, commandsManager)
         {
             CalculateBitBoard(new DefaultFriendlyBoard());
@@ -34,6 +35,9 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             SetCommandHandlers();
         }
 
+        /// <summary>
+        /// Adds all command handlers from current class to the commands manager.
+        /// </summary>
         protected override void SetCommandHandlers()
         {
             CommandsManager.AddCommandHandler(CommandType.AddPiece, AddPiece);

@@ -29,6 +29,9 @@ namespace GUI.App.Source.GameModeSubsystem
         /// </summary>
         protected ConsoleManager ConsoleManager { get; set; }
 
+        /// <summary>
+        /// Gets or sets the commands manager.
+        /// </summary>
         protected CommandsManager CommandsManager { get; set; }
 
         /// <summary>
@@ -54,7 +57,8 @@ namespace GUI.App.Source.GameModeSubsystem
         /// <summary>
         /// Initializes a new instance of the <see cref="GameModeBase"/> class.
         /// </summary>
-        /// <param name="consoleManager">ConsoleManager instance</param>
+        /// <param name="consoleManager">The console manager instance</param>
+        /// <param name="commandsManager">The commands manager instance</param>
         public GameModeBase(ConsoleManager consoleManager, CommandsManager commandsManager)
         {
             ConsoleManager = consoleManager;
@@ -110,6 +114,9 @@ namespace GUI.App.Source.GameModeSubsystem
             PromotionWindow.Draw(spriteBatch);
         }
 
+        /// <summary>
+        /// Adds all command handlers from current class to the commands manager.
+        /// </summary>
         protected virtual void SetCommandHandlers()
         {
             CommandsManager.AddCommandHandler(CommandType.Occupancy, DrawOccupancy);

@@ -14,6 +14,9 @@ namespace GUI.App.Source.CommandsSubsystem.Validators
         private delegate bool ValidationHandlerDelegate(string value);
         private Dictionary<string, ValidationHandlerDelegate> _validationHandlers;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandValidator"/> class.
+        /// </summary>
         public CommandValidator()
         {
             _validationHandlers = new Dictionary<string, ValidationHandlerDelegate>();
@@ -48,6 +51,9 @@ namespace GUI.App.Source.CommandsSubsystem.Validators
             return true;
         }
 
+        /// <summary>
+        /// Adds all command handlers from current class to the commands manager.
+        /// </summary>
         private void SetValidationHandlers()
         {
             _validationHandlers.Add("string", (value) => { return true; });
@@ -73,16 +79,31 @@ namespace GUI.App.Source.CommandsSubsystem.Validators
             return _validationHandlers[type].Invoke(value);
         }
 
+        /// <summary>
+        /// Checks if the value type is convertible to int type.
+        /// </summary>
+        /// <param name="value">The value to check.</param>
+        /// <returns>True is the specified value is convertible to int, otherwise false.</returns>
         private bool TryParseToInt(string value)
         {
             return int.TryParse(value, out _);
         }
 
+        /// <summary>
+        /// Checks if the value type is convertible to bool type.
+        /// </summary>
+        /// <param name="value">The value to check.</param>
+        /// <returns>True is the specified value is convertible to bool, otherwise false.</returns>
         private bool TryParseToBool(string value)
         {
             return bool.TryParse(value, out _);
         }
 
+        /// <summary>
+        /// Checks if the value type is convertible to float type.
+        /// </summary>
+        /// <param name="value">The value to check.</param>
+        /// <returns>True is the specified value is convertible to float, otherwise false.</returns>
         private bool TryParseToFloat(string value)
         {
             return float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out _);

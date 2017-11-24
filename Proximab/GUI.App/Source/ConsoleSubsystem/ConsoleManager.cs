@@ -20,8 +20,6 @@ namespace GUI.App.Source.ConsoleSubsystem
         private ColorfulConsoleManager _colorfulConsole;
 
         private Task _consoleLoop;
-        private CommandParser _commandParser;
-        private CommandValidator _commandValidator;
         private CommandsManager _commandsManager;
         private EnvironmentInfoProvider _environmentInfoProvider;
 
@@ -31,14 +29,13 @@ namespace GUI.App.Source.ConsoleSubsystem
         /// <summary>
         /// Initializes a new instance of the <see cref="ConsoleManager"/> class.
         /// </summary>
+        /// <param name="commandsManager">The commands manager instance.</param>
         public ConsoleManager(CommandsManager commandsManager)
         {
             _commandsManager = commandsManager;
             _consoleLoop = new Task(() => Loop());
 
             _colorfulConsole = new ColorfulConsoleManager();
-            _commandParser = new CommandParser();
-            _commandValidator = new CommandValidator();
             _environmentInfoProvider = new EnvironmentInfoProvider();
 
             SetCommandHandlers();
@@ -53,6 +50,7 @@ namespace GUI.App.Source.ConsoleSubsystem
             _commandDefinitionsContainer = contentManager.Load<CommandDefinitionsContainer>("XML\\CommandDefinitions");
             _colorDefinitionsContainer = contentManager.Load<ColorDefinitionsContainer>("XML\\ColorDefinitions");
 
+            _commandsManager.LoadContent(_commandDefinitionsContainer);
             _colorfulConsole.LoadContent(_colorDefinitionsContainer);
 
             WriteConsoleHeader();
@@ -97,6 +95,9 @@ namespace GUI.App.Source.ConsoleSubsystem
             _colorfulConsole.WriteLine(output);
         }
 
+        /// <summary>
+        /// Adds all command handlers from current class to the commands manager.
+        /// </summary>
         private void SetCommandHandlers()
         {
             _commandsManager.AddCommandHandler(CommandType.Help, WriteCommandsList);
@@ -106,6 +107,7 @@ namespace GUI.App.Source.ConsoleSubsystem
         /// <summary>
         /// Writes a list of all commands to the output console.
         /// </summary>
+        /// <param name="command">The command instance with more specified data.</param>
         private void WriteCommandsList(Command command)
         {
             WriteLine($"$wAvailable commands ({_commandDefinitionsContainer.Definitions.Count}):");
@@ -124,6 +126,7 @@ namespace GUI.App.Source.ConsoleSubsystem
         /// <summary>
         /// Writes a list of all colors to the output console.
         /// </summary>
+        /// <param name="command">The command instance with more specified data.</param>
         private void WriteColorsList(Command command)
         {
             WriteLine($"$wAvailable colors ({_colorDefinitionsContainer.Definitions.Count}):");
@@ -151,33 +154,32 @@ namespace GUI.App.Source.ConsoleSubsystem
         /// <param name="input">The console input to parse.</param>
         private void ProcessCommand(string input)
         {
-            var rawCommand = _commandParser.Parse(input.ToLower().Trim());
-            if (rawCommand == null)
+            var executionResult = _commandsManager.Execute(input);
+            switch (executionResult)
             {
-                WriteEmptyCommandMessage();
-                return;
+                case ExecutionResult.Success:
+                {
+                    break;
+                }
+
+                case ExecutionResult.EmptyCommand:
+                {
+                    WriteEmptyCommandMessage();
+                    break;
+                }
+
+                case ExecutionResult.CommandNotFound:
+                {
+                    WriteCommandNotFoundMessage();
+                    break;
+                }
+
+                case ExecutionResult.InvalidCommandFormat:
+                {
+                    WriteInvalidCommandFormatMessage();
+                    break;
+                }
             }
-
-            var definition = _commandDefinitionsContainer.Definitions
-                .FirstOrDefault(p => p.Name.ToLower().Trim() == rawCommand.Name);
-
-            if (definition == null)
-            {
-                WriteCommandNotFoundMessage(input);
-                return;
-            }
-
-            var validationResult = _commandValidator.Validate(rawCommand, definition);
-            if (!validationResult)
-            {
-                WriteInvalidCommandFormatMessage(input);
-                return;
-            }
-
-            var enumType = (CommandType)Enum.Parse(typeof(CommandType), definition.EnumType);
-
-            var command = new Command(enumType, rawCommand.Arguments);
-            _commandsManager.Execute(command);
         }
 
         /// <summary>
@@ -191,19 +193,17 @@ namespace GUI.App.Source.ConsoleSubsystem
         /// <summary>
         /// Writes command not found message to the output console.
         /// </summary>
-        /// <param name="command">The invalid command.</param>
-        private void WriteCommandNotFoundMessage(string command)
+        private void WriteCommandNotFoundMessage()
         {
-            WriteLine($"$rCommand not found: {command}");
+            WriteLine($"$rCommand not found");
         }
 
         /// <summary>
         /// Writes invalid command format message to the output console.
         /// </summary>
-        /// <param name="command">The invalid command.</param>
-        private void WriteInvalidCommandFormatMessage(string command)
+        private void WriteInvalidCommandFormatMessage()
         {
-            WriteLine($"$rInvalid command format: {command}");
+            WriteLine($"$rInvalid command format");
         }
 
         /// <summary>

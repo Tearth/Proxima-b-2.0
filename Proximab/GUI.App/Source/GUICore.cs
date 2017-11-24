@@ -29,6 +29,7 @@ namespace GUI.App.Source
         /// Initializes a new instance of the <see cref="GUICore"/> class.
         /// </summary>
         /// <param name="consoleManager">The console manager instance.</param>
+        /// <param name="commandsManager">The commands manager instance.</param>
         public GUICore(ConsoleManager consoleManager, CommandsManager commandsManager)
         {
             _consoleManager = consoleManager;

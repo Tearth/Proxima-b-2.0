@@ -12,7 +12,7 @@ namespace GUI.App.Source.CommandsSubsystem.Parsers
         private readonly char[] _separators = { ' ' };
 
         /// <summary>
-        /// Processes input to RawCommand.
+        /// Splits the input into tokens and stores them in the RawCommand object.
         /// </summary>
         /// <param name="input">The input entered by user.</param>
         /// <returns>RawCommand if possible, otherwise null.</returns>
