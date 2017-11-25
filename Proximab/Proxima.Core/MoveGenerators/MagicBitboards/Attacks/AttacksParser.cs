@@ -1,15 +1,14 @@
-﻿using Proxima.Core.Boards;
+﻿using System.Collections.Generic;
 using Proxima.Core.MoveGenerators.MagicBitboards.Attacks.Generators;
 using Proxima.Core.MoveGenerators.MagicBitboards.Exceptions;
 using Proxima.Core.MoveGenerators.PatternGenerators;
-using System.Collections.Generic;
 
 namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
 {
     public class AttacksParser
     {
-        RookAttacksGenerator _rookAttacksGenerator;
-        BishopAttacksGenerator _bishopAttacksGenerator;
+        private RookAttacksGenerator _rookAttacksGenerator;
+        private BishopAttacksGenerator _bishopAttacksGenerator;
 
         public AttacksParser()
         {
@@ -49,14 +48,14 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
             return bishopAttacks;
         }
 
-        ulong[] ParsePatterns(List<FieldPattern> patterns, ulong[] keys, int maskBitsCount, int fieldIndex, int patternsPerField)
+        private ulong[] ParsePatterns(List<FieldPattern> patterns, ulong[] keys, int maskBitsCount, int fieldIndex, int patternsPerField)
         {
             var attacks = new ulong[1 << maskBitsCount];
             var key = keys[fieldIndex];
 
-            foreach(var pattern in patterns)
+            foreach (var pattern in patterns)
             {
-                var hash = (pattern.Occupancy * key) >> (64 - maskBitsCount);       
+                var hash = (pattern.Occupancy * key) >> (64 - maskBitsCount);
                 if (attacks[hash] != 0 && attacks[hash] != pattern.Attacks)
                 {
                     throw new InvalidMagicKeyException();

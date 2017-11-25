@@ -9,21 +9,21 @@ namespace Proxima.Core.Evaluation
 {
     public static class EvaluationCalculator
     {
-        static MaterialCalculator Material = new MaterialCalculator();
-        static MobilityCalculator Mobility = new MobilityCalculator();
-        static CastlingCalculator Castling = new CastlingCalculator();
-        static PositionCalculator Position = new PositionCalculator();
-        static PawnStructureCalculator PawnStructure = new PawnStructureCalculator();
-        static KingSafetyCalculator KingSafety = new KingSafetyCalculator();
+        private static MaterialCalculator _material = new MaterialCalculator();
+        private static MobilityCalculator _mobility = new MobilityCalculator();
+        private static CastlingCalculator _castling = new CastlingCalculator();
+        private static PositionCalculator _position = new PositionCalculator();
+        private static PawnStructureCalculator _pawnStructure = new PawnStructureCalculator();
+        private static KingSafetyCalculator _kingSafety = new KingSafetyCalculator();
 
         public static int GetEvaluation(EvaluationParameters parameters, IncrementalEvaluationData incrementalEvaluationData)
         {
             var material = incrementalEvaluationData.Material;
-            var mobility = Mobility.Calculate(parameters);
+            var mobility = _mobility.Calculate(parameters);
             var castling = incrementalEvaluationData.Castling;
             var position = incrementalEvaluationData.Position;
-            var pawnStructure = PawnStructure.Calculate(parameters);
-            var kingSafety = KingSafety.Calculate(parameters);
+            var pawnStructure = _pawnStructure.Calculate(parameters);
+            var kingSafety = _kingSafety.Calculate(parameters);
 
             return material + mobility + castling + position + pawnStructure + kingSafety;
         }
@@ -32,12 +32,12 @@ namespace Proxima.Core.Evaluation
         {
             return new DetailedEvaluationData()
             {
-                Material = Material.CalculateDetailed(parameters),
-                Mobility = Mobility.CalculateDetailed(parameters),
-                Castling = Castling.CalculateDetailed(parameters),
-                Position = Position.CalculateDetailed(parameters),
-                PawnStructure = PawnStructure.CalculateDetailed(parameters),
-                KingSafety = KingSafety.CalculateDetailed(parameters)
+                Material = _material.CalculateDetailed(parameters),
+                Mobility = _mobility.CalculateDetailed(parameters),
+                Castling = _castling.CalculateDetailed(parameters),
+                Position = _position.CalculateDetailed(parameters),
+                PawnStructure = _pawnStructure.CalculateDetailed(parameters),
+                KingSafety = _kingSafety.CalculateDetailed(parameters)
             };
         }
     }

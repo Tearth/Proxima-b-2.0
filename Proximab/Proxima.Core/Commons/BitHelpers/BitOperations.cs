@@ -1,6 +1,5 @@
-﻿using Proxima.Core.Commons.BitHelpers;
+﻿using System.Runtime.CompilerServices;
 using Proxima.Core.Commons.Performance;
-using System.Runtime.CompilerServices;
 
 namespace Proxima.Core.Boards
 {
@@ -15,7 +14,7 @@ namespace Proxima.Core.Boards
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong GetLSB(ulong value)
         {
-            var valueWithSign = (long)value;          
+            var valueWithSign = (long)value;
             return (ulong)(valueWithSign & -valueWithSign);
         }
 
@@ -43,7 +42,7 @@ namespace Proxima.Core.Boards
         {
             var count = 0;
 
-            while(value != 0)
+            while (value != 0)
             {
                 value = PopLSB(value);
                 count++;

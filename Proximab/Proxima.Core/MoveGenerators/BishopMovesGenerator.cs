@@ -24,10 +24,12 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
-        static ulong CalculateMoves(PieceType pieceType, ulong pieceLSB, GeneratorParameters opt)
+        private static ulong CalculateMoves(PieceType pieceType, ulong pieceLSB, GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
+            {
                 return 0;
+            }
 
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
             var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
@@ -44,7 +46,7 @@ namespace Proxima.Core.MoveGenerators
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
                 var to = BitPositionConverter.ToPosition(patternIndex);
 
-                if((patternLSB & opt.EnemyOccupancy) == 0)
+                if ((patternLSB & opt.EnemyOccupancy) == 0)
                 {
                     opt.Moves.AddLast(new QuietMove(piecePosition, to, pieceType, opt.FriendlyColor));
                 }
@@ -63,10 +65,12 @@ namespace Proxima.Core.MoveGenerators
             return excludeFromAttacks;
         }
 
-        static void CalculateAttacks(PieceType pieceType, ulong pieceLSB, ulong movesPattern, GeneratorParameters opt)
+        private static void CalculateAttacks(PieceType pieceType, ulong pieceLSB, ulong movesPattern, GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateAttacks) == 0)
+            {
                 return;
+            }
 
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
             var blockersToRemove = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Bishop)] |
@@ -91,7 +95,7 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
-        static ulong CalculatePawnBlockers(int pieceIndex, ulong pattern, GeneratorParameters opt)
+        private static ulong CalculatePawnBlockers(int pieceIndex, ulong pattern, GeneratorParameters opt)
         {
             var patternWithFriendlyBlockers = pattern;
             var allowedBlockers = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)];
@@ -126,7 +130,7 @@ namespace Proxima.Core.MoveGenerators
                    (friendlyBlockerPosition.X > piecePosition.X && friendlyBlockerPosition.Y < piecePosition.Y) &&
                    (friendlyBlockerLSB & (BitConstants.HFile | BitConstants.ARank)) == 0)
                 {
-                     patternWithFriendlyBlockers |= friendlyBlockerLSB >> 9;
+                    patternWithFriendlyBlockers |= friendlyBlockerLSB >> 9;
                 }
                 else
                 if (opt.FriendlyColor == Color.Black &&

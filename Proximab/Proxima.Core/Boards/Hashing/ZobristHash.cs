@@ -7,7 +7,7 @@ namespace Proxima.Core.Boards.Hashing
 {
     public static class ZobristHash
     {
-        static Random64 _random64 = new Random64();
+        private static Random64 _random64 = new Random64();
 
         public static ulong Calculate(ulong[] pieces, bool[] castling, ulong[] enPassant)
         {
@@ -20,17 +20,17 @@ namespace Proxima.Core.Boards.Hashing
             return hash;
         }
 
-        static ulong CalculatePieces(ulong hash, ulong[] pieces)
+        private static ulong CalculatePieces(ulong hash, ulong[] pieces)
         {
-            for(int colorIndex=0; colorIndex < 2; colorIndex++)
+            for (int colorIndex = 0; colorIndex < 2; colorIndex++)
             {
                 var color = (Color)colorIndex;
-                for(int pieceIndex=0; pieceIndex < 6; pieceIndex++)
+                for (int pieceIndex = 0; pieceIndex < 6; pieceIndex++)
                 {
                     var piece = (PieceType)pieceIndex;
                     var piecesArray = pieces[FastArray.GetPieceIndex(color, piece)];
 
-                    while(piecesArray != 0)
+                    while (piecesArray != 0)
                     {
                         var pieceLSB = BitOperations.GetLSB(piecesArray);
                         piecesArray = BitOperations.PopLSB(piecesArray);
@@ -45,11 +45,11 @@ namespace Proxima.Core.Boards.Hashing
             return hash;
         }
 
-        static ulong CalculateCastling(ulong hash, bool[] castling)
+        private static ulong CalculateCastling(ulong hash, bool[] castling)
         {
-            for(int i=0; i<4; i++)
+            for (int i = 0; i < 4; i++)
             {
-                if(castling[i])
+                if (castling[i])
                 {
                     hash ^= ZobristContainer.Castling[i];
                 }
@@ -58,13 +58,13 @@ namespace Proxima.Core.Boards.Hashing
             return hash;
         }
 
-        static ulong CalculateEnPassant(ulong hash, ulong[] enPassant)
+        private static ulong CalculateEnPassant(ulong hash, ulong[] enPassant)
         {
-            for(int colorIndex=0; colorIndex < 2; colorIndex++)
+            for (int colorIndex = 0; colorIndex < 2; colorIndex++)
             {
                 var enPassantToParse = enPassant[colorIndex];
 
-                while(enPassantToParse != 0)
+                while (enPassantToParse != 0)
                 {
                     var pieceLSB = BitOperations.GetLSB(enPassantToParse);
                     enPassantToParse = BitOperations.PopLSB(enPassantToParse);

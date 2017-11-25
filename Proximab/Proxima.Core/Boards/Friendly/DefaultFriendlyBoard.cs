@@ -8,7 +8,7 @@ namespace Proxima.Core.Boards.Friendly
     {
         public DefaultFriendlyBoard() : base()
         {
-            //White pieces
+            // White pieces
             SetPiece(new FriendlyPiece(new Position(1, 1), PieceType.Rook, Color.White));
             SetPiece(new FriendlyPiece(new Position(2, 1), PieceType.Knight, Color.White));
             SetPiece(new FriendlyPiece(new Position(3, 1), PieceType.Bishop, Color.White));
@@ -27,7 +27,7 @@ namespace Proxima.Core.Boards.Friendly
             SetPiece(new FriendlyPiece(new Position(7, 2), PieceType.Pawn, Color.White));
             SetPiece(new FriendlyPiece(new Position(8, 2), PieceType.Pawn, Color.White));
 
-            //Black pieces
+            // Black pieces
             SetPiece(new FriendlyPiece(new Position(1, 8), PieceType.Rook, Color.Black));
             SetPiece(new FriendlyPiece(new Position(2, 8), PieceType.Knight, Color.Black));
             SetPiece(new FriendlyPiece(new Position(3, 8), PieceType.Bishop, Color.Black));
@@ -46,7 +46,7 @@ namespace Proxima.Core.Boards.Friendly
             SetPiece(new FriendlyPiece(new Position(7, 7), PieceType.Pawn, Color.Black));
             SetPiece(new FriendlyPiece(new Position(8, 7), PieceType.Pawn, Color.Black));
 
-            //Castling
+            // Castling
             Castling.WhiteShortCastlingPossibility = true;
             Castling.WhiteLongCastlingPossibility = true;
             Castling.BlackShortCastlingPossibility = true;
@@ -55,7 +55,7 @@ namespace Proxima.Core.Boards.Friendly
             Castling.WhiteCastlingDone = false;
             Castling.BlackCastlingDone = false;
 
-            //EnPassant
+            // EnPassant
             EnPassant.WhiteEnPassant = null;
             EnPassant.BlackEnPassant = null;
         }

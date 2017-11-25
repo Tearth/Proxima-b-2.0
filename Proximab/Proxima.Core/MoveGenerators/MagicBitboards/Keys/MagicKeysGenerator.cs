@@ -1,14 +1,12 @@
-﻿using Proxima.Core.Boards;
-using Proxima.Core.Commons.Performance;
-using Proxima.Core.Commons.Randoms;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Proxima.Core.Commons.Randoms;
 
 namespace Proxima.Core.MoveGenerators.MagicBitboards.Keys
 {
     public class MagicKeyGenerator
     {
-        Random64 _random64;
+        private Random64 _random64;
 
         public MagicKeyGenerator()
         {
@@ -21,8 +19,8 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Keys
 
             var key = 0ul;
             var fail = true;
-            
-            while(fail)
+
+            while (fail)
             {
                 key = GetRandomKey();
                 fail = false;
@@ -46,7 +44,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Keys
             return key;
         }
 
-        ulong GetRandomKey()
+        private ulong GetRandomKey()
         {
             return _random64.Next() & _random64.Next() & _random64.Next();
         }

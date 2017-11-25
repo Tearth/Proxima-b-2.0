@@ -1,10 +1,8 @@
-﻿using Proxima.Core.Commons;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Positions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Proxima.Core.Boards.Friendly
 {
@@ -63,7 +61,7 @@ namespace Proxima.Core.Boards.Friendly
         {
             var pieces = new ulong[12];
 
-            foreach(var piece in Pieces)
+            foreach (var piece in Pieces)
             {
                 var bitPosition = BitPositionConverter.ToULong(piece.Position);
                 pieces[FastArray.GetPieceIndex(piece.Color, piece.Type)] |= bitPosition;
@@ -115,7 +113,7 @@ namespace Proxima.Core.Boards.Friendly
         {
             var whiteOccupancy = GetOccupancy(Color.White);
             var blackOccupancy = GetOccupancy(Color.Black);
-            
+
             return whiteOccupancy.Concat(blackOccupancy).ToList();
         }
 

@@ -1,10 +1,6 @@
-﻿using Proxima.Core.Commons;
+﻿using System.Collections.Generic;
+using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Proxima.Core.Boards.Friendly
 {
@@ -12,7 +8,6 @@ namespace Proxima.Core.Boards.Friendly
     {
         public FriendlyPiecesList() : base()
         {
-
         }
 
         public FriendlyPiecesList(ulong[] pieces) : base()

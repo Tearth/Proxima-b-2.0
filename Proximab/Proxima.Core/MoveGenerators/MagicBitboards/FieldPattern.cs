@@ -7,7 +7,6 @@
 
         public FieldPattern()
         {
-
         }
 
         public FieldPattern(ulong occupancy, ulong attacks)

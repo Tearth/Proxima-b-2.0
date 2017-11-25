@@ -4,17 +4,16 @@ namespace Proxima.Core.Boards.Friendly
 {
     public class FriendlyCastling
     {
-        public bool WhiteShortCastlingPossibility;
-        public bool WhiteLongCastlingPossibility;
-        public bool BlackShortCastlingPossibility;
-        public bool BlackLongCastlingPossibility;
+        public bool WhiteShortCastlingPossibility { get; set; }
+        public bool WhiteLongCastlingPossibility { get; set; }
+        public bool BlackShortCastlingPossibility { get; set; }
+        public bool BlackLongCastlingPossibility { get; set; }
 
-        public bool WhiteCastlingDone;
-        public bool BlackCastlingDone;
+        public bool WhiteCastlingDone { get; set; }
+        public bool BlackCastlingDone { get; set; }
 
         public FriendlyCastling()
         {
-
         }
 
         public FriendlyCastling(bool whiteShortPossibility, bool whiteLongPossibility,

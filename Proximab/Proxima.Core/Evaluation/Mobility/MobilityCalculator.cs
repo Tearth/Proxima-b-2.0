@@ -12,7 +12,7 @@ namespace Proxima.Core.Evaluation.Mobility
         {
             var whiteMobility = GetMobilityValue(Color.White, parameters);
             var blackMobility = GetMobilityValue(Color.Black, parameters);
-            
+
             return whiteMobility - blackMobility;
         }
 
@@ -25,7 +25,7 @@ namespace Proxima.Core.Evaluation.Mobility
             };
         }
 
-        int GetMobilityValue(Color color, EvaluationParameters parameters)
+        private int GetMobilityValue(Color color, EvaluationParameters parameters)
         {
             var mobility = 0;
             var array = MobilityValues.GetRatio(color);
@@ -34,15 +34,17 @@ namespace Proxima.Core.Evaluation.Mobility
             {
                 var field = 1ul << i;
                 if ((field & parameters.Occupancy[(int)color]) != 0)
+                {
                     continue;
+                }
 
                 var attacksArray = parameters.Attacks[i] & parameters.Occupancy[(int)color];
-                if(attacksArray != 0)
+                if (attacksArray != 0)
                 {
                     mobility += BitOperations.Count(attacksArray) * array[FastArray.GetEvaluationValueIndex(parameters.GamePhase, i)];
                 }
             }
-       
+
             return mobility;
         }
     }

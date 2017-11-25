@@ -6,7 +6,7 @@ namespace Proxima.Core.Evaluation.Position.Values
     {
         public static readonly int[] Pattern = new int[2 * 64]
         {
-            //Regular
+            // Regular
             0,   0,   0,   0,   0,   0,   0,   0,
             50,  50,  50,  50,  50,  50,  50,  50,
             10,  10,  20,  30,  30,  20,  10,  10,
@@ -16,7 +16,7 @@ namespace Proxima.Core.Evaluation.Position.Values
             5,   10,  10, -20, -20,  10,  10,  5,
             0,   0,   0,   0,   0,   0,   0,   0,
 
-            //End
+            // End
             0,   0,   0,   0,   0,   0,   0,   0,
             50,  50,  50,  50,  50,  50,  50,  50,
             10,  10,  20,  30,  30,  20,  10,  10,

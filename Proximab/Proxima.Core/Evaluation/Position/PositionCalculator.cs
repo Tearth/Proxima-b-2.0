@@ -25,7 +25,7 @@ namespace Proxima.Core.Evaluation.Position
             };
         }
 
-        int GetPosition(Color color, EvaluationParameters parameters)
+        private int GetPosition(Color color, EvaluationParameters parameters)
         {
             var position = 0;
 
@@ -38,7 +38,7 @@ namespace Proxima.Core.Evaluation.Position
             return position;
         }
 
-        int GetPositionValue(Color color, PieceType pieceType, GamePhase gamePhase, ulong piecesToParse)
+        private int GetPositionValue(Color color, PieceType pieceType, GamePhase gamePhase, ulong piecesToParse)
         {
             var position = 0;
             var array = PositionValues.GetValues(color, pieceType);

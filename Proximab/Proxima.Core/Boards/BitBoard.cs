@@ -1,4 +1,6 @@
-﻿using Proxima.Core.Boards.Friendly;
+﻿using System;
+using System.Collections.Generic;
+using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Boards.Hashing;
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
@@ -10,8 +12,6 @@ using Proxima.Core.Evaluation.Castling;
 using Proxima.Core.Evaluation.Material;
 using Proxima.Core.Evaluation.Position;
 using Proxima.Core.MoveGenerators;
-using System;
-using System.Collections.Generic;
 
 namespace Proxima.Core.Boards
 {
@@ -20,17 +20,17 @@ namespace Proxima.Core.Boards
         public LinkedList<Move> Moves { get; private set; }
         public ulong Hash { get; private set; }
 
-        ulong[] _pieces;
-        ulong[] _occupancy;
-        ulong[] _enPassant;
+        private ulong[] _pieces;
+        private ulong[] _occupancy;
+        private ulong[] _enPassant;
 
-        ulong[] _attacks;
-        ulong[] _attacksSummary;
+        private ulong[] _attacks;
+        private ulong[] _attacksSummary;
 
-        bool[] _castlingPossibility;
-        bool[] _castlingDone;
+        private bool[] _castlingPossibility;
+        private bool[] _castlingDone;
 
-        IncrementalEvaluationData _incrementalEvaluation;
+        private IncrementalEvaluationData _incrementalEvaluation;
 
         public BitBoard()
         {
@@ -80,7 +80,7 @@ namespace Proxima.Core.Boards
         {
             return new BitBoard(this, move);
         }
-        
+
         public FriendlyBoard GetFriendlyBoard()
         {
             return new FriendlyBoard(_pieces, _attacks, _castlingPossibility, _castlingDone, _enPassant);
@@ -130,24 +130,24 @@ namespace Proxima.Core.Boards
                    _incrementalEvaluation.Castling == calculatedEvaluation.Castling.Difference;
         }
 
-        ulong GetNewHash()
+        private ulong GetNewHash()
         {
             return ZobristHash.Calculate(_pieces, _castlingPossibility, _enPassant);
         }
-
-        void CalculateMove(BitBoard bitBoard, Move move)
+        
+        private void CalculateMove(BitBoard bitBoard, Move move)
         {
-            switch(move)
+            switch (move)
             {
-                case QuietMove quietMove:           { CalculateQuietMove(quietMove); break; }
-                case KillMove killMove:             { CalculateKillMove(killMove); break; }
-                case EnPassantMove enPassantMove:   { CalculateEnPassantMove(enPassantMove); break; }
-                case CastlingMove castlingMove:     { CalculateCastlingMove(castlingMove); break; }
-                case PromotionMove promotionMove:   { CalculatePromotionMove(promotionMove); break; }
+                case QuietMove quietMove: { CalculateQuietMove(quietMove); break; }
+                case KillMove killMove: { CalculateKillMove(killMove); break; }
+                case EnPassantMove enPassantMove: { CalculateEnPassantMove(enPassantMove); break; }
+                case CastlingMove castlingMove: { CalculateCastlingMove(castlingMove); break; }
+                case PromotionMove promotionMove: { CalculatePromotionMove(promotionMove); break; }
             }
         }
 
-        void CalculateQuietMove(QuietMove move)
+        private void CalculateQuietMove(QuietMove move)
         {
             var from = BitPositionConverter.ToULong(move.From);
             var to = BitPositionConverter.ToULong(move.To);
@@ -188,7 +188,7 @@ namespace Proxima.Core.Boards
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
         }
 
-        void CalculateKillMove(KillMove move)
+        private void CalculateKillMove(KillMove move)
         {
             var from = BitPositionConverter.ToULong(move.From);
             var to = BitPositionConverter.ToULong(move.To);
@@ -199,7 +199,7 @@ namespace Proxima.Core.Boards
             for (int piece = 0; piece < 6; piece++)
             {
                 var index = FastArray.GetPieceIndex(enemyColor, (PieceType)piece);
-                if((_pieces[index] & to) != 0)
+                if ((_pieces[index] & to) != 0)
                 {
                     _pieces[index] &= ~to;
                     _occupancy[(int)enemyColor] ^= to;
@@ -221,7 +221,7 @@ namespace Proxima.Core.Boards
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
         }
 
-        void CalculateCastlingMove(CastlingMove move)
+        private void CalculateCastlingMove(CastlingMove move)
         {
             var from = BitPositionConverter.ToULong(move.From);
             var to = BitPositionConverter.ToULong(move.To);
@@ -245,6 +245,7 @@ namespace Proxima.Core.Boards
 
                     break;
                 }
+
                 case CastlingType.Long:
                 {
                     var rookLSB = move.Color == Color.White ? KingMovesGenerator.WhiteLeftRookLSB : KingMovesGenerator.BlackLeftRookLSB;
@@ -270,7 +271,7 @@ namespace Proxima.Core.Boards
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
             Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Short);
             Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Long);
-            
+
             _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, move.Color, move.Piece, from, GamePhase.Regular);
             _incrementalEvaluation.Position = IncrementalPosition.AddPiece(_incrementalEvaluation.Position, move.Color, move.Piece, to, GamePhase.Regular);
 
@@ -281,7 +282,7 @@ namespace Proxima.Core.Boards
             _castlingDone[(int)move.Color] = true;
         }
 
-        void CalculateEnPassantMove(EnPassantMove move)
+        private void CalculateEnPassantMove(EnPassantMove move)
         {
             var from = BitPositionConverter.ToULong(move.From);
             var to = BitPositionConverter.ToULong(move.To);
@@ -318,7 +319,7 @@ namespace Proxima.Core.Boards
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
         }
 
-        void CalculatePromotionMove(PromotionMove move)
+        private void CalculatePromotionMove(PromotionMove move)
         {
             var from = BitPositionConverter.ToULong(move.From);
             var to = BitPositionConverter.ToULong(move.To);
@@ -338,7 +339,7 @@ namespace Proxima.Core.Boards
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.PromotionPiece, to);
         }
 
-        void CalculateEnPassant(Move move)
+        private void CalculateEnPassant(Move move)
         {
             if (move.Piece == PieceType.Pawn)
             {
@@ -367,11 +368,11 @@ namespace Proxima.Core.Boards
             }
         }
 
-        ulong[] CalculateOccupancy()
+        private ulong[] CalculateOccupancy()
         {
             var occupancy = new ulong[2];
 
-            for(int piece=0; piece<6; piece++)
+            for (int piece = 0; piece < 6; piece++)
             {
                 occupancy[(int)Color.White] |= _pieces[FastArray.GetPieceIndex(Color.White, (PieceType)piece)];
                 occupancy[(int)Color.Black] |= _pieces[FastArray.GetPieceIndex(Color.Black, (PieceType)piece)];
@@ -380,11 +381,11 @@ namespace Proxima.Core.Boards
             return occupancy;
         }
 
-        void CalculateAvailableMoves(GeneratorMode whiteMode, GeneratorMode blackMode)
+        private void CalculateAvailableMoves(GeneratorMode whiteMode, GeneratorMode blackMode)
         {
             var whiteGeneratorParameters = GetGeneratorParameters(Color.White, whiteMode);
             var blackGeneratorParameters = GetGeneratorParameters(Color.Black, blackMode);
-            
+
             CalculateAvailableMoves(whiteGeneratorParameters);
             CalculateAvailableMoves(blackGeneratorParameters);
 
@@ -392,7 +393,7 @@ namespace Proxima.Core.Boards
             CalculateCastling(blackGeneratorParameters);
         }
 
-        void CalculateAvailableMoves(GeneratorParameters generatorParameters)
+        private void CalculateAvailableMoves(GeneratorParameters generatorParameters)
         {
             PawnMovesGenerator.Calculate(generatorParameters);
             KnightMovesGenerator.Calculate(generatorParameters);
@@ -405,7 +406,7 @@ namespace Proxima.Core.Boards
             BishopMovesGenerator.Calculate(PieceType.Queen, generatorParameters);
         }
 
-        void CalculateCastling(GeneratorParameters generatorParameters)
+        private void CalculateCastling(GeneratorParameters generatorParameters)
         {
             if ((generatorParameters.Mode & GeneratorMode.CalculateMoves) == 0)
             {
@@ -415,7 +416,7 @@ namespace Proxima.Core.Boards
             KingMovesGenerator.CalculateCastling(generatorParameters);
         }
 
-        GeneratorParameters GetGeneratorParameters(Color color, GeneratorMode mode)
+        private GeneratorParameters GetGeneratorParameters(Color color, GeneratorMode mode)
         {
             return new GeneratorParameters()
             {
@@ -438,7 +439,7 @@ namespace Proxima.Core.Boards
             };
         }
 
-        EvaluationParameters GetEvaluationParameters()
+        private EvaluationParameters GetEvaluationParameters()
         {
             return new EvaluationParameters()
             {

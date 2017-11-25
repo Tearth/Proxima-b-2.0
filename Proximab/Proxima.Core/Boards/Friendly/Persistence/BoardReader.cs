@@ -1,9 +1,7 @@
-﻿using Proxima.Core.Boards.Friendly;
+﻿using System.IO;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Notation;
 using Proxima.Core.Commons.Positions;
-using System;
-using System.IO;
 
 namespace Proxima.Core.Boards.Friendly.Persistence
 {
@@ -22,25 +20,39 @@ namespace Proxima.Core.Boards.Friendly.Persistence
 
             using (var reader = new StreamReader(path))
             {
-                while(!reader.EndOfStream)
+                while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine().Trim();
                     if (line.Length == 0)
                         continue;
 
-                    switch(line)
+                    switch (line)
                     {
-                        case PersistenceContants.BoardSection: { pieces = ReadBoard(reader); break; }
-                        case PersistenceContants.CastlingSection: { castling = ReadCastling(reader); break; }
-                        case PersistenceContants.EnPassantSection: { enPassant = ReadEnPassant(reader); break; }
-                    }  
+                        case PersistenceContants.BoardSection:
+                        {
+                            pieces = ReadBoard(reader);
+                            break;
+                        }
+
+                        case PersistenceContants.CastlingSection:
+                        {
+                            castling = ReadCastling(reader);
+                            break;
+                        }
+
+                        case PersistenceContants.EnPassantSection:
+                        {
+                            enPassant = ReadEnPassant(reader);
+                            break;
+                        }
+                    }
                 }
             }
 
             return new FriendlyBoard(pieces, castling, enPassant);
         }
 
-        FriendlyPiecesList ReadBoard(StreamReader reader)
+        private FriendlyPiecesList ReadBoard(StreamReader reader)
         {
             var pieces = new FriendlyPiecesList();
 
@@ -52,7 +64,9 @@ namespace Proxima.Core.Boards.Friendly.Persistence
                 for (int x = 0; x < 8; x++)
                 {
                     if (splittedLine[x] == PersistenceContants.EmptyBoardField)
+                    {
                         continue;
+                    }
 
                     var position = new Position(x + 1, 8 - y);
                     var color = ColorConverter.GetColor(splittedLine[x][0]);
@@ -65,21 +79,21 @@ namespace Proxima.Core.Boards.Friendly.Persistence
             return pieces;
         }
 
-        FriendlyCastling ReadCastling(StreamReader reader)
+        private FriendlyCastling ReadCastling(StreamReader reader)
         {
             return new FriendlyCastling
             {
-                WhiteShortCastlingPossibility = Boolean.Parse(reader.ReadLine().Trim()),
-                WhiteLongCastlingPossibility = Boolean.Parse(reader.ReadLine().Trim()),
-                BlackShortCastlingPossibility = Boolean.Parse(reader.ReadLine().Trim()),
-                BlackLongCastlingPossibility = Boolean.Parse(reader.ReadLine().Trim()),
+                WhiteShortCastlingPossibility = bool.Parse(reader.ReadLine().Trim()),
+                WhiteLongCastlingPossibility = bool.Parse(reader.ReadLine().Trim()),
+                BlackShortCastlingPossibility = bool.Parse(reader.ReadLine().Trim()),
+                BlackLongCastlingPossibility = bool.Parse(reader.ReadLine().Trim()),
 
-                WhiteCastlingDone = Boolean.Parse(reader.ReadLine().Trim()),
-                BlackCastlingDone = Boolean.Parse(reader.ReadLine().Trim())
+                WhiteCastlingDone = bool.Parse(reader.ReadLine().Trim()),
+                BlackCastlingDone = bool.Parse(reader.ReadLine().Trim())
             };
         }
 
-        FriendlyEnPassant ReadEnPassant(StreamReader reader)
+        private FriendlyEnPassant ReadEnPassant(StreamReader reader)
         {
             return new FriendlyEnPassant
             {
@@ -88,12 +102,14 @@ namespace Proxima.Core.Boards.Friendly.Persistence
             };
         }
 
-        Position? ReadPosition(StreamReader reader)
+        private Position? ReadPosition(StreamReader reader)
         {
             var line = reader.ReadLine().Trim();
 
             if (line == PersistenceContants.NullEnPassant)
+            {
                 return null;
+            }
 
             return NotationConverter.ToPosition(line);
         }

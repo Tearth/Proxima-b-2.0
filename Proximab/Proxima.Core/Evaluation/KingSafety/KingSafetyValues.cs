@@ -4,8 +4,8 @@
     {
         public static readonly int[] AttackedNeighboursRatio = new int[2]
         {
-            -1,  //Regular
-            -1   //End
+            -1,  // Regular
+            -1   // End
         };
     }
 }

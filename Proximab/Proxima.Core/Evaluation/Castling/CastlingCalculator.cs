@@ -1,5 +1,4 @@
 ﻿using Proxima.Core.Commons.Colors;
-using System;
 
 namespace Proxima.Core.Evaluation.Castling
 {
@@ -22,9 +21,9 @@ namespace Proxima.Core.Evaluation.Castling
             };
         }
 
-        int GetCastlingValue(Color color, EvaluationParameters parameters)
+        private int GetCastlingValue(Color color, EvaluationParameters parameters)
         {
-            if(parameters.CastlingDone[(int)color])
+            if (parameters.CastlingDone[(int)color])
             {
                 return CastlingValues.Ratio[(int)parameters.GamePhase];
             }

@@ -1,9 +1,8 @@
-﻿using Proxima.Core.Boards.Friendly;
+﻿using System.IO;
+using System.Linq;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Notation;
 using Proxima.Core.Commons.Positions;
-using System.IO;
-using System.Linq;
 
 namespace Proxima.Core.Boards.Friendly.Persistence
 {
@@ -21,7 +20,7 @@ namespace Proxima.Core.Boards.Friendly.Persistence
             }
         }
 
-        void WriteBoard(StreamWriter writer, FriendlyPiecesList pieces)
+        private void WriteBoard(StreamWriter writer, FriendlyPiecesList pieces)
         {
             writer.WriteLine(PersistenceContants.BoardSection);
             for (int y = 0; y < 8; y++)
@@ -47,7 +46,7 @@ namespace Proxima.Core.Boards.Friendly.Persistence
             }
         }
 
-        void WriteCastling(StreamWriter writer, FriendlyCastling castling)
+        private void WriteCastling(StreamWriter writer, FriendlyCastling castling)
         {
             writer.WriteLine(PersistenceContants.CastlingSection);
 
@@ -60,7 +59,7 @@ namespace Proxima.Core.Boards.Friendly.Persistence
             writer.WriteLine(castling.BlackCastlingDone.ToString());
         }
 
-        void WriteEnPassant(StreamWriter writer, FriendlyEnPassant enPassant)
+        private void WriteEnPassant(StreamWriter writer, FriendlyEnPassant enPassant)
         {
             writer.WriteLine(PersistenceContants.EnPassantSection);
 
@@ -68,9 +67,9 @@ namespace Proxima.Core.Boards.Friendly.Persistence
             WritePosition(writer, enPassant.BlackEnPassant);
         }
 
-        void WritePosition(StreamWriter writer, Position? position)
+        private void WritePosition(StreamWriter writer, Position? position)
         {
-            if(!position.HasValue)
+            if (!position.HasValue)
             {
                 writer.WriteLine(PersistenceContants.NullEnPassant);
                 return;

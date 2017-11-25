@@ -10,17 +10,16 @@ namespace Proxima.Core.Boards.Friendly
     {
         public FriendlyAttacksList()
         {
-
         }
 
         public FriendlyAttacksList(ulong[] attacks, FriendlyPiecesList pieces)
         {
-            for(int i=0; i<64; i++)
+            for (int i = 0; i < 64; i++)
             {
                 var fieldAttackers = attacks[i];
                 var targetPosition = BitPositionConverter.ToPosition(i);
 
-                while(fieldAttackers != 0)
+                while (fieldAttackers != 0)
                 {
                     var attackerLSB = BitOperations.GetLSB(fieldAttackers);
                     fieldAttackers = BitOperations.PopLSB(fieldAttackers);

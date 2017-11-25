@@ -12,6 +12,7 @@
         <CollectionProperty Name="Hungarian">
           <Value>as</Value>
           <Value>do</Value>
+          <Value>en</Value>
           <Value>id</Value>
           <Value>if</Value>
           <Value>in</Value>

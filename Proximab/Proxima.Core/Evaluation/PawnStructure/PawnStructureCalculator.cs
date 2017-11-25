@@ -7,9 +7,9 @@ namespace Proxima.Core.Evaluation.PawnStructure
 {
     public class PawnStructureCalculator
     {
-        DoubledPawnsCalculator _doubledPawnsCalculator;
-        IsolatedPawnsCalculator _isolatedPawnsCalculator;
-        PawnChainCalculator _pawnChainCalculator;
+        private DoubledPawnsCalculator _doubledPawnsCalculator;
+        private IsolatedPawnsCalculator _isolatedPawnsCalculator;
+        private PawnChainCalculator _pawnChainCalculator;
 
         public PawnStructureCalculator()
         {

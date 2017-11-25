@@ -39,7 +39,7 @@ namespace Proxima.Core.Boards.Hashing
         {
             var enPassantToParse = _enPassant[(int)color];
 
-            while(enPassantToParse != 0)
+            while (enPassantToParse != 0)
             {
                 var fieldLSB = BitOperations.GetLSB(enPassantToParse);
                 enPassantToParse = BitOperations.PopLSB(enPassantToParse);

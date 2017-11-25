@@ -1,6 +1,6 @@
-﻿using Proxima.Core.Commons.Colors;
+﻿using System.Diagnostics;
+using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Positions;
-using System.Diagnostics;
 
 namespace Proxima.Core.Commons.Moves
 {
@@ -15,7 +15,6 @@ namespace Proxima.Core.Commons.Moves
 
         public Move()
         {
-
         }
 
         public Move(Position from, Position to, PieceType piece, Color color)

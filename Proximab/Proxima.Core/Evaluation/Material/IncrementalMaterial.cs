@@ -1,10 +1,5 @@
 ﻿using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Proxima.Core.Evaluation.Material
 {

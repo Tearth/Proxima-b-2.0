@@ -25,15 +25,15 @@ namespace Proxima.Core.Evaluation.KingSafety
             };
         }
 
-        int GetAttackedNeighboursValue(Color color, EvaluationParameters parameters)
+        private int GetAttackedNeighboursValue(Color color, EvaluationParameters parameters)
         {
             var attackedNeightbours = 0;
 
             var king = parameters.Pieces[FastArray.GetPieceIndex(color, PieceType.King)];
             var kingIndex = BitOperations.GetBitIndex(king);
             var kingMoves = PatternsContainer.KingPattern[kingIndex];
-            
-            while(kingMoves != 0)
+
+            while (kingMoves != 0)
             {
                 var fieldLSB = BitOperations.GetLSB(kingMoves);
                 kingMoves = BitOperations.PopLSB(kingMoves);

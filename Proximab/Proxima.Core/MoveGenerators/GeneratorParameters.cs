@@ -1,7 +1,6 @@
-﻿using Proxima.Core.Boards;
+﻿using System.Collections.Generic;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Moves;
-using System.Collections.Generic;
 
 namespace Proxima.Core.MoveGenerators
 {

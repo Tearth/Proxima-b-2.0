@@ -46,7 +46,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
             return GetAttacks(fieldIndex, occupancy, PatternsContainer.BishopPattern, BishopAttacks, BishopKeys, BishopMaskBitsCount);
         }
 
-        static ulong GetAttacks(int fieldIndex, ulong occupancy, ulong[] patterns, ulong[][] attacks, ulong[] keys, int[] maskBitsCount)
+        private static ulong GetAttacks(int fieldIndex, ulong occupancy, ulong[] patterns, ulong[][] attacks, ulong[] keys, int[] maskBitsCount)
         {
             var mask = patterns[fieldIndex];
             var key = keys[fieldIndex];

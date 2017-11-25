@@ -24,7 +24,7 @@ namespace Proxima.Core.Evaluation.Material
             };
         }
 
-        int GetMaterialValue(Color color, EvaluationParameters parameters)
+        private int GetMaterialValue(Color color, EvaluationParameters parameters)
         {
             var material = 0;
 

@@ -1,13 +1,8 @@
 ﻿using Proxima.Core.Boards;
 using Proxima.Core.Commons;
-using Proxima.Core.Commons.BitHelpers;
-using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Moves;
 using Proxima.Core.Commons.Performance;
-using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators.MagicBitboards;
-using Proxima.Core.MoveGenerators.PatternGenerators;
-using System.Collections.Generic;
 
 namespace Proxima.Core.MoveGenerators
 {
@@ -27,10 +22,12 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
-        static ulong CalculateMoves(PieceType pieceType, ulong pieceLSB, GeneratorParameters opt)
+        private static ulong CalculateMoves(PieceType pieceType, ulong pieceLSB, GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
+            {
                 return 0;
+            }
 
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
             var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
@@ -67,10 +64,12 @@ namespace Proxima.Core.MoveGenerators
             return excludeFromAttacks;
         }
 
-        static void CalculateAttacks(PieceType pieceType, ulong pieceLSB, ulong movesPattern, GeneratorParameters opt)
+        private static void CalculateAttacks(PieceType pieceType, ulong pieceLSB, ulong movesPattern, GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateAttacks) == 0)
+            {
                 return;
+            }
 
             var blockersToRemove = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Rook)] |
                                    opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Queen)];

@@ -6,7 +6,6 @@ namespace Proxima.Core.MoveGenerators.PatternGenerators
     {
         public KnightPatternGenerator()
         {
-
         }
 
         public ulong[] Generate()
@@ -14,7 +13,7 @@ namespace Proxima.Core.MoveGenerators.PatternGenerators
             var predefinedMoves = new ulong[64];
             var bitPosition = 1ul;
 
-            for(int i=0; i<64; i++)
+            for (int i = 0; i < 64; i++)
             {
                 predefinedMoves[i] = GetPattern(bitPosition);
                 bitPosition <<= 1;
@@ -23,16 +22,16 @@ namespace Proxima.Core.MoveGenerators.PatternGenerators
             return predefinedMoves;
         }
 
-        ulong GetPattern(ulong field)
+        private ulong GetPattern(ulong field)
         {
-            return ((field & ~BitConstants.AFile)                       << 17) |          
-                   ((field & ~BitConstants.HFile)                       << 15) |        
-                   ((field & ~BitConstants.AFile & ~BitConstants.BFile) << 10) |        
-                   ((field & ~BitConstants.GFile & ~BitConstants.HFile) << 6 ) |          
-                   ((field & ~BitConstants.AFile & ~BitConstants.BFile) >> 6)  |      
-                   ((field & ~BitConstants.GFile & ~BitConstants.HFile) >> 10) |       
-                   ((field & ~BitConstants.AFile)                       >> 15) |       
-                   ((field & ~BitConstants.HFile)                       >> 17);
+            return ((field & ~BitConstants.AFile) << 17) |
+                   ((field & ~BitConstants.HFile) << 15) |
+                   ((field & ~BitConstants.AFile & ~BitConstants.BFile) << 10) |
+                   ((field & ~BitConstants.GFile & ~BitConstants.HFile) << 6) |
+                   ((field & ~BitConstants.AFile & ~BitConstants.BFile) >> 6) |
+                   ((field & ~BitConstants.GFile & ~BitConstants.HFile) >> 10) |
+                   ((field & ~BitConstants.AFile) >> 15) |
+                   ((field & ~BitConstants.HFile) >> 17);
         }
     }
 }

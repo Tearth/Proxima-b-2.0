@@ -7,7 +7,7 @@ namespace Proxima.Core.Evaluation.Castling
     {
         public static int SetCastlingDone(int castling, Color color, GamePhase gamePhase)
         {
-            switch(color)
+            switch (color)
             {
                 case Color.White: return castling + CastlingValues.Ratio[(int)gamePhase];
                 case Color.Black: return castling - CastlingValues.Ratio[(int)gamePhase];

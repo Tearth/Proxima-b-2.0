@@ -14,7 +14,7 @@ namespace Proxima.Core.Evaluation.Position
             var array = PositionValues.GetValues(color, pieceType);
             var delta = array[FastArray.GetEvaluationValueIndex(gamePhase, pieceIndex)];
 
-            switch(color)
+            switch (color)
             {
                 case Color.White: return position + delta;
                 case Color.Black: return position - delta;

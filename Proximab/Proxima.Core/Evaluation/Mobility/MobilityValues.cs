@@ -6,7 +6,7 @@ namespace Proxima.Core.Evaluation.Mobility
     {
         public static readonly int[] RatioPattern = new int[2 * 64]
         {
-            //Regular
+            // Regular
              1,   1,   1,   1,   1,   1,   1,   1,
              1,   1,   1,   1,   1,   1,   1,   1,
              1,   1,   2,   2,   2,   2,   1,   1,
@@ -16,7 +16,7 @@ namespace Proxima.Core.Evaluation.Mobility
              1,   1,   1,   1,   1,   1,   1,   1,
              1,   1,   1,   1,   1,   1,   1,   1,
 
-             //End
+             // End
              1,   1,   1,   1,   1,   1,   1,   1,
              1,   1,   1,   1,   1,   1,   1,   1,
              1,   1,   1,   1,   1,   1,   1,   1,

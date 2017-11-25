@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace Proxima.Core.MoveGenerators.MagicBitboards.Keys
 {
     public class MagicKeysLoader
     {
-        const string RookKeysFileName = "Keys/RookKeys.txt";
-        const string BishopKeysFileName = "Keys/BishopKeys.txt";
+        private const string RookKeysFileName = "Keys/RookKeys.txt";
+        private const string BishopKeysFileName = "Keys/BishopKeys.txt";
 
         public ulong[] LoadRookKeys()
         {
@@ -22,16 +17,16 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Keys
             return LoadKeysFromFile(BishopKeysFileName);
         }
 
-        ulong[] LoadKeysFromFile(string fileName)
+        private ulong[] LoadKeysFromFile(string fileName)
         {
             var keys = new ulong[64];
 
             using (var reader = new StreamReader(fileName))
             {
-                for(int i=0; i<64; i++)
+                for (int i = 0; i < 64; i++)
                 {
                     var line = reader.ReadLine();
-                    keys[i] = UInt64.Parse(line);
+                    keys[i] = ulong.Parse(line);
                 }
             }
 

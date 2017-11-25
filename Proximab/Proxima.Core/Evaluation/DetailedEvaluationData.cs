@@ -14,7 +14,7 @@ namespace Proxima.Core.Evaluation
         public CastlingData Castling { get; set; }
         public PositionData Position { get; set; }
         public PawnStructureData PawnStructure { get; set; }
-        public KingSafetyData KingSafety;
+        public KingSafetyData KingSafety { get; set; }
 
         public int Total
         {

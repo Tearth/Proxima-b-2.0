@@ -12,7 +12,6 @@ namespace Proxima.Core.Boards.Friendly
 
         public FriendlyPiece()
         {
-
         }
 
         public FriendlyPiece(Position position, PieceType type, Color color)

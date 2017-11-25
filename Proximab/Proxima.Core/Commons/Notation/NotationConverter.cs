@@ -1,6 +1,5 @@
 ﻿using Proxima.Core.Commons.Exceptions;
 using Proxima.Core.Commons.Positions;
-using System;
 
 namespace Proxima.Core.Commons.Notation
 {
@@ -11,7 +10,7 @@ namespace Proxima.Core.Commons.Notation
             var file = ((char)('a' + position.X - 1)).ToString();
             var rank = position.Y.ToString();
 
-            return file + rank; 
+            return file + rank;
         }
 
         public static Position ToPosition(string stringPosition)
@@ -22,7 +21,7 @@ namespace Proxima.Core.Commons.Notation
             var rank = '8' - fixedStringPosition[1] + 1;
 
             var position = new Position(file, rank);
-            if(!position.IsValid())
+            if (!position.IsValid())
             {
                 throw new PositionOutOfRangeException();
             }

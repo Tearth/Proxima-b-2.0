@@ -1,5 +1,5 @@
-﻿using Proxima.Core.Boards;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Proxima.Core.Boards;
 
 namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
 {
@@ -11,7 +11,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
             var bitIndexes = GetBitIndexes(mask);
             var permutationsCount = 1 << bitIndexes.Count;
 
-            for (int i = 0; i<permutationsCount; i++)
+            for (int i = 0; i < permutationsCount; i++)
             {
                 permuatations.Add(CalculatePermutation(i, bitIndexes));
             }
@@ -19,11 +19,11 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
             return permuatations;
         }
 
-        List<int> GetBitIndexes(ulong mask)
+        private List<int> GetBitIndexes(ulong mask)
         {
             var bitIndexes = new List<int>();
 
-            while(mask != 0)
+            while (mask != 0)
             {
                 var lsb = BitOperations.GetLSB(mask);
                 mask = BitOperations.PopLSB(mask);
@@ -36,11 +36,11 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
             return bitIndexes;
         }
 
-        ulong CalculatePermutation(int permutationIndex, List<int> bitIndexes)
+        private ulong CalculatePermutation(int permutationIndex, List<int> bitIndexes)
         {
             var permutation = 0ul;
 
-            while(permutationIndex != 0)
+            while (permutationIndex != 0)
             {
                 var lsb = BitOperations.GetLSB(permutationIndex);
                 permutationIndex = BitOperations.PopLSB(permutationIndex);

@@ -1,7 +1,5 @@
-﻿using Proxima.Core.Boards;
+﻿using System.Runtime.CompilerServices;
 using Proxima.Core.Commons.Colors;
-using Proxima.Core.Commons.Positions;
-using System.Runtime.CompilerServices;
 
 namespace Proxima.Core.Commons.Performance
 {

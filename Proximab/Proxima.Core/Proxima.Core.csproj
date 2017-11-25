@@ -44,7 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Boards\BitBoard.cs" />
+    <Compile Include="Boards\BitBoard.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Boards\Friendly\Persistence\BoardReader.cs" />
     <Compile Include="Boards\Friendly\Persistence\BoardWriter.cs" />
     <Compile Include="Boards\Friendly\Persistence\PersistenceContants.cs" />

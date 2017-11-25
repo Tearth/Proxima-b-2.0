@@ -11,7 +11,6 @@ namespace Proxima.Core.Boards.Friendly
 
         public FriendlyAttack()
         {
-
         }
 
         public FriendlyAttack(Color color, Position from, Position to)

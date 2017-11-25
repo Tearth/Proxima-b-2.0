@@ -1,16 +1,13 @@
-﻿using Proxima.Core.Boards;
+﻿using System.Collections.Generic;
 using Proxima.Core.Commons.Positions;
-using Proxima.Core.MoveGenerators.MagicBitboards.Attacks.Generators;
-using Proxima.Core.MoveGenerators.MagicBitboards.Keys;
 using Proxima.Core.MoveGenerators.PatternGenerators;
-using System.Collections.Generic;
 
 namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks.Generators
 {
     public class RookAttacksGenerator : IAttacksGenerator
     {
-        PermutationsGenerator _permutationsGenerator;
-        AvailableMovesGenerator _attacksGenerator;
+        private PermutationsGenerator _permutationsGenerator;
+        private AvailableMovesGenerator _attacksGenerator;
 
         public RookAttacksGenerator()
         {
@@ -23,15 +20,15 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks.Generators
             var mask = PatternsContainer.RookPattern[fieldIndex];
             var occupancyPermutations = _permutationsGenerator.GetMaskPermutations(mask);
             var fieldPatterns = GetFieldPatterns(fieldIndex, mask, occupancyPermutations);
-     
+
             return fieldPatterns;
         }
 
-        List<FieldPattern> GetFieldPatterns(int fieldIndex, ulong mask, List<ulong> occupancyPermutations)
+        private List<FieldPattern> GetFieldPatterns(int fieldIndex, ulong mask, List<ulong> occupancyPermutations)
         {
             var patterns = new List<FieldPattern>();
 
-            foreach(var permutation in occupancyPermutations)
+            foreach (var permutation in occupancyPermutations)
             {
                 var rightAttacks = _attacksGenerator.Calculate(fieldIndex, permutation, new Position(-1, 0));
                 var leftAttacks = _attacksGenerator.Calculate(fieldIndex, permutation, new Position(1, 0));
@@ -44,6 +41,6 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks.Generators
             }
 
             return patterns;
-        } 
+        }
     }
 }

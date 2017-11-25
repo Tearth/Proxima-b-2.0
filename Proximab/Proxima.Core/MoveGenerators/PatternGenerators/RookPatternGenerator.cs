@@ -10,7 +10,7 @@ namespace Proxima.Core.MoveGenerators.PatternGenerators
         {
             var predefinedMoves = new ulong[64];
 
-            for(int i=0; i<64; i++)
+            for (int i = 0; i < 64; i++)
             {
                 var fieldBit = 1ul << i;
                 var position = BitPositionConverter.ToPosition(i);
@@ -24,12 +24,12 @@ namespace Proxima.Core.MoveGenerators.PatternGenerators
             return predefinedMoves;
         }
 
-        ulong GetFilePattern(Position position)
+        private ulong GetFilePattern(Position position)
         {
             return BitConstants.AFile >> (position.X - 1);
         }
 
-        ulong GetRankPattern(Position position)
+        private ulong GetRankPattern(Position position)
         {
             return BitConstants.ARank << ((position.Y - 1) << 3);
         }

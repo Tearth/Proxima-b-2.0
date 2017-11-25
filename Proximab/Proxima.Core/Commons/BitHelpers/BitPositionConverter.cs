@@ -1,5 +1,5 @@
-﻿using Proxima.Core.Commons.Positions;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
+using Proxima.Core.Commons.Positions;
 
 namespace Proxima.Core.Boards
 {
@@ -22,7 +22,7 @@ namespace Proxima.Core.Boards
         {
             var boolArray = new bool[8, 8];
 
-            while(bitBoard != 0)
+            while (bitBoard != 0)
             {
                 var lsb = BitOperations.GetLSB(bitBoard);
                 bitBoard = BitOperations.PopLSB(bitBoard);
@@ -48,11 +48,11 @@ namespace Proxima.Core.Boards
             ulong value = 0;
             ulong currentBit = 1;
 
-            for(int y=0; y<8; y++)
+            for (int y = 0; y < 8; y++)
             {
-                for(int x=0; x<8; x++)
+                for (int x = 0; x < 8; x++)
                 {
-                    if(bitBoard[x, y])
+                    if (bitBoard[x, y])
                     {
                         var position = new Position(x + 1, y + 1);
                         var positionValue = ToULong(position);

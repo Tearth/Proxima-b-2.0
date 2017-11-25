@@ -15,7 +15,7 @@ namespace Proxima.Core.Evaluation.PawnStructure.Chain
             var pawns = parameters.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];
             var pawnsToParse = pawns;
 
-            while(pawnsToParse != 0)
+            while (pawnsToParse != 0)
             {
                 var pawnLSB = BitOperations.GetLSB(pawnsToParse);
                 pawnsToParse = BitOperations.PopLSB(pawnsToParse);
@@ -28,11 +28,11 @@ namespace Proxima.Core.Evaluation.PawnStructure.Chain
             return chain * PawnStructureValues.PawnChainRatio[(int)parameters.GamePhase];
         }
 
-        ulong GetChainMask(Color color, ulong pawnLSB)
+        private ulong GetChainMask(Color color, ulong pawnLSB)
         {
             var mask = ((pawnLSB & ~BitConstants.AFile) << 1) | ((pawnLSB & ~BitConstants.HFile) >> 1);
 
-            if(color == Color.White)
+            if (color == Color.White)
             {
                 mask = (mask & ~BitConstants.HRank) << 8;
             }

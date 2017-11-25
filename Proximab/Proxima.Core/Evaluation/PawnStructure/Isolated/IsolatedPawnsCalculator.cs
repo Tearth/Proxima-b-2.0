@@ -3,7 +3,6 @@ using Proxima.Core.Commons;
 using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
-using System.Linq;
 
 namespace Proxima.Core.Evaluation.PawnStructure.Isolated
 {

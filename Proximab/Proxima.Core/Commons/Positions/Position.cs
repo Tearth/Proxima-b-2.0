@@ -22,7 +22,9 @@ namespace Proxima.Core.Commons.Positions
         public static bool operator ==(Position a, Position b)
         {
             if (ReferenceEquals(null, b))
+            {
                 return ReferenceEquals(null, a);
+            }
 
             return (a.X == b.X) && (a.Y == b.Y);
         }
@@ -53,8 +55,8 @@ namespace Proxima.Core.Commons.Positions
         public override int GetHashCode()
         {
             var hashCode = 1861411795;
-            hashCode = hashCode * -1521134295 + X.GetHashCode();
-            hashCode = hashCode * -1521134295 + Y.GetHashCode();
+            hashCode = (hashCode * -1521134295) + X.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Y.GetHashCode();
             return hashCode;
         }
     }

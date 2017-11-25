@@ -14,10 +14,10 @@ namespace Proxima.Core.MoveGenerators.PatternGenerators
             {
                 var rightTopPattern = CalculatePattern(i, new Position(-1, 1));
                 var leftTopPattern = CalculatePattern(i, new Position(1, 1));
-                var rightBottomPattern = CalculatePattern(i, new Position(-1,- 1));
+                var rightBottomPattern = CalculatePattern(i, new Position(-1, -1));
                 var leftBottomPattern = CalculatePattern(i, new Position(1, -1));
-                
-                var pattern = (rightTopPattern | leftTopPattern | rightBottomPattern | leftBottomPattern);
+
+                var pattern = rightTopPattern | leftTopPattern | rightBottomPattern | leftBottomPattern;
                 pattern &= BitConstants.BitBoardWithoutEdges;
 
                 predefinedMoves[i] = pattern;

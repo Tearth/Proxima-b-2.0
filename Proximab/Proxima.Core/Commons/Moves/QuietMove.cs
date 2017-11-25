@@ -8,7 +8,6 @@ namespace Proxima.Core.Commons.Moves
         public QuietMove(Position from, Position to, PieceType piece, Color color) 
             : base(from, to, piece, color)
         {
-
         }
     }
 }

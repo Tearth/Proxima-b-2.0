@@ -1,10 +1,8 @@
 ﻿using Proxima.Core.Boards;
 using Proxima.Core.Commons;
-using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Moves;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.MoveGenerators.PatternGenerators;
-using System.Collections.Generic;
 
 namespace Proxima.Core.MoveGenerators
 {
@@ -24,7 +22,7 @@ namespace Proxima.Core.MoveGenerators
 
                 var pattern = PatternsContainer.KnightPattern[pieceIndex];
 
-                while(pattern != 0)
+                while (pattern != 0)
                 {
                     var patternLSB = BitOperations.GetLSB(pattern);
                     pattern = BitOperations.PopLSB(pattern);

@@ -4,7 +4,7 @@ namespace Proxima.Core.Commons.Randoms
 {
     public class Random64
     {
-        Random _random;
+        private Random _random;
 
         public Random64()
         {

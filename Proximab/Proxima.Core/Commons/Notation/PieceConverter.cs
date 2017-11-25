@@ -1,9 +1,4 @@
 ﻿using Proxima.Core.Commons.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Proxima.Core.Commons.Notation
 {
@@ -18,7 +13,7 @@ namespace Proxima.Core.Commons.Notation
 
         public static char GetSymbol(PieceType piece)
         {
-            switch(piece)
+            switch (piece)
             {
                 case PieceType.Pawn: return PawnSymbol;
                 case PieceType.Rook: return RookSymbol;
@@ -33,7 +28,7 @@ namespace Proxima.Core.Commons.Notation
 
         public static PieceType GetPiece(char pieceSymbol)
         {
-            switch(pieceSymbol)
+            switch (pieceSymbol)
             {
                 case PawnSymbol: return PieceType.Pawn;
                 case RookSymbol: return PieceType.Rook;

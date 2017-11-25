@@ -16,17 +16,17 @@ namespace Proxima.Core.MoveGenerators
         public const ulong BlackLeftRookLSB = 0x8000000000000000;
 
         public const ulong WhiteShortCastlingCheckArea = 0x0eul;
-        public const ulong WhiteLongCastlingCheckArea  = 0x38ul;
+        public const ulong WhiteLongCastlingCheckArea = 0x38ul;
         public const ulong BlackShortCastlingCheckArea = 0x0e00000000000000ul;
-        public const ulong BlackLongCastlingCheckArea  = 0x3800000000000000ul;
+        public const ulong BlackLongCastlingCheckArea = 0x3800000000000000ul;
 
         public const ulong WhiteShortCastlingMoveArea = 0x06ul;
-        public const ulong WhiteLongCastlingMoveArea  = 0x70ul;
+        public const ulong WhiteLongCastlingMoveArea = 0x70ul;
         public const ulong BlackShortCastlingMoveArea = 0x0600000000000000ul;
-        public const ulong BlackLongCastlingMoveArea  = 0x7000000000000000ul;
+        public const ulong BlackLongCastlingMoveArea = 0x7000000000000000ul;
 
         public static readonly Position InitialWhiteKingPosition = new Position(5, 1);
-        public static readonly Position InitialBlackKingPosition = new Position(5, 8);    
+        public static readonly Position InitialBlackKingPosition = new Position(5, 8);
 
         public static void Calculate(GeneratorParameters opt)
         {
@@ -77,7 +77,9 @@ namespace Proxima.Core.MoveGenerators
         {
             if (!opt.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)] &&
                 !opt.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Long)])
+            {
                 return;
+            }
 
             Position initialKingPosition;
 
@@ -86,12 +88,12 @@ namespace Proxima.Core.MoveGenerators
             var longMoveArea = 0ul;
             var longCheckArea = 0ul;
 
-            if(opt.FriendlyColor == Color.White)
+            if (opt.FriendlyColor == Color.White)
             {
                 initialKingPosition = InitialWhiteKingPosition;
 
                 shortMoveArea = WhiteShortCastlingMoveArea;
-                shortCheckArea =  WhiteShortCastlingCheckArea;
+                shortCheckArea = WhiteShortCastlingCheckArea;
 
                 longMoveArea = WhiteLongCastlingMoveArea;
                 longCheckArea = WhiteLongCastlingCheckArea;
@@ -116,8 +118,8 @@ namespace Proxima.Core.MoveGenerators
 
                 opt.Moves.AddLast(move);
             }
-            
-            if(opt.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Long)] &&
+
+            if (opt.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Long)] &&
                IsCastlingAreaEmpty(longMoveArea, opt.Occupancy) &&
                !IsCastlingAreaChecked(opt.EnemyColor, longCheckArea, opt))
             {
@@ -128,12 +130,12 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
-        static bool IsCastlingAreaEmpty(ulong areaToCheck, ulong occupancy)
+        private static bool IsCastlingAreaEmpty(ulong areaToCheck, ulong occupancy)
         {
             return (areaToCheck & occupancy) == 0;
         }
 
-        static bool IsCastlingAreaChecked(Color enemyColor, ulong areaToCheck, GeneratorParameters opt)
+        private static bool IsCastlingAreaChecked(Color enemyColor, ulong areaToCheck, GeneratorParameters opt)
         {
             return (opt.AttacksSummary[(int)enemyColor] & areaToCheck) != 0;
         }
