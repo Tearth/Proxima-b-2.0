@@ -72,7 +72,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Helpers\Constants.cs" />
-    <Compile Include="Source\InputSubsystem\FPSCounter.cs" />
     <Compile Include="Source\InputSubsystem\InputManager.cs" />
     <Compile Include="Source\PromotionSubsystem\PromotionPiece.cs" />
     <Compile Include="Source\PromotionSubsystem\PromotionSelectedEventArgs.cs" />

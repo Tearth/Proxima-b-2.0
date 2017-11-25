@@ -48,13 +48,6 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Field2.png
 
-#begin Fonts/FPSFont.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:Fonts/FPSFont.spritefont
-
 #begin Textures/InternalSelection.png
 /importer:TextureImporter
 /processor:TextureProcessor

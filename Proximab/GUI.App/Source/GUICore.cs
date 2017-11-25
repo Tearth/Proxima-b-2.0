@@ -18,12 +18,11 @@ namespace GUI.App.Source
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private GameModeBase _gameMode;
+
         private ConsoleManager _consoleManager;
         private CommandsManager _commandsManager;
         private InputManager _inputManager;
-        private FPSCounter _fpsCounter;
-
-        private GameModeBase _gameMode;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GUICore"/> class.
@@ -41,10 +40,8 @@ namespace GUI.App.Source
                 PreferredBackBufferHeight = (int)Constants.WindowSize.Y
             };
 
-            _inputManager = new InputManager();
-            _fpsCounter = new FPSCounter();
-
             _gameMode = new EditorGameMode(_consoleManager, _commandsManager);
+            _inputManager = new InputManager();
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -63,7 +60,6 @@ namespace GUI.App.Source
         /// </summary>
         protected override void LoadContent()
         {
-            _fpsCounter.LoadContent(Content);
             _consoleManager.LoadContent(Content);
             _gameMode.LoadContent(Content);
 
@@ -86,7 +82,6 @@ namespace GUI.App.Source
             Input();
 
             _gameMode.Logic();
-            _fpsCounter.Logic();
 
             base.Update(gameTime);
         }
@@ -100,13 +95,9 @@ namespace GUI.App.Source
             GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin();
-
             _gameMode.Draw(_spriteBatch);
-            _fpsCounter.Draw(_spriteBatch);
-
             _spriteBatch.End();
 
-            _fpsCounter.AddFrame();
             base.Draw(gameTime);
         }
 
@@ -116,9 +107,7 @@ namespace GUI.App.Source
         private void Input()
         {
             _inputManager.Logic();
-
             _gameMode.Input(_inputManager);
-            _fpsCounter.Input(_inputManager);
         }
     }
 }
