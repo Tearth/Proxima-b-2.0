@@ -24,7 +24,7 @@ namespace GUI.App.Source.BoardSubsystem.Pieces
         }
 
         /// <summary>
-        /// Loads resources. Must be called before first use of any other class method.
+        /// Loads the resources. Must be called before first use of any other class method.
         /// </summary>
         /// <param name="contentManager">Monogame content manager</param>
         public void LoadContent(ContentManager contentManager)

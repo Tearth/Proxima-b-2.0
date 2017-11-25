@@ -56,7 +56,7 @@ namespace GUI.App.Source
         }
         
         /// <summary>
-        /// Loads resources. Must be called before first use of any other class method.
+        /// Loads the resources. Must be called before first use of any other class method.
         /// </summary>
         protected override void LoadContent()
         {

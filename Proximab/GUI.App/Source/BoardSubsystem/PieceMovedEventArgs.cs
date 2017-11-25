@@ -26,7 +26,7 @@ namespace GUI.App.Source.BoardSubsystem
         /// <summary>
         /// Initializes a new instance of the <see cref="PieceMovedEventArgs"/> class.
         /// </summary>
-        /// <param name="piece">The moved piece</param>
+        /// <param name="piece">The moved piece.</param>
         /// <param name="from">The source position of the piece.</param>
         /// <param name="to">The destination position of the piece.</param>
         public PieceMovedEventArgs(FriendlyPiece piece, Position from, Position to)

@@ -14,7 +14,7 @@ namespace GUI.App.Source.BoardSubsystem.Selections
     /// </summary>
     /// <remarks>
     /// There are two types of selection:
-    ///  - internal - every selection made by clicking left mouse button.
+    ///  - internal - every selection made by clicking the left mouse button.
     ///  - external - every other selections added via AddExternalSelections method
     /// </remarks>
     internal class SelectionsManager
@@ -33,7 +33,7 @@ namespace GUI.App.Source.BoardSubsystem.Selections
         }
 
         /// <summary>
-        /// Loads resources. Must be called before first use of any other class method.
+        /// Loads the resources. Must be called before first use of any other class method.
         /// </summary>
         /// <param name="contentManager">Monogame content manager</param>
         public void LoadContent(ContentManager contentManager)
@@ -43,7 +43,7 @@ namespace GUI.App.Source.BoardSubsystem.Selections
         }
 
         /// <summary>
-        /// Draws board axes.
+        /// Draws the board axes.
         /// </summary>
         /// <param name="spriteBatch">Monogame sprite batch</param>
         public void Draw(SpriteBatch spriteBatch)
@@ -77,7 +77,7 @@ namespace GUI.App.Source.BoardSubsystem.Selections
         }
 
         /// <summary>
-        /// Adds external selections.
+        /// Adds the external selections.
         /// </summary>
         /// <param name="selections">The list of external selections.</param>
         public void AddExternalSelections(IEnumerable<Position> selections)
@@ -92,7 +92,7 @@ namespace GUI.App.Source.BoardSubsystem.Selections
         }
 
         /// <summary>
-        /// Adds internal selection by calculating click point and converting it to board position.
+        /// Adds an internal selection by calculating the click point and converting it to the board position.
         /// </summary>
         /// <param name="clickPoint">Position of mouse cursor when left button has been clicked.</param>
         /// <returns>Board position of selected field.</returns>
@@ -107,7 +107,7 @@ namespace GUI.App.Source.BoardSubsystem.Selections
         }
 
         /// <summary>
-        /// Searches internal selections.
+        /// Searches the internal selections.
         /// </summary>
         /// <returns>The internal selection if exists, otherwise null.</returns>
         public Selection GetInternalSelection()
@@ -124,7 +124,7 @@ namespace GUI.App.Source.BoardSubsystem.Selections
         }
 
         /// <summary>
-        /// Calculates the field position basing on click point.
+        /// Calculates a field position basing on the click point.
         /// </summary>
         /// <param name="clickPoint">The mouse click point.</param>
         /// <returns>The field position.</returns>
@@ -138,7 +138,7 @@ namespace GUI.App.Source.BoardSubsystem.Selections
         }
 
         /// <summary>
-        /// Normalises position to board standards (from 1 to 8).
+        /// Normalises the position to board standards (from 1 to 8).
         /// </summary>
         /// <param name="position">The position to normalise.</param>
         /// <returns>The normalised position.</returns>

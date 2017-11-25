@@ -55,7 +55,7 @@ namespace GUI.App.Source.PromotionSubsystem
         }
 
         /// <summary>
-        /// Loads resources. Must be called before first use of any other class method.
+        /// Loads the resources. Must be called before first use of any other class method.
         /// </summary>
         /// <param name="contentManager">Monogame content manager.</param>
         public void LoadContent(ContentManager contentManager)

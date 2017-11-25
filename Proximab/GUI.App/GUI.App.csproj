@@ -135,7 +135,6 @@
     <EmbeddedResource Include="app.manifest" />
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="Content\Fonts\AxisFont.spritefont" />
-    <None Include="Content\Fonts\FPSFont.spritefont" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GUI.ColorfulConsole\GUI.ColorfulConsole.csproj">

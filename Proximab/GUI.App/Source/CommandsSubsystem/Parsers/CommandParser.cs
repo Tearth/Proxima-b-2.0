@@ -32,7 +32,7 @@ namespace GUI.App.Source.CommandsSubsystem.Parsers
         }
 
         /// <summary>
-        /// Splits text into chunks with separators specified in the <see cref="_separators"/> field.
+        /// Splits the text into chunks with separators specified in the <see cref="_separators"/> field.
         /// </summary>
         /// <param name="text">The text to split.</param>
         /// <returns>The list of splitted chunks.</returns>

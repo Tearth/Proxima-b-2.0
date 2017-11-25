@@ -25,7 +25,7 @@ namespace GUI.App.Source.CommandsSubsystem.Validators
         }
 
         /// <summary>
-        /// Validates the specified command by checking number of arguments and their types.
+        /// Validates the specified command by checking a number of arguments and their types.
         /// </summary>
         /// <param name="command">The command to validate.</param>
         /// <param name="definition">The container of command definitions.</param>
@@ -52,7 +52,7 @@ namespace GUI.App.Source.CommandsSubsystem.Validators
         }
 
         /// <summary>
-        /// Adds all command handlers from current class to the commands manager.
+        /// Adds all command handlers from the current class to the commands manager.
         /// </summary>
         private void SetValidationHandlers()
         {

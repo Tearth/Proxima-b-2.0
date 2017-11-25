@@ -53,7 +53,7 @@ namespace GUI.App.Source.BoardSubsystem
         }
 
         /// <summary>
-        /// Loads resources. Must be called before first use of any other class method.
+        /// Loads the resources. Must be called before first use of any other class method.
         /// </summary>
         /// <param name="contentManager">Monogame content manager.</param>
         public void LoadContent(ContentManager contentManager)
@@ -66,7 +66,7 @@ namespace GUI.App.Source.BoardSubsystem
         }
 
         /// <summary>
-        /// Processes all events related to mouse and keyboard.
+        /// Processes all events related to the mouse and keyboard.
         /// </summary>
         /// <param name="inputManager">InputManager instance.</param>
         public void Input(InputManager inputManager)
@@ -105,7 +105,7 @@ namespace GUI.App.Source.BoardSubsystem
         }
 
         /// <summary>
-        /// Draws the board with axes and selections.
+        /// Draws a board with the axes and the selections.
         /// </summary>
         /// <param name="spriteBatch">Monogame sprite batch</param>
         public void Draw(SpriteBatch spriteBatch)
@@ -118,7 +118,7 @@ namespace GUI.App.Source.BoardSubsystem
         }
 
         /// <summary>
-        /// Adds list of external selections.
+        /// Adds list of the external selections.
         /// </summary>
         /// <param name="selections">The list of selections.</param>
         public void AddExternalSelections(List<Position> selections)
@@ -129,9 +129,9 @@ namespace GUI.App.Source.BoardSubsystem
         /// <summary>
         /// Processes the left button press when there is another selection present.
         /// </summary>
-        /// <param name="previousSelection">Previous selection.</param>
-        /// <param name="selectedPosition">Selection position on board.</param>
-        /// <param name="selectedPiece">Selected piece (null if the selected field is empty).</param>
+        /// <param name="previousSelection">The previous selection.</param>
+        /// <param name="selectedPosition">The selection position on board.</param>
+        /// <param name="selectedPiece">The selected piece (null if the selected field is empty).</param>
         private void ProcessLeftButtonPressWithPreviousSelection(Selection previousSelection, Position selectedPosition, FriendlyPiece selectedPiece)
         {
             var previousSelectedPiece = FriendlyBoard.GetPiece(previousSelection.Position);
@@ -154,15 +154,15 @@ namespace GUI.App.Source.BoardSubsystem
         /// <summary>
         /// Processes the left button press when there is no previous selection.
         /// </summary>
-        /// <param name="selectionPosition">Selection position on board.</param>
-        /// <param name="selectedPieceType">Selected piece type (null if the selected field empty)/</param>
+        /// <param name="selectionPosition">The selection position on board.</param>
+        /// <param name="selectedPieceType">The selected piece type (null if the selected field empty)/</param>
         private void ProcessLeftButtonPressWithoutPreviousSelection(Position selectionPosition, FriendlyPiece selectedPieceType)
         {
             OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(selectionPosition, selectedPieceType));
         }
 
         /// <summary>
-        /// Draws background (even and odd tiles).
+        /// Draws a background (even and odd tiles).
         /// </summary>
         /// <param name="spriteBatch">Monogame sprite batch.</param>
         private void DrawBackground(SpriteBatch spriteBatch)

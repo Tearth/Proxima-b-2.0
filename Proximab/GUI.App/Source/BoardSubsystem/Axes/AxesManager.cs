@@ -12,17 +12,17 @@ namespace GUI.App.Source.BoardSubsystem.Axes
     internal class AxesManager
     {
         /// <summary>
-        /// Gets or sets the color of axe chars.
+        /// Gets or sets the color of the axe chars.
         /// </summary>
         public Color Color { get; set; }
 
         /// <summary>
-        /// Gets or sets the offset of horizontal axes.
+        /// Gets or sets the offset of the horizontal axes.
         /// </summary>
         public Vector2 HorizontalOffset { get; set; }
 
         /// <summary>
-        /// Gets or sets the offset of vertial axes.
+        /// Gets or sets the offset of the vertial axes.
         /// </summary>
         public Vector2 VerticalOffset { get; set; }
 
@@ -39,7 +39,7 @@ namespace GUI.App.Source.BoardSubsystem.Axes
         }
 
         /// <summary>
-        /// Loads resources. Must be called before first use of any other class method.
+        /// Loads the resources. Must be called before first use of any other class method.
         /// </summary>
         /// <param name="content">Monogame content manager.</param>
         public void LoadContent(ContentManager content)
@@ -58,7 +58,7 @@ namespace GUI.App.Source.BoardSubsystem.Axes
         }
 
         /// <summary>
-        /// Draws vertical axes.
+        /// Draws the vertical axes.
         /// </summary>
         /// <param name="spriteBatch">Monogame sprite batch.</param>
         private void DrawVerticalAxes(SpriteBatch spriteBatch)
@@ -86,7 +86,7 @@ namespace GUI.App.Source.BoardSubsystem.Axes
         }
 
         /// <summary>
-        /// Draws horizontal axes.
+        /// Draws the horizontal axes.
         /// </summary>
         /// <param name="spriteBatch">Monogame sprite batch.</param>
         private void DrawHorizontalAxes(SpriteBatch spriteBatch)
@@ -114,7 +114,7 @@ namespace GUI.App.Source.BoardSubsystem.Axes
         }
 
         /// <summary>
-        /// Calculates center of the specified text (basing on the loaded font).
+        /// Calculates a center of the specified text (basing on the loaded font).
         /// </summary>
         /// <param name="text">THe text to calculate.</param>
         /// <returns>The center of passed text.</returns>
