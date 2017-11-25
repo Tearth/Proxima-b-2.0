@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Proxima.Core.Commons;
+using Proxima.Core.Commons.Pieces;
 
 namespace GUI.App.Source.PromotionSubsystem
 {

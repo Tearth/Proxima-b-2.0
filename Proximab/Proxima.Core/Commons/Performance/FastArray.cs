@@ -1,57 +1,66 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using Proxima.Core.Commons.Colors;
+using Proxima.Core.Commons.Pieces;
 
 namespace Proxima.Core.Commons.Performance
 {
+    /// <summary>
+    /// Represents a set of methods to fast array manipulating (emulating two-dimensional arrays as one-dimensionals).
+    /// </summary>
+    /// <remarks>
+    /// One-dimensional arrays are significantly faster because they use other set of CIL instructions,
+    /// optimized to accessing and writing.
+    /// </remarks>
     public class FastArray
     {
+        /// <summary>
+        /// Calculates a piece index (in bitboard pieces array).
+        /// </summary>
+        /// <param name="color">The piece color.</param>
+        /// <param name="pieceType">The piece type.</param>
+        /// <returns>The piece index.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetPieceIndex(Color color, PieceType pieceType)
         {
             return ((int)color * 6) + (int)pieceType;
         }
 
+        /// <summary>
+        /// Calculates a piece index (in Zobrist hash array). 
+        /// </summary>
+        /// <param name="color">The piece color.</param>
+        /// <param name="pieceType">The piece type.</param>
+        /// <param name="field">The field index where the piece is located.</param>
+        /// <returns>The piece index.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetZobristPieceIndex(Color color, PieceType pieceType, int field)
         {
             return ((((int)color * 6) + (int)pieceType) << 6) + field;
         }
 
+        /// <summary>
+        /// Calculates a castling index (in castlings array).
+        /// </summary>
+        /// <param name="color">The player color.</param>
+        /// <param name="castlingType">The castling type.</param>
+        /// <returns>The castling index.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetCastlingIndex(Color color, CastlingType castlingType)
         {
             return ((int)color << 1) + (int)castlingType;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int GetSlideIndex(int position, byte rank)
-        {
-            return (rank << 3) + (8 - position);
-        }
-
+        /// <summary>
+        /// Calculates a piece value basing on position value arrays.
+        /// </summary>
+        /// <param name="gamePhase">The game phase.</param>
+        /// <param name="pieceIndex">The piece index.</param>
+        /// <returns>The index of value in position array.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetEvaluationValueIndex(GamePhase gamePhase, int pieceIndex)
         {
             return ((int)gamePhase << 6) + pieceIndex;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool[,] Merge(bool[,] a, bool[,] b)
-        {
-            var xSize = a.GetLength(0);
-            var ySize = a.GetLength(1);
-
-            var mergedArray = new bool[xSize, ySize];
-
-            for (int x = 0; x < xSize; x++)
-            {
-                for (int y = 0; y < ySize; y++)
-                {
-                    mergedArray[x, y] = a[x, y] || b[x, y];
-                }
-            }
-
-            return mergedArray;
         }
     }
 }

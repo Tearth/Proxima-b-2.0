@@ -1,7 +1,10 @@
 ﻿using Proxima.Core.Commons.Exceptions;
 
-namespace Proxima.Core.Commons.Notation
+namespace Proxima.Core.Commons.Pieces
 {
+    /// <summary>
+    /// Represents a set of methods to converting between pieces and their symbols.
+    /// </summary>
     public static class PieceConverter
     {
         public const char PawnSymbol = 'P';
@@ -11,6 +14,12 @@ namespace Proxima.Core.Commons.Notation
         public const char QueenSymbol = 'Q';
         public const char KingSymbol = 'K';
 
+        /// <summary>
+        /// Calculates the symbol for the specified piece.
+        /// </summary>
+        /// <param name="piece">The piece type.</param>
+        /// <exception cref="PieceSymbolNotFoundException">Thrown when the specified piece type is not recognized.</exception>
+        /// <returns>The piece symbol.</returns>
         public static char GetSymbol(PieceType piece)
         {
             switch (piece)
@@ -26,6 +35,12 @@ namespace Proxima.Core.Commons.Notation
             throw new PieceSymbolNotFoundException();
         }
 
+        /// <summary>
+        /// Calculates the piece type basing on the piece symbol.
+        /// </summary>
+        /// <param name="piece">The piece symbol.</param>
+        /// <exception cref="PieceSymbolNotFoundException">Thrown when the specified piece symbol is not recognized.</exception>
+        /// <returns>The piece type.</returns>
         public static PieceType GetPiece(char pieceSymbol)
         {
             switch (pieceSymbol)

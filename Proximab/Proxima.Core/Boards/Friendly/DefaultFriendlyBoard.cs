@@ -1,5 +1,6 @@
 ﻿using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
+using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
 
 namespace Proxima.Core.Boards.Friendly

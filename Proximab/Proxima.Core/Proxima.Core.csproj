@@ -138,12 +138,11 @@
     <Compile Include="Commons\Moves\KillMove.cs" />
     <Compile Include="Commons\Moves\PromotionMove.cs" />
     <Compile Include="Commons\Moves\QuietMove.cs" />
-    <Compile Include="Commons\Notation\NotationConverter.cs" />
-    <Compile Include="Commons\Notation\PieceConverter.cs" />
+    <Compile Include="Commons\Pieces\PieceConverter.cs" />
     <Compile Include="Commons\Performance\FastArray.cs" />
     <Compile Include="Commons\Performance\FastMath.cs" />
     <Compile Include="Commons\Moves\Move.cs" />
-    <Compile Include="Commons\PieceType.cs" />
+    <Compile Include="Commons\Pieces\PieceType.cs" />
     <Compile Include="Commons\Positions\Position.cs" />
     <Compile Include="Commons\Positions\PositionConverter.cs" />
     <Compile Include="MoveGenerators\PatternGenerators\KnightPatternGenerator.cs" />

@@ -1,6 +1,7 @@
 ﻿using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
+using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Randoms;
 
 namespace Proxima.Core.Boards.Hashing

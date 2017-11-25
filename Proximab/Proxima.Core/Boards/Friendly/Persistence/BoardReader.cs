@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using Proxima.Core.Commons.Colors;
-using Proxima.Core.Commons.Notation;
+using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
 
 namespace Proxima.Core.Boards.Friendly.Persistence
@@ -111,7 +111,7 @@ namespace Proxima.Core.Boards.Friendly.Persistence
                 return null;
             }
 
-            return NotationConverter.ToPosition(line);
+            return PositionConverter.ToPosition(line);
         }
     }
 }

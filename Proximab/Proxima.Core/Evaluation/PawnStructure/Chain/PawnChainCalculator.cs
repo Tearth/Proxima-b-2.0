@@ -3,6 +3,7 @@ using Proxima.Core.Commons;
 using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
+using Proxima.Core.Commons.Pieces;
 
 namespace Proxima.Core.Evaluation.PawnStructure.Chain
 {

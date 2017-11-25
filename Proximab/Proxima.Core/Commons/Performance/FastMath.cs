@@ -2,8 +2,20 @@
 
 namespace Proxima.Core.Commons.Performance
 {
+    /// <summary>
+    /// Represents a set of methods to performing fast calculations.
+    /// </summary>
     public static class FastMath
     {
+        /// <summary>
+        /// Calculates a logarithm with base 2 faster than ever.
+        /// </summary>
+        /// <param name="value">The value to calculate.</param>
+        /// <returns>Log2 of the specified value.</returns>
+        /// <remarks>
+        /// It's the faster alternative to Math.Log2 because we need only calculates using ulong values. Algorithm
+        /// used in the native library supports also floats, so it's more versatile but slower.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Log2(ulong value)
         {

@@ -2,8 +2,29 @@
 
 namespace Proxima.Core.Commons.Positions
 {
+    /// <summary>
+    /// Represents a set of methods to convert <see cref="Position"/> class instance to/from another form.
+    /// </summary>
     public static class PositionConverter
     {
+        /// <summary>
+        /// Converts a position into the text notation.
+        /// </summary>
+        /// <param name="position">The field position.</param>
+        /// <returns>The text notation.</returns>
+        public static string ToString(Position position)
+        {
+            var file = ((char)('a' + position.X - 1)).ToString();
+            var rank = position.Y.ToString();
+
+            return file + rank;
+        }
+
+        /// <summary>
+        /// Converts a text notation into the <see cref="Position"/> object.
+        /// </summary>
+        /// <param name="textNotation">Text text notation.</param>
+        /// <returns>The field position.</returns>
         public static Position ToPosition(string textNotation)
         {
             var fixedTextNotation = textNotation.Trim().ToLower();

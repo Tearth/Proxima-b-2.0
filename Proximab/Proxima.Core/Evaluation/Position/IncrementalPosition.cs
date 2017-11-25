@@ -2,6 +2,7 @@
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
+using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Evaluation.Position.Values;
 
 namespace Proxima.Core.Evaluation.Position
