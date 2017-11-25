@@ -22,7 +22,7 @@ namespace GUI.ColorfulConsole
         }
 
         /// <summary>
-        /// Loads color definitions. Must be called before first use.
+        /// Loads color definitions. Must be called before first use of any other class method.
         /// </summary>
         /// <param name="colorDefinitionsContainer">The container of color definitions.</param>
         public void LoadContent(ColorDefinitionsContainer colorDefinitionsContainer)

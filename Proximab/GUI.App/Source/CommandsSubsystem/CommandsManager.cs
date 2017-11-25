@@ -37,7 +37,7 @@ namespace GUI.App.Source.CommandsSubsystem
         }
 
         /// <summary>
-        /// Loads command definitions. Must be called before first use.
+        /// Loads command definitions. Must be called before first use of any other class method.
         /// </summary>
         /// <param name="commandDefinitionsContainer">The container of command definitions.</param>
         public void LoadContent(CommandDefinitionsContainer commandDefinitionsContainer)
@@ -72,11 +72,11 @@ namespace GUI.App.Source.CommandsSubsystem
         /// <summary>
         /// Processes and executes a command specified in the input.
         /// </summary>
-        /// <param name="input">The command to execute.</param>
+        /// <param name="userInput">The command to execute.</param>
         /// <returns>The status of command execution.</returns>
-        public ExecutionResult Execute(string input)
+        public ExecutionResult Execute(string userInput)
         {
-            var rawCommand = GetRawCommand(input);
+            var rawCommand = GetRawCommand(userInput);
             if (rawCommand == null)
             {
                 return ExecutionResult.EmptyCommand;

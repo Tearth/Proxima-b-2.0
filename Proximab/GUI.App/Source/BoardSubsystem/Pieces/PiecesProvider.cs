@@ -24,7 +24,7 @@ namespace GUI.App.Source.BoardSubsystem.Pieces
         }
 
         /// <summary>
-        /// Loads resources. Must be called before first use.
+        /// Loads resources. Must be called before first use of any other class method.
         /// </summary>
         /// <param name="contentManager">Monogame content manager</param>
         public void LoadContent(ContentManager contentManager)
@@ -47,7 +47,7 @@ namespace GUI.App.Source.BoardSubsystem.Pieces
         /// </summary>
         /// <param name="color">The piece color</param>
         /// <param name="type">The piece type</param>
-        /// <returns>Texture2D for the specified piece.</returns>
+        /// <returns>The texture for the specified piece.</returns>
         public Texture2D GetPieceTexture(Color color, PieceType type)
         {
             var hash = GetFriendlyPieceHash(color, type);

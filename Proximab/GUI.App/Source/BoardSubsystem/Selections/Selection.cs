@@ -20,8 +20,8 @@ namespace GUI.App.Source.BoardSubsystem.Selections
         /// <summary>
         /// Initializes a new instance of the <see cref="Selection"/> class.
         /// </summary>
-        /// <param name="position">The selection position</param>
-        /// <param name="type">The selection type</param>
+        /// <param name="position">The selection position.</param>
+        /// <param name="type">The selection type.</param>
         public Selection(Position position, SelectionType type)
         {
             Position = position;

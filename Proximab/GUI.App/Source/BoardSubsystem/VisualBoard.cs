@@ -13,7 +13,7 @@ using Proxima.Core.Commons.Positions;
 namespace GUI.App.Source.BoardSubsystem
 {
     /// <summary>
-    /// Represents a board drawed on window.
+    /// Represents a board drawed on window (it not contains any chess logic, only pure visual layer).
     /// </summary>
     internal class VisualBoard
     {
@@ -36,8 +36,8 @@ namespace GUI.App.Source.BoardSubsystem
         private AxesManager _axesManager;
         private PiecesProvider _piecesProvider;
 
-        private Texture2D _field1;
-        private Texture2D _field2;
+        private Texture2D _evenField;
+        private Texture2D _oddField;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VisualBoard"/> class.
@@ -45,22 +45,21 @@ namespace GUI.App.Source.BoardSubsystem
         /// <param name="piecesProvider">The pieces provider.</param>
         public VisualBoard(PiecesProvider piecesProvider)
         {
-            FriendlyBoard = new FriendlyBoard();
+            _piecesProvider = piecesProvider;
 
+            FriendlyBoard = new FriendlyBoard();
             _selectionsManager = new SelectionsManager();
             _axesManager = new AxesManager();
-
-            _piecesProvider = piecesProvider;
         }
 
         /// <summary>
-        /// Loads resources. Must be called before first use.
+        /// Loads resources. Must be called before first use of any other class method.
         /// </summary>
-        /// <param name="contentManager">Monogame content manager</param>
+        /// <param name="contentManager">Monogame content manager.</param>
         public void LoadContent(ContentManager contentManager)
         {
-            _field1 = contentManager.Load<Texture2D>("Textures\\Field1");
-            _field2 = contentManager.Load<Texture2D>("Textures\\Field2");
+            _evenField = contentManager.Load<Texture2D>("Textures\\Field1");
+            _oddField = contentManager.Load<Texture2D>("Textures\\Field2");
 
             _selectionsManager.LoadContent(contentManager);
             _axesManager.LoadContent(contentManager);
@@ -163,7 +162,7 @@ namespace GUI.App.Source.BoardSubsystem
         }
 
         /// <summary>
-        /// Draws background (white and black tiles).
+        /// Draws background (even and odd tiles).
         /// </summary>
         /// <param name="spriteBatch">Monogame sprite batch.</param>
         private void DrawBackground(SpriteBatch spriteBatch)
@@ -175,7 +174,7 @@ namespace GUI.App.Source.BoardSubsystem
                 for (int y = 0; y < 8; y++)
                 {
                     var position = new Microsoft.Xna.Framework.Vector2(x, y) * Constants.FieldWidthHeight;
-                    var texture = fieldInversion ? _field1 : _field2;
+                    var texture = fieldInversion ? _evenField : _oddField;
 
                     spriteBatch.Draw(texture, position + Constants.BoardPosition, Constants.FieldSize, Microsoft.Xna.Framework.Color.White);
                     fieldInversion = !fieldInversion;

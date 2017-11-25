@@ -42,7 +42,7 @@ namespace GUI.App.Source.ConsoleSubsystem
         }
 
         /// <summary>
-        /// Loads resources. Must be called before first use.
+        /// Loads resources. Must be called before first use of any other class method.
         /// </summary>
         /// <param name="contentManager">Monogame content manager.</param>
         public void LoadContent(ContentManager contentManager)
@@ -79,7 +79,7 @@ namespace GUI.App.Source.ConsoleSubsystem
         }
 
         /// <summary>
-        /// Writes empty line to the output console.
+        /// Writes empty line to the user console.
         /// </summary>
         public void WriteLine()
         {
@@ -87,7 +87,7 @@ namespace GUI.App.Source.ConsoleSubsystem
         }
 
         /// <summary>
-        /// Writes the specified text to the output console.
+        /// Writes the specified text to the user console.
         /// </summary>
         /// <param name="output">The text to write.</param>
         public void WriteLine(string output)
@@ -105,7 +105,7 @@ namespace GUI.App.Source.ConsoleSubsystem
         }
 
         /// <summary>
-        /// Writes a list of all commands to the output console.
+        /// Writes a list of all commands to the user console.
         /// </summary>
         /// <param name="command">The command instance with more specified data.</param>
         private void WriteCommandsList(Command command)
@@ -124,7 +124,7 @@ namespace GUI.App.Source.ConsoleSubsystem
         }
 
         /// <summary>
-        /// Writes a list of all colors to the output console.
+        /// Writes a list of all colors to the user console.
         /// </summary>
         /// <param name="command">The command instance with more specified data.</param>
         private void WriteColorsList(Command command)
@@ -149,12 +149,12 @@ namespace GUI.App.Source.ConsoleSubsystem
         }
 
         /// <summary>
-        /// Processes all incoming commands from output console.
+        /// Processes all incoming commands from user console.
         /// </summary>
-        /// <param name="input">The console input to parse.</param>
-        private void ProcessCommand(string input)
+        /// <param name="userInput">The user input to parse.</param>
+        private void ProcessCommand(string userInput)
         {
-            var executionResult = _commandsManager.Execute(input);
+            var executionResult = _commandsManager.Execute(userInput);
             switch (executionResult)
             {
                 case ExecutionResult.Success:
@@ -183,7 +183,7 @@ namespace GUI.App.Source.ConsoleSubsystem
         }
 
         /// <summary>
-        /// Writes empty command message to the output console.
+        /// Writes empty command message to the user console.
         /// </summary>
         private void WriteEmptyCommandMessage()
         {
@@ -191,7 +191,7 @@ namespace GUI.App.Source.ConsoleSubsystem
         }
 
         /// <summary>
-        /// Writes command not found message to the output console.
+        /// Writes command not found message to the user console.
         /// </summary>
         private void WriteCommandNotFoundMessage()
         {
@@ -199,7 +199,7 @@ namespace GUI.App.Source.ConsoleSubsystem
         }
 
         /// <summary>
-        /// Writes invalid command format message to the output console.
+        /// Writes invalid command format message to the user console.
         /// </summary>
         private void WriteInvalidCommandFormatMessage()
         {
@@ -207,7 +207,7 @@ namespace GUI.App.Source.ConsoleSubsystem
         }
 
         /// <summary>
-        /// Writes header to the output console (should be called only once at program startup).
+        /// Writes header to the user console (should be called only once at program startup).
         /// </summary>
         private void WriteConsoleHeader()
         {

@@ -33,7 +33,7 @@ namespace GUI.App.Source.BoardSubsystem.Selections
         }
 
         /// <summary>
-        /// Loads resources. Must be called before first use.
+        /// Loads resources. Must be called before first use of any other class method.
         /// </summary>
         /// <param name="contentManager">Monogame content manager</param>
         public void LoadContent(ContentManager contentManager)
@@ -66,10 +66,11 @@ namespace GUI.App.Source.BoardSubsystem.Selections
                     }
                 }
 
-                var x = (selection.Position.X - 1) * Constants.FieldWidthHeight;
-                var y = (8 - selection.Position.Y) * Constants.FieldWidthHeight;
-
-                var position = new Vector2(x, y);
+                var position = new Vector2()
+                {
+                    X = (selection.Position.X - 1) * Constants.FieldWidthHeight,
+                    Y = (8 - selection.Position.Y) * Constants.FieldWidthHeight
+                };
 
                 spriteBatch.Draw(texture, position + Constants.BoardPosition, Constants.FieldSize, Microsoft.Xna.Framework.Color.White);
             }
@@ -97,19 +98,12 @@ namespace GUI.App.Source.BoardSubsystem.Selections
         /// <returns>Board position of selected field.</returns>
         public Position SelectField(Point clickPoint)
         {
-            var fieldX = (int)((clickPoint.X - Constants.BoardPosition.X) / Constants.FieldWidthHeight) + 1;
-            var fieldY = 8 - (int)((clickPoint.Y - Constants.BoardPosition.Y) / Constants.FieldWidthHeight);
+            var fieldPosition = GetFieldPosition(clickPoint);
+            var normalisedPosition = NormalisePosition(fieldPosition);
 
-            fieldX = Math.Min(8, fieldX);
-            fieldY = Math.Min(8, fieldY);
+            _selections.Add(new Selection(normalisedPosition, SelectionType.Internal));
 
-            fieldX = Math.Max(1, fieldX);
-            fieldY = Math.Max(1, fieldY);
-
-            var position = new Position(fieldX, fieldY);
-            _selections.Add(new Selection(position, SelectionType.Internal));
-
-            return position;
+            return normalisedPosition;
         }
 
         /// <summary>
@@ -127,6 +121,33 @@ namespace GUI.App.Source.BoardSubsystem.Selections
         public void RemoveAllSelections()
         {
             _selections.Clear();
+        }
+
+        /// <summary>
+        /// Calculates the field position basing on click point.
+        /// </summary>
+        /// <param name="clickPoint">The mouse click point.</param>
+        /// <returns>The field position.</returns>
+        private Position GetFieldPosition(Point clickPoint)
+        {
+            return new Position()
+            {
+                X = 1 + (int)((clickPoint.X - Constants.BoardPosition.X) / Constants.FieldWidthHeight),
+                Y = 8 - (int)((clickPoint.Y - Constants.BoardPosition.Y) / Constants.FieldWidthHeight)
+            };
+        }
+
+        /// <summary>
+        /// Normalises position to board standards (from 1 to 8).
+        /// </summary>
+        /// <param name="position">The position to normalise.</param>
+        /// <returns>The normalised position.</returns>
+        private Position NormalisePosition(Position position)
+        {
+            position.X = Math.Min(8, position.X);
+            position.Y = Math.Max(1, position.Y);
+
+            return position;
         }
     }
 }

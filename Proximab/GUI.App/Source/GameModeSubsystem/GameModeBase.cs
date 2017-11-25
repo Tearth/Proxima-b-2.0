@@ -71,7 +71,7 @@ namespace GUI.App.Source.GameModeSubsystem
         }
 
         /// <summary>
-        /// Loads resources. Must be called before first use.
+        /// Loads resources. Must be called before first use of any other class method.
         /// </summary>
         /// <param name="contentManager">Monogame content manager.</param>
         public virtual void LoadContent(ContentManager contentManager)

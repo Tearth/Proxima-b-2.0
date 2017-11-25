@@ -14,7 +14,7 @@ namespace GUI.ColorfulConsole.Output
         private ColorDefinitionsContainer _colorDefinitionsContainer;
 
         /// <summary>
-        /// Sets color definitions. Must be called before first use.
+        /// Sets color definitions. Must be called before first use of any other class method.
         /// </summary>
         /// <param name="colorDefinitionsContainer">Container of color definitions.</param>
         public void SetColorDefinitions(ColorDefinitionsContainer colorDefinitionsContainer)
