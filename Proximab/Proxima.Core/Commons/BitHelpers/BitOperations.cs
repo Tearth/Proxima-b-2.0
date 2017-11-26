@@ -4,7 +4,7 @@ using Proxima.Core.Commons.Performance;
 namespace Proxima.Core.Boards
 {
     /// <summary>
-    /// Represents a set of bit operations.
+    /// Represents a set of methods to manipulate bits.
     /// </summary>
     public static class BitOperations
     {
@@ -13,6 +13,7 @@ namespace Proxima.Core.Boards
         /// </summary>
         /// <param name="value">The value to calculate.</param>
         /// <returns>The least significant bit if value is greater than 0, otherwise 0.</returns>
+        /// <remarks>GetLSB(10011100) = 00000100</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetLSB(int value)
         {
@@ -24,6 +25,7 @@ namespace Proxima.Core.Boards
         /// </summary>
         /// <param name="value">The value to calculate.</param>
         /// <returns>The least significant bit if value is greater than 0, otherwise 0.</returns>
+        /// <remarks>GetLSB(10011100) = 00000100</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong GetLSB(ulong value)
         {
@@ -36,6 +38,7 @@ namespace Proxima.Core.Boards
         /// </summary>
         /// <param name="value">The value to calculate.</param>
         /// <returns>The value without the least significant bit.</returns>
+        /// <remarks>PopLSB(10011100) = 10011000</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int PopLSB(int value)
         {
@@ -47,6 +50,7 @@ namespace Proxima.Core.Boards
         /// </summary>
         /// <param name="value">The value to calculate.</param>
         /// <returns>The value without the least significant bit.</returns>
+        /// <remarks>PopLSB(10011100) = 10011000</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong PopLSB(ulong value)
         {
@@ -89,6 +93,7 @@ namespace Proxima.Core.Boards
         /// </summary>
         /// <param name="value">The value to calculate (must be only one bit set, otherwise result will be strange).</param>
         /// <returns>The bit index.</returns>
+        /// <remarks>GetBitIndex(00001000) = 3</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetBitIndex(ulong value)
         {
