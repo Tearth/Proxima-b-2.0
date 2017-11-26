@@ -1,5 +1,8 @@
 ﻿namespace Proxima.Core.Commons.BitHelpers
 {
+    /// <summary>
+    /// Represents a set of bitboard constants.
+    /// </summary>
     public static class BitConstants
     {
         public const ulong AFile = 0x8080808080808080ul;

@@ -19,8 +19,10 @@ namespace Proxima.Core.Commons.Positions
         public int Y { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Position"/> class.
+        /// Initializes a new instance of the <see cref="Position"/> struct.
         /// </summary>
+        /// <param name="x">Horizontal coordinate.</param>
+        /// <param name="y">Vertical coordinate.</param>
         public Position(int x, int y)
         {
             X = x;
@@ -51,8 +53,7 @@ namespace Proxima.Core.Commons.Positions
 
             return (a.X == b.X) && (a.Y == b.Y);
         }
-
-
+        
         /// <summary>
         /// Compares two position objects.
         /// </summary>
