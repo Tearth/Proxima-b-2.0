@@ -8,8 +8,11 @@ namespace Proxima.Core.Commons.Pieces
     /// </summary>
     public static class PieceConverter
     {
-        static BidirectionalDictionary<PieceType, char> _pieces;
+        private static BidirectionalDictionary<PieceType, char> _pieces;
 
+        /// <summary>
+        /// Inits internal dictionaries.
+        /// </summary>
         public static void Init()
         {
             _pieces = new BidirectionalDictionary<PieceType, char>();

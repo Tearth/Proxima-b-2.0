@@ -26,8 +26,5 @@
         public const ulong BitBoardWithoutEdges = ~AFile & ~HFile & ~ARank & ~HRank;
         public const ulong RightLeftEdge = AFile | HFile;
         public const ulong TopBottomEdge = ARank | HRank;
-
-        public const ulong SmallCenter = 0x0000001818000000ul;
-        public const ulong BigCenter   = 0x00003c3c3c3c0000ul;
     }
 }
