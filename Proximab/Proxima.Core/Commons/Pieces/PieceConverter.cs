@@ -1,4 +1,5 @@
 ﻿using Proxima.Core.Commons.Exceptions;
+using Proxima.Core.Helpers.Bidirectional;
 
 namespace Proxima.Core.Commons.Pieces
 {
@@ -7,12 +8,19 @@ namespace Proxima.Core.Commons.Pieces
     /// </summary>
     public static class PieceConverter
     {
-        public const char PawnSymbol = 'P';
-        public const char RookSymbol = 'R';
-        public const char KnightSymbol = 'N';
-        public const char BishopSymbol = 'B';
-        public const char QueenSymbol = 'Q';
-        public const char KingSymbol = 'K';
+        static BidirectionalDictionary<PieceType, char> _pieces;
+
+        public static void Init()
+        {
+            _pieces = new BidirectionalDictionary<PieceType, char>();
+
+            _pieces.Add(PieceType.Pawn, 'P');
+            _pieces.Add(PieceType.Rook, 'R');
+            _pieces.Add(PieceType.Knight, 'N');
+            _pieces.Add(PieceType.Bishop, 'B');
+            _pieces.Add(PieceType.Queen, 'Q');
+            _pieces.Add(PieceType.King, 'K');
+        }
 
         /// <summary>
         /// Calculates the symbol for the specified piece.
@@ -22,17 +30,12 @@ namespace Proxima.Core.Commons.Pieces
         /// <returns>The piece symbol.</returns>
         public static char GetSymbol(PieceType piece)
         {
-            switch (piece)
+            if (!_pieces.Forward.ContainsKey(piece))
             {
-                case PieceType.Pawn: return PawnSymbol;
-                case PieceType.Rook: return RookSymbol;
-                case PieceType.Knight: return KnightSymbol;
-                case PieceType.Bishop: return BishopSymbol;
-                case PieceType.Queen: return QueenSymbol;
-                case PieceType.King: return KingSymbol;
+                throw new PieceSymbolNotFoundException();
             }
 
-            throw new PieceSymbolNotFoundException();
+            return _pieces.Forward[piece];
         }
 
         /// <summary>
@@ -43,17 +46,12 @@ namespace Proxima.Core.Commons.Pieces
         /// <returns>The piece type.</returns>
         public static PieceType GetPiece(char pieceSymbol)
         {
-            switch (pieceSymbol)
+            if (!_pieces.Reverse.ContainsKey(pieceSymbol))
             {
-                case PawnSymbol: return PieceType.Pawn;
-                case RookSymbol: return PieceType.Rook;
-                case KnightSymbol: return PieceType.Knight;
-                case BishopSymbol: return PieceType.Bishop;
-                case QueenSymbol: return PieceType.Queen;
-                case KingSymbol: return PieceType.King;
+                throw new PieceSymbolNotFoundException();
             }
 
-            throw new PieceSymbolNotFoundException();
+            return _pieces.Reverse[pieceSymbol];
         }
     }
 }

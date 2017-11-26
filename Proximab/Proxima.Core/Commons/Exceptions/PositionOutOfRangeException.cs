@@ -5,7 +5,7 @@ namespace Proxima.Core.Commons.Exceptions
 {
     /// <summary>
     /// The exception that is thrown when a position is out of range (any of X or Y value is less than 1
-    /// or more than 8).
+    /// or greater than 8).
     /// </summary>
     public class PositionOutOfRangeException : Exception
     {

@@ -102,6 +102,8 @@
     <Compile Include="Evaluation\Position\Values\PositionValues.cs" />
     <Compile Include="Evaluation\Position\Values\QueenValues.cs" />
     <Compile Include="Evaluation\Position\Values\RookValues.cs" />
+    <Compile Include="Helpers\Bidirectional\BidirectionalDictionary.cs" />
+    <Compile Include="Helpers\Bidirectional\BidirectionalIndexer.cs" />
     <Compile Include="MoveGenerators\GeneratorMode.cs" />
     <Compile Include="MoveGenerators\GeneratorParameters.cs" />
     <Compile Include="MoveGenerators\MagicBitboards\Attacks\AvailableMovesGenerator.cs" />
