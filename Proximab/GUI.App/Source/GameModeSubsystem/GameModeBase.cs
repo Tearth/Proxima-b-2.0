@@ -160,7 +160,7 @@ namespace GUI.App.Source.GameModeSubsystem
             BitBoard = new BitBoard(friendlyBoard);
             BitBoard.Calculate(whiteMode, blackMode);
 
-            VisualBoard.FriendlyBoard = BitBoard.GetFriendlyBoard();
+            VisualBoard.FriendlyBoard = new FriendlyBoard(BitBoard);
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace GUI.App.Source.GameModeSubsystem
             BitBoard = BitBoard.Move(move);
             BitBoard.Calculate(whiteMode, blackMode);
 
-            VisualBoard.FriendlyBoard = BitBoard.GetFriendlyBoard();
+            VisualBoard.FriendlyBoard = new FriendlyBoard(BitBoard);
         }
 
         /// <summary>

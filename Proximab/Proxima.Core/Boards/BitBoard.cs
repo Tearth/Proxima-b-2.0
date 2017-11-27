@@ -5,7 +5,6 @@ using Proxima.Core.Boards.Hashing;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Pieces;
-using Proxima.Core.Commons.Positions;
 using Proxima.Core.Evaluation;
 using Proxima.Core.MoveGenerators;
 using Proxima.Core.MoveGenerators.Moves;
@@ -14,7 +13,6 @@ namespace Proxima.Core.Boards
 {
     public class BitBoard
     {
-        public LinkedList<Move> Moves { get; private set; }
         public ulong Hash { get; set; }
 
         public ulong[] Pieces { get; private set; }
@@ -27,6 +25,7 @@ namespace Proxima.Core.Boards
         public bool[] CastlingPossibility { get; private set; }
         public bool[] CastlingDone { get; private set; }
 
+        public LinkedList<Move> Moves { get; private set; }
         public IncrementalEvaluationData IncrementalEvaluation { get; private set; }
 
         public BitBoard()
@@ -75,11 +74,6 @@ namespace Proxima.Core.Boards
         public BitBoard Move(Move move)
         {
             return new BitBoard(this, move);
-        }
-
-        public FriendlyBoard GetFriendlyBoard()
-        {
-            return new FriendlyBoard(Pieces, Attacks, CastlingPossibility, CastlingDone, EnPassant);
         }
 
         public bool IsCheck(Color color)
