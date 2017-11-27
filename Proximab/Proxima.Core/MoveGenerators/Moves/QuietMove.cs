@@ -27,36 +27,11 @@ namespace Proxima.Core.MoveGenerators.Moves
         {
         }
 
-        public override void Do(BitBoard bitBoard)
+        public override void CalculateMove(BitBoard bitBoard)
         {
             var from = BitPositionConverter.ToULong(From);
             var to = BitPositionConverter.ToULong(To);
             var change = from | to;
-
-            if (Piece == PieceType.King)
-            {
-                var shortCastlingIndex = FastArray.GetCastlingIndex(Color, CastlingType.Short);
-                var longCastlingIndex = FastArray.GetCastlingIndex(Color, CastlingType.Long);
-
-                bitBoard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitBoard.Hash, bitBoard.CastlingPossibility, Color, CastlingType.Short);
-                bitBoard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitBoard.Hash, bitBoard.CastlingPossibility, Color, CastlingType.Long);
-
-                bitBoard.CastlingPossibility[shortCastlingIndex] = false;
-                bitBoard.CastlingPossibility[longCastlingIndex] = false;
-            }
-            else if (Piece == PieceType.Rook)
-            {
-                if (From == new Position(1, 1) || From == new Position(1, 8))
-                {
-                    bitBoard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitBoard.Hash, bitBoard.CastlingPossibility, Color, CastlingType.Long);
-                    bitBoard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Long)] = false;
-                }
-                else if (From == new Position(8, 1) || From == new Position(8, 8))
-                {
-                    bitBoard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitBoard.Hash, bitBoard.CastlingPossibility, Color, CastlingType.Short);
-                    bitBoard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Short)] = false;
-                }
-            }
 
             bitBoard.Pieces[FastArray.GetPieceIndex(Color, Piece)] ^= change;
             bitBoard.Occupancy[(int)Color] ^= change;
@@ -66,6 +41,31 @@ namespace Proxima.Core.MoveGenerators.Moves
 
             bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, Piece, from);
             bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, Piece, to);
+
+            CalculateEnPassant(bitBoard);
+        }
+
+        void CalculateEnPassant(BitBoard bitBoard)
+        {
+            if (Piece == PieceType.Pawn)
+            {
+                if (From.Y == 2 && To.Y == 4)
+                {
+                    var enPassantPosition = new Position(To.X, To.Y - 1);
+                    var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
+
+                    bitBoard.EnPassant[(int)Color.White] |= enPassantLSB;
+                    bitBoard.Hash = IncrementalZobrist.AddEnPassant(bitBoard.Hash, Color.White, enPassantLSB);
+                }
+                if (From.Y == 7 && To.Y == 5)
+                {
+                    var enPassantPosition = new Position(To.X, To.Y + 1);
+                    var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
+
+                    bitBoard.EnPassant[(int)Color.Black] |= enPassantLSB;
+                    bitBoard.Hash = IncrementalZobrist.AddEnPassant(bitBoard.Hash, Color.Black, enPassantLSB);
+                }
+            }
         }
     }
 }

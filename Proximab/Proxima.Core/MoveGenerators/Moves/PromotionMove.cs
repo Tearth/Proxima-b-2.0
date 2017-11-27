@@ -35,7 +35,7 @@ namespace Proxima.Core.MoveGenerators.Moves
             PromotionPiece = promotionPiece;
         }
 
-        public override void Do(BitBoard bitBoard)
+        public override void CalculateMove(BitBoard bitBoard)
         {
             var from = BitPositionConverter.ToULong(From);
             var to = BitPositionConverter.ToULong(To);

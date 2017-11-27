@@ -27,7 +27,7 @@ namespace Proxima.Core.Boards
         public bool[] CastlingPossibility { get; private set; }
         public bool[] CastlingDone { get; private set; }
 
-        public IncrementalEvaluationData IncrementalEvaluation { get; set; }
+        public IncrementalEvaluationData IncrementalEvaluation { get; private set; }
 
         public BitBoard()
         {
@@ -57,7 +57,6 @@ namespace Proxima.Core.Boards
             IncrementalEvaluation = (IncrementalEvaluationData)bitBoard.IncrementalEvaluation.Clone();
 
             move.Do(this);
-            CalculateEnPassant(move);
         }
 
         public BitBoard(FriendlyBoard friendlyBoard) : this()
@@ -129,35 +128,6 @@ namespace Proxima.Core.Boards
         {
             return ZobristHash.Calculate(Pieces, CastlingPossibility, EnPassant);
         }
-        
-        private void CalculateEnPassant(Move move)
-        {
-            if (move.Piece == PieceType.Pawn)
-            {
-                if (move.Color == Color.White)
-                {
-                    if (move.From.Y == 2 && move.To.Y == 4)
-                    {
-                        var enPassantPosition = new Position(move.To.X, move.To.Y - 1);
-                        var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
-
-                        EnPassant[(int)Color.White] |= enPassantLSB;
-                        Hash = IncrementalZobrist.AddEnPassant(Hash, Color.White, enPassantLSB);
-                    }
-                }
-                else
-                {
-                    if (move.From.Y == 7 && move.To.Y == 5)
-                    {
-                        var enPassantPosition = new Position(move.To.X, move.To.Y + 1);
-                        var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
-
-                        EnPassant[(int)Color.Black] |= enPassantLSB;
-                        Hash = IncrementalZobrist.AddEnPassant(Hash, Color.Black, enPassantLSB);
-                    }
-                }
-            }
-        }
 
         private ulong[] CalculateOccupancy()
         {
@@ -199,12 +169,10 @@ namespace Proxima.Core.Boards
 
         private void CalculateCastling(GeneratorParameters generatorParameters)
         {
-            if ((generatorParameters.Mode & GeneratorMode.CalculateMoves) == 0)
+            if ((generatorParameters.Mode & GeneratorMode.CalculateMoves) != 0)
             {
-                return;
+                KingMovesGenerator.CalculateCastling(generatorParameters);
             }
-
-            KingMovesGenerator.CalculateCastling(generatorParameters);
         }
 
         private GeneratorParameters GetGeneratorParameters(Color color, GeneratorMode mode)

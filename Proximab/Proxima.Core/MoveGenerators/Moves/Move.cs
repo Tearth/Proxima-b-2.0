@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics;
 using Proxima.Core.Boards;
+using Proxima.Core.Boards.Hashing;
+using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
+using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
 using Proxima.Core.Evaluation;
@@ -55,7 +58,41 @@ namespace Proxima.Core.MoveGenerators.Moves
             Color = color;
         }
 
-        public abstract void Do(BitBoard bitBoard);
+        public void Do(BitBoard bitBoard)
+        {
+            CalculateMove(bitBoard);
+            CalculateCastling(bitBoard);
+        }
+
+        public abstract void CalculateMove(BitBoard bitBoard);
+
+        public void CalculateCastling(BitBoard bitBoard)
+        {
+            if (Piece == PieceType.King)
+            {
+                var shortCastlingIndex = FastArray.GetCastlingIndex(Color, CastlingType.Short);
+                var longCastlingIndex = FastArray.GetCastlingIndex(Color, CastlingType.Long);
+
+                bitBoard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitBoard.Hash, bitBoard.CastlingPossibility, Color, CastlingType.Short);
+                bitBoard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitBoard.Hash, bitBoard.CastlingPossibility, Color, CastlingType.Long);
+
+                bitBoard.CastlingPossibility[shortCastlingIndex] = false;
+                bitBoard.CastlingPossibility[longCastlingIndex] = false;
+            }
+            else if (Piece == PieceType.Rook)
+            {
+                if (From == new Position(1, 1) || From == new Position(1, 8))
+                {
+                    bitBoard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitBoard.Hash, bitBoard.CastlingPossibility, Color, CastlingType.Long);
+                    bitBoard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Long)] = false;
+                }
+                else if (From == new Position(8, 1) || From == new Position(8, 8))
+                {
+                    bitBoard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitBoard.Hash, bitBoard.CastlingPossibility, Color, CastlingType.Short);
+                    bitBoard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Short)] = false;
+                }
+            }
+        }
 
         /// <summary>
         /// Checks if the move is valid.

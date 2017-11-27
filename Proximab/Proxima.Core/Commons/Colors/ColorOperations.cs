@@ -15,7 +15,7 @@ namespace Proxima.Core.Commons.Colors
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Color Invert(Color color)
         {
-            return color == Color.White ? Color.Black : Color.White;
+            return (Color)((int)color ^ 1);
         }
     }
 }
