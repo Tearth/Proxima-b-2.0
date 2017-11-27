@@ -9,11 +9,11 @@ namespace Proxima.Core.Evaluation.PawnStructure.Chain
 {
     public class PawnChainCalculator
     {
-        public int GetChainValue(Color color, EvaluationParameters parameters)
+        public int GetChainValue(Color color, GamePhase gamePhase, BitBoard bitBoard)
         {
             var chain = 0;
 
-            var pawns = parameters.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];
+            var pawns = bitBoard.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];
             var pawnsToParse = pawns;
 
             while (pawnsToParse != 0)
@@ -26,7 +26,7 @@ namespace Proxima.Core.Evaluation.PawnStructure.Chain
                 chain += BitOperations.Count(pawns & chainMask);
             }
 
-            return chain * PawnStructureValues.PawnChainRatio[(int)parameters.GamePhase];
+            return chain * PawnStructureValues.PawnChainRatio[(int)gamePhase];
         }
 
         private ulong GetChainMask(Color color, ulong pawnLSB)

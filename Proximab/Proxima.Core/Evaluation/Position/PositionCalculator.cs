@@ -9,31 +9,31 @@ namespace Proxima.Core.Evaluation.Position
 {
     public class PositionCalculator
     {
-        public int Calculate(EvaluationParameters parameters)
+        public int Calculate(GamePhase gamePhase, BitBoard bitBoard)
         {
-            var whitePosition = GetPosition(Color.White, parameters);
-            var blackPosition = GetPosition(Color.Black, parameters);
+            var whitePosition = GetPosition(Color.White, gamePhase, bitBoard);
+            var blackPosition = GetPosition(Color.Black, gamePhase, bitBoard);
 
             return whitePosition - blackPosition;
         }
 
-        public PositionData CalculateDetailed(EvaluationParameters parameters)
+        public PositionData CalculateDetailed(GamePhase gamePhase, BitBoard bitBoard)
         {
             return new PositionData()
             {
-                WhitePosition = GetPosition(Color.White, parameters),
-                BlackPosition = GetPosition(Color.Black, parameters)
+                WhitePosition = GetPosition(Color.White, gamePhase, bitBoard),
+                BlackPosition = GetPosition(Color.Black, gamePhase, bitBoard)
             };
         }
 
-        private int GetPosition(Color color, EvaluationParameters parameters)
+        private int GetPosition(Color color, GamePhase gamePhase, BitBoard bitBoard)
         {
             var position = 0;
 
             for (int piece = 0; piece < 6; piece++)
             {
-                var piecesToParse = parameters.Pieces[FastArray.GetPieceIndex(color, (PieceType)piece)];
-                position += GetPositionValue(color, (PieceType)piece, parameters.GamePhase, piecesToParse);
+                var piecesToParse = bitBoard.Pieces[FastArray.GetPieceIndex(color, (PieceType)piece)];
+                position += GetPositionValue(color, (PieceType)piece, gamePhase, piecesToParse);
             }
 
             return position;

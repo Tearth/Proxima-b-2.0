@@ -8,24 +8,24 @@ namespace Proxima.Core.Evaluation.Mobility
 {
     public class MobilityCalculator
     {
-        public int Calculate(EvaluationParameters parameters)
+        public int Calculate(GamePhase gamePhase, BitBoard bitBoard)
         {
-            var whiteMobility = GetMobilityValue(Color.White, parameters);
-            var blackMobility = GetMobilityValue(Color.Black, parameters);
+            var whiteMobility = GetMobilityValue(Color.White, gamePhase, bitBoard);
+            var blackMobility = GetMobilityValue(Color.Black, gamePhase, bitBoard);
 
             return whiteMobility - blackMobility;
         }
 
-        public MobilityData CalculateDetailed(EvaluationParameters parameters)
+        public MobilityData CalculateDetailed(GamePhase gamePhase, BitBoard bitBoard)
         {
             return new MobilityData()
             {
-                WhiteMobility = GetMobilityValue(Color.White, parameters),
-                BlackMobility = GetMobilityValue(Color.Black, parameters)
+                WhiteMobility = GetMobilityValue(Color.White, gamePhase, bitBoard),
+                BlackMobility = GetMobilityValue(Color.Black, gamePhase, bitBoard)
             };
         }
 
-        private int GetMobilityValue(Color color, EvaluationParameters parameters)
+        private int GetMobilityValue(Color color, GamePhase gamePhase, BitBoard bitBoard)
         {
             var mobility = 0;
             var array = MobilityValues.GetRatio(color);
@@ -33,15 +33,15 @@ namespace Proxima.Core.Evaluation.Mobility
             for (int i = 0; i < 64; i++)
             {
                 var field = 1ul << i;
-                if ((field & parameters.Occupancy[(int)color]) != 0)
+                if ((field & bitBoard.Occupancy[(int)color]) != 0)
                 {
                     continue;
                 }
 
-                var attacksArray = parameters.Attacks[i] & parameters.Occupancy[(int)color];
+                var attacksArray = bitBoard.Attacks[i] & bitBoard.Occupancy[(int)color];
                 if (attacksArray != 0)
                 {
-                    mobility += BitOperations.Count(attacksArray) * array[FastArray.GetEvaluationValueIndex(parameters.GamePhase, i)];
+                    mobility += BitOperations.Count(attacksArray) * array[FastArray.GetEvaluationValueIndex(gamePhase, i)];
                 }
             }
 

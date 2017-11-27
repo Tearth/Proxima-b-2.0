@@ -1,4 +1,6 @@
-﻿using Proxima.Core.Evaluation.Castling;
+﻿using Proxima.Core.Boards;
+using Proxima.Core.Commons;
+using Proxima.Core.Evaluation.Castling;
 using Proxima.Core.Evaluation.KingSafety;
 using Proxima.Core.Evaluation.Material;
 using Proxima.Core.Evaluation.Mobility;
@@ -16,28 +18,34 @@ namespace Proxima.Core.Evaluation
         private static PawnStructureCalculator _pawnStructure = new PawnStructureCalculator();
         private static KingSafetyCalculator _kingSafety = new KingSafetyCalculator();
 
-        public static int GetEvaluation(EvaluationParameters parameters, IncrementalEvaluationData incrementalEvaluationData)
+        public static int GetEvaluation(BitBoard bitBoard, IncrementalEvaluationData incrementalEvaluationData)
         {
+            // Temporary
+            var gamePhase = GamePhase.Regular;
+
             var material = incrementalEvaluationData.Material;
-            var mobility = _mobility.Calculate(parameters);
+            var mobility = _mobility.Calculate(gamePhase, bitBoard);
             var castling = incrementalEvaluationData.Castling;
             var position = incrementalEvaluationData.Position;
-            var pawnStructure = _pawnStructure.Calculate(parameters);
-            var kingSafety = _kingSafety.Calculate(parameters);
+            var pawnStructure = _pawnStructure.Calculate(gamePhase, bitBoard);
+            var kingSafety = _kingSafety.Calculate(gamePhase, bitBoard);
 
             return material + mobility + castling + position + pawnStructure + kingSafety;
         }
 
-        public static DetailedEvaluationData GetDetailedEvaluation(EvaluationParameters parameters)
+        public static DetailedEvaluationData GetDetailedEvaluation(BitBoard bitBoard)
         {
+            // Temporary
+            var gamePhase = GamePhase.Regular;
+
             return new DetailedEvaluationData()
             {
-                Material = _material.CalculateDetailed(parameters),
-                Mobility = _mobility.CalculateDetailed(parameters),
-                Castling = _castling.CalculateDetailed(parameters),
-                Position = _position.CalculateDetailed(parameters),
-                PawnStructure = _pawnStructure.CalculateDetailed(parameters),
-                KingSafety = _kingSafety.CalculateDetailed(parameters)
+                Material = _material.CalculateDetailed(gamePhase, bitBoard),
+                Mobility = _mobility.CalculateDetailed(gamePhase, bitBoard),
+                Castling = _castling.CalculateDetailed(gamePhase, bitBoard),
+                Position = _position.CalculateDetailed(gamePhase, bitBoard),
+                PawnStructure = _pawnStructure.CalculateDetailed(gamePhase, bitBoard),
+                KingSafety = _kingSafety.CalculateDetailed(gamePhase, bitBoard)
             };
         }
     }

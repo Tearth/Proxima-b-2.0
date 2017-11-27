@@ -21,15 +21,15 @@ namespace Proxima.Core.Boards
         public LinkedList<Move> Moves { get; private set; }
         public ulong Hash { get; private set; }
 
-        private ulong[] _pieces;
-        private ulong[] _occupancy;
-        private ulong[] _enPassant;
+        public ulong[] Pieces { get; private set; }
+        public ulong[] Occupancy { get; private set; }
+        public ulong[] EnPassant { get; private set; }
 
-        private ulong[] _attacks;
-        private ulong[] _attacksSummary;
+        public ulong[] Attacks { get; private set; }
+        public ulong[] AttacksSummary { get; private set; }
 
-        private bool[] _castlingPossibility;
-        private bool[] _castlingDone;
+        public bool[] CastlingPossibility { get; private set; }
+        public bool[] CastlingDone { get; private set; }
 
         private IncrementalEvaluationData _incrementalEvaluation;
 
@@ -37,26 +37,26 @@ namespace Proxima.Core.Boards
         {
             Moves = new LinkedList<Move>();
 
-            _pieces = new ulong[12];
-            _occupancy = new ulong[2];
-            _enPassant = new ulong[2];
+            Pieces = new ulong[12];
+            Occupancy = new ulong[2];
+            EnPassant = new ulong[2];
 
-            _attacks = new ulong[64];
-            _attacksSummary = new ulong[2];
+            Attacks = new ulong[64];
+            AttacksSummary = new ulong[2];
 
-            _castlingPossibility = new bool[4];
-            _castlingDone = new bool[2];
+            CastlingPossibility = new bool[4];
+            CastlingDone = new bool[2];
         }
 
         public BitBoard(BitBoard bitBoard, Move move) : this()
         {
             Hash = bitBoard.Hash;
-            Hash = IncrementalZobrist.ClearEnPassant(Hash, ColorOperations.Invert(move.Color), bitBoard._enPassant);
+            Hash = IncrementalZobrist.ClearEnPassant(Hash, ColorOperations.Invert(move.Color), bitBoard.EnPassant);
 
-            Buffer.BlockCopy(bitBoard._pieces, 0, _pieces, 0, bitBoard._pieces.Length * sizeof(ulong));
-            Buffer.BlockCopy(bitBoard._castlingPossibility, 0, _castlingPossibility, 0, bitBoard._castlingPossibility.Length * sizeof(bool));
-            Buffer.BlockCopy(bitBoard._castlingDone, 0, _castlingDone, 0, bitBoard._castlingDone.Length * sizeof(bool));
-            Buffer.BlockCopy(bitBoard._occupancy, 0, _occupancy, 0, bitBoard._occupancy.Length * sizeof(ulong));
+            Buffer.BlockCopy(bitBoard.Pieces, 0, Pieces, 0, bitBoard.Pieces.Length * sizeof(ulong));
+            Buffer.BlockCopy(bitBoard.CastlingPossibility, 0, CastlingPossibility, 0, bitBoard.CastlingPossibility.Length * sizeof(bool));
+            Buffer.BlockCopy(bitBoard.CastlingDone, 0, CastlingDone, 0, bitBoard.CastlingDone.Length * sizeof(bool));
+            Buffer.BlockCopy(bitBoard.Occupancy, 0, Occupancy, 0, bitBoard.Occupancy.Length * sizeof(ulong));
 
             _incrementalEvaluation = bitBoard._incrementalEvaluation;
 
@@ -66,11 +66,11 @@ namespace Proxima.Core.Boards
 
         public BitBoard(FriendlyBoard friendlyBoard) : this()
         {
-            _pieces = friendlyBoard.GetPiecesArray();
-            _castlingPossibility = friendlyBoard.GetCastlingPossibilityArray();
-            _castlingDone = friendlyBoard.GetCastlingDoneArray();
-            _enPassant = friendlyBoard.GetEnPassantArray();
-            _occupancy = CalculateOccupancy();
+            Pieces = friendlyBoard.GetPiecesArray();
+            CastlingPossibility = friendlyBoard.GetCastlingPossibilityArray();
+            CastlingDone = friendlyBoard.GetCastlingDoneArray();
+            EnPassant = friendlyBoard.GetEnPassantArray();
+            Occupancy = CalculateOccupancy();
 
             _incrementalEvaluation = new IncrementalEvaluationData(GetDetailedEvaluation());
 
@@ -84,15 +84,15 @@ namespace Proxima.Core.Boards
 
         public FriendlyBoard GetFriendlyBoard()
         {
-            return new FriendlyBoard(_pieces, _attacks, _castlingPossibility, _castlingDone, _enPassant);
+            return new FriendlyBoard(Pieces, Attacks, CastlingPossibility, CastlingDone, EnPassant);
         }
 
         public bool IsCheck(Color color)
         {
             var enemyColor = ColorOperations.Invert(color);
-            var king = _pieces[FastArray.GetPieceIndex(color, PieceType.King)];
+            var king = Pieces[FastArray.GetPieceIndex(color, PieceType.King)];
 
-            return (_attacksSummary[(int)enemyColor] & king) != 0;
+            return (AttacksSummary[(int)enemyColor] & king) != 0;
         }
 
         public void Calculate()
@@ -108,14 +108,12 @@ namespace Proxima.Core.Boards
 
         public int GetEvaluation()
         {
-            var evaluationParameters = GetEvaluationParameters();
-            return EvaluationCalculator.GetEvaluation(evaluationParameters, _incrementalEvaluation);
+            return EvaluationCalculator.GetEvaluation(this, _incrementalEvaluation);
         }
 
         public DetailedEvaluationData GetDetailedEvaluation()
         {
-            var evaluationParameters = GetEvaluationParameters();
-            return EvaluationCalculator.GetDetailedEvaluation(evaluationParameters);
+            return EvaluationCalculator.GetDetailedEvaluation(this);
         }
 
         public bool VerifyIntegrity()
@@ -124,8 +122,8 @@ namespace Proxima.Core.Boards
             var calculatedEvaluation = GetDetailedEvaluation();
 
             return Hash == GetNewHash() &&
-                   _occupancy[(int)Color.White] == calculatedOccupancy[(int)Color.White] &&
-                   _occupancy[(int)Color.Black] == calculatedOccupancy[(int)Color.Black] &&
+                   Occupancy[(int)Color.White] == calculatedOccupancy[(int)Color.White] &&
+                   Occupancy[(int)Color.Black] == calculatedOccupancy[(int)Color.Black] &&
                    _incrementalEvaluation.Material == calculatedEvaluation.Material.Difference &&
                    _incrementalEvaluation.Position == calculatedEvaluation.Position.Difference &&
                    _incrementalEvaluation.Castling == calculatedEvaluation.Castling.Difference;
@@ -133,7 +131,7 @@ namespace Proxima.Core.Boards
 
         private ulong GetNewHash()
         {
-            return ZobristHash.Calculate(_pieces, _castlingPossibility, _enPassant);
+            return ZobristHash.Calculate(Pieces, CastlingPossibility, EnPassant);
         }
         
         private void CalculateMove(BitBoard bitBoard, Move move)
@@ -159,28 +157,28 @@ namespace Proxima.Core.Boards
                 var shortCastlingIndex = FastArray.GetCastlingIndex(move.Color, CastlingType.Short);
                 var longCastlingIndex = FastArray.GetCastlingIndex(move.Color, CastlingType.Long);
 
-                Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Short);
-                Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Long);
+                Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, CastlingPossibility, move.Color, CastlingType.Short);
+                Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, CastlingPossibility, move.Color, CastlingType.Long);
 
-                _castlingPossibility[shortCastlingIndex] = false;
-                _castlingPossibility[longCastlingIndex] = false;
+                CastlingPossibility[shortCastlingIndex] = false;
+                CastlingPossibility[longCastlingIndex] = false;
             }
             else if (move.Piece == PieceType.Rook)
             {
                 if (move.From == new Position(1, 1) || move.From == new Position(1, 8))
                 {
-                    Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Long);
-                    _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
+                    Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, CastlingPossibility, move.Color, CastlingType.Long);
+                    CastlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
                 }
                 else if (move.From == new Position(8, 1) || move.From == new Position(8, 8))
                 {
-                    Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Short);
-                    _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
+                    Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, CastlingPossibility, move.Color, CastlingType.Short);
+                    CastlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
                 }
             }
 
-            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
-            _occupancy[(int)move.Color] ^= change;
+            Pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
+            Occupancy[(int)move.Color] ^= change;
 
             _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, move.Color, move.Piece, from, GamePhase.Regular);
             _incrementalEvaluation.Position = IncrementalPosition.AddPiece(_incrementalEvaluation.Position, move.Color, move.Piece, to, GamePhase.Regular);
@@ -200,10 +198,10 @@ namespace Proxima.Core.Boards
             for (int piece = 0; piece < 6; piece++)
             {
                 var index = FastArray.GetPieceIndex(enemyColor, (PieceType)piece);
-                if ((_pieces[index] & to) != 0)
+                if ((Pieces[index] & to) != 0)
                 {
-                    _pieces[index] &= ~to;
-                    _occupancy[(int)enemyColor] ^= to;
+                    Pieces[index] &= ~to;
+                    Occupancy[(int)enemyColor] ^= to;
 
                     _incrementalEvaluation.Material = IncrementalMaterial.RemovePiece(_incrementalEvaluation.Material, (PieceType)piece, enemyColor);
                     _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, enemyColor, (PieceType)piece, to, GamePhase.Regular);
@@ -212,8 +210,8 @@ namespace Proxima.Core.Boards
                 }
             }
 
-            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
-            _occupancy[(int)move.Color] ^= change;
+            Pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
+            Occupancy[(int)move.Color] ^= change;
 
             _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, move.Color, move.Piece, from, GamePhase.Regular);
             _incrementalEvaluation.Position = IncrementalPosition.AddPiece(_incrementalEvaluation.Position, move.Color, move.Piece, to, GamePhase.Regular);
@@ -235,8 +233,8 @@ namespace Proxima.Core.Boards
                     var rookLSB = move.Color == Color.White ? KingMovesGenerator.WhiteRightRookLSB : KingMovesGenerator.BlackRightRookLSB;
                     var rookChange = rookLSB | (rookLSB << 2);
 
-                    _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] ^= rookChange;
-                    _occupancy[(int)move.Color] ^= rookChange;
+                    Pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] ^= rookChange;
+                    Occupancy[(int)move.Color] ^= rookChange;
 
                     _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, move.Color, PieceType.Rook, rookLSB, GamePhase.Regular);
                     _incrementalEvaluation.Position = IncrementalPosition.AddPiece(_incrementalEvaluation.Position, move.Color, PieceType.Rook, rookLSB << 2, GamePhase.Regular);
@@ -252,8 +250,8 @@ namespace Proxima.Core.Boards
                     var rookLSB = move.Color == Color.White ? KingMovesGenerator.WhiteLeftRookLSB : KingMovesGenerator.BlackLeftRookLSB;
                     var rookChange = rookLSB | (rookLSB >> 3);
 
-                    _pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] ^= rookChange;
-                    _occupancy[(int)move.Color] ^= rookChange;
+                    Pieces[FastArray.GetPieceIndex(move.Color, PieceType.Rook)] ^= rookChange;
+                    Occupancy[(int)move.Color] ^= rookChange;
 
                     _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, move.Color, PieceType.Rook, rookLSB, GamePhase.Regular);
                     _incrementalEvaluation.Position = IncrementalPosition.AddPiece(_incrementalEvaluation.Position, move.Color, PieceType.Rook, rookLSB >> 3, GamePhase.Regular);
@@ -265,22 +263,22 @@ namespace Proxima.Core.Boards
                 }
             }
 
-            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
-            _occupancy[(int)move.Color] ^= change;
+            Pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
+            Occupancy[(int)move.Color] ^= change;
 
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, from);
             Hash = IncrementalZobrist.AddOrRemovePiece(Hash, move.Color, move.Piece, to);
-            Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Short);
-            Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, _castlingPossibility, move.Color, CastlingType.Long);
+            Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, CastlingPossibility, move.Color, CastlingType.Short);
+            Hash = IncrementalZobrist.RemoveCastlingPossibility(Hash, CastlingPossibility, move.Color, CastlingType.Long);
 
             _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, move.Color, move.Piece, from, GamePhase.Regular);
             _incrementalEvaluation.Position = IncrementalPosition.AddPiece(_incrementalEvaluation.Position, move.Color, move.Piece, to, GamePhase.Regular);
 
-            _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
-            _castlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
+            CastlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Short)] = false;
+            CastlingPossibility[FastArray.GetCastlingIndex(move.Color, CastlingType.Long)] = false;
 
             _incrementalEvaluation.Castling = IncrementalCastling.SetCastlingDone(_incrementalEvaluation.Castling, move.Color, GamePhase.Regular);
-            _castlingDone[(int)move.Color] = true;
+            CastlingDone[(int)move.Color] = true;
         }
 
         private void CalculateEnPassantMove(EnPassantMove move)
@@ -293,8 +291,8 @@ namespace Proxima.Core.Boards
 
             if (move.Color == Color.White)
             {
-                _pieces[FastArray.GetPieceIndex(enemyColor, PieceType.Pawn)] &= ~(to >> 8);
-                _occupancy[(int)enemyColor] ^= to >> 8;
+                Pieces[FastArray.GetPieceIndex(enemyColor, PieceType.Pawn)] &= ~(to >> 8);
+                Occupancy[(int)enemyColor] ^= to >> 8;
 
                 _incrementalEvaluation.Material = IncrementalMaterial.RemovePiece(_incrementalEvaluation.Material, PieceType.Pawn, enemyColor);
                 _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, enemyColor, PieceType.Pawn, to >> 8, GamePhase.Regular);
@@ -302,16 +300,16 @@ namespace Proxima.Core.Boards
             }
             else
             {
-                _pieces[FastArray.GetPieceIndex(enemyColor, PieceType.Pawn)] &= ~(to << 8);
-                _occupancy[(int)enemyColor] ^= to << 8;
+                Pieces[FastArray.GetPieceIndex(enemyColor, PieceType.Pawn)] &= ~(to << 8);
+                Occupancy[(int)enemyColor] ^= to << 8;
 
                 _incrementalEvaluation.Material = IncrementalMaterial.RemovePiece(_incrementalEvaluation.Material, PieceType.Pawn, enemyColor);
                 _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, enemyColor, PieceType.Pawn, to << 8, GamePhase.Regular);
                 Hash = IncrementalZobrist.AddOrRemovePiece(Hash, enemyColor, PieceType.Pawn, to << 8);
             }
 
-            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
-            _occupancy[(int)move.Color] ^= change;
+            Pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] ^= change;
+            Occupancy[(int)move.Color] ^= change;
 
             _incrementalEvaluation.Position = IncrementalPosition.RemovePiece(_incrementalEvaluation.Position, move.Color, move.Piece, from, GamePhase.Regular);
             _incrementalEvaluation.Position = IncrementalPosition.AddPiece(_incrementalEvaluation.Position, move.Color, move.Piece, to, GamePhase.Regular);
@@ -326,9 +324,9 @@ namespace Proxima.Core.Boards
             var to = BitPositionConverter.ToULong(move.To);
             var change = from | to;
 
-            _pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] &= ~from;
-            _pieces[FastArray.GetPieceIndex(move.Color, move.PromotionPiece)] |= to;
-            _occupancy[(int)move.Color] ^= change;
+            Pieces[FastArray.GetPieceIndex(move.Color, move.Piece)] &= ~from;
+            Pieces[FastArray.GetPieceIndex(move.Color, move.PromotionPiece)] |= to;
+            Occupancy[(int)move.Color] ^= change;
 
             _incrementalEvaluation.Material = IncrementalMaterial.RemovePiece(_incrementalEvaluation.Material, move.Piece, move.Color);
             _incrementalEvaluation.Material = IncrementalMaterial.AddPiece(_incrementalEvaluation.Material, move.PromotionPiece, move.Color);
@@ -351,7 +349,7 @@ namespace Proxima.Core.Boards
                         var enPassantPosition = new Position(move.To.X, move.To.Y - 1);
                         var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
 
-                        _enPassant[(int)Color.White] |= enPassantLSB;
+                        EnPassant[(int)Color.White] |= enPassantLSB;
                         Hash = IncrementalZobrist.AddEnPassant(Hash, Color.White, enPassantLSB);
                     }
                 }
@@ -362,7 +360,7 @@ namespace Proxima.Core.Boards
                         var enPassantPosition = new Position(move.To.X, move.To.Y + 1);
                         var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
 
-                        _enPassant[(int)Color.Black] |= enPassantLSB;
+                        EnPassant[(int)Color.Black] |= enPassantLSB;
                         Hash = IncrementalZobrist.AddEnPassant(Hash, Color.Black, enPassantLSB);
                     }
                 }
@@ -375,8 +373,8 @@ namespace Proxima.Core.Boards
 
             for (int piece = 0; piece < 6; piece++)
             {
-                occupancy[(int)Color.White] |= _pieces[FastArray.GetPieceIndex(Color.White, (PieceType)piece)];
-                occupancy[(int)Color.Black] |= _pieces[FastArray.GetPieceIndex(Color.Black, (PieceType)piece)];
+                occupancy[(int)Color.White] |= Pieces[FastArray.GetPieceIndex(Color.White, (PieceType)piece)];
+                occupancy[(int)Color.Black] |= Pieces[FastArray.GetPieceIndex(Color.Black, (PieceType)piece)];
             }
 
             return occupancy;
@@ -425,35 +423,18 @@ namespace Proxima.Core.Boards
                 EnemyColor = ColorOperations.Invert(color),
                 Mode = mode,
 
-                Pieces = _pieces,
-                EnPassant = _enPassant,
-                CastlingPossibility = _castlingPossibility,
+                Pieces = Pieces,
+                EnPassant = EnPassant,
+                CastlingPossibility = CastlingPossibility,
 
-                Attacks = _attacks,
-                AttacksSummary = _attacksSummary,
+                Attacks = Attacks,
+                AttacksSummary = AttacksSummary,
 
-                Occupancy = _occupancy[(int)Color.White] | _occupancy[(int)Color.Black],
-                FriendlyOccupancy = _occupancy[(int)color],
-                EnemyOccupancy = _occupancy[(int)ColorOperations.Invert(color)],
+                Occupancy = Occupancy[(int)Color.White] | Occupancy[(int)Color.Black],
+                FriendlyOccupancy = Occupancy[(int)color],
+                EnemyOccupancy = Occupancy[(int)ColorOperations.Invert(color)],
 
                 Moves = Moves
-            };
-        }
-
-        private EvaluationParameters GetEvaluationParameters()
-        {
-            return new EvaluationParameters()
-            {
-                GamePhase = GamePhase.Regular,
-
-                Pieces = _pieces,
-                Occupancy = _occupancy,
-                EnPassant = _enPassant,
-
-                CastlingDone = _castlingDone,
-
-                Attacks = _attacks,
-                AttacksSummary = _attacksSummary
             };
         }
     }

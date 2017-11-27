@@ -9,28 +9,28 @@ namespace Proxima.Core.Evaluation.KingSafety
 {
     public class KingSafetyCalculator
     {
-        public int Calculate(EvaluationParameters parameters)
+        public int Calculate(GamePhase gamePhase, BitBoard bitBoard)
         {
-            var whiteKingSafety = GetAttackedNeighboursValue(Color.White, parameters);
-            var blackKingSafety = GetAttackedNeighboursValue(Color.Black, parameters);
+            var whiteKingSafety = GetAttackedNeighboursValue(Color.White, gamePhase, bitBoard);
+            var blackKingSafety = GetAttackedNeighboursValue(Color.Black, gamePhase, bitBoard);
 
             return whiteKingSafety - blackKingSafety;
         }
 
-        public KingSafetyData CalculateDetailed(EvaluationParameters parameters)
+        public KingSafetyData CalculateDetailed(GamePhase gamePhase, BitBoard bitBoard)
         {
             return new KingSafetyData
             {
-                WhiteAttackedNeighbours = GetAttackedNeighboursValue(Color.White, parameters),
-                BlackAttackedNeighbours = GetAttackedNeighboursValue(Color.Black, parameters)
+                WhiteAttackedNeighbours = GetAttackedNeighboursValue(Color.White, gamePhase, bitBoard),
+                BlackAttackedNeighbours = GetAttackedNeighboursValue(Color.Black, gamePhase, bitBoard)
             };
         }
 
-        private int GetAttackedNeighboursValue(Color color, EvaluationParameters parameters)
+        private int GetAttackedNeighboursValue(Color color, GamePhase gamePhase, BitBoard bitBoard)
         {
             var attackedNeightbours = 0;
 
-            var king = parameters.Pieces[FastArray.GetPieceIndex(color, PieceType.King)];
+            var king = bitBoard.Pieces[FastArray.GetPieceIndex(color, PieceType.King)];
             var kingIndex = BitOperations.GetBitIndex(king);
             var kingMoves = PatternsContainer.KingPattern[kingIndex];
 
@@ -40,12 +40,12 @@ namespace Proxima.Core.Evaluation.KingSafety
                 kingMoves = BitOperations.PopLSB(kingMoves);
 
                 var fieldIndex = BitOperations.GetBitIndex(fieldLSB);
-                var attacks = parameters.Attacks[fieldIndex] & ~parameters.Occupancy[(int)color];
+                var attacks = bitBoard.Attacks[fieldIndex] & ~bitBoard.Occupancy[(int)color];
 
                 attackedNeightbours += BitOperations.Count(attacks);
             }
 
-            return attackedNeightbours * KingSafetyValues.AttackedNeighboursRatio[(int)parameters.GamePhase];
+            return attackedNeightbours * KingSafetyValues.AttackedNeighboursRatio[(int)gamePhase];
         }
     }
 }

@@ -9,10 +9,10 @@ namespace Proxima.Core.Evaluation.PawnStructure.Doubled
 {
     public class DoubledPawnsCalculator
     {
-        public int GetDoubledPawnsValue(Color color, EvaluationParameters parameters)
+        public int GetDoubledPawnsValue(Color color, GamePhase gamePhase, BitBoard bitBoard)
         {
             var doubledPawns = 0;
-            var pawns = parameters.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];
+            var pawns = bitBoard.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];
 
             for (int i = 0; i < 8; i++)
             {
@@ -28,7 +28,7 @@ namespace Proxima.Core.Evaluation.PawnStructure.Doubled
                 }
             }
 
-            return doubledPawns * PawnStructureValues.DoubledPawnsRatio[(int)parameters.GamePhase];
+            return doubledPawns * PawnStructureValues.DoubledPawnsRatio[(int)gamePhase];
         }
     }
 }

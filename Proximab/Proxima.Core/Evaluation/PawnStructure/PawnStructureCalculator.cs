@@ -1,4 +1,6 @@
-﻿using Proxima.Core.Commons.Colors;
+﻿using Proxima.Core.Boards;
+using Proxima.Core.Commons;
+using Proxima.Core.Commons.Colors;
 using Proxima.Core.Evaluation.PawnStructure.Chain;
 using Proxima.Core.Evaluation.PawnStructure.Doubled;
 using Proxima.Core.Evaluation.PawnStructure.Isolated;
@@ -18,34 +20,34 @@ namespace Proxima.Core.Evaluation.PawnStructure
             _pawnChainCalculator = new PawnChainCalculator();
         }
 
-        public int Calculate(EvaluationParameters parameters)
+        public int Calculate(GamePhase gamePhase, BitBoard bitBoard)
         {
-            var whiteDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.White, parameters);
-            var blackDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.Black, parameters);
+            var whiteDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.White, gamePhase, bitBoard);
+            var blackDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.Black, gamePhase, bitBoard);
 
-            var whiteIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.White, parameters);
-            var blackIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.Black, parameters);
+            var whiteIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.White, gamePhase, bitBoard);
+            var blackIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.Black, gamePhase, bitBoard);
 
-            var whitePawnChains = _pawnChainCalculator.GetChainValue(Color.White, parameters);
-            var blackPawnChains = _pawnChainCalculator.GetChainValue(Color.Black, parameters);
+            var whitePawnChains = _pawnChainCalculator.GetChainValue(Color.White, gamePhase, bitBoard);
+            var blackPawnChains = _pawnChainCalculator.GetChainValue(Color.Black, gamePhase, bitBoard);
 
             return (whiteDoubledPawns - blackDoubledPawns) + 
                    (whiteIsolatedPawns - blackIsolatedPawns) + 
                    (whitePawnChains - blackPawnChains);
         }
 
-        public PawnStructureData CalculateDetailed(EvaluationParameters parameters)
+        public PawnStructureData CalculateDetailed(GamePhase gamePhase, BitBoard bitBoard)
         {
             return new PawnStructureData()
             {
-                WhiteDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.White, parameters),
-                BlackDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.Black, parameters),
+                WhiteDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.White, gamePhase,bitBoard),
+                BlackDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.Black, gamePhase, bitBoard),
 
-                WhiteIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.White, parameters),
-                BlackIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.Black, parameters),
+                WhiteIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.White, gamePhase, bitBoard),
+                BlackIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.Black, gamePhase, bitBoard),
 
-                WhitePawnChain = _pawnChainCalculator.GetChainValue(Color.White, parameters),
-                BlackPawnChain = _pawnChainCalculator.GetChainValue(Color.Black, parameters),
+                WhitePawnChain = _pawnChainCalculator.GetChainValue(Color.White, gamePhase, bitBoard),
+                BlackPawnChain = _pawnChainCalculator.GetChainValue(Color.Black, gamePhase, bitBoard),
             };
         }
     }

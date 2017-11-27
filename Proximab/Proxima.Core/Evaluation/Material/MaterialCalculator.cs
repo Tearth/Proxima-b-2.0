@@ -8,30 +8,30 @@ namespace Proxima.Core.Evaluation.Material
 {
     public class MaterialCalculator
     {
-        public int Calculate(EvaluationParameters parameters)
+        public int Calculate(GamePhase gamePhase, BitBoard bitBoard)
         {
-            var whiteMaterial = GetMaterialValue(Color.White, parameters);
-            var blackMaterial = GetMaterialValue(Color.Black, parameters);
+            var whiteMaterial = GetMaterialValue(Color.White, gamePhase, bitBoard);
+            var blackMaterial = GetMaterialValue(Color.Black, gamePhase, bitBoard);
 
             return whiteMaterial - blackMaterial;
         }
 
-        public MaterialData CalculateDetailed(EvaluationParameters parameters)
+        public MaterialData CalculateDetailed(GamePhase gamePhase, BitBoard bitBoard)
         {
             return new MaterialData
             {
-                WhiteMaterial = GetMaterialValue(Color.White, parameters),
-                BlackMaterial = GetMaterialValue(Color.Black, parameters)
+                WhiteMaterial = GetMaterialValue(Color.White, gamePhase, bitBoard),
+                BlackMaterial = GetMaterialValue(Color.Black, gamePhase, bitBoard)
             };
         }
 
-        private int GetMaterialValue(Color color, EvaluationParameters parameters)
+        private int GetMaterialValue(Color color, GamePhase gamePhase, BitBoard bitBoard)
         {
             var material = 0;
 
             for (int piece = 0; piece < 6; piece++)
             {
-                var piecesToParse = parameters.Pieces[FastArray.GetPieceIndex(color, (PieceType)piece)];
+                var piecesToParse = bitBoard.Pieces[FastArray.GetPieceIndex(color, (PieceType)piece)];
                 var piecesCount = BitOperations.Count(piecesToParse);
                 
                 material += piecesCount * MaterialValues.PieceValues[piece];

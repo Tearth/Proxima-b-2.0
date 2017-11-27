@@ -9,10 +9,10 @@ namespace Proxima.Core.Evaluation.PawnStructure.Isolated
 {
     public class IsolatedPawnsCalculator
     {
-        public int GetIsolatedPawnsValue(Color color, EvaluationParameters parameters)
+        public int GetIsolatedPawnsValue(Color color, GamePhase gamePhase, BitBoard bitBoard)
         {
             var isolatedPawns = 0;
-            var pawns = parameters.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];
+            var pawns = bitBoard.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];
 
             for (int i = 0; i < 8; i++)
             {
@@ -28,7 +28,7 @@ namespace Proxima.Core.Evaluation.PawnStructure.Isolated
                 }
             }
 
-            return isolatedPawns * PawnStructureValues.IsolatededPawnsRatio[(int)parameters.GamePhase];
+            return isolatedPawns * PawnStructureValues.IsolatededPawnsRatio[(int)gamePhase];
         }
     }
 }
