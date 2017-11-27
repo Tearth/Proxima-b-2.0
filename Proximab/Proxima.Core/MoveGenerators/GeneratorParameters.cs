@@ -1,26 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using Proxima.Core.Boards;
 using Proxima.Core.Commons.Colors;
-using Proxima.Core.Commons.Moves;
 
 namespace Proxima.Core.MoveGenerators
 {
     public class GeneratorParameters
     {
+        public BitBoard BitBoard { get; set; }
+
         public Color FriendlyColor { get; set; }
         public Color EnemyColor { get; set; }
         public GeneratorMode Mode { get; set; }
 
-        public ulong[] Pieces { get; set; }
-        public bool[] CastlingPossibility { get; set; }
-        public ulong[] EnPassant { get; set; }
-
-        public ulong[] Attacks { get; set; }
-        public ulong[] AttacksSummary { get; set; }
-
-        public ulong Occupancy { get; set; }
+        public ulong OccupancySummary { get; set; }
         public ulong FriendlyOccupancy { get; set; }
         public ulong EnemyOccupancy { get; set; }
-
-        public LinkedList<Move> Moves { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace Proxima.Core.MoveGenerators
 
         public static void Calculate(GeneratorParameters opt)
         {
-            var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.King)];
+            var piecesToParse = opt.BitBoard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.King)];
 
             while (piecesToParse != 0)
             {
@@ -57,18 +57,18 @@ namespace Proxima.Core.MoveGenerators
 
                         if ((patternLSB & opt.EnemyOccupancy) == 0)
                         {
-                            opt.Moves.AddLast(new QuietMove(piecePosition, to, PieceType.King, opt.FriendlyColor));
+                            opt.BitBoard.Moves.AddLast(new QuietMove(piecePosition, to, PieceType.King, opt.FriendlyColor));
                         }
                         else
                         {
-                            opt.Moves.AddLast(new KillMove(piecePosition, to, PieceType.King, opt.FriendlyColor));
+                            opt.BitBoard.Moves.AddLast(new KillMove(piecePosition, to, PieceType.King, opt.FriendlyColor));
                         }
                     }
 
                     if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
                     {
-                        opt.Attacks[patternIndex] |= pieceLSB;
-                        opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
+                        opt.BitBoard.Attacks[patternIndex] |= pieceLSB;
+                        opt.BitBoard.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
                     }
                 }
             }
@@ -76,8 +76,8 @@ namespace Proxima.Core.MoveGenerators
 
         public static void CalculateCastling(GeneratorParameters opt)
         {
-            if (!opt.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)] &&
-                !opt.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Long)])
+            if (!opt.BitBoard.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)] &&
+                !opt.BitBoard.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Long)])
             {
                 return;
             }
@@ -110,24 +110,24 @@ namespace Proxima.Core.MoveGenerators
                 longCheckArea = BlackLongCastlingCheckArea;
             }
 
-            if (opt.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)] &&
-               IsCastlingAreaEmpty(shortMoveArea, opt.Occupancy) &&
+            if (opt.BitBoard.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)] &&
+               IsCastlingAreaEmpty(shortMoveArea, opt.OccupancySummary) &&
                !IsCastlingAreaChecked(opt.EnemyColor, shortCheckArea, opt))
             {
                 var to = initialKingPosition + new Position(2, 0);
                 var move = new CastlingMove(initialKingPosition, to, PieceType.King, opt.FriendlyColor, CastlingType.Short);
 
-                opt.Moves.AddLast(move);
+                opt.BitBoard.Moves.AddLast(move);
             }
 
-            if (opt.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Long)] &&
-               IsCastlingAreaEmpty(longMoveArea, opt.Occupancy) &&
+            if (opt.BitBoard.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Long)] &&
+               IsCastlingAreaEmpty(longMoveArea, opt.OccupancySummary) &&
                !IsCastlingAreaChecked(opt.EnemyColor, longCheckArea, opt))
             {
                 var to = initialKingPosition - new Position(2, 0);
                 var move = new CastlingMove(initialKingPosition, to, PieceType.King, opt.FriendlyColor, CastlingType.Long);
 
-                opt.Moves.AddLast(move);
+                opt.BitBoard.Moves.AddLast(move);
             }
         }
 
@@ -138,7 +138,7 @@ namespace Proxima.Core.MoveGenerators
 
         private static bool IsCastlingAreaChecked(Color enemyColor, ulong areaToCheck, GeneratorParameters opt)
         {
-            return (opt.AttacksSummary[(int)enemyColor] & areaToCheck) != 0;
+            return (opt.BitBoard.AttacksSummary[(int)enemyColor] & areaToCheck) != 0;
         }
     }
 }

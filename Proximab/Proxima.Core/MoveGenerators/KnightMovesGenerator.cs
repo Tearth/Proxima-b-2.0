@@ -11,7 +11,7 @@ namespace Proxima.Core.MoveGenerators
     {
         public static void Calculate(GeneratorParameters opt)
         {
-            var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Knight)];
+            var piecesToParse = opt.BitBoard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Knight)];
 
             while (piecesToParse != 0)
             {
@@ -37,18 +37,18 @@ namespace Proxima.Core.MoveGenerators
 
                         if ((patternLSB & opt.EnemyOccupancy) == 0)
                         {
-                            opt.Moves.AddLast(new QuietMove(piecePosition, to, PieceType.Knight, opt.FriendlyColor));
+                            opt.BitBoard.Moves.AddLast(new QuietMove(piecePosition, to, PieceType.Knight, opt.FriendlyColor));
                         }
                         else
                         {
-                            opt.Moves.AddLast(new KillMove(piecePosition, to, PieceType.Knight, opt.FriendlyColor));
+                            opt.BitBoard.Moves.AddLast(new KillMove(piecePosition, to, PieceType.Knight, opt.FriendlyColor));
                         }
                     }
 
                     if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
                     {
-                        opt.Attacks[patternIndex] |= pieceLSB;
-                        opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
+                        opt.BitBoard.Attacks[patternIndex] |= pieceLSB;
+                        opt.BitBoard.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
                     }
                 }
             }

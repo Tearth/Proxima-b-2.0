@@ -11,7 +11,7 @@ namespace Proxima.Core.MoveGenerators
     {
         public static void Calculate(PieceType pieceType, GeneratorParameters opt)
         {
-            var piecesToParse = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, pieceType)];
+            var piecesToParse = opt.BitBoard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, pieceType)];
 
             while (piecesToParse != 0)
             {
@@ -33,7 +33,7 @@ namespace Proxima.Core.MoveGenerators
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
             var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
-            var pattern = MagicContainer.GetRookAttacks(pieceIndex, opt.Occupancy);
+            var pattern = MagicContainer.GetRookAttacks(pieceIndex, opt.OccupancySummary);
             pattern &= ~opt.FriendlyOccupancy;
 
             var excludeFromAttacks = pattern;
@@ -48,17 +48,17 @@ namespace Proxima.Core.MoveGenerators
 
                 if ((patternLSB & opt.EnemyOccupancy) == 0)
                 {
-                    opt.Moves.AddLast(new QuietMove(piecePosition, to, pieceType, opt.FriendlyColor));
+                    opt.BitBoard.Moves.AddLast(new QuietMove(piecePosition, to, pieceType, opt.FriendlyColor));
                 }
                 else
                 {
-                    opt.Moves.AddLast(new KillMove(piecePosition, to, pieceType, opt.FriendlyColor));
+                    opt.BitBoard.Moves.AddLast(new KillMove(piecePosition, to, pieceType, opt.FriendlyColor));
                 }
 
                 if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
                 {
-                    opt.Attacks[patternIndex] |= pieceLSB;
-                    opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
+                    opt.BitBoard.Attacks[patternIndex] |= pieceLSB;
+                    opt.BitBoard.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
                 }
             }
 
@@ -72,10 +72,10 @@ namespace Proxima.Core.MoveGenerators
                 return;
             }
 
-            var blockersToRemove = opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Rook)] |
-                                   opt.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Queen)];
+            var blockersToRemove = opt.BitBoard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Rook)] |
+                                   opt.BitBoard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Queen)];
 
-            var occupancyWithoutBlockers = opt.Occupancy & ~blockersToRemove;          
+            var occupancyWithoutBlockers = opt.OccupancySummary & ~blockersToRemove;          
             var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
             var pattern = MagicContainer.GetRookAttacks(pieceIndex, occupancyWithoutBlockers);
@@ -88,8 +88,8 @@ namespace Proxima.Core.MoveGenerators
 
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                opt.Attacks[patternIndex] |= pieceLSB;
-                opt.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
+                opt.BitBoard.Attacks[patternIndex] |= pieceLSB;
+                opt.BitBoard.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
             }
         }
     }

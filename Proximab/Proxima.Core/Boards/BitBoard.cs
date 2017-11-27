@@ -211,22 +211,15 @@ namespace Proxima.Core.Boards
         {
             return new GeneratorParameters()
             {
+                BitBoard = this,
+
                 FriendlyColor = color,
                 EnemyColor = ColorOperations.Invert(color),
                 Mode = mode,
 
-                Pieces = Pieces,
-                EnPassant = EnPassant,
-                CastlingPossibility = CastlingPossibility,
-
-                Attacks = Attacks,
-                AttacksSummary = AttacksSummary,
-
-                Occupancy = Occupancy[(int)Color.White] | Occupancy[(int)Color.Black],
+                OccupancySummary = Occupancy[(int)Color.White] | Occupancy[(int)Color.Black],
                 FriendlyOccupancy = Occupancy[(int)color],
                 EnemyOccupancy = Occupancy[(int)ColorOperations.Invert(color)],
-
-                Moves = Moves
             };
         }
     }
