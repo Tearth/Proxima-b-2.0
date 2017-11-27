@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics;
+using Proxima.Core.Boards;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
+using Proxima.Core.Evaluation;
 
 namespace Proxima.Core.Commons.Moves
 {
@@ -9,7 +11,7 @@ namespace Proxima.Core.Commons.Moves
     /// Represents a base class for all move types.
     /// </summary>
     [DebuggerDisplay("{Color} {Piece} from [{From.X} {From.Y}] to [{To.X} {To.Y}]")]
-    public class Move
+    public abstract class Move
     {
         /// <summary>
         /// Gets the source piece position.
@@ -52,6 +54,8 @@ namespace Proxima.Core.Commons.Moves
             Piece = piece;
             Color = color;
         }
+
+        public abstract void Do(BitBoard bitBoard);
 
         /// <summary>
         /// Checks if the move is valid.

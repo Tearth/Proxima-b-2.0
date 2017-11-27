@@ -18,15 +18,15 @@ namespace Proxima.Core.Evaluation
         private static PawnStructureCalculator _pawnStructure = new PawnStructureCalculator();
         private static KingSafetyCalculator _kingSafety = new KingSafetyCalculator();
 
-        public static int GetEvaluation(BitBoard bitBoard, IncrementalEvaluationData incrementalEvaluationData)
+        public static int GetEvaluation(BitBoard bitBoard)
         {
             // Temporary
             var gamePhase = GamePhase.Regular;
 
-            var material = incrementalEvaluationData.Material;
+            var material = bitBoard.IncrementalEvaluation.Material;
             var mobility = _mobility.Calculate(gamePhase, bitBoard);
-            var castling = incrementalEvaluationData.Castling;
-            var position = incrementalEvaluationData.Position;
+            var castling = bitBoard.IncrementalEvaluation.Castling;
+            var position = bitBoard.IncrementalEvaluation.Position;
             var pawnStructure = _pawnStructure.Calculate(gamePhase, bitBoard);
             var kingSafety = _kingSafety.Calculate(gamePhase, bitBoard);
 
