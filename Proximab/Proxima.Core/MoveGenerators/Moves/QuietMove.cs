@@ -1,5 +1,6 @@
 ﻿using Proxima.Core.Boards;
 using Proxima.Core.Boards.Hashing;
+using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Pieces;
@@ -7,7 +8,7 @@ using Proxima.Core.Commons.Positions;
 using Proxima.Core.Evaluation;
 using Proxima.Core.Evaluation.Position;
 
-namespace Proxima.Core.Commons.Moves
+namespace Proxima.Core.MoveGenerators.Moves
 {
     /// <summary>
     /// Represents a quiet move (without any kills, castlings, promotions etc.).

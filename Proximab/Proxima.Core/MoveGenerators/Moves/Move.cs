@@ -5,7 +5,7 @@ using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
 using Proxima.Core.Evaluation;
 
-namespace Proxima.Core.Commons.Moves
+namespace Proxima.Core.MoveGenerators.Moves
 {
     /// <summary>
     /// Represents a base class for all move types.

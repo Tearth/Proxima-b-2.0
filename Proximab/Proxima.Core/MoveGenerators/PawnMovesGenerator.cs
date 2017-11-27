@@ -2,9 +2,9 @@
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Colors;
-using Proxima.Core.Commons.Moves;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Pieces;
+using Proxima.Core.MoveGenerators.Moves;
 
 namespace Proxima.Core.MoveGenerators
 {

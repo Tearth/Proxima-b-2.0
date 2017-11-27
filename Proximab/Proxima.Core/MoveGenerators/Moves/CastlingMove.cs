@@ -1,5 +1,6 @@
 ﻿using Proxima.Core.Boards;
 using Proxima.Core.Boards.Hashing;
+using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Pieces;
@@ -9,7 +10,7 @@ using Proxima.Core.Evaluation.Castling;
 using Proxima.Core.Evaluation.Position;
 using Proxima.Core.MoveGenerators;
 
-namespace Proxima.Core.Commons.Moves
+namespace Proxima.Core.MoveGenerators.Moves
 {
     /// <summary>
     /// Represents a castling 

@@ -1,5 +1,5 @@
 ﻿using System;
-using Proxima.Core.Commons.Moves;
+using Proxima.Core.MoveGenerators.Moves;
 
 namespace GUI.App.Source.PromotionSubsystem
 {

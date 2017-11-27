@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Boards.Hashing;
 using Proxima.Core.Commons.Colors;
-using Proxima.Core.Commons.Moves;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
 using Proxima.Core.Evaluation;
 using Proxima.Core.MoveGenerators;
+using Proxima.Core.MoveGenerators.Moves;
 
 namespace Proxima.Core.Boards
 {
