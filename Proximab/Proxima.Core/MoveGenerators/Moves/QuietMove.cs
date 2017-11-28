@@ -31,17 +31,8 @@ namespace Proxima.Core.MoveGenerators.Moves
         {
             var from = BitPositionConverter.ToULong(From);
             var to = BitPositionConverter.ToULong(To);
-            var change = from | to;
 
-            bitBoard.Pieces[FastArray.GetPieceIndex(Color, Piece)] ^= change;
-            bitBoard.Occupancy[(int)Color] ^= change;
-
-            bitBoard.IncrementalEvaluation.Position = IncrementalPosition.RemovePiece(bitBoard.IncrementalEvaluation.Position, Color, Piece, from, GamePhase.Regular);
-            bitBoard.IncrementalEvaluation.Position = IncrementalPosition.AddPiece(bitBoard.IncrementalEvaluation.Position, Color, Piece, to, GamePhase.Regular);
-
-            bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, Piece, from);
-            bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, Piece, to);
-
+            CalculatePieceMove(bitBoard, from, to);
             CalculateEnPassant(bitBoard);
         }
 
@@ -49,23 +40,29 @@ namespace Proxima.Core.MoveGenerators.Moves
         {
             if (Piece == PieceType.Pawn)
             {
-                if (From.Y == 2 && To.Y == 4)
+                var enPassantPosition = GetEnPassantPosition();
+                if(enPassantPosition.HasValue)
                 {
-                    var enPassantPosition = new Position(To.X, To.Y - 1);
-                    var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
+                    var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition.Value);
 
-                    bitBoard.EnPassant[(int)Color.White] |= enPassantLSB;
-                    bitBoard.Hash = IncrementalZobrist.AddEnPassant(bitBoard.Hash, Color.White, enPassantLSB);
-                }
-                if (From.Y == 7 && To.Y == 5)
-                {
-                    var enPassantPosition = new Position(To.X, To.Y + 1);
-                    var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition);
-
-                    bitBoard.EnPassant[(int)Color.Black] |= enPassantLSB;
-                    bitBoard.Hash = IncrementalZobrist.AddEnPassant(bitBoard.Hash, Color.Black, enPassantLSB);
+                    bitBoard.EnPassant[(int)Color] |= enPassantLSB;
+                    bitBoard.Hash = IncrementalZobrist.AddEnPassant(bitBoard.Hash, Color, enPassantLSB);
                 }
             }
+        }
+
+        Position? GetEnPassantPosition()
+        {
+            if (From.Y == 2 && To.Y == 4)
+            {
+                return new Position(To.X, To.Y - 1);
+            }
+            if (From.Y == 7 && To.Y == 5)
+            {
+                return new Position(To.X, To.Y + 1);
+            }
+
+            return null;
         }
     }
 }

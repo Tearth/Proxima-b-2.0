@@ -17,7 +17,7 @@ namespace Proxima.Core.Boards.Friendly
         {
             Pieces = new FriendlyPiecesList();
             Attacks = new FriendlyAttacksList();
-            Castling = new FriendlyCastling(true, true, true, true, false, false);
+            Castling = new FriendlyCastling();
             EnPassant = new FriendlyEnPassant();
         }
 

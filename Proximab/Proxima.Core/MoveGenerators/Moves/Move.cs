@@ -7,6 +7,7 @@ using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
 using Proxima.Core.Evaluation;
+using Proxima.Core.Evaluation.Position;
 
 namespace Proxima.Core.MoveGenerators.Moves
 {
@@ -58,6 +59,15 @@ namespace Proxima.Core.MoveGenerators.Moves
             Color = color;
         }
 
+        /// <summary>
+        /// Checks if the move is valid.
+        /// </summary>
+        /// <returns>True if the move is valid, otherwise false.</returns>
+        public bool IsValid()
+        {
+            return From.IsValid() && To.IsValid();
+        }
+
         public void Do(BitBoard bitBoard)
         {
             CalculateMove(bitBoard);
@@ -66,7 +76,30 @@ namespace Proxima.Core.MoveGenerators.Moves
 
         public abstract void CalculateMove(BitBoard bitBoard);
 
-        public void CalculateCastling(BitBoard bitBoard)
+        protected void CalculatePieceMove(BitBoard bitBoard, ulong from, ulong to)
+        {
+            CalculatePieceMove(bitBoard, Piece, from, Piece, to);
+        }
+
+        protected void CalculatePieceMove(BitBoard bitBoard, PieceType pieceType, ulong from, ulong to)
+        {
+            CalculatePieceMove(bitBoard, pieceType, from, pieceType, to);
+        }
+
+        protected void CalculatePieceMove(BitBoard bitBoard, PieceType pieceFrom, ulong from, PieceType pieceTo, ulong to)
+        {
+            bitBoard.Pieces[FastArray.GetPieceIndex(Color, pieceFrom)] &= ~from;
+            bitBoard.Pieces[FastArray.GetPieceIndex(Color, pieceTo)] |= to;
+            bitBoard.Occupancy[(int)Color] ^= from | to;
+
+            bitBoard.IncrementalEvaluation.Position = IncrementalPosition.RemovePiece(bitBoard.IncrementalEvaluation.Position, Color, pieceFrom, from, GamePhase.Regular);
+            bitBoard.IncrementalEvaluation.Position = IncrementalPosition.AddPiece(bitBoard.IncrementalEvaluation.Position, Color, pieceTo, to, GamePhase.Regular);
+
+            bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, pieceFrom, from);
+            bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, pieceTo, to);
+        }
+
+        private void CalculateCastling(BitBoard bitBoard)
         {
             if (Piece == PieceType.King)
             {
@@ -92,15 +125,6 @@ namespace Proxima.Core.MoveGenerators.Moves
                     bitBoard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Short)] = false;
                 }
             }
-        }
-
-        /// <summary>
-        /// Checks if the move is valid.
-        /// </summary>
-        /// <returns>True if the move is valid, otherwise false.</returns>
-        public bool IsValid()
-        {
-            return From.IsValid() && To.IsValid();
         }
     }
 }

@@ -32,33 +32,29 @@ namespace Proxima.Core.MoveGenerators.Moves
         {
             var from = BitPositionConverter.ToULong(From);
             var to = BitPositionConverter.ToULong(To);
-            var change = from | to;
-
             var enemyColor = ColorOperations.Invert(Color);
 
+            RemovePiece(bitBoard, enemyColor, to);
+            CalculatePieceMove(bitBoard, from, to);
+        }
+
+        private static void RemovePiece(BitBoard bitBoard, Color enemyColor, ulong fieldLSB)
+        {
             for (int piece = 0; piece < 6; piece++)
             {
                 var index = FastArray.GetPieceIndex(enemyColor, (PieceType)piece);
-                if ((bitBoard.Pieces[index] & to) != 0)
+                if ((bitBoard.Pieces[index] & fieldLSB) != 0)
                 {
-                    bitBoard.Pieces[index] &= ~to;
-                    bitBoard.Occupancy[(int)enemyColor] ^= to;
+                    bitBoard.Pieces[index] &= ~fieldLSB;
+                    bitBoard.Occupancy[(int)enemyColor] ^= fieldLSB;
 
                     bitBoard.IncrementalEvaluation.Material = IncrementalMaterial.RemovePiece(bitBoard.IncrementalEvaluation.Material, (PieceType)piece, enemyColor);
-                    bitBoard.IncrementalEvaluation.Position = IncrementalPosition.RemovePiece(bitBoard.IncrementalEvaluation.Position, enemyColor, (PieceType)piece, to, GamePhase.Regular);
-                    bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, enemyColor, (PieceType)piece, to);
+                    bitBoard.IncrementalEvaluation.Position = IncrementalPosition.RemovePiece(bitBoard.IncrementalEvaluation.Position, enemyColor, (PieceType)piece, fieldLSB, GamePhase.Regular);
+                    bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, enemyColor, (PieceType)piece, fieldLSB);
+
                     break;
                 }
             }
-
-            bitBoard.Pieces[FastArray.GetPieceIndex(Color, Piece)] ^= change;
-            bitBoard.Occupancy[(int)Color] ^= change;
-
-            bitBoard.IncrementalEvaluation.Position = IncrementalPosition.RemovePiece(bitBoard.IncrementalEvaluation.Position, Color, Piece, from, GamePhase.Regular);
-            bitBoard.IncrementalEvaluation.Position = IncrementalPosition.AddPiece(bitBoard.IncrementalEvaluation.Position, Color, Piece, to, GamePhase.Regular);
-
-            bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, Piece, from);
-            bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, Piece, to);
         }
     }
 }

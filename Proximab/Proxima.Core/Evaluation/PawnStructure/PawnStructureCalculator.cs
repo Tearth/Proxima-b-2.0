@@ -31,8 +31,8 @@ namespace Proxima.Core.Evaluation.PawnStructure
             var whitePawnChains = _pawnChainCalculator.GetChainValue(Color.White, gamePhase, bitBoard);
             var blackPawnChains = _pawnChainCalculator.GetChainValue(Color.Black, gamePhase, bitBoard);
 
-            return (whiteDoubledPawns - blackDoubledPawns) + 
-                   (whiteIsolatedPawns - blackIsolatedPawns) + 
+            return (whiteDoubledPawns - blackDoubledPawns) +
+                   (whiteIsolatedPawns - blackIsolatedPawns) +
                    (whitePawnChains - blackPawnChains);
         }
 
@@ -40,7 +40,7 @@ namespace Proxima.Core.Evaluation.PawnStructure
         {
             return new PawnStructureData()
             {
-                WhiteDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.White, gamePhase,bitBoard),
+                WhiteDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.White, gamePhase, bitBoard),
                 BlackDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.Black, gamePhase, bitBoard),
 
                 WhiteIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.White, gamePhase, bitBoard),

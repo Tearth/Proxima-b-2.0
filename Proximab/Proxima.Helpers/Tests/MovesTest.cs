@@ -82,14 +82,6 @@ namespace Proxima.Helpers.Tests
                         continue;
                     }
 
-                    if (verifyIntegrity && !bitBoardAfterMove.VerifyIntegrity())
-                    {
-                        testData.Integrity = false;
-
-                        var boardWriter = new BoardWriter();
-                        boardWriter.Write("Boards/error-1.board", new FriendlyBoard(bitBoard));
-                    }
-
                     CalculateBitBoard(enemyColor, bitBoardAfterMove, depth - 1, calculateEndNodes, verifyIntegrity, testData);
                 }
             }

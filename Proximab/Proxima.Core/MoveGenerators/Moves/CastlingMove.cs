@@ -30,7 +30,7 @@ namespace Proxima.Core.MoveGenerators.Moves
         /// <param name="piece">The piece type.</param>
         /// <param name="color">The piece color.</param>
         /// <param name="castlingType">The castling type.</param>
-        public CastlingMove(Position from, Position to, PieceType piece, Color color, CastlingType castlingType) 
+        public CastlingMove(Position from, Position to, PieceType piece, Color color, CastlingType castlingType)
             : base(from, to, piece, color)
         {
             CastlingType = castlingType;
@@ -40,60 +40,43 @@ namespace Proxima.Core.MoveGenerators.Moves
         {
             var from = BitPositionConverter.ToULong(From);
             var to = BitPositionConverter.ToULong(To);
-            var change = from | to;
+
+            var rookFrom = 0ul;
+            var rookTo = 0ul;
 
             switch (CastlingType)
             {
                 case CastlingType.Short:
                 {
-                    var rookLSB = Color == Color.White ? KingMovesGenerator.RightRookLSB : KingMovesGenerator.RightRookLSB << 56;
-                    var rookChange = rookLSB | (rookLSB << 2);
-
-                    bitBoard.Pieces[FastArray.GetPieceIndex(Color, PieceType.Rook)] ^= rookChange;
-                    bitBoard.Occupancy[(int)Color] ^= rookChange;
-
-                    bitBoard.IncrementalEvaluation.Position = IncrementalPosition.RemovePiece(bitBoard.IncrementalEvaluation.Position, Color, PieceType.Rook, rookLSB, GamePhase.Regular);
-                    bitBoard.IncrementalEvaluation.Position = IncrementalPosition.AddPiece(bitBoard.IncrementalEvaluation.Position, Color, PieceType.Rook, rookLSB << 2, GamePhase.Regular);
-
-                    bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, PieceType.Rook, rookLSB);
-                    bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, PieceType.Rook, rookLSB << 2);
+                    rookFrom = Color == Color.White ? KingMovesGenerator.RightRookLSB : KingMovesGenerator.RightRookLSB << 56;
+                    rookTo = rookFrom << 2;
 
                     break;
                 }
 
                 case CastlingType.Long:
                 {
-                    var rookLSB = Color == Color.White ? KingMovesGenerator.LeftRookLSB : KingMovesGenerator.LeftRookLSB << 56;
-                    var rookChange = rookLSB | (rookLSB >> 3);
-
-                    bitBoard.Pieces[FastArray.GetPieceIndex(Color, PieceType.Rook)] ^= rookChange;
-                    bitBoard.Occupancy[(int)Color] ^= rookChange;
-
-                    bitBoard.IncrementalEvaluation.Position = IncrementalPosition.RemovePiece(bitBoard.IncrementalEvaluation.Position, Color, PieceType.Rook, rookLSB, GamePhase.Regular);
-                    bitBoard.IncrementalEvaluation.Position = IncrementalPosition.AddPiece(bitBoard.IncrementalEvaluation.Position, Color, PieceType.Rook, rookLSB >> 3, GamePhase.Regular);
-
-                    bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, PieceType.Rook, rookLSB);
-                    bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, PieceType.Rook, rookLSB >> 3);
+                    rookFrom = Color == Color.White ? KingMovesGenerator.LeftRookLSB : KingMovesGenerator.LeftRookLSB << 56;
+                    rookTo = rookFrom >> 3;
 
                     break;
                 }
             }
 
-            bitBoard.Pieces[FastArray.GetPieceIndex(Color, Piece)] ^= change;
-            bitBoard.Occupancy[(int)Color] ^= change;
+            CalculatePieceMove(bitBoard, from, to);
+            CalculatePieceMove(bitBoard, PieceType.Rook, rookFrom, rookTo);
+            RemoveCastlingPossibility(bitBoard);
+        }
 
-            bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, Piece, from);
-            bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, Piece, to);
+        private void RemoveCastlingPossibility(BitBoard bitBoard)
+        {
             bitBoard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitBoard.Hash, bitBoard.CastlingPossibility, Color, CastlingType.Short);
             bitBoard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitBoard.Hash, bitBoard.CastlingPossibility, Color, CastlingType.Long);
 
-            bitBoard.IncrementalEvaluation.Position = IncrementalPosition.RemovePiece(bitBoard.IncrementalEvaluation.Position, Color, Piece, from, GamePhase.Regular);
-            bitBoard.IncrementalEvaluation.Position = IncrementalPosition.AddPiece(bitBoard.IncrementalEvaluation.Position, Color, Piece, to, GamePhase.Regular);
-
             bitBoard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Short)] = false;
             bitBoard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Long)] = false;
-
             bitBoard.IncrementalEvaluation.Castling = IncrementalCastling.SetCastlingDone(bitBoard.IncrementalEvaluation.Castling, Color, GamePhase.Regular);
+
             bitBoard.CastlingDone[(int)Color] = true;
         }
     }
