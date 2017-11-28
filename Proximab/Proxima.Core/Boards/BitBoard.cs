@@ -81,7 +81,7 @@ namespace Proxima.Core.Boards
             var enemyColor = ColorOperations.Invert(color);
             var king = Pieces[FastArray.GetPieceIndex(color, PieceType.King)];
 
-            return (AttacksSummary[(int)enemyColor] & king) != 0;
+            return /*king == 0 ||*/ (AttacksSummary[(int)enemyColor] & king) != 0;
         }
 
         public void Calculate()

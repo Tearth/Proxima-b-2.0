@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
+using Proxima.Core.Boards.Friendly.Persistence;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.MoveGenerators;
 
@@ -50,6 +51,9 @@ namespace Proxima.Helpers.Tests
             if (verifyIntegrity && !bitBoard.VerifyIntegrity())
             {
                 testData.Integrity = false;
+
+                var boardWriter = new BoardWriter();
+                boardWriter.Write("Boards/error.board", new FriendlyBoard(bitBoard));
             }
 
             if (depth <= 0)
@@ -73,9 +77,17 @@ namespace Proxima.Helpers.Tests
                 foreach (var move in bitBoard.Moves)
                 {
                     var bitBoardAfterMove = bitBoard.Move(move);
-                    if (bitBoardAfterMove.IsCheck(color))
+                    if (bitBoardAfterMove.IsCheck(enemyColor))
                     {
                         continue;
+                    }
+
+                    if (verifyIntegrity && !bitBoardAfterMove.VerifyIntegrity())
+                    {
+                        testData.Integrity = false;
+
+                        var boardWriter = new BoardWriter();
+                        boardWriter.Write("Boards/error-1.board", new FriendlyBoard(bitBoard));
                     }
 
                     CalculateBitBoard(enemyColor, bitBoardAfterMove, depth - 1, calculateEndNodes, verifyIntegrity, testData);

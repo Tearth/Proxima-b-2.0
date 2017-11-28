@@ -46,7 +46,7 @@ namespace Proxima.Core.MoveGenerators.Moves
             {
                 case CastlingType.Short:
                 {
-                    var rookLSB = Color == Color.White ? KingMovesGenerator.WhiteRightRookLSB : KingMovesGenerator.BlackRightRookLSB;
+                    var rookLSB = Color == Color.White ? KingMovesGenerator.RightRookLSB : KingMovesGenerator.RightRookLSB << 56;
                     var rookChange = rookLSB | (rookLSB << 2);
 
                     bitBoard.Pieces[FastArray.GetPieceIndex(Color, PieceType.Rook)] ^= rookChange;
@@ -63,7 +63,7 @@ namespace Proxima.Core.MoveGenerators.Moves
 
                 case CastlingType.Long:
                 {
-                    var rookLSB = Color == Color.White ? KingMovesGenerator.WhiteLeftRookLSB : KingMovesGenerator.BlackLeftRookLSB;
+                    var rookLSB = Color == Color.White ? KingMovesGenerator.LeftRookLSB : KingMovesGenerator.LeftRookLSB << 56;
                     var rookChange = rookLSB | (rookLSB >> 3);
 
                     bitBoard.Pieces[FastArray.GetPieceIndex(Color, PieceType.Rook)] ^= rookChange;

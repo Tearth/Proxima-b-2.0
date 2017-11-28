@@ -11,23 +11,17 @@ namespace Proxima.Core.MoveGenerators
 {
     public static class KingMovesGenerator
     {
-        public const ulong WhiteRightRookLSB = 0x01;
-        public const ulong WhiteLeftRookLSB = 0x80;
-        public const ulong BlackRightRookLSB = 0x0100000000000000;
-        public const ulong BlackLeftRookLSB = 0x8000000000000000;
+        public const ulong KingLSB = 0x8;
+        public const ulong RightRookLSB = 0x01;
+        public const ulong LeftRookLSB = 0x80;
 
-        public const ulong WhiteShortCastlingCheckArea = 0x0eul;
-        public const ulong WhiteLongCastlingCheckArea = 0x38ul;
-        public const ulong BlackShortCastlingCheckArea = 0x0e00000000000000ul;
-        public const ulong BlackLongCastlingCheckArea = 0x3800000000000000ul;
+        public const ulong ShortCastlingCheckArea = 0x0eul;
+        public const ulong LongCastlingCheckArea = 0x38ul;
 
-        public const ulong WhiteShortCastlingMoveArea = 0x06ul;
-        public const ulong WhiteLongCastlingMoveArea = 0x70ul;
-        public const ulong BlackShortCastlingMoveArea = 0x0600000000000000ul;
-        public const ulong BlackLongCastlingMoveArea = 0x7000000000000000ul;
+        public const ulong ShortCastlingMoveArea = 0x06ul;
+        public const ulong LongCastlingMoveArea = 0x70ul;
 
-        public static readonly Position InitialWhiteKingPosition = new Position(5, 1);
-        public static readonly Position InitialBlackKingPosition = new Position(5, 8);
+        public static readonly Position InitialKingPosition = new Position(5, 1);
 
         public static void Calculate(GeneratorParameters opt)
         {
@@ -76,59 +70,64 @@ namespace Proxima.Core.MoveGenerators
 
         public static void CalculateCastling(GeneratorParameters opt)
         {
-            if (!opt.BitBoard.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)] &&
-                !opt.BitBoard.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Long)])
+            var kingLSB = KingLSB;
+            var leftRookLSB = LeftRookLSB;
+            var rightRookLSB = RightRookLSB;
+            var shortMoveArea = ShortCastlingMoveArea;
+            var shortCheckArea = ShortCastlingCheckArea;
+            var longMoveArea = LongCastlingMoveArea;
+            var longCheckArea = LongCastlingCheckArea;
+            var kingPosition = InitialKingPosition;
+
+            if (opt.FriendlyColor == Color.Black)
             {
-                return;
+                kingLSB <<= 56;
+                leftRookLSB <<= 56;
+                rightRookLSB <<= 56;
+                shortMoveArea <<= 56;
+                shortCheckArea <<= 56;
+                longMoveArea <<= 56;
+                longCheckArea <<= 56;
+
+                kingPosition += new Position(0, 7);
             }
 
-            Position initialKingPosition;
-
-            var shortMoveArea = 0ul;
-            var shortCheckArea = 0ul;
-            var longMoveArea = 0ul;
-            var longCheckArea = 0ul;
-
-            if (opt.FriendlyColor == Color.White)
-            {
-                initialKingPosition = InitialWhiteKingPosition;
-
-                shortMoveArea = WhiteShortCastlingMoveArea;
-                shortCheckArea = WhiteShortCastlingCheckArea;
-
-                longMoveArea = WhiteLongCastlingMoveArea;
-                longCheckArea = WhiteLongCastlingCheckArea;
-            }
-            else
-            {
-                initialKingPosition = InitialBlackKingPosition;
-
-                shortMoveArea = BlackShortCastlingMoveArea;
-                shortCheckArea = BlackShortCastlingCheckArea;
-
-                longMoveArea = BlackLongCastlingMoveArea;
-                longCheckArea = BlackLongCastlingCheckArea;
-            }
-
-            if (opt.BitBoard.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)] &&
-               IsCastlingAreaEmpty(shortMoveArea, opt.OccupancySummary) &&
+            if (IsCastlingPossible(CastlingType.Short, opt) &&
+                IsKingOnPosition(kingLSB, opt) && IsRookOnPosition(rightRookLSB, opt) &&
+                IsCastlingAreaEmpty(shortMoveArea, opt.OccupancySummary) &&
                !IsCastlingAreaChecked(opt.EnemyColor, shortCheckArea, opt))
             {
-                var to = initialKingPosition + new Position(2, 0);
-                var move = new CastlingMove(initialKingPosition, to, PieceType.King, opt.FriendlyColor, CastlingType.Short);
+                var kingDestinationPosition = kingPosition + new Position(2, 0);
+                var move = new CastlingMove(kingPosition, kingDestinationPosition, PieceType.King, opt.FriendlyColor, CastlingType.Short);
 
                 opt.BitBoard.Moves.AddLast(move);
             }
 
-            if (opt.BitBoard.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Long)] &&
-               IsCastlingAreaEmpty(longMoveArea, opt.OccupancySummary) &&
+            if (IsCastlingPossible(CastlingType.Long, opt) &&
+                IsKingOnPosition(kingLSB, opt) && IsRookOnPosition(leftRookLSB, opt) &&
+                IsCastlingAreaEmpty(longMoveArea, opt.OccupancySummary) &&
                !IsCastlingAreaChecked(opt.EnemyColor, longCheckArea, opt))
             {
-                var to = initialKingPosition - new Position(2, 0);
-                var move = new CastlingMove(initialKingPosition, to, PieceType.King, opt.FriendlyColor, CastlingType.Long);
+                var kingDestinationPosition = kingPosition - new Position(2, 0);
+                var move = new CastlingMove(kingPosition, kingDestinationPosition, PieceType.King, opt.FriendlyColor, CastlingType.Long);
 
                 opt.BitBoard.Moves.AddLast(move);
             }
+        }
+
+        private static bool IsCastlingPossible(CastlingType type, GeneratorParameters opt)
+        {
+            return opt.BitBoard.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)];
+        }
+
+        private static bool IsKingOnPosition(ulong kingLSB, GeneratorParameters opt)
+        {
+            return (opt.BitBoard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.King)] & kingLSB) != 0;
+        }
+
+        private static bool IsRookOnPosition(ulong rookLSB, GeneratorParameters opt)
+        {
+            return (opt.BitBoard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Rook)] & rookLSB) != 0;
         }
 
         private static bool IsCastlingAreaEmpty(ulong areaToCheck, ulong occupancy)
