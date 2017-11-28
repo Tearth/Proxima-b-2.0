@@ -2,7 +2,7 @@
 
 namespace Proxima.Core.Evaluation
 {
-    public class IncrementalEvaluationData : ICloneable
+    public class IncrementalEvaluationData
     {
         public int Material { get; set; }
         public int Position { get; set; }
@@ -12,21 +12,18 @@ namespace Proxima.Core.Evaluation
         {
         }
 
+        public IncrementalEvaluationData(IncrementalEvaluationData incrementalEvaluationData)
+        {
+            Material = incrementalEvaluationData.Material;
+            Position = incrementalEvaluationData.Position;
+            Castling = incrementalEvaluationData.Castling;
+        }
+
         public IncrementalEvaluationData(DetailedEvaluationData detailedEvaluationData)
         {
             Material = detailedEvaluationData.Material.Difference;
             Position = detailedEvaluationData.Position.Difference;
             Castling = detailedEvaluationData.Castling.Difference;
-        }
-
-        public object Clone()
-        {
-            return new IncrementalEvaluationData()
-            {
-                Material = Material,
-                Position = Position,
-                Castling = Castling
-            };
         }
     }
 }

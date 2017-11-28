@@ -53,7 +53,7 @@ namespace Proxima.Core.Boards
             Buffer.BlockCopy(bitBoard.CastlingDone, 0, CastlingDone, 0, bitBoard.CastlingDone.Length * sizeof(bool));
             Buffer.BlockCopy(bitBoard.Occupancy, 0, Occupancy, 0, bitBoard.Occupancy.Length * sizeof(ulong));
 
-            IncrementalEvaluation = (IncrementalEvaluationData)bitBoard.IncrementalEvaluation.Clone();
+            IncrementalEvaluation = new IncrementalEvaluationData(bitBoard.IncrementalEvaluation);
 
             move.Do(this);
         }

@@ -46,7 +46,7 @@ namespace Proxima.Core.MoveGenerators.Moves
                 if ((bitBoard.Pieces[index] & fieldLSB) != 0)
                 {
                     bitBoard.Pieces[index] &= ~fieldLSB;
-                    bitBoard.Occupancy[(int)enemyColor] ^= fieldLSB;
+                    bitBoard.Occupancy[(int)enemyColor] &= ~fieldLSB;
 
                     bitBoard.IncrementalEvaluation.Material = IncrementalMaterial.RemovePiece(bitBoard.IncrementalEvaluation.Material, (PieceType)piece, enemyColor);
                     bitBoard.IncrementalEvaluation.Position = IncrementalPosition.RemovePiece(bitBoard.IncrementalEvaluation.Position, enemyColor, (PieceType)piece, fieldLSB, GamePhase.Regular);

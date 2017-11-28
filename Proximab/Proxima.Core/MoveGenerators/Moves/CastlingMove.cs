@@ -48,7 +48,7 @@ namespace Proxima.Core.MoveGenerators.Moves
             {
                 case CastlingType.Short:
                 {
-                    rookFrom = Color == Color.White ? KingMovesGenerator.RightRookLSB : KingMovesGenerator.RightRookLSB << 56;
+                    rookFrom = Color == Color.White ? CastlingConstants.RightRookLSB : CastlingConstants.RightRookLSB << 56;
                     rookTo = rookFrom << 2;
 
                     break;
@@ -56,7 +56,7 @@ namespace Proxima.Core.MoveGenerators.Moves
 
                 case CastlingType.Long:
                 {
-                    rookFrom = Color == Color.White ? KingMovesGenerator.LeftRookLSB : KingMovesGenerator.LeftRookLSB << 56;
+                    rookFrom = Color == Color.White ? CastlingConstants.LeftRookLSB : CastlingConstants.LeftRookLSB << 56;
                     rookTo = rookFrom >> 3;
 
                     break;

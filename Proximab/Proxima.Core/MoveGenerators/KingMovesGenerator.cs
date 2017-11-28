@@ -11,16 +11,6 @@ namespace Proxima.Core.MoveGenerators
 {
     public static class KingMovesGenerator
     {
-        public const ulong KingLSB = 0x8;
-        public const ulong RightRookLSB = 0x01;
-        public const ulong LeftRookLSB = 0x80;
-
-        public const ulong ShortCastlingCheckArea = 0x0eul;
-        public const ulong LongCastlingCheckArea = 0x38ul;
-
-        public const ulong ShortCastlingMoveArea = 0x06ul;
-        public const ulong LongCastlingMoveArea = 0x70ul;
-
         public static readonly Position InitialKingPosition = new Position(5, 1);
 
         public static void Calculate(GeneratorParameters opt)
@@ -70,13 +60,13 @@ namespace Proxima.Core.MoveGenerators
 
         public static void CalculateCastling(GeneratorParameters opt)
         {
-            var kingLSB = KingLSB;
-            var leftRookLSB = LeftRookLSB;
-            var rightRookLSB = RightRookLSB;
-            var shortMoveArea = ShortCastlingMoveArea;
-            var shortCheckArea = ShortCastlingCheckArea;
-            var longMoveArea = LongCastlingMoveArea;
-            var longCheckArea = LongCastlingCheckArea;
+            var kingLSB = CastlingConstants.KingLSB;
+            var leftRookLSB = CastlingConstants.LeftRookLSB;
+            var rightRookLSB = CastlingConstants.RightRookLSB;
+            var shortMoveArea = CastlingConstants.ShortCastlingMoveArea;
+            var shortCheckArea = CastlingConstants.ShortCastlingCheckArea;
+            var longMoveArea = CastlingConstants.LongCastlingMoveArea;
+            var longCheckArea = CastlingConstants.LongCastlingCheckArea;
             var kingPosition = InitialKingPosition;
 
             if (opt.FriendlyColor == Color.Black)
