@@ -7,7 +7,7 @@
         public static ulong[] RookPattern { get; private set; }
         public static ulong[] BishopPattern { get; private set; }
 
-        public static void GeneratePatterns()
+        public static void Init()
         {
             KnightPattern = new KnightPatternGenerator().Generate();
             KingPattern = new KingPatternGenerator().Generate();

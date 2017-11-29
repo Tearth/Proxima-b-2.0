@@ -1,10 +1,11 @@
 ﻿using System.IO;
 using System.Linq;
+using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
 
-namespace Proxima.Core.Boards.Friendly.Persistence
+namespace Proxima.Core.Persistence
 {
     public class BoardWriter
     {

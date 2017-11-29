@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
-using Proxima.Core.Boards.Friendly.Persistence;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.MoveGenerators;
+using Proxima.Core.Persistence;
 
 namespace Proxima.Helpers.Tests
 {

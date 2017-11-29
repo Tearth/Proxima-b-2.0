@@ -13,7 +13,7 @@ namespace Proxima.Core.Boards
         /// </summary>
         /// <param name="value">The value to calculate.</param>
         /// <returns>The least significant bit if value is greater than 0, otherwise 0.</returns>
-        /// <remarks>GetLSB(10011100) = 00000100</remarks>
+        /// <remarks>GetLSB(10011100) = 00000100.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetLSB(int value)
         {

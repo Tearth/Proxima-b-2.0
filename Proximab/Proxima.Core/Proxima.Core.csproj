@@ -47,9 +47,9 @@
     <Compile Include="Boards\BitBoard.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Boards\Friendly\Persistence\BoardReader.cs" />
-    <Compile Include="Boards\Friendly\Persistence\BoardWriter.cs" />
-    <Compile Include="Boards\Friendly\Persistence\PersistenceContants.cs" />
+    <Compile Include="Persistence\BoardReader.cs" />
+    <Compile Include="Persistence\BoardWriter.cs" />
+    <Compile Include="Persistence\PersistenceContants.cs" />
     <Compile Include="Boards\Hashing\ZobristContainer.cs" />
     <Compile Include="Boards\Hashing\ZobristHash.cs" />
     <Compile Include="Boards\Hashing\IncrementalZobrist.cs" />

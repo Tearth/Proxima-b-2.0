@@ -6,13 +6,19 @@ using Proxima.Core.MoveGenerators.PatternGenerators;
 
 namespace Proxima.Core
 {
+    /// <summary>
+    /// Represents a set of methods to initialize chess engine.
+    /// </summary>
     public static class ProximaCore
     {
+        /// <summary>
+        /// Initializes chess engine (loads patterns, magic keys, sets converters, ...).
+        /// Must be called first, otherwise chess engine will crash :(
+        /// </summary>
         public static void Init()
         {
-            PatternsContainer.GeneratePatterns();
-            MagicContainer.LoadKeys();
-            MagicContainer.GenerateAttacks();
+            PatternsContainer.Init();
+            MagicContainer.Init();
             ZobristContainer.Init();
             PieceConverter.Init();
             ColorConverter.Init();

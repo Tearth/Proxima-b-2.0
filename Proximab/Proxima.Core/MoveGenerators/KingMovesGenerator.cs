@@ -11,7 +11,7 @@ namespace Proxima.Core.MoveGenerators
 {
     public static class KingMovesGenerator
     {
-        public static readonly Position InitialKingPosition = new Position(5, 1);
+        private static readonly Position InitialKingPosition = new Position(5, 1);
 
         public static void Calculate(GeneratorParameters opt)
         {

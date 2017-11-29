@@ -16,7 +16,13 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
         public static int[] RookMaskBitsCount { get; private set; }
         public static int[] BishopMaskBitsCount { get; private set; }
 
-        public static void LoadKeys()
+        public static void Init()
+        {
+            LoadKeys();
+            GenerateAttacks();
+        }
+
+        private static void LoadKeys()
         {
             var keysLoader = new MagicKeysLoader();
             var maskBitsCountCalculator = new MaskBitsCountCalculator();
@@ -28,7 +34,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
             BishopMaskBitsCount = maskBitsCountCalculator.Calculate(PatternsContainer.BishopPattern);
         }
 
-        public static void GenerateAttacks()
+        private static void GenerateAttacks()
         {
             var attacksParser = new AttacksParser();
 

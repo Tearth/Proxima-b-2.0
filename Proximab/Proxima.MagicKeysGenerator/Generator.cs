@@ -30,7 +30,7 @@ namespace Proxima.MagicKeysGenerator
             _rookAttacksGenerator = new RookAttacksGenerator();
             _bishopAttacksGenerator = new BishopAttacksGenerator();
 
-            PatternsContainer.GeneratePatterns();
+            PatternsContainer.Init();
         }
 
         /// <summary>

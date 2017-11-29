@@ -1,9 +1,10 @@
 ﻿using System.IO;
+using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
 
-namespace Proxima.Core.Boards.Friendly.Persistence
+namespace Proxima.Core.Persistence
 {
     public class BoardReader
     {
@@ -24,7 +25,9 @@ namespace Proxima.Core.Boards.Friendly.Persistence
                 {
                     var line = reader.ReadLine().Trim();
                     if (line.Length == 0)
+                    {
                         continue;
+                    }
 
                     switch (line)
                     {
