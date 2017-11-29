@@ -37,8 +37,8 @@ namespace Proxima.Core.MoveGenerators.Moves
 
             CalculatePieceMove(bitBoard, Piece, from, PromotionPiece, to);
 
-            bitBoard.IncrementalEvaluation.Material = IncrementalMaterial.RemovePiece(bitBoard.IncrementalEvaluation.Material, Piece, Color);
-            bitBoard.IncrementalEvaluation.Material = IncrementalMaterial.AddPiece(bitBoard.IncrementalEvaluation.Material, PromotionPiece, Color);
+            bitBoard.IncEvaluation.Material = IncrementalMaterial.RemovePiece(bitBoard.IncEvaluation.Material, Piece, Color);
+            bitBoard.IncEvaluation.Material = IncrementalMaterial.AddPiece(bitBoard.IncEvaluation.Material, PromotionPiece, Color);
         }
     }
 }

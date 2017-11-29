@@ -67,7 +67,6 @@ namespace Proxima.Core.MoveGenerators
                 {
                     opt.BitBoard.Moves.AddLast(new QuietMove(from, to, PieceType.Pawn, opt.FriendlyColor));
                 }
-
             }
         }
 

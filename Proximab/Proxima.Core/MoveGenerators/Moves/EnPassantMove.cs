@@ -45,8 +45,8 @@ namespace Proxima.Core.MoveGenerators.Moves
             bitBoard.Pieces[FastArray.GetPieceIndex(enemyColor, PieceType.Pawn)] &= ~enPassantPiece;
             bitBoard.Occupancy[(int)enemyColor] ^= enPassantPiece;
 
-            bitBoard.IncrementalEvaluation.Material = IncrementalMaterial.RemovePiece(bitBoard.IncrementalEvaluation.Material, PieceType.Pawn, enemyColor);
-            bitBoard.IncrementalEvaluation.Position = IncrementalPosition.RemovePiece(bitBoard.IncrementalEvaluation.Position, enemyColor, PieceType.Pawn, enPassantPiece, GamePhase.Regular);
+            bitBoard.IncEvaluation.Material = IncrementalMaterial.RemovePiece(bitBoard.IncEvaluation.Material, PieceType.Pawn, enemyColor);
+            bitBoard.IncEvaluation.Position = IncrementalPosition.RemovePiece(bitBoard.IncEvaluation.Position, enemyColor, PieceType.Pawn, enPassantPiece, GamePhase.Regular);
             bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, enemyColor, PieceType.Pawn, enPassantPiece);
         }
     }

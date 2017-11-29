@@ -21,27 +21,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
             LoadKeys();
             GenerateAttacks();
         }
-
-        private static void LoadKeys()
-        {
-            var keysLoader = new MagicKeysLoader();
-            var maskBitsCountCalculator = new MaskBitsCountCalculator();
-
-            RookKeys = keysLoader.LoadRookKeys();
-            BishopKeys = keysLoader.LoadBishopKeys();
-
-            RookMaskBitsCount = maskBitsCountCalculator.Calculate(PatternsContainer.RookPattern);
-            BishopMaskBitsCount = maskBitsCountCalculator.Calculate(PatternsContainer.BishopPattern);
-        }
-
-        private static void GenerateAttacks()
-        {
-            var attacksParser = new AttacksParser();
-
-            RookAttacks = attacksParser.ParseRookAttacks();
-            BishopAttacks = attacksParser.ParseBishopAttacks();
-        }
-
+        
         public static ulong GetRookAttacks(int fieldIndex, ulong occupancy)
         {
             return GetAttacks(fieldIndex, occupancy, PatternsContainer.RookPattern, RookAttacks, RookKeys, RookMaskBitsCount);
@@ -62,6 +42,26 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
 
             var hash = (occupancyWithMask * key) >> (64 - bitsCount);
             return attacks[fieldIndex][hash];
+        }
+
+        private static void LoadKeys()
+        {
+            var keysLoader = new MagicKeysLoader();
+            var maskBitsCountCalculator = new MaskBitsCountCalculator();
+
+            RookKeys = keysLoader.LoadRookKeys();
+            BishopKeys = keysLoader.LoadBishopKeys();
+
+            RookMaskBitsCount = maskBitsCountCalculator.Calculate(PatternsContainer.RookPattern);
+            BishopMaskBitsCount = maskBitsCountCalculator.Calculate(PatternsContainer.BishopPattern);
+        }
+
+        private static void GenerateAttacks()
+        {
+            var attacksParser = new AttacksParser();
+
+            RookAttacks = attacksParser.ParseRookAttacks();
+            BishopAttacks = attacksParser.ParseBishopAttacks();
         }
     }
 }

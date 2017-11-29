@@ -40,13 +40,6 @@ namespace Proxima.Core.MoveGenerators.Moves
         /// <summary>
         /// Initializes a new instance of the <see cref="Move"/> class.
         /// </summary>
-        public Move()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Move"/> class.
-        /// </summary>
         /// <param name="from">The source piece position.</param>
         /// <param name="to">The destination piece position.</param>
         /// <param name="piece">The piece type.</param>
@@ -92,8 +85,8 @@ namespace Proxima.Core.MoveGenerators.Moves
             bitBoard.Pieces[FastArray.GetPieceIndex(Color, pieceTo)] |= to;
             bitBoard.Occupancy[(int)Color] ^= from | to;
 
-            bitBoard.IncrementalEvaluation.Position = IncrementalPosition.RemovePiece(bitBoard.IncrementalEvaluation.Position, Color, pieceFrom, from, GamePhase.Regular);
-            bitBoard.IncrementalEvaluation.Position = IncrementalPosition.AddPiece(bitBoard.IncrementalEvaluation.Position, Color, pieceTo, to, GamePhase.Regular);
+            bitBoard.IncEvaluation.Position = IncrementalPosition.RemovePiece(bitBoard.IncEvaluation.Position, Color, pieceFrom, from, GamePhase.Regular);
+            bitBoard.IncEvaluation.Position = IncrementalPosition.AddPiece(bitBoard.IncEvaluation.Position, Color, pieceTo, to, GamePhase.Regular);
 
             bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, pieceFrom, from);
             bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, pieceTo, to);

@@ -23,10 +23,10 @@ namespace Proxima.Core.Evaluation
             // Temporary
             var gamePhase = GamePhase.Regular;
 
-            var material = bitBoard.IncrementalEvaluation.Material;
+            var material = bitBoard.IncEvaluation.Material;
             var mobility = _mobility.Calculate(gamePhase, bitBoard);
-            var castling = bitBoard.IncrementalEvaluation.Castling;
-            var position = bitBoard.IncrementalEvaluation.Position;
+            var castling = bitBoard.IncEvaluation.Castling;
+            var position = bitBoard.IncEvaluation.Position;
             var pawnStructure = _pawnStructure.Calculate(gamePhase, bitBoard);
             var kingSafety = _kingSafety.Calculate(gamePhase, bitBoard);
 

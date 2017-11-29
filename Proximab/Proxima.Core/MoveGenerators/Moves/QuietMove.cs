@@ -22,7 +22,7 @@ namespace Proxima.Core.MoveGenerators.Moves
         /// <param name="to">The destination piece position.</param>
         /// <param name="piece">The piece type.</param>
         /// <param name="color">The piece color.</param>
-        public QuietMove(Position from, Position to, PieceType piece, Color color) 
+        public QuietMove(Position from, Position to, PieceType piece, Color color)
             : base(from, to, piece, color)
         {
         }
@@ -36,12 +36,12 @@ namespace Proxima.Core.MoveGenerators.Moves
             CalculateEnPassant(bitBoard);
         }
 
-        void CalculateEnPassant(BitBoard bitBoard)
+        private void CalculateEnPassant(BitBoard bitBoard)
         {
             if (Piece == PieceType.Pawn)
             {
                 var enPassantPosition = GetEnPassantPosition();
-                if(enPassantPosition.HasValue)
+                if (enPassantPosition.HasValue)
                 {
                     var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition.Value);
 
@@ -51,7 +51,7 @@ namespace Proxima.Core.MoveGenerators.Moves
             }
         }
 
-        Position? GetEnPassantPosition()
+        private Position? GetEnPassantPosition()
         {
             if (From.Y == 2 && To.Y == 4)
             {

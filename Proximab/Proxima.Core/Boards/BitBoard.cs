@@ -26,7 +26,7 @@ namespace Proxima.Core.Boards
         public bool[] CastlingDone { get; private set; }
 
         public LinkedList<Move> Moves { get; private set; }
-        public IncrementalEvaluationData IncrementalEvaluation { get; private set; }
+        public IncrementalEvaluationData IncEvaluation { get; private set; }
 
         public BitBoard()
         {
@@ -53,7 +53,7 @@ namespace Proxima.Core.Boards
             Buffer.BlockCopy(bitBoard.CastlingDone, 0, CastlingDone, 0, bitBoard.CastlingDone.Length * sizeof(bool));
             Buffer.BlockCopy(bitBoard.Occupancy, 0, Occupancy, 0, bitBoard.Occupancy.Length * sizeof(ulong));
 
-            IncrementalEvaluation = new IncrementalEvaluationData(bitBoard.IncrementalEvaluation);
+            IncEvaluation = new IncrementalEvaluationData(bitBoard.IncEvaluation);
 
             move.Do(this);
         }
@@ -66,7 +66,7 @@ namespace Proxima.Core.Boards
             EnPassant = friendlyBoard.GetEnPassantArray();
             Occupancy = CalculateOccupancy();
 
-            IncrementalEvaluation = new IncrementalEvaluationData(GetDetailedEvaluation());
+            IncEvaluation = new IncrementalEvaluationData(GetDetailedEvaluation());
 
             Hash = GetNewHash();
         }
@@ -113,9 +113,9 @@ namespace Proxima.Core.Boards
             return Hash == GetNewHash() &&
                    Occupancy[(int)Color.White] == calculatedOccupancy[(int)Color.White] &&
                    Occupancy[(int)Color.Black] == calculatedOccupancy[(int)Color.Black] &&
-                   IncrementalEvaluation.Material == calculatedEvaluation.Material.Difference &&
-                   IncrementalEvaluation.Position == calculatedEvaluation.Position.Difference &&
-                   IncrementalEvaluation.Castling == calculatedEvaluation.Castling.Difference;
+                   IncEvaluation.Material == calculatedEvaluation.Material.Difference &&
+                   IncEvaluation.Position == calculatedEvaluation.Position.Difference &&
+                   IncEvaluation.Castling == calculatedEvaluation.Castling.Difference;
         }
 
         private ulong GetNewHash()

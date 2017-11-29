@@ -118,23 +118,20 @@ namespace Proxima.Core.MoveGenerators
                 {
                     patternWithFriendlyBlockers |= friendlyBlockerLSB << 7;
                 }
-                else
-                if (opt.FriendlyColor == Color.White &&
+                else if (opt.FriendlyColor == Color.White &&
                    (friendlyBlockerPosition.X < piecePosition.X && friendlyBlockerPosition.Y > piecePosition.Y) &&
                    (friendlyBlockerLSB & (BitConstants.AFile | BitConstants.HRank)) == 0)
                 {
                     patternWithFriendlyBlockers |= friendlyBlockerLSB << 9;
                 }
 
-                else
-                if (opt.FriendlyColor == Color.Black &&
+                else if (opt.FriendlyColor == Color.Black &&
                    (friendlyBlockerPosition.X > piecePosition.X && friendlyBlockerPosition.Y < piecePosition.Y) &&
                    (friendlyBlockerLSB & (BitConstants.HFile | BitConstants.ARank)) == 0)
                 {
                     patternWithFriendlyBlockers |= friendlyBlockerLSB >> 9;
                 }
-                else
-                if (opt.FriendlyColor == Color.Black &&
+                else if (opt.FriendlyColor == Color.Black &&
                    (friendlyBlockerPosition.X < piecePosition.X && friendlyBlockerPosition.Y < piecePosition.Y) &&
                    (friendlyBlockerLSB & (BitConstants.AFile | BitConstants.ARank)) == 0)
                 {
