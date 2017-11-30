@@ -49,7 +49,7 @@ namespace Proxima.Core.Evaluation.Material
         /// Calculates a material evaluation result for the specified player by adding all piece values and
         /// multiplying them by the specified ratio.
         /// </summary>
-        /// <param name="color">The king color.</param>
+        /// <param name="color">The player color.</param>
         /// <param name="gamePhase">The game phase.</param>
         /// <param name="bitBoard">The bitboard.</param>
         /// <returns>The material evaluation result for the specified player.</returns>
