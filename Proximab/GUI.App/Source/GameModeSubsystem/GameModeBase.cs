@@ -11,11 +11,11 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
-using Proxima.Core.Persistence;
 using Proxima.Core.Commons.Colors;
-using Proxima.Core.MoveGenerators.Moves;
 using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators;
+using Proxima.Core.MoveGenerators.Moves;
+using Proxima.Core.Persistence;
 
 namespace GUI.App.Source.GameModeSubsystem
 {

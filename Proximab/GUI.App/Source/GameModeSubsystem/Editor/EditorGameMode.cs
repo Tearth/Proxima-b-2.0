@@ -6,11 +6,10 @@ using GUI.App.Source.ConsoleSubsystem;
 using GUI.App.Source.PromotionSubsystem;
 using GUI.ColorfulConsole;
 using Proxima.Core.Boards.Friendly;
-using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
-using Proxima.Core.MoveGenerators.Moves;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
+using Proxima.Core.MoveGenerators.Moves;
 using Proxima.Helpers.Tests;
 
 namespace GUI.App.Source.GameModeSubsystem.Editor

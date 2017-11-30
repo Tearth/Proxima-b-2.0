@@ -7,9 +7,8 @@ using GUI.App.Source.InputSubsystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Proxima.Core.Commons;
-using Proxima.Core.MoveGenerators.Moves;
 using Proxima.Core.Commons.Pieces;
+using Proxima.Core.MoveGenerators.Moves;
 
 namespace GUI.App.Source.PromotionSubsystem
 {
