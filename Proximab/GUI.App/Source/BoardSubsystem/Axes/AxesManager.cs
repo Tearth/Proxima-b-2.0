@@ -114,7 +114,7 @@ namespace GUI.App.Source.BoardSubsystem.Axes
         }
 
         /// <summary>
-        /// Calculates a center of the specified text (basing on the loaded font).
+        /// Calculates a center of the specified text (based on the loaded font).
         /// </summary>
         /// <param name="text">THe text to calculate.</param>
         /// <returns>The center of passed text.</returns>

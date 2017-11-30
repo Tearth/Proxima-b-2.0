@@ -9,7 +9,7 @@ namespace Proxima.Core.Evaluation.Castling
     public static class IncrementalCastling
     {
         /// <summary>
-        /// Calculates a new castling evaluation result basing on information that the specified player has done castling.
+        /// Calculates a new castling evaluation result based on information that the specified player has done castling.
         /// </summary>
         /// <param name="castling">The current castling evaluation result.</param>
         /// <param name="color">The player color.</param>

@@ -1,5 +1,8 @@
 ﻿namespace Proxima.Core.Evaluation.Material
 {
+    /// <summary>
+    /// Represents a set of evaluation parameters for material evaluation calculators.
+    /// </summary>
     public static class MaterialValues
     {
         public static readonly int[] PieceValues = new int[6]

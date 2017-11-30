@@ -124,7 +124,7 @@ namespace GUI.App.Source.BoardSubsystem.Selections
         }
 
         /// <summary>
-        /// Calculates a field position basing on the click point.
+        /// Calculates a field position based on the click point.
         /// </summary>
         /// <param name="clickPoint">The mouse click point.</param>
         /// <returns>The field position.</returns>

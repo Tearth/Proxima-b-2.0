@@ -52,7 +52,7 @@ namespace Proxima.Core.Commons.Performance
         }
 
         /// <summary>
-        /// Calculates a piece value basing on position value arrays.
+        /// Calculates a piece value based on position value arrays.
         /// </summary>
         /// <param name="gamePhase">The game phase.</param>
         /// <param name="pieceIndex">The piece index.</param>

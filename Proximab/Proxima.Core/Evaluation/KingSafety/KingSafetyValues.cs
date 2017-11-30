@@ -1,7 +1,7 @@
 ﻿namespace Proxima.Core.Evaluation.KingSafety
 {
     /// <summary>
-    /// Represents a set of evaluation parameters for king safety.
+    /// Represents a set of evaluation parameters for king safety evaluation calculators.
     /// </summary>
     public class KingSafetyValues
     {

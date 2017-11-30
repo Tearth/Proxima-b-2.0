@@ -14,9 +14,9 @@ namespace Proxima.Core.Evaluation.Castling
     public class CastlingCalculator
     {
         /// <summary>
-        /// Calculates a castling evaluation result basing on done (or not) castling.
+        /// Calculates a castling evaluation result based on done (or not) castling.
         /// </summary>
-        /// <param name="gamePhase">THe game phase.</param>
+        /// <param name="gamePhase">The game phase.</param>
         /// <param name="bitBoard">The bitboard.</param>
         /// <returns>The castling evaluation result.</returns>
         public int Calculate(GamePhase gamePhase, BitBoard bitBoard)
@@ -28,7 +28,7 @@ namespace Proxima.Core.Evaluation.Castling
         }
 
         /// <summary>
-        /// Calculates a detailed castling evaluation result basing on done (or not) castling.
+        /// Calculates a detailed castling evaluation result based on done (or not) castling.
         /// </summary>
         /// <param name="gamePhase">THe game phase.</param>
         /// <param name="bitBoard">The bitboard.</param>

@@ -195,7 +195,7 @@ namespace GUI.App.Source.PromotionSubsystem
         }
 
         /// <summary>
-        /// Calculates piece index basing on current mouse position (from 0 to 3).
+        /// Calculates piece index based on current mouse position (from 0 to 3).
         /// </summary>
         /// <param name="mousePosition">The current mouse position.</param>
         /// <returns>The index of the currently selected piece.</returns>
@@ -205,7 +205,7 @@ namespace GUI.App.Source.PromotionSubsystem
         }
 
         /// <summary>
-        /// Calculates the higlight position basing on the promotion piece index.
+        /// Calculates the higlight position based on the promotion piece index.
         /// </summary>
         /// <param name="pieceIndex">The promotion piece index.</param>
         /// <returns>The position of the highlight.</returns>

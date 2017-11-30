@@ -42,7 +42,7 @@ namespace Proxima.Core.Commons.Pieces
         }
 
         /// <summary>
-        /// Calculates the piece type basing on the piece symbol.
+        /// Calculates the piece type based on the piece symbol.
         /// </summary>
         /// <param name="pieceSymbol">The piece symbol.</param>
         /// <exception cref="PieceSymbolNotFoundException">Thrown when the specified piece symbol is not recognized.</exception>
