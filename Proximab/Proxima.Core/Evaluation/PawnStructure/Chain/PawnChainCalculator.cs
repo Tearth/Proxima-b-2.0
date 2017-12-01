@@ -7,8 +7,24 @@ using Proxima.Core.Commons.Pieces;
 
 namespace Proxima.Core.Evaluation.PawnStructure.Chain
 {
+    /// <summary>
+    /// Represents a set of methods to evaluate pawn chain.
+    /// </summary>
+    /// <remarks>
+    /// Pawn chain is a structure consisting of two or more sticked pawns on the same diagonal. This is the
+    /// preferred situation because these pawns are easier to defend and are great barrier against the
+    /// enemy pieces.
+    /// </remarks>
     public class PawnChainCalculator
     {
+        /// <summary>
+        /// Calculates a chain evaluation result for the specified player by adding number of pawns
+        /// in chains multiplied by the specified ratio.
+        /// </summary>
+        /// <param name="color">The player color.</param>
+        /// <param name="gamePhase">The game phase.</param>
+        /// <param name="bitBoard">The bitboard.</param>
+        /// <returns>The chain evaluation result for the specified player.</returns>
         public int GetChainValue(Color color, GamePhase gamePhase, BitBoard bitBoard)
         {
             var chain = 0;
@@ -29,6 +45,12 @@ namespace Proxima.Core.Evaluation.PawnStructure.Chain
             return chain * PawnStructureValues.PawnChainRatio[(int)gamePhase];
         }
 
+        /// <summary>
+        /// Calculates a chain mask for the specified color and field.
+        /// </summary>
+        /// <param name="color">The player color.</param>
+        /// <param name="pawnLSB">The LSB of the specified field.</param>
+        /// <returns>The chain mask for the specified color and field.</returns>
         private ulong GetChainMask(Color color, ulong pawnLSB)
         {
             var mask = ((pawnLSB & ~BitConstants.AFile) << 1) | ((pawnLSB & ~BitConstants.HFile) >> 1);

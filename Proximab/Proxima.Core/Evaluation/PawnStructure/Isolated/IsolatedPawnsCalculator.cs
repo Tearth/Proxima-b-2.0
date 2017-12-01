@@ -7,8 +7,23 @@ using Proxima.Core.Commons.Pieces;
 
 namespace Proxima.Core.Evaluation.PawnStructure.Isolated
 {
+    /// <summary>
+    /// Represents a set of methods to evaluate doubled pawns.
+    /// </summary>
+    /// <remarks>
+    /// We can talk about pawn as isoleted when there is no any same-color pawns on neighbour files. It's extremally
+    /// harmful, because these pawns are very hard to defend and can be easily killed by the enemy pieces.
+    /// </remarks>
     public class IsolatedPawnsCalculator
     {
+        /// <summary>
+        /// Calculates a isolated pawns evaluation result for the specified player by adding number of pawns
+        /// without any same-color pawns at neighbour files.
+        /// </summary>
+        /// <param name="color">The player color.</param>
+        /// <param name="gamePhase">The game phase.</param>
+        /// <param name="bitBoard">The bitboard.</param>
+        /// <returns>The isolated pawns evaluation result for the specified player.</returns>
         public int GetIsolatedPawnsValue(Color color, GamePhase gamePhase, BitBoard bitBoard)
         {
             var isolatedPawns = 0;

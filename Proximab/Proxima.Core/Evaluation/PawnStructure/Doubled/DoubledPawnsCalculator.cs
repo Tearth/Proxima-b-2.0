@@ -7,8 +7,23 @@ using Proxima.Core.Commons.Pieces;
 
 namespace Proxima.Core.Evaluation.PawnStructure.Doubled
 {
+    /// <summary>
+    /// Represents a set of methods to evaluate doubled pawns.
+    /// </summary>
+    /// <remarks>
+    /// By the "doubled pawns" term we can assume two or more pawns on the same file. These pawns are really hard
+    /// to defend and their mobility is seriously limited.
+    /// </remarks>
     public class DoubledPawnsCalculator
     {
+        /// <summary>
+        /// Calculates a doubled pawns evaluation result for the specified player by adding number of pawns
+        /// on the same files.
+        /// </summary>
+        /// <param name="color">The player color.</param>
+        /// <param name="gamePhase">The game phase.</param>
+        /// <param name="bitBoard">The bitboard.</param>
+        /// <returns>The doubled pawns evaluation result for the specified player.</returns>
         public int GetDoubledPawnsValue(Color color, GamePhase gamePhase, BitBoard bitBoard)
         {
             var doubledPawns = 0;
