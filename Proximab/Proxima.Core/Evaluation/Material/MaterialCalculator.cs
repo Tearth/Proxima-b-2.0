@@ -19,13 +19,12 @@ namespace Proxima.Core.Evaluation.Material
         /// <summary>
         /// Calculates a material evaluation result.
         /// </summary>
-        /// <param name="gamePhase">The game phase.</param>
         /// <param name="bitBoard">The bitboard.</param>
         /// <returns>The material evaluation result.</returns>
-        public int Calculate(GamePhase gamePhase, BitBoard bitBoard)
+        public int Calculate(BitBoard bitBoard)
         {
-            var whiteMaterial = GetMaterialValue(Color.White, gamePhase, bitBoard);
-            var blackMaterial = GetMaterialValue(Color.Black, gamePhase, bitBoard);
+            var whiteMaterial = GetMaterialValue(Color.White, bitBoard);
+            var blackMaterial = GetMaterialValue(Color.Black, bitBoard);
 
             return whiteMaterial - blackMaterial;
         }
@@ -33,15 +32,14 @@ namespace Proxima.Core.Evaluation.Material
         /// <summary>
         /// Calculates a detailed material evaluation result.
         /// </summary>
-        /// <param name="gamePhase">The game phase.</param>
         /// <param name="bitBoard">The bitboard.</param>
         /// <returns>The detailed material evaluation result.</returns>
-        public MaterialData CalculateDetailed(GamePhase gamePhase, BitBoard bitBoard)
+        public MaterialData CalculateDetailed(BitBoard bitBoard)
         {
             return new MaterialData
             {
-                WhiteMaterial = GetMaterialValue(Color.White, gamePhase, bitBoard),
-                BlackMaterial = GetMaterialValue(Color.Black, gamePhase, bitBoard)
+                WhiteMaterial = GetMaterialValue(Color.White, bitBoard),
+                BlackMaterial = GetMaterialValue(Color.Black, bitBoard)
             };
         }
 
@@ -50,10 +48,9 @@ namespace Proxima.Core.Evaluation.Material
         /// multiplying them by the specified ratio.
         /// </summary>
         /// <param name="color">The player color.</param>
-        /// <param name="gamePhase">The game phase.</param>
         /// <param name="bitBoard">The bitboard.</param>
         /// <returns>The material evaluation result for the specified player.</returns>
-        private int GetMaterialValue(Color color, GamePhase gamePhase, BitBoard bitBoard)
+        private int GetMaterialValue(Color color, BitBoard bitBoard)
         {
             var material = 0;
 

@@ -19,10 +19,10 @@ namespace Proxima.Core.Evaluation.Castling
         /// <param name="gamePhase">The game phase.</param>
         /// <param name="bitBoard">The bitboard.</param>
         /// <returns>The castling evaluation result.</returns>
-        public int Calculate(GamePhase gamePhase, BitBoard bitBoard)
+        public int Calculate(BitBoard bitBoard)
         {
-            var whiteCastling = GetCastlingValue(Color.White, gamePhase, bitBoard);
-            var blackCastling = GetCastlingValue(Color.Black, gamePhase, bitBoard);
+            var whiteCastling = GetCastlingValue(Color.White, bitBoard);
+            var blackCastling = GetCastlingValue(Color.Black, bitBoard);
 
             return whiteCastling - blackCastling;
         }
@@ -33,20 +33,20 @@ namespace Proxima.Core.Evaluation.Castling
         /// <param name="gamePhase">THe game phase.</param>
         /// <param name="bitBoard">The bitboard.</param>
         /// <returns>The detailed (separately for white and black player) castling evaluation result.</returns>
-        public CastlingData CalculateDetailed(GamePhase gamePhase, BitBoard bitBoard)
+        public CastlingData CalculateDetailed(BitBoard bitBoard)
         {
             return new CastlingData()
             {
-                WhiteCastling = GetCastlingValue(Color.White, gamePhase, bitBoard),
-                BlackCastling = GetCastlingValue(Color.Black, gamePhase, bitBoard)
+                WhiteCastling = GetCastlingValue(Color.White, bitBoard),
+                BlackCastling = GetCastlingValue(Color.Black, bitBoard)
             };
         }
 
-        private int GetCastlingValue(Color color, GamePhase gamePhase, BitBoard bitBoard)
+        private int GetCastlingValue(Color color, BitBoard bitBoard)
         {
             if (bitBoard.CastlingDone[(int)color])
             {
-                return CastlingValues.Ratio[(int)gamePhase];
+                return CastlingValues.Ratio[(int)bitBoard.GamePhase];
             }
 
             return 0;

@@ -43,7 +43,6 @@ namespace Proxima.Core.Evaluation.Position
         /// <param name="color">The piece color.</param>
         /// <param name="pieceType">The piece type.</param>
         /// <param name="piece">The piece bit.</param>
-        /// <param name="gamePhase">The current game phase.</param>
         /// <returns>The updated position evaluation result.</returns>
         public static int RemovePiece(int position, Color color, PieceType pieceType, ulong piece, GamePhase gamePhase)
         {

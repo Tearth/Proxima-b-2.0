@@ -22,10 +22,9 @@ namespace Proxima.Core.Evaluation.PawnStructure.Chain
         /// in chains multiplied by the specified ratio.
         /// </summary>
         /// <param name="color">The player color.</param>
-        /// <param name="gamePhase">The game phase.</param>
         /// <param name="bitBoard">The bitboard.</param>
         /// <returns>The chain evaluation result for the specified player.</returns>
-        public int GetChainValue(Color color, GamePhase gamePhase, BitBoard bitBoard)
+        public int GetChainValue(Color color, BitBoard bitBoard)
         {
             var chain = 0;
 
@@ -42,7 +41,7 @@ namespace Proxima.Core.Evaluation.PawnStructure.Chain
                 chain += BitOperations.Count(pawns & chainMask);
             }
 
-            return chain * PawnStructureValues.PawnChainRatio[(int)gamePhase];
+            return chain * PawnStructureValues.PawnChainRatio[(int)bitBoard.GamePhase];
         }
 
         /// <summary>

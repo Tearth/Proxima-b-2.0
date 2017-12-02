@@ -13,7 +13,6 @@ namespace Proxima.Core.Evaluation.Castling
         /// </summary>
         /// <param name="castling">The current castling evaluation result.</param>
         /// <param name="color">The player color.</param>
-        /// <param name="gamePhase">The game phase.</param>
         /// <returns>The updated castling evaluation result.</returns>
         public static int SetCastlingDone(int castling, Color color, GamePhase gamePhase)
         {

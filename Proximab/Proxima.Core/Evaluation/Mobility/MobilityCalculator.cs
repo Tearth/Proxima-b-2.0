@@ -22,10 +22,10 @@ namespace Proxima.Core.Evaluation.Mobility
         /// <param name="gamePhase">The game phase.</param>
         /// <param name="bitBoard">The bitboard.</param>
         /// <returns>The mobility evaluation result.</returns>
-        public int Calculate(GamePhase gamePhase, BitBoard bitBoard)
+        public int Calculate(BitBoard bitBoard)
         {
-            var whiteMobility = GetMobilityValue(Color.White, gamePhase, bitBoard);
-            var blackMobility = GetMobilityValue(Color.Black, gamePhase, bitBoard);
+            var whiteMobility = GetMobilityValue(Color.White, bitBoard);
+            var blackMobility = GetMobilityValue(Color.Black, bitBoard);
 
             return whiteMobility - blackMobility;
         }
@@ -36,12 +36,12 @@ namespace Proxima.Core.Evaluation.Mobility
         /// <param name="gamePhase">The game phase.</param>
         /// <param name="bitBoard">The bitboard.</param>
         /// <returns>The detailed mobility evaluation result.</returns>
-        public MobilityData CalculateDetailed(GamePhase gamePhase, BitBoard bitBoard)
+        public MobilityData CalculateDetailed(BitBoard bitBoard)
         {
             return new MobilityData()
             {
-                WhiteMobility = GetMobilityValue(Color.White, gamePhase, bitBoard),
-                BlackMobility = GetMobilityValue(Color.Black, gamePhase, bitBoard)
+                WhiteMobility = GetMobilityValue(Color.White, bitBoard),
+                BlackMobility = GetMobilityValue(Color.Black, bitBoard)
             };
         }
 
@@ -53,7 +53,7 @@ namespace Proxima.Core.Evaluation.Mobility
         /// <param name="gamePhase">The game phase.</param>
         /// <param name="bitBoard">The bitboard.</param>
         /// <returns>The mobility evaluation result for the specified player.</returns>
-        private int GetMobilityValue(Color color, GamePhase gamePhase, BitBoard bitBoard)
+        private int GetMobilityValue(Color color, BitBoard bitBoard)
         {
             var mobility = 0;
             var array = MobilityValues.GetRatio(color);
@@ -69,7 +69,7 @@ namespace Proxima.Core.Evaluation.Mobility
                 var attacksArray = bitBoard.Attacks[i] & bitBoard.Occupancy[(int)color];
                 if (attacksArray != 0)
                 {
-                    mobility += BitOperations.Count(attacksArray) * array[FastArray.GetEvaluationValueIndex(gamePhase, i)];
+                    mobility += BitOperations.Count(attacksArray) * array[FastArray.GetEvaluationValueIndex(bitBoard.GamePhase, i)];
                 }
             }
 

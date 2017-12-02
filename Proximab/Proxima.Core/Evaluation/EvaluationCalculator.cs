@@ -32,11 +32,11 @@ namespace Proxima.Core.Evaluation
             var gamePhase = GamePhase.Regular;
 
             var material = bitBoard.IncEvaluation.Material;
-            var mobility = _mobility.Calculate(gamePhase, bitBoard);
+            var mobility = _mobility.Calculate(bitBoard);
             var castling = bitBoard.IncEvaluation.Castling;
             var position = bitBoard.IncEvaluation.Position;
-            var pawnStructure = _pawnStructure.Calculate(gamePhase, bitBoard);
-            var kingSafety = _kingSafety.Calculate(gamePhase, bitBoard);
+            var pawnStructure = _pawnStructure.Calculate(bitBoard);
+            var kingSafety = _kingSafety.Calculate(bitBoard);
 
             return material + mobility + castling + position + pawnStructure + kingSafety;
         }
@@ -48,17 +48,14 @@ namespace Proxima.Core.Evaluation
         /// <returns>The detailed bitboard evaluation result.</returns>
         public static DetailedEvaluationData GetDetailedEvaluation(BitBoard bitBoard)
         {
-            // Temporary
-            var gamePhase = GamePhase.Regular;
-
             return new DetailedEvaluationData()
             {
-                Material = _material.CalculateDetailed(gamePhase, bitBoard),
-                Mobility = _mobility.CalculateDetailed(gamePhase, bitBoard),
-                Castling = _castling.CalculateDetailed(gamePhase, bitBoard),
-                Position = _position.CalculateDetailed(gamePhase, bitBoard),
-                PawnStructure = _pawnStructure.CalculateDetailed(gamePhase, bitBoard),
-                KingSafety = _kingSafety.CalculateDetailed(gamePhase, bitBoard)
+                Material = _material.CalculateDetailed(bitBoard),
+                Mobility = _mobility.CalculateDetailed(bitBoard),
+                Castling = _castling.CalculateDetailed(bitBoard),
+                Position = _position.CalculateDetailed(bitBoard),
+                PawnStructure = _pawnStructure.CalculateDetailed(bitBoard),
+                KingSafety = _kingSafety.CalculateDetailed(bitBoard)
             };
         }
     }

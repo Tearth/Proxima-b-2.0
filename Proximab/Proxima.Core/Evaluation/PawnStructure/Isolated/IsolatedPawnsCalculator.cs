@@ -21,10 +21,9 @@ namespace Proxima.Core.Evaluation.PawnStructure.Isolated
         /// without any same-color pawns at neighbour files.
         /// </summary>
         /// <param name="color">The player color.</param>
-        /// <param name="gamePhase">The game phase.</param>
         /// <param name="bitBoard">The bitboard.</param>
         /// <returns>The isolated pawns evaluation result for the specified player.</returns>
-        public int GetIsolatedPawnsValue(Color color, GamePhase gamePhase, BitBoard bitBoard)
+        public int GetIsolatedPawnsValue(Color color, BitBoard bitBoard)
         {
             var isolatedPawns = 0;
             var pawns = bitBoard.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];
@@ -43,7 +42,7 @@ namespace Proxima.Core.Evaluation.PawnStructure.Isolated
                 }
             }
 
-            return isolatedPawns * PawnStructureValues.IsolatededPawnsRatio[(int)gamePhase];
+            return isolatedPawns * PawnStructureValues.IsolatededPawnsRatio[(int)bitBoard.GamePhase];
         }
     }
 }

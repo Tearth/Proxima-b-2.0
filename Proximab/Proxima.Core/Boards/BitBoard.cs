@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Boards.Hashing;
+using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Pieces;
@@ -14,6 +15,7 @@ namespace Proxima.Core.Boards
     public class BitBoard
     {
         public ulong Hash { get; set; }
+        public GamePhase GamePhase { get; set; }
 
         public ulong[] Pieces { get; private set; }
         public ulong[] Occupancy { get; private set; }
@@ -30,8 +32,6 @@ namespace Proxima.Core.Boards
 
         public BitBoard()
         {
-            Moves = new LinkedList<Move>();
-
             Pieces = new ulong[12];
             Occupancy = new ulong[2];
             EnPassant = new ulong[2];
@@ -41,6 +41,8 @@ namespace Proxima.Core.Boards
 
             CastlingPossibility = new bool[4];
             CastlingDone = new bool[2];
+
+            Moves = new LinkedList<Move>();
         }
 
         public BitBoard(BitBoard bitBoard, Move move) : this()
