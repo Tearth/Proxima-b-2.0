@@ -1,7 +1,7 @@
 ﻿namespace Proxima.Core.Evaluation.KingSafety
 {
     /// <summary>
-    /// Represents a container for the king safety evaluation data.
+    /// Represents a container of the king safety evaluation data.
     /// </summary>
     public class KingSafetyData
     {

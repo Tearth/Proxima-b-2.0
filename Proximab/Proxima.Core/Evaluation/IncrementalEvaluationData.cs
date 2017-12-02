@@ -1,17 +1,29 @@
-﻿using System;
-
-namespace Proxima.Core.Evaluation
+﻿namespace Proxima.Core.Evaluation
 {
+    /// <summary>
+    /// Represents a container of the incremental evaluation data.
+    /// </summary>
     public class IncrementalEvaluationData
     {
+        /// <summary>
+        /// Gets or sets the incremental material evaluation result.
+        /// </summary>
         public int Material { get; set; }
+
+        /// <summary>
+        /// Gets or sets the incremental position evaluation result.
+        /// </summary>
         public int Position { get; set; }
+
+        /// <summary>
+        /// Gets or sets the incremental castling evaluation result.
+        /// </summary>
         public int Castling { get; set; }
 
-        public IncrementalEvaluationData()
-        {
-        }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IncrementalEvaluationData"/> class.
+        /// </summary>
+        /// <param name="incrementalEvaluationData">The incremental evaluation data container.</param>
         public IncrementalEvaluationData(IncrementalEvaluationData incrementalEvaluationData)
         {
             Material = incrementalEvaluationData.Material;
@@ -19,6 +31,10 @@ namespace Proxima.Core.Evaluation
             Castling = incrementalEvaluationData.Castling;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IncrementalEvaluationData"/> class.
+        /// </summary>
+        /// <param name="detailedEvaluationData">The detailed evaluation data container.</param>
         public IncrementalEvaluationData(DetailedEvaluationData detailedEvaluationData)
         {
             Material = detailedEvaluationData.Material.Difference;

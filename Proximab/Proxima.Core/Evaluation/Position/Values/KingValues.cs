@@ -2,6 +2,9 @@
 
 namespace Proxima.Core.Evaluation.Position.Values
 {
+    /// <summary>
+    /// Represents a set of evaluation parameters for king position.
+    /// </summary>
     public static class KingValues
     {
         public static readonly int[] Pattern = new int[2 * 64]
@@ -30,6 +33,11 @@ namespace Proxima.Core.Evaluation.Position.Values
         public static readonly int[] WhiteValues = EvaluationFlipper.CalculateWhiteArray(Pattern);
         public static readonly int[] BlackValues = EvaluationFlipper.CalculateBlackArray(Pattern);
 
+        /// <summary>
+        /// Calculates a position values array for the specified player color.
+        /// </summary>
+        /// <param name="color">The player color.</param>
+        /// <returns>The position values array for the specified color.</returns>
         public static int[] GetValues(Color color)
         {
             return color == Color.White ? WhiteValues : BlackValues;

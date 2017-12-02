@@ -9,6 +9,9 @@ using Proxima.Core.Evaluation.Position;
 
 namespace Proxima.Core.Evaluation
 {
+    /// <summary>
+    /// Represents a set of methods to evaluation calculating.
+    /// </summary>
     public static class EvaluationCalculator
     {
         private static MaterialCalculator _material = new MaterialCalculator();
@@ -18,6 +21,11 @@ namespace Proxima.Core.Evaluation
         private static PawnStructureCalculator _pawnStructure = new PawnStructureCalculator();
         private static KingSafetyCalculator _kingSafety = new KingSafetyCalculator();
 
+        /// <summary>
+        /// Evaluates the specified bitboard (without any details, returns just simple number).
+        /// </summary>
+        /// <param name="bitBoard">The bitboard to evaluate.</param>
+        /// <returns>The bitboard evaluation result.</returns>
         public static int GetEvaluation(BitBoard bitBoard)
         {
             // Temporary
@@ -33,6 +41,11 @@ namespace Proxima.Core.Evaluation
             return material + mobility + castling + position + pawnStructure + kingSafety;
         }
 
+        /// <summary>
+        /// Evaluates the specified bitboard with details (only for debugging, too slow for AI).
+        /// </summary>
+        /// <param name="bitBoard">The bitboard to evaluate.</param>
+        /// <returns>The detailed bitboard evaluation result.</returns>
         public static DetailedEvaluationData GetDetailedEvaluation(BitBoard bitBoard)
         {
             // Temporary

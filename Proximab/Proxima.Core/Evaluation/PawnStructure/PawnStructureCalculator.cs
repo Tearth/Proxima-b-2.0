@@ -7,12 +7,18 @@ using Proxima.Core.Evaluation.PawnStructure.Isolated;
 
 namespace Proxima.Core.Evaluation.PawnStructure
 {
+    /// <summary>
+    /// Represents a set of methods to evaluate pawn structure.
+    /// </summary>
     public class PawnStructureCalculator
     {
         private DoubledPawnsCalculator _doubledPawnsCalculator;
         private IsolatedPawnsCalculator _isolatedPawnsCalculator;
         private PawnChainCalculator _pawnChainCalculator;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PawnStructureCalculator"/> class.
+        /// </summary>
         public PawnStructureCalculator()
         {
             _doubledPawnsCalculator = new DoubledPawnsCalculator();
@@ -20,6 +26,12 @@ namespace Proxima.Core.Evaluation.PawnStructure
             _pawnChainCalculator = new PawnChainCalculator();
         }
 
+        /// <summary>
+        /// Calculates a pawn structure evaluation result.
+        /// </summary>
+        /// <param name="gamePhase">The game phase.</param>
+        /// <param name="bitBoard">The bitboard.</param>
+        /// <returns>The pawn structure evaluation result.</returns>
         public int Calculate(GamePhase gamePhase, BitBoard bitBoard)
         {
             var whiteDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.White, gamePhase, bitBoard);
@@ -36,6 +48,12 @@ namespace Proxima.Core.Evaluation.PawnStructure
                    (whitePawnChains - blackPawnChains);
         }
 
+        /// <summary>
+        /// Calculates a detailed pawn structure evaluation result.
+        /// </summary>
+        /// <param name="gamePhase">The game phase.</param>
+        /// <param name="bitBoard">The bitboard.</param>
+        /// <returns>The detailed pawn structure evaluation result.</returns>
         public PawnStructureData CalculateDetailed(GamePhase gamePhase, BitBoard bitBoard)
         {
             return new PawnStructureData()

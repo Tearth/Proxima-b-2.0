@@ -1,7 +1,7 @@
 ﻿namespace Proxima.Core.Evaluation.Mobility
 {
     /// <summary>
-    /// Represents a container for the mobility evaluation data.
+    /// Represents a container of the mobility evaluation data.
     /// </summary>
     public class MobilityData
     {

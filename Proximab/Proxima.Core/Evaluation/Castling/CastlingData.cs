@@ -1,7 +1,7 @@
 ﻿namespace Proxima.Core.Evaluation.Castling
 {
     /// <summary>
-    /// Represents a container for the castling evaluation data.
+    /// Represents a container of the castling evaluation data.
     /// </summary>
     public class CastlingData
     {

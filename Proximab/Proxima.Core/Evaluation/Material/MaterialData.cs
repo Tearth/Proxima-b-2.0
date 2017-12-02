@@ -1,7 +1,7 @@
 ﻿namespace Proxima.Core.Evaluation.Material
 {
     /// <summary>
-    /// Represents a container for the material evaluation data.
+    /// Represents a container of the material evaluation data.
     /// </summary>
     public class MaterialData
     {

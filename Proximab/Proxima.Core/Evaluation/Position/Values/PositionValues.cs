@@ -4,8 +4,17 @@ using Proxima.Core.Commons.Pieces;
 
 namespace Proxima.Core.Evaluation.Position.Values
 {
+    /// <summary>
+    /// Represents a set of methods to calculating position values array.
+    /// </summary>
     public static class PositionValues
     {
+        /// <summary>
+        /// Calculates a position values array for the specified color and piece type.
+        /// </summary>
+        /// <param name="color">The player color.</param>
+        /// <param name="pieceType">The piece type.</param>
+        /// <returns>The position values array.</returns>
         public static int[] GetValues(Color color, PieceType pieceType)
         {
             switch (pieceType)

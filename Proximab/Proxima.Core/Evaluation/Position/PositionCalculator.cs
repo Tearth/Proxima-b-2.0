@@ -7,8 +7,22 @@ using Proxima.Core.Evaluation.Position.Values;
 
 namespace Proxima.Core.Evaluation.Position
 {
+    /// <summary>
+    /// Represents a set of methods to evaluate position.
+    /// </summary>
+    /// <remarks>
+    /// Position is an simply information about all piece localisations. On example, knight at border
+    /// of the chess board has less mobility, so it is less valuable. By this parameter, we can force AI to develop
+    /// pieces more on center, what is very favourable.
+    /// </remarks>
     public class PositionCalculator
     {
+        /// <summary>
+        /// Calculates a position evaluation result.
+        /// </summary>
+        /// <param name="gamePhase">The game phase.</param>
+        /// <param name="bitBoard">The bitboard.</param>
+        /// <returns>The position evaluation result.</returns>
         public int Calculate(GamePhase gamePhase, BitBoard bitBoard)
         {
             var whitePosition = GetPosition(Color.White, gamePhase, bitBoard);
@@ -17,6 +31,12 @@ namespace Proxima.Core.Evaluation.Position
             return whitePosition - blackPosition;
         }
 
+        /// <summary>
+        /// Calculates a detailed position evaluation result.
+        /// </summary>
+        /// <param name="gamePhase">The game phase.</param>
+        /// <param name="bitBoard">The bitboard.</param>
+        /// <returns>The detailed position evaluation result.</returns>
         public PositionData CalculateDetailed(GamePhase gamePhase, BitBoard bitBoard)
         {
             return new PositionData()
@@ -26,6 +46,13 @@ namespace Proxima.Core.Evaluation.Position
             };
         }
 
+        /// <summary>
+        /// Calculates a position evaluation result for the specified parameters.
+        /// </summary>
+        /// <param name="color">The player color.</param>
+        /// <param name="gamePhase">The current game phase.</param>
+        /// <param name="bitBoard">The bitboard.</param>
+        /// <returns>The position evaluation result.</returns>
         private int GetPosition(Color color, GamePhase gamePhase, BitBoard bitBoard)
         {
             var position = 0;
@@ -39,6 +66,14 @@ namespace Proxima.Core.Evaluation.Position
             return position;
         }
 
+        /// <summary>
+        /// Calculates a position evaluation result for the specified parameters.
+        /// </summary>
+        /// <param name="color">The player color.</param>
+        /// <param name="pieceType">The piece type.</param>
+        /// <param name="gamePhase">The current game phase.</param>
+        /// <param name="piecesToParse">The pieces to parse.</param>
+        /// <returns>The position evaluation result.</returns>
         private int GetPositionValue(Color color, PieceType pieceType, GamePhase gamePhase, ulong piecesToParse)
         {
             var position = 0;

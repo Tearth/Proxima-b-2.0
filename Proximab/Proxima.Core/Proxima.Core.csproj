@@ -80,7 +80,6 @@
     <Compile Include="Evaluation\Material\MaterialCalculator.cs" />
     <Compile Include="Evaluation\Material\MaterialData.cs" />
     <Compile Include="Evaluation\EvaluationCalculator.cs" />
-    <Compile Include="Evaluation\EvaluationParameters.cs" />
     <Compile Include="Evaluation\DetailedEvaluationData.cs" />
     <Compile Include="Evaluation\Material\MaterialValues.cs" />
     <Compile Include="Evaluation\Mobility\MobilityCalculator.cs" />

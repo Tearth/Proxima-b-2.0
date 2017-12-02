@@ -1,5 +1,8 @@
 ﻿namespace Proxima.Core.Evaluation.PawnStructure
 {
+    /// <summary>
+    /// Represents a set of evaluation parameters for pawn structure evaluation calculators.
+    /// </summary>
     public static class PawnStructureValues
     {
         public static readonly int[] DoubledPawnsRatio = new int[2]
