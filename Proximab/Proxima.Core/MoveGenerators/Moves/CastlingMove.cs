@@ -70,12 +70,12 @@ namespace Proxima.Core.MoveGenerators.Moves
 
         private void RemoveCastlingPossibility(Bitboard bitboard)
         {
-            bitboard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitboard.Hash, bitboard.CastlingPossibility, Color, CastlingType.Short);
-            bitboard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitboard.Hash, bitboard.CastlingPossibility, Color, CastlingType.Long);
+            IncrementalZobrist.RemoveCastlingPossibility(Color, CastlingType.Short, bitboard);
+            IncrementalZobrist.RemoveCastlingPossibility(Color, CastlingType.Long, bitboard);
 
             bitboard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Short)] = false;
             bitboard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Long)] = false;
-            bitboard.IncEvaluation.Castling = IncrementalCastling.SetCastlingDone(bitboard.IncEvaluation.Castling, Color, GamePhase.Regular);
+            IncrementalCastling.SetCastlingDone(Color, bitboard);
 
             bitboard.CastlingDone[(int)Color] = true;
         }

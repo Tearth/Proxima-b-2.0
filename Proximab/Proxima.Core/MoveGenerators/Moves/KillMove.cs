@@ -48,9 +48,9 @@ namespace Proxima.Core.MoveGenerators.Moves
                     bitboard.Pieces[index] &= ~fieldLSB;
                     bitboard.Occupancy[(int)enemyColor] &= ~fieldLSB;
 
-                    bitboard.IncEvaluation.Material = IncrementalMaterial.RemovePiece(bitboard.IncEvaluation.Material, (PieceType)piece, enemyColor);
-                    bitboard.IncEvaluation.Position = IncrementalPosition.RemovePiece(bitboard.IncEvaluation.Position, enemyColor, (PieceType)piece, fieldLSB, GamePhase.Regular);
-                    bitboard.Hash = IncrementalZobrist.AddOrRemovePiece(bitboard.Hash, enemyColor, (PieceType)piece, fieldLSB);
+                    IncrementalMaterial.RemovePiece((PieceType)piece, enemyColor, bitboard);
+                    IncrementalPosition.RemovePiece(enemyColor, (PieceType)piece, fieldLSB, bitboard);
+                    IncrementalZobrist.AddOrRemovePiece(enemyColor, (PieceType)piece, fieldLSB, bitboard);
 
                     break;
                 }

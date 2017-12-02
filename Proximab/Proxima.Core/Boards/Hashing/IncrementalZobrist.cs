@@ -7,37 +7,35 @@ namespace Proxima.Core.Boards.Hashing
 {
     public static class IncrementalZobrist
     {
-        public static ulong AddOrRemovePiece(ulong hash, Color color, PieceType pieceType, ulong field)
+        public static void AddOrRemovePiece(Color color, PieceType pieceType, ulong field, Bitboard bitboard)
         {
             var fieldIndex = BitOperations.GetBitIndex(field);
             var index = FastArray.GetZobristPieceIndex(color, pieceType, fieldIndex);
 
-            return hash ^ ZobristContainer.Pieces[index];
+            bitboard.Hash ^= ZobristContainer.Pieces[index];
         }
 
-        public static ulong RemoveCastlingPossibility(ulong hash, bool[] castling, Color color, CastlingType castlingType)
+        public static void RemoveCastlingPossibility(Color color, CastlingType castlingType, Bitboard bitboard)
         {
             var castlingIndex = FastArray.GetCastlingIndex(color, castlingType);
 
-            if (castling[castlingIndex])
+            if (bitboard.CastlingPossibility[castlingIndex])
             {
-                return hash ^ ZobristContainer.Castling[castlingIndex];
+                bitboard.Hash ^= ZobristContainer.Castling[castlingIndex];
             }
-
-            return hash;
         }
 
-        public static ulong AddEnPassant(ulong hash, Color color, ulong field)
+        public static void AddEnPassant(Color color, ulong field, Bitboard bitboard)
         {
             var fieldIndex = BitOperations.GetBitIndex(field);
             var fieldPosition = BitPositionConverter.ToPosition(fieldIndex);
 
-            return hash ^ ZobristContainer.EnPassant[fieldPosition.X - 1];
+            bitboard.Hash ^= ZobristContainer.EnPassant[fieldPosition.X - 1];
         }
 
-        public static ulong ClearEnPassant(ulong hash, Color color, ulong[] _enPassant)
+        public static void ClearEnPassant(Color color, Bitboard bitboard)
         {
-            var enPassantToParse = _enPassant[(int)color];
+            var enPassantToParse = bitboard.EnPassant[(int)color];
 
             while (enPassantToParse != 0)
             {
@@ -47,10 +45,8 @@ namespace Proxima.Core.Boards.Hashing
                 var fieldIndex = BitOperations.GetBitIndex(fieldLSB);
                 var fieldPosition = BitPositionConverter.ToPosition(fieldIndex);
 
-                hash ^= ZobristContainer.EnPassant[fieldPosition.X - 1];
+                bitboard.Hash ^= ZobristContainer.EnPassant[fieldPosition.X - 1];
             }
-
-            return hash;
         }
     }
 }

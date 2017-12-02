@@ -21,19 +21,26 @@ namespace Proxima.Core.Evaluation.Position
         /// <param name="piece">The piece bit.</param>
         /// <param name="gamePhase">The current game phase.</param>
         /// <returns>The updated position evaluation result.</returns>
-        public static int AddPiece(int position, Color color, PieceType pieceType, ulong piece, GamePhase gamePhase)
+        public static void AddPiece(Color color, PieceType pieceType, ulong piece, Bitboard bitboard)
         {
             var pieceIndex = BitOperations.GetBitIndex(piece);
             var array = PositionValues.GetValues(color, pieceType);
-            var delta = array[FastArray.GetEvaluationValueIndex(gamePhase, pieceIndex)];
+            var delta = array[FastArray.GetEvaluationValueIndex(bitboard.GamePhase, pieceIndex)];
 
             switch (color)
             {
-                case Color.White: return position + delta;
-                case Color.Black: return position - delta;
-            }
+                case Color.White:
+                {
+                    bitboard.IncEvaluation.Position += delta;
+                    break;
+                }
 
-            return 0;
+                case Color.Black:
+                {
+                    bitboard.IncEvaluation.Position -= delta;
+                    break;
+                }
+            }
         }
 
         /// <summary>
@@ -44,19 +51,26 @@ namespace Proxima.Core.Evaluation.Position
         /// <param name="pieceType">The piece type.</param>
         /// <param name="piece">The piece bit.</param>
         /// <returns>The updated position evaluation result.</returns>
-        public static int RemovePiece(int position, Color color, PieceType pieceType, ulong piece, GamePhase gamePhase)
+        public static void RemovePiece(Color color, PieceType pieceType, ulong piece, Bitboard bitboard)
         {
             var pieceIndex = BitOperations.GetBitIndex(piece);
             var array = PositionValues.GetValues(color, pieceType);
-            var delta = array[FastArray.GetEvaluationValueIndex(gamePhase, pieceIndex)];
+            var delta = array[FastArray.GetEvaluationValueIndex(bitboard.GamePhase, pieceIndex)];
 
             switch (color)
             {
-                case Color.White: return position - delta;
-                case Color.Black: return position + delta;
-            }
+                case Color.White:
+                {
+                    bitboard.IncEvaluation.Position -= delta;
+                    break;
+                }
 
-            return 0;
+                case Color.Black:
+                {
+                    bitboard.IncEvaluation.Position += delta;
+                    break;
+                }
+            }
         }
     }
 }

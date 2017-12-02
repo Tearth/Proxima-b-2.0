@@ -1,4 +1,5 @@
-﻿using Proxima.Core.Commons;
+﻿using Proxima.Core.Boards;
+using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 
 namespace Proxima.Core.Evaluation.Castling
@@ -13,16 +14,22 @@ namespace Proxima.Core.Evaluation.Castling
         /// </summary>
         /// <param name="castling">The current castling evaluation result.</param>
         /// <param name="color">The player color.</param>
-        /// <returns>The updated castling evaluation result.</returns>
-        public static int SetCastlingDone(int castling, Color color, GamePhase gamePhase)
+        public static void SetCastlingDone(Color color, Bitboard bitboard)
         {
             switch (color)
             {
-                case Color.White: return castling + CastlingValues.Ratio[(int)gamePhase];
-                case Color.Black: return castling - CastlingValues.Ratio[(int)gamePhase];
-            }
+                case Color.White:
+                {
+                    bitboard.IncEvaluation.Castling += CastlingValues.Ratio[(int)bitboard.GamePhase];
+                    break;
+                }
 
-            return 0;
+                case Color.Black:
+                {
+                    bitboard.IncEvaluation.Castling -= CastlingValues.Ratio[(int)bitboard.GamePhase];
+                    break;
+                }
+            }
         }
     }
 }

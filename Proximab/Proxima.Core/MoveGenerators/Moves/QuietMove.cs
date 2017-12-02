@@ -46,7 +46,7 @@ namespace Proxima.Core.MoveGenerators.Moves
                     var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition.Value);
 
                     bitboard.EnPassant[(int)Color] |= enPassantLSB;
-                    bitboard.Hash = IncrementalZobrist.AddEnPassant(bitboard.Hash, Color, enPassantLSB);
+                    IncrementalZobrist.AddEnPassant(Color, enPassantLSB, bitboard);
                 }
             }
         }

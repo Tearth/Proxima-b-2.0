@@ -48,15 +48,17 @@ namespace Proxima.Core.Boards
         public Bitboard(Bitboard bitboard, Move move) : this()
         {
             Hash = bitboard.Hash;
-            Hash = IncrementalZobrist.ClearEnPassant(Hash, ColorOperations.Invert(move.Color), bitboard.EnPassant);
 
             Buffer.BlockCopy(bitboard.Pieces, 0, Pieces, 0, bitboard.Pieces.Length * sizeof(ulong));
             Buffer.BlockCopy(bitboard.CastlingPossibility, 0, CastlingPossibility, 0, bitboard.CastlingPossibility.Length * sizeof(bool));
             Buffer.BlockCopy(bitboard.CastlingDone, 0, CastlingDone, 0, bitboard.CastlingDone.Length * sizeof(bool));
             Buffer.BlockCopy(bitboard.Occupancy, 0, Occupancy, 0, bitboard.Occupancy.Length * sizeof(ulong));
+            Buffer.BlockCopy(bitboard.EnPassant, 0, EnPassant, 0, bitboard.EnPassant.Length * sizeof(ulong));
 
             IncEvaluation = new IncrementalEvaluationData(bitboard.IncEvaluation);
+            IncrementalZobrist.ClearEnPassant(ColorOperations.Invert(move.Color), this);
 
+            EnPassant[(int)ColorOperations.Invert(move.Color)] = 0;
             move.Do(this);
         }
 

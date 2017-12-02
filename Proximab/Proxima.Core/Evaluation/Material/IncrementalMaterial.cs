@@ -1,4 +1,5 @@
-﻿using Proxima.Core.Commons;
+﻿using Proxima.Core.Boards;
+using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Pieces;
 
@@ -16,17 +17,24 @@ namespace Proxima.Core.Evaluation.Material
         /// <param name="pieceType">The piece type.</param>
         /// <param name="color">The piece color.</param>
         /// <returns>The updated material evaluation result.</returns>
-        public static int AddPiece(int material, PieceType pieceType, Color color)
+        public static void AddPiece(PieceType pieceType, Color color, Bitboard bitboard)
         {
             var pieceValue = MaterialValues.PieceValues[(int)pieceType];
 
             switch (color)
             {
-                case Color.White: return material + pieceValue;
-                case Color.Black: return material - pieceValue;
-            }
+                case Color.White:
+                {
+                    bitboard.IncEvaluation.Material += pieceValue;
+                    break;
+                }
 
-            return 0;
+                case Color.Black:
+                {
+                    bitboard.IncEvaluation.Material -= pieceValue;
+                    break;
+                }
+            }
         }
 
         /// <summary>
@@ -36,17 +44,24 @@ namespace Proxima.Core.Evaluation.Material
         /// <param name="pieceType">The piece type.</param>
         /// <param name="color">The piece color.</param>
         /// <returns>The updated material evaluation result.</returns>
-        public static int RemovePiece(int material, PieceType pieceType, Color color)
+        public static void RemovePiece(PieceType pieceType, Color color, Bitboard bitboard)
         {
             var pieceValue = MaterialValues.PieceValues[(int)pieceType];
 
             switch (color)
             {
-                case Color.White: return material - pieceValue;
-                case Color.Black: return material + pieceValue;
-            }
+                case Color.White:
+                {
+                    bitboard.IncEvaluation.Material -= pieceValue;
+                    break;
+                }
 
-            return 0;
+                case Color.Black:
+                {
+                    bitboard.IncEvaluation.Material += pieceValue;
+                    break;
+                }
+            }
         }
     }
 }
