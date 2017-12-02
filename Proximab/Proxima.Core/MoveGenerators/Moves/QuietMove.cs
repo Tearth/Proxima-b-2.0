@@ -27,16 +27,16 @@ namespace Proxima.Core.MoveGenerators.Moves
         {
         }
 
-        public override void CalculateMove(BitBoard bitBoard)
+        public override void CalculateMove(Bitboard bitboard)
         {
             var from = BitPositionConverter.ToULong(From);
             var to = BitPositionConverter.ToULong(To);
 
-            CalculatePieceMove(bitBoard, from, to);
-            CalculateEnPassant(bitBoard);
+            CalculatePieceMove(bitboard, from, to);
+            CalculateEnPassant(bitboard);
         }
 
-        private void CalculateEnPassant(BitBoard bitBoard)
+        private void CalculateEnPassant(Bitboard bitboard)
         {
             if (Piece == PieceType.Pawn)
             {
@@ -45,8 +45,8 @@ namespace Proxima.Core.MoveGenerators.Moves
                 {
                     var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition.Value);
 
-                    bitBoard.EnPassant[(int)Color] |= enPassantLSB;
-                    bitBoard.Hash = IncrementalZobrist.AddEnPassant(bitBoard.Hash, Color, enPassantLSB);
+                    bitboard.EnPassant[(int)Color] |= enPassantLSB;
+                    bitboard.Hash = IncrementalZobrist.AddEnPassant(bitboard.Hash, Color, enPassantLSB);
                 }
             }
         }

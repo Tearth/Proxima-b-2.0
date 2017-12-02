@@ -20,12 +20,12 @@ namespace Proxima.Core.Evaluation.Position
         /// <summary>
         /// Calculates a position evaluation result.
         /// </summary>
-        /// <param name="bitBoard">The bitboard.</param>
+        /// <param name="bitboard">The bitboard.</param>
         /// <returns>The position evaluation result.</returns>
-        public int Calculate(BitBoard bitBoard)
+        public int Calculate(Bitboard bitboard)
         {
-            var whitePosition = GetPosition(Color.White, bitBoard);
-            var blackPosition = GetPosition(Color.Black, bitBoard);
+            var whitePosition = GetPosition(Color.White, bitboard);
+            var blackPosition = GetPosition(Color.Black, bitboard);
 
             return whitePosition - blackPosition;
         }
@@ -33,14 +33,14 @@ namespace Proxima.Core.Evaluation.Position
         /// <summary>
         /// Calculates a detailed position evaluation result.
         /// </summary>
-        /// <param name="bitBoard">The bitboard.</param>
+        /// <param name="bitboard">The bitboard.</param>
         /// <returns>The detailed position evaluation result.</returns>
-        public PositionData CalculateDetailed(BitBoard bitBoard)
+        public PositionData CalculateDetailed(Bitboard bitboard)
         {
             return new PositionData()
             {
-                WhitePosition = GetPosition(Color.White, bitBoard),
-                BlackPosition = GetPosition(Color.Black, bitBoard)
+                WhitePosition = GetPosition(Color.White, bitboard),
+                BlackPosition = GetPosition(Color.Black, bitboard)
             };
         }
 
@@ -49,16 +49,16 @@ namespace Proxima.Core.Evaluation.Position
         /// </summary>
         /// <param name="color">The player color.</param>
         /// <param name="gamePhase">The current game phase.</param>
-        /// <param name="bitBoard">The bitboard.</param>
+        /// <param name="bitboard">The bitboard.</param>
         /// <returns>The position evaluation result.</returns>
-        private int GetPosition(Color color, BitBoard bitBoard)
+        private int GetPosition(Color color, Bitboard bitboard)
         {
             var position = 0;
 
             for (int piece = 0; piece < 6; piece++)
             {
-                var piecesToParse = bitBoard.Pieces[FastArray.GetPieceIndex(color, (PieceType)piece)];
-                position += GetPositionValue(color, (PieceType)piece, piecesToParse, bitBoard.GamePhase);
+                var piecesToParse = bitboard.Pieces[FastArray.GetPieceIndex(color, (PieceType)piece)];
+                position += GetPositionValue(color, (PieceType)piece, piecesToParse, bitboard.GamePhase);
             }
 
             return position;

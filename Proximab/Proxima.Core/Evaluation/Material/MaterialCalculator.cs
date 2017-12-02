@@ -19,12 +19,12 @@ namespace Proxima.Core.Evaluation.Material
         /// <summary>
         /// Calculates a material evaluation result.
         /// </summary>
-        /// <param name="bitBoard">The bitboard.</param>
+        /// <param name="bitboard">The bitboard.</param>
         /// <returns>The material evaluation result.</returns>
-        public int Calculate(BitBoard bitBoard)
+        public int Calculate(Bitboard bitboard)
         {
-            var whiteMaterial = GetMaterialValue(Color.White, bitBoard);
-            var blackMaterial = GetMaterialValue(Color.Black, bitBoard);
+            var whiteMaterial = GetMaterialValue(Color.White, bitboard);
+            var blackMaterial = GetMaterialValue(Color.Black, bitboard);
 
             return whiteMaterial - blackMaterial;
         }
@@ -32,14 +32,14 @@ namespace Proxima.Core.Evaluation.Material
         /// <summary>
         /// Calculates a detailed material evaluation result.
         /// </summary>
-        /// <param name="bitBoard">The bitboard.</param>
+        /// <param name="bitboard">The bitboard.</param>
         /// <returns>The detailed material evaluation result.</returns>
-        public MaterialData CalculateDetailed(BitBoard bitBoard)
+        public MaterialData CalculateDetailed(Bitboard bitboard)
         {
             return new MaterialData
             {
-                WhiteMaterial = GetMaterialValue(Color.White, bitBoard),
-                BlackMaterial = GetMaterialValue(Color.Black, bitBoard)
+                WhiteMaterial = GetMaterialValue(Color.White, bitboard),
+                BlackMaterial = GetMaterialValue(Color.Black, bitboard)
             };
         }
 
@@ -48,15 +48,15 @@ namespace Proxima.Core.Evaluation.Material
         /// multiplying them by the specified ratio.
         /// </summary>
         /// <param name="color">The player color.</param>
-        /// <param name="bitBoard">The bitboard.</param>
+        /// <param name="bitboard">The bitboard.</param>
         /// <returns>The material evaluation result for the specified player.</returns>
-        private int GetMaterialValue(Color color, BitBoard bitBoard)
+        private int GetMaterialValue(Color color, Bitboard bitboard)
         {
             var material = 0;
 
             for (int piece = 0; piece < 6; piece++)
             {
-                var piecesToParse = bitBoard.Pieces[FastArray.GetPieceIndex(color, (PieceType)piece)];
+                var piecesToParse = bitboard.Pieces[FastArray.GetPieceIndex(color, (PieceType)piece)];
                 var piecesCount = BitOperations.Count(piecesToParse);
                 
                 material += piecesCount * MaterialValues.PieceValues[piece];

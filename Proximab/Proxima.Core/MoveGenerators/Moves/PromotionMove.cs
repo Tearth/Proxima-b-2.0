@@ -30,15 +30,15 @@ namespace Proxima.Core.MoveGenerators.Moves
             PromotionPiece = promotionPiece;
         }
 
-        public override void CalculateMove(BitBoard bitBoard)
+        public override void CalculateMove(Bitboard bitboard)
         {
             var from = BitPositionConverter.ToULong(From);
             var to = BitPositionConverter.ToULong(To);
 
-            CalculatePieceMove(bitBoard, Piece, from, PromotionPiece, to);
+            CalculatePieceMove(bitboard, Piece, from, PromotionPiece, to);
 
-            bitBoard.IncEvaluation.Material = IncrementalMaterial.RemovePiece(bitBoard.IncEvaluation.Material, Piece, Color);
-            bitBoard.IncEvaluation.Material = IncrementalMaterial.AddPiece(bitBoard.IncEvaluation.Material, PromotionPiece, Color);
+            bitboard.IncEvaluation.Material = IncrementalMaterial.RemovePiece(bitboard.IncEvaluation.Material, Piece, Color);
+            bitboard.IncEvaluation.Material = IncrementalMaterial.AddPiece(bitboard.IncEvaluation.Material, PromotionPiece, Color);
         }
     }
 }

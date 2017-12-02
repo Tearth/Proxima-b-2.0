@@ -28,26 +28,26 @@ namespace Proxima.Core.MoveGenerators.Moves
         {
         }
 
-        public override void CalculateMove(BitBoard bitBoard)
+        public override void CalculateMove(Bitboard bitboard)
         {
             var from = BitPositionConverter.ToULong(From);
             var to = BitPositionConverter.ToULong(To);
             var enemyColor = ColorOperations.Invert(Color);
 
-            RemoveEnPassantPiece(bitBoard, enemyColor, to);
-            CalculatePieceMove(bitBoard, from, to);
+            RemoveEnPassantPiece(bitboard, enemyColor, to);
+            CalculatePieceMove(bitboard, from, to);
         }
 
-        private void RemoveEnPassantPiece(BitBoard bitBoard, Color enemyColor, ulong fieldLSB)
+        private void RemoveEnPassantPiece(Bitboard bitboard, Color enemyColor, ulong fieldLSB)
         {
             var enPassantPiece = Color == Color.White ? fieldLSB >> 8 : fieldLSB << 8;
 
-            bitBoard.Pieces[FastArray.GetPieceIndex(enemyColor, PieceType.Pawn)] &= ~enPassantPiece;
-            bitBoard.Occupancy[(int)enemyColor] ^= enPassantPiece;
+            bitboard.Pieces[FastArray.GetPieceIndex(enemyColor, PieceType.Pawn)] &= ~enPassantPiece;
+            bitboard.Occupancy[(int)enemyColor] ^= enPassantPiece;
 
-            bitBoard.IncEvaluation.Material = IncrementalMaterial.RemovePiece(bitBoard.IncEvaluation.Material, PieceType.Pawn, enemyColor);
-            bitBoard.IncEvaluation.Position = IncrementalPosition.RemovePiece(bitBoard.IncEvaluation.Position, enemyColor, PieceType.Pawn, enPassantPiece, GamePhase.Regular);
-            bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, enemyColor, PieceType.Pawn, enPassantPiece);
+            bitboard.IncEvaluation.Material = IncrementalMaterial.RemovePiece(bitboard.IncEvaluation.Material, PieceType.Pawn, enemyColor);
+            bitboard.IncEvaluation.Position = IncrementalPosition.RemovePiece(bitboard.IncEvaluation.Position, enemyColor, PieceType.Pawn, enPassantPiece, GamePhase.Regular);
+            bitboard.Hash = IncrementalZobrist.AddOrRemovePiece(bitboard.Hash, enemyColor, PieceType.Pawn, enPassantPiece);
         }
     }
 }

@@ -21,12 +21,12 @@ namespace Proxima.Core.Evaluation.PawnStructure.Doubled
         /// on the same files.
         /// </summary>
         /// <param name="color">The player color.</param>
-        /// <param name="bitBoard">The bitboard.</param>
+        /// <param name="bitboard">The bitboard.</param>
         /// <returns>The doubled pawns evaluation result for the specified player.</returns>
-        public int GetDoubledPawnsValue(Color color, BitBoard bitBoard)
+        public int GetDoubledPawnsValue(Color color, Bitboard bitboard)
         {
             var doubledPawns = 0;
-            var pawns = bitBoard.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];
+            var pawns = bitboard.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];
 
             for (int i = 0; i < 8; i++)
             {
@@ -42,7 +42,7 @@ namespace Proxima.Core.Evaluation.PawnStructure.Doubled
                 }
             }
 
-            return doubledPawns * PawnStructureValues.DoubledPawnsRatio[(int)bitBoard.GamePhase];
+            return doubledPawns * PawnStructureValues.DoubledPawnsRatio[(int)bitboard.GamePhase];
         }
     }
 }

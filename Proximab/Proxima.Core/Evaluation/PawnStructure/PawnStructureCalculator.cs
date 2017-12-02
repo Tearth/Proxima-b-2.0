@@ -30,18 +30,18 @@ namespace Proxima.Core.Evaluation.PawnStructure
         /// Calculates a pawn structure evaluation result.
         /// </summary>
         /// <param name="gamePhase">The game phase.</param>
-        /// <param name="bitBoard">The bitboard.</param>
+        /// <param name="bitboard">The bitboard.</param>
         /// <returns>The pawn structure evaluation result.</returns>
-        public int Calculate(BitBoard bitBoard)
+        public int Calculate(Bitboard bitboard)
         {
-            var whiteDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.White, bitBoard);
-            var blackDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.Black, bitBoard);
+            var whiteDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.White, bitboard);
+            var blackDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.Black, bitboard);
 
-            var whiteIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.White, bitBoard);
-            var blackIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.Black, bitBoard);
+            var whiteIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.White, bitboard);
+            var blackIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.Black, bitboard);
 
-            var whitePawnChains = _pawnChainCalculator.GetChainValue(Color.White, bitBoard);
-            var blackPawnChains = _pawnChainCalculator.GetChainValue(Color.Black, bitBoard);
+            var whitePawnChains = _pawnChainCalculator.GetChainValue(Color.White, bitboard);
+            var blackPawnChains = _pawnChainCalculator.GetChainValue(Color.Black, bitboard);
 
             return (whiteDoubledPawns - blackDoubledPawns) +
                    (whiteIsolatedPawns - blackIsolatedPawns) +
@@ -52,20 +52,20 @@ namespace Proxima.Core.Evaluation.PawnStructure
         /// Calculates a detailed pawn structure evaluation result.
         /// </summary>
         /// <param name="gamePhase">The game phase.</param>
-        /// <param name="bitBoard">The bitboard.</param>
+        /// <param name="bitboard">The bitboard.</param>
         /// <returns>The detailed pawn structure evaluation result.</returns>
-        public PawnStructureData CalculateDetailed(BitBoard bitBoard)
+        public PawnStructureData CalculateDetailed(Bitboard bitboard)
         {
             return new PawnStructureData()
             {
-                WhiteDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.White, bitBoard),
-                BlackDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.Black, bitBoard),
+                WhiteDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.White, bitboard),
+                BlackDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(Color.Black, bitboard),
 
-                WhiteIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.White, bitBoard),
-                BlackIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.Black, bitBoard),
+                WhiteIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.White, bitboard),
+                BlackIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(Color.Black, bitboard),
 
-                WhitePawnChain = _pawnChainCalculator.GetChainValue(Color.White, bitBoard),
-                BlackPawnChain = _pawnChainCalculator.GetChainValue(Color.Black, bitBoard),
+                WhitePawnChain = _pawnChainCalculator.GetChainValue(Color.White, bitboard),
+                BlackPawnChain = _pawnChainCalculator.GetChainValue(Color.Black, bitboard),
             };
         }
     }

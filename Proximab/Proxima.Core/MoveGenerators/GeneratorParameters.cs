@@ -5,7 +5,7 @@ namespace Proxima.Core.MoveGenerators
 {
     public class GeneratorParameters
     {
-        public BitBoard BitBoard { get; set; }
+        public Bitboard Bitboard { get; set; }
 
         public Color FriendlyColor { get; set; }
         public Color EnemyColor { get; set; }

@@ -21,12 +21,12 @@ namespace Proxima.Core.Boards.Friendly
             EnPassant = new FriendlyEnPassant();
         }
 
-        public FriendlyBoard(BitBoard bitBoard)
+        public FriendlyBoard(Bitboard bitboard)
         {
-            Pieces = new FriendlyPiecesList(bitBoard.Pieces);
-            Attacks = new FriendlyAttacksList(bitBoard.Attacks, Pieces);
-            Castling = new FriendlyCastling(bitBoard.CastlingPossibility, bitBoard.CastlingDone);
-            EnPassant = new FriendlyEnPassant(bitBoard.EnPassant);
+            Pieces = new FriendlyPiecesList(bitboard.Pieces);
+            Attacks = new FriendlyAttacksList(bitboard.Attacks, Pieces);
+            Castling = new FriendlyCastling(bitboard.CastlingPossibility, bitboard.CastlingDone);
+            EnPassant = new FriendlyEnPassant(bitboard.EnPassant);
         }
 
         public FriendlyBoard(FriendlyPiecesList pieces, FriendlyCastling castling, FriendlyEnPassant enPassant)

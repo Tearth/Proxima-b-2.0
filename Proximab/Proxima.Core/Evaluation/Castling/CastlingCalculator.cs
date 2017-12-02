@@ -17,12 +17,12 @@ namespace Proxima.Core.Evaluation.Castling
         /// Calculates a castling evaluation result based on done (or not) castling.
         /// </summary>
         /// <param name="gamePhase">The game phase.</param>
-        /// <param name="bitBoard">The bitboard.</param>
+        /// <param name="bitboard">The bitboard.</param>
         /// <returns>The castling evaluation result.</returns>
-        public int Calculate(BitBoard bitBoard)
+        public int Calculate(Bitboard bitboard)
         {
-            var whiteCastling = GetCastlingValue(Color.White, bitBoard);
-            var blackCastling = GetCastlingValue(Color.Black, bitBoard);
+            var whiteCastling = GetCastlingValue(Color.White, bitboard);
+            var blackCastling = GetCastlingValue(Color.Black, bitboard);
 
             return whiteCastling - blackCastling;
         }
@@ -31,22 +31,22 @@ namespace Proxima.Core.Evaluation.Castling
         /// Calculates a detailed castling evaluation result based on done (or not) castling.
         /// </summary>
         /// <param name="gamePhase">THe game phase.</param>
-        /// <param name="bitBoard">The bitboard.</param>
+        /// <param name="bitboard">The bitboard.</param>
         /// <returns>The detailed (separately for white and black player) castling evaluation result.</returns>
-        public CastlingData CalculateDetailed(BitBoard bitBoard)
+        public CastlingData CalculateDetailed(Bitboard bitboard)
         {
             return new CastlingData()
             {
-                WhiteCastling = GetCastlingValue(Color.White, bitBoard),
-                BlackCastling = GetCastlingValue(Color.Black, bitBoard)
+                WhiteCastling = GetCastlingValue(Color.White, bitboard),
+                BlackCastling = GetCastlingValue(Color.Black, bitboard)
             };
         }
 
-        private int GetCastlingValue(Color color, BitBoard bitBoard)
+        private int GetCastlingValue(Color color, Bitboard bitboard)
         {
-            if (bitBoard.CastlingDone[(int)color])
+            if (bitboard.CastlingDone[(int)color])
             {
-                return CastlingValues.Ratio[(int)bitBoard.GamePhase];
+                return CastlingValues.Ratio[(int)bitboard.GamePhase];
             }
 
             return 0;

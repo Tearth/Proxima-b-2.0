@@ -12,7 +12,7 @@ using Proxima.Core.MoveGenerators.Moves;
 
 namespace Proxima.Core.Boards
 {
-    public class BitBoard
+    public class Bitboard
     {
         public ulong Hash { get; set; }
         public GamePhase GamePhase { get; set; }
@@ -30,7 +30,7 @@ namespace Proxima.Core.Boards
         public LinkedList<Move> Moves { get; private set; }
         public IncrementalEvaluationData IncEvaluation { get; private set; }
 
-        public BitBoard()
+        public Bitboard()
         {
             Pieces = new ulong[12];
             Occupancy = new ulong[2];
@@ -45,22 +45,22 @@ namespace Proxima.Core.Boards
             Moves = new LinkedList<Move>();
         }
 
-        public BitBoard(BitBoard bitBoard, Move move) : this()
+        public Bitboard(Bitboard bitboard, Move move) : this()
         {
-            Hash = bitBoard.Hash;
-            Hash = IncrementalZobrist.ClearEnPassant(Hash, ColorOperations.Invert(move.Color), bitBoard.EnPassant);
+            Hash = bitboard.Hash;
+            Hash = IncrementalZobrist.ClearEnPassant(Hash, ColorOperations.Invert(move.Color), bitboard.EnPassant);
 
-            Buffer.BlockCopy(bitBoard.Pieces, 0, Pieces, 0, bitBoard.Pieces.Length * sizeof(ulong));
-            Buffer.BlockCopy(bitBoard.CastlingPossibility, 0, CastlingPossibility, 0, bitBoard.CastlingPossibility.Length * sizeof(bool));
-            Buffer.BlockCopy(bitBoard.CastlingDone, 0, CastlingDone, 0, bitBoard.CastlingDone.Length * sizeof(bool));
-            Buffer.BlockCopy(bitBoard.Occupancy, 0, Occupancy, 0, bitBoard.Occupancy.Length * sizeof(ulong));
+            Buffer.BlockCopy(bitboard.Pieces, 0, Pieces, 0, bitboard.Pieces.Length * sizeof(ulong));
+            Buffer.BlockCopy(bitboard.CastlingPossibility, 0, CastlingPossibility, 0, bitboard.CastlingPossibility.Length * sizeof(bool));
+            Buffer.BlockCopy(bitboard.CastlingDone, 0, CastlingDone, 0, bitboard.CastlingDone.Length * sizeof(bool));
+            Buffer.BlockCopy(bitboard.Occupancy, 0, Occupancy, 0, bitboard.Occupancy.Length * sizeof(ulong));
 
-            IncEvaluation = new IncrementalEvaluationData(bitBoard.IncEvaluation);
+            IncEvaluation = new IncrementalEvaluationData(bitboard.IncEvaluation);
 
             move.Do(this);
         }
 
-        public BitBoard(FriendlyBoard friendlyBoard) : this()
+        public Bitboard(FriendlyBoard friendlyBoard) : this()
         {
             Pieces = friendlyBoard.GetPiecesArray();
             CastlingPossibility = friendlyBoard.GetCastlingPossibilityArray();
@@ -73,9 +73,9 @@ namespace Proxima.Core.Boards
             Hash = GetNewHash();
         }
 
-        public BitBoard Move(Move move)
+        public Bitboard Move(Move move)
         {
-            return new BitBoard(this, move);
+            return new Bitboard(this, move);
         }
 
         public bool IsCheck(Color color)
@@ -175,7 +175,7 @@ namespace Proxima.Core.Boards
         {
             return new GeneratorParameters()
             {
-                BitBoard = this,
+                Bitboard = this,
 
                 FriendlyColor = color,
                 EnemyColor = ColorOperations.Invert(color),

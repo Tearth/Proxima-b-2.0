@@ -26,7 +26,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
         /// <param name="commandsManager">The commands manager instance.</param>
         public EditorGameMode(ConsoleManager consoleManager, CommandsManager commandsManager) : base(consoleManager, commandsManager)
         {
-            CalculateBitBoard(new DefaultFriendlyBoard());
+            CalculateBitboard(new DefaultFriendlyBoard());
             
             VisualBoard.OnFieldSelection += Board_OnFieldSelection;
             VisualBoard.OnPieceMove += Board_OnPieceMove;
@@ -61,7 +61,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
             else
             {
-                var movesForPiece = BitBoard.Moves
+                var movesForPiece = Bitboard.Moves
                     .Where(p => p.From == e.Position)
                     .Select(p => p.To)
                     .ToList();
@@ -77,20 +77,20 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
         /// <param name="e">The event arguments.</param>
         private void Board_OnPieceMove(object sender, PieceMovedEventArgs e)
         {
-            var move = BitBoard.Moves.FirstOrDefault(p => p.From == e.From && p.To == e.To);
+            var move = Bitboard.Moves.FirstOrDefault(p => p.From == e.From && p.To == e.To);
 
             if (move == null)
             {
-                CalculateBitBoard(new QuietMove(e.From, e.To, e.Piece.Type, e.Piece.Color));
+                CalculateBitboard(new QuietMove(e.From, e.To, e.Piece.Type, e.Piece.Color));
             }
             else if (move is PromotionMove promotionMove)
             {
-                var promotionMoves = BitBoard.Moves.Where(p => p.From == move.From && p is PromotionMove).Cast<PromotionMove>();
+                var promotionMoves = Bitboard.Moves.Where(p => p.From == move.From && p is PromotionMove).Cast<PromotionMove>();
                 PromotionWindow.Display(move.Color, promotionMoves);
             }
             else
             {
-                CalculateBitBoard(move);
+                CalculateBitboard(move);
             }
         }
 
@@ -101,7 +101,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
         /// <param name="e">The event arguments.</param>
         private void PromotionWindow_OnPromotionSelection(object sender, PromotionSelectedEventArgs e)
         {
-            CalculateBitBoard(e.Move);
+            CalculateBitboard(e.Move);
             PromotionWindow.Hide();
         }
 
@@ -137,7 +137,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
 
             VisualBoard.FriendlyBoard.SetPiece(new FriendlyPiece(fieldPosition, piece, color));
-            CalculateBitBoard(VisualBoard.FriendlyBoard);
+            CalculateBitboard(VisualBoard.FriendlyBoard);
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
 
             VisualBoard.FriendlyBoard.RemovePiece(fieldPosition);
-            CalculateBitBoard(VisualBoard.FriendlyBoard);
+            CalculateBitboard(VisualBoard.FriendlyBoard);
         }
 
         /// <summary>

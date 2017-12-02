@@ -36,7 +36,7 @@ namespace Proxima.Core.MoveGenerators.Moves
             CastlingType = castlingType;
         }
 
-        public override void CalculateMove(BitBoard bitBoard)
+        public override void CalculateMove(Bitboard bitboard)
         {
             var from = BitPositionConverter.ToULong(From);
             var to = BitPositionConverter.ToULong(To);
@@ -63,21 +63,21 @@ namespace Proxima.Core.MoveGenerators.Moves
                 }
             }
 
-            CalculatePieceMove(bitBoard, from, to);
-            CalculatePieceMove(bitBoard, PieceType.Rook, rookFrom, rookTo);
-            RemoveCastlingPossibility(bitBoard);
+            CalculatePieceMove(bitboard, from, to);
+            CalculatePieceMove(bitboard, PieceType.Rook, rookFrom, rookTo);
+            RemoveCastlingPossibility(bitboard);
         }
 
-        private void RemoveCastlingPossibility(BitBoard bitBoard)
+        private void RemoveCastlingPossibility(Bitboard bitboard)
         {
-            bitBoard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitBoard.Hash, bitBoard.CastlingPossibility, Color, CastlingType.Short);
-            bitBoard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitBoard.Hash, bitBoard.CastlingPossibility, Color, CastlingType.Long);
+            bitboard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitboard.Hash, bitboard.CastlingPossibility, Color, CastlingType.Short);
+            bitboard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitboard.Hash, bitboard.CastlingPossibility, Color, CastlingType.Long);
 
-            bitBoard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Short)] = false;
-            bitBoard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Long)] = false;
-            bitBoard.IncEvaluation.Castling = IncrementalCastling.SetCastlingDone(bitBoard.IncEvaluation.Castling, Color, GamePhase.Regular);
+            bitboard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Short)] = false;
+            bitboard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Long)] = false;
+            bitboard.IncEvaluation.Castling = IncrementalCastling.SetCastlingDone(bitboard.IncEvaluation.Castling, Color, GamePhase.Regular);
 
-            bitBoard.CastlingDone[(int)Color] = true;
+            bitboard.CastlingDone[(int)Color] = true;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Proxima.Core.MoveGenerators
 
         public static void Calculate(GeneratorParameters opt)
         {
-            var piecesToParse = opt.BitBoard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.King)];
+            var piecesToParse = opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.King)];
 
             while (piecesToParse != 0)
             {
@@ -41,18 +41,18 @@ namespace Proxima.Core.MoveGenerators
 
                         if ((patternLSB & opt.EnemyOccupancy) == 0)
                         {
-                            opt.BitBoard.Moves.AddLast(new QuietMove(piecePosition, to, PieceType.King, opt.FriendlyColor));
+                            opt.Bitboard.Moves.AddLast(new QuietMove(piecePosition, to, PieceType.King, opt.FriendlyColor));
                         }
                         else
                         {
-                            opt.BitBoard.Moves.AddLast(new KillMove(piecePosition, to, PieceType.King, opt.FriendlyColor));
+                            opt.Bitboard.Moves.AddLast(new KillMove(piecePosition, to, PieceType.King, opt.FriendlyColor));
                         }
                     }
 
                     if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
                     {
-                        opt.BitBoard.Attacks[patternIndex] |= pieceLSB;
-                        opt.BitBoard.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
+                        opt.Bitboard.Attacks[patternIndex] |= pieceLSB;
+                        opt.Bitboard.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
                     }
                 }
             }
@@ -90,7 +90,7 @@ namespace Proxima.Core.MoveGenerators
                 var kingDestinationPosition = kingPosition + new Position(2, 0);
                 var move = new CastlingMove(kingPosition, kingDestinationPosition, PieceType.King, opt.FriendlyColor, CastlingType.Short);
 
-                opt.BitBoard.Moves.AddLast(move);
+                opt.Bitboard.Moves.AddLast(move);
             }
 
             if (IsCastlingPossible(CastlingType.Long, opt) &&
@@ -101,23 +101,23 @@ namespace Proxima.Core.MoveGenerators
                 var kingDestinationPosition = kingPosition - new Position(2, 0);
                 var move = new CastlingMove(kingPosition, kingDestinationPosition, PieceType.King, opt.FriendlyColor, CastlingType.Long);
 
-                opt.BitBoard.Moves.AddLast(move);
+                opt.Bitboard.Moves.AddLast(move);
             }
         }
 
         private static bool IsCastlingPossible(CastlingType type, GeneratorParameters opt)
         {
-            return opt.BitBoard.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)];
+            return opt.Bitboard.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)];
         }
 
         private static bool IsKingOnPosition(ulong kingLSB, GeneratorParameters opt)
         {
-            return (opt.BitBoard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.King)] & kingLSB) != 0;
+            return (opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.King)] & kingLSB) != 0;
         }
 
         private static bool IsRookOnPosition(ulong rookLSB, GeneratorParameters opt)
         {
-            return (opt.BitBoard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Rook)] & rookLSB) != 0;
+            return (opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Rook)] & rookLSB) != 0;
         }
 
         private static bool IsCastlingAreaEmpty(ulong areaToCheck, ulong occupancy)
@@ -127,7 +127,7 @@ namespace Proxima.Core.MoveGenerators
 
         private static bool IsCastlingAreaChecked(Color enemyColor, ulong areaToCheck, GeneratorParameters opt)
         {
-            return (opt.BitBoard.AttacksSummary[(int)enemyColor] & areaToCheck) != 0;
+            return (opt.Bitboard.AttacksSummary[(int)enemyColor] & areaToCheck) != 0;
         }
     }
 }

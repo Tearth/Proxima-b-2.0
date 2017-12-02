@@ -30,7 +30,7 @@ namespace Proxima.Helpers.Tests
             var stopwatch = new Stopwatch();
 
             stopwatch.Start();
-            CalculateBitBoard(_initialColor, new BitBoard(friendlyBoard), depth, calculateEndNodes, verifyIntegrity, testData);
+            CalculateBitboard(_initialColor, new Bitboard(friendlyBoard), depth, calculateEndNodes, verifyIntegrity, testData);
             testData.Ticks = stopwatch.Elapsed.Ticks;
 
             return testData;
@@ -38,30 +38,30 @@ namespace Proxima.Helpers.Tests
 
         /// <summary>
         /// Recursive method for calculating bitboard. If depth is equal or less than zero, then
-        /// current node is the last and next CalculateBitBoard call will not be executed.
+        /// current node is the last and next CalculateBitboard call will not be executed.
         /// </summary>
         /// <param name="color">Color of the current player.</param>
-        /// <param name="bitBoard">Curently calculated bitboard</param>
+        /// <param name="bitboard">Curently calculated bitboard</param>
         /// <param name="depth">Current depth</param>
         /// <param name="calculateEndNodes">If true, every end node will calculate attacks and evaluation function.</param>
         /// <param name="verifyIntegrity">If true, every board will be checked whether incremental-updating parameters are correctly calculated.</param>
         /// <param name="testData">Container for test data which will be returned when test is done.</param>
-        private void CalculateBitBoard(Color color, BitBoard bitBoard, int depth, bool calculateEndNodes, bool verifyIntegrity, MovesTestData testData)
+        private void CalculateBitboard(Color color, Bitboard bitboard, int depth, bool calculateEndNodes, bool verifyIntegrity, MovesTestData testData)
         {
-            if (verifyIntegrity && !bitBoard.VerifyIntegrity())
+            if (verifyIntegrity && !bitboard.VerifyIntegrity())
             {
                 testData.Integrity = false;
 
                 var boardWriter = new BoardWriter();
-                boardWriter.Write("Boards/error.board", new FriendlyBoard(bitBoard));
+                boardWriter.Write("Boards/error.board", new FriendlyBoard(bitboard));
             }
 
             if (depth <= 0)
             {
                 if (calculateEndNodes)
                 {
-                    bitBoard.Calculate(GeneratorMode.CalculateAttacks, GeneratorMode.CalculateAttacks);
-                    bitBoard.GetEvaluation();
+                    bitboard.Calculate(GeneratorMode.CalculateAttacks, GeneratorMode.CalculateAttacks);
+                    bitboard.GetEvaluation();
                 }
 
                 testData.EndNodes++;
@@ -72,17 +72,17 @@ namespace Proxima.Helpers.Tests
                 var whiteMode = GetGeneratorMode(color);
                 var blackMode = GetGeneratorMode(enemyColor);
 
-                bitBoard.Calculate(whiteMode, blackMode);
+                bitboard.Calculate(whiteMode, blackMode);
 
-                foreach (var move in bitBoard.Moves)
+                foreach (var move in bitboard.Moves)
                 {
-                    var bitBoardAfterMove = bitBoard.Move(move);
-                    if (bitBoardAfterMove.IsCheck(enemyColor))
+                    var bitboardAfterMove = bitboard.Move(move);
+                    if (bitboardAfterMove.IsCheck(enemyColor))
                     {
                         continue;
                     }
 
-                    CalculateBitBoard(enemyColor, bitBoardAfterMove, depth - 1, calculateEndNodes, verifyIntegrity, testData);
+                    CalculateBitboard(enemyColor, bitboardAfterMove, depth - 1, calculateEndNodes, verifyIntegrity, testData);
                 }
             }
 

@@ -52,7 +52,7 @@ namespace GUI.App.Source.GameModeSubsystem
         /// <summary>
         /// Gets or sets the bitboard.
         /// </summary>
-        protected BitBoard BitBoard { get; set; }
+        protected Bitboard Bitboard { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameModeBase"/> class.
@@ -133,20 +133,20 @@ namespace GUI.App.Source.GameModeSubsystem
         /// Applies friendly board to the bitboard and updates the visual board (generator mode is set to CalculateAttacks for both colors).
         /// </summary>
         /// <param name="friendlyBoard">The friendly board to apply.</param>
-        protected void CalculateBitBoard(FriendlyBoard friendlyBoard)
+        protected void CalculateBitboard(FriendlyBoard friendlyBoard)
         {
             var mode = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
-            CalculateBitBoard(friendlyBoard, mode, mode);
+            CalculateBitboard(friendlyBoard, mode, mode);
         }
 
         /// <summary>
         /// Applies move to the bitboard and updates the visual board (generator mode is set to CalculateAttacks for both colors).
         /// </summary>
         /// <param name="move">The move to apply.</param>
-        protected void CalculateBitBoard(Move move)
+        protected void CalculateBitboard(Move move)
         {
             var mode = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
-            CalculateBitBoard(move, mode, mode);
+            CalculateBitboard(move, mode, mode);
         }
 
         /// <summary>
@@ -155,12 +155,12 @@ namespace GUI.App.Source.GameModeSubsystem
         /// <param name="friendlyBoard">The friendly board to apply.</param>
         /// <param name="whiteMode">The white generator mode.</param>
         /// <param name="blackMode">The black generator mode.</param>
-        protected void CalculateBitBoard(FriendlyBoard friendlyBoard, GeneratorMode whiteMode, GeneratorMode blackMode)
+        protected void CalculateBitboard(FriendlyBoard friendlyBoard, GeneratorMode whiteMode, GeneratorMode blackMode)
         {
-            BitBoard = new BitBoard(friendlyBoard);
-            BitBoard.Calculate(whiteMode, blackMode);
+            Bitboard = new Bitboard(friendlyBoard);
+            Bitboard.Calculate(whiteMode, blackMode);
 
-            VisualBoard.FriendlyBoard = new FriendlyBoard(BitBoard);
+            VisualBoard.FriendlyBoard = new FriendlyBoard(Bitboard);
         }
 
         /// <summary>
@@ -169,12 +169,12 @@ namespace GUI.App.Source.GameModeSubsystem
         /// <param name="move">The move to apply.</param>
         /// <param name="whiteMode">The white generator mode.</param>
         /// <param name="blackMode">The black generator mode.</param>
-        protected void CalculateBitBoard(Move move, GeneratorMode whiteMode, GeneratorMode blackMode)
+        protected void CalculateBitboard(Move move, GeneratorMode whiteMode, GeneratorMode blackMode)
         {
-            BitBoard = BitBoard.Move(move);
-            BitBoard.Calculate(whiteMode, blackMode);
+            Bitboard = Bitboard.Move(move);
+            Bitboard.Calculate(whiteMode, blackMode);
 
-            VisualBoard.FriendlyBoard = new FriendlyBoard(BitBoard);
+            VisualBoard.FriendlyBoard = new FriendlyBoard(Bitboard);
         }
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace GUI.App.Source.GameModeSubsystem
                 return;
             }
 
-            CalculateBitBoard(boardReader.Read(path));
+            CalculateBitboard(boardReader.Read(path));
         }
 
         /// <summary>
@@ -274,8 +274,8 @@ namespace GUI.App.Source.GameModeSubsystem
         /// <param name="command">The passed command.</param>
         private void DisplayCheckStatus(Command command)
         {
-            var whiteCheck = BitBoard.IsCheck(Color.White);
-            var blackCheck = BitBoard.IsCheck(Color.Black);
+            var whiteCheck = Bitboard.IsCheck(Color.White);
+            var blackCheck = Bitboard.IsCheck(Color.Black);
 
             ConsoleManager.WriteLine($"$cWhite king checked: ${ColorfulConsoleHelpers.ParseBool(whiteCheck)}");
             ConsoleManager.WriteLine($"$cBlack king checked: ${ColorfulConsoleHelpers.ParseBool(blackCheck)}");
@@ -304,7 +304,7 @@ namespace GUI.App.Source.GameModeSubsystem
         /// <param name="command">The passed command.</param>
         private void DisplayEvaluation(Command command)
         {
-            var evaluation = BitBoard.GetDetailedEvaluation();
+            var evaluation = Bitboard.GetDetailedEvaluation();
 
             ConsoleManager.WriteLine($"$c\t\tWhite\tBlack");
             ConsoleManager.WriteLine($"$cMaterial:\t$w{evaluation.Material.WhiteMaterial}\t{evaluation.Material.BlackMaterial}");
@@ -326,7 +326,7 @@ namespace GUI.App.Source.GameModeSubsystem
         /// <param name="command">The passed command.</param>
         private void DisplayBoardHash(Command command)
         {
-            var trueHash = BitBoard.Hash.ToString();
+            var trueHash = Bitboard.Hash.ToString();
             ConsoleManager.WriteLine($"$c{trueHash}");
         }
     }

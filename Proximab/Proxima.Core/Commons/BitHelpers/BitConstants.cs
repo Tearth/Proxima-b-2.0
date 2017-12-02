@@ -23,7 +23,7 @@
         public const ulong GRank = 0x00FF000000000000ul;
         public const ulong HRank = 0xFF00000000000000ul;
 
-        public const ulong BitBoardWithoutEdges = ~AFile & ~HFile & ~ARank & ~HRank;
+        public const ulong BitboardWithoutEdges = ~AFile & ~HFile & ~ARank & ~HRank;
         public const ulong RightLeftEdge = AFile | HFile;
         public const ulong TopBottomEdge = ARank | HRank;
     }

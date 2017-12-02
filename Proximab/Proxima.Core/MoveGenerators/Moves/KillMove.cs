@@ -28,29 +28,29 @@ namespace Proxima.Core.MoveGenerators.Moves
         {
         }
 
-        public override void CalculateMove(BitBoard bitBoard)
+        public override void CalculateMove(Bitboard bitboard)
         {
             var from = BitPositionConverter.ToULong(From);
             var to = BitPositionConverter.ToULong(To);
             var enemyColor = ColorOperations.Invert(Color);
 
-            RemovePiece(bitBoard, enemyColor, to);
-            CalculatePieceMove(bitBoard, from, to);
+            RemovePiece(bitboard, enemyColor, to);
+            CalculatePieceMove(bitboard, from, to);
         }
 
-        private static void RemovePiece(BitBoard bitBoard, Color enemyColor, ulong fieldLSB)
+        private static void RemovePiece(Bitboard bitboard, Color enemyColor, ulong fieldLSB)
         {
             for (int piece = 0; piece < 6; piece++)
             {
                 var index = FastArray.GetPieceIndex(enemyColor, (PieceType)piece);
-                if ((bitBoard.Pieces[index] & fieldLSB) != 0)
+                if ((bitboard.Pieces[index] & fieldLSB) != 0)
                 {
-                    bitBoard.Pieces[index] &= ~fieldLSB;
-                    bitBoard.Occupancy[(int)enemyColor] &= ~fieldLSB;
+                    bitboard.Pieces[index] &= ~fieldLSB;
+                    bitboard.Occupancy[(int)enemyColor] &= ~fieldLSB;
 
-                    bitBoard.IncEvaluation.Material = IncrementalMaterial.RemovePiece(bitBoard.IncEvaluation.Material, (PieceType)piece, enemyColor);
-                    bitBoard.IncEvaluation.Position = IncrementalPosition.RemovePiece(bitBoard.IncEvaluation.Position, enemyColor, (PieceType)piece, fieldLSB, GamePhase.Regular);
-                    bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, enemyColor, (PieceType)piece, fieldLSB);
+                    bitboard.IncEvaluation.Material = IncrementalMaterial.RemovePiece(bitboard.IncEvaluation.Material, (PieceType)piece, enemyColor);
+                    bitboard.IncEvaluation.Position = IncrementalPosition.RemovePiece(bitboard.IncEvaluation.Position, enemyColor, (PieceType)piece, fieldLSB, GamePhase.Regular);
+                    bitboard.Hash = IncrementalZobrist.AddOrRemovePiece(bitboard.Hash, enemyColor, (PieceType)piece, fieldLSB);
 
                     break;
                 }

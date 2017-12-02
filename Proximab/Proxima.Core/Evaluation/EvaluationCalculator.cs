@@ -24,19 +24,19 @@ namespace Proxima.Core.Evaluation
         /// <summary>
         /// Evaluates the specified bitboard (without any details, returns just simple number).
         /// </summary>
-        /// <param name="bitBoard">The bitboard to evaluate.</param>
+        /// <param name="bitboard">The bitboard to evaluate.</param>
         /// <returns>The bitboard evaluation result.</returns>
-        public static int GetEvaluation(BitBoard bitBoard)
+        public static int GetEvaluation(Bitboard bitboard)
         {
             // Temporary
             var gamePhase = GamePhase.Regular;
 
-            var material = bitBoard.IncEvaluation.Material;
-            var mobility = _mobility.Calculate(bitBoard);
-            var castling = bitBoard.IncEvaluation.Castling;
-            var position = bitBoard.IncEvaluation.Position;
-            var pawnStructure = _pawnStructure.Calculate(bitBoard);
-            var kingSafety = _kingSafety.Calculate(bitBoard);
+            var material = bitboard.IncEvaluation.Material;
+            var mobility = _mobility.Calculate(bitboard);
+            var castling = bitboard.IncEvaluation.Castling;
+            var position = bitboard.IncEvaluation.Position;
+            var pawnStructure = _pawnStructure.Calculate(bitboard);
+            var kingSafety = _kingSafety.Calculate(bitboard);
 
             return material + mobility + castling + position + pawnStructure + kingSafety;
         }
@@ -44,18 +44,18 @@ namespace Proxima.Core.Evaluation
         /// <summary>
         /// Evaluates the specified bitboard with details (only for debugging, too slow for AI).
         /// </summary>
-        /// <param name="bitBoard">The bitboard to evaluate.</param>
+        /// <param name="bitboard">The bitboard to evaluate.</param>
         /// <returns>The detailed bitboard evaluation result.</returns>
-        public static DetailedEvaluationData GetDetailedEvaluation(BitBoard bitBoard)
+        public static DetailedEvaluationData GetDetailedEvaluation(Bitboard bitboard)
         {
             return new DetailedEvaluationData()
             {
-                Material = _material.CalculateDetailed(bitBoard),
-                Mobility = _mobility.CalculateDetailed(bitBoard),
-                Castling = _castling.CalculateDetailed(bitBoard),
-                Position = _position.CalculateDetailed(bitBoard),
-                PawnStructure = _pawnStructure.CalculateDetailed(bitBoard),
-                KingSafety = _kingSafety.CalculateDetailed(bitBoard)
+                Material = _material.CalculateDetailed(bitboard),
+                Mobility = _mobility.CalculateDetailed(bitboard),
+                Castling = _castling.CalculateDetailed(bitboard),
+                Position = _position.CalculateDetailed(bitboard),
+                PawnStructure = _pawnStructure.CalculateDetailed(bitboard),
+                KingSafety = _kingSafety.CalculateDetailed(bitboard)
             };
         }
     }

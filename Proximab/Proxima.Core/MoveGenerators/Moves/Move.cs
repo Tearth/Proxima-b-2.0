@@ -61,61 +61,61 @@ namespace Proxima.Core.MoveGenerators.Moves
             return From.IsValid() && To.IsValid();
         }
 
-        public void Do(BitBoard bitBoard)
+        public void Do(Bitboard bitboard)
         {
-            CalculateMove(bitBoard);
-            CalculateCastling(bitBoard);
+            CalculateMove(bitboard);
+            CalculateCastling(bitboard);
         }
 
-        public abstract void CalculateMove(BitBoard bitBoard);
+        public abstract void CalculateMove(Bitboard bitboard);
 
-        protected void CalculatePieceMove(BitBoard bitBoard, ulong from, ulong to)
+        protected void CalculatePieceMove(Bitboard bitboard, ulong from, ulong to)
         {
-            CalculatePieceMove(bitBoard, Piece, from, Piece, to);
+            CalculatePieceMove(bitboard, Piece, from, Piece, to);
         }
 
-        protected void CalculatePieceMove(BitBoard bitBoard, PieceType pieceType, ulong from, ulong to)
+        protected void CalculatePieceMove(Bitboard bitboard, PieceType pieceType, ulong from, ulong to)
         {
-            CalculatePieceMove(bitBoard, pieceType, from, pieceType, to);
+            CalculatePieceMove(bitboard, pieceType, from, pieceType, to);
         }
 
-        protected void CalculatePieceMove(BitBoard bitBoard, PieceType pieceFrom, ulong from, PieceType pieceTo, ulong to)
+        protected void CalculatePieceMove(Bitboard bitboard, PieceType pieceFrom, ulong from, PieceType pieceTo, ulong to)
         {
-            bitBoard.Pieces[FastArray.GetPieceIndex(Color, pieceFrom)] &= ~from;
-            bitBoard.Pieces[FastArray.GetPieceIndex(Color, pieceTo)] |= to;
-            bitBoard.Occupancy[(int)Color] ^= from | to;
+            bitboard.Pieces[FastArray.GetPieceIndex(Color, pieceFrom)] &= ~from;
+            bitboard.Pieces[FastArray.GetPieceIndex(Color, pieceTo)] |= to;
+            bitboard.Occupancy[(int)Color] ^= from | to;
 
-            bitBoard.IncEvaluation.Position = IncrementalPosition.RemovePiece(bitBoard.IncEvaluation.Position, Color, pieceFrom, from, GamePhase.Regular);
-            bitBoard.IncEvaluation.Position = IncrementalPosition.AddPiece(bitBoard.IncEvaluation.Position, Color, pieceTo, to, GamePhase.Regular);
+            bitboard.IncEvaluation.Position = IncrementalPosition.RemovePiece(bitboard.IncEvaluation.Position, Color, pieceFrom, from, GamePhase.Regular);
+            bitboard.IncEvaluation.Position = IncrementalPosition.AddPiece(bitboard.IncEvaluation.Position, Color, pieceTo, to, GamePhase.Regular);
 
-            bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, pieceFrom, from);
-            bitBoard.Hash = IncrementalZobrist.AddOrRemovePiece(bitBoard.Hash, Color, pieceTo, to);
+            bitboard.Hash = IncrementalZobrist.AddOrRemovePiece(bitboard.Hash, Color, pieceFrom, from);
+            bitboard.Hash = IncrementalZobrist.AddOrRemovePiece(bitboard.Hash, Color, pieceTo, to);
         }
 
-        private void CalculateCastling(BitBoard bitBoard)
+        private void CalculateCastling(Bitboard bitboard)
         {
             if (Piece == PieceType.King)
             {
                 var shortCastlingIndex = FastArray.GetCastlingIndex(Color, CastlingType.Short);
                 var longCastlingIndex = FastArray.GetCastlingIndex(Color, CastlingType.Long);
 
-                bitBoard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitBoard.Hash, bitBoard.CastlingPossibility, Color, CastlingType.Short);
-                bitBoard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitBoard.Hash, bitBoard.CastlingPossibility, Color, CastlingType.Long);
+                bitboard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitboard.Hash, bitboard.CastlingPossibility, Color, CastlingType.Short);
+                bitboard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitboard.Hash, bitboard.CastlingPossibility, Color, CastlingType.Long);
 
-                bitBoard.CastlingPossibility[shortCastlingIndex] = false;
-                bitBoard.CastlingPossibility[longCastlingIndex] = false;
+                bitboard.CastlingPossibility[shortCastlingIndex] = false;
+                bitboard.CastlingPossibility[longCastlingIndex] = false;
             }
             else if (Piece == PieceType.Rook)
             {
                 if (From == new Position(1, 1) || From == new Position(1, 8))
                 {
-                    bitBoard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitBoard.Hash, bitBoard.CastlingPossibility, Color, CastlingType.Long);
-                    bitBoard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Long)] = false;
+                    bitboard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitboard.Hash, bitboard.CastlingPossibility, Color, CastlingType.Long);
+                    bitboard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Long)] = false;
                 }
                 else if (From == new Position(8, 1) || From == new Position(8, 8))
                 {
-                    bitBoard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitBoard.Hash, bitBoard.CastlingPossibility, Color, CastlingType.Short);
-                    bitBoard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Short)] = false;
+                    bitboard.Hash = IncrementalZobrist.RemoveCastlingPossibility(bitboard.Hash, bitboard.CastlingPossibility, Color, CastlingType.Short);
+                    bitboard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Short)] = false;
                 }
             }
         }
