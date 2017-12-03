@@ -15,13 +15,11 @@ namespace Proxima.Core.Evaluation.Position
         /// <summary>
         /// Calculates a new position evaluation result based on the value of the new piece and its position.
         /// </summary>
-        /// <param name="position">The current position evaluation result.</param>
+        /// <param name="bitboard">The bitboard.</param>
         /// <param name="color">The piece color.</param>
         /// <param name="pieceType">The piece type.</param>
         /// <param name="piece">The piece bit.</param>
-        /// <param name="gamePhase">The current game phase.</param>
-        /// <returns>The updated position evaluation result.</returns>
-        public static void AddPiece(Color color, PieceType pieceType, ulong piece, Bitboard bitboard)
+        public static void AddPiece(Bitboard bitboard, Color color, PieceType pieceType, ulong piece)
         {
             var pieceIndex = BitOperations.GetBitIndex(piece);
             var array = PositionValues.GetValues(color, pieceType);
@@ -46,12 +44,11 @@ namespace Proxima.Core.Evaluation.Position
         /// <summary>
         /// Calculates a new position evaluation result based on the value of the removed piece and its position.
         /// </summary>
-        /// <param name="position">The current position evaluation result.</param>
+        /// <param name="bitboard">The bitboard.</param>
         /// <param name="color">The piece color.</param>
         /// <param name="pieceType">The piece type.</param>
         /// <param name="piece">The piece bit.</param>
-        /// <returns>The updated position evaluation result.</returns>
-        public static void RemovePiece(Color color, PieceType pieceType, ulong piece, Bitboard bitboard)
+        public static void RemovePiece(Bitboard bitboard, Color color, PieceType pieceType, ulong piece)
         {
             var pieceIndex = BitOperations.GetBitIndex(piece);
             var array = PositionValues.GetValues(color, pieceType);

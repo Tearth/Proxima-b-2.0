@@ -23,8 +23,8 @@ namespace Proxima.Core.Evaluation.Material
         /// <returns>The material evaluation result.</returns>
         public int Calculate(Bitboard bitboard)
         {
-            var whiteMaterial = GetMaterialValue(Color.White, bitboard);
-            var blackMaterial = GetMaterialValue(Color.Black, bitboard);
+            var whiteMaterial = GetMaterialValue(bitboard, Color.White);
+            var blackMaterial = GetMaterialValue(bitboard, Color.Black);
 
             return whiteMaterial - blackMaterial;
         }
@@ -38,8 +38,8 @@ namespace Proxima.Core.Evaluation.Material
         {
             return new MaterialData
             {
-                WhiteMaterial = GetMaterialValue(Color.White, bitboard),
-                BlackMaterial = GetMaterialValue(Color.Black, bitboard)
+                WhiteMaterial = GetMaterialValue(bitboard, Color.White),
+                BlackMaterial = GetMaterialValue(bitboard, Color.Black)
             };
         }
 
@@ -47,10 +47,10 @@ namespace Proxima.Core.Evaluation.Material
         /// Calculates a material evaluation result for the specified player by adding all piece values and
         /// multiplying them by the specified ratio.
         /// </summary>
-        /// <param name="color">The player color.</param>
         /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The player color.</param>
         /// <returns>The material evaluation result for the specified player.</returns>
-        private int GetMaterialValue(Color color, Bitboard bitboard)
+        private int GetMaterialValue(Bitboard bitboard, Color color)
         {
             var material = 0;
 

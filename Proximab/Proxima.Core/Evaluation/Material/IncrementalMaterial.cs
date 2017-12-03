@@ -13,11 +13,10 @@ namespace Proxima.Core.Evaluation.Material
         /// <summary>
         /// Calculates a new material evaluation result based on the value of the new piece.
         /// </summary>
-        /// <param name="material">The current material evaluation result.</param>
-        /// <param name="pieceType">The piece type.</param>
+        /// <param name="bitboard">The bitboard.</param>
         /// <param name="color">The piece color.</param>
-        /// <returns>The updated material evaluation result.</returns>
-        public static void AddPiece(PieceType pieceType, Color color, Bitboard bitboard)
+        /// <param name="pieceType">The piece type.</param>
+        public static void AddPiece(Bitboard bitboard, Color color, PieceType pieceType)
         {
             var pieceValue = MaterialValues.PieceValues[(int)pieceType];
 
@@ -40,11 +39,10 @@ namespace Proxima.Core.Evaluation.Material
         /// <summary>
         /// Calculates a new material evaluation result based on the value of the removed piece.
         /// </summary>
-        /// <param name="material">The current material evaluation result.</param>
-        /// <param name="pieceType">The piece type.</param>
+        /// <param name="bitboard">The bitboard.</param>
         /// <param name="color">The piece color.</param>
-        /// <returns>The updated material evaluation result.</returns>
-        public static void RemovePiece(PieceType pieceType, Color color, Bitboard bitboard)
+        /// <param name="pieceType">The piece type.</param>
+        public static void RemovePiece(Bitboard bitboard, Color color, PieceType pieceType)
         {
             var pieceValue = MaterialValues.PieceValues[(int)pieceType];
 

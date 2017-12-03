@@ -23,8 +23,8 @@ namespace Proxima.Core.Evaluation.KingSafety
         /// <returns>The king safety evaluation result.</returns>
         public int Calculate(Bitboard bitboard)
         {
-            var whiteKingSafety = GetAttackedNeighboursValue(Color.White, bitboard);
-            var blackKingSafety = GetAttackedNeighboursValue(Color.Black, bitboard);
+            var whiteKingSafety = GetAttackedNeighboursValue(bitboard, Color.White);
+            var blackKingSafety = GetAttackedNeighboursValue(bitboard, Color.Black);
 
             return whiteKingSafety - blackKingSafety;
         }
@@ -38,19 +38,18 @@ namespace Proxima.Core.Evaluation.KingSafety
         {
             return new KingSafetyData
             {
-                WhiteAttackedNeighbours = GetAttackedNeighboursValue(Color.White, bitboard),
-                BlackAttackedNeighbours = GetAttackedNeighboursValue(Color.Black, bitboard)
+                WhiteAttackedNeighbours = GetAttackedNeighboursValue(bitboard, Color.White),
+                BlackAttackedNeighbours = GetAttackedNeighboursValue(bitboard, Color.Black)
             };
         }
 
         /// <summary>
         /// Calculates a value of pieces that are attacking the neighbour fields of specified king.
         /// </summary>
-        /// <param name="color">The king color.</param>
-        /// <param name="gamePhase">The game phase.</param>
         /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The king color.</param>
         /// <returns>The value of the pieces that are attacking king beighbour fields multiplied by the specified ratio.</returns>
-        private int GetAttackedNeighboursValue(Color color, Bitboard bitboard)
+        private int GetAttackedNeighboursValue(Bitboard bitboard, Color color)
         {
             var attackedNeightbours = 0;
 

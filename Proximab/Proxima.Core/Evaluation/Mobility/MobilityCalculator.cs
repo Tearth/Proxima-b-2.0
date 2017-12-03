@@ -19,13 +19,12 @@ namespace Proxima.Core.Evaluation.Mobility
         /// <summary>
         /// Calculates a mobility evaluation result.
         /// </summary>
-        /// <param name="gamePhase">The game phase.</param>
         /// <param name="bitboard">The bitboard.</param>
         /// <returns>The mobility evaluation result.</returns>
         public int Calculate(Bitboard bitboard)
         {
-            var whiteMobility = GetMobilityValue(Color.White, bitboard);
-            var blackMobility = GetMobilityValue(Color.Black, bitboard);
+            var whiteMobility = GetMobilityValue(bitboard, Color.White);
+            var blackMobility = GetMobilityValue(bitboard, Color.Black);
 
             return whiteMobility - blackMobility;
         }
@@ -33,15 +32,14 @@ namespace Proxima.Core.Evaluation.Mobility
         /// <summary>
         /// Calculates a detailed mobility evaluation result.
         /// </summary>
-        /// <param name="gamePhase">The game phase.</param>
         /// <param name="bitboard">The bitboard.</param>
         /// <returns>The detailed mobility evaluation result.</returns>
         public MobilityData CalculateDetailed(Bitboard bitboard)
         {
             return new MobilityData()
             {
-                WhiteMobility = GetMobilityValue(Color.White, bitboard),
-                BlackMobility = GetMobilityValue(Color.Black, bitboard)
+                WhiteMobility = GetMobilityValue(bitboard, Color.White),
+                BlackMobility = GetMobilityValue(bitboard, Color.Black)
             };
         }
 
@@ -49,11 +47,10 @@ namespace Proxima.Core.Evaluation.Mobility
         /// Calculates a mobility evaluation result for the specified player by adding number of possible
         /// moves for every piece with the specified color.
         /// </summary>
-        /// <param name="color">The player color.</param>
-        /// <param name="gamePhase">The game phase.</param>
         /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The player color.</param>
         /// <returns>The mobility evaluation result for the specified player.</returns>
-        private int GetMobilityValue(Color color, Bitboard bitboard)
+        private int GetMobilityValue(Bitboard bitboard, Color color)
         {
             var mobility = 0;
             var array = MobilityValues.GetRatio(color);

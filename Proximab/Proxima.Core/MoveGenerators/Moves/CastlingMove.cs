@@ -75,7 +75,7 @@ namespace Proxima.Core.MoveGenerators.Moves
 
             bitboard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Short)] = false;
             bitboard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Long)] = false;
-            IncrementalCastling.SetCastlingDone(Color, bitboard);
+            IncrementalCastling.SetCastlingDone(bitboard, Color);
 
             bitboard.CastlingDone[(int)Color] = true;
         }

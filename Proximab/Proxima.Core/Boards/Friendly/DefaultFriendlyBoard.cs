@@ -5,8 +5,14 @@ using Proxima.Core.Commons.Positions;
 
 namespace Proxima.Core.Boards.Friendly
 {
+    /// <summary>
+    /// Represents a default (all pieces on their starting position) chess board.
+    /// </summary>
     public class DefaultFriendlyBoard : FriendlyBoard
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DefaultFriendlyBoard"/> class.
+        /// </summary>
         public DefaultFriendlyBoard() : base()
         {
             // White pieces

@@ -6,13 +6,26 @@ using Proxima.Core.Commons.Positions;
 
 namespace Proxima.Core.Persistence
 {
+    /// <summary>
+    /// Represents a set of methods to loading <see cref="FriendlyBoard"/> object from file.
+    /// </summary>
     public class BoardReader
     {
+        /// <summary>
+        /// Checks if the specified file exists.
+        /// </summary>
+        /// <param name="path">The path to the file.</param>
+        /// <returns>True if the file exists, otherwise false.</returns>
         public bool BoardExists(string path)
         {
             return File.Exists(path);
         }
 
+        /// <summary>
+        /// Loads <see cref="FriendlyBoard"/> object from the specified file.
+        /// </summary>
+        /// <param name="path">The path to file.</param>
+        /// <returns><see cref="FriendlyBoard"/> object loaded from the file.</returns>
         public FriendlyBoard Read(string path)
         {
             FriendlyPiecesList pieces = null;
@@ -55,6 +68,11 @@ namespace Proxima.Core.Persistence
             return new FriendlyBoard(pieces, castling, enPassant);
         }
 
+        /// <summary>
+        /// Reads a board (pure piece positions).
+        /// </summary>
+        /// <param name="reader">The file reader.</param>
+        /// <returns>The container object with the list of pieces.</returns>
         private FriendlyPiecesList ReadBoard(StreamReader reader)
         {
             var pieces = new FriendlyPiecesList();
@@ -82,6 +100,11 @@ namespace Proxima.Core.Persistence
             return pieces;
         }
 
+        /// <summary>
+        /// Reads a castling flags.
+        /// </summary>
+        /// <param name="reader">The file reader.</param>
+        /// <returns>The container object with the castling flags.</returns>
         private FriendlyCastling ReadCastling(StreamReader reader)
         {
             return new FriendlyCastling
@@ -96,6 +119,11 @@ namespace Proxima.Core.Persistence
             };
         }
 
+        /// <summary>
+        /// Reads en passant data. 
+        /// </summary>
+        /// <param name="reader">The file reader.</param>
+        /// <returns>The container object with the en passant data.</returns>
         private FriendlyEnPassant ReadEnPassant(StreamReader reader)
         {
             return new FriendlyEnPassant
@@ -105,11 +133,16 @@ namespace Proxima.Core.Persistence
             };
         }
 
+        /// <summary>
+        /// Reads a <see cref="Position"/> object to the file. 
+        /// </summary>
+        /// <param name="reader">The file writer.</param>
+        /// <returns>The read position (or null if there was a <see cref="PersistenceContants.NullValue"/> in the file).</returns>
         private Position? ReadPosition(StreamReader reader)
         {
             var line = reader.ReadLine().Trim();
 
-            if (line == PersistenceContants.NullEnPassant)
+            if (line == PersistenceContants.NullValue)
             {
                 return null;
             }

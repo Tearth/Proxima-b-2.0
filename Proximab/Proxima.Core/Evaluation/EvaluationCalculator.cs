@@ -28,9 +28,6 @@ namespace Proxima.Core.Evaluation
         /// <returns>The bitboard evaluation result.</returns>
         public static int GetEvaluation(Bitboard bitboard)
         {
-            // Temporary
-            var gamePhase = GamePhase.Regular;
-
             var material = bitboard.IncEvaluation.Material;
             var mobility = _mobility.Calculate(bitboard);
             var castling = bitboard.IncEvaluation.Castling;

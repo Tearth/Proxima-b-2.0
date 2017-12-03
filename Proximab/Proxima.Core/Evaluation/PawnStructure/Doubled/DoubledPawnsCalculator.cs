@@ -20,10 +20,10 @@ namespace Proxima.Core.Evaluation.PawnStructure.Doubled
         /// Calculates a doubled pawns evaluation result for the specified player by adding number of pawns
         /// on the same files.
         /// </summary>
-        /// <param name="color">The player color.</param>
         /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The player color.</param>
         /// <returns>The doubled pawns evaluation result for the specified player.</returns>
-        public int GetDoubledPawnsValue(Color color, Bitboard bitboard)
+        public int GetDoubledPawnsValue(Bitboard bitboard, Color color)
         {
             var doubledPawns = 0;
             var pawns = bitboard.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];

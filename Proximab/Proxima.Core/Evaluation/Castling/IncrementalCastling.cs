@@ -12,9 +12,9 @@ namespace Proxima.Core.Evaluation.Castling
         /// <summary>
         /// Calculates a new castling evaluation result based on information that the specified player has done castling.
         /// </summary>
-        /// <param name="castling">The current castling evaluation result.</param>
+        /// <param name="bitboard">The bitboard.</param>
         /// <param name="color">The player color.</param>
-        public static void SetCastlingDone(Color color, Bitboard bitboard)
+        public static void SetCastlingDone(Bitboard bitboard, Color color)
         {
             switch (color)
             {

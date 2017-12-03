@@ -85,8 +85,8 @@ namespace Proxima.Core.MoveGenerators.Moves
             bitboard.Pieces[FastArray.GetPieceIndex(Color, pieceTo)] |= to;
             bitboard.Occupancy[(int)Color] ^= from | to;
 
-            IncrementalPosition.RemovePiece(Color, pieceFrom, from, bitboard);
-            IncrementalPosition.AddPiece(Color, pieceTo, to, bitboard);
+            IncrementalPosition.RemovePiece(bitboard, Color, pieceFrom, from);
+            IncrementalPosition.AddPiece(bitboard, Color, pieceTo, to);
 
             IncrementalZobrist.AddOrRemovePiece(Color, pieceFrom, from, bitboard);
             IncrementalZobrist.AddOrRemovePiece(Color, pieceTo, to, bitboard);

@@ -16,13 +16,12 @@ namespace Proxima.Core.Evaluation.Castling
         /// <summary>
         /// Calculates a castling evaluation result based on done (or not) castling.
         /// </summary>
-        /// <param name="gamePhase">The game phase.</param>
         /// <param name="bitboard">The bitboard.</param>
         /// <returns>The castling evaluation result.</returns>
         public int Calculate(Bitboard bitboard)
         {
-            var whiteCastling = GetCastlingValue(Color.White, bitboard);
-            var blackCastling = GetCastlingValue(Color.Black, bitboard);
+            var whiteCastling = GetCastlingValue(bitboard, Color.White);
+            var blackCastling = GetCastlingValue(bitboard, Color.Black);
 
             return whiteCastling - blackCastling;
         }
@@ -30,19 +29,24 @@ namespace Proxima.Core.Evaluation.Castling
         /// <summary>
         /// Calculates a detailed castling evaluation result based on done (or not) castling.
         /// </summary>
-        /// <param name="gamePhase">THe game phase.</param>
         /// <param name="bitboard">The bitboard.</param>
         /// <returns>The detailed (separately for white and black player) castling evaluation result.</returns>
         public CastlingData CalculateDetailed(Bitboard bitboard)
         {
             return new CastlingData()
             {
-                WhiteCastling = GetCastlingValue(Color.White, bitboard),
-                BlackCastling = GetCastlingValue(Color.Black, bitboard)
+                WhiteCastling = GetCastlingValue(bitboard, Color.White),
+                BlackCastling = GetCastlingValue(bitboard, Color.Black)
             };
         }
 
-        private int GetCastlingValue(Color color, Bitboard bitboard)
+        /// <summary>
+        /// Calculates a evaluation value of castling flags for the specified player.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The player color.</param>
+        /// <returns>The evaluation result of the castling flags.</returns>
+        private int GetCastlingValue(Bitboard bitboard, Color color)
         {
             if (bitboard.CastlingDone[(int)color])
             {

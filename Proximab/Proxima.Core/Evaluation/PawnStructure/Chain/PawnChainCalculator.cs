@@ -21,10 +21,10 @@ namespace Proxima.Core.Evaluation.PawnStructure.Chain
         /// Calculates a chain evaluation result for the specified player by adding number of pawns
         /// in chains multiplied by the specified ratio.
         /// </summary>
-        /// <param name="color">The player color.</param>
         /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The player color.</param>
         /// <returns>The chain evaluation result for the specified player.</returns>
-        public int GetChainValue(Color color, Bitboard bitboard)
+        public int GetChainValue(Bitboard bitboard, Color color)
         {
             var chain = 0;
 

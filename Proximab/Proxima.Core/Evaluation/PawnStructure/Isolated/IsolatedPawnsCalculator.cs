@@ -20,10 +20,10 @@ namespace Proxima.Core.Evaluation.PawnStructure.Isolated
         /// Calculates a isolated pawns evaluation result for the specified player by adding number of pawns
         /// without any same-color pawns at neighbour files.
         /// </summary>
-        /// <param name="color">The player color.</param>
         /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The player color.</param>
         /// <returns>The isolated pawns evaluation result for the specified player.</returns>
-        public int GetIsolatedPawnsValue(Color color, Bitboard bitboard)
+        public int GetIsolatedPawnsValue(Bitboard bitboard, Color color)
         {
             var isolatedPawns = 0;
             var pawns = bitboard.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];

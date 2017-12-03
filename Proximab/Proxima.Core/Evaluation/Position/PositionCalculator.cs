@@ -24,8 +24,8 @@ namespace Proxima.Core.Evaluation.Position
         /// <returns>The position evaluation result.</returns>
         public int Calculate(Bitboard bitboard)
         {
-            var whitePosition = GetPosition(Color.White, bitboard);
-            var blackPosition = GetPosition(Color.Black, bitboard);
+            var whitePosition = GetPosition(bitboard, Color.White);
+            var blackPosition = GetPosition(bitboard, Color.Black);
 
             return whitePosition - blackPosition;
         }
@@ -39,26 +39,25 @@ namespace Proxima.Core.Evaluation.Position
         {
             return new PositionData()
             {
-                WhitePosition = GetPosition(Color.White, bitboard),
-                BlackPosition = GetPosition(Color.Black, bitboard)
+                WhitePosition = GetPosition(bitboard, Color.White),
+                BlackPosition = GetPosition(bitboard, Color.Black)
             };
         }
 
         /// <summary>
         /// Calculates a position evaluation result for the specified parameters.
         /// </summary>
-        /// <param name="color">The player color.</param>
-        /// <param name="gamePhase">The current game phase.</param>
         /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The player color.</param>
         /// <returns>The position evaluation result.</returns>
-        private int GetPosition(Color color, Bitboard bitboard)
+        private int GetPosition(Bitboard bitboard, Color color)
         {
             var position = 0;
 
             for (int piece = 0; piece < 6; piece++)
             {
                 var piecesToParse = bitboard.Pieces[FastArray.GetPieceIndex(color, (PieceType)piece)];
-                position += GetPositionValue(color, (PieceType)piece, piecesToParse, bitboard.GamePhase);
+                position += GetPositionValue(bitboard, color, (PieceType)piece, piecesToParse);
             }
 
             return position;
@@ -67,11 +66,12 @@ namespace Proxima.Core.Evaluation.Position
         /// <summary>
         /// Calculates a position evaluation result for the specified parameters.
         /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
         /// <param name="color">The player color.</param>
         /// <param name="pieceType">The piece type.</param>
         /// <param name="piecesToParse">The pieces to parse.</param>
         /// <returns>The position evaluation result.</returns>
-        private int GetPositionValue(Color color, PieceType pieceType, ulong piecesToParse, GamePhase gamePhase)
+        private int GetPositionValue(Bitboard bitboard, Color color, PieceType pieceType, ulong piecesToParse)
         {
             var position = 0;
             var array = PositionValues.GetValues(color, pieceType);
@@ -83,7 +83,7 @@ namespace Proxima.Core.Evaluation.Position
 
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
-                position += array[FastArray.GetEvaluationValueIndex(gamePhase, pieceIndex)];
+                position += array[FastArray.GetEvaluationValueIndex(bitboard.GamePhase, pieceIndex)];
             }
 
             return position;
