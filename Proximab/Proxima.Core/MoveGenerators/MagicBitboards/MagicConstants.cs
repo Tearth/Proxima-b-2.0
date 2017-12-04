@@ -1,11 +1,14 @@
 ﻿namespace Proxima.Core.MoveGenerators.MagicBitboards
 {
+    /// <summary>
+    /// Represents a set of constants for magic bitboards.
+    /// </summary>
     public static class MagicConstants
     {
-        public const int RookMovesBits = 12;
-        public const int RookMovesPerField = 1 << RookMovesBits;
+        public const int RookMaxMovesBits = 12;
+        public const int RookMaxMovesPerField = 1 << RookMaxMovesBits;
 
-        public const int BishopMovesBits = 9;
-        public const int BishopMovesPerField = 1 << BishopMovesBits;
+        public const int BishopMaxMovesBits = 9;
+        public const int BishopMaxMovesPerField = 1 << BishopMaxMovesBits;
     }
 }

@@ -1,37 +1,66 @@
 ﻿using Proxima.Core.Boards;
 using Proxima.Core.MoveGenerators.MagicBitboards.Attacks;
+using Proxima.Core.MoveGenerators.MagicBitboards.Attacks.Generators;
 using Proxima.Core.MoveGenerators.MagicBitboards.Keys;
 using Proxima.Core.MoveGenerators.PatternGenerators;
 
 namespace Proxima.Core.MoveGenerators.MagicBitboards
 {
+    /// <summary>
+    /// Represents a set of methods to access to magic bitboards.
+    /// </summary>
     public static class MagicContainer
     {
-        public static ulong[][] RookAttacks { get; private set; }
-        public static ulong[][] BishopAttacks { get; private set; }
+        private static ulong[][] _rookMagicBitboards;
+        private static ulong[][] _bishopMagicBitboards;
 
-        public static ulong[] RookKeys { get; private set; }
-        public static ulong[] BishopKeys { get; private set; }
+        private static ulong[] _rookKeys;
+        private static ulong[] _bishopKeys;
 
-        public static int[] RookMaskBitsCount { get; private set; }
-        public static int[] BishopMaskBitsCount { get; private set; }
+        private static int[] _rookMaskBitsCount;
+        private static int[] _bishopMaskBitsCount;
 
+        /// <summary>
+        /// Inits magic bitboards. Must be called before first use of any other class method.
+        /// </summary>
         public static void Init()
         {
             LoadKeys();
-            GenerateAttacks();
+            GenerateMagicBitboards();
         }
         
+        /// <summary>
+        /// Calculates a magic bitboard for rook.
+        /// </summary>
+        /// <param name="fieldIndex">The field index.</param>
+        /// <param name="occupancy">The bitboard occupancy.</param>
+        /// <returns>The bitboard with available attacks (where set bit means that the piece can move to this field).</returns>
         public static ulong GetRookAttacks(int fieldIndex, ulong occupancy)
         {
-            return GetAttacks(fieldIndex, occupancy, PatternsContainer.RookPattern, RookAttacks, RookKeys, RookMaskBitsCount);
+            return GetAttacks(fieldIndex, occupancy, PatternsContainer.RookPattern, _rookMagicBitboards, _rookKeys, _rookMaskBitsCount);
         }
 
+        /// <summary>
+        /// Calculates a magic bitboard for bishop.
+        /// </summary>
+        /// <param name="fieldIndex">The field index.</param>
+        /// <param name="occupancy">The bitboard occupancy.</param>
+        /// <returns>The bitboard with available attacks (where set bit means that the piece can move to this field).</returns>
         public static ulong GetBishopAttacks(int fieldIndex, ulong occupancy)
         {
-            return GetAttacks(fieldIndex, occupancy, PatternsContainer.BishopPattern, BishopAttacks, BishopKeys, BishopMaskBitsCount);
+            return GetAttacks(fieldIndex, occupancy, PatternsContainer.BishopPattern, _bishopMagicBitboards, _bishopKeys, _bishopMaskBitsCount);
         }
 
+        /// <summary>
+        /// Calculates a magic bitboard for the specified parameters.
+        /// </summary>
+        /// <param name="fieldIndex">The field index.</param>
+        /// <param name="occupancy">The bitboard occupancy.</param>
+        /// <param name="patterns">The array of piece patterns.</param>
+        /// <param name="attacks">The array of magic bitboards.</param>
+        /// <param name="keys">The array of magic keys.</param>
+        /// <param name="maskBitsCount">The array of mask bits count.</param>
+        /// <returns>The bitboard with available attacks (where set bit means that the piece can move to this field).</returns>
         private static ulong GetAttacks(int fieldIndex, ulong occupancy, ulong[] patterns, ulong[][] attacks, ulong[] keys, int[] maskBitsCount)
         {
             var mask = patterns[fieldIndex];
@@ -44,24 +73,30 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
             return attacks[fieldIndex][hash];
         }
 
+        /// <summary>
+        /// Loads magic keys from files.
+        /// </summary>
         private static void LoadKeys()
         {
             var keysLoader = new MagicKeysLoader();
             var maskBitsCountCalculator = new MaskBitsCountCalculator();
 
-            RookKeys = keysLoader.LoadRookKeys();
-            BishopKeys = keysLoader.LoadBishopKeys();
+            _rookKeys = keysLoader.LoadRookKeys();
+            _bishopKeys = keysLoader.LoadBishopKeys();
 
-            RookMaskBitsCount = maskBitsCountCalculator.Calculate(PatternsContainer.RookPattern);
-            BishopMaskBitsCount = maskBitsCountCalculator.Calculate(PatternsContainer.BishopPattern);
+            _rookMaskBitsCount = maskBitsCountCalculator.Calculate(PatternsContainer.RookPattern);
+            _bishopMaskBitsCount = maskBitsCountCalculator.Calculate(PatternsContainer.BishopPattern);
         }
 
-        private static void GenerateAttacks()
+        /// <summary>
+        /// Generates magc bitboards for rook and bishop.
+        /// </summary>
+        private static void GenerateMagicBitboards()
         {
-            var attacksParser = new AttacksParser();
+            var attacksParser = new MagicBitboardsGenerator();
 
-            RookAttacks = attacksParser.ParseRookAttacks();
-            BishopAttacks = attacksParser.ParseBishopAttacks();
+            _rookMagicBitboards = attacksParser.GenerateMagicBitboards(new RookAttacksGenerator(), _rookMaskBitsCount, _rookKeys);
+            _bishopMagicBitboards = attacksParser.GenerateMagicBitboards(new BishopAttacksGenerator(), _bishopMaskBitsCount, _bishopKeys);
         }
     }
 }
