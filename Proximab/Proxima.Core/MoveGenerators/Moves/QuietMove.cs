@@ -57,6 +57,7 @@ namespace Proxima.Core.MoveGenerators.Moves
             {
                 return new Position(To.X, To.Y - 1);
             }
+
             if (From.Y == 7 && To.Y == 5)
             {
                 return new Position(To.X, To.Y + 1);

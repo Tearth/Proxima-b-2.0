@@ -36,6 +36,10 @@ namespace Proxima.Core.MoveGenerators.Moves
             CastlingType = castlingType;
         }
 
+        /// <summary>
+        /// Calculates a castling.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
         public override void CalculateMove(Bitboard bitboard)
         {
             var from = BitPositionConverter.ToULong(From);
@@ -68,6 +72,10 @@ namespace Proxima.Core.MoveGenerators.Moves
             RemoveCastlingPossibility(bitboard);
         }
 
+        /// <summary>
+        /// Removes castling possibility from the specified bitboard.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
         private void RemoveCastlingPossibility(Bitboard bitboard)
         {
             IncrementalZobrist.RemoveCastlingPossibility(Color, CastlingType.Short, bitboard);

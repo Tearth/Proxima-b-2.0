@@ -135,7 +135,9 @@
     <Compile Include="Commons\Exceptions\ColorSymbolNotFoundException.cs" />
     <Compile Include="Commons\Exceptions\PieceSymbolNotFoundException.cs" />
     <Compile Include="Commons\Exceptions\PositionOutOfRangeException.cs" />
-    <Compile Include="MoveGenerators\Moves\CastlingMove.cs" />
+    <Compile Include="MoveGenerators\Moves\CastlingMove.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="MoveGenerators\Moves\EnPassantMove.cs" />
     <Compile Include="MoveGenerators\Moves\KillMove.cs" />
     <Compile Include="MoveGenerators\Moves\PromotionMove.cs" />
