@@ -6,9 +6,17 @@ using Proxima.Core.MoveGenerators.Moves;
 
 namespace Proxima.Core.MoveGenerators
 {
+    /// <summary>
+    /// Represents a set of methods to generating rook moves.
+    /// </summary>
     public static class RookMovesGenerator
     {
-        public static void Calculate(PieceType pieceType, GeneratorParameters opt)
+        /// <summary>
+        /// Generates available moves.
+        /// </summary>
+        /// <param name="pieceType">The piece type.</param>
+        /// <param name="opt">The generator parameters.</param>
+        public static void Generate(PieceType pieceType, GeneratorParameters opt)
         {
             var piecesToParse = opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, pieceType)];
 

@@ -10,9 +10,17 @@ using Proxima.Core.MoveGenerators.PatternGenerators;
 
 namespace Proxima.Core.MoveGenerators
 {
+    /// <summary>
+    /// Represents a set of methods to generating bishop moves.
+    /// </summary>
     public static class BishopMovesGenerator
     {
-        public static void Calculate(PieceType pieceType, GeneratorParameters opt)
+        /// <summary>
+        /// Generates available moves.
+        /// </summary>
+        /// <param name="pieceType">The piece type.</param>
+        /// <param name="opt">The generator parameters.</param>
+        public static void Generate(PieceType pieceType, GeneratorParameters opt)
         {
             var piecesToParse = opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, pieceType)];
             while (piecesToParse != 0)
@@ -119,21 +127,20 @@ namespace Proxima.Core.MoveGenerators
                     patternWithFriendlyBlockers |= friendlyBlockerLSB << 7;
                 }
                 else if (opt.FriendlyColor == Color.White &&
-                   (friendlyBlockerPosition.X < piecePosition.X && friendlyBlockerPosition.Y > piecePosition.Y) &&
-                   (friendlyBlockerLSB & (BitConstants.AFile | BitConstants.HRank)) == 0)
+                        (friendlyBlockerPosition.X < piecePosition.X && friendlyBlockerPosition.Y > piecePosition.Y) &&
+                        (friendlyBlockerLSB & (BitConstants.AFile | BitConstants.HRank)) == 0)
                 {
                     patternWithFriendlyBlockers |= friendlyBlockerLSB << 9;
                 }
-
                 else if (opt.FriendlyColor == Color.Black &&
-                   (friendlyBlockerPosition.X > piecePosition.X && friendlyBlockerPosition.Y < piecePosition.Y) &&
-                   (friendlyBlockerLSB & (BitConstants.HFile | BitConstants.ARank)) == 0)
+                        (friendlyBlockerPosition.X > piecePosition.X && friendlyBlockerPosition.Y < piecePosition.Y) &&
+                        (friendlyBlockerLSB & (BitConstants.HFile | BitConstants.ARank)) == 0)
                 {
                     patternWithFriendlyBlockers |= friendlyBlockerLSB >> 9;
                 }
                 else if (opt.FriendlyColor == Color.Black &&
-                   (friendlyBlockerPosition.X < piecePosition.X && friendlyBlockerPosition.Y < piecePosition.Y) &&
-                   (friendlyBlockerLSB & (BitConstants.AFile | BitConstants.ARank)) == 0)
+                        (friendlyBlockerPosition.X < piecePosition.X && friendlyBlockerPosition.Y < piecePosition.Y) &&
+                        (friendlyBlockerLSB & (BitConstants.AFile | BitConstants.ARank)) == 0)
                 {
                     patternWithFriendlyBlockers |= friendlyBlockerLSB >> 7;
                 }

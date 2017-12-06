@@ -154,15 +154,15 @@ namespace Proxima.Core.Boards
 
         private void CalculateAvailableMoves(GeneratorParameters generatorParameters)
         {
-            PawnMovesGenerator.Calculate(generatorParameters);
-            KnightMovesGenerator.Calculate(generatorParameters);
-            KingMovesGenerator.Calculate(generatorParameters);
+            PawnMovesGenerator.Generate(generatorParameters);
+            KnightMovesGenerator.Generate(generatorParameters);
+            KingMovesGenerator.Generate(generatorParameters);
 
-            RookMovesGenerator.Calculate(PieceType.Rook, generatorParameters);
-            BishopMovesGenerator.Calculate(PieceType.Bishop, generatorParameters);
+            RookMovesGenerator.Generate(PieceType.Rook, generatorParameters);
+            BishopMovesGenerator.Generate(PieceType.Bishop, generatorParameters);
 
-            RookMovesGenerator.Calculate(PieceType.Queen, generatorParameters);
-            BishopMovesGenerator.Calculate(PieceType.Queen, generatorParameters);
+            RookMovesGenerator.Generate(PieceType.Queen, generatorParameters);
+            BishopMovesGenerator.Generate(PieceType.Queen, generatorParameters);
         }
 
         private void CalculateCastling(GeneratorParameters generatorParameters)

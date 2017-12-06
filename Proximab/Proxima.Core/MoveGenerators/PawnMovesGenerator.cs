@@ -8,9 +8,17 @@ using Proxima.Core.MoveGenerators.Moves;
 
 namespace Proxima.Core.MoveGenerators
 {
+    /// <summary>
+    /// Represents a set of methods to generating pawn moves.
+    /// </summary>
     public static class PawnMovesGenerator
     {
-        public static void Calculate(GeneratorParameters opt)
+        /// <summary>
+        /// Generates available moves.
+        /// </summary>
+        /// <param name="pieceType">The piece type.</param>
+        /// <param name="opt">The generator parameters.</param>
+        public static void Generate(GeneratorParameters opt)
         {
             CalculateMovesForSinglePush(opt);
             CalculateMovesForDoublePush(opt);

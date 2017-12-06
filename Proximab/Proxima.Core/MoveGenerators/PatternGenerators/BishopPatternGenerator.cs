@@ -4,8 +4,15 @@ using Proxima.Core.Commons.Positions;
 
 namespace Proxima.Core.MoveGenerators.PatternGenerators
 {
+    /// <summary>
+    /// Represents a set of methods to generate bishop patterns.
+    /// </summary>
     public class BishopPatternGenerator
     {
+        /// <summary>
+        /// Generates bishop patterns for every field.
+        /// </summary>
+        /// <returns>The 64-element array with patterns.</returns>
         public ulong[] Generate()
         {
             var predefinedMoves = new ulong[64];
@@ -26,6 +33,12 @@ namespace Proxima.Core.MoveGenerators.PatternGenerators
             return predefinedMoves;
         }
 
+        /// <summary>
+        /// Calculates pattern for the specified field and shift.
+        /// </summary>
+        /// <param name="fieldIndex">The index field.</param>
+        /// <param name="shift">The shift (the direction in which the calculating is made).</param>
+        /// <returns>The pattern for the specified field.</returns>
         public ulong CalculatePattern(int fieldIndex, Position shift)
         {
             var attacks = 0ul;

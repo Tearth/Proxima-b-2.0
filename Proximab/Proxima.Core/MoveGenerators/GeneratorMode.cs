@@ -2,6 +2,9 @@
 
 namespace Proxima.Core.MoveGenerators
 {
+    /// <summary>
+    /// Represents the generator modes.
+    /// </summary>
     [Flags]
     public enum GeneratorMode
     {

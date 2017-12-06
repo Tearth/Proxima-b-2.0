@@ -2,12 +2,15 @@
 
 namespace Proxima.Core.MoveGenerators.PatternGenerators
 {
+    /// <summary>
+    /// Represents a set of methods to generate king patterns.
+    /// </summary>
     public class KingPatternGenerator
     {
-        public KingPatternGenerator()
-        {
-        }
-
+        /// <summary>
+        /// Generates king patterns for every field.
+        /// </summary>
+        /// <returns>The 64-element array with patterns.</returns>
         public ulong[] Generate()
         {
             var predefinedMoves = new ulong[64];
@@ -22,16 +25,21 @@ namespace Proxima.Core.MoveGenerators.PatternGenerators
             return predefinedMoves;
         }
 
-        private ulong GetPattern(ulong field)
+        /// <summary>
+        /// Calculates pattern for the specified field.
+        /// </summary>
+        /// <param name="fieldBitboard">The field bitboard.</param>
+        /// <returns>The pattern for the specified field.</returns>
+        private ulong GetPattern(ulong fieldBitboard)
         {
-            return ((field & ~BitConstants.AFile) << 1) |
-                   ((field & ~BitConstants.HFile) << 7) |
-                   (field << 8) |
-                   ((field & ~BitConstants.AFile) << 9) |
-                   ((field & ~BitConstants.HFile) >> 1) |
-                   ((field & ~BitConstants.AFile) >> 7) |
-                    (field >> 8) |
-                   ((field & ~BitConstants.HFile) >> 9);
+            return ((fieldBitboard & ~BitConstants.AFile) << 1) |
+                   ((fieldBitboard & ~BitConstants.HFile) << 7) |
+                    (fieldBitboard << 8) |
+                   ((fieldBitboard & ~BitConstants.AFile) << 9) |
+                   ((fieldBitboard & ~BitConstants.HFile) >> 1) |
+                   ((fieldBitboard & ~BitConstants.AFile) >> 7) |
+                    (fieldBitboard >> 8) |
+                   ((fieldBitboard & ~BitConstants.HFile) >> 9);
         }
     }
 }

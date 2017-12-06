@@ -9,11 +9,18 @@ using Proxima.Core.MoveGenerators.PatternGenerators;
 
 namespace Proxima.Core.MoveGenerators
 {
+    /// <summary>
+    /// Represents a set of methods to generating king moves.
+    /// </summary>
     public static class KingMovesGenerator
     {
         private static readonly Position InitialKingPosition = new Position(5, 1);
 
-        public static void Calculate(GeneratorParameters opt)
+        /// <summary>
+        /// Generates available moves.
+        /// </summary>
+        /// <param name="opt">The generator parameters.</param>
+        public static void Generate(GeneratorParameters opt)
         {
             var piecesToParse = opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.King)];
 

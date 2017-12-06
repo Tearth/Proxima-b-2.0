@@ -2,12 +2,15 @@
 
 namespace Proxima.Core.MoveGenerators.PatternGenerators
 {
+    /// <summary>
+    /// Represents a set of methods to generate knight patterns.
+    /// </summary>
     public class KnightPatternGenerator
     {
-        public KnightPatternGenerator()
-        {
-        }
-
+        /// <summary>
+        /// Generates knight patterns for every field.
+        /// </summary>
+        /// <returns>The 64-element array with patterns.</returns>
         public ulong[] Generate()
         {
             var predefinedMoves = new ulong[64];
@@ -22,16 +25,21 @@ namespace Proxima.Core.MoveGenerators.PatternGenerators
             return predefinedMoves;
         }
 
-        private ulong GetPattern(ulong field)
+        /// <summary>
+        /// Calculates pattern for the specified field.
+        /// </summary>
+        /// <param name="fieldBitboard">The field bitboard.</param>
+        /// <returns>The pattern for the specified field.</returns>
+        private ulong GetPattern(ulong fieldBitboard)
         {
-            return ((field & ~BitConstants.AFile) << 17) |
-                   ((field & ~BitConstants.HFile) << 15) |
-                   ((field & ~BitConstants.AFile & ~BitConstants.BFile) << 10) |
-                   ((field & ~BitConstants.GFile & ~BitConstants.HFile) << 6) |
-                   ((field & ~BitConstants.AFile & ~BitConstants.BFile) >> 6) |
-                   ((field & ~BitConstants.GFile & ~BitConstants.HFile) >> 10) |
-                   ((field & ~BitConstants.AFile) >> 15) |
-                   ((field & ~BitConstants.HFile) >> 17);
+            return ((fieldBitboard & ~BitConstants.AFile) << 17) |
+                   ((fieldBitboard & ~BitConstants.HFile) << 15) |
+                   ((fieldBitboard & ~BitConstants.AFile & ~BitConstants.BFile) << 10) |
+                   ((fieldBitboard & ~BitConstants.GFile & ~BitConstants.HFile) << 6) |
+                   ((fieldBitboard & ~BitConstants.AFile & ~BitConstants.BFile) >> 6) |
+                   ((fieldBitboard & ~BitConstants.GFile & ~BitConstants.HFile) >> 10) |
+                   ((fieldBitboard & ~BitConstants.AFile) >> 15) |
+                   ((fieldBitboard & ~BitConstants.HFile) >> 17);
         }
     }
 }

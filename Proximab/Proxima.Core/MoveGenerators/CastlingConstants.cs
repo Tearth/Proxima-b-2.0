@@ -1,5 +1,8 @@
 ﻿namespace Proxima.Core.MoveGenerators
 {
+    /// <summary>
+    /// Represents a container for the castling constants.
+    /// </summary>
     public class CastlingConstants
     {
         public const ulong KingLSB = 0x8;
