@@ -30,6 +30,10 @@ namespace Proxima.Core.MoveGenerators.Moves
             PromotionPiece = promotionPiece;
         }
 
+        /// <summary>
+        /// Calculates a promotion move.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
         public override void CalculateMove(Bitboard bitboard)
         {
             var from = BitPositionConverter.ToULong(From);

@@ -27,6 +27,10 @@ namespace Proxima.Core.MoveGenerators.Moves
         {
         }
 
+        /// <summary>
+        /// Calculates a quiet move.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
         public override void CalculateMove(Bitboard bitboard)
         {
             var from = BitPositionConverter.ToULong(From);
@@ -36,6 +40,10 @@ namespace Proxima.Core.MoveGenerators.Moves
             CalculateEnPassant(bitboard);
         }
 
+        /// <summary>
+        /// Calculates en passant fields if current piece type is pawn.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
         private void CalculateEnPassant(Bitboard bitboard)
         {
             if (Piece == PieceType.Pawn)
@@ -51,6 +59,10 @@ namespace Proxima.Core.MoveGenerators.Moves
             }
         }
 
+        /// <summary>
+        /// Calculates en passant position for enemy pawns if possible.
+        /// </summary>
+        /// <returns>The en passant position if possible, otherwise null.</returns>
         private Position? GetEnPassantPosition()
         {
             if (From.Y == 2 && To.Y == 4)

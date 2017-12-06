@@ -28,6 +28,10 @@ namespace Proxima.Core.MoveGenerators.Moves
         {
         }
 
+        /// <summary>
+        /// Calculates a kill move.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
         public override void CalculateMove(Bitboard bitboard)
         {
             var from = BitPositionConverter.ToULong(From);
@@ -38,6 +42,12 @@ namespace Proxima.Core.MoveGenerators.Moves
             CalculatePieceMove(bitboard, from, to);
         }
 
+        /// <summary>
+        /// Removes killed piece from the specified bitboard.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="enemyColor">The enemy color.</param>
+        /// <param name="fieldLSB">The bitboard with set field.</param>
         private static void RemovePiece(Bitboard bitboard, Color enemyColor, ulong fieldLSB)
         {
             for (int piece = 0; piece < 6; piece++)

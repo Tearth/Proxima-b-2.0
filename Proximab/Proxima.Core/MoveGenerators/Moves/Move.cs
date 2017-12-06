@@ -61,24 +61,53 @@ namespace Proxima.Core.MoveGenerators.Moves
             return From.IsValid() && To.IsValid();
         }
 
+        /// <summary>
+        /// Does move (specified by the derived class).
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
         public void Do(Bitboard bitboard)
         {
             CalculateMove(bitboard);
             CalculateCastling(bitboard);
         }
 
+        /// <summary>
+        /// Calculates move specified in the derived class.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
         public abstract void CalculateMove(Bitboard bitboard);
 
+        /// <summary>
+        /// Helper method for derived classes, calculates move for current piece type with the specified parameters.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="from">The piece source position.</param>
+        /// <param name="to">The piece destination position.</param>
         protected void CalculatePieceMove(Bitboard bitboard, ulong from, ulong to)
         {
             CalculatePieceMove(bitboard, Piece, from, Piece, to);
         }
 
+        /// <summary>
+        /// Helper method for derived classes, calculates move with the specified parameters.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="pieceType">The piece type.</param>
+        /// <param name="from">The piece source position.</param>
+        /// <param name="to">The piece destination position.</param>
         protected void CalculatePieceMove(Bitboard bitboard, PieceType pieceType, ulong from, ulong to)
         {
             CalculatePieceMove(bitboard, pieceType, from, pieceType, to);
         }
 
+        /// <summary>
+        /// Helper method for derived classes, calculates move with the specified parameters.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="pieceFrom">The source piece type.</param>
+        /// <param name="from">The piece source position.</param>
+        /// <param name="pieceTo">The destination piece type.</param>
+        /// <param name="to">The piece destination position.</param>
         protected void CalculatePieceMove(Bitboard bitboard, PieceType pieceFrom, ulong from, PieceType pieceTo, ulong to)
         {
             bitboard.Pieces[FastArray.GetPieceIndex(Color, pieceFrom)] &= ~from;
@@ -92,6 +121,10 @@ namespace Proxima.Core.MoveGenerators.Moves
             IncrementalZobrist.AddOrRemovePiece(Color, pieceTo, to, bitboard);
         }
 
+        /// <summary>
+        /// Removes castling possibility if needed.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
         private void CalculateCastling(Bitboard bitboard)
         {
             if (Piece == PieceType.King)
