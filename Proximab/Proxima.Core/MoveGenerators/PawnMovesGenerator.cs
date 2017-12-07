@@ -16,16 +16,19 @@ namespace Proxima.Core.MoveGenerators
         /// <summary>
         /// Generates available moves.
         /// </summary>
-        /// <param name="pieceType">The piece type.</param>
         /// <param name="opt">The generator parameters.</param>
         public static void Generate(GeneratorParameters opt)
         {
             CalculateMovesForSinglePush(opt);
             CalculateMovesForDoublePush(opt);
-            CalculateMovesForRightAttack(opt);
-            CalculateMovesForLeftAttack(opt);
+            CalculateDiagonalAttacks(7, 9, opt);
+            CalculateDiagonalAttacks(9, 7, opt);
         }
 
+        /// <summary>
+        /// Calculates single push moves.
+        /// </summary>
+        /// <param name="opt">The generator parameters.</param>
         private static void CalculateMovesForSinglePush(GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
@@ -78,6 +81,10 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
+        /// <summary>
+        /// Calculates double push moves.
+        /// </summary>
+        /// <param name="opt">The generator parameters.</param>
         private static void CalculateMovesForDoublePush(GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
@@ -121,12 +128,18 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
-        private static void CalculateMovesForRightAttack(GeneratorParameters opt)
+        /// <summary>
+        /// Calculates diagonal attacks (and moves if possible).
+        /// </summary>
+        /// <param name="leftAttackShift">The left attack shift.</param>
+        /// <param name="rightAttackShift">The right attacks shift.</param>
+        /// <param name="opt">The generator parameters.</param>
+        private static void CalculateDiagonalAttacks(int leftAttackShift, int rightAttackShift, GeneratorParameters opt)
         {
             var piecesToParse = opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)];
             var validPieces = piecesToParse & ~BitConstants.HFile;
 
-            var pattern = opt.FriendlyColor == Color.White ? validPieces << 7 : validPieces >> 9;
+            var pattern = opt.FriendlyColor == Color.White ? validPieces << leftAttackShift : validPieces >> rightAttackShift;
 
             while (pattern != 0)
             {
@@ -135,52 +148,7 @@ namespace Proxima.Core.MoveGenerators
 
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                var pieceLSB = opt.FriendlyColor == Color.White ? patternLSB >> 7 : patternLSB << 9;
-                var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
-
-                if ((opt.Mode & GeneratorMode.CalculateMoves) != 0)
-                {
-                    var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
-                    var enPassantField = opt.Bitboard.EnPassant[(int)opt.EnemyColor] & patternLSB;
-
-                    if ((patternLSB & opt.EnemyOccupancy) != 0 || enPassantField != 0)
-                    {
-                        var to = BitPositionConverter.ToPosition(patternIndex);
-
-                        if (enPassantField == 0)
-                        {
-                            opt.Bitboard.Moves.AddLast(new KillMove(piecePosition, to, PieceType.Pawn, opt.FriendlyColor));
-                        }
-                        else
-                        {
-                            opt.Bitboard.Moves.AddLast(new EnPassantMove(piecePosition, to, PieceType.Pawn, opt.FriendlyColor));
-                        }
-                    }
-                }
-
-                if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
-                {
-                    opt.Bitboard.Attacks[patternIndex] |= pieceLSB;
-                    opt.Bitboard.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
-                }
-            }
-        }
-
-        private static void CalculateMovesForLeftAttack(GeneratorParameters opt)
-        {
-            var piecesToParse = opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)];
-            var validPieces = piecesToParse & ~BitConstants.AFile;
-
-            var pattern = opt.FriendlyColor == Color.White ? validPieces << 9 : validPieces >> 7;
-
-            while (pattern != 0)
-            {
-                var patternLSB = BitOperations.GetLSB(pattern);
-                pattern = BitOperations.PopLSB(pattern);
-
-                var patternIndex = BitOperations.GetBitIndex(patternLSB);
-
-                var pieceLSB = opt.FriendlyColor == Color.White ? patternLSB >> 9 : patternLSB << 7;
+                var pieceLSB = opt.FriendlyColor == Color.White ? patternLSB >> leftAttackShift : patternLSB << rightAttackShift;
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
                 if ((opt.Mode & GeneratorMode.CalculateMoves) != 0)

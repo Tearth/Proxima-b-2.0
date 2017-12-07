@@ -12,24 +12,71 @@ using Proxima.Core.MoveGenerators.Moves;
 
 namespace Proxima.Core.Boards
 {
+    /// <summary>
+    /// The soul of the chess engine. Contains all information about single board state (pieces, castling flags,
+    /// en passant etc.). Because this representation is not friendly to displaying, it can be easily converted
+    /// to <see cref="FriendlyEnPassant"/> object.
+    /// </summary>
     public class Bitboard
     {
+        /// <summary>
+        /// Gets or sets the board hash (calculated by <see cref="ZobristHash"/> or <see cref="IncrementalZobrist"/>.
+        /// </summary>
         public ulong Hash { get; set; }
+
+        /// <summary>
+        /// Gets or sets the game phase.
+        /// </summary>
         public GamePhase GamePhase { get; set; }
 
+        /// <summary>
+        /// Gets the pieces array (more information about piece indexes at <see cref="PieceType"/>.
+        /// </summary>
         public ulong[] Pieces { get; private set; }
+
+        /// <summary>
+        /// Gets the occupancy array (0 = White, 1 = Black).
+        /// </summary>
         public ulong[] Occupancy { get; private set; }
+
+        /// <summary>
+        /// Gets the en passant array (0 = White, 1 = Black).
+        /// </summary>
         public ulong[] EnPassant { get; private set; }
 
+        /// <summary>
+        /// Gets the attacks array (access by field indexes).
+        /// </summary>
         public ulong[] Attacks { get; private set; }
+
+        /// <summary>
+        /// Gets the attacks summary array (0 = White, 1 = Black).
+        /// </summary>
         public ulong[] AttacksSummary { get; private set; }
 
+        /// <summary>
+        /// Gets the castling possibility array (more information about castling indexes at <see cref="CastlingType"/>).
+        /// </summary>
         public bool[] CastlingPossibility { get; private set; }
+
+        /// <summary>
+        /// Gets the castling done array (0 = White, 1 = Black).
+        /// </summary>
         public bool[] CastlingDone { get; private set; }
 
+        /// <summary>
+        /// Gets the available moves list (only if <see cref="Calculate"/> method was called).
+        /// </summary>
         public LinkedList<Move> Moves { get; private set; }
+
+        /// <summary>
+        /// Gets the incremental evaluation data.
+        /// </summary>
         public IncrementalEvaluationData IncEvaluation { get; private set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Bitboard"/> class.
+        /// </summary>
         public Bitboard()
         {
             Pieces = new ulong[12];
@@ -45,6 +92,11 @@ namespace Proxima.Core.Boards
             Moves = new LinkedList<Move>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Bitboard"/> class.
+        /// </summary>
+        /// <param name="bitboard">The previous bitboard.</param>
+        /// <param name="move">The move to apply.</param>
         public Bitboard(Bitboard bitboard, Move move) : this()
         {
             Hash = bitboard.Hash;
@@ -62,6 +114,10 @@ namespace Proxima.Core.Boards
             move.Do(this);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Bitboard"/> class.
+        /// </summary>
+        /// <param name="friendlyBoard">The friendly board.</param>
         public Bitboard(FriendlyBoard friendlyBoard) : this()
         {
             Pieces = friendlyBoard.GetPiecesArray();
@@ -75,11 +131,21 @@ namespace Proxima.Core.Boards
             Hash = GetNewHash();
         }
 
+        /// <summary>
+        /// Does the specified move at cloned bitboard.
+        /// </summary>
+        /// <param name="move">The move to apply.</param>
+        /// <returns>The bitboard with applied move.</returns>
         public Bitboard Move(Move move)
         {
             return new Bitboard(this, move);
         }
 
+        /// <summary>
+        /// Checks if king with the specified color is checked.
+        /// </summary>
+        /// <param name="color">The king color.</param>
+        /// <returns>True if king with specified color is checked, otherwise false.</returns>
         public bool IsCheck(Color color)
         {
             var enemyColor = ColorOperations.Invert(color);
@@ -88,27 +154,47 @@ namespace Proxima.Core.Boards
             return (AttacksSummary[(int)enemyColor] & king) != 0;
         }
 
+        /// <summary>
+        /// Calculates available moves.
+        /// </summary>
         public void Calculate()
         {
             var generatorMode = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
-            Calculate(generatorMode, generatorMode);
+            CalculateAvailableMoves(generatorMode, generatorMode);
         }
 
+        /// <summary>
+        /// Calculates available moves.
+        /// </summary>
+        /// <param name="whiteMode">The white generator mode.</param>
+        /// <param name="blackMode">The black generator mode.</param>
         public void Calculate(GeneratorMode whiteMode, GeneratorMode blackMode)
         {
             CalculateAvailableMoves(whiteMode, blackMode);
         }
 
+        /// <summary>
+        /// Calculates board evaluation.
+        /// </summary>
+        /// <returns>The board evaluation data.</returns>
         public int GetEvaluation()
         {
             return EvaluationCalculator.GetEvaluation(this);
         }
 
+        /// <summary>
+        /// Calculates detailed (separated into individual components and colors) board evaluation.
+        /// </summary>
+        /// <returns>The board evaluation data.</returns>
         public DetailedEvaluationData GetDetailedEvaluation()
         {
             return EvaluationCalculator.GetDetailedEvaluation(this);
         }
 
+        /// <summary>
+        /// Verifies board integrity (compares incremental occupancy and evaluation with fresh calculations).
+        /// </summary>
+        /// <returns>True if board is integral, otherwise false.</returns>
         public bool VerifyIntegrity()
         {
             var calculatedOccupancy = CalculateOccupancy();
@@ -122,11 +208,19 @@ namespace Proxima.Core.Boards
                    IncEvaluation.Castling == calculatedEvaluation.Castling.Difference;
         }
 
+        /// <summary>
+        /// Calculates Zborist hash.
+        /// </summary>
+        /// <returns>The Zobrst hash for the current bitboard.</returns>
         private ulong GetNewHash()
         {
             return ZobristHash.Calculate(Pieces, CastlingPossibility, EnPassant);
         }
 
+        /// <summary>
+        /// Calculates occupancy for all players.
+        /// </summary>
+        /// <returns>The occupancy array.</returns>
         private ulong[] CalculateOccupancy()
         {
             var occupancy = new ulong[2];
@@ -140,6 +234,11 @@ namespace Proxima.Core.Boards
             return occupancy;
         }
 
+        /// <summary>
+        /// Calculates available moves.
+        /// </summary>
+        /// <param name="whiteMode">The white generator mode.</param>
+        /// <param name="blackMode">The black generator mode.</param>
         private void CalculateAvailableMoves(GeneratorMode whiteMode, GeneratorMode blackMode)
         {
             var whiteGeneratorParameters = GetGeneratorParameters(Color.White, whiteMode);
@@ -152,6 +251,10 @@ namespace Proxima.Core.Boards
             CalculateCastling(blackGeneratorParameters);
         }
 
+        /// <summary>
+        /// Calculates available moves.
+        /// </summary>
+        /// <param name="generatorParameters">The generator parameters.</param>
         private void CalculateAvailableMoves(GeneratorParameters generatorParameters)
         {
             PawnMovesGenerator.Generate(generatorParameters);
@@ -165,6 +268,10 @@ namespace Proxima.Core.Boards
             BishopMovesGenerator.Generate(PieceType.Queen, generatorParameters);
         }
 
+        /// <summary>
+        /// Calculates castling moves.
+        /// </summary>
+        /// <param name="generatorParameters">The generator parameters.</param>
         private void CalculateCastling(GeneratorParameters generatorParameters)
         {
             if ((generatorParameters.Mode & GeneratorMode.CalculateMoves) != 0)
@@ -173,6 +280,12 @@ namespace Proxima.Core.Boards
             }
         }
 
+        /// <summary>
+        /// Calculates generator parameters for the specified player and generator mode.
+        /// </summary>
+        /// <param name="color">The player color.</param>
+        /// <param name="mode">The generator mode.</param>
+        /// <returns>The generator parameters.</returns>
         private GeneratorParameters GetGeneratorParameters(Color color, GeneratorMode mode)
         {
             return new GeneratorParameters()

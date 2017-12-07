@@ -65,11 +65,15 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
+        /// <summary>
+        /// Calculates castling moves.
+        /// </summary>
+        /// <param name="opt">The generator parameters.</param>
         public static void CalculateCastling(GeneratorParameters opt)
         {
-            var kingLSB = CastlingConstants.KingLSB;
-            var leftRookLSB = CastlingConstants.LeftRookLSB;
-            var rightRookLSB = CastlingConstants.RightRookLSB;
+            var kingLSB = CastlingConstants.InitialKingBitboard;
+            var leftRookLSB = CastlingConstants.InitialLeftRookBitboard;
+            var rightRookLSB = CastlingConstants.InitialRightRookBitboard;
             var shortMoveArea = CastlingConstants.ShortCastlingMoveArea;
             var shortCheckArea = CastlingConstants.ShortCastlingCheckArea;
             var longMoveArea = CastlingConstants.LongCastlingMoveArea;
@@ -112,26 +116,57 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
+        /// <summary>
+        /// Checks if castling with the specified type is possible.
+        /// </summary>
+        /// <param name="type">The castling type.</param>
+        /// <param name="opt">The generator parameters.</param>
+        /// <returns>True if castling is possible, otherwise false.</returns>
         private static bool IsCastlingPossible(CastlingType type, GeneratorParameters opt)
         {
             return opt.Bitboard.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)];
         }
 
-        private static bool IsKingOnPosition(ulong kingLSB, GeneratorParameters opt)
+        /// <summary>
+        /// Checks if king is on initial position and can be a part of castling.
+        /// </summary>
+        /// <param name="kingBitboard">The bitboard with set bit at king position.</param>
+        /// <param name="opt">The generator parameters.</param>
+        /// <returns>True if king is on initial position, otherwise false.</returns>
+        private static bool IsKingOnPosition(ulong kingBitboard, GeneratorParameters opt)
         {
-            return (opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.King)] & kingLSB) != 0;
+            return (opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.King)] & kingBitboard) != 0;
         }
 
-        private static bool IsRookOnPosition(ulong rookLSB, GeneratorParameters opt)
+        /// <summary>
+        /// Checks if rook is on initial position and can be a part of castling.
+        /// </summary>
+        /// <param name="rookBitboard">The bitboard with set bit at rook position.</param>
+        /// <param name="opt">The generator parameters.</param>
+        /// <returns>True if rook is on initial position, otherwise false.</returns>
+        private static bool IsRookOnPosition(ulong rookBitboard, GeneratorParameters opt)
         {
-            return (opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Rook)] & rookLSB) != 0;
+            return (opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Rook)] & rookBitboard) != 0;
         }
 
+        /// <summary>
+        /// Checks if castling area (all fields that are on the way of king or rook during castling) is empty.
+        /// </summary>
+        /// <param name="areaToCheck">The bitboard with set bit at all fields to check.</param>
+        /// <param name="occupancy">The bitboard with occupancy.</param>
+        /// <returns>True if castling area is empty, otherwise false.</returns>
         private static bool IsCastlingAreaEmpty(ulong areaToCheck, ulong occupancy)
         {
             return (areaToCheck & occupancy) == 0;
         }
 
+        /// <summary>
+        /// Checks if check area (all fields that are on the way of king during castling) is checked.
+        /// </summary>
+        /// <param name="enemyColor">The enemy color.</param>
+        /// <param name="areaToCheck">The bitboard with set bit at all fields to check.</param>
+        /// <param name="opt">The generator parameters.</param>
+        /// <returns>True if any of the castling area is checked, otherwise false.</returns>
         private static bool IsCastlingAreaChecked(Color enemyColor, ulong areaToCheck, GeneratorParameters opt)
         {
             return (opt.Bitboard.AttacksSummary[(int)enemyColor] & areaToCheck) != 0;

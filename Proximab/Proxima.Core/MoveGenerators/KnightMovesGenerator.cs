@@ -15,7 +15,6 @@ namespace Proxima.Core.MoveGenerators
         /// <summary>
         /// Generates available moves.
         /// </summary>
-        /// <param name="pieceType">The piece type.</param>
         /// <param name="opt">The generator parameters.</param>
         public static void Generate(GeneratorParameters opt)
         {
