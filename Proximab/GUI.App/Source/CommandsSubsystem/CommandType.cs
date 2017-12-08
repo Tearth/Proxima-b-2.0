@@ -19,6 +19,7 @@
         Check,
         Castling,
         Evaluation,
-        Hash
+        Hash,
+        AI
     }
 }

@@ -109,5 +109,10 @@ namespace Proxima.Core.Commons.Positions
             hashCode = (hashCode * -1521134295) + Y.GetHashCode();
             return hashCode;
         }
+
+        public override string ToString()
+        {
+            return $"[{X} {Y}]";
+        }
     }
 }

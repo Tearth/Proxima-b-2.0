@@ -147,6 +147,22 @@
         <Arguments>
         </Arguments>
       </Item>
+    
+      <Item>
+        <Name>AI</Name>
+        <EnumType>AI</EnumType>
+        <Description>Runs Proxima b AI and does the move.</Description>
+        <Arguments>
+          <Item>
+            <Type>string</Type>
+            <Description>Initial AI color</Description>
+          </Item>
+          <Item>
+            <Type>int</Type>
+            <Description>Depth</Description>
+          </Item>
+        </Arguments>
+      </Item>
 		</Definitions>
 	</Asset>
 </XnaContent>

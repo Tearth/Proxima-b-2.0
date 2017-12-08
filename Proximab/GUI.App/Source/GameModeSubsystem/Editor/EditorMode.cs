@@ -5,6 +5,8 @@ using GUI.App.Source.CommandsSubsystem;
 using GUI.App.Source.ConsoleSubsystem;
 using GUI.App.Source.PromotionSubsystem;
 using GUI.ColorfulConsole;
+using Proxima.Core.AI;
+using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Pieces;
@@ -43,6 +45,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             CommandsManager.AddCommandHandler(CommandType.AddPiece, AddPiece);
             CommandsManager.AddCommandHandler(CommandType.RemovePiece, RemovePiece);
             CommandsManager.AddCommandHandler(CommandType.MovesTest, DoMovesTest);
+            CommandsManager.AddCommandHandler(CommandType.AI, RunAI);
 
             base.SetCommandHandlers();
         }
@@ -180,6 +183,32 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             ConsoleManager.WriteLine($"$wNodes per second: $c{result.NodesPerSecond / 1000} kN");
             ConsoleManager.WriteLine($"$wTime per node: $c{result.TimePerNode} ns");
             ConsoleManager.WriteLine($"$wTime: $m{result.Time} s");
+            ConsoleManager.WriteLine();
+        }
+
+        private void RunAI(Command command)
+        {
+            var colorArgument = command.GetArgument<string>(0);
+            var depthArgument = command.GetArgument<int>(1);
+
+            var colorParseResult = Enum.TryParse(colorArgument, true, out Color color);
+            if (!colorParseResult)
+            {
+                ConsoleManager.WriteLine($"$rInvalid color type ($R{color}$r)");
+                return;
+            }
+
+            var ai = new AICore();
+            var totalNodes = 0;
+            var endNodes = 0;
+            var score = ai.NegaMax(color, new Bitboard(VisualBoard.FriendlyBoard), depthArgument, out Move bestMove, ref totalNodes, ref endNodes);
+            
+            ConsoleManager.WriteLine();
+            ConsoleManager.WriteLine("$wAI result:");
+            ConsoleManager.WriteLine($"$wTotal nodes: $g{totalNodes} N");
+            ConsoleManager.WriteLine($"$wEnd nodes: $g{endNodes} N");
+            ConsoleManager.WriteLine($"$wBest move: from $m{bestMove.From.ToString()} to {bestMove.To.ToString()}");
+            ConsoleManager.WriteLine($"$wScore: $g{score} N");
             ConsoleManager.WriteLine();
         }
     }

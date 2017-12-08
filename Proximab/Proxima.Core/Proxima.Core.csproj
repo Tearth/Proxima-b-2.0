@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\AICore.cs" />
     <Compile Include="Boards\Bitboard.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
