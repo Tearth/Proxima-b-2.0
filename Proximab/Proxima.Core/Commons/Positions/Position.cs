@@ -116,7 +116,7 @@ namespace Proxima.Core.Commons.Positions
         /// <returns>The string representation.</returns>
         public override string ToString()
         {
-            return $"[{X} {Y}]";
+            return $"{PositionConverter.ToString(this)}";
         }
     }
 }

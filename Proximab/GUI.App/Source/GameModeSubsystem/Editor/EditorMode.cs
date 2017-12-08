@@ -213,7 +213,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             ConsoleManager.WriteLine($"$wTime per node: $c{aiResult.TimePerNode} ns");
             ConsoleManager.WriteLine($"$wTime: $m{aiResult.Time} s");
             ConsoleManager.WriteLine();
-            ConsoleManager.WriteLine($"$wBest move: from $g{aiResult.BestMove.From.ToString()} to {aiResult.BestMove.To.ToString()}");
+            ConsoleManager.WriteLine($"$wBest move: $g{aiResult.BestMove.ToString()}");
             ConsoleManager.WriteLine($"$wScore: $m{aiResult.Score}");
             ConsoleManager.WriteLine();
         }

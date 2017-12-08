@@ -78,6 +78,15 @@ namespace Proxima.Core.MoveGenerators.Moves
         public abstract void CalculateMove(Bitboard bitboard);
 
         /// <summary>
+        /// Converts move to its string representation.
+        /// </summary>
+        /// <returns>The string representation.</returns>
+        public override string ToString()
+        {
+            return From.ToString() + " -> " + To.ToString();
+        }
+
+        /// <summary>
         /// Helper method for derived classes, calculates move for current piece type with the specified parameters.
         /// </summary>
         /// <param name="bitboard">The bitboard.</param>
