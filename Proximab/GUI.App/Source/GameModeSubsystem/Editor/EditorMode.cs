@@ -186,6 +186,10 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             ConsoleManager.WriteLine();
         }
 
+        /// <summary>
+        /// Runs AI calculating.
+        /// </summary>
+        /// <param name="command">The AI command</param>
         private void RunAI(Command command)
         {
             var colorArgument = command.GetArgument<string>(0);

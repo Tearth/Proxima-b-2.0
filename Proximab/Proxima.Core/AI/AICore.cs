@@ -11,6 +11,13 @@ namespace Proxima.Core.AI
     /// </summary>
     public class AICore
     {
+        /// <summary>
+        /// Calculates the best possible move for the specified parameters.
+        /// </summary>
+        /// <param name="color">The initial player.</param>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="depth">The calculating depth.</param>
+        /// <returns>The result of AI calculating.</returns>
         public AIResult Calculate(Color color, Bitboard bitboard, int depth)
         {
             var result = new AIResult();
@@ -27,6 +34,15 @@ namespace Proxima.Core.AI
             return result;
         }
 
+        /// <summary>
+        /// Temporary method to calculating best move.
+        /// </summary>
+        /// <param name="color">The player color.</param>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="depth">The current depth.</param>
+        /// <param name="bestMove">The best possible move from nested nodes.</param>
+        /// <param name="stats">The AI stats.</param>
+        /// <returns>The evaluation score of best move.</returns>
         public int NegaMax(Color color, Bitboard bitboard, int depth, out Move bestMove, AIStats stats)
         {
             var bestValue = int.MinValue;
@@ -49,12 +65,12 @@ namespace Proxima.Core.AI
             }
 
             var availableMoves = bitboard.Moves;
-            foreach(var move in availableMoves)
+            foreach (var move in availableMoves)
             {
                 var bitboardAfterMove = bitboard.Move(move);
                 var nodeValue = -NegaMax(enemyColor, bitboardAfterMove, depth - 1, out _, stats);
 
-                if(bestValue < nodeValue)
+                if (bestValue < nodeValue)
                 {
                     bestValue = nodeValue;
                     bestMove = move;
@@ -64,9 +80,15 @@ namespace Proxima.Core.AI
             return bestValue;
         }
 
+        /// <summary>
+        /// Gets generator mode for the specified color.
+        /// </summary>
+        /// <param name="currentColor">The current color.</param>
+        /// <param name="colorToMove">The color of moving player.</param>
+        /// <returns>The generator mode.</returns>
         private GeneratorMode GetGeneratorMode(Color currentColor, Color colorToMove)
         {
-            return currentColor == colorToMove  ?
+            return currentColor == colorToMove ?
                 GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks :
                 GeneratorMode.CalculateAttacks;
         }

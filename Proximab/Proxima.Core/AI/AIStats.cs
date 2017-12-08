@@ -1,14 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Proxima.Core.AI
+﻿namespace Proxima.Core.AI
 {
+    /// <summary>
+    /// Represents a container of AI stats.
+    /// </summary>
     public class AIStats
     {
+        /// <summary>
+        /// Gets or sets the total nodes.
+        /// </summary>
         public int TotalNodes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the end nodes.
+        /// </summary>
         public int EndNodes { get; set; }
     }
 }

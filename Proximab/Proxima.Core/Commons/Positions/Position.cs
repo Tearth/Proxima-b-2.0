@@ -110,6 +110,10 @@ namespace Proxima.Core.Commons.Positions
             return hashCode;
         }
 
+        /// <summary>
+        /// Converts position to its string representation.
+        /// </summary>
+        /// <returns>The string representation.</returns>
         public override string ToString()
         {
             return $"[{X} {Y}]";

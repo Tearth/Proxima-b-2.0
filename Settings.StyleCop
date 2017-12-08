@@ -10,6 +10,7 @@
       </Rules>
       <AnalyzerSettings>
         <CollectionProperty Name="Hungarian">
+          <Value>ai</Value>
           <Value>as</Value>
           <Value>do</Value>
           <Value>en</Value>

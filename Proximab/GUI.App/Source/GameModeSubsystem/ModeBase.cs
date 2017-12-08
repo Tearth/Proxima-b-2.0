@@ -177,7 +177,6 @@ namespace GUI.App.Source.GameModeSubsystem
             VisualBoard.FriendlyBoard = new FriendlyBoard(Bitboard);
         }
         
-
         /// <summary>
         /// Draws occupancy (nonempty fields) by pieces with the specified color.
         /// </summary>
