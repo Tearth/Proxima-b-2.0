@@ -1,4 +1,5 @@
-﻿using Proxima.Core.Boards;
+﻿using System.Diagnostics;
+using Proxima.Core.Boards;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.MoveGenerators;
 using Proxima.Core.MoveGenerators.Moves;
@@ -10,30 +11,48 @@ namespace Proxima.Core.AI
     /// </summary>
     public class AICore
     {
-        public int NegaMax(Color color, Bitboard bitboard, int depth, out Move bestMove, ref int totalNodes, ref int endNodes)
+        public AIResult Calculate(Color color, Bitboard bitboard, int depth)
         {
-            bestMove = null;
+            var result = new AIResult();
+            var stats = new AIStats();
+            var stopwatch = new Stopwatch();
 
-            totalNodes++;
-            if (depth == 0)
-            {
-                endNodes++;
-                return -(((int)color * 2) - 1) * bitboard.GetEvaluation();
-            }
+            stopwatch.Start();
+            result.Score = NegaMax(color, bitboard, depth, out Move bestMove, stats);
+            result.Ticks = stopwatch.Elapsed.Ticks;
 
+            result.BestMove = bestMove;
+            result.Stats = stats;
 
+            return result;
+        }
+
+        public int NegaMax(Color color, Bitboard bitboard, int depth, out Move bestMove, AIStats stats)
+        {
             var bestValue = int.MinValue;
             var enemyColor = ColorOperations.Invert(color);
-            var whiteGeneratorMode = GetGeneratorMode(Color.White, color);
-            var blackGeneratorMode = GetGeneratorMode(Color.Black, color);
+            bestMove = null;
 
-            bitboard.Calculate(whiteGeneratorMode, blackGeneratorMode);
+            stats.TotalNodes++;
+            if (depth <= 0)
+            {
+                bitboard.Calculate(GeneratorMode.CalculateAttacks, GeneratorMode.CalculateAttacks);
+                stats.EndNodes++;
+
+                return -(((int)color * 2) - 1) * bitboard.GetEvaluation();
+            }
+            else
+            {
+                var whiteGeneratorMode = GetGeneratorMode(color, Color.White);
+                var blackGeneratorMode = GetGeneratorMode(color, Color.Black);
+                bitboard.Calculate(whiteGeneratorMode, blackGeneratorMode);
+            }
+
             var availableMoves = bitboard.Moves;
-
             foreach(var move in availableMoves)
             {
                 var bitboardAfterMove = bitboard.Move(move);
-                var nodeValue = -NegaMax(enemyColor, bitboardAfterMove, depth - 1, out _, ref totalNodes, ref endNodes);
+                var nodeValue = -NegaMax(enemyColor, bitboardAfterMove, depth - 1, out _, stats);
 
                 if(bestValue < nodeValue)
                 {

@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\AICore.cs" />
+    <Compile Include="AI\AIResult.cs" />
+    <Compile Include="AI\AIStats.cs" />
     <Compile Include="Boards\Bitboard.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>

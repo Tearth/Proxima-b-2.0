@@ -199,16 +199,18 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             }
 
             var ai = new AICore();
-            var totalNodes = 0;
-            var endNodes = 0;
-            var score = ai.NegaMax(color, new Bitboard(VisualBoard.FriendlyBoard), depthArgument, out Move bestMove, ref totalNodes, ref endNodes);
-            
+            var aiResult = ai.Calculate(color, new Bitboard(VisualBoard.FriendlyBoard), depthArgument);
+
             ConsoleManager.WriteLine();
             ConsoleManager.WriteLine("$wAI result:");
-            ConsoleManager.WriteLine($"$wTotal nodes: $g{totalNodes} N");
-            ConsoleManager.WriteLine($"$wEnd nodes: $g{endNodes} N");
-            ConsoleManager.WriteLine($"$wBest move: from $m{bestMove.From.ToString()} to {bestMove.To.ToString()}");
-            ConsoleManager.WriteLine($"$wScore: $g{score} N");
+            ConsoleManager.WriteLine($"$wTotal nodes: $g{aiResult.Stats.TotalNodes} N");
+            ConsoleManager.WriteLine($"$wEnd nodes: $g{aiResult.Stats.EndNodes} N");
+            ConsoleManager.WriteLine($"$wNodes per second: $c{aiResult.NodesPerSecond / 1000} kN");
+            ConsoleManager.WriteLine($"$wTime per node: $c{aiResult.TimePerNode} ns");
+            ConsoleManager.WriteLine($"$wTime: $m{aiResult.Time} s");
+            ConsoleManager.WriteLine();
+            ConsoleManager.WriteLine($"$wBest move: from $g{aiResult.BestMove.From.ToString()} to {aiResult.BestMove.To.ToString()}");
+            ConsoleManager.WriteLine($"$wScore: $m{aiResult.Score}");
             ConsoleManager.WriteLine();
         }
     }
