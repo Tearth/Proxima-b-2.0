@@ -21,8 +21,8 @@ namespace Proxima.Core.MoveGenerators
         {
             CalculateMovesForSinglePush(opt);
             CalculateMovesForDoublePush(opt);
-            CalculateDiagonalAttacks(7, 9, opt);
-            CalculateDiagonalAttacks(9, 7, opt);
+            CalculateDiagonalAttacks(7, 9, BitConstants.HFile, opt);
+            CalculateDiagonalAttacks(9, 7, BitConstants.AFile, opt);
         }
 
         /// <summary>
@@ -133,11 +133,12 @@ namespace Proxima.Core.MoveGenerators
         /// </summary>
         /// <param name="leftAttackShift">The left attack shift.</param>
         /// <param name="rightAttackShift">The right attacks shift.</param>
+        /// <param name="ignoreFields">The bitboard with fields to ignore (white and black pieces will have different ones).</param>
         /// <param name="opt">The generator parameters.</param>
-        private static void CalculateDiagonalAttacks(int leftAttackShift, int rightAttackShift, GeneratorParameters opt)
+        private static void CalculateDiagonalAttacks(int leftAttackShift, int rightAttackShift, ulong ignoreFields, GeneratorParameters opt)
         {
             var piecesToParse = opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)];
-            var validPieces = piecesToParse & ~BitConstants.HFile;
+            var validPieces = piecesToParse & ~ignoreFields;
 
             var pattern = opt.FriendlyColor == Color.White ? validPieces << leftAttackShift : validPieces >> rightAttackShift;
 

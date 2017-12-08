@@ -5,12 +5,22 @@ using Proxima.Core.Commons.Pieces;
 
 namespace Proxima.Core.Boards.Friendly
 {
+    /// <summary>
+    /// Represents a list of pieces in the user-friendly way.
+    /// </summary>
     public class FriendlyPiecesList : List<FriendlyPiece>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FriendlyPiecesList"/> class.
+        /// </summary>
         public FriendlyPiecesList() : base()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FriendlyPiecesList"/> class.
+        /// </summary>
+        /// <param name="pieces">The array of pieces.</param>
         public FriendlyPiecesList(ulong[] pieces) : base()
         {
             for (int i = 0; i < 12; i++)

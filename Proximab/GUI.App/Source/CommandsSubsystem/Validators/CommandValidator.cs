@@ -11,8 +11,14 @@ namespace GUI.App.Source.CommandsSubsystem.Validators
     /// </summary>
     internal class CommandValidator
     {
-        private delegate bool ValidationHandlerDelegate(string value);
         private Dictionary<string, ValidationHandlerDelegate> _validationHandlers;
+
+        /// <summary>
+        /// Delegate method for validation handlers.
+        /// </summary>
+        /// <param name="value">The command to validate.</param>
+        /// <returns>True if command is valid, otherwise false.</returns>
+        private delegate bool ValidationHandlerDelegate(string value);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandValidator"/> class.
