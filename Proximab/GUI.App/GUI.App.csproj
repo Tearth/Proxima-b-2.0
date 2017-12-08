@@ -66,8 +66,8 @@
     <Compile Include="Source\CommandsSubsystem\Parsers\RawCommand.cs" />
     <Compile Include="Source\CommandsSubsystem\Exceptions\TypeNotFoundException.cs" />
     <Compile Include="Source\DiagnosticSubsystem\EnvironmentInfoProvider.cs" />
-    <Compile Include="Source\GameModeSubsystem\Editor\EditorGameMode.cs" />
-    <Compile Include="Source\GameModeSubsystem\GameModeBase.cs" />
+    <Compile Include="Source\GameModeSubsystem\Editor\EditorMode.cs" />
+    <Compile Include="Source\GameModeSubsystem\ModeBase.cs" />
     <Compile Include="Source\GUICore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

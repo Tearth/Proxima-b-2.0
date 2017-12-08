@@ -22,7 +22,7 @@ namespace GUI.App.Source.GameModeSubsystem
     /// <summary>
     /// Represents a set of methods common for all game modes (logic, drawing, commands). 
     /// </summary>
-    internal abstract class GameModeBase
+    internal abstract class ModeBase
     {
         /// <summary>
         /// Gets or sets the console manager.
@@ -55,11 +55,11 @@ namespace GUI.App.Source.GameModeSubsystem
         protected Bitboard Bitboard { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameModeBase"/> class.
+        /// Initializes a new instance of the <see cref="ModeBase"/> class.
         /// </summary>
         /// <param name="consoleManager">The console manager instance</param>
         /// <param name="commandsManager">The commands manager instance</param>
-        public GameModeBase(ConsoleManager consoleManager, CommandsManager commandsManager)
+        public ModeBase(ConsoleManager consoleManager, CommandsManager commandsManager)
         {
             ConsoleManager = consoleManager;
             CommandsManager = commandsManager;
@@ -128,17 +128,7 @@ namespace GUI.App.Source.GameModeSubsystem
             CommandsManager.AddCommandHandler(CommandType.Evaluation, DisplayEvaluation);
             CommandsManager.AddCommandHandler(CommandType.Hash, DisplayBoardHash);
         }
-
-        /// <summary>
-        /// Applies friendly board to the bitboard and updates the visual board (generator mode is set to CalculateAttacks for both colors).
-        /// </summary>
-        /// <param name="friendlyBoard">The friendly board to apply.</param>
-        protected void CalculateBitboard(FriendlyBoard friendlyBoard)
-        {
-            var mode = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
-            CalculateBitboard(friendlyBoard, mode, mode);
-        }
-
+        
         /// <summary>
         /// Applies move to the bitboard and updates the visual board (generator mode is set to CalculateAttacks for both colors).
         /// </summary>
@@ -147,20 +137,6 @@ namespace GUI.App.Source.GameModeSubsystem
         {
             var mode = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
             CalculateBitboard(move, mode, mode);
-        }
-
-        /// <summary>
-        /// Applies friendly board to the bitboard and updates the visual board.
-        /// </summary>
-        /// <param name="friendlyBoard">The friendly board to apply.</param>
-        /// <param name="whiteMode">The white generator mode.</param>
-        /// <param name="blackMode">The black generator mode.</param>
-        protected void CalculateBitboard(FriendlyBoard friendlyBoard, GeneratorMode whiteMode, GeneratorMode blackMode)
-        {
-            Bitboard = new Bitboard(friendlyBoard);
-            Bitboard.Calculate(whiteMode, blackMode);
-
-            VisualBoard.FriendlyBoard = new FriendlyBoard(Bitboard);
         }
 
         /// <summary>
@@ -176,6 +152,31 @@ namespace GUI.App.Source.GameModeSubsystem
 
             VisualBoard.FriendlyBoard = new FriendlyBoard(Bitboard);
         }
+
+        /// <summary>
+        /// Applies friendly board to the bitboard and updates the visual board (generator mode is set to CalculateAttacks for both colors).
+        /// </summary>
+        /// <param name="friendlyBoard">The friendly board to apply.</param>
+        protected void CalculateBitboard(FriendlyBoard friendlyBoard)
+        {
+            var mode = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
+            CalculateBitboard(friendlyBoard, mode, mode);
+        }
+
+        /// <summary>
+        /// Applies friendly board to the bitboard and updates the visual board.
+        /// </summary>
+        /// <param name="friendlyBoard">The friendly board to apply.</param>
+        /// <param name="whiteMode">The white generator mode.</param>
+        /// <param name="blackMode">The black generator mode.</param>
+        protected void CalculateBitboard(FriendlyBoard friendlyBoard, GeneratorMode whiteMode, GeneratorMode blackMode)
+        {
+            Bitboard = new Bitboard(friendlyBoard);
+            Bitboard.Calculate(whiteMode, blackMode);
+
+            VisualBoard.FriendlyBoard = new FriendlyBoard(Bitboard);
+        }
+        
 
         /// <summary>
         /// Draws occupancy (nonempty fields) by pieces with the specified color.

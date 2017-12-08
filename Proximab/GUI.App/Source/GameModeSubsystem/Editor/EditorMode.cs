@@ -17,14 +17,14 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
     /// <summary>
     /// Represents the editor game mode (allows to add/remove pieces, do tests and some other non-typical actions).
     /// </summary>
-    internal class EditorGameMode : GameModeBase
+    internal class EditorMode : ModeBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="EditorGameMode"/> class.
+        /// Initializes a new instance of the <see cref="EditorMode"/> class.
         /// </summary>
         /// <param name="consoleManager">The console manager instance.</param>
         /// <param name="commandsManager">The commands manager instance.</param>
-        public EditorGameMode(ConsoleManager consoleManager, CommandsManager commandsManager) : base(consoleManager, commandsManager)
+        public EditorMode(ConsoleManager consoleManager, CommandsManager commandsManager) : base(consoleManager, commandsManager)
         {
             CalculateBitboard(new DefaultFriendlyBoard());
             

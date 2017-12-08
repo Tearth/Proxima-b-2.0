@@ -18,7 +18,7 @@ namespace GUI.App.Source
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private GameModeBase _gameMode;
+        private ModeBase _gameMode;
 
         private ConsoleManager _consoleManager;
         private CommandsManager _commandsManager;
@@ -40,7 +40,7 @@ namespace GUI.App.Source
                 PreferredBackBufferHeight = (int)Constants.WindowSize.Y
             };
 
-            _gameMode = new EditorGameMode(_consoleManager, _commandsManager);
+            _gameMode = new EditorMode(_consoleManager, _commandsManager);
             _inputManager = new InputManager();
 
             Content.RootDirectory = "Content";
