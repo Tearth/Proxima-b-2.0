@@ -1,4 +1,5 @@
-﻿using GUI.App.Source.CommandsSubsystem;
+﻿using System;
+using GUI.App.Source.CommandsSubsystem;
 using GUI.App.Source.ConsoleSubsystem;
 using GUI.App.Source.GameModeSubsystem;
 using GUI.App.Source.GameModeSubsystem.Editor;
@@ -19,6 +20,7 @@ namespace GUI.App.Source
         private SpriteBatch _spriteBatch;
 
         private ModeBase _mode;
+        private ModeFactory _modeFactory;
 
         private ConsoleManager _consoleManager;
         private CommandsManager _commandsManager;
@@ -40,7 +42,9 @@ namespace GUI.App.Source
                 PreferredBackBufferHeight = (int)Constants.WindowSize.Y
             };
 
-            _mode = new EditorMode(_consoleManager, _commandsManager);
+            _modeFactory = new ModeFactory(_consoleManager, _commandsManager);
+            _mode = _modeFactory.Create(ModeType.Editor);
+
             _inputManager = new InputManager();
 
             Content.RootDirectory = "Content";
@@ -126,8 +130,18 @@ namespace GUI.App.Source
         /// <param name="command">The Mode command.</param>
         private void ChangeMode(Command command)
         {
-            _commandsManager.RemoveCommandHandlers(CommandGroup.GUICore);
             var modeNameArgument = command.GetArgument<string>(0);
+
+            var modeNameParseResult = Enum.TryParse(modeNameArgument, true, out ModeType modeType);
+            if (!modeNameParseResult)
+            {
+                _consoleManager.WriteLine($"$rInvalid mode type ($R{modeNameArgument}$r)");
+                return;
+            }
+
+            _commandsManager.RemoveCommandHandlers(CommandGroup.GameMode);
+            _mode = _modeFactory.Create(modeType);
+            _mode.LoadContent(Content);
         }
     }
 }
