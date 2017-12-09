@@ -119,15 +119,15 @@ namespace GUI.App.Source.GameModeSubsystem
         /// </summary>
         protected virtual void SetCommandHandlers()
         {
-            CommandsManager.AddCommandHandler(CommandType.Occupancy, DrawOccupancy);
-            CommandsManager.AddCommandHandler(CommandType.Attacks, DrawAttacks);
-            CommandsManager.AddCommandHandler(CommandType.SaveBoard, SaveBoard);
-            CommandsManager.AddCommandHandler(CommandType.LoadBoard, LoadBoard);
-            CommandsManager.AddCommandHandler(CommandType.Check, DisplayCheckStatus);
-            CommandsManager.AddCommandHandler(CommandType.Castling, DisplayCastlingFlags);
-            CommandsManager.AddCommandHandler(CommandType.Evaluation, DisplayEvaluation);
-            CommandsManager.AddCommandHandler(CommandType.Hash, DisplayBoardHash);
-            CommandsManager.AddCommandHandler(CommandType.Reset, Reset);
+            CommandsManager.AddCommandHandler(CommandType.Occupancy, CommandGroup.GameMode, DrawOccupancy);
+            CommandsManager.AddCommandHandler(CommandType.Attacks, CommandGroup.GameMode, DrawAttacks);
+            CommandsManager.AddCommandHandler(CommandType.SaveBoard, CommandGroup.GameMode, SaveBoard);
+            CommandsManager.AddCommandHandler(CommandType.LoadBoard, CommandGroup.GameMode, LoadBoard);
+            CommandsManager.AddCommandHandler(CommandType.Check, CommandGroup.GameMode, DisplayCheckStatus);
+            CommandsManager.AddCommandHandler(CommandType.Castling, CommandGroup.GameMode, DisplayCastlingFlags);
+            CommandsManager.AddCommandHandler(CommandType.Evaluation, CommandGroup.GameMode, DisplayEvaluation);
+            CommandsManager.AddCommandHandler(CommandType.Hash, CommandGroup.GameMode, DisplayBoardHash);
+            CommandsManager.AddCommandHandler(CommandType.Reset, CommandGroup.GameMode, Reset);
         }
         
         /// <summary>

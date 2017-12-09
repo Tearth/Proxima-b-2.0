@@ -23,7 +23,7 @@ namespace GUI.App.Source.CommandsSubsystem
         private CommandValidator _commandValidator;
 
         private CommandDefinitionsContainer _commandDefinitionsContainer;
-        private Dictionary<CommandType, ExecuteCommandDelegate> _commandHandlers;
+        private List<CommandHandle> _commandHandles;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandsManager"/> class.
@@ -33,7 +33,7 @@ namespace GUI.App.Source.CommandsSubsystem
             _commandParser = new CommandParser();
             _commandValidator = new CommandValidator();
 
-            _commandHandlers = new Dictionary<CommandType, ExecuteCommandDelegate>();
+            _commandHandles = new List<CommandHandle>();
         }
 
         /// <summary>
@@ -50,23 +50,33 @@ namespace GUI.App.Source.CommandsSubsystem
         /// </summary>
         /// <param name="commandType">The command type.</param>
         /// <param name="handler">The command handler.</param>
-        public void AddCommandHandler(CommandType commandType, ExecuteCommandDelegate handler)
+        public void AddCommandHandler(CommandType commandType, CommandGroup commandGroup, ExecuteCommandDelegate handler)
         {
-            if (_commandHandlers.ContainsKey(commandType))
+            if (_commandHandles.Exists(p => p.CommandType == commandType))
             {
                 throw new CommandHandlerAlreadyRegisteredException();
             }
 
-            _commandHandlers[commandType] = handler;
+            var commandHandle = new CommandHandle(commandType, commandGroup, handler);
+            _commandHandles.Add(commandHandle);
         }
 
         /// <summary>
-        /// Removes a command handler for the specified command type.
+        /// Removes all command handlers for the specified command type.
         /// </summary>
         /// <param name="commandType">The command type.</param>
         public void RemoveCommandHandler(CommandType commandType)
         {
-            _commandHandlers.Remove(commandType);
+            _commandHandles.RemoveAll(p => p.CommandType == commandType);
+        }
+
+        /// <summary>
+        /// Removes all command handlers for the specified command group.
+        /// </summary>
+        /// <param name="commandType">The command group.</param>
+        public void RemoveCommandHandlers(CommandGroup commandGroup)
+        {
+            _commandHandles.RemoveAll(p => p.CommandGroup == commandGroup);
         }
 
         /// <summary>
@@ -95,13 +105,13 @@ namespace GUI.App.Source.CommandsSubsystem
             }
 
             var command = GetCommand(rawCommand, commandDefinition);
-            if (!_commandHandlers.ContainsKey(command.Type))
+            if (!_commandHandles.Exists(p => p.CommandType == command.Type))
             {
                 throw new CommandHandlerNotFoundException();
             }
 
-            var commandHandler = _commandHandlers[command.Type];
-            commandHandler.Invoke(command);
+            var commandHandler = _commandHandles.First(p => p.CommandType == command.Type);
+            commandHandler.ExecuteCommandDelegate.Invoke(command);
 
             return ExecutionResult.Success;
         }

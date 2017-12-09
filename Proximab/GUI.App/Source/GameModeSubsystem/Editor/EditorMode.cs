@@ -40,12 +40,12 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
         /// <summary>
         /// Adds all command handlers from current class to the commands manager.
         /// </summary>
-        protected override void SetCommandHandlers()
+        protected new void SetCommandHandlers()
         {
-            CommandsManager.AddCommandHandler(CommandType.AddPiece, AddPiece);
-            CommandsManager.AddCommandHandler(CommandType.RemovePiece, RemovePiece);
-            CommandsManager.AddCommandHandler(CommandType.MovesTest, DoMovesTest);
-            CommandsManager.AddCommandHandler(CommandType.AI, RunAI);
+            CommandsManager.AddCommandHandler(CommandType.AddPiece, CommandGroup.GameMode, AddPiece);
+            CommandsManager.AddCommandHandler(CommandType.RemovePiece, CommandGroup.GameMode, RemovePiece);
+            CommandsManager.AddCommandHandler(CommandType.MovesTest, CommandGroup.GameMode, DoMovesTest);
+            CommandsManager.AddCommandHandler(CommandType.AI, CommandGroup.GameMode, RunAI);
 
             base.SetCommandHandlers();
         }

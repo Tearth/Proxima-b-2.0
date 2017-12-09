@@ -21,6 +21,7 @@
         Evaluation,
         Hash,
         AI,
-        Reset
+        Reset,
+        Mode
     }
 }

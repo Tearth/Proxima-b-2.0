@@ -171,6 +171,18 @@
         <Arguments>
         </Arguments>
       </Item>
+
+      <Item>
+        <Name>Mode</Name>
+        <EnumType>Mode</EnumType>
+        <Description>Changes mode.</Description>
+        <Arguments>
+          <Item>
+            <Type>string</Type>
+            <Description>New mode name.</Description>
+          </Item>
+        </Arguments>
+      </Item>
 		</Definitions>
 	</Asset>
 </XnaContent>

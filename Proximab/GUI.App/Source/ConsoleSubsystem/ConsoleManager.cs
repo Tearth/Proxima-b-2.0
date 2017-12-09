@@ -100,8 +100,8 @@ namespace GUI.App.Source.ConsoleSubsystem
         /// </summary>
         private void SetCommandHandlers()
         {
-            _commandsManager.AddCommandHandler(CommandType.Help, WriteCommandsList);
-            _commandsManager.AddCommandHandler(CommandType.Colors, WriteColorsList);
+            _commandsManager.AddCommandHandler(CommandType.Help, CommandGroup.ConsoleManager, WriteCommandsList);
+            _commandsManager.AddCommandHandler(CommandType.Colors, CommandGroup.ConsoleManager, WriteColorsList);
         }
 
         /// <summary>

@@ -54,6 +54,8 @@
     <Compile Include="Source\BoardSubsystem\Selections\Selection.cs" />
     <Compile Include="Source\BoardSubsystem\Selections\SelectionsManager.cs" />
     <Compile Include="Source\BoardSubsystem\Selections\SelectionType.cs" />
+    <Compile Include="Source\CommandsSubsystem\CommandGroup.cs" />
+    <Compile Include="Source\CommandsSubsystem\CommandHandle.cs" />
     <Compile Include="Source\CommandsSubsystem\CommandsManager.cs" />
     <Compile Include="Source\CommandsSubsystem\Exceptions\CommandHandlerAlreadyRegisteredException.cs" />
     <Compile Include="Source\CommandsSubsystem\Exceptions\CommandHandlerNotFoundException.cs" />

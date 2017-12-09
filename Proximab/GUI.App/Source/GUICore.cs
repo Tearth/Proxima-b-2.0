@@ -18,7 +18,7 @@ namespace GUI.App.Source
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private ModeBase _gameMode;
+        private ModeBase _mode;
 
         private ConsoleManager _consoleManager;
         private CommandsManager _commandsManager;
@@ -40,11 +40,13 @@ namespace GUI.App.Source
                 PreferredBackBufferHeight = (int)Constants.WindowSize.Y
             };
 
-            _gameMode = new EditorMode(_consoleManager, _commandsManager);
+            _mode = new EditorMode(_consoleManager, _commandsManager);
             _inputManager = new InputManager();
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            SetCommandHandlers();
         }
 
         /// <summary>
@@ -61,7 +63,7 @@ namespace GUI.App.Source
         protected override void LoadContent()
         {
             _consoleManager.LoadContent(Content);
-            _gameMode.LoadContent(Content);
+            _mode.LoadContent(Content);
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
@@ -81,7 +83,7 @@ namespace GUI.App.Source
         {
             Input();
 
-            _gameMode.Logic();
+            _mode.Logic();
 
             base.Update(gameTime);
         }
@@ -95,7 +97,7 @@ namespace GUI.App.Source
             GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin();
-            _gameMode.Draw(_spriteBatch);
+            _mode.Draw(_spriteBatch);
             _spriteBatch.End();
 
             base.Draw(gameTime);
@@ -107,7 +109,25 @@ namespace GUI.App.Source
         private void Input()
         {
             _inputManager.Logic();
-            _gameMode.Input(_inputManager);
+            _mode.Input(_inputManager);
+        }
+
+        /// <summary>
+        /// Adds all command handlers from current class to the commands manager.
+        /// </summary>
+        private void SetCommandHandlers()
+        {
+            _commandsManager.AddCommandHandler(CommandType.Mode, CommandGroup.GUICore, ChangeMode);
+        }
+
+        /// <summary>
+        /// Changes mode to the specified one.
+        /// </summary>
+        /// <param name="command">The Mode command.</param>
+        private void ChangeMode(Command command)
+        {
+            _commandsManager.RemoveCommandHandlers(CommandGroup.GUICore);
+            var modeNameArgument = command.GetArgument<string>(0);
         }
     }
 }
