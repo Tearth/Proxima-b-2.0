@@ -20,8 +20,9 @@
         Castling,
         Evaluation,
         Hash,
-        AI,
+        BestMove,
         Reset,
-        Mode
+        Mode,
+        RunAIGame
     }
 }

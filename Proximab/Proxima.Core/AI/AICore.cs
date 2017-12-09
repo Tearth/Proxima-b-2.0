@@ -59,7 +59,7 @@ namespace Proxima.Core.AI
 
                 if (bitboard.IsCheck(enemyColor))
                 {
-                    return colorSign * (AIConstants.MateValue + depth);
+                    return AIConstants.MateValue + depth;
                 }
 
                 return colorSign * bitboard.GetEvaluation();
@@ -73,7 +73,7 @@ namespace Proxima.Core.AI
                 if (bitboard.IsCheck(enemyColor))
                 {
                     stats.EndNodes++;
-                    return colorSign * (AIConstants.MateValue + depth);
+                    return AIConstants.MateValue + depth;
                 }
             }
 

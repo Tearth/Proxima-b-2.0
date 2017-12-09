@@ -149,9 +149,9 @@
       </Item>
     
       <Item>
-        <Name>AI</Name>
-        <EnumType>AI</EnumType>
-        <Description>Runs Proxima b AI.</Description>
+        <Name>BestMove</Name>
+        <EnumType>BestMove</EnumType>
+        <Description>Calculates best move for the current board.</Description>
         <Arguments>
           <Item>
             <Type>string</Type>
@@ -181,6 +181,14 @@
             <Type>string</Type>
             <Description>New mode name.</Description>
           </Item>
+        </Arguments>
+      </Item>
+
+      <Item>
+        <Name>RunAIGame</Name>
+        <EnumType>RunAIGame</EnumType>
+        <Description>Runs AI game.</Description>
+        <Arguments>
         </Arguments>
       </Item>
 		</Definitions>

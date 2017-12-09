@@ -45,7 +45,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             CommandsManager.AddCommandHandler(CommandType.AddPiece, CommandGroup.GameMode, AddPiece);
             CommandsManager.AddCommandHandler(CommandType.RemovePiece, CommandGroup.GameMode, RemovePiece);
             CommandsManager.AddCommandHandler(CommandType.MovesTest, CommandGroup.GameMode, DoMovesTest);
-            CommandsManager.AddCommandHandler(CommandType.AI, CommandGroup.GameMode, RunAI);
+            CommandsManager.AddCommandHandler(CommandType.BestMove, CommandGroup.GameMode, CalculateBestMove);
 
             base.SetCommandHandlers();
         }
@@ -190,7 +190,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
         /// Runs AI calculating.
         /// </summary>
         /// <param name="command">The AI command</param>
-        private void RunAI(Command command)
+        private void CalculateBestMove(Command command)
         {
             var colorArgument = command.GetArgument<string>(0);
             var depthArgument = command.GetArgument<int>(1);
