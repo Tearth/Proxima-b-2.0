@@ -145,7 +145,7 @@ namespace GUI.App.Source.BoardSubsystem
                 var from = previousSelection.Position;
                 var to = selectedPosition;
 
-                OnPieceMove(this, new PieceMovedEventArgs(previousSelectedPiece, from, to));
+                OnPieceMove?.Invoke(this, new PieceMovedEventArgs(previousSelectedPiece, from, to));
 
                 _selectionsManager.RemoveAllSelections();
             }
