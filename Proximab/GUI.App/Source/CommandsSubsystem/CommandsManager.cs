@@ -49,6 +49,7 @@ namespace GUI.App.Source.CommandsSubsystem
         /// Adds the specified command handler associated with the command type.
         /// </summary>
         /// <param name="commandType">The command type.</param>
+        /// <param name="commandGroup">The command group.</param>
         /// <param name="handler">The command handler.</param>
         public void AddCommandHandler(CommandType commandType, CommandGroup commandGroup, ExecuteCommandDelegate handler)
         {
@@ -73,7 +74,7 @@ namespace GUI.App.Source.CommandsSubsystem
         /// <summary>
         /// Removes all command handlers for the specified command group.
         /// </summary>
-        /// <param name="commandType">The command group.</param>
+        /// <param name="commandGroup">The command group.</param>
         public void RemoveCommandHandlers(CommandGroup commandGroup)
         {
             _commandHandles.RemoveAll(p => p.CommandGroup == commandGroup);

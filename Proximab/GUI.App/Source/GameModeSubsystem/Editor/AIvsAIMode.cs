@@ -8,11 +8,19 @@ using Proxima.Core.Commons.Colors;
 
 namespace GUI.App.Source.GameModeSubsystem.Editor
 {
+    /// <summary>
+    /// Represents the AI vs AI game mode (allows to play games with only AIs as players).
+    /// </summary>
     internal class AIvsAIMode : ModeBase
     {
         private AICore _ai;
         private Color _currentColor;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AIvsAIMode"/> class.
+        /// </summary>
+        /// <param name="consoleManager">The console manager.</param>
+        /// <param name="commandsManager">The commands manager.</param>
         public AIvsAIMode(ConsoleManager consoleManager, CommandsManager commandsManager) : base(consoleManager, commandsManager)
         {
             _ai = new AICore();
@@ -22,17 +30,27 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
             SetCommandHandlers();
         }
 
-        protected override void SetCommandHandlers()
-        {
-            CommandsManager.AddCommandHandler(CommandType.RunAIGame, CommandGroup.GameMode, RunAIGame);
-            base.SetCommandHandlers();
-        }
-
+        /// <summary>
+        /// Processes all logic related to the base game mode.
+        /// </summary>
         public override void Logic()
         {
             base.Logic();
         }
 
+        /// <summary>
+        /// Adds all command handlers from current class to the commands manager.
+        /// </summary>
+        protected override void SetCommandHandlers()
+        {
+            CommandsManager.AddCommandHandler(CommandType.RunAIGame, CommandGroup.GameMode, RunAIGame);
+            base.SetCommandHandlers();
+        }
+        
+        /// <summary>
+        /// Runs AI game.
+        /// </summary>
+        /// <param name="command">The AI command.</param>
         private void RunAIGame(Command command)
         {
             Task.Run(() =>
