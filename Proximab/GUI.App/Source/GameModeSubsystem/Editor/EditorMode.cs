@@ -207,14 +207,23 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
 
             ConsoleManager.WriteLine();
             ConsoleManager.WriteLine("$wAI result:");
-            ConsoleManager.WriteLine($"$wTotal nodes: $g{aiResult.Stats.TotalNodes} N");
-            ConsoleManager.WriteLine($"$wEnd nodes: $g{aiResult.Stats.EndNodes} N");
-            ConsoleManager.WriteLine($"$wNodes per second: $c{aiResult.NodesPerSecond / 1000} kN");
-            ConsoleManager.WriteLine($"$wTime per node: $c{aiResult.TimePerNode} ns");
-            ConsoleManager.WriteLine($"$wTime: $m{aiResult.Time} s");
-            ConsoleManager.WriteLine();
-            ConsoleManager.WriteLine($"$wBest move: $g{aiResult.BestMove.ToString()}");
-            ConsoleManager.WriteLine($"$wScore: $m{aiResult.Score}");
+
+            if (aiResult.BestMove == null)
+            {
+                ConsoleManager.WriteLine("$gMate");
+            }
+            else
+            {
+                ConsoleManager.WriteLine($"$wTotal nodes: $g{aiResult.Stats.TotalNodes} N");
+                ConsoleManager.WriteLine($"$wEnd nodes: $g{aiResult.Stats.EndNodes} N");
+                ConsoleManager.WriteLine($"$wNodes per second: $c{aiResult.NodesPerSecond / 1000} kN");
+                ConsoleManager.WriteLine($"$wTime per node: $c{aiResult.TimePerNode} ns");
+                ConsoleManager.WriteLine($"$wTime: $m{aiResult.Time} s");
+                ConsoleManager.WriteLine();
+                ConsoleManager.WriteLine($"$wBest move: $g{aiResult.BestMove.ToString()}");
+                ConsoleManager.WriteLine($"$wScore: $m{aiResult.Score}");
+            }
+
             ConsoleManager.WriteLine();
         }
     }

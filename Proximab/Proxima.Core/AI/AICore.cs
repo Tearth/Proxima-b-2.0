@@ -46,22 +46,35 @@ namespace Proxima.Core.AI
         public int NegaMax(Color color, Bitboard bitboard, int depth, out Move bestMove, AIStats stats)
         {
             var bestValue = int.MinValue;
+            var colorSign = ColorOperations.ToSign(color);
             var enemyColor = ColorOperations.Invert(color);
             bestMove = null;
 
             stats.TotalNodes++;
+
             if (depth <= 0)
             {
                 bitboard.Calculate(GeneratorMode.CalculateAttacks, GeneratorMode.CalculateAttacks);
                 stats.EndNodes++;
 
-                return -(((int)color * 2) - 1) * bitboard.GetEvaluation();
+                if (bitboard.IsCheck(enemyColor))
+                {
+                    return colorSign * (AIConstants.MateValue + depth);
+                }
+
+                return colorSign * bitboard.GetEvaluation();
             }
             else
             {
                 var whiteGeneratorMode = GetGeneratorMode(color, Color.White);
                 var blackGeneratorMode = GetGeneratorMode(color, Color.Black);
                 bitboard.Calculate(whiteGeneratorMode, blackGeneratorMode);
+
+                if (bitboard.IsCheck(enemyColor))
+                {
+                    stats.EndNodes++;
+                    return colorSign * (AIConstants.MateValue + depth);
+                }
             }
 
             var availableMoves = bitboard.Moves;

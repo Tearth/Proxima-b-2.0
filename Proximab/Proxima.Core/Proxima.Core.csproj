@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\AIConstants.cs" />
     <Compile Include="AI\AICore.cs" />
     <Compile Include="AI\AIResult.cs" />
     <Compile Include="AI\AIStats.cs" />

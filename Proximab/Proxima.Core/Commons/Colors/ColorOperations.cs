@@ -17,5 +17,16 @@ namespace Proxima.Core.Commons.Colors
         {
             return (Color)((int)color ^ 1);
         }
+
+        /// <summary>
+        /// Converts a color to sign (White = 1, Black = -1).
+        /// </summary>
+        /// <param name="color">The color to convert.</param>
+        /// <returns>The color sign.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ToSign(Color color)
+        {
+            return -(((int)color * 2) - 1);
+        }
     }
 }
