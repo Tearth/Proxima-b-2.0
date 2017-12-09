@@ -127,6 +127,7 @@ namespace GUI.App.Source.GameModeSubsystem
             CommandsManager.AddCommandHandler(CommandType.Castling, DisplayCastlingFlags);
             CommandsManager.AddCommandHandler(CommandType.Evaluation, DisplayEvaluation);
             CommandsManager.AddCommandHandler(CommandType.Hash, DisplayBoardHash);
+            CommandsManager.AddCommandHandler(CommandType.Reset, Reset);
         }
         
         /// <summary>
@@ -180,7 +181,7 @@ namespace GUI.App.Source.GameModeSubsystem
         /// <summary>
         /// Draws occupancy (nonempty fields) by pieces with the specified color.
         /// </summary>
-        /// <param name="command">The passed command.</param>
+        /// <param name="command">The Occupancy command.</param>
         private void DrawOccupancy(Command command)
         {
             var colorArgument = command.GetArgument<string>(0);
@@ -208,7 +209,7 @@ namespace GUI.App.Source.GameModeSubsystem
         /// <summary>
         /// Draws all fields attacked by pieces with the specified color.
         /// </summary>
-        /// <param name="command">The passed command.</param>
+        /// <param name="command">The Attacks command.</param>
         private void DrawAttacks(Command command)
         {
             var colorArgument = command.GetArgument<string>(0);
@@ -236,7 +237,7 @@ namespace GUI.App.Source.GameModeSubsystem
         /// <summary>
         /// Saves a board to the specified file.
         /// </summary>
-        /// <param name="command">The passed command.</param>
+        /// <param name="command">The Save command.</param>
         private void SaveBoard(Command command)
         {
             var boardNameArgument = command.GetArgument<string>(0);
@@ -251,7 +252,7 @@ namespace GUI.App.Source.GameModeSubsystem
         /// <summary>
         /// Loads a board from the specified file and updates bitboard.
         /// </summary>
-        /// <param name="command">The passed command.</param>
+        /// <param name="command">The Load command.</param>
         private void LoadBoard(Command command)
         {
             var boardNameArgument = command.GetArgument<string>(0);
@@ -271,7 +272,7 @@ namespace GUI.App.Source.GameModeSubsystem
         /// <summary>
         /// Displays check status on the console.
         /// </summary>
-        /// <param name="command">The passed command.</param>
+        /// <param name="command">The IsCheck command.</param>
         private void DisplayCheckStatus(Command command)
         {
             var whiteCheck = Bitboard.IsCheck(Color.White);
@@ -284,7 +285,7 @@ namespace GUI.App.Source.GameModeSubsystem
         /// <summary>
         /// Displays castling flags on the console.
         /// </summary>
-        /// <param name="command">The passed command.</param>
+        /// <param name="command">The Castling command.</param>
         private void DisplayCastlingFlags(Command command)
         {
             var castlingFlags = VisualBoard.FriendlyBoard.Castling;
@@ -297,11 +298,21 @@ namespace GUI.App.Source.GameModeSubsystem
             ConsoleManager.WriteLine($"$cWhite done: {ColorfulConsoleHelpers.ParseBool(castlingFlags.WhiteCastlingDone)}");
             ConsoleManager.WriteLine($"$cBlack done: {ColorfulConsoleHelpers.ParseBool(castlingFlags.BlackCastlingDone)}");
         }
+        
+        /// <summary>
+        /// Displays board hash on the console.
+        /// </summary>
+        /// <param name="command">The Hash command.</param>
+        private void DisplayBoardHash(Command command)
+        {
+            var trueHash = Bitboard.Hash.ToString();
+            ConsoleManager.WriteLine($"$c{trueHash}");
+        }
 
         /// <summary>
         /// Displays evaluation result on the console.
         /// </summary>
-        /// <param name="command">The passed command.</param>
+        /// <param name="command">The Evaluation command.</param>
         private void DisplayEvaluation(Command command)
         {
             var evaluation = Bitboard.GetDetailedEvaluation();
@@ -321,13 +332,12 @@ namespace GUI.App.Source.GameModeSubsystem
         }
 
         /// <summary>
-        /// Displays board hash on the console.
+        /// Resets board to the default state.
         /// </summary>
-        /// <param name="command">The passed command.</param>
-        private void DisplayBoardHash(Command command)
+        /// <param name="command">The Reset command.</param>
+        private void Reset(Command command)
         {
-            var trueHash = Bitboard.Hash.ToString();
-            ConsoleManager.WriteLine($"$c{trueHash}");
+            CalculateBitboard(new DefaultFriendlyBoard());
         }
     }
 }

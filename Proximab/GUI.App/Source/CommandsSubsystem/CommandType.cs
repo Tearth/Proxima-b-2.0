@@ -20,6 +20,7 @@
         Castling,
         Evaluation,
         Hash,
-        AI
+        AI,
+        Reset
     }
 }

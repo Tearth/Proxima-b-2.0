@@ -151,7 +151,7 @@
       <Item>
         <Name>AI</Name>
         <EnumType>AI</EnumType>
-        <Description>Runs Proxima b AI and does the move.</Description>
+        <Description>Runs Proxima b AI.</Description>
         <Arguments>
           <Item>
             <Type>string</Type>
@@ -161,6 +161,14 @@
             <Type>int</Type>
             <Description>Depth</Description>
           </Item>
+        </Arguments>
+      </Item>
+
+      <Item>
+        <Name>Reset</Name>
+        <EnumType>Reset</EnumType>
+        <Description>Resets board to the default state.</Description>
+        <Arguments>
         </Arguments>
       </Item>
 		</Definitions>
