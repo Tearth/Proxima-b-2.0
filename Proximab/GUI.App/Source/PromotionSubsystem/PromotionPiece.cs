@@ -7,7 +7,7 @@ namespace GUI.App.Source.PromotionSubsystem
     /// <summary>
     /// Represents information about promotion piece.
     /// </summary>
-    internal class PromotionPiece
+    public class PromotionPiece
     {
         /// <summary>
         /// Gets the piece texture.

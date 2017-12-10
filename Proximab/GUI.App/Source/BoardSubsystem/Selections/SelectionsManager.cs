@@ -17,7 +17,7 @@ namespace GUI.App.Source.BoardSubsystem.Selections
     ///  - internal - every selection made by clicking the left mouse button.
     ///  - external - every other selections added via AddExternalSelections method
     /// </remarks>
-    internal class SelectionsManager
+    public class SelectionsManager
     {
         private Texture2D _internalSelection;
         private Texture2D _externalSelection;

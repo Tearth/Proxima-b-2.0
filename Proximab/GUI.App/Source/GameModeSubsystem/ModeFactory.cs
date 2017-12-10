@@ -8,7 +8,7 @@ namespace GUI.App.Source.GameModeSubsystem
     /// <summary>
     /// Represents a factory of modes.
     /// </summary>
-    internal class ModeFactory
+    public class ModeFactory
     {
         private ConsoleManager _consoleManager;
         private CommandsManager _commandsManager;

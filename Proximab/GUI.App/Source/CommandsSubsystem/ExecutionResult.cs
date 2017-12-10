@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents command execution results.
     /// </summary>
-    internal enum ExecutionResult
+    public enum ExecutionResult
     {
         Success,
         EmptyCommand,

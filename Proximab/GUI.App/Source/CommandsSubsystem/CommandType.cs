@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents available type of commands.
     /// </summary>
-    internal enum CommandType
+    public enum CommandType
     {
         None,
         Invalid,

@@ -11,7 +11,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
     /// <summary>
     /// Represents the AI vs AI game mode (allows to play games with only AIs as players).
     /// </summary>
-    internal class AIvsAIMode : ModeBase
+    public class AIvsAIMode : ModeBase
     {
         private AICore _ai;
         private Color _currentColor;

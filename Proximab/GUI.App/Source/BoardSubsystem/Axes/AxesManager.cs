@@ -9,7 +9,7 @@ namespace GUI.App.Source.BoardSubsystem.Axes
     /// <summary>
     /// Represents a set of methods for displaying board axes.
     /// </summary>
-    internal class AxesManager
+    public class AxesManager
     {
         /// <summary>
         /// Gets or sets the color of the axe chars.

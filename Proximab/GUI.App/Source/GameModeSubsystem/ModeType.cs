@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents available types of mode.
     /// </summary>
-    internal enum ModeType
+    public enum ModeType
     {
         Editor,
         AIvsAI

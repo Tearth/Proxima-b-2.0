@@ -7,7 +7,7 @@ namespace GUI.App.Source.CommandsSubsystem.Parsers
     /// <summary>
     /// Represents a set of methods to parse command (from text to <see cref="RawCommand"/> object).
     /// </summary>
-    internal class CommandParser
+    public class CommandParser
     {
         private readonly char[] _separators = { ' ' };
 

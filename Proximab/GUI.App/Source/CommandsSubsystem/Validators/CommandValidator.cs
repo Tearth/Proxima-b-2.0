@@ -9,7 +9,7 @@ namespace GUI.App.Source.CommandsSubsystem.Validators
     /// <summary>
     /// Represents a set of methods to validate command.
     /// </summary>
-    internal class CommandValidator
+    public class CommandValidator
     {
         private Dictionary<string, ValidationHandlerDelegate> _validationHandlers;
 

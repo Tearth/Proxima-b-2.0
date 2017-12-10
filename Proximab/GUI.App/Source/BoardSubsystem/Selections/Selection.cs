@@ -5,7 +5,7 @@ namespace GUI.App.Source.BoardSubsystem.Selections
     /// <summary>
     /// Represents information about the selection.
     /// </summary>
-    internal class Selection
+    public class Selection
     {
         /// <summary>
         /// Gets the selection position (for board these will be values from 1 to 8).

@@ -7,7 +7,7 @@ namespace GUI.App.Source.BoardSubsystem
     /// <summary>
     /// Represents information about FieldSelected event
     /// </summary>
-    internal class FieldSelectedEventArgs : EventArgs
+    public class FieldSelectedEventArgs : EventArgs
     {
         /// <summary>
         /// Gets the selected position.

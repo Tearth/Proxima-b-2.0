@@ -6,7 +6,7 @@ namespace GUI.App.Source.BoardSubsystem
     /// <summary>
     /// Represents information about PieceMoved event.
     /// </summary>
-    internal class PieceMovedEventArgs
+    public class PieceMovedEventArgs
     {
         /// <summary>
         /// Gets the moved piece.

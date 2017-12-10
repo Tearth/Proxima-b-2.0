@@ -6,7 +6,7 @@ namespace GUI.App.Source.PromotionSubsystem
     /// <summary>
     /// Represents the PromotionSelected event arguments. 
     /// </summary>
-    internal class PromotionSelectedEventArgs : EventArgs
+    public class PromotionSelectedEventArgs : EventArgs
     {
         /// <summary>
         /// Gets the promotion move.

@@ -17,7 +17,7 @@ namespace GUI.App.Source.CommandsSubsystem
     /// <summary>
     /// Represents a set of methods to manage and execute commands.
     /// </summary>
-    internal class CommandsManager
+    public class CommandsManager
     {
         private CommandParser _commandParser;
         private CommandValidator _commandValidator;

@@ -7,7 +7,7 @@ namespace GUI.App.Source.InputSubsystem
     /// <summary>
     /// Represents a set of methods to manage application input.
     /// </summary>
-    internal class InputManager
+    public class InputManager
     {
         /// <summary>
         /// Gets a value indicating whether right mouse button is just pressed.

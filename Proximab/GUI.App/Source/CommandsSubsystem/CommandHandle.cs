@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a command handle.
     /// </summary>
-    internal class CommandHandle
+    public class CommandHandle
     {
         /// <summary>
         /// Gets the command type.

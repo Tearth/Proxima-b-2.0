@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the selection types.
     /// </summary>
-    internal enum SelectionType
+    public enum SelectionType
     {
         None,
         Internal,

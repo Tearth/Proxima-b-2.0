@@ -22,7 +22,7 @@ namespace GUI.App.Source.GameModeSubsystem
     /// <summary>
     /// Represents a set of methods common for all game modes (logic, drawing, commands). 
     /// </summary>
-    internal abstract class ModeBase
+    public abstract class ModeBase
     {
         /// <summary>
         /// Gets or sets the console manager.

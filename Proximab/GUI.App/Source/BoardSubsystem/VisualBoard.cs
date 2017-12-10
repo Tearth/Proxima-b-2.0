@@ -15,7 +15,7 @@ namespace GUI.App.Source.BoardSubsystem
     /// <summary>
     /// Represents a board drawed on window (it not contains any chess logic, only pure visual layer).
     /// </summary>
-    internal class VisualBoard
+    public class VisualBoard
     {
         /// <summary>
         /// The event triggered when some field on the board is selected.

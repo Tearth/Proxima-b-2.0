@@ -15,7 +15,7 @@ namespace GUI.App.Source.PromotionSubsystem
     /// <summary>
     /// Represents a promotion window (with selectable pieces).
     /// </summary>
-    internal class PromotionWindow
+    public class PromotionWindow
     {
         /// <summary>
         /// Gets a value indicating whether window is displayer or not.

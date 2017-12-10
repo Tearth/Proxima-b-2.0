@@ -14,7 +14,7 @@ namespace GUI.App.Source
     /// The main class of project. Represents a set of methods for drawing and processing logic.
     /// It's the bridge between the whole GUI and Monogame library.
     /// </summary>
-    internal class GUICore : Game
+    public class GUICore : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;

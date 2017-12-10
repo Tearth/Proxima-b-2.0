@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents available command groups.
     /// </summary>
-    internal enum CommandGroup
+    public enum CommandGroup
     {
         None,
         ConsoleManager,

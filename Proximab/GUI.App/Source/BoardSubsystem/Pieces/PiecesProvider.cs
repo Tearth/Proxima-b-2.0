@@ -12,7 +12,7 @@ namespace GUI.App.Source.BoardSubsystem.Pieces
     /// <summary>
     /// Represents a set of methods for loading and getting piece textures.
     /// </summary>
-    internal class PiecesProvider
+    public class PiecesProvider
     {
         private Dictionary<int, Texture2D> _pieceTextures;
 

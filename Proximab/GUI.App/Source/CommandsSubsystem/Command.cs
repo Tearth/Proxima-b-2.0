@@ -7,7 +7,7 @@ namespace GUI.App.Source.CommandsSubsystem
     /// <summary>
     /// Represents information about the command.
     /// </summary>
-    internal class Command
+    public class Command
     {
         /// <summary>
         /// Gets the command type.

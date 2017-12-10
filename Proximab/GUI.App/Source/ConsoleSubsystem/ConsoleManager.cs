@@ -12,7 +12,7 @@ namespace GUI.App.Source.ConsoleSubsystem
     /// <summary>
     /// Represents a set of methods to manage a console.
     /// </summary>
-    internal class ConsoleManager
+    public class ConsoleManager
     {
         private ColorfulConsoleManager _colorfulConsole;
 
