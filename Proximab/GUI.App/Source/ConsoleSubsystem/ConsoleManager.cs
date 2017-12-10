@@ -25,6 +25,7 @@ namespace GUI.App.Source.ConsoleSubsystem
         /// Initializes a new instance of the <see cref="ConsoleManager"/> class.
         /// </summary>
         /// <param name="commandsManager">The commands manager instance.</param>
+        /// <param name="appName">The application name (to display in console header).</param>
         public ConsoleManager(CommandsManager commandsManager, string appName)
         {
             _commandsManager = commandsManager;

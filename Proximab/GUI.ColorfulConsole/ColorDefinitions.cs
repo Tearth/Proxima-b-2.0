@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace ColorfulConsole
 {
+    /// <summary>
+    /// Represents a color definitions container.
+    /// </summary>
     public static class ColorDefinitions
     {
         public static readonly Dictionary<char, ConsoleColor> Colors = new Dictionary<char, ConsoleColor>()

@@ -15,6 +15,7 @@ namespace GUI.ColorfulConsole
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorfulConsoleManager"/> class.
         /// </summary>
+        /// <param name="appName">The application name (to display in console header).</param>
         public ColorfulConsoleManager(string appName)
         {
             _outputParser = new OutputParser();
@@ -45,6 +46,7 @@ namespace GUI.ColorfulConsole
         /// <summary>
         /// Writes header to the user console (should be called only once at program startup).
         /// </summary>
+        /// <param name="appName">The application name.</param>
         private void WriteHeader(string appName)
         {
             var environmentInfoProvider = new EnvironmentInfoProvider();
