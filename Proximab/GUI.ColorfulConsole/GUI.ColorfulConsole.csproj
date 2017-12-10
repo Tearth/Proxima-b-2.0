@@ -43,6 +43,7 @@
     <Compile Include="ColorDefinitions.cs" />
     <Compile Include="ColorfulConsoleHelpers.cs" />
     <Compile Include="ColorfulConsoleManager.cs" />
+    <Compile Include="Diagnostic\EnvironmentInfoProvider.cs" />
     <Compile Include="Output\ColorOutputPrinter.cs" />
     <Compile Include="Output\OutputChunk.cs" />
     <Compile Include="Output\OutputParser.cs" />

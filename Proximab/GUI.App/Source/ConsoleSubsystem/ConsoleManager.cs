@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ColorfulConsole;
 using GUI.App.Source.CommandsSubsystem;
-using GUI.App.Source.DiagnosticSubsystem;
 using GUI.ColorfulConsole;
 using GUI.ContentDefinitions.Commands;
 using Microsoft.Xna.Framework.Content;
@@ -19,7 +18,6 @@ namespace GUI.App.Source.ConsoleSubsystem
 
         private Task _consoleLoop;
         private CommandsManager _commandsManager;
-        private EnvironmentInfoProvider _environmentInfoProvider;
 
         private CommandDefinitionsContainer _commandDefinitionsContainer;
 
@@ -27,13 +25,12 @@ namespace GUI.App.Source.ConsoleSubsystem
         /// Initializes a new instance of the <see cref="ConsoleManager"/> class.
         /// </summary>
         /// <param name="commandsManager">The commands manager instance.</param>
-        public ConsoleManager(CommandsManager commandsManager)
+        public ConsoleManager(CommandsManager commandsManager, string appName)
         {
             _commandsManager = commandsManager;
             _consoleLoop = new Task(() => Loop());
 
-            _colorfulConsole = new ColorfulConsoleManager();
-            _environmentInfoProvider = new EnvironmentInfoProvider();
+            _colorfulConsole = new ColorfulConsoleManager(appName);
 
             SetCommandHandlers();
         }
@@ -46,8 +43,6 @@ namespace GUI.App.Source.ConsoleSubsystem
         {
             _commandDefinitionsContainer = contentManager.Load<CommandDefinitionsContainer>("XML\\CommandDefinitions");
             _commandsManager.LoadContent(_commandDefinitionsContainer);
-
-            WriteConsoleHeader();
         }
 
         /// <summary>
@@ -198,20 +193,6 @@ namespace GUI.App.Source.ConsoleSubsystem
         private void WriteInvalidCommandFormatMessage()
         {
             WriteLine($"$rInvalid command format");
-        }
-
-        /// <summary>
-        /// Writes header to the user console (should be called only once at program startup).
-        /// </summary>
-        private void WriteConsoleHeader()
-        {
-            var osInfo = _environmentInfoProvider.OSInfo;
-            var cpuPlatform = _environmentInfoProvider.CPUPlatformVersion;
-            var processPlatform = _environmentInfoProvider.ProcessPlatformVersion;
-            var coresCount = _environmentInfoProvider.CPUCoresCount;
-
-            WriteLine($"$gProxima b 2.0dev GUI$w | {osInfo} " +
-                      $"(CPU $c{cpuPlatform}$w, {coresCount}$w | Process $c{processPlatform}$w)");
         }
     }
 }

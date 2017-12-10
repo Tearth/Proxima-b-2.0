@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GUI.App.Source.DiagnosticSubsystem
+namespace GUI.ColorfulConsole.Diagnostic
 {
     /// <summary>
     /// Represents a set of methods for retrieving OS information.

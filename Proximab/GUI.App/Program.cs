@@ -19,7 +19,7 @@ namespace GUI.App
         {
             var commandsManager = new CommandsManager();
 
-            var consoleManager = new ConsoleManager(commandsManager);
+            var consoleManager = new ConsoleManager(commandsManager, "Proxima b 2.0dev GUI");
             consoleManager.RunAsync();
 
             ProximaCore.Init();

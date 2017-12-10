@@ -1,4 +1,5 @@
 ﻿using System;
+using GUI.ColorfulConsole.Diagnostic;
 using GUI.ColorfulConsole.Output;
 
 namespace GUI.ColorfulConsole
@@ -14,10 +15,12 @@ namespace GUI.ColorfulConsole
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorfulConsoleManager"/> class.
         /// </summary>
-        public ColorfulConsoleManager()
+        public ColorfulConsoleManager(string appName)
         {
             _outputParser = new OutputParser();
             _outputPrinter = new ColorOutputPrinter();
+
+            WriteHeader(appName);
         }
 
         /// <summary>
@@ -37,6 +40,22 @@ namespace GUI.ColorfulConsole
         {
             var outputChunks = _outputParser.GetOutputChunks(text);
             _outputPrinter.WriteLine(outputChunks);
+        }
+
+        /// <summary>
+        /// Writes header to the user console (should be called only once at program startup).
+        /// </summary>
+        private void WriteHeader(string appName)
+        {
+            var environmentInfoProvider = new EnvironmentInfoProvider();
+
+            var osInfo = environmentInfoProvider.OSInfo;
+            var cpuPlatform = environmentInfoProvider.CPUPlatformVersion;
+            var processPlatform = environmentInfoProvider.ProcessPlatformVersion;
+            var coresCount = environmentInfoProvider.CPUCoresCount;
+
+            WriteLine($"$g{appName}$w | {osInfo} " +
+                      $"(CPU $c{cpuPlatform}$w, {coresCount}$w | Process $c{processPlatform}$w)");
         }
     }
 }
