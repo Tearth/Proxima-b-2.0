@@ -19,11 +19,6 @@
 /processor:PassThroughProcessor
 /build:XML/CommandDefinitions.xml
 
-#begin XML/ColorDefinitions.xml
-/importer:XmlImporter
-/processor:PassThroughProcessor
-/build:XML/ColorDefinitions.xml
-
 #begin Textures/Field1.png
 /importer:TextureImporter
 /processor:TextureProcessor

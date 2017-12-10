@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using ColorfulConsole;
 using GUI.App.Source.CommandsSubsystem;
-using GUI.App.Source.CommandsSubsystem.Parsers;
-using GUI.App.Source.CommandsSubsystem.Validators;
 using GUI.App.Source.DiagnosticSubsystem;
 using GUI.ColorfulConsole;
-using GUI.ContentDefinitions.Colors;
 using GUI.ContentDefinitions.Commands;
 using Microsoft.Xna.Framework.Content;
 
@@ -24,7 +22,6 @@ namespace GUI.App.Source.ConsoleSubsystem
         private EnvironmentInfoProvider _environmentInfoProvider;
 
         private CommandDefinitionsContainer _commandDefinitionsContainer;
-        private ColorDefinitionsContainer _colorDefinitionsContainer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConsoleManager"/> class.
@@ -48,10 +45,7 @@ namespace GUI.App.Source.ConsoleSubsystem
         public void LoadContent(ContentManager contentManager)
         {
             _commandDefinitionsContainer = contentManager.Load<CommandDefinitionsContainer>("XML\\CommandDefinitions");
-            _colorDefinitionsContainer = contentManager.Load<ColorDefinitionsContainer>("XML\\ColorDefinitions");
-
             _commandsManager.LoadContent(_commandDefinitionsContainer);
-            _colorfulConsole.LoadContent(_colorDefinitionsContainer);
 
             WriteConsoleHeader();
         }
@@ -129,11 +123,11 @@ namespace GUI.App.Source.ConsoleSubsystem
         /// <param name="command">The command instance with more specified data.</param>
         private void WriteColorsList(Command command)
         {
-            WriteLine($"$wAvailable colors ({_colorDefinitionsContainer.Definitions.Count}):");
+            WriteLine($"$wAvailable colors ({ColorDefinitions.Colors.Count}):");
 
-            foreach (var colorDefinition in _colorDefinitionsContainer.Definitions)
+            foreach (var colorDefinition in ColorDefinitions.Colors)
             {
-                WriteLine($"$w - ${colorDefinition.Symbol}{colorDefinition.Color} - {colorDefinition.Symbol}");
+                WriteLine($"$w - ${colorDefinition.Key}{colorDefinition.Value} - {colorDefinition.Key}");
             }
         }
 

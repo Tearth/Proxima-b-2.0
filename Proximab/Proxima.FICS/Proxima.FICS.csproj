@@ -48,10 +48,22 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GUI.ColorfulConsole\GUI.ColorfulConsole.csproj">
+      <Project>{f168016d-ae15-4472-8e18-f1b1150a4a3a}</Project>
+      <Name>GUI.ColorfulConsole</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GUI.ContentDefinitions\GUI.ContentDefinitions.csproj">
+      <Project>{93FFF5B7-FE43-46D0-8CAA-14AF8ADA6E53}</Project>
+      <Name>GUI.ContentDefinitions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Proxima.Core\Proxima.Core.csproj">
       <Project>{ae7c5e5c-526c-4f20-ba32-427bf3c6a405}</Project>
       <Name>Proxima.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Source\ConsoleSubsystem\" />
+    <Folder Include="Source\NetworkSubsystem\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

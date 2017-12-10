@@ -181,7 +181,6 @@
     <Content Include="Content\Textures\WhitePawn.png" />
     <Content Include="Content\Textures\WhiteQueen.png" />
     <Content Include="Content\Textures\WhiteRook.png" />
-    <Content Include="Content\XML\ColorDefinitions.xml" />
     <Content Include="Content\XML\CommandDefinitions.xml" />
     <Content Include="Content\XML\PieceDefinitions.xml" />
     <EmbeddedResource Include="Icon.bmp" />

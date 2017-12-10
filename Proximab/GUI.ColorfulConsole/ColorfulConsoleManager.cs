@@ -1,6 +1,5 @@
 ﻿using System;
 using GUI.ColorfulConsole.Output;
-using GUI.ContentDefinitions.Colors;
 
 namespace GUI.ColorfulConsole
 {
@@ -19,15 +18,6 @@ namespace GUI.ColorfulConsole
         {
             _outputParser = new OutputParser();
             _outputPrinter = new ColorOutputPrinter();
-        }
-
-        /// <summary>
-        /// Loads color definitions. Must be called before first use of any other class method.
-        /// </summary>
-        /// <param name="colorDefinitionsContainer">The container of color definitions.</param>
-        public void LoadContent(ColorDefinitionsContainer colorDefinitionsContainer)
-        {
-            _outputParser.SetColorDefinitions(colorDefinitionsContainer);
         }
 
         /// <summary>

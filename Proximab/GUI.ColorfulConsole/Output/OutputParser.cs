@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GUI.ContentDefinitions.Colors;
+using ColorfulConsole;
 
 namespace GUI.ColorfulConsole.Output
 {
@@ -11,16 +11,6 @@ namespace GUI.ColorfulConsole.Output
     public class OutputParser
     {
         private readonly char[] _separators = { '$' };
-        private ColorDefinitionsContainer _colorDefinitionsContainer;
-
-        /// <summary>
-        /// Sets color definitions. Must be called before first use of any other class method.
-        /// </summary>
-        /// <param name="colorDefinitionsContainer">Container of color definitions.</param>
-        public void SetColorDefinitions(ColorDefinitionsContainer colorDefinitionsContainer)
-        {
-            _colorDefinitionsContainer = colorDefinitionsContainer;
-        }
 
         /// <summary>
         /// Calculates output chunks by splitting the text and parsing color symbols.
@@ -40,28 +30,12 @@ namespace GUI.ColorfulConsole.Output
                 var colorSymbol = chunk[0].ToString();
                 var content = chunk.Remove(0, 1);
 
-                var definition = _colorDefinitionsContainer.Definitions.FirstOrDefault(p => p.Symbol == colorSymbol);
-                var color = ParseColorValue(definition?.Color);
+                var colorType = ColorDefinitions.Colors[Convert.ToChar(colorSymbol)];
 
-                outputChunks.Add(new OutputChunk(color, content));
+                outputChunks.Add(new OutputChunk(colorType, content));
             }
 
             return outputChunks;
-        }
-
-        /// <summary>
-        /// Parses the color value to ConsoleColor enum.
-        /// </summary>
-        /// <param name="color">The color name</param>
-        /// <returns>ConsoleColor enum value</returns>
-        private ConsoleColor ParseColorValue(string color)
-        {
-            if (color != null)
-            {
-                return (ConsoleColor)Enum.Parse(typeof(ConsoleColor), color);
-            }
-
-            return ConsoleColor.White;
         }
     }
 }
