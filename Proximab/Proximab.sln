@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI.ColorfulConsole", "GUI.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxima.MagicKeysGenerator", "Proxima.MagicKeysGenerator\Proxima.MagicKeysGenerator.csproj", "{5DABB56F-4D18-482B-930B-BA147509B305}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxima.FICS", "Proxima.FICS\Proxima.FICS.csproj", "{DC5A3DD8-9BB6-4592-9645-AD590F98DA3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{5DABB56F-4D18-482B-930B-BA147509B305}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DABB56F-4D18-482B-930B-BA147509B305}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DABB56F-4D18-482B-930B-BA147509B305}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC5A3DD8-9BB6-4592-9645-AD590F98DA3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC5A3DD8-9BB6-4592-9645-AD590F98DA3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC5A3DD8-9BB6-4592-9645-AD590F98DA3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC5A3DD8-9BB6-4592-9645-AD590F98DA3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
