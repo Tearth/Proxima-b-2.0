@@ -31,6 +31,12 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             StartReceiving();
         }
 
+        public void Send(string text)
+        {
+            var byteDataToSend = Encoding.ASCII.GetBytes(text + "\r\n");
+            _socket.BeginSend(byteDataToSend, 0, byteDataToSend.Length, 0, new AsyncCallback(SendCallback), _socket);
+        }
+
         private void Connect()
         {
             var serverAddress = _configManager.GetValue<string>("ServerAddress");
@@ -65,6 +71,12 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             OnDataReceive?.Invoke(this, new DataReceivedEventArgs(time, text));
 
             clientState.Socket.BeginReceive(clientState.Buffer, 0, ClientState.BufferSize, 0, new AsyncCallback(ReceiveCallback), clientState);
+        }
+
+        private static void SendCallback(IAsyncResult ar)
+        {
+            var socket = (Socket)ar.AsyncState;
+            socket.EndSend(ar);
         }
     }
 }

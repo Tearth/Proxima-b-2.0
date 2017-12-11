@@ -25,21 +25,14 @@ namespace GUI.ColorfulConsole.Output
             var outputChunks = new List<OutputChunk>();
             var splittedOutput = text.Split(_separators, StringSplitOptions.RemoveEmptyEntries);
 
-            if(splittedOutput.Length == 1 && splittedOutput[0] != "$")
+            foreach (var chunk in splittedOutput)
             {
-                outputChunks.Add(new OutputChunk(ConsoleColor.White, text));
-            }
-            else
-            {
-                foreach (var chunk in splittedOutput)
-                {
-                    var colorSymbol = chunk[0].ToString();
-                    var content = chunk.Remove(0, 1);
+                var colorSymbol = chunk[0].ToString();
+                var content = chunk.Remove(0, 1);
 
-                    var colorType = ColorDefinitions.Colors[Convert.ToChar(colorSymbol)];
+                var colorType = ColorDefinitions.Colors[Convert.ToChar(colorSymbol)];
 
-                    outputChunks.Add(new OutputChunk(colorType, content));
-                }
+                outputChunks.Add(new OutputChunk(colorType, content));
             }
 
             return outputChunks;

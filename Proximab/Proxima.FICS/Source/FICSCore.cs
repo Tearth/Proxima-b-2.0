@@ -1,4 +1,5 @@
-﻿using GUI.ColorfulConsole;
+﻿using System;
+using GUI.ColorfulConsole;
 using Proxima.FICS.Source.ConfigSubsystem;
 using Proxima.FICS.Source.NetworkSubsystem;
 
@@ -26,7 +27,7 @@ namespace Proxima.FICS.Source
 
         private void FicsClient_OnDataReceive(object sender, DataReceivedEventArgs e)
         {
-            _consoleManager.WriteLine($"{e.Text}");
+            Console.WriteLine($"{e.Text}");
         }
     }
 }
