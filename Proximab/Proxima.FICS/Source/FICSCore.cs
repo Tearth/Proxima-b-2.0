@@ -23,11 +23,20 @@ namespace Proxima.FICS.Source
         public void Run()
         {
             _ficsClient.OpenSession();
+            LogIn();
         }
 
         private void FicsClient_OnDataReceive(object sender, DataReceivedEventArgs e)
         {
             Console.WriteLine($"{e.Text}");
+        }
+
+        private void LogIn()
+        {
+            var username = _configManager.GetValue<string>("Username");
+            var password = _configManager.GetValue<string>("Password");
+
+            _ficsClient.Send($"{username}\r\n{password}");
         }
     }
 }
