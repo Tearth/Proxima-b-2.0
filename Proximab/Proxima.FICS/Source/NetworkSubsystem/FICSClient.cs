@@ -9,9 +9,19 @@ using Proxima.FICS.Source.ConfigSubsystem;
 
 namespace Proxima.FICS.Source.NetworkSubsystem
 {
+    /// <summary>
+    /// Represents a set of methods to manipulate FICS client.
+    /// </summary>
     public class FICSClient
     {
+        /// <summary>
+        /// The event triggered when data from FICS has been received.
+        /// </summary>
         public event EventHandler<DataReceivedEventArgs> OnDataReceive;
+
+        /// <summary>
+        /// The event triggered when data has been sent to FICS.
+        /// </summary>
         public event EventHandler<DataSentEventArgs> OnDataSend;
 
         private ConfigManager _configManager;
@@ -19,6 +29,10 @@ namespace Proxima.FICS.Source.NetworkSubsystem
 
         private ManualResetEvent _connectDone = new ManualResetEvent(false);
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FICSClient"/> class.
+        /// </summary>
+        /// <param name="configManager">The config manager.</param>
         public FICSClient(ConfigManager configManager)
         {
             _configManager = configManager;
@@ -26,12 +40,19 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
 
+        /// <summary>
+        /// Opens FICS session and starts receiving messages.
+        /// </summary>
         public void OpenSession()
         {
             Connect();
             StartReceiving();
         }
 
+        /// <summary>
+        /// Sends the specified text to FICS.
+        /// </summary>
+        /// <param name="text">The text to send.</param>
         public void Send(string text)
         {
             var byteDataToSend = Encoding.ASCII.GetBytes(text + "\r\n");
@@ -40,6 +61,9 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             OnDataSend?.Invoke(this, new DataSentEventArgs(text));
         }
 
+        /// <summary>
+        /// Connects to FICS.
+        /// </summary>
         private void Connect()
         {
             var serverAddress = _configManager.GetValue<string>("ServerAddress");
@@ -49,6 +73,9 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             _connectDone.WaitOne();
         }
 
+        /// <summary>
+        /// Starts receiving messages.
+        /// </summary>
         private void StartReceiving()
         {
             var clientState = new ClientState();
@@ -57,12 +84,20 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             _socket.BeginReceive(clientState.Buffer, 0, ClientState.BufferSize, 0, new AsyncCallback(ReceiveCallback), clientState);
         }
 
+        /// <summary>
+        /// Callback for BeginReceive method.
+        /// </summary>
+        /// <param name="ar">The async result.</param>
         private void ConnectCallback(IAsyncResult ar)
         {
             _socket.EndConnect(ar);
             _connectDone.Set();
         }
 
+        /// <summary>
+        /// Callback for BeginReceive method.
+        /// </summary>
+        /// <param name="ar">The async result.</param>
         private void ReceiveCallback(IAsyncResult ar)
         {
             var clientState = (ClientState)ar.AsyncState; 
@@ -76,6 +111,10 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             clientState.Socket.BeginReceive(clientState.Buffer, 0, ClientState.BufferSize, 0, new AsyncCallback(ReceiveCallback), clientState);
         }
 
+        /// <summary>
+        /// Callback for BeginSend method.
+        /// </summary>
+        /// <param name="ar">The async result.</param>
         private static void SendCallback(IAsyncResult ar)
         {
             var socket = (Socket)ar.AsyncState;
