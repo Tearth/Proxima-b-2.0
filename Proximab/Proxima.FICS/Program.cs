@@ -1,5 +1,7 @@
 ﻿using System;
 using GUI.ColorfulConsole;
+using Proxima.FICS.Source;
+using Proxima.FICS.Source.ConfigSubsystem;
 
 namespace Proxima.FICS
 {
@@ -8,8 +10,10 @@ namespace Proxima.FICS
         public static void Main(string[] args)
         {
             var consoleManager = new ColorfulConsoleManager("Proxima b 2.0dev FICS");
+            var configManager = new ConfigManager("FICSConfig.xml");
 
-            Console.Read();
+            var ficsCore = new FICSCore(consoleManager, configManager);
+            ficsCore.Run();
         }
     }
 }

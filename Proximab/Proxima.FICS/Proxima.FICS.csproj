@@ -44,6 +44,9 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\ConfigSubsystem\ConfigContainer.cs" />
+    <Compile Include="Source\ConfigSubsystem\ConfigItem.cs" />
+    <Compile Include="Source\ConfigSubsystem\ConfigManager.cs" />
     <Compile Include="Source\FICSCore.cs" />
     <Compile Include="Source\NetworkSubsystem\FICSClient.cs" />
   </ItemGroup>
@@ -63,6 +66,11 @@
       <Project>{ae7c5e5c-526c-4f20-ba32-427bf3c6a405}</Project>
       <Name>Proxima.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FICSConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
