@@ -18,6 +18,7 @@ namespace Proxima.FICS.Source
 
             _ficsClient = new FICSClient(_configManager);
             _ficsClient.OnDataReceive += FicsClient_OnDataReceive;
+            _ficsClient.OnDataSend += FicsClient_OnDataSend;
         }
 
         public void Run()
@@ -28,7 +29,12 @@ namespace Proxima.FICS.Source
 
         private void FicsClient_OnDataReceive(object sender, DataReceivedEventArgs e)
         {
-            Console.WriteLine($"{e.Text}");
+            _consoleManager.Write($"$c{e.Text}");
+        }
+
+        private void FicsClient_OnDataSend(object sender, DataSentEventArgs e)
+        {
+            _consoleManager.WriteLine($"$g{e.Text}");
         }
 
         private void LogIn()

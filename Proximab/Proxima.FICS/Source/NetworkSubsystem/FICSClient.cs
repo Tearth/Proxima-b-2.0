@@ -12,6 +12,7 @@ namespace Proxima.FICS.Source.NetworkSubsystem
     public class FICSClient
     {
         public event EventHandler<DataReceivedEventArgs> OnDataReceive;
+        public event EventHandler<DataSentEventArgs> OnDataSend;
 
         private ConfigManager _configManager;
         private Socket _socket;
@@ -35,6 +36,8 @@ namespace Proxima.FICS.Source.NetworkSubsystem
         {
             var byteDataToSend = Encoding.ASCII.GetBytes(text + "\r\n");
             _socket.BeginSend(byteDataToSend, 0, byteDataToSend.Length, 0, new AsyncCallback(SendCallback), _socket);
+
+            OnDataSend?.Invoke(this, new DataSentEventArgs(text));
         }
 
         private void Connect()

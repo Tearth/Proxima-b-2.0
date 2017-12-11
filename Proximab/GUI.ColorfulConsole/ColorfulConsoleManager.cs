@@ -25,6 +25,17 @@ namespace GUI.ColorfulConsole
         }
 
         /// <summary>
+        /// Writes the specified output on the console. Internal parser replaces every $X
+        /// (where X is the color symbol) to the foreground color.
+        /// </summary>
+        /// <param name="text">The content to display.</param>
+        public void Write(string text)
+        {
+            var outputChunks = _outputParser.GetOutputChunks(text);
+            _outputPrinter.Write(outputChunks);
+        }
+
+        /// <summary>
         /// Writes the empty line on the console.
         /// </summary>
         public void WriteLine()
