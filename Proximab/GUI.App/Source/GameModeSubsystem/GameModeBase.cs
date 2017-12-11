@@ -22,7 +22,7 @@ namespace GUI.App.Source.GameModeSubsystem
     /// <summary>
     /// Represents a set of methods common for all game modes (logic, drawing, commands). 
     /// </summary>
-    public abstract class ModeBase
+    public abstract class GameModeBase
     {
         /// <summary>
         /// Gets or sets the console manager.
@@ -55,11 +55,11 @@ namespace GUI.App.Source.GameModeSubsystem
         protected Bitboard Bitboard { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ModeBase"/> class.
+        /// Initializes a new instance of the <see cref="GameModeBase"/> class.
         /// </summary>
         /// <param name="consoleManager">The console manager instance</param>
         /// <param name="commandsManager">The commands manager instance</param>
-        public ModeBase(ConsoleManager consoleManager, CommandsManager commandsManager)
+        public GameModeBase(ConsoleManager consoleManager, CommandsManager commandsManager)
         {
             ConsoleManager = consoleManager;
             CommandsManager = commandsManager;

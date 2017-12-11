@@ -8,17 +8,17 @@ namespace GUI.App.Source.GameModeSubsystem
     /// <summary>
     /// Represents a factory of modes.
     /// </summary>
-    public class ModeFactory
+    public class GameModeFactory
     {
         private ConsoleManager _consoleManager;
         private CommandsManager _commandsManager;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ModeFactory"/> class.
+        /// Initializes a new instance of the <see cref="GameModeFactory"/> class.
         /// </summary>
         /// <param name="consoleManager">The console manager.</param>
         /// <param name="commandsManager">The commands manager.</param>
-        public ModeFactory(ConsoleManager consoleManager, CommandsManager commandsManager)
+        public GameModeFactory(ConsoleManager consoleManager, CommandsManager commandsManager)
         {
             _consoleManager = consoleManager;
             _commandsManager = commandsManager;
@@ -29,12 +29,12 @@ namespace GUI.App.Source.GameModeSubsystem
         /// </summary>
         /// <param name="modeType">The mode type.</param>
         /// <returns>The mode instance.</returns>
-        public ModeBase Create(ModeType modeType)
+        public GameModeBase Create(GameModeType modeType)
         {
             switch (modeType)
             {
-                case ModeType.Editor: return new EditorMode(_consoleManager, _commandsManager);
-                case ModeType.AIvsAI: return new AIvsAIMode(_consoleManager, _commandsManager);
+                case GameModeType.Editor: return new EditorMode(_consoleManager, _commandsManager);
+                case GameModeType.AIvsAI: return new AIvsAIMode(_consoleManager, _commandsManager);
             }
 
             throw new ModeNotFoundException();

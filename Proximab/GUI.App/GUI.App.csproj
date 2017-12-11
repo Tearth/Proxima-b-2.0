@@ -70,9 +70,9 @@
     <Compile Include="Source\GameModeSubsystem\Editor\AIvsAIMode.cs" />
     <Compile Include="Source\GameModeSubsystem\Editor\EditorMode.cs" />
     <Compile Include="Source\GameModeSubsystem\Exceptions\ModeNotFoundException.cs" />
-    <Compile Include="Source\GameModeSubsystem\ModeBase.cs" />
-    <Compile Include="Source\GameModeSubsystem\ModeFactory.cs" />
-    <Compile Include="Source\GameModeSubsystem\ModeType.cs">
+    <Compile Include="Source\GameModeSubsystem\GameModeBase.cs" />
+    <Compile Include="Source\GameModeSubsystem\GameModeFactory.cs" />
+    <Compile Include="Source\GameModeSubsystem\GameModeType.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Source\GUICore.cs" />

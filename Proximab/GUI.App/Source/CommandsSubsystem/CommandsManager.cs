@@ -12,7 +12,7 @@ namespace GUI.App.Source.CommandsSubsystem
     /// The delegate used in <see cref="CommandsManager"/> class to manage command handlers.
     /// </summary>
     /// <param name="command">The command instance.</param>
-    internal delegate void ExecuteCommandDelegate(Command command);
+    public delegate void ExecuteCommandDelegate(Command command);
 
     /// <summary>
     /// Represents a set of methods to manage and execute commands.

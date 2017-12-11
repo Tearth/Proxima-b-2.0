@@ -19,8 +19,8 @@ namespace GUI.App.Source
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private ModeBase _mode;
-        private ModeFactory _modeFactory;
+        private GameModeBase _mode;
+        private GameModeFactory _modeFactory;
 
         private ConsoleManager _consoleManager;
         private CommandsManager _commandsManager;
@@ -42,8 +42,8 @@ namespace GUI.App.Source
                 PreferredBackBufferHeight = (int)Constants.WindowSize.Y
             };
 
-            _modeFactory = new ModeFactory(_consoleManager, _commandsManager);
-            _mode = _modeFactory.Create(ModeType.Editor);
+            _modeFactory = new GameModeFactory(_consoleManager, _commandsManager);
+            _mode = _modeFactory.Create(GameModeType.Editor);
 
             _inputManager = new InputManager();
 
@@ -121,18 +121,18 @@ namespace GUI.App.Source
         /// </summary>
         private void SetCommandHandlers()
         {
-            _commandsManager.AddCommandHandler(CommandType.Mode, CommandGroup.GUICore, ChangeMode);
+            _commandsManager.AddCommandHandler(CommandType.Mode, CommandGroup.GUICore, ChangeGameMode);
         }
 
         /// <summary>
-        /// Changes mode to the specified one.
+        /// Changes game mode to the specified one.
         /// </summary>
         /// <param name="command">The Mode command.</param>
-        private void ChangeMode(Command command)
+        private void ChangeGameMode(Command command)
         {
             var modeNameArgument = command.GetArgument<string>(0);
 
-            var modeNameParseResult = Enum.TryParse(modeNameArgument, true, out ModeType modeType);
+            var modeNameParseResult = Enum.TryParse(modeNameArgument, true, out GameModeType modeType);
             if (!modeNameParseResult)
             {
                 _consoleManager.WriteLine($"$rInvalid mode type ($R{modeNameArgument}$r)");

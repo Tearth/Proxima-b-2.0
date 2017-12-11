@@ -19,7 +19,7 @@ namespace GUI.App.Source.GameModeSubsystem.Editor
     /// <summary>
     /// Represents the editor game mode (allows to add/remove pieces, do tests and some other non-typical actions).
     /// </summary>
-    public class EditorMode : ModeBase
+    public class EditorMode : GameModeBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EditorMode"/> class.
