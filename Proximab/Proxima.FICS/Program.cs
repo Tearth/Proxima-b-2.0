@@ -14,6 +14,8 @@ namespace Proxima.FICS
 
             var ficsCore = new FICSCore(consoleManager, configManager);
             ficsCore.Run();
+
+            Console.Read();
         }
     }
 }
