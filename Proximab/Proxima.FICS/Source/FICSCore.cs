@@ -16,11 +16,17 @@ namespace Proxima.FICS.Source
             _configManager = configManager;
 
             _ficsClient = new FICSClient(_configManager);
+            _ficsClient.OnDataReceive += FicsClient_OnDataReceive;
         }
-        
+
         public void Run()
         {
             _ficsClient.OpenSession();
+        }
+
+        private void FicsClient_OnDataReceive(object sender, DataReceivedEventArgs e)
+        {
+            _consoleManager.WriteLine($"{e.Text}");
         }
     }
 }

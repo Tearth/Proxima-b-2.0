@@ -11,6 +11,8 @@ namespace Proxima.FICS.Source.NetworkSubsystem
 {
     public class FICSClient
     {
+        public event EventHandler<DataReceivedEventArgs> OnDataReceive;
+
         private ConfigManager _configManager;
         private Socket _socket;
 
@@ -52,10 +54,15 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             _connectDone.Set();
         }
 
-        private static void ReceiveCallback(IAsyncResult ar)
+        private void ReceiveCallback(IAsyncResult ar)
         {
             var clientState = (ClientState)ar.AsyncState; 
             var bytesRead = clientState.Socket.EndReceive(ar);
+
+            var time = DateTime.Now;
+            var text = clientState.GetStringRepresentation();
+
+            OnDataReceive?.Invoke(this, new DataReceivedEventArgs(time, text));
 
             clientState.Socket.BeginReceive(clientState.Buffer, 0, ClientState.BufferSize, 0, new AsyncCallback(ReceiveCallback), clientState);
         }
