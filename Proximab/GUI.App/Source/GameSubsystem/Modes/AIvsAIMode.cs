@@ -6,7 +6,7 @@ using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
 
-namespace GUI.App.Source.GameModeSubsystem.Editor
+namespace GUI.App.Source.GameSubsystem.Modes
 {
     /// <summary>
     /// Represents the AI vs AI game mode (allows to play games with only AIs as players).

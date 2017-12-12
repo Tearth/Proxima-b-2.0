@@ -17,7 +17,7 @@ using Proxima.Core.MoveGenerators;
 using Proxima.Core.MoveGenerators.Moves;
 using Proxima.Core.Persistence;
 
-namespace GUI.App.Source.GameModeSubsystem
+namespace GUI.App.Source.GameSubsystem
 {
     /// <summary>
     /// Represents a set of methods common for all game modes (logic, drawing, commands). 

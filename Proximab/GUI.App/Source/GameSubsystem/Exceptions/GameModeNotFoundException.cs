@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace GUI.App.Source.GameModeSubsystem.Exceptions
+namespace GUI.App.Source.GameSubsystem.Exceptions
 {
     /// <summary>
     /// The exception that is thrown when a game mode cannot be found.

@@ -1,9 +1,9 @@
 ﻿using GUI.App.Source.CommandsSubsystem;
 using GUI.App.Source.ConsoleSubsystem;
-using GUI.App.Source.GameModeSubsystem.Editor;
-using GUI.App.Source.GameModeSubsystem.Exceptions;
+using GUI.App.Source.GameSubsystem.Exceptions;
+using GUI.App.Source.GameSubsystem.Modes;
 
-namespace GUI.App.Source.GameModeSubsystem
+namespace GUI.App.Source.GameSubsystem
 {
     /// <summary>
     /// Represents a factory of modes.

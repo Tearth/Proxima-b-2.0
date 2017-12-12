@@ -1,4 +1,4 @@
-﻿namespace GUI.App.Source.GameModeSubsystem
+﻿namespace GUI.App.Source.GameSubsystem
 {
     /// <summary>
     /// Represents available types of mode.

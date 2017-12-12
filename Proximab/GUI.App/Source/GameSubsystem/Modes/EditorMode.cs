@@ -14,7 +14,7 @@ using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators.Moves;
 using Proxima.Helpers.Tests;
 
-namespace GUI.App.Source.GameModeSubsystem.Editor
+namespace GUI.App.Source.GameSubsystem.Modes
 {
     /// <summary>
     /// Represents the editor game mode (allows to add/remove pieces, do tests and some other non-typical actions).

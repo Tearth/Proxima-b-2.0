@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Proxima.FICS.Source.ConfigSubsystem;
-using Proxima.FICS.Source.FICSModes.Exceptions;
+﻿using Proxima.FICS.Source.ConfigSubsystem;
+using Proxima.FICS.Source.GameSubsystem.Exceptions;
 using Proxima.FICS.Source.GameSubsystem.Modes;
 
 namespace Proxima.FICS.Source.GameSubsystem
