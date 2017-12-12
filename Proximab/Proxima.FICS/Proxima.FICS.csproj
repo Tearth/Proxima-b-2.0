@@ -49,6 +49,7 @@
     <Compile Include="Source\ConfigSubsystem\ConfigManager.cs" />
     <Compile Include="Source\FICSCore.cs" />
     <Compile Include="Source\FICSModes\AuthMode.cs" />
+    <Compile Include="Source\FICSModes\ChangeModeEventArgs.cs" />
     <Compile Include="Source\FICSModes\Exceptions\FICSModeNotFoundException.cs" />
     <Compile Include="Source\FICSModes\FICSModeBase.cs" />
     <Compile Include="Source\FICSModes\FICSModeFactory.cs" />

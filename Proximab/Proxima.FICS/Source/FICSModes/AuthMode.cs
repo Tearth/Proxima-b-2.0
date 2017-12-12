@@ -29,6 +29,11 @@ namespace Proxima.FICS.Source.FICSModes
                 response = ConfigManager.GetValue<string>("Password");
             }
 
+            if(message.Contains("Starting FICS session as"))
+            {
+                ChangeMode(FICSModeType.Auth);
+            }
+
             return response;
         }
     }

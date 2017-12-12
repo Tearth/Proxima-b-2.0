@@ -31,7 +31,7 @@ namespace Proxima.FICS.Source
             _ficsClient.OnDataReceive += FicsClient_OnDataReceive;
             _ficsClient.OnDataSend += FicsClient_OnDataSend;
 
-            _ficsMode = new AuthMode(_configManager);
+            ChangeMode(FICSModeType.Auth);
         }
 
         /// <summary>
@@ -66,6 +66,19 @@ namespace Proxima.FICS.Source
         private void FicsClient_OnDataSend(object sender, DataEventArgs e)
         {
             _consoleManager.WriteLine($"$RSND: $g{e.Text}");
+        }
+
+        private void ChangeMode(FICSModeType modeType)
+        {
+            var ficsModeFactory = new FICSModeFactory(_configManager);
+
+            _ficsMode = ficsModeFactory.Create(modeType);
+            _ficsMode.OnChangeMode += FICSMode_OnChangeMode;
+        }
+
+        private void FICSMode_OnChangeMode(object sender, ChangeModeEventArgs e)
+        {
+            ChangeMode(e.NewModeType);
         }
     }
 }
