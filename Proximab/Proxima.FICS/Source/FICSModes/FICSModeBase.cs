@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Proxima.FICS.Source.ConfigSubsystem;
+using Proxima.FICS.Source.NetworkSubsystem;
 
 namespace Proxima.FICS.Source.FICSModes
 {
@@ -16,6 +17,6 @@ namespace Proxima.FICS.Source.FICSModes
             ConfigManager = configManager;
         }
 
-        public abstract void ProcessMessage(string message);
+        public abstract string ProcessMessage(string message);
     }
 }

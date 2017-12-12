@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Proxima.FICS.Source.ConfigSubsystem;
+using Proxima.FICS.Source.NetworkSubsystem;
 
 namespace Proxima.FICS.Source.FICSModes
 {
@@ -14,35 +15,21 @@ namespace Proxima.FICS.Source.FICSModes
 
         }
 
-        public override void ProcessMessage(string message)
+        public override string ProcessMessage(string message)
         {
+            var response = string.Empty;
+
             if (message.StartsWith("login:"))
             {
-                SendUsername();
+                response = ConfigManager.GetValue<string>("Username");
             }
 
             if (message.StartsWith("password:"))
             {
-                SendPassword();
+                response = ConfigManager.GetValue<string>("Password");
             }
-        }
 
-        /// <summary>
-        /// Sends username to the server.
-        /// </summary>
-        private void SendUsername()
-        {
-            var username = ConfigManager.GetValue<string>("Username");
-            _ficsClient.Send($"{username}");
-        }
-
-        /// <summary>
-        /// Sends passwrd to the server.
-        /// </summary>
-        private void SendPassword()
-        {
-            var password = ConfigManager.GetValue<string>("Password");
-            _ficsClient.Send($"{password}");
+            return response;
         }
     }
 }

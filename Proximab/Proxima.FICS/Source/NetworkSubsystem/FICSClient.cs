@@ -18,12 +18,12 @@ namespace Proxima.FICS.Source.NetworkSubsystem
         /// <summary>
         /// The event triggered when data from FICS has been received.
         /// </summary>
-        public event EventHandler<DataReceivedEventArgs> OnDataReceive;
+        public event EventHandler<DataEventArgs> OnDataReceive;
 
         /// <summary>
         /// The event triggered when data has been sent to FICS.
         /// </summary>
-        public event EventHandler<DataSentEventArgs> OnDataSend;
+        public event EventHandler<DataEventArgs> OnDataSend;
 
         private ConfigManager _configManager;
         private Socket _socket;
@@ -59,7 +59,7 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             var byteDataToSend = Encoding.ASCII.GetBytes(text + "\r\n");
             _socket.BeginSend(byteDataToSend, 0, byteDataToSend.Length, 0, new AsyncCallback(SendCallback), _socket);
 
-            OnDataSend?.Invoke(this, new DataSentEventArgs(text));
+            OnDataSend?.Invoke(this, new DataEventArgs(text));
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Proxima.FICS.Source.NetworkSubsystem
                     clientState.BufferString.Clear();
                 }
 
-                OnDataReceive?.Invoke(this, new DataReceivedEventArgs(DateTime.Now, textWithoutEndline));
+                OnDataReceive?.Invoke(this, new DataEventArgs(textWithoutEndline));
 
                 if(commandFound)
                 {

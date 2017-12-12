@@ -47,10 +47,15 @@ namespace Proxima.FICS.Source
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void FicsClient_OnDataReceive(object sender, DataReceivedEventArgs e)
+        private void FicsClient_OnDataReceive(object sender, DataEventArgs e)
         {
             _consoleManager.WriteLine($"$rREC: $c{e.Text}");
-            _ficsMode.ProcessMessage(e.Text);
+
+            var response = _ficsMode.ProcessMessage(e.Text);
+            if (response != string.Empty)
+            {
+                _ficsClient.Send(response);
+            }
         }
 
         /// <summary>
@@ -58,7 +63,7 @@ namespace Proxima.FICS.Source
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void FicsClient_OnDataSend(object sender, DataSentEventArgs e)
+        private void FicsClient_OnDataSend(object sender, DataEventArgs e)
         {
             _consoleManager.WriteLine($"$RSND: $g{e.Text}");
         }
