@@ -19,12 +19,12 @@ namespace Proxima.FICS.Source.FICSModes
         {
             var response = string.Empty;
 
-            if (message.StartsWith("login:"))
+            if (message.StartsWith(FICSConstants.LoginCommand))
             {
                 response = ConfigManager.GetValue<string>("Username");
             }
 
-            if (message.StartsWith("password:"))
+            if (message.StartsWith(FICSConstants.PasswordCommand))
             {
                 response = ConfigManager.GetValue<string>("Password");
             }

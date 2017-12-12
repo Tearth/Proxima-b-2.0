@@ -56,7 +56,7 @@ namespace Proxima.FICS.Source.NetworkSubsystem
         /// <param name="text">The text to send.</param>
         public void Send(string text)
         {
-            var byteDataToSend = Encoding.ASCII.GetBytes(text + "\r\n");
+            var byteDataToSend = Encoding.ASCII.GetBytes(text + FICSConstants.EndOfLine);
             _socket.BeginSend(byteDataToSend, 0, byteDataToSend.Length, 0, new AsyncCallback(SendCallback), _socket);
 
             OnDataSend?.Invoke(this, new DataEventArgs(text));
@@ -107,7 +107,7 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             clientState.BufferString.Append(Encoding.UTF8.GetString(clientState.Buffer));
 
             var stringResult = clientState.BufferString.ToString();
-            var lines = Regex.Matches(stringResult, @"(?<Text>.*(\n\r))", RegexOptions.Multiline);
+            var lines = Regex.Matches(stringResult, $@"(?<Text>.*({FICSConstants.EndOfLine}))", RegexOptions.Multiline);
 
             foreach(Match line in lines)
             {
@@ -148,7 +148,7 @@ namespace Proxima.FICS.Source.NetworkSubsystem
 
         private bool IsCommand(string text)
         {
-            return text.Contains("login:") || text.Contains("password:");
+            return text.Contains(FICSConstants.LoginCommand) || text.Contains(FICSConstants.PasswordCommand);
         }
     }
 }

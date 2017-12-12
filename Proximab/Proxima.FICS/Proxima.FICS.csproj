@@ -47,6 +47,7 @@
     <Compile Include="Source\ConfigSubsystem\ConfigContainer.cs" />
     <Compile Include="Source\ConfigSubsystem\ConfigItem.cs" />
     <Compile Include="Source\ConfigSubsystem\ConfigManager.cs" />
+    <Compile Include="Source\FICSConstants.cs" />
     <Compile Include="Source\FICSCore.cs" />
     <Compile Include="Source\FICSModes\AuthMode.cs" />
     <Compile Include="Source\FICSModes\ChangeModeEventArgs.cs" />
