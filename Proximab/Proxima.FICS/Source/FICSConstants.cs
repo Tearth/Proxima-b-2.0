@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Proxima.FICS.Source
+﻿namespace Proxima.FICS.Source
 {
+    /// <summary>
+    /// Represents a set of constants used in all FICS classes.
+    /// </summary>
     public static class FICSConstants
     {
         public static readonly string EndOfLine = "\n\r";

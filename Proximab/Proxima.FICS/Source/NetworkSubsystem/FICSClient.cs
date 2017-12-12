@@ -33,7 +33,7 @@ namespace Proxima.FICS.Source.NetworkSubsystem
         /// <summary>
         /// Initializes a new instance of the <see cref="FICSClient"/> class.
         /// </summary>
-        /// <param name="configManager">The config manager.</param>
+        /// <param name="configManager">The configuration manager.</param>
         public FICSClient(ConfigManager configManager)
         {
             _configManager = configManager;
@@ -79,9 +79,7 @@ namespace Proxima.FICS.Source.NetworkSubsystem
         /// </summary>
         private void StartReceiving()
         {
-            var clientState = new ClientState();
-            clientState.Socket = _socket;
-
+            var clientState = new ClientState(_socket);
             _socket.BeginReceive(clientState.Buffer, 0, ClientState.BufferSize, 0, new AsyncCallback(ReceiveCallback), clientState);
         }
 
@@ -101,7 +99,7 @@ namespace Proxima.FICS.Source.NetworkSubsystem
         /// <param name="ar">The async result.</param>
         private void ReceiveCallback(IAsyncResult ar)
         {
-            var clientState = (ClientState)ar.AsyncState; 
+            var clientState = (ClientState)ar.AsyncState;
             var bytesRead = clientState.Socket.EndReceive(ar);
 
             clientState.BufferString.Append(Encoding.UTF8.GetString(clientState.Buffer));
@@ -109,13 +107,13 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             var stringResult = clientState.BufferString.ToString();
             var lines = Regex.Matches(stringResult, $@"(?<Text>.*({FICSConstants.EndOfLine}))", RegexOptions.Multiline);
 
-            foreach(Match line in lines)
+            foreach (Match line in lines)
             {
                 var text = line.Groups["Text"].Value;
                 var textWithoutEndline = text.Substring(0, text.Length - 2);
 
                 clientState.BufferString.Remove(0, text.Length);
-                
+
                 var commandFound = IsCommand(text);
                 if (commandFound)
                 {
@@ -127,12 +125,12 @@ namespace Proxima.FICS.Source.NetworkSubsystem
 
                 OnDataReceive?.Invoke(this, new DataEventArgs(textWithoutEndline));
 
-                if(commandFound)
+                if (commandFound)
                 {
                     break;
                 }
             }
-            
+
             clientState.Socket.BeginReceive(clientState.Buffer, 0, ClientState.BufferSize, 0, new AsyncCallback(ReceiveCallback), clientState);
         }
 
@@ -146,6 +144,11 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             socket.EndSend(ar);
         }
 
+        /// <summary>
+        /// Checks if the specified response from FICS means telnet command.
+        /// </summary>
+        /// <param name="text">The text to check.</param>
+        /// <returns>True if the specified text is telnet command, otherwise false.</returns>
         private bool IsCommand(string text)
         {
             return text.Contains(FICSConstants.LoginCommand) || text.Contains(FICSConstants.PasswordCommand);

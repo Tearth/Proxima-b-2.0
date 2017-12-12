@@ -68,11 +68,20 @@ namespace Proxima.FICS.Source
             _consoleManager.WriteLine($"$RSEND: $r{e.Text}");
         }
 
+        /// <summary>
+        /// The event handler for OnChangeMode.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
         private void FICSMode_OnChangeMode(object sender, ChangeModeEventArgs e)
         {
             ChangeMode(e.NewModeType);
         }
 
+        /// <summary>
+        /// Changes mode to the specified one and logs it on the console.
+        /// </summary>
+        /// <param name="modeType">The FICS mode type.</param>
         private void ChangeMode(FICSModeType modeType)
         {
             _consoleManager.WriteLine($"$GPRXB: $gMode changed to {modeType}.");
