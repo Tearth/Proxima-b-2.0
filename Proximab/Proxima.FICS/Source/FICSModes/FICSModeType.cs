@@ -8,6 +8,7 @@ namespace Proxima.FICS.Source.FICSModes
 {
     public enum FICSModeType
     {
-        Auth
+        Auth,
+        Seek
     }
 }

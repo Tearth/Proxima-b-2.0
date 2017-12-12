@@ -31,7 +31,7 @@ namespace Proxima.FICS.Source.FICSModes
 
             if(message.Contains("Starting FICS session as"))
             {
-                ChangeMode(FICSModeType.Auth);
+                ChangeMode(FICSModeType.Seek);
             }
 
             return response;
