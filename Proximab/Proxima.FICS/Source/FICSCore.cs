@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading;
-using GUI.ColorfulConsole;
+﻿using GUI.ColorfulConsole;
 using Proxima.FICS.Source.ConfigSubsystem;
-using Proxima.FICS.Source.FICSModes;
+using Proxima.FICS.Source.GameSubsystem;
 using Proxima.FICS.Source.NetworkSubsystem;
 
 namespace Proxima.FICS.Source

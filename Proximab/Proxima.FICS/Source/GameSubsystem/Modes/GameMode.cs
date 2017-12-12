@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Proxima.FICS.Source.ConfigSubsystem;
 
-namespace Proxima.FICS.Source.FICSModes
+namespace Proxima.FICS.Source.GameSubsystem.Modes
 {
     /// <summary>
     /// Represents the FICS game mode. All AI calculations and interactions with enemies will be done here.

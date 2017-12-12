@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Proxima.FICS.Source.ConfigSubsystem;
 using Proxima.FICS.Source.FICSModes.Exceptions;
+using Proxima.FICS.Source.GameSubsystem.Modes;
 
-namespace Proxima.FICS.Source.FICSModes
+namespace Proxima.FICS.Source.GameSubsystem
 {
     /// <summary>
     /// Represents a factory of FICS modes.

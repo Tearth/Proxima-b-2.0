@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Proxima.FICS.Source.FICSModes
+namespace Proxima.FICS.Source.GameSubsystem
 {
     /// <summary>
     /// Represents a list of FICS mode types.

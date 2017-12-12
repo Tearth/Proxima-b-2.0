@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Proxima.FICS.Source.FICSModes
+namespace Proxima.FICS.Source.GameSubsystem
 {
     /// <summary>
     /// Represents information about ChangeMode event.

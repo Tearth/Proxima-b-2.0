@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Proxima.FICS.Source.ConfigSubsystem;
 using Proxima.FICS.Source.NetworkSubsystem;
 
-namespace Proxima.FICS.Source.FICSModes
+namespace Proxima.FICS.Source.GameSubsystem
 {
     /// <summary>
     /// Represents a base class for all FICS modes.

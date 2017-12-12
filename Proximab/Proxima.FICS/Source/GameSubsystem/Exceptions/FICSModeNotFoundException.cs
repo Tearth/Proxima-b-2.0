@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Proxima.FICS.Source.FICSModes.Exceptions
+namespace Proxima.FICS.Source.GameSubsystem.Exceptions
 {
     /// <summary>
     /// The exception that is thrown when a FICS mode cannot be found.
