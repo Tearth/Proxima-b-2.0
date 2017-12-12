@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using GUI.ColorfulConsole;
 using Proxima.FICS.Source.ConfigSubsystem;
 using Proxima.FICS.Source.NetworkSubsystem;
@@ -35,7 +36,6 @@ namespace Proxima.FICS.Source
         public void Run()
         {
             _ficsClient.OpenSession();
-            LogIn();
         }
 
         /// <summary>
@@ -45,7 +45,8 @@ namespace Proxima.FICS.Source
         /// <param name="e">The event arguments.</param>
         private void FicsClient_OnDataReceive(object sender, DataReceivedEventArgs e)
         {
-            _consoleManager.Write($"$c{e.Text}");
+            _consoleManager.WriteLine($"$rREC: $c{e.Text}");
+            ProcessMessage(e.Text);
         }
 
         /// <summary>
@@ -55,18 +56,38 @@ namespace Proxima.FICS.Source
         /// <param name="e">The event arguments.</param>
         private void FicsClient_OnDataSend(object sender, DataSentEventArgs e)
         {
-            _consoleManager.WriteLine($"$g{e.Text}");
+            _consoleManager.WriteLine($"$RSND: $g{e.Text}");
+        }
+
+        private void ProcessMessage(string message)
+        {
+            if (message.StartsWith("login:"))
+            {
+                SendUsername();
+            }
+
+            if (message.StartsWith("password:"))
+            {
+                SendPassword();
+            }
         }
 
         /// <summary>
-        /// Sends username and password to the server.
+        /// Sends username to the server.
         /// </summary>
-        private void LogIn()
+        private void SendUsername()
         {
             var username = _configManager.GetValue<string>("Username");
-            var password = _configManager.GetValue<string>("Password");
+            _ficsClient.Send($"{username}");
+        }
 
-            _ficsClient.Send($"{username}\r\n{password}");
+        /// <summary>
+        /// Sends passwrd to the server.
+        /// </summary>
+        private void SendPassword()
+        {
+            var password = _configManager.GetValue<string>("Password");
+            _ficsClient.Send($"{password}");
         }
     }
 }

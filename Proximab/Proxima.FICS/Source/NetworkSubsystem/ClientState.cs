@@ -24,21 +24,15 @@ namespace Proxima.FICS.Source.NetworkSubsystem
         /// </summary>
         public byte[] Buffer { get; set; }
 
+        public StringBuilder BufferString { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientState"/> class.
         /// </summary>
         public ClientState()
         {
             Buffer = new byte[BufferSize];
-        }
-
-        /// <summary>
-        /// Converts the client buffer content to the string representation.
-        /// </summary>
-        /// <returns>The string representation of <see cref="Buffer"/></returns>
-        public string GetStringRepresentation()
-        {
-            return Encoding.UTF8.GetString(Buffer);
+            BufferString = new StringBuilder();
         }
     }
 }

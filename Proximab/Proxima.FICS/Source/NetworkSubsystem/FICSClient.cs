@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Proxima.FICS.Source.ConfigSubsystem;
@@ -103,11 +104,35 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             var clientState = (ClientState)ar.AsyncState; 
             var bytesRead = clientState.Socket.EndReceive(ar);
 
-            var time = DateTime.Now;
-            var text = clientState.GetStringRepresentation();
+            clientState.BufferString.Append(Encoding.UTF8.GetString(clientState.Buffer));
 
-            OnDataReceive?.Invoke(this, new DataReceivedEventArgs(time, text));
+            var stringResult = clientState.BufferString.ToString();
+            var lines = Regex.Matches(stringResult, @"(?<Text>.*(\n\r))", RegexOptions.Multiline);
 
+            foreach(Match line in lines)
+            {
+                var text = line.Groups["Text"].Value;
+                var textWithoutEndline = text.Substring(0, text.Length - 2);
+
+                clientState.BufferString.Remove(0, text.Length);
+                
+                var commandFound = IsCommand(text);
+                if (commandFound)
+                {
+                    var commandEndPosition = text.IndexOf(':') + 1;
+                    text = text.Substring(0, commandEndPosition);
+
+                    clientState.BufferString.Clear();
+                }
+
+                OnDataReceive?.Invoke(this, new DataReceivedEventArgs(DateTime.Now, textWithoutEndline));
+
+                if(commandFound)
+                {
+                    break;
+                }
+            }
+            
             clientState.Socket.BeginReceive(clientState.Buffer, 0, ClientState.BufferSize, 0, new AsyncCallback(ReceiveCallback), clientState);
         }
 
@@ -119,6 +144,11 @@ namespace Proxima.FICS.Source.NetworkSubsystem
         {
             var socket = (Socket)ar.AsyncState;
             socket.EndSend(ar);
+        }
+
+        private bool IsCommand(string text)
+        {
+            return text.Contains("login:") || text.Contains("password:");
         }
     }
 }
