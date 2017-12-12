@@ -54,6 +54,7 @@
     <Compile Include="Source\FICSModes\FICSModeBase.cs" />
     <Compile Include="Source\FICSModes\FICSModeFactory.cs" />
     <Compile Include="Source\FICSModes\FICSModeType.cs" />
+    <Compile Include="Source\FICSModes\GameMode.cs" />
     <Compile Include="Source\FICSModes\SeekMode.cs" />
     <Compile Include="Source\NetworkSubsystem\ClientState.cs" />
     <Compile Include="Source\NetworkSubsystem\DataEventArgs.cs" />

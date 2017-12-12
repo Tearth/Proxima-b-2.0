@@ -49,7 +49,7 @@ namespace Proxima.FICS.Source
         /// <param name="e">The event arguments.</param>
         private void FicsClient_OnDataReceive(object sender, DataEventArgs e)
         {
-            _consoleManager.WriteLine($"$rREC: $c{e.Text}");
+            _consoleManager.WriteLine($"$RRECV: $c{e.Text}");
 
             var response = _ficsMode.ProcessMessage(e.Text);
             if (response != string.Empty)
@@ -65,20 +65,22 @@ namespace Proxima.FICS.Source
         /// <param name="e">The event arguments.</param>
         private void FicsClient_OnDataSend(object sender, DataEventArgs e)
         {
-            _consoleManager.WriteLine($"$RSND: $g{e.Text}");
-        }
-
-        private void ChangeMode(FICSModeType modeType)
-        {
-            var ficsModeFactory = new FICSModeFactory(_configManager);
-
-            _ficsMode = ficsModeFactory.Create(modeType);
-            _ficsMode.OnChangeMode += FICSMode_OnChangeMode;
+            _consoleManager.WriteLine($"$RSEND: $r{e.Text}");
         }
 
         private void FICSMode_OnChangeMode(object sender, ChangeModeEventArgs e)
         {
             ChangeMode(e.NewModeType);
         }
+
+        private void ChangeMode(FICSModeType modeType)
+        {
+            _consoleManager.WriteLine($"$GPRXB: $gMode changed to {modeType}.");
+
+            var ficsModeFactory = new FICSModeFactory(_configManager);
+
+            _ficsMode = ficsModeFactory.Create(modeType);
+            _ficsMode.OnChangeMode += FICSMode_OnChangeMode;
+        }      
     }
 }

@@ -23,6 +23,7 @@ namespace Proxima.FICS.Source.FICSModes
             {
                 case FICSModeType.Auth: return new AuthMode(_configManager);
                 case FICSModeType.Seek: return new SeekMode(_configManager);
+                case FICSModeType.Game: return new GameMode(_configManager);
             }
 
             throw new FICSModeNotFoundException();

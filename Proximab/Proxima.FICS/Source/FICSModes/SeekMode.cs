@@ -26,6 +26,11 @@ namespace Proxima.FICS.Source.FICSModes
                 _seekSent = true;
             }
 
+            if(message.Contains("accepts your seek"))
+            {
+                ChangeMode(FICSModeType.Game);
+            }
+
             return response;
         }
     }
