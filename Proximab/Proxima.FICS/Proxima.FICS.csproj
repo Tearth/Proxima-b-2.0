@@ -48,6 +48,11 @@
     <Compile Include="Source\ConfigSubsystem\ConfigItem.cs" />
     <Compile Include="Source\ConfigSubsystem\ConfigManager.cs" />
     <Compile Include="Source\FICSCore.cs" />
+    <Compile Include="Source\FICSModes\AuthMode.cs" />
+    <Compile Include="Source\FICSModes\Exceptions\FICSModeNotFoundException.cs" />
+    <Compile Include="Source\FICSModes\FICSModeBase.cs" />
+    <Compile Include="Source\FICSModes\FICSModeFactory.cs" />
+    <Compile Include="Source\FICSModes\FICSModeType.cs" />
     <Compile Include="Source\NetworkSubsystem\ClientState.cs" />
     <Compile Include="Source\NetworkSubsystem\DataReceivedEventArgs.cs" />
     <Compile Include="Source\NetworkSubsystem\DataSentEventArgs.cs" />

@@ -69,7 +69,7 @@
     <Compile Include="Source\CommandsSubsystem\Exceptions\TypeNotFoundException.cs" />
     <Compile Include="Source\GameModeSubsystem\Editor\AIvsAIMode.cs" />
     <Compile Include="Source\GameModeSubsystem\Editor\EditorMode.cs" />
-    <Compile Include="Source\GameModeSubsystem\Exceptions\ModeNotFoundException.cs" />
+    <Compile Include="Source\GameModeSubsystem\Exceptions\GameModeNotFoundException.cs" />
     <Compile Include="Source\GameModeSubsystem\GameModeBase.cs" />
     <Compile Include="Source\GameModeSubsystem\GameModeFactory.cs" />
     <Compile Include="Source\GameModeSubsystem\GameModeType.cs">

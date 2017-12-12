@@ -2,6 +2,7 @@
 using System.Threading;
 using GUI.ColorfulConsole;
 using Proxima.FICS.Source.ConfigSubsystem;
+using Proxima.FICS.Source.FICSModes;
 using Proxima.FICS.Source.NetworkSubsystem;
 
 namespace Proxima.FICS.Source
@@ -14,6 +15,7 @@ namespace Proxima.FICS.Source
         private ColorfulConsoleManager _consoleManager;
         private ConfigManager _configManager;
         private FICSClient _ficsClient;
+        private FICSModeBase _ficsMode;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FICSCore"/> class.
@@ -28,6 +30,8 @@ namespace Proxima.FICS.Source
             _ficsClient = new FICSClient(_configManager);
             _ficsClient.OnDataReceive += FicsClient_OnDataReceive;
             _ficsClient.OnDataSend += FicsClient_OnDataSend;
+
+            _ficsMode = new AuthMode(_configManager);
         }
 
         /// <summary>
@@ -46,7 +50,7 @@ namespace Proxima.FICS.Source
         private void FicsClient_OnDataReceive(object sender, DataReceivedEventArgs e)
         {
             _consoleManager.WriteLine($"$rREC: $c{e.Text}");
-            ProcessMessage(e.Text);
+            _ficsMode.ProcessMessage(e.Text);
         }
 
         /// <summary>
@@ -57,37 +61,6 @@ namespace Proxima.FICS.Source
         private void FicsClient_OnDataSend(object sender, DataSentEventArgs e)
         {
             _consoleManager.WriteLine($"$RSND: $g{e.Text}");
-        }
-
-        private void ProcessMessage(string message)
-        {
-            if (message.StartsWith("login:"))
-            {
-                SendUsername();
-            }
-
-            if (message.StartsWith("password:"))
-            {
-                SendPassword();
-            }
-        }
-
-        /// <summary>
-        /// Sends username to the server.
-        /// </summary>
-        private void SendUsername()
-        {
-            var username = _configManager.GetValue<string>("Username");
-            _ficsClient.Send($"{username}");
-        }
-
-        /// <summary>
-        /// Sends passwrd to the server.
-        /// </summary>
-        private void SendPassword()
-        {
-            var password = _configManager.GetValue<string>("Password");
-            _ficsClient.Send($"{password}");
         }
     }
 }

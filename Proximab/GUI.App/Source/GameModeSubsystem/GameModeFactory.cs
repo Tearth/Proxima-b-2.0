@@ -37,7 +37,7 @@ namespace GUI.App.Source.GameModeSubsystem
                 case GameModeType.AIvsAI: return new AIvsAIMode(_consoleManager, _commandsManager);
             }
 
-            throw new ModeNotFoundException();
+            throw new GameModeNotFoundException();
         }
     }
 }
