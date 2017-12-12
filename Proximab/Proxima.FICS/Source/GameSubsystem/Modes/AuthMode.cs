@@ -34,7 +34,8 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes
                 response = ProcessPasswordCommand();
             }
 
-            if (message.Contains("Starting FICS session as"))
+            var username = ConfigManager.GetValue<string>("Username");
+            if (message.Contains($"Starting FICS session as {username}(C)"))
             {
                 ChangeMode(FICSModeType.Seek);
             }
