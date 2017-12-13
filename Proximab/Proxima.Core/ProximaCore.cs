@@ -19,9 +19,6 @@ namespace Proxima.Core
         {
             PatternsContainer.Init();
             MagicContainer.Init();
-            ZobristContainer.Init();
-            PieceConverter.Init();
-            ColorConverter.Init();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Proxima.Core.Commons.Pieces
         /// <summary>
         /// Inits internal dictionaries.
         /// </summary>
-        public static void Init()
+        static PieceConverter()
         {
             _pieces = new BidirectionalDictionary<PieceType, char>();
 

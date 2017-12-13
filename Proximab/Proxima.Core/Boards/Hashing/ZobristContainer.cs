@@ -25,7 +25,7 @@ namespace Proxima.Core.Boards.Hashing
         /// <summary>
         /// Inits Zobrist container. Must be called before first use of any other class method.
         /// </summary>
-        public static void Init()
+        static ZobristContainer()
         {
             var random = new Random64();
 

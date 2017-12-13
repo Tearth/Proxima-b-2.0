@@ -13,7 +13,7 @@ namespace Proxima.Core.Commons.Colors
         /// <summary>
         /// Inits internal dictionaries.
         /// </summary>
-        public static void Init()
+        static ColorConverter()
         {
             _colors = new BidirectionalDictionary<Color, char>();
 
