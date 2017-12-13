@@ -57,7 +57,9 @@
     <Compile Include="Source\GameSubsystem\FICSModeType.cs" />
     <Compile Include="Source\GameSubsystem\Modes\Game\GameMode.cs" />
     <Compile Include="Source\GameSubsystem\Modes\Game\Style12\Style12Container.cs" />
+    <Compile Include="Source\GameSubsystem\Modes\Game\Style12\Style12OrientationType.cs" />
     <Compile Include="Source\GameSubsystem\Modes\Game\Style12\Style12Parser.cs" />
+    <Compile Include="Source\GameSubsystem\Modes\Game\Style12\Style12RelationType.cs" />
     <Compile Include="Source\GameSubsystem\Modes\Seek\SeekMode.cs" />
     <Compile Include="Source\NetworkSubsystem\ClientState.cs" />
     <Compile Include="Source\NetworkSubsystem\DataEventArgs.cs" />

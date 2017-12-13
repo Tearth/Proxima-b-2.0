@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Proxima.Core.Commons.Colors;
 
 namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
 {
@@ -20,28 +21,35 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
 
             style12Container.StyleID = splittedInput[0];
             style12Container.BoardState = ParseBoardState(splittedInput);
-            style12Container.ColorToMove = splittedInput[9];
+            style12Container.ColorToMove = GetColorType(splittedInput[9]);
             style12Container.DoublePawnPush = Convert.ToInt32(splittedInput[10]);
+
             style12Container.WhiteShortCastlingPossible = splittedInput[11] == "1";
             style12Container.WhiteLongCastlingPossible = splittedInput[12] == "1";
             style12Container.BlackShortCastlingPossible = splittedInput[13] == "1";
             style12Container.BlackLongCastlingPossible = splittedInput[14] == "1";
+
             style12Container.Rule50Moves = Convert.ToInt32(splittedInput[15]);
             style12Container.GameNumber = Convert.ToInt32(splittedInput[16]);
+
             style12Container.WhitePlayerName = splittedInput[17];
             style12Container.BlackPlayerName = splittedInput[18];
-            style12Container.Relation = Convert.ToInt32(splittedInput[19]);
+
+            style12Container.Relation = GetRelationType(splittedInput[19]);
+
             style12Container.InitialTime = Convert.ToInt32(splittedInput[20]);
             style12Container.IncrementalTime = Convert.ToInt32(splittedInput[21]);
             style12Container.WhiteMaterialStrength = Convert.ToInt32(splittedInput[22]);
             style12Container.BlackMaterialStrength = Convert.ToInt32(splittedInput[23]);
             style12Container.WhiteRemainingTime = Convert.ToInt32(splittedInput[24]);
             style12Container.BlackRemainingTime = Convert.ToInt32(splittedInput[25]);
+
             style12Container.MovesToMade = Convert.ToInt32(splittedInput[26]);
             style12Container.VerbosePreviousMoveNotation = splittedInput[27];
             style12Container.TimeOfPreviousMove = splittedInput[29];
             style12Container.PrettyPreviousMoveNotation = splittedInput[29];
-            style12Container.BoardOrientation = Convert.ToInt32(splittedInput[30]);
+
+            style12Container.BoardOrientation = GetBoardOrientationType(splittedInput[30]);
 
             return style12Container;
         }
@@ -56,6 +64,22 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
             }
 
             return boardState;
+        }
+
+        public Color GetColorType(string color)
+        {
+            var colorChar = Convert.ToChar(color);
+            return ColorConverter.GetColor(colorChar);
+        }
+
+        private Style12RelationType GetRelationType(string relation)
+        {
+            return (Style12RelationType)Convert.ToInt32(relation);
+        }
+
+        private Style12OrientationType GetBoardOrientationType(string boardOrientation)
+        {
+            return (Style12OrientationType)Convert.ToInt32(boardOrientation);
         }
     }
 }

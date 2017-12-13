@@ -1,4 +1,6 @@
-﻿namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
+﻿using Proxima.Core.Commons.Colors;
+
+namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
 {
     /// <summary>
     /// Represents a container for Style12 FICS response.
@@ -18,7 +20,7 @@
         /// <summary>
         /// Gets or sets the color of current player whose turn it is.
         /// </summary>
-        public string ColorToMove { get; set; }
+        public Color ColorToMove { get; set; }
 
         /// <summary>
         /// Gets or sets the double pawn push file (-1 if none).
@@ -69,7 +71,7 @@
         /// Gets or sets the relation of engine to the game (-3 = isolated position, -2 = examiner, 
         /// -1 = move of the enemy, 1 = move of the engine, 0 = observing).
         /// </summary>
-        public int Relation { get; set; }
+        public Style12RelationType Relation { get; set; }
 
         /// <summary>
         /// Gets or sets the initial time (in seconds).
@@ -124,6 +126,6 @@
         /// <summary>
         /// Gets or sets the board orientation (0 = white at bottom, 1 = black at bottom).
         /// </summary>
-        public int BoardOrientation { get; set; }
+        public Style12OrientationType BoardOrientation { get; set; }
     }
 }
