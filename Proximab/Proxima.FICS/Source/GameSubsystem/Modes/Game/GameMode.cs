@@ -43,6 +43,10 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
             {
                 response = ProcessMoveCommand(message);
             }
+            else if(message.Contains("checkmated"))
+            {
+                ChangeMode(FICSModeType.Seek);
+            }
 
             return response;
         }
