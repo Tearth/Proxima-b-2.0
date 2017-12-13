@@ -58,6 +58,7 @@
     <Compile Include="Source\GameSubsystem\Modes\Game\GameMode.cs" />
     <Compile Include="Source\GameSubsystem\Modes\Game\Style12\Style12Container.cs" />
     <Compile Include="Source\GameSubsystem\Modes\Game\Style12\Style12Move.cs" />
+    <Compile Include="Source\GameSubsystem\Modes\Game\Style12\Style12MoveParser.cs" />
     <Compile Include="Source\GameSubsystem\Modes\Game\Style12\Style12OrientationType.cs" />
     <Compile Include="Source\GameSubsystem\Modes\Game\Style12\Style12Parser.cs" />
     <Compile Include="Source\GameSubsystem\Modes\Game\Style12\Style12RelationType.cs" />

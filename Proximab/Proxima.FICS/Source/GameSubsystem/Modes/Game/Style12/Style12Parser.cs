@@ -76,35 +76,8 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
 
         private Style12Move GetStyle12Move(string move, Color color)
         {
-            if(move == "o-o")
-            {
-                var fromPosition = color == Color.White ? new Position(5, 1) : new Position(5, 8);
-                var toPosition =   color == Color.White ? new Position(7, 1) : new Position(7, 8);
-
-                return new Style12Move(PieceType.King, fromPosition, toPosition);
-            }
-            else if(move == "o-o-o")
-            {
-                var fromPosition = color == Color.White ? new Position(5, 1) : new Position(5, 8);
-                var toPosition   = color == Color.White ? new Position(3, 1) : new Position(3, 8);
-
-                return new Style12Move(PieceType.King, fromPosition, toPosition);
-            }
-            else if(move.Length == 7)
-            {
-                var pieceSymbol = move[0];
-                var pieceType = PieceConverter.GetPiece(pieceSymbol);
-
-                var fromSubstring = move.Substring(2, 2);
-                var fromPosition = PositionConverter.ToPosition(fromSubstring);
-
-                var toSubstring = move.Substring(5, 2);
-                var toPosition = PositionConverter.ToPosition(toSubstring);
-
-                return new Style12Move(pieceType, fromPosition, toPosition);
-            }
-
-            return null;
+            var style12MoveParser = new Style12MoveParser();
+            return style12MoveParser.Parse(move, color);
         }
 
         private Style12RelationType GetRelationType(string relation)

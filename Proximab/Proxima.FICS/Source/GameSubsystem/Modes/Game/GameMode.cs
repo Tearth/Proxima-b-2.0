@@ -39,11 +39,11 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
         {
             var response = string.Empty;
 
-            if(message.StartsWith("<12>"))
+            if (message.StartsWith("<12>"))
             {
                 response = ProcessMoveCommand(message);
             }
-            else if(message.Contains("checkmated"))
+            else if (message.Contains("0-1") || message.Contains("1-0") || message.Contains("1/2-1/2"))
             {
                 ChangeMode(FICSModeType.Seek);
             }
@@ -56,31 +56,50 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
             var style12Parser = new Style12Parser();
             var style12Container = style12Parser.Parse(message);
 
-            if(style12Container != null && style12Container.Relation == Style12RelationType.EngineMove)
+            if (style12Container != null && style12Container.Relation == Style12RelationType.EngineMove)
             {
-                if(style12Container.VerbosePreviousMoveNotation != null)
-                {
-                    _bitboard.Calculate(GeneratorMode.CalculateMoves, GeneratorMode.CalculateMoves);
-
-                    var moveToApply = _bitboard.Moves.First(p => p.From == style12Container.VerbosePreviousMoveNotation.From &&
-                                                                 p.To == style12Container.VerbosePreviousMoveNotation.To);
-
-                    _bitboard = _bitboard.Move(moveToApply);
-                }       
-
-                var ai = new AICore();
-                var aiResult = ai.Calculate(style12Container.ColorToMove, _bitboard, 4);
-
                 _bitboard.Calculate(GeneratorMode.CalculateMoves, GeneratorMode.CalculateMoves);
-                _bitboard = _bitboard.Move(aiResult.BestMove);
 
-                var fromConverted = PositionConverter.ToString(aiResult.BestMove.From);
-                var toConverted = PositionConverter.ToString(aiResult.BestMove.To);
-
-                return $"{fromConverted}-{toConverted}";
+                CalculateEnemyMove(style12Container);
+                return CalculateAIMove(style12Container);
             }
 
             return string.Empty;
+        }
+
+        private void CalculateEnemyMove(Style12Container style12Container)
+        {
+            if (style12Container.VerbosePreviousMoveNotation != null)
+            {
+                Move moveToApply;
+
+                if (style12Container.VerbosePreviousMoveNotation.PromotionPieceType == null)
+                {
+                    moveToApply = _bitboard.Moves.First(p => p.From == style12Container.VerbosePreviousMoveNotation.From &&
+                                                             p.To == style12Container.VerbosePreviousMoveNotation.To);
+                }
+                else
+                {
+                    moveToApply = _bitboard.Moves.First(p => p.From == style12Container.VerbosePreviousMoveNotation.From &&
+                                                             p.To == style12Container.VerbosePreviousMoveNotation.To &&
+                                                            (p as PromotionMove).PromotionPiece == style12Container.VerbosePreviousMoveNotation.PromotionPieceType);
+                }
+                
+                _bitboard = _bitboard.Move(moveToApply);
+            }
+        }
+
+        private string CalculateAIMove(Style12Container style12Container)
+        {
+            var ai = new AICore();
+            var aiResult = ai.Calculate(style12Container.ColorToMove, _bitboard, 1);
+
+            _bitboard = _bitboard.Move(aiResult.BestMove);
+
+            var fromConverted = PositionConverter.ToString(aiResult.BestMove.From);
+            var toConverted = PositionConverter.ToString(aiResult.BestMove.To);
+
+            return $"{fromConverted}-{toConverted}";
         }
     }
 }
