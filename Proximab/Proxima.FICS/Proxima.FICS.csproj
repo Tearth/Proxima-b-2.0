@@ -49,14 +49,14 @@
     <Compile Include="Source\ConfigSubsystem\ConfigManager.cs" />
     <Compile Include="Source\FICSConstants.cs" />
     <Compile Include="Source\FICSCore.cs" />
-    <Compile Include="Source\GameSubsystem\Modes\AuthMode.cs" />
+    <Compile Include="Source\GameSubsystem\Modes\Auth\AuthMode.cs" />
     <Compile Include="Source\GameSubsystem\ChangeModeEventArgs.cs" />
     <Compile Include="Source\GameSubsystem\Exceptions\FICSModeNotFoundException.cs" />
     <Compile Include="Source\GameSubsystem\FICSModeBase.cs" />
     <Compile Include="Source\GameSubsystem\FICSModeFactory.cs" />
     <Compile Include="Source\GameSubsystem\FICSModeType.cs" />
-    <Compile Include="Source\GameSubsystem\Modes\GameMode.cs" />
-    <Compile Include="Source\GameSubsystem\Modes\SeekMode.cs" />
+    <Compile Include="Source\GameSubsystem\Modes\Game\GameMode.cs" />
+    <Compile Include="Source\GameSubsystem\Modes\Seek\SeekMode.cs" />
     <Compile Include="Source\NetworkSubsystem\ClientState.cs" />
     <Compile Include="Source\NetworkSubsystem\DataEventArgs.cs" />
     <Compile Include="Source\NetworkSubsystem\FICSClient.cs" />

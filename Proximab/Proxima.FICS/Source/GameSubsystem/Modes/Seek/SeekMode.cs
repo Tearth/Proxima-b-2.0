@@ -1,6 +1,6 @@
 ﻿using Proxima.FICS.Source.ConfigSubsystem;
 
-namespace Proxima.FICS.Source.GameSubsystem.Modes
+namespace Proxima.FICS.Source.GameSubsystem.Modes.Seek
 {
     /// <summary>
     /// Represents the FICS seek mode. It's the transitional mode between authentication and regular game.

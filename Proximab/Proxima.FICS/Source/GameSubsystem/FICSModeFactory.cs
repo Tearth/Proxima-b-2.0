@@ -1,6 +1,8 @@
 ﻿using Proxima.FICS.Source.ConfigSubsystem;
 using Proxima.FICS.Source.GameSubsystem.Exceptions;
-using Proxima.FICS.Source.GameSubsystem.Modes;
+using Proxima.FICS.Source.GameSubsystem.Modes.Auth;
+using Proxima.FICS.Source.GameSubsystem.Modes.Game;
+using Proxima.FICS.Source.GameSubsystem.Modes.Seek;
 
 namespace Proxima.FICS.Source.GameSubsystem
 {

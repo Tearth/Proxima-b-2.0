@@ -1,6 +1,6 @@
 ﻿using Proxima.FICS.Source.ConfigSubsystem;
 
-namespace Proxima.FICS.Source.GameSubsystem.Modes
+namespace Proxima.FICS.Source.GameSubsystem.Modes.Auth
 {
     /// <summary>
     /// Represents the FICS authentication mode (olny once per session).
