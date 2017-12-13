@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Proxima.Core.Commons.Colors;
+using Proxima.Core.Commons.Pieces;
+using Proxima.Core.Commons.Positions;
 
 namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
 {
@@ -45,7 +47,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
             style12Container.BlackRemainingTime = Convert.ToInt32(splittedInput[25]);
 
             style12Container.MovesToMade = Convert.ToInt32(splittedInput[26]);
-            style12Container.VerbosePreviousMoveNotation = splittedInput[27];
+            style12Container.VerbosePreviousMoveNotation = GetStyle12Move(splittedInput[27]);
             style12Container.TimeOfPreviousMove = splittedInput[28];
             style12Container.PrettyPreviousMoveNotation = splittedInput[29];
 
@@ -66,10 +68,24 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
             return boardState;
         }
 
-        public Color GetColorType(string color)
+        private Color GetColorType(string color)
         {
             var colorChar = Convert.ToChar(color);
             return ColorConverter.GetColor(colorChar);
+        }
+
+        private Style12Move GetStyle12Move(string move)
+        {
+            var pieceSymbol = move[0];
+            var pieceType = PieceConverter.GetPiece(pieceSymbol);
+
+            var fromSubstring = move.Substring(2, 2);
+            var fromPosition = PositionConverter.ToPosition(fromSubstring);
+
+            var toSubstring = move.Substring(5, 2);
+            var toPosition = PositionConverter.ToPosition(toSubstring);
+
+            return new Style12Move(pieceType, fromPosition, toPosition);
         }
 
         private Style12RelationType GetRelationType(string relation)
