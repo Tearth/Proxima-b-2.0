@@ -18,7 +18,7 @@
         /// <summary>
         /// Gets or sets the color of current player whose turn it is.
         /// </summary>
-        public char ColorToMove { get; set; }
+        public string ColorToMove { get; set; }
 
         /// <summary>
         /// Gets or sets the double pawn push file (-1 if none).
@@ -80,6 +80,16 @@
         /// Gets or sets the incremental time (in seconds).
         /// </summary>
         public int IncrementalTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the white material strength.
+        /// </summary>
+        public int WhiteMaterialStrength { get; set; }
+
+        /// <summary>
+        /// Gets or sets the black material strength.
+        /// </summary>
+        public int BlackMaterialStrength { get; set; }
 
         /// <summary>
         /// Gets or sets the remaining time of white player.

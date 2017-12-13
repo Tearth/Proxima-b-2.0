@@ -6,7 +6,56 @@ using System.Threading.Tasks;
 
 namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
 {
-    class Style12Parser
+    public class Style12Parser
     {
+        public Style12Container Parse(string input)
+        {
+            var style12Container = new Style12Container();
+            var splittedInput = input.Split(' ');
+
+            if(splittedInput.Length < 31)
+            {
+                return null;
+            }
+
+            style12Container.StyleID = splittedInput[0];
+            style12Container.BoardState = ParseBoardState(splittedInput);
+            style12Container.ColorToMove = splittedInput[9];
+            style12Container.DoublePawnPush = Convert.ToInt32(splittedInput[10]);
+            style12Container.WhiteShortCastlingPossible = splittedInput[11] == "1";
+            style12Container.WhiteLongCastlingPossible = splittedInput[12] == "1";
+            style12Container.BlackShortCastlingPossible = splittedInput[13] == "1";
+            style12Container.BlackLongCastlingPossible = splittedInput[14] == "1";
+            style12Container.Rule50Moves = Convert.ToInt32(splittedInput[15]);
+            style12Container.GameNumber = Convert.ToInt32(splittedInput[16]);
+            style12Container.WhitePlayerName = splittedInput[17];
+            style12Container.BlackPlayerName = splittedInput[18];
+            style12Container.Relation = Convert.ToInt32(splittedInput[19]);
+            style12Container.InitialTime = Convert.ToInt32(splittedInput[20]);
+            style12Container.IncrementalTime = Convert.ToInt32(splittedInput[21]);
+            style12Container.WhiteMaterialStrength = Convert.ToInt32(splittedInput[22]);
+            style12Container.BlackMaterialStrength = Convert.ToInt32(splittedInput[23]);
+            style12Container.WhiteRemainingTime = Convert.ToInt32(splittedInput[24]);
+            style12Container.BlackRemainingTime = Convert.ToInt32(splittedInput[25]);
+            style12Container.MovesToMade = Convert.ToInt32(splittedInput[26]);
+            style12Container.VerbosePreviousMoveNotation = splittedInput[27];
+            style12Container.TimeOfPreviousMove = splittedInput[29];
+            style12Container.PrettyPreviousMoveNotation = splittedInput[29];
+            style12Container.BoardOrientation = Convert.ToInt32(splittedInput[30]);
+
+            return style12Container;
+        }
+
+        private string[] ParseBoardState(string[] splittedInput)
+        {
+            var boardState = new string[8];
+
+            for(int i=0; i<8; i++)
+            {
+                boardState[i] = splittedInput[i + 1];
+            }
+
+            return boardState;
+        }
     }
 }

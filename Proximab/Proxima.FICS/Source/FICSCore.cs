@@ -22,6 +22,8 @@ namespace Proxima.FICS.Source
         /// <param name="configManager">The configuration manager.</param>
         public FICSCore(ColorfulConsoleManager consoleManager, ConfigManager configManager)
         {
+            new GameSubsystem.Modes.Game.Style12.Style12Parser().Parse("<12> rnbqkbnr pppppppp -------- -------- ----P--- -------- PPPP-PPP RNBQKBNR B 4 1 1 1 1 0 277 GuestZGVK proximab 1 15 0 39 39 900 900 1 P/e2-e4 (0:00) e4 1 0 0");
+
             _consoleManager = consoleManager;
             _configManager = configManager;
 
