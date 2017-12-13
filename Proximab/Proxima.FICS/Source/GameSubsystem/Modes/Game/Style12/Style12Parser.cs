@@ -47,7 +47,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
             style12Container.BlackRemainingTime = Convert.ToInt32(splittedInput[25]);
 
             style12Container.MovesToMade = Convert.ToInt32(splittedInput[26]);
-            style12Container.VerbosePreviousMoveNotation = GetStyle12Move(splittedInput[27]);
+            style12Container.VerbosePreviousMoveNotation = GetStyle12Move(splittedInput[27], ColorOperations.Invert(style12Container.ColorToMove));
             style12Container.TimeOfPreviousMove = splittedInput[28];
             style12Container.PrettyPreviousMoveNotation = splittedInput[29];
 
@@ -74,18 +74,37 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
             return ColorConverter.GetColor(colorChar);
         }
 
-        private Style12Move GetStyle12Move(string move)
+        private Style12Move GetStyle12Move(string move, Color color)
         {
-            var pieceSymbol = move[0];
-            var pieceType = PieceConverter.GetPiece(pieceSymbol);
+            if(move == "o-o")
+            {
+                var fromPosition = color == Color.White ? new Position(5, 1) : new Position(5, 8);
+                var toPosition =   color == Color.White ? new Position(7, 1) : new Position(7, 8);
 
-            var fromSubstring = move.Substring(2, 2);
-            var fromPosition = PositionConverter.ToPosition(fromSubstring);
+                return new Style12Move(PieceType.King, fromPosition, toPosition);
+            }
+            else if(move == "o-o-o")
+            {
+                var fromPosition = color == Color.White ? new Position(5, 1) : new Position(5, 8);
+                var toPosition   = color == Color.White ? new Position(3, 1) : new Position(3, 8);
 
-            var toSubstring = move.Substring(5, 2);
-            var toPosition = PositionConverter.ToPosition(toSubstring);
+                return new Style12Move(PieceType.King, fromPosition, toPosition);
+            }
+            else if(move.Length == 7)
+            {
+                var pieceSymbol = move[0];
+                var pieceType = PieceConverter.GetPiece(pieceSymbol);
 
-            return new Style12Move(pieceType, fromPosition, toPosition);
+                var fromSubstring = move.Substring(2, 2);
+                var fromPosition = PositionConverter.ToPosition(fromSubstring);
+
+                var toSubstring = move.Substring(5, 2);
+                var toPosition = PositionConverter.ToPosition(toSubstring);
+
+                return new Style12Move(pieceType, fromPosition, toPosition);
+            }
+
+            return null;
         }
 
         private Style12RelationType GetRelationType(string relation)
