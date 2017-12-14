@@ -47,7 +47,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
             style12Container.BlackRemainingTime = Convert.ToInt32(splittedInput[25]);
 
             style12Container.MovesToMade = Convert.ToInt32(splittedInput[26]);
-            style12Container.VerbosePreviousMoveNotation = GetStyle12Move(splittedInput[27], ColorOperations.Invert(style12Container.ColorToMove));
+            style12Container.VerbosePreviousMoveNotation = GetStyle12Move(splittedInput[27], style12Container.EnemyColor);
             style12Container.TimeOfPreviousMove = splittedInput[28];
             style12Container.PrettyPreviousMoveNotation = splittedInput[29];
 

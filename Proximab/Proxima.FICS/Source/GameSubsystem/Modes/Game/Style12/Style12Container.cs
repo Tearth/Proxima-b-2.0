@@ -23,6 +23,14 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
         public Color ColorToMove { get; set; }
 
         /// <summary>
+        /// Gets or sets the enemy color.
+        /// </summary>
+        public Color EnemyColor
+        {
+            get { return ColorOperations.Invert(ColorToMove); }
+        }
+
+        /// <summary>
         /// Gets or sets the double pawn push file (-1 if none).
         /// </summary>
         public int DoublePawnPush { get; set; }
