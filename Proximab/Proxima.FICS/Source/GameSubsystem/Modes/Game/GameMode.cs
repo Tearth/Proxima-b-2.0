@@ -69,20 +69,20 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
 
         private void CalculateEnemyMove(Style12Container style12Container)
         {
-            if (style12Container.VerbosePreviousMoveNotation != null)
+            if (style12Container.PreviousMove != null)
             {
                 Move moveToApply;
 
-                if (style12Container.VerbosePreviousMoveNotation.PromotionPieceType == null)
+                if (style12Container.PreviousMove.PromotionPieceType.HasValue)
                 {
-                    moveToApply = _bitboard.Moves.First(p => p.From == style12Container.VerbosePreviousMoveNotation.From &&
-                                                             p.To == style12Container.VerbosePreviousMoveNotation.To);
+                    moveToApply = _bitboard.Moves.First(p => p.From == style12Container.PreviousMove.From &&
+                                                             p.To == style12Container.PreviousMove.To &&
+                                                            (p as PromotionMove).PromotionPiece == style12Container.PreviousMove.PromotionPieceType);
                 }
                 else
                 {
-                    moveToApply = _bitboard.Moves.First(p => p.From == style12Container.VerbosePreviousMoveNotation.From &&
-                                                             p.To == style12Container.VerbosePreviousMoveNotation.To &&
-                                                            (p as PromotionMove).PromotionPiece == style12Container.VerbosePreviousMoveNotation.PromotionPieceType);
+                    moveToApply = _bitboard.Moves.First(p => p.From == style12Container.PreviousMove.From &&
+                                                             p.To == style12Container.PreviousMove.To);
                 }
                 
                 _bitboard = _bitboard.Move(moveToApply);

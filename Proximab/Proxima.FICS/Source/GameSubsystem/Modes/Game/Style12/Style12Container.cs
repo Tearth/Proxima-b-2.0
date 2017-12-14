@@ -117,9 +117,9 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
         public int MovesToMade { get; set; }
 
         /// <summary>
-        /// Gets or sets the verbose previous move notation (e2-e4, h8-b8 etc). None if this is the first move.
+        /// Gets or sets the previous move notation (e2-e4, h8-b8 etc). None if this is the first move.
         /// </summary>
-        public Style12Move VerbosePreviousMoveNotation { get; set; }
+        public Style12Move PreviousMove { get; set; }
 
         /// <summary>
         /// Gets or sets the time taken to do the previous move.
