@@ -16,7 +16,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
             var style12Container = new Style12Container();
             var splittedInput = input.Split(' ');
 
-            if(splittedInput.Length < 31)
+            if (splittedInput.Length < 31)
             {
                 return null;
             }
@@ -60,7 +60,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
         {
             var boardState = new string[8];
 
-            for(int i=0; i<8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 boardState[i] = splittedInput[i + 1];
             }

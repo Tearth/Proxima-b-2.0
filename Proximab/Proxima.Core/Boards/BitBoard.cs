@@ -209,7 +209,7 @@ namespace Proxima.Core.Boards
         }
 
         /// <summary>
-        /// Calculates Zborist hash.
+        /// Calculates Zobrist hash.
         /// </summary>
         /// <returns>The Zobrst hash for the current bitboard.</returns>
         private ulong GetNewHash()

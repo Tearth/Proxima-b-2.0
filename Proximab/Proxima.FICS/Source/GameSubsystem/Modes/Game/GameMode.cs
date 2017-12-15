@@ -31,7 +31,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
         }
 
         /// <summary>
-        /// Processes message (does incoming moves and runs AI calculating).
+        /// Processes message (does incoming moves, runs AI calculating and changes mode when game has ended.).
         /// </summary>
         /// <param name="message">The message to process.</param>
         /// <returns>The response for the message (<see cref="string.Empty"/> if none).</returns>
@@ -51,6 +51,11 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
             return response;
         }
 
+        /// <summary>
+        /// Processes move command and runs AI calculating if necessary.
+        /// </summary>
+        /// <param name="message">The move message.</param>
+        /// <returns>The response for the message (<see cref="string.Empty"/> if none).</returns>
         private string ProcessMoveCommand(string message)
         {
             var style12Parser = new Style12Parser();
@@ -67,6 +72,10 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
             return string.Empty;
         }
 
+        /// <summary>
+        /// Applies enemy move to the bitboard.
+        /// </summary>
+        /// <param name="style12Container">The data from FICS.</param>
         private void CalculateEnemyMove(Style12Container style12Container)
         {
             if (style12Container.PreviousMove != null)
@@ -75,20 +84,27 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
 
                 if (style12Container.PreviousMove.PromotionPieceType.HasValue)
                 {
-                    moveToApply = _bitboard.Moves.First(p => p.From == style12Container.PreviousMove.From &&
-                                                             p.To == style12Container.PreviousMove.To &&
-                                                            (p as PromotionMove).PromotionPiece == style12Container.PreviousMove.PromotionPieceType);
+                    moveToApply = _bitboard.Moves.First(
+                        p => p.From == style12Container.PreviousMove.From &&
+                        p.To == style12Container.PreviousMove.To &&
+                        (p as PromotionMove).PromotionPiece == style12Container.PreviousMove.PromotionPieceType);
                 }
                 else
                 {
-                    moveToApply = _bitboard.Moves.First(p => p.From == style12Container.PreviousMove.From &&
-                                                             p.To == style12Container.PreviousMove.To);
+                    moveToApply = _bitboard.Moves.First(
+                        p => p.From == style12Container.PreviousMove.From &&
+                        p.To == style12Container.PreviousMove.To);
                 }
                 
                 _bitboard = _bitboard.Move(moveToApply);
             }
         }
 
+        /// <summary>
+        /// Runs AI calculation and applies best move to the bitboard.
+        /// </summary>
+        /// <param name="style12Container">The data from FICS</param>
+        /// <returns>The response (best move) to FICS.</returns>
         private string CalculateAIMove(Style12Container style12Container)
         {
             var ai = new AICore();

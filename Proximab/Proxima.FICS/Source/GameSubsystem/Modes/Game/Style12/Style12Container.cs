@@ -23,7 +23,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
         public Color ColorToMove { get; set; }
 
         /// <summary>
-        /// Gets or sets the enemy color.
+        /// Gets the enemy color.
         /// </summary>
         public Color EnemyColor
         {
