@@ -38,33 +38,8 @@ namespace Proxima.Core.MoveGenerators.Moves
             var to = BitPositionConverter.ToULong(To);
             var enemyColor = ColorOperations.Invert(Color);
 
-            RemovePiece(bitboard, enemyColor, to);
+            CalculateKill(bitboard, enemyColor, to);
             CalculatePieceMove(bitboard, from, to);
-        }
-
-        /// <summary>
-        /// Removes killed piece from the specified bitboard.
-        /// </summary>
-        /// <param name="bitboard">The bitboard.</param>
-        /// <param name="enemyColor">The enemy color.</param>
-        /// <param name="fieldLSB">The bitboard with set field.</param>
-        private static void RemovePiece(Bitboard bitboard, Color enemyColor, ulong fieldLSB)
-        {
-            for (int piece = 0; piece < 6; piece++)
-            {
-                var index = FastArray.GetPieceIndex(enemyColor, (PieceType)piece);
-                if ((bitboard.Pieces[index] & fieldLSB) != 0)
-                {
-                    bitboard.Pieces[index] &= ~fieldLSB;
-                    bitboard.Occupancy[(int)enemyColor] &= ~fieldLSB;
-
-                    IncrementalMaterial.RemovePiece(bitboard, enemyColor, (PieceType)piece);
-                    IncrementalPosition.RemovePiece(bitboard, enemyColor, (PieceType)piece, fieldLSB);
-                    IncrementalZobrist.AddOrRemovePiece(enemyColor, (PieceType)piece, fieldLSB, bitboard);
-
-                    break;
-                }
-            }
         }
     }
 }

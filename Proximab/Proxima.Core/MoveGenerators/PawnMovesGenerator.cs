@@ -39,17 +39,15 @@ namespace Proxima.Core.MoveGenerators
             var piecesToParse = opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)];
 
             var pattern = 0ul;
-            var promotionLine = 0ul;
+            var promotionLine = GetPromotionLine(opt.FriendlyColor);
 
             if (opt.FriendlyColor == Color.White)
             {
                 pattern = piecesToParse << 8;
-                promotionLine = BitConstants.HRank;
             }
             else
             {
                 pattern = piecesToParse >> 8;
-                promotionLine = BitConstants.ARank;
             }
 
             pattern &= ~opt.OccupancySummary;
@@ -69,10 +67,10 @@ namespace Proxima.Core.MoveGenerators
 
                 if ((patternLSB & promotionLine) != 0)
                 {
-                    opt.Bitboard.Moves.AddLast(new PromotionMove(from, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Queen));
-                    opt.Bitboard.Moves.AddLast(new PromotionMove(from, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Rook));
-                    opt.Bitboard.Moves.AddLast(new PromotionMove(from, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Bishop));
-                    opt.Bitboard.Moves.AddLast(new PromotionMove(from, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Knight));
+                    opt.Bitboard.Moves.AddLast(new PromotionMove(from, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Queen, false));
+                    opt.Bitboard.Moves.AddLast(new PromotionMove(from, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Rook, false));
+                    opt.Bitboard.Moves.AddLast(new PromotionMove(from, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Bishop, false));
+                    opt.Bitboard.Moves.AddLast(new PromotionMove(from, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Knight, false));
                 }
                 else
                 {
@@ -141,6 +139,7 @@ namespace Proxima.Core.MoveGenerators
             var validPieces = piecesToParse & ~ignoreFields;
 
             var pattern = opt.FriendlyColor == Color.White ? validPieces << leftAttackShift : validPieces >> rightAttackShift;
+            var promotionLine = GetPromotionLine(opt.FriendlyColor);
 
             while (pattern != 0)
             {
@@ -156,18 +155,25 @@ namespace Proxima.Core.MoveGenerators
                 {
                     var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
                     var enPassantField = opt.Bitboard.EnPassant[(int)opt.EnemyColor] & patternLSB;
-
+                    
                     if ((patternLSB & opt.EnemyOccupancy) != 0 || enPassantField != 0)
                     {
                         var to = BitPositionConverter.ToPosition(patternIndex);
 
-                        if (enPassantField == 0)
+                        if (enPassantField != 0)
                         {
-                            opt.Bitboard.Moves.AddLast(new KillMove(piecePosition, to, PieceType.Pawn, opt.FriendlyColor));
+                            opt.Bitboard.Moves.AddLast(new EnPassantMove(piecePosition, to, PieceType.Pawn, opt.FriendlyColor));          
+                        }
+                        else if ((patternLSB & promotionLine) != 0)
+                        {
+                            opt.Bitboard.Moves.AddLast(new PromotionMove(piecePosition, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Queen, true));
+                            opt.Bitboard.Moves.AddLast(new PromotionMove(piecePosition, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Rook, true));
+                            opt.Bitboard.Moves.AddLast(new PromotionMove(piecePosition, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Bishop, true));
+                            opt.Bitboard.Moves.AddLast(new PromotionMove(piecePosition, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Knight, true));
                         }
                         else
                         {
-                            opt.Bitboard.Moves.AddLast(new EnPassantMove(piecePosition, to, PieceType.Pawn, opt.FriendlyColor));
+                            opt.Bitboard.Moves.AddLast(new KillMove(piecePosition, to, PieceType.Pawn, opt.FriendlyColor));
                         }
                     }
                 }
@@ -178,6 +184,11 @@ namespace Proxima.Core.MoveGenerators
                     opt.Bitboard.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
                 }
             }
+        }
+
+        private static ulong GetPromotionLine(Color color)
+        {
+            return color == Color.White ? BitConstants.HRank : BitConstants.ARank;
         }
     }
 }
