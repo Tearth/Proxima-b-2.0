@@ -55,6 +55,7 @@
     <Compile Include="Source\GameSubsystem\FICSModeBase.cs" />
     <Compile Include="Source\GameSubsystem\FICSModeFactory.cs" />
     <Compile Include="Source\GameSubsystem\FICSModeType.cs" />
+    <Compile Include="Source\GameSubsystem\Modes\Game\Exceptions\BitboardDisintegratedException.cs" />
     <Compile Include="Source\GameSubsystem\Modes\Game\GameMode.cs" />
     <Compile Include="Source\GameSubsystem\Modes\Game\Style12\Style12Container.cs" />
     <Compile Include="Source\GameSubsystem\Modes\Game\Style12\Style12Move.cs" />
@@ -90,8 +91,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Source\GameSubsystem\Modes\Game\Exceptions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

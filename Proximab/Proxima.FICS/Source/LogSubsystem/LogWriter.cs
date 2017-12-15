@@ -35,7 +35,7 @@ namespace Proxima.FICS.Source.LogSubsystem
 
         private string GetLogNameForDateTime(DateTime dateTime)
         {
-            return dateTime.ToShortDateString() + ".log";
+            return dateTime.ToString("dd-MM-yyyy") + ".log";
         }
     }
 }

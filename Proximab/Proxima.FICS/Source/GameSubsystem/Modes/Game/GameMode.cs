@@ -10,6 +10,7 @@ using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators;
 using Proxima.Core.MoveGenerators.Moves;
 using Proxima.FICS.Source.ConfigSubsystem;
+using Proxima.FICS.Source.GameSubsystem.Modes.Game.Exceptions;
 using Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12;
 using Proxima.FICS.Source.LogSubsystem;
 
@@ -99,7 +100,10 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
                 
                 _bitboard = _bitboard.Move(moveToApply);
 
-                LogWriter.Write("Enemy move: " + moveToApply.ToString());
+                if(!_bitboard.VerifyIntegrity())
+                {
+                    throw new BitboardDisintegratedException();
+                }
             }
         }
 
@@ -111,7 +115,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
         private string CalculateAIMove(Style12Container style12Container)
         {
             var ai = new AICore();
-            var aiResult = ai.Calculate(style12Container.ColorToMove, _bitboard, 2);
+            var aiResult = ai.Calculate(style12Container.ColorToMove, _bitboard, 4);
 
             _bitboard = _bitboard.Move(aiResult.BestMove);
 
@@ -124,9 +128,9 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
         
         private void LogAIResult(AIResult aiResult)
         {
-            LogWriter.Write("AI move: " + aiResult.BestMove.ToString());
-            LogWriter.Write($"Dump: {aiResult.Stats.TotalNodes}/{aiResult.Stats.EndNodes}/{aiResult.NodesPerSecond}/" +
-                            $"{aiResult.Score}/{aiResult.Time}/");
+            LogWriter.Write($"AI move: {aiResult.BestMove}" + 
+                            $" - {aiResult.Stats.TotalNodes}/{aiResult.Stats.EndNodes}/{aiResult.NodesPerSecond}/" +
+                            $"{aiResult.Score}/{aiResult.Time}");
         }
     }
 }
