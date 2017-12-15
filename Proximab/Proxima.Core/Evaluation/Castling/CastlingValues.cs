@@ -7,8 +7,8 @@
     {
         public static readonly int[] Ratio = new int[2]
         {
-            10,  // Regular
-            10   // End
+            100,  // Regular
+            100   // End
         };
     }
 }
