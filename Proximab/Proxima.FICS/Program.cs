@@ -3,6 +3,7 @@ using GUI.ColorfulConsole;
 using Proxima.Core;
 using Proxima.FICS.Source;
 using Proxima.FICS.Source.ConfigSubsystem;
+using Proxima.FICS.Source.LogSubsystem;
 
 namespace Proxima.FICS
 {
@@ -21,8 +22,9 @@ namespace Proxima.FICS
 
             var consoleManager = new ColorfulConsoleManager("Proxima b 2.0dev FICS");
             var configManager = new ConfigManager("FICSConfig.xml");
+            var logWriter = new LogWriter("Logs");
 
-            var ficsCore = new FICSCore(consoleManager, configManager);
+            var ficsCore = new FICSCore(consoleManager, configManager, logWriter);
             ficsCore.Run();
 
             Console.Read();

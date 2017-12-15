@@ -1,4 +1,5 @@
 ﻿using Proxima.FICS.Source.ConfigSubsystem;
+using Proxima.FICS.Source.LogSubsystem;
 
 namespace Proxima.FICS.Source.GameSubsystem.Modes.Auth
 {
@@ -11,7 +12,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Auth
         /// Initializes a new instance of the <see cref="AuthMode"/> class.
         /// </summary>
         /// <param name="configManager">The configuration manager.</param>
-        public AuthMode(ConfigManager configManager) : base(configManager)
+        public AuthMode(ConfigManager configManager, LogWriter logWriter) : base(configManager, logWriter)
         {
         }
 

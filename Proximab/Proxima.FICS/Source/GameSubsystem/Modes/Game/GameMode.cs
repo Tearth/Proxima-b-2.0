@@ -11,6 +11,7 @@ using Proxima.Core.MoveGenerators;
 using Proxima.Core.MoveGenerators.Moves;
 using Proxima.FICS.Source.ConfigSubsystem;
 using Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12;
+using Proxima.FICS.Source.LogSubsystem;
 
 namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
 {
@@ -25,7 +26,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
         /// Initializes a new instance of the <see cref="GameMode"/> class.
         /// </summary>
         /// <param name="configManager">The configuration manager.</param>
-        public GameMode(ConfigManager configManager) : base(configManager)
+        public GameMode(ConfigManager configManager, LogWriter logWriter) : base(configManager, logWriter)
         {
             _bitboard = new Bitboard(new DefaultFriendlyBoard());
         }

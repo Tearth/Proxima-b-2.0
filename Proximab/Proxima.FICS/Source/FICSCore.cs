@@ -1,6 +1,7 @@
 ﻿using GUI.ColorfulConsole;
 using Proxima.FICS.Source.ConfigSubsystem;
 using Proxima.FICS.Source.GameSubsystem;
+using Proxima.FICS.Source.LogSubsystem;
 using Proxima.FICS.Source.NetworkSubsystem;
 
 namespace Proxima.FICS.Source
@@ -14,16 +15,18 @@ namespace Proxima.FICS.Source
         private ConfigManager _configManager;
         private FICSClient _ficsClient;
         private FICSModeBase _ficsMode;
+        private LogWriter _logWriter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FICSCore"/> class.
         /// </summary>
         /// <param name="consoleManager">The console manager.</param>
         /// <param name="configManager">The configuration manager.</param>
-        public FICSCore(ColorfulConsoleManager consoleManager, ConfigManager configManager)
+        public FICSCore(ColorfulConsoleManager consoleManager, ConfigManager configManager, LogWriter logWriter)
         {
             _consoleManager = consoleManager;
             _configManager = configManager;
+            _logWriter = logWriter;
 
             _ficsClient = new FICSClient(_configManager);
             _ficsClient.OnDataReceive += FicsClient_OnDataReceive;
@@ -37,6 +40,7 @@ namespace Proxima.FICS.Source
         /// </summary>
         public void Run()
         {
+            _logWriter.Write("Opening FICS session");
             _ficsClient.OpenSession();
         }
 
@@ -84,7 +88,7 @@ namespace Proxima.FICS.Source
         {
             _consoleManager.WriteLine($"$GPRXB: $gMode changed to {modeType}.");
 
-            var ficsModeFactory = new FICSModeFactory(_configManager);
+            var ficsModeFactory = new FICSModeFactory(_configManager, _logWriter);
 
             _ficsMode = ficsModeFactory.Create(modeType);
             _ficsMode.OnChangeMode += FICSMode_OnChangeMode;

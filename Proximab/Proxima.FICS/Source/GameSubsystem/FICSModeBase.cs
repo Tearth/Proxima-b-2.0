@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Proxima.FICS.Source.ConfigSubsystem;
+using Proxima.FICS.Source.LogSubsystem;
 using Proxima.FICS.Source.NetworkSubsystem;
 
 namespace Proxima.FICS.Source.GameSubsystem
@@ -23,13 +24,16 @@ namespace Proxima.FICS.Source.GameSubsystem
         /// </summary>
         protected ConfigManager ConfigManager { get; private set; }
 
+        protected LogWriter LogWriter { get; private set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FICSModeBase"/> class.
         /// </summary>
         /// <param name="configManager">The configuration manager.</param>
-        public FICSModeBase(ConfigManager configManager)
+        public FICSModeBase(ConfigManager configManager, LogWriter logWriter)
         {
             ConfigManager = configManager;
+            LogWriter = logWriter;
         }
 
         /// <summary>
