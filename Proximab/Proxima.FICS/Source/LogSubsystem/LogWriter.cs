@@ -20,22 +20,22 @@ namespace Proxima.FICS.Source.LogSubsystem
         {
             using (var logWriter = OpenOrCreateLogFile())
             {
-                var output = $"{DateTime.Now.ToShortTimeString()} - {text}";
+                var output = $"{DateTime.Now.ToLongTimeString()} - {text}";
                 logWriter.WriteLine(output);
             }
         }
-
-        private string GetLogNameForDateTime(DateTime dateTime)
-        {
-            return dateTime.ToLongDateString() + ".log";
-        }
-
+        
         private StreamWriter OpenOrCreateLogFile()
         {
             var logFileName = GetLogNameForDateTime(DateTime.Now);
             var fullLogFilePath = _directory + "/" + logFileName;
 
             return new StreamWriter(fullLogFilePath, true);
+        }
+
+        private string GetLogNameForDateTime(DateTime dateTime)
+        {
+            return dateTime.ToShortDateString() + ".log";
         }
     }
 }

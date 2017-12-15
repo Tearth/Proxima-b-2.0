@@ -24,9 +24,17 @@ namespace Proxima.FICS
             var configManager = new ConfigManager("FICSConfig.xml");
             var logWriter = new LogWriter("Logs");
 
-            var ficsCore = new FICSCore(consoleManager, configManager, logWriter);
-            ficsCore.Run();
-
+            try
+            {
+                var ficsCore = new FICSCore(consoleManager, configManager, logWriter);
+                ficsCore.Run();
+            }
+            catch(Exception ex)
+            {
+                logWriter.Write(ex.Message);
+                logWriter.Write(ex.StackTrace);
+            }
+            
             Console.Read();
         }
     }
