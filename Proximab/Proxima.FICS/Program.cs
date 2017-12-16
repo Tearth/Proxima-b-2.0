@@ -31,8 +31,8 @@ namespace Proxima.FICS
             }
             catch(Exception ex)
             {
-                logWriter.Write(ex.Message);
-                logWriter.Write(ex.StackTrace);
+                logWriter.WriteLine(ex.Message);
+                logWriter.WriteLine(ex.StackTrace);
             }
             
             Console.Read();

@@ -22,6 +22,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
     public class GameMode : FICSModeBase
     {
         private Bitboard _bitboard;
+        private CsvWriter _csvWriter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameMode"/> class.
@@ -30,6 +31,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
         public GameMode(ConfigManager configManager) : base(configManager)
         {
             _bitboard = new Bitboard(new DefaultFriendlyBoard());
+            _csvWriter = new CsvWriter("AILogs");
         }
 
         /// <summary>
@@ -122,7 +124,8 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
 
             var fromConverted = PositionConverter.ToString(aiResult.BestMove.From);
             var toConverted = PositionConverter.ToString(aiResult.BestMove.To);
-            
+
+            _csvWriter.WriteLine(aiResult);
             return $"{fromConverted}-{toConverted}";
         }
     }

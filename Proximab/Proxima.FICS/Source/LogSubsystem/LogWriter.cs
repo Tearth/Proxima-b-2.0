@@ -7,35 +7,19 @@ using System.Threading.Tasks;
 
 namespace Proxima.FICS.Source.LogSubsystem
 {
-    public class LogWriter
+    public class LogWriter : LogBase
     {
-        private string _directory;
-
-        public LogWriter(string directory)
+        public LogWriter(string directory) : base(directory)
         {
-            _directory = directory;
         }
 
-        public void Write(string text)
+        public void WriteLine(string text)
         {
-            using (var logWriter = OpenOrCreateLogFile())
+            using (var logWriter = OpenOrCreateFile(".log"))
             {
                 var output = $"{DateTime.Now.ToLongTimeString()} - {text}";
                 logWriter.WriteLine(output);
             }
-        }
-        
-        private StreamWriter OpenOrCreateLogFile()
-        {
-            var logFileName = GetLogNameForDateTime(DateTime.Now);
-            var fullLogFilePath = _directory + "/" + logFileName;
-
-            return new StreamWriter(fullLogFilePath, true);
-        }
-
-        private string GetLogNameForDateTime(DateTime dateTime)
-        {
-            return dateTime.ToString("dd-MM-yyyy") + ".log";
         }
     }
 }

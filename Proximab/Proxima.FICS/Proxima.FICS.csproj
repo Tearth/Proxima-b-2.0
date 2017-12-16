@@ -64,6 +64,8 @@
     <Compile Include="Source\GameSubsystem\Modes\Game\Style12\Style12Parser.cs" />
     <Compile Include="Source\GameSubsystem\Modes\Game\Style12\Style12RelationType.cs" />
     <Compile Include="Source\GameSubsystem\Modes\Seek\SeekMode.cs" />
+    <Compile Include="Source\LogSubsystem\CsvWriter.cs" />
+    <Compile Include="Source\LogSubsystem\LogBase.cs" />
     <Compile Include="Source\LogSubsystem\LogWriter.cs" />
     <Compile Include="Source\NetworkSubsystem\ClientState.cs" />
     <Compile Include="Source\NetworkSubsystem\DataEventArgs.cs" />
