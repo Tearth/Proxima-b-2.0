@@ -23,5 +23,10 @@ namespace Proxima.FICS.Source.LogSubsystem
 
             return new StreamWriter(fullLogFilePath, true);
         }
+
+        protected string CurrentTime()
+        {
+            return DateTime.Now.ToString("HH:mm:ss");
+        }
     }
 }

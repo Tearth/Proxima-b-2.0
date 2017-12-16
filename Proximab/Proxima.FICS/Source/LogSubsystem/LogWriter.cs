@@ -17,7 +17,7 @@ namespace Proxima.FICS.Source.LogSubsystem
         {
             using (var logWriter = OpenOrCreateFile(".log"))
             {
-                var output = $"{DateTime.Now.ToLongTimeString()} - {text}";
+                var output = $"{CurrentTime()} - {text}";
                 logWriter.WriteLine(output);
             }
         }
