@@ -203,7 +203,7 @@ namespace GUI.App.Source.GameSubsystem.Modes
             }
 
             var ai = new AICore();
-            var aiResult = ai.Calculate(color, new Bitboard(VisualBoard.FriendlyBoard), depthArgument);
+            var aiResult = ai.Calculate(color, new Bitboard(Bitboard), depthArgument);
 
             ConsoleManager.WriteLine();
             ConsoleManager.WriteLine("$wAI result:");

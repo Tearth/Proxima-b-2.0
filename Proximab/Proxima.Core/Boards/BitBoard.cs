@@ -92,12 +92,7 @@ namespace Proxima.Core.Boards
             Moves = new LinkedList<Move>();
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Bitboard"/> class.
-        /// </summary>
-        /// <param name="bitboard">The previous bitboard.</param>
-        /// <param name="move">The move to apply.</param>
-        public Bitboard(Bitboard bitboard, Move move) : this()
+        public Bitboard(Bitboard bitboard) : this()
         {
             Hash = bitboard.Hash;
 
@@ -108,6 +103,15 @@ namespace Proxima.Core.Boards
             Buffer.BlockCopy(bitboard.EnPassant, 0, EnPassant, 0, bitboard.EnPassant.Length * sizeof(ulong));
 
             IncEvaluation = new IncrementalEvaluationData(bitboard.IncEvaluation);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Bitboard"/> class.
+        /// </summary>
+        /// <param name="bitboard">The previous bitboard.</param>
+        /// <param name="move">The move to apply.</param>
+        public Bitboard(Bitboard bitboard, Move move) : this(bitboard)
+        {
             IncrementalZobrist.ClearEnPassant(ColorOperations.Invert(move.Color), this);
 
             EnPassant[(int)ColorOperations.Invert(move.Color)] = 0;
