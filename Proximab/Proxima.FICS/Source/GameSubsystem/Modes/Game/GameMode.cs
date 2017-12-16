@@ -71,7 +71,14 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
                 _bitboard.Calculate(GeneratorMode.CalculateMoves, GeneratorMode.CalculateMoves);
 
                 CalculateEnemyMove(style12Container);
-                return CalculateAIMove(style12Container);
+                var aiResponse = CalculateAIMove(style12Container);
+                
+                if (!_bitboard.VerifyIntegrity())
+                {
+                    throw new BitboardDisintegratedException();
+                }
+
+                return aiResponse;
             }
 
             return string.Empty;
@@ -102,11 +109,6 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
                 }
                 
                 _bitboard = _bitboard.Move(moveToApply);
-
-                if(!_bitboard.VerifyIntegrity())
-                {
-                    throw new BitboardDisintegratedException();
-                }
             }
         }
 
@@ -118,14 +120,14 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
         private string CalculateAIMove(Style12Container style12Container)
         {
             var ai = new AICore();
-            var aiResult = ai.Calculate(style12Container.ColorToMove, _bitboard, 4);
+            var aiResult = ai.Calculate(style12Container.ColorToMove, new Bitboard(_bitboard), 4);
 
             _bitboard = _bitboard.Move(aiResult.BestMove);
 
             var fromConverted = PositionConverter.ToString(aiResult.BestMove.From);
             var toConverted = PositionConverter.ToString(aiResult.BestMove.To);
 
-            _csvWriter.WriteLine(aiResult);
+            _csvWriter.WriteLine(aiResult, _bitboard);
             return $"{fromConverted}-{toConverted}";
         }
     }
