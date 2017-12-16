@@ -124,7 +124,7 @@ namespace Proxima.Core.MoveGenerators
         /// <returns>True if castling is possible, otherwise false.</returns>
         private static bool IsCastlingPossible(CastlingType type, GeneratorParameters opt)
         {
-            return opt.Bitboard.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, CastlingType.Short)];
+            return opt.Bitboard.CastlingPossibility[FastArray.GetCastlingIndex(opt.FriendlyColor, type)];
         }
 
         /// <summary>
