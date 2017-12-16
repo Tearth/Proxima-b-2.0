@@ -45,7 +45,8 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
             {
                 response = ProcessMoveCommand(message);
             }
-            else if (message.Contains("0-1") || message.Contains("1-0") || message.Contains("1/2-1/2"))
+            else if (message.Contains("0-1") || message.Contains("1-0") || message.Contains("1/2-1/2") ||
+                     message.Contains("aborted on move 1"))
             {
                 ChangeMode(FICSModeType.Seek);
             }
