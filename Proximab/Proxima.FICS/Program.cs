@@ -12,30 +12,34 @@ namespace Proxima.FICS
     /// </summary>
     public class Program
     {
+        private static LogWriter _logWriter;
+
         /// <summary>
         /// Entry point.
         /// </summary>
         /// <param name="args">Program arguments.</param>
         public static void Main(string[] args)
         {
+            _logWriter = new LogWriter("Logs");
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
             ProximaCore.Init();
 
             var consoleManager = new ColorfulConsoleManager("Proxima b 2.0dev FICS");
             var configManager = new ConfigManager("FICSConfig.xml");
-            var logWriter = new LogWriter("Logs");
 
-            try
-            {
-                var ficsCore = new FICSCore(consoleManager, configManager, logWriter);
-                ficsCore.Run();
-            }
-            catch(Exception ex)
-            {
-                logWriter.WriteLine(ex.Message);
-                logWriter.WriteLine(ex.StackTrace);
-            }
+            var ficsCore = new FICSCore(consoleManager, configManager, _logWriter);
+            ficsCore.Run();
             
             Console.Read();
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var exception = (Exception)e.ExceptionObject;
+
+            _logWriter.WriteLine(exception.Message);
+            _logWriter.WriteLine(exception.StackTrace);
         }
     }
 }
