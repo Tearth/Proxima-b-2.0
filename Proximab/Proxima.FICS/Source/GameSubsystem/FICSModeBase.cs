@@ -24,16 +24,13 @@ namespace Proxima.FICS.Source.GameSubsystem
         /// </summary>
         protected ConfigManager ConfigManager { get; private set; }
 
-        protected LogWriter LogWriter { get; private set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="FICSModeBase"/> class.
         /// </summary>
         /// <param name="configManager">The configuration manager.</param>
-        public FICSModeBase(ConfigManager configManager, LogWriter logWriter)
+        public FICSModeBase(ConfigManager configManager)
         {
             ConfigManager = configManager;
-            LogWriter = logWriter;
         }
 
         /// <summary>

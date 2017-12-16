@@ -27,7 +27,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
         /// Initializes a new instance of the <see cref="GameMode"/> class.
         /// </summary>
         /// <param name="configManager">The configuration manager.</param>
-        public GameMode(ConfigManager configManager, LogWriter logWriter) : base(configManager, logWriter)
+        public GameMode(ConfigManager configManager) : base(configManager)
         {
             _bitboard = new Bitboard(new DefaultFriendlyBoard());
         }
@@ -122,16 +122,8 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
 
             var fromConverted = PositionConverter.ToString(aiResult.BestMove.From);
             var toConverted = PositionConverter.ToString(aiResult.BestMove.To);
-
-            LogAIResult(aiResult);
+            
             return $"{fromConverted}-{toConverted}";
-        }
-        
-        private void LogAIResult(AIResult aiResult)
-        {
-            LogWriter.Write($"AI move: {aiResult.BestMove}" + 
-                            $" - {aiResult.Stats.TotalNodes}/{aiResult.Stats.EndNodes}/{aiResult.NodesPerSecond}/" +
-                            $"{aiResult.Score}/{aiResult.Time}");
         }
     }
 }

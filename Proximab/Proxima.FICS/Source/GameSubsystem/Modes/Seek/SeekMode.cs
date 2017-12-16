@@ -15,7 +15,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Seek
         /// Initializes a new instance of the <see cref="SeekMode"/> class.
         /// </summary>
         /// <param name="configManager">The configuration manager.</param>
-        public SeekMode(ConfigManager configManager, LogWriter logWriter) : base(configManager, logWriter)
+        public SeekMode(ConfigManager configManager) : base(configManager)
         {
             _seekSent = false;
         }
@@ -33,14 +33,11 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Seek
             {
                 response = ConfigManager.GetValue<string>("SeekCommand");
                 _seekSent = true;
-
-                LogWriter.Write("Seek sent");
             }
 
             if (message.Contains("accepts your seek"))
             {
                 ChangeMode(FICSModeType.Game);
-                LogWriter.Write("Seek accepted");
             }
 
             return response;
