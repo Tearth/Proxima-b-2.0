@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Proxima.Core.AI;
+using Proxima.Core.Boards;
 
 namespace Proxima.FICS.Source.LogSubsystem
 {
@@ -14,7 +15,7 @@ namespace Proxima.FICS.Source.LogSubsystem
         {
         }
 
-        public void WriteLine(AIResult aiResult)
+        public void WriteLine(AIResult aiResult, Bitboard bitboard)
         {
             using (var csvWriter = OpenOrCreateFile(".csv"))
             {
@@ -22,10 +23,11 @@ namespace Proxima.FICS.Source.LogSubsystem
                 {
                     WriteHeader(csvWriter);
                 }
-
-                var output = $"{DateTime.Now.ToLongTimeString()},{aiResult.BestMove},{aiResult.Stats.TotalNodes}," +
+                
+                var output = $"{CurrentTime()},{aiResult.BestMove},{aiResult.Stats.TotalNodes}," +
                              $"{aiResult.Stats.EndNodes},{aiResult.NodesPerSecond},{aiResult.TimePerNode},{aiResult.Score}," +
-                             $"{aiResult.Time.ToString("0.000")}";
+                             $"{aiResult.Time.ToString("0.000")},{bitboard.Occupancy[0]},{bitboard.Occupancy[1]}," +
+                             $"{bitboard.GamePhase}";
 
                 csvWriter.WriteLine(output);
             }
@@ -34,7 +36,8 @@ namespace Proxima.FICS.Source.LogSubsystem
         private void WriteHeader(StreamWriter writer)
         {
             writer.WriteLine("sep=,");
-            writer.WriteLine("Time,Best move,Total nodes,End nodes,Nodes per second,Time per node,Score,Time");
+            writer.WriteLine("Time,Best move,Total nodes,End nodes,Nodes per second,Time per node,Score,Time," +
+                             "White occ,Black occ,Game phase");
         }
     }
 }
