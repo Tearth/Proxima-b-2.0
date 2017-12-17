@@ -11,7 +11,7 @@ namespace Proxima.Core.Commons.Colors
         private static BidirectionalDictionary<Color, char> _colors;
 
         /// <summary>
-        /// Inits internal dictionaries.
+        /// Initializes static members of the <see cref="ColorConverter"/> class.
         /// </summary>
         static ColorConverter()
         {

@@ -186,6 +186,11 @@ namespace Proxima.Core.MoveGenerators
             }
         }
 
+        /// <summary>
+        /// Gets the promotion line for the specified player color.
+        /// </summary>
+        /// <param name="color">The player color.</param>
+        /// <returns>The bitboard with set bits indicating the promotion area.</returns>
         private static ulong GetPromotionLine(Color color)
         {
             return color == Color.White ? BitConstants.HRank : BitConstants.ARank;

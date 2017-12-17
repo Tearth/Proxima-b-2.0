@@ -23,7 +23,7 @@ namespace Proxima.Core.Boards.Hashing
         public static ulong[] EnPassant { get; private set; }
 
         /// <summary>
-        /// Inits Zobrist container. Must be called before first use of any other class method.
+        /// Initializes static members of the <see cref="ZobristContainer"/> class.
         /// </summary>
         static ZobristContainer()
         {

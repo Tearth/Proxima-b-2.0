@@ -92,6 +92,10 @@ namespace Proxima.Core.Boards
             Moves = new LinkedList<Move>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Bitboard"/> class.
+        /// </summary>
+        /// <param name="bitboard">The previous bitboard to copy.</param>
         public Bitboard(Bitboard bitboard) : this()
         {
             Hash = bitboard.Hash;

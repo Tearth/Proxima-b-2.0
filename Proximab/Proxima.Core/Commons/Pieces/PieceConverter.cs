@@ -11,7 +11,7 @@ namespace Proxima.Core.Commons.Pieces
         private static BidirectionalDictionary<PieceType, char> _pieces;
 
         /// <summary>
-        /// Inits internal dictionaries.
+        /// Initializes static members of the <see cref="PieceConverter"/> class.
         /// </summary>
         static PieceConverter()
         {
