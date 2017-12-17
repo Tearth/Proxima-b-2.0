@@ -12,6 +12,10 @@ namespace Proxima.FICS
     /// </summary>
     public class Program
     {
+        private const string LogsDirectory = "Logs";
+        private const string ApplicationName = "Proxima b 2.0dev FICS";
+        private const string ConfigFilename = "FICSConfig.xml";
+
         private static LogWriter _logWriter;
 
         /// <summary>
@@ -20,13 +24,13 @@ namespace Proxima.FICS
         /// <param name="args">Program arguments.</param>
         public static void Main(string[] args)
         {
-            _logWriter = new LogWriter("Logs");
+            _logWriter = new LogWriter(LogsDirectory);
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             ProximaCore.Init();
 
-            var consoleManager = new ColorfulConsoleManager("Proxima b 2.0dev FICS");
-            var configManager = new ConfigManager("FICSConfig.xml");
+            var consoleManager = new ColorfulConsoleManager(ApplicationName);
+            var configManager = new ConfigManager(ConfigFilename);
 
             var ficsCore = new FICSCore(consoleManager, configManager, _logWriter);
             ficsCore.Run();

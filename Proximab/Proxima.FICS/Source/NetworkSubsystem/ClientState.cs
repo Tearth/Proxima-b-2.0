@@ -12,7 +12,7 @@ namespace Proxima.FICS.Source.NetworkSubsystem
     /// </summary>
     public class ClientState
     {
-        public const int BufferSize = 256;
+        public const int BufferSize = 1024;
 
         /// <summary>
         /// Gets or sets the client socket.

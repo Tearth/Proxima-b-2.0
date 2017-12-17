@@ -21,8 +21,13 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
     /// </summary>
     public class GameMode : FICSModeBase
     {
+        private const string AILogsDirectory = "AILogs";
+        private const string Style12Prefix = "<12>";
+
         private Bitboard _bitboard;
         private CsvWriter _csvWriter;
+
+        private List<string> _endGameTokens;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameMode"/> class.
@@ -31,7 +36,15 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
         public GameMode(ConfigManager configManager) : base(configManager)
         {
             _bitboard = new Bitboard(new DefaultFriendlyBoard());
-            _csvWriter = new CsvWriter("AILogs");
+            _csvWriter = new CsvWriter(AILogsDirectory);
+
+            _endGameTokens = new List<string>()
+            {
+                "0-1",
+                "1-0",
+                "1/2-1/2",
+                "aborted on move 1"
+            };
         }
 
         /// <summary>
@@ -43,12 +56,11 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
         {
             var response = string.Empty;
 
-            if (message.StartsWith("<12>"))
+            if (message.StartsWith(Style12Prefix))
             {
                 response = ProcessMoveCommand(message);
             }
-            else if (message.Contains("0-1") || message.Contains("1-0") || message.Contains("1/2-1/2") ||
-                     message.Contains("aborted on move 1"))
+            else if (_endGameTokens.Any(p => message.Contains(p)))
             {
                 ChangeMode(FICSModeType.Seek);
             }
@@ -72,7 +84,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
 
                 CalculateEnemyMove(style12Container);
                 var aiResponse = CalculateAIMove(style12Container);
-                
+
                 if (!_bitboard.VerifyIntegrity())
                 {
                     throw new BitboardDisintegratedException();
@@ -107,7 +119,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
                         p => p.From == style12Container.PreviousMove.From &&
                         p.To == style12Container.PreviousMove.To);
                 }
-                
+
                 _bitboard = _bitboard.Move(moveToApply);
             }
         }

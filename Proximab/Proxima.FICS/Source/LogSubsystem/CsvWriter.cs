@@ -14,12 +14,32 @@ namespace Proxima.FICS.Source.LogSubsystem
     /// </summary>
     public class CsvWriter : LogBase
     {
+        private const char Delimeter = ';';
+        private const string FileExtension = ".csv";
+        private const string AITimeFormat = "0.000";
+
+        private List<string> _header;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CsvWriter"/> class.
         /// </summary>
         /// <param name="directory">The directory where all logs will be stored.</param>
         public CsvWriter(string directory) : base(directory)
         {
+            _header = new List<string>()
+            {
+                "Time",
+                "Best move",
+                "Total nodes",
+                "End nodes",
+                "Nodes per second",
+                "Time per node",
+                "Score",
+                "Time",
+                "White occ",
+                "Black occ",
+                "Game phase"
+            };
         }
 
         /// <summary>
@@ -29,30 +49,48 @@ namespace Proxima.FICS.Source.LogSubsystem
         /// <param name="bitboard">The bitboard.</param>
         public void WriteLine(AIResult aiResult, Bitboard bitboard)
         {
-            using (var csvWriter = OpenOrCreateFile(".csv"))
+            using (var csvWriter = OpenOrCreateFile(FileExtension))
             {
                 if (csvWriter.BaseStream.Length == 0)
                 {
-                    WriteHeader(csvWriter);
+                    WriteValues(csvWriter, _header);
                 }
 
-                var output = $"{GetCurrentTime()};{aiResult.BestMove};{aiResult.Stats.TotalNodes};" +
-                             $"{aiResult.Stats.EndNodes};{aiResult.NodesPerSecond};{aiResult.TimePerNode};{aiResult.Score};" +
-                             $"{aiResult.Time.ToString("0.000")};{bitboard.Occupancy[0]};{bitboard.Occupancy[1]};" +
-                             $"{bitboard.GamePhase}";
-
-                csvWriter.WriteLine(output);
+                var values = new List<string>()
+                {
+                    GetCurrentTime(),
+                    aiResult.BestMove.ToString(),
+                    aiResult.Stats.TotalNodes.ToString(),
+                    aiResult.Stats.EndNodes.ToString(),
+                    aiResult.NodesPerSecond.ToString(),
+                    aiResult.TimePerNode.ToString(),
+                    aiResult.Score.ToString(),
+                    aiResult.Time.ToString(AITimeFormat),
+                    bitboard.Occupancy[0].ToString(),
+                    bitboard.Occupancy[1].ToString(),
+                    bitboard.GamePhase.ToString()
+                };
+                
+                WriteValues(csvWriter, values);
             }
         }
 
         /// <summary>
-        /// Writes csv header (column names) to the file.
+        /// Writes values to the specified csv file (deparated by <see cref="Delimeter"/>.
         /// </summary>
         /// <param name="writer">The csv stream writer</param>
-        private void WriteHeader(StreamWriter writer)
+        /// <param name="values">The list of values to write.</param>
+        private void WriteValues(StreamWriter writer, List<string> values)
         {
-            writer.WriteLine("Time;Best move;Total nodes;End nodes;Nodes per second;Time per node;Score;Time;" +
-                             "White occ;Black occ;Game phase");
+            var headerStringBuilder = new StringBuilder();
+
+            foreach (var value in values)
+            {
+                headerStringBuilder.Append(value);
+                headerStringBuilder.Append(Delimeter);
+            }
+
+            writer.WriteLine(headerStringBuilder.ToString());
         }
     }
 }

@@ -14,6 +14,8 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
     /// </summary>
     public class Style12Parser
     {
+        private const int MinimalStyle12TokensCount = 31;
+
         /// <summary>
         /// Parses FICS response to object.
         /// </summary>
@@ -24,7 +26,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
             var style12Container = new Style12Container();
             var splittedInput = text.Split(' ');
 
-            if (splittedInput.Length < 31)
+            if (splittedInput.Length < MinimalStyle12TokensCount)
             {
                 return null;
             }

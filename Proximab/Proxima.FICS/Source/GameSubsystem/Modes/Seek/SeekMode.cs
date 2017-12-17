@@ -1,4 +1,6 @@
-﻿using Proxima.FICS.Source.ConfigSubsystem;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Proxima.FICS.Source.ConfigSubsystem;
 using Proxima.FICS.Source.LogSubsystem;
 
 namespace Proxima.FICS.Source.GameSubsystem.Modes.Seek
@@ -9,6 +11,9 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Seek
     /// </summary>
     public class SeekMode : FICSModeBase
     {
+        private const string SeekCommandConfigKeyName = "SeekCommand";
+
+        private List<string> _acceptanceTokens;
         private bool _seekSent;
 
         /// <summary>
@@ -18,6 +23,11 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Seek
         public SeekMode(ConfigManager configManager) : base(configManager)
         {
             _seekSent = false;
+
+            _acceptanceTokens = new List<string>()
+            {
+                "accepts your seek"
+            };
         }
 
         /// <summary>
@@ -31,11 +41,11 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Seek
 
             if (!_seekSent)
             {
-                response = ConfigManager.GetValue<string>("SeekCommand");
+                response = ConfigManager.GetValue<string>(SeekCommandConfigKeyName);
                 _seekSent = true;
             }
 
-            if (message.Contains("accepts your seek"))
+            if (_acceptanceTokens.Any(p => message.Contains(p)))
             {
                 ChangeMode(FICSModeType.Game);
             }

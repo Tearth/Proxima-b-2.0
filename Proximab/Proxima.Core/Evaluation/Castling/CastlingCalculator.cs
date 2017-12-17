@@ -30,7 +30,7 @@ namespace Proxima.Core.Evaluation.Castling
         /// Calculates a detailed castling evaluation result based on done (or not) castling.
         /// </summary>
         /// <param name="bitboard">The bitboard.</param>
-        /// <returns>The detailed (separately for white and black player) castling evaluation result.</returns>
+        /// <returns>The detailed (separately for white and black) castling evaluation result.</returns>
         public CastlingData CalculateDetailed(Bitboard bitboard)
         {
             return new CastlingData()

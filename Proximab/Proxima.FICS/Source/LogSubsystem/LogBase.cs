@@ -12,6 +12,9 @@ namespace Proxima.FICS.Source.LogSubsystem
     /// </summary>
     public abstract class LogBase
     {
+        private const string TimeFormat = "HH:mm:ss";
+        private const string DateFormat = "dd-MM-yyyy";
+
         private string _directory;
 
         /// <summary>
@@ -30,7 +33,7 @@ namespace Proxima.FICS.Source.LogSubsystem
         /// <returns>The stream writer with associated log file.</returns>
         protected StreamWriter OpenOrCreateFile(string extension)
         {
-            var logFileName = DateTime.Now.ToString("dd-MM-yyyy") + extension;
+            var logFileName = DateTime.Now.ToString(DateFormat) + extension;
             var fullLogFilePath = _directory + "/" + logFileName;
 
             return new StreamWriter(fullLogFilePath, true);
@@ -42,7 +45,7 @@ namespace Proxima.FICS.Source.LogSubsystem
         /// <returns>The current time string.</returns>
         protected string GetCurrentTime()
         {
-            return DateTime.Now.ToString("HH:mm:ss");
+            return DateTime.Now.ToString(TimeFormat);
         }
     }
 }

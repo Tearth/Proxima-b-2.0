@@ -11,6 +11,10 @@ namespace Proxima.FICS.Source
     /// </summary>
     public class FICSCore
     {
+        private const string SendPrefix = "SEND";
+        private const string ReceivePrefix = "RECV";
+        private const string EnginePrefix = "PRXB";
+
         private ColorfulConsoleManager _consoleManager;
         private ConfigManager _configManager;
         private FICSClient _ficsClient;
@@ -51,8 +55,8 @@ namespace Proxima.FICS.Source
         /// <param name="e">The event arguments.</param>
         private void FicsClient_OnDataReceive(object sender, DataEventArgs e)
         {
-            _consoleManager.WriteLine($"$RRECV: $c{e.Text}");
-            _logWriter.WriteLine($"RECV: {e.Text}");
+            _consoleManager.WriteLine($"$R{ReceivePrefix}: $c{e.Text}");
+            _logWriter.WriteLine($"{ReceivePrefix}: {e.Text}");
 
             var response = _ficsMode.ProcessMessage(e.Text);
             if (response != string.Empty)
@@ -68,8 +72,8 @@ namespace Proxima.FICS.Source
         /// <param name="e">The event arguments.</param>
         private void FicsClient_OnDataSend(object sender, DataEventArgs e)
         {
-            _consoleManager.WriteLine($"$RSEND: $r{e.Text}");
-            _logWriter.WriteLine($"SEND: {e.Text}");
+            _consoleManager.WriteLine($"$R{SendPrefix}: $r{e.Text}");
+            _logWriter.WriteLine($"{SendPrefix}: {e.Text}");
         }
 
         /// <summary>
@@ -88,8 +92,8 @@ namespace Proxima.FICS.Source
         /// <param name="modeType">The FICS mode type.</param>
         private void ChangeMode(FICSModeType modeType)
         {
-            _consoleManager.WriteLine($"$GPRXB: $gMode changed to {modeType}.");
-            _logWriter.WriteLine($"PRXB: Mode changed to {modeType}.");
+            _consoleManager.WriteLine($"$G{EnginePrefix}: $gMode changed to {modeType}.");
+            _logWriter.WriteLine($"{EnginePrefix}: Mode changed to {modeType}.");
 
             var ficsModeFactory = new FICSModeFactory(_configManager);
 

@@ -6,10 +6,10 @@
     public static class EvaluationFlipper
     {
         /// <summary>
-        /// Calculates evaluation values array for white player.
+        /// Calculates evaluation values array for white.
         /// </summary>
         /// <param name="array">The initial evaluation array.</param>
-        /// <returns>The evaluation values array for white player.</returns>
+        /// <returns>The evaluation values array for white.</returns>
         public static int[] CalculateWhiteArray(int[] array)
         {
             var flippedArray = new int[array.Length];
@@ -28,10 +28,10 @@
         }
 
         /// <summary>
-        /// Calculates evaluation values array for black player.
+        /// Calculates evaluation values array for black.
         /// </summary>
         /// <param name="array">The initial evaluation array.</param>
-        /// <returns>The evaluation values array for black player.</returns>
+        /// <returns>The evaluation values array for black.</returns>
         public static int[] CalculateBlackArray(int[] array)
         {
             return FlipHorizontally(array);

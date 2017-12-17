@@ -5,8 +5,6 @@
     /// </summary>
     public static class FICSConstants
     {
-        public static readonly string EndOfLine = "\n\r";
-        public static readonly string LoginCommand = "login:";
-        public static readonly string PasswordCommand = "password:";
+        public const string EndOfLine = "\n\r";
     }
 }

@@ -14,6 +14,20 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
     /// </summary>
     public class Style12MoveParser
     {
+        private const string ShortCastlingNotation = "o-o";
+        private const string LongCastlingNotation = "o-o-o";
+
+        private const int MoveNotationLength = 7;
+        private const int MoveNotationWithPromotionLength = 9;
+
+        private readonly Position _initialWhiteKingPosition = new Position(5, 1);
+        private readonly Position _whiteKingPositionAfterShortCastling = new Position(7, 1);
+        private readonly Position _whiteKingPositionAfterLongCastling = new Position(3, 1);
+
+        private readonly Position _initialBlackKingPosition = new Position(5, 8);
+        private readonly Position _blackKingPositionAfterShortCastling = new Position(7, 8);
+        private readonly Position _blackKingPositionAfterLongCastling = new Position(3, 8);
+
         /// <summary>
         /// Parses FICS response to Style12 move object.
         /// </summary>
@@ -22,19 +36,19 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
         /// <returns>The Style12 move object. If passed text parameter is invalid, returns null.</returns>
         public Style12Move Parse(string text, Color color)
         {
-            if (text == "o-o")
+            if (text == ShortCastlingNotation)
             {
                 return ParseShortCastling(color);
             }
-            else if (text == "o-o-o")
+            else if (text == LongCastlingNotation)
             {
                 return ParseLongCastling(color);
             }
-            else if (text.Length == 7)
+            else if (text.Length == MoveNotationLength)
             {
                 return ParseMove(text, color);
             }
-            else if (text.Length == 9)
+            else if (text.Length == MoveNotationWithPromotionLength)
             {
                 return ParsePromotionMove(text, color);
             }
@@ -49,8 +63,8 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
         /// <returns>The Style12 move object. If passed text parameter is invalid, returns null.</returns>
         private Style12Move ParseShortCastling(Color color)
         {
-            var fromPosition = color == Color.White ? new Position(5, 1) : new Position(5, 8);
-            var toPosition = color == Color.White ? new Position(7, 1) : new Position(7, 8);
+            var fromPosition = color == Color.White ? _initialWhiteKingPosition : _initialBlackKingPosition;
+            var toPosition = color == Color.White ? _whiteKingPositionAfterShortCastling : _blackKingPositionAfterShortCastling;
 
             return new Style12Move(PieceType.King, fromPosition, toPosition);
         }
@@ -62,8 +76,8 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
         /// <returns>The Style12 move object. If passed text parameter is invalid, returns null.</returns>
         private Style12Move ParseLongCastling(Color color)
         {
-            var fromPosition = color == Color.White ? new Position(5, 1) : new Position(5, 8);
-            var toPosition = color == Color.White ? new Position(3, 1) : new Position(3, 8);
+            var fromPosition = color == Color.White ? _initialWhiteKingPosition : _initialBlackKingPosition;
+            var toPosition = color == Color.White ? _whiteKingPositionAfterLongCastling : _blackKingPositionAfterLongCastling;
 
             return new Style12Move(PieceType.King, fromPosition, toPosition);
         }
@@ -77,8 +91,8 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
         private Style12Move ParseMove(string text, Color color)
         {
             var pieceType = GetPieceType(text);
-            var fromPosition = GetFromPosition(text);
-            var toPosition = GetToPosition(text);
+            var fromPosition = GetSourcePiecePosition(text);
+            var toPosition = GetDestinationPiecePosition(text);
 
             return new Style12Move(pieceType, fromPosition, toPosition);
         }
@@ -92,8 +106,8 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
         private Style12Move ParsePromotionMove(string text, Color color)
         {
             var pieceType = GetPieceType(text);
-            var fromPosition = GetFromPosition(text);
-            var toPosition = GetToPosition(text);
+            var fromPosition = GetSourcePiecePosition(text);
+            var toPosition = GetDestinationPiecePosition(text);
             var promotionPieceType = GetPromotionPieceType(text);
 
             return new Style12Move(pieceType, fromPosition, toPosition, promotionPieceType);
@@ -126,9 +140,12 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
         /// </summary>
         /// <param name="text">The text to parse.</param>
         /// <returns>The source piece position.</returns>
-        private Position GetFromPosition(string text)
+        private Position GetSourcePiecePosition(string text)
         {
-            var fromSubstring = text.Substring(2, 2);
+            var positionIndex = 2;
+            var positionLength = 2;
+
+            var fromSubstring = text.Substring(positionIndex, positionLength);
             return PositionConverter.ToPosition(fromSubstring);
         }
 
@@ -137,9 +154,12 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
         /// </summary>
         /// <param name="text">The text to parse.</param>
         /// <returns>The destination piece position.</returns>
-        private Position GetToPosition(string text)
+        private Position GetDestinationPiecePosition(string text)
         {
-            var toSubstring = text.Substring(5, 2);
+            var positionIndex = 5;
+            var positionLength = 2;
+
+            var toSubstring = text.Substring(positionIndex, positionLength);
             return PositionConverter.ToPosition(toSubstring);
         }
     }

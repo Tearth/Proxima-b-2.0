@@ -66,12 +66,12 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
         public int GameNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets the white player name.
+        /// Gets or sets the white's name.
         /// </summary>
         public string WhitePlayerName { get; set; }
 
         /// <summary>
-        /// Gets or sets the black player name.
+        /// Gets or sets the black's name.
         /// </summary>
         public string BlackPlayerName { get; set; }
 
@@ -102,12 +102,12 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
         public int BlackMaterialStrength { get; set; }
 
         /// <summary>
-        /// Gets or sets the remaining time of white player.
+        /// Gets or sets the remaining time of white.
         /// </summary>
         public int WhiteRemainingTime { get; set; }
 
         /// <summary>
-        /// Gets or sets the remaining time of black player.
+        /// Gets or sets the remaining time of black.
         /// </summary>
         public int BlackRemainingTime { get; set; }
 

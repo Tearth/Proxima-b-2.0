@@ -12,6 +12,8 @@ namespace Proxima.FICS.Source.LogSubsystem
     /// </summary>
     public class LogWriter : LogBase
     {
+        private const string FileExtension = ".log";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LogWriter"/> class.
         /// </summary>
@@ -26,7 +28,7 @@ namespace Proxima.FICS.Source.LogSubsystem
         /// <param name="text">The text to save (without end line chars).</param>
         public void WriteLine(string text)
         {
-            using (var logWriter = OpenOrCreateFile(".log"))
+            using (var logWriter = OpenOrCreateFile(FileExtension))
             {
                 var output = $"{GetCurrentTime()} - {text}";
                 logWriter.WriteLine(output);

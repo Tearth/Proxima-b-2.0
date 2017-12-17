@@ -8,6 +8,13 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Auth
     /// </summary>
     public class AuthMode : FICSModeBase
     {
+        private const string UsernameConfigKeyName = "Username";
+        private const string PasswordConfigKeyName = "Password";
+
+        private const string LoginCommand = "login:";
+        private const string PasswordCommand = "password:";
+        private const string StartingSessionCommand = "Starting FICS session as";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthMode"/> class.
         /// </summary>
@@ -25,15 +32,15 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Auth
         {
             var response = string.Empty;
 
-            if (message.StartsWith(FICSConstants.LoginCommand))
+            if (message.StartsWith(LoginCommand))
             {
                 response = ProcessLoginCommand();
             }
-            else if (message.StartsWith(FICSConstants.PasswordCommand))
+            else if (message.StartsWith(PasswordCommand))
             {
                 response = ProcessPasswordCommand();
             }
-            else if (message.Contains($"Starting FICS session as"))
+            else if (message.Contains(StartingSessionCommand))
             {
                 ProcessNewGameSession();
             }
@@ -47,7 +54,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Auth
         /// <returns>The response to the login command.</returns>
         private string ProcessLoginCommand()
         {
-            return ConfigManager.GetValue<string>("Username");
+            return ConfigManager.GetValue<string>(UsernameConfigKeyName);
         }
 
         /// <summary>
@@ -56,7 +63,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Auth
         /// <returns>The response to the password command.</returns>
         private string ProcessPasswordCommand()
         {
-            return ConfigManager.GetValue<string>("Password");
+            return ConfigManager.GetValue<string>(PasswordConfigKeyName);
         }
 
         /// <summary>

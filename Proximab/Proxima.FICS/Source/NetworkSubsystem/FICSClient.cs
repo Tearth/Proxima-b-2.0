@@ -15,6 +15,9 @@ namespace Proxima.FICS.Source.NetworkSubsystem
     /// </summary>
     public class FICSClient
     {
+        private const string ServerAddressConfigKeyName = "ServerAddress";
+        private const string ServerPortConfigKeyName = "ServerPort";
+
         /// <summary>
         /// The event triggered when data from FICS has been received.
         /// </summary>
@@ -27,8 +30,7 @@ namespace Proxima.FICS.Source.NetworkSubsystem
 
         private ConfigManager _configManager;
         private Socket _socket;
-
-        private ManualResetEvent _connectDone = new ManualResetEvent(false);
+        private ManualResetEvent _connectDone;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FICSClient"/> class.
@@ -39,6 +41,7 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             _configManager = configManager;
 
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            _connectDone = new ManualResetEvent(false);
         }
 
         /// <summary>
@@ -67,8 +70,8 @@ namespace Proxima.FICS.Source.NetworkSubsystem
         /// </summary>
         private void Connect()
         {
-            var serverAddress = _configManager.GetValue<string>("ServerAddress");
-            var serverPort = _configManager.GetValue<int>("ServerPort");
+            var serverAddress = _configManager.GetValue<string>(ServerAddressConfigKeyName);
+            var serverPort = _configManager.GetValue<int>(ServerPortConfigKeyName);
 
             _socket.BeginConnect(serverAddress, serverPort, new AsyncCallback(ConnectCallback), _socket);
             _connectDone.WaitOne();
@@ -107,12 +110,11 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             var clientBuffer = clientState.BufferString.ToString();
             var lines = ParseClientBuffer(clientBuffer);
 
-            foreach (Match line in lines)
+            foreach (var line in lines)
             {
-                var text = line.Groups["Text"].Value;
-                var textWithoutEndline = text.Substring(0, text.Length - 2);
+                var textWithoutEndline = line.Substring(0, line.Length - 2);
 
-                clientState.BufferString.Remove(0, text.Length);
+                clientState.BufferString.Remove(0, line.Length);
 
                 OnDataReceive?.Invoke(this, new DataEventArgs(textWithoutEndline));
             }
@@ -136,9 +138,13 @@ namespace Proxima.FICS.Source.NetworkSubsystem
         /// </summary>
         /// <param name="clientBuffer">The client buffer to parse/</param>
         /// <returns>The list of separate lines.</returns>
-        private MatchCollection ParseClientBuffer(string clientBuffer)
+        private List<string> ParseClientBuffer(string clientBuffer)
         {
-            return Regex.Matches(clientBuffer, $@"(?<Text>.*({FICSConstants.EndOfLine}))", RegexOptions.Multiline);
+            var lineContentGroupName = "LineContent";
+            var expression = $@"(?<{lineContentGroupName}>.*({FICSConstants.EndOfLine}))";
+
+            var matches = Regex.Matches(clientBuffer, expression, RegexOptions.Multiline);
+            return matches.OfType<Match>().Select(match => match.Groups[lineContentGroupName].Value).ToList();
         }
     }
 }
