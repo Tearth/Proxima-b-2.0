@@ -29,16 +29,13 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Auth
             {
                 response = ProcessLoginCommand();
             }
-
-            if (message.StartsWith(FICSConstants.PasswordCommand))
+            else if (message.StartsWith(FICSConstants.PasswordCommand))
             {
                 response = ProcessPasswordCommand();
             }
-
-            var username = ConfigManager.GetValue<string>("Username");
-            if (message.Contains($"Starting FICS session as {username}(C)"))
+            else if (message.Contains($"Starting FICS session as"))
             {
-                ChangeMode(FICSModeType.Seek);
+                ProcessNewGameSession();
             }
 
             return response;
@@ -60,6 +57,14 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Auth
         private string ProcessPasswordCommand()
         {
             return ConfigManager.GetValue<string>("Password");
+        }
+
+        /// <summary>
+        /// Processes new game session command.
+        /// </summary>
+        private void ProcessNewGameSession()
+        {
+            ChangeMode(FICSModeType.Seek);
         }
     }
 }

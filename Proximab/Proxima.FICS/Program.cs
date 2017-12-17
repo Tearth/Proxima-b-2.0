@@ -34,6 +34,11 @@ namespace Proxima.FICS
             Console.Read();
         }
 
+        /// <summary>
+        /// Catches all unhandles exceptions and logs them in a log file.
+        /// </summary>
+        /// <param name="sender">The unhandled exception sender.</param>
+        /// <param name="e">The unhandled exception data.</param>
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var exception = (Exception)e.ExceptionObject;

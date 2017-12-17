@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Exceptions
 {
+    /// <summary>
+    /// The exception that is thrown when a bitboard is disintegrated.
+    /// </summary>
     public class BitboardDisintegratedException : Exception
     {
         /// <summary>

@@ -9,31 +9,45 @@ using Proxima.Core.Commons.Positions;
 
 namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
 {
+    /// <summary>
+    /// Represents a set of methods to parse Style12 moves received from FICS.
+    /// </summary>
     public class Style12MoveParser
     {
-        public Style12Move Parse(string move, Color color)
+        /// <summary>
+        /// Parses FICS response to Style12 move object.
+        /// </summary>
+        /// <param name="text">The text to parse.</param>
+        /// <param name="color">The color of the player making the move.</param>
+        /// <returns>The Style12 move object. If passed text parameter is invalid, returns null.</returns>
+        public Style12Move Parse(string text, Color color)
         {
-            if (move == "o-o")
+            if (text == "o-o")
             {
-                return ParseShortCastling(move, color);
+                return ParseShortCastling(color);
             }
-            else if (move == "o-o-o")
+            else if (text == "o-o-o")
             {
-                return ParseLongCastling(move, color);
+                return ParseLongCastling(color);
             }
-            else if (move.Length == 7)
+            else if (text.Length == 7)
             {
-                return ParseMove(move, color);
+                return ParseMove(text, color);
             }
-            else if (move.Length == 9)
+            else if (text.Length == 9)
             {
-                return ParsePromotionMove(move, color);
+                return ParsePromotionMove(text, color);
             }
 
             return null;
         }
 
-        private Style12Move ParseShortCastling(string move, Color color)
+        /// <summary>
+        /// Parses short castling.
+        /// </summary>
+        /// <param name="color">The color of the player making the move.</param>
+        /// <returns>The Style12 move object. If passed text parameter is invalid, returns null.</returns>
+        private Style12Move ParseShortCastling(Color color)
         {
             var fromPosition = color == Color.White ? new Position(5, 1) : new Position(5, 8);
             var toPosition = color == Color.White ? new Position(7, 1) : new Position(7, 8);
@@ -41,7 +55,12 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
             return new Style12Move(PieceType.King, fromPosition, toPosition);
         }
 
-        private Style12Move ParseLongCastling(string move, Color color)
+        /// <summary>
+        /// Parses long castling.
+        /// </summary>
+        /// <param name="color">The color of the player making the move.</param>
+        /// <returns>The Style12 move object. If passed text parameter is invalid, returns null.</returns>
+        private Style12Move ParseLongCastling(Color color)
         {
             var fromPosition = color == Color.White ? new Position(5, 1) : new Position(5, 8);
             var toPosition = color == Color.White ? new Position(3, 1) : new Position(3, 8);
@@ -49,46 +68,78 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
             return new Style12Move(PieceType.King, fromPosition, toPosition);
         }
 
-        private Style12Move ParseMove(string move, Color color)
+        /// <summary>
+        /// Parses simple move.
+        /// </summary>
+        /// <param name="text">The text to parse.</param>
+        /// <param name="color">The color of the player making the move.</param>
+        /// <returns>The Style12 move object. If passed text parameter is invalid, returns null.</returns>
+        private Style12Move ParseMove(string text, Color color)
         {
-            var pieceType = GetPieceType(move);
-            var fromPosition = GetFromPosition(move);
-            var toPosition = GetToPosition(move);
+            var pieceType = GetPieceType(text);
+            var fromPosition = GetFromPosition(text);
+            var toPosition = GetToPosition(text);
 
             return new Style12Move(pieceType, fromPosition, toPosition);
         }
 
-        private Style12Move ParsePromotionMove(string move, Color color)
+        /// <summary>
+        /// Parses promotion move.
+        /// </summary>
+        /// <param name="text">The text to parse.</param>
+        /// <param name="color">The color of the player making the move.</param>
+        /// <returns>The Style12 move object. If passed text parameter is invalid, returns null.</returns>
+        private Style12Move ParsePromotionMove(string text, Color color)
         {
-            var pieceType = GetPieceType(move);
-            var fromPosition = GetFromPosition(move);
-            var toPosition = GetToPosition(move);
-            var promotionPieceType = GetPromotinoPieceType(move);
+            var pieceType = GetPieceType(text);
+            var fromPosition = GetFromPosition(text);
+            var toPosition = GetToPosition(text);
+            var promotionPieceType = GetPromotionPieceType(text);
 
             return new Style12Move(pieceType, fromPosition, toPosition, promotionPieceType);
         }
 
-        private PieceType GetPieceType(string move)
+        /// <summary>
+        /// Gets the piece type by parsing the Style12 move.
+        /// </summary>
+        /// <param name="text">The text to parse.</param>
+        /// <returns>The piece type.</returns>
+        private PieceType GetPieceType(string text)
         {
-            var pieceSymbol = move[0];
+            var pieceSymbol = text[0];
             return PieceConverter.GetPiece(pieceSymbol);
         }
 
-        private PieceType GetPromotinoPieceType(string move)
+        /// <summary>
+        /// Gets the promotion piece type by parsing the Style12 move.
+        /// </summary>
+        /// <param name="text">The text to parse.</param>
+        /// <returns>The promotion piece type.</returns>
+        private PieceType GetPromotionPieceType(string text)
         {
-            var pieceSymbol = move[8];
+            var pieceSymbol = text[8];
             return PieceConverter.GetPiece(pieceSymbol);
         }
 
-        private Position GetFromPosition(string move)
+        /// <summary>
+        /// Gets the source piece position by parsing the Style12 move.
+        /// </summary>
+        /// <param name="text">The text to parse.</param>
+        /// <returns>The source piece position.</returns>
+        private Position GetFromPosition(string text)
         {
-            var fromSubstring = move.Substring(2, 2);
+            var fromSubstring = text.Substring(2, 2);
             return PositionConverter.ToPosition(fromSubstring);
         }
 
-        private Position GetToPosition(string move)
+        /// <summary>
+        /// Gets the destination piece position by parsing the Style12 move.
+        /// </summary>
+        /// <param name="text">The text to parse.</param>
+        /// <returns>The destination piece position.</returns>
+        private Position GetToPosition(string text)
         {
-            var toSubstring = move.Substring(5, 2);
+            var toSubstring = text.Substring(5, 2);
             return PositionConverter.ToPosition(toSubstring);
         }
     }

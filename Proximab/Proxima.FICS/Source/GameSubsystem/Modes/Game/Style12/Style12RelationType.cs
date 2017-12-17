@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
 {
+    /// <summary>
+    /// Represents available types of Style12 relations.
+    /// </summary>
     public enum Style12RelationType
     {
         IsolatedPosition = -3,

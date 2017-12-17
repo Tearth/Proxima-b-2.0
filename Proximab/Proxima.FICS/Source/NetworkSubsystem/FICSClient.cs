@@ -39,7 +39,6 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             _configManager = configManager;
 
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
         }
 
         /// <summary>
@@ -131,30 +130,15 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             socket.EndSend(ar);
         }
 
+        /// <summary>
+        /// Splits client buffer to the separate lines (ended by <see cref="FICSConstants.EndOfLine"/> chars). Incomplete
+        /// line (without end line chars) is not returned.
+        /// </summary>
+        /// <param name="clientBuffer">The client buffer to parse/</param>
+        /// <returns>The list of separate lines.</returns>
         private MatchCollection ParseClientBuffer(string clientBuffer)
         {
             return Regex.Matches(clientBuffer, $@"(?<Text>.*({FICSConstants.EndOfLine}))", RegexOptions.Multiline);
-        }
-
-        /// <summary>
-        /// Checks if the specified response from FICS means telnet command.
-        /// </summary>
-        /// <param name="text">The text to check.</param>
-        /// <returns>True if the specified text is telnet command, otherwise false.</returns>
-        private bool IsCommandOrPrompt(string text, out string prefix)
-        {
-            prefix = string.Empty;
-
-            foreach (var commandPrefix in _commands)
-            {
-                if (text.StartsWith(commandPrefix))
-                {
-                    prefix = commandPrefix;
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }

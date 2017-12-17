@@ -22,6 +22,7 @@ namespace Proxima.FICS.Source
         /// </summary>
         /// <param name="consoleManager">The console manager.</param>
         /// <param name="configManager">The configuration manager.</param>
+        /// <param name="logWriter">The log writer.</param>
         public FICSCore(ColorfulConsoleManager consoleManager, ConfigManager configManager, LogWriter logWriter)
         {
             _consoleManager = consoleManager;

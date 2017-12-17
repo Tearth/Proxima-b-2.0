@@ -9,12 +9,20 @@ using Proxima.Core.Commons.Positions;
 
 namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
 {
+    /// <summary>
+    /// Represents a set of methods to parse Style12 responses received from FICS.
+    /// </summary>
     public class Style12Parser
     {
-        public Style12Container Parse(string input)
+        /// <summary>
+        /// Parses FICS response to object.
+        /// </summary>
+        /// <param name="text">The text to parse.</param>
+        /// <returns>The Style12 container with parsed data.</returns>
+        public Style12Container Parse(string text)
         {
             var style12Container = new Style12Container();
-            var splittedInput = input.Split(' ');
+            var splittedInput = text.Split(' ');
 
             if (splittedInput.Length < 31)
             {
@@ -56,6 +64,11 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
             return style12Container;
         }
 
+        /// <summary>
+        /// Parses Style12 board state to array.
+        /// </summary>
+        /// <param name="splittedInput">The list of Style12 tokens.</param>
+        /// <returns>The array of the board state ranks.</returns>
         private string[] ParseBoardState(string[] splittedInput)
         {
             var boardState = new string[8];
@@ -68,23 +81,44 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
             return boardState;
         }
 
+        /// <summary>
+        /// Gets the color type by parsing the color symbol
+        /// </summary>
+        /// <param name="color">The color symbol</param>
+        /// <returns>The color type.</returns>
         private Color GetColorType(string color)
         {
             var colorChar = Convert.ToChar(color);
             return ColorConverter.GetColor(colorChar);
         }
 
-        private Style12Move GetStyle12Move(string move, Color color)
+        /// <summary>
+        /// Gets the move object basing on the Style12 move.
+        /// </summary>
+        /// <param name="text">The Style12 move text to parse.</param>
+        /// <param name="color">The color of the player making the move.</param>
+        /// <returns>The Style12 move object.</returns>
+        private Style12Move GetStyle12Move(string text, Color color)
         {
             var style12MoveParser = new Style12MoveParser();
-            return style12MoveParser.Parse(move, color);
+            return style12MoveParser.Parse(text, color);
         }
 
+        /// <summary>
+        /// Gets the relation type basing on its Style12 id.
+        /// </summary>
+        /// <param name="relation">The Style12 relation id.</param>
+        /// <returns>The relation type.</returns>
         private Style12RelationType GetRelationType(string relation)
         {
             return (Style12RelationType)Convert.ToInt32(relation);
         }
 
+        /// <summary>
+        /// Gets the board orientation type basing on its Style12 is.
+        /// </summary>
+        /// <param name="boardOrientation">The style12 board orientation id.</param>
+        /// <returns>The board orientation type.</returns>
         private Style12OrientationType GetBoardOrientationType(string boardOrientation)
         {
             return (Style12OrientationType)Convert.ToInt32(boardOrientation);

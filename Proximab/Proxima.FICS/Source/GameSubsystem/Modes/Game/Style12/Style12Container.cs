@@ -8,7 +8,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game.Style12
     public class Style12Container
     {
         /// <summary>
-        /// Gets or sets the style id (will be always 12).
+        /// Gets or sets the style id (will be always "&#60;12&#62;").
         /// </summary>
         public string StyleID { get; set; }
 
