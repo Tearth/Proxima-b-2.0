@@ -39,6 +39,7 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             _configManager = configManager;
 
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
         }
 
         /// <summary>
@@ -104,8 +105,8 @@ namespace Proxima.FICS.Source.NetworkSubsystem
 
             clientState.BufferString.Append(Encoding.UTF8.GetString(clientState.Buffer));
 
-            var stringResult = clientState.BufferString.ToString();
-            var lines = Regex.Matches(stringResult, $@"(?<Text>.*({FICSConstants.EndOfLine}))", RegexOptions.Multiline);
+            var clientBuffer = clientState.BufferString.ToString();
+            var lines = ParseClientBuffer(clientBuffer);
 
             foreach (Match line in lines)
             {
@@ -114,21 +115,7 @@ namespace Proxima.FICS.Source.NetworkSubsystem
 
                 clientState.BufferString.Remove(0, text.Length);
 
-                var commandFound = IsCommand(text);
-                if (commandFound)
-                {
-                    var commandEndPosition = text.IndexOf(':') + 1;
-                    text = text.Substring(0, commandEndPosition);
-
-                    clientState.BufferString.Clear();
-                }
-
                 OnDataReceive?.Invoke(this, new DataEventArgs(textWithoutEndline));
-
-                if (commandFound)
-                {
-                    break;
-                }
             }
 
             clientState.Socket.BeginReceive(clientState.Buffer, 0, ClientState.BufferSize, 0, new AsyncCallback(ReceiveCallback), clientState);
@@ -144,14 +131,30 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             socket.EndSend(ar);
         }
 
+        private MatchCollection ParseClientBuffer(string clientBuffer)
+        {
+            return Regex.Matches(clientBuffer, $@"(?<Text>.*({FICSConstants.EndOfLine}))", RegexOptions.Multiline);
+        }
+
         /// <summary>
         /// Checks if the specified response from FICS means telnet command.
         /// </summary>
         /// <param name="text">The text to check.</param>
         /// <returns>True if the specified text is telnet command, otherwise false.</returns>
-        private bool IsCommand(string text)
+        private bool IsCommandOrPrompt(string text, out string prefix)
         {
-            return text.Contains(FICSConstants.LoginCommand) || text.Contains(FICSConstants.PasswordCommand);
+            prefix = string.Empty;
+
+            foreach (var commandPrefix in _commands)
+            {
+                if (text.StartsWith(commandPrefix))
+                {
+                    prefix = commandPrefix;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
