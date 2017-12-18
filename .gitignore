@@ -288,5 +288,4 @@ __pycache__/
 *.xsd.cs
 /cloc.exe
 /cloc.bat
-/Proximab/Proxima.FICS/FICSConfig.xml
 /Proximab/FICS.App/FICSConfig.xml

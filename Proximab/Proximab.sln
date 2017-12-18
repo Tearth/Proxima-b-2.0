@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FICS.App", "FICS.App\FICS.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers.Loggers", "Helpers.Loggers\Helpers.Loggers.csproj", "{2FF2F5D6-C06B-4007-81CD-A3B5FDFE04BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CECP.App", "CECP.App\CECP.App.csproj", "{89199949-FA12-415E-ADBC-6B0A2E6BFDF6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{2FF2F5D6-C06B-4007-81CD-A3B5FDFE04BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FF2F5D6-C06B-4007-81CD-A3B5FDFE04BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FF2F5D6-C06B-4007-81CD-A3B5FDFE04BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89199949-FA12-415E-ADBC-6B0A2E6BFDF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89199949-FA12-415E-ADBC-6B0A2E6BFDF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89199949-FA12-415E-ADBC-6B0A2E6BFDF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89199949-FA12-415E-ADBC-6B0A2E6BFDF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

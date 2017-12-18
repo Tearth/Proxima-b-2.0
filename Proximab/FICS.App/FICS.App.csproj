@@ -91,7 +91,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FICSConfig.xml" />
+    <Content Include="FICSConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
