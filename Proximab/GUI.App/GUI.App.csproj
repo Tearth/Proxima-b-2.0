@@ -46,43 +46,43 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Source\BoardSubsystem\Axes\AxesManager.cs" />
-    <Compile Include="Source\BoardSubsystem\VisualBoard.cs" />
-    <Compile Include="Source\BoardSubsystem\PieceMovedEventArgs.cs" />
-    <Compile Include="Source\BoardSubsystem\Pieces\PiecesProvider.cs" />
-    <Compile Include="Source\BoardSubsystem\FieldSelectedEventArgs.cs" />
-    <Compile Include="Source\BoardSubsystem\Selections\Selection.cs" />
-    <Compile Include="Source\BoardSubsystem\Selections\SelectionsManager.cs" />
-    <Compile Include="Source\BoardSubsystem\Selections\SelectionType.cs" />
-    <Compile Include="Source\CommandsSubsystem\CommandGroup.cs" />
-    <Compile Include="Source\CommandsSubsystem\CommandHandle.cs" />
-    <Compile Include="Source\CommandsSubsystem\CommandsManager.cs" />
-    <Compile Include="Source\CommandsSubsystem\Exceptions\CommandHandlerAlreadyRegisteredException.cs" />
-    <Compile Include="Source\CommandsSubsystem\Exceptions\CommandHandlerNotFoundException.cs" />
-    <Compile Include="Source\CommandsSubsystem\Command.cs" />
-    <Compile Include="Source\CommandsSubsystem\ExecutionResult.cs" />
-    <Compile Include="Source\CommandsSubsystem\Parsers\CommandParser.cs" />
-    <Compile Include="Source\ConsoleSubsystem\ConsoleManager.cs" />
-    <Compile Include="Source\CommandsSubsystem\CommandType.cs" />
-    <Compile Include="Source\CommandsSubsystem\Validators\CommandValidator.cs" />
-    <Compile Include="Source\CommandsSubsystem\Parsers\RawCommand.cs" />
-    <Compile Include="Source\CommandsSubsystem\Exceptions\TypeNotFoundException.cs" />
-    <Compile Include="Source\GameSubsystem\Modes\AIvsAIMode.cs" />
-    <Compile Include="Source\GameSubsystem\Modes\EditorMode.cs" />
-    <Compile Include="Source\GameSubsystem\Exceptions\GameModeNotFoundException.cs" />
-    <Compile Include="Source\GameSubsystem\GameModeBase.cs" />
-    <Compile Include="Source\GameSubsystem\GameModeFactory.cs" />
-    <Compile Include="Source\GameSubsystem\GameModeType.cs">
+    <Compile Include="BoardSubsystem\Axes\AxesManager.cs" />
+    <Compile Include="BoardSubsystem\VisualBoard.cs" />
+    <Compile Include="BoardSubsystem\PieceMovedEventArgs.cs" />
+    <Compile Include="BoardSubsystem\Pieces\PiecesProvider.cs" />
+    <Compile Include="BoardSubsystem\FieldSelectedEventArgs.cs" />
+    <Compile Include="BoardSubsystem\Selections\Selection.cs" />
+    <Compile Include="BoardSubsystem\Selections\SelectionsManager.cs" />
+    <Compile Include="BoardSubsystem\Selections\SelectionType.cs" />
+    <Compile Include="CommandsSubsystem\CommandGroup.cs" />
+    <Compile Include="CommandsSubsystem\CommandHandle.cs" />
+    <Compile Include="CommandsSubsystem\CommandsManager.cs" />
+    <Compile Include="CommandsSubsystem\Exceptions\CommandHandlerAlreadyRegisteredException.cs" />
+    <Compile Include="CommandsSubsystem\Exceptions\CommandHandlerNotFoundException.cs" />
+    <Compile Include="CommandsSubsystem\Command.cs" />
+    <Compile Include="CommandsSubsystem\ExecutionResult.cs" />
+    <Compile Include="CommandsSubsystem\Parsers\CommandParser.cs" />
+    <Compile Include="ConsoleSubsystem\ConsoleManager.cs" />
+    <Compile Include="CommandsSubsystem\CommandType.cs" />
+    <Compile Include="CommandsSubsystem\Validators\CommandValidator.cs" />
+    <Compile Include="CommandsSubsystem\Parsers\RawCommand.cs" />
+    <Compile Include="CommandsSubsystem\Exceptions\TypeNotFoundException.cs" />
+    <Compile Include="GameSubsystem\Modes\AIvsAIMode.cs" />
+    <Compile Include="GameSubsystem\Modes\EditorMode.cs" />
+    <Compile Include="GameSubsystem\Exceptions\GameModeNotFoundException.cs" />
+    <Compile Include="GameSubsystem\GameModeBase.cs" />
+    <Compile Include="GameSubsystem\GameModeFactory.cs" />
+    <Compile Include="GameSubsystem\GameModeType.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Source\GUICore.cs" />
+    <Compile Include="GUICore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\Helpers\Constants.cs" />
-    <Compile Include="Source\InputSubsystem\InputManager.cs" />
-    <Compile Include="Source\PromotionSubsystem\PromotionPiece.cs" />
-    <Compile Include="Source\PromotionSubsystem\PromotionSelectedEventArgs.cs" />
-    <Compile Include="Source\PromotionSubsystem\PromotionWindow.cs" />
+    <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="InputSubsystem\InputManager.cs" />
+    <Compile Include="PromotionSubsystem\PromotionPiece.cs" />
+    <Compile Include="PromotionSubsystem\PromotionSelectedEventArgs.cs" />
+    <Compile Include="PromotionSubsystem\PromotionWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

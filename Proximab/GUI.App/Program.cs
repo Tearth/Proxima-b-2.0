@@ -1,7 +1,7 @@
 ﻿using System;
-using GUI.App.Source;
-using GUI.App.Source.CommandsSubsystem;
-using GUI.App.Source.ConsoleSubsystem;
+using GUI.App;
+using GUI.App.CommandsSubsystem;
+using GUI.App.ConsoleSubsystem;
 using Proxima.Core;
 
 namespace GUI.App
