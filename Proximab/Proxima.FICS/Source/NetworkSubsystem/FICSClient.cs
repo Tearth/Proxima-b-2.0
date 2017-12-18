@@ -148,6 +148,12 @@ namespace Proxima.FICS.Source.NetworkSubsystem
             return linesWithoutUselessData;
         }
 
+        /// <summary>
+        /// Removes useless data from received lines. FICS is very verbose and send a lot of old and
+        /// duplicated data, especially after commands or prompt.
+        /// </summary>
+        /// <param name="lines">The lines to filter.</param>
+        /// <returns>The list of lines without useless data.</returns>
         private List<string> RemoveUselessData(List<string> lines)
         {
             var linesWithoutUselessData = new List<string>();
@@ -157,6 +163,7 @@ namespace Proxima.FICS.Source.NetworkSubsystem
                 var command = _commands.FirstOrDefault(p => line.Contains(p));
 
                 // Because commands received from FICS has space at the end, we must consider this when comparing strings.
+                // Lines with commands or prompt that not contains trash are allowed.
                 if (command == null || command.Length == line.Length - 1)
                 {
                     linesWithoutUselessData.Add(line);

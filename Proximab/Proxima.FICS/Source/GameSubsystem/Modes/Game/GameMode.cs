@@ -132,7 +132,7 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
         /// <summary>
         /// Runs AI calculation and applies best move to the bitboard.
         /// </summary>
-        /// <param name="style12Container">The data from FICS</param>
+        /// <param name="style12Container">The data from FICS.</param>
         /// <returns>The response (best move) to FICS.</returns>
         private string CalculateAIMove(Style12Container style12Container)
         {
@@ -148,6 +148,10 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
             return $"{fromConverted}-{toConverted}";
         }
 
+        /// <summary>
+        /// Inits the engine color if it was not done earlier.
+        /// </summary>
+        /// <param name="style12Container">The data from FICS.</param>
         private void InitEngineColor(Style12Container style12Container)
         {
             if (!_engineColor.HasValue)
@@ -169,6 +173,10 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
             }
         }
 
+        /// <summary>
+        /// Saves a game result to the log file.
+        /// </summary>
+        /// <param name="message">The data from FICS with the result message.</param>
         private void SaveGameResult(string message)
         {
             var gameResult = _gameResultTokens.First(p => message.Contains(p.Key)).Value;
