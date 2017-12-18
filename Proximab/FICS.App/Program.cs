@@ -1,9 +1,9 @@
 ﻿using System;
 using Helpers.ColorfulConsole;
 using Proxima.Core;
-using FICS.App.Source;
-using FICS.App.Source.ConfigSubsystem;
-using FICS.App.Source.LogSubsystem;
+using FICS.App;
+using FICS.App.ConfigSubsystem;
+using FICS.App.LogSubsystem;
 
 namespace FICS.App
 {
