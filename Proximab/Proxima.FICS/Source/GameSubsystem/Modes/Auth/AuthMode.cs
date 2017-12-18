@@ -11,8 +11,6 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Auth
         private const string UsernameConfigKeyName = "Username";
         private const string PasswordConfigKeyName = "Password";
 
-        private const string LoginCommand = "login:";
-        private const string PasswordCommand = "password:";
         private const string StartingSessionCommand = "Starting FICS session as";
 
         /// <summary>
@@ -32,11 +30,11 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Auth
         {
             var response = string.Empty;
 
-            if (message.StartsWith(LoginCommand))
+            if (message.StartsWith(FICSConstants.LoginCommand))
             {
                 response = ProcessLoginCommand();
             }
-            else if (message.StartsWith(PasswordCommand))
+            else if (message.StartsWith(FICSConstants.PasswordCommand))
             {
                 response = ProcessPasswordCommand();
             }

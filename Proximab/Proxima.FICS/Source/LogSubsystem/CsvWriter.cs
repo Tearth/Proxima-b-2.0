@@ -72,7 +72,7 @@ namespace Proxima.FICS.Source.LogSubsystem
                     bitboard.Occupancy[1].ToString(),
                     bitboard.GamePhase.ToString()
                 };
-                
+
                 WriteValues(csvWriter, values);
             }
         }
@@ -94,15 +94,15 @@ namespace Proxima.FICS.Source.LogSubsystem
                 {
                     csvWriter.WriteLine("ABORTED");
                 }
-                if ((gameResult == GameResult.WhiteWon && engineColor == Color.White) ||
-                    (gameResult == GameResult.BlackWon && engineColor == Color.Black))
+                else if ((gameResult == GameResult.WhiteWon && engineColor == Color.White) ||
+                         (gameResult == GameResult.BlackWon && engineColor == Color.Black))
                 {
                     csvWriter.WriteLine("ENGINE_WON");
                 }
                 else
                 {
                     csvWriter.WriteLine("ENGINE_LOST");
-                }         
+                }
             }
         }
 

@@ -32,6 +32,8 @@ namespace Proxima.FICS.Source.NetworkSubsystem
         private Socket _socket;
         private ManualResetEvent _connectDone;
 
+        private List<string> _commands;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FICSClient"/> class.
         /// </summary>
@@ -42,6 +44,13 @@ namespace Proxima.FICS.Source.NetworkSubsystem
 
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _connectDone = new ManualResetEvent(false);
+
+            _commands = new List<string>()
+            {
+                FICSConstants.LoginCommand,
+                FICSConstants.PasswordCommand,
+                FICSConstants.Prompt
+            };
         }
 
         /// <summary>
@@ -104,19 +113,12 @@ namespace Proxima.FICS.Source.NetworkSubsystem
         {
             var clientState = (ClientState)ar.AsyncState;
             var bytesRead = clientState.Socket.EndReceive(ar);
-
-            clientState.BufferString.Append(Encoding.UTF8.GetString(clientState.Buffer));
-
-            var clientBuffer = clientState.BufferString.ToString();
+            var clientBuffer = Encoding.UTF8.GetString(clientState.Buffer);
+            
             var lines = ParseClientBuffer(clientBuffer);
-
             foreach (var line in lines)
             {
-                var textWithoutEndline = line.Substring(0, line.Length - 2);
-
-                clientState.BufferString.Remove(0, line.Length);
-
-                OnDataReceive?.Invoke(this, new DataEventArgs(textWithoutEndline));
+                OnDataReceive?.Invoke(this, new DataEventArgs(line));
             }
 
             clientState.Socket.BeginReceive(clientState.Buffer, 0, ClientState.BufferSize, 0, new AsyncCallback(ReceiveCallback), clientState);
@@ -140,11 +142,38 @@ namespace Proxima.FICS.Source.NetworkSubsystem
         /// <returns>The list of separate lines.</returns>
         private List<string> ParseClientBuffer(string clientBuffer)
         {
-            var lineContentGroupName = "LineContent";
-            var expression = $@"(?<{lineContentGroupName}>.*({FICSConstants.EndOfLine}))";
+            var lines = clientBuffer.Split(new[] { FICSConstants.EndOfLine }, StringSplitOptions.None).ToList();
+            var linesWithoutUselessData = RemoveUselessData(lines);
 
-            var matches = Regex.Matches(clientBuffer, expression, RegexOptions.Multiline);
-            return matches.OfType<Match>().Select(match => match.Groups[lineContentGroupName].Value).ToList();
+            return linesWithoutUselessData;
+        }
+
+        private List<string> RemoveUselessData(List<string> lines)
+        {
+            var linesWithoutUselessData = new List<string>();
+
+            foreach (var line in lines)
+            {
+                var command = _commands.FirstOrDefault(p => line.Contains(p));
+
+                // Because commands received from FICS has space at the end, we must consider this when comparing strings.
+                if (command == null || command.Length == line.Length - 1)
+                {
+                    linesWithoutUselessData.Add(line);
+                }
+                else
+                {
+                    var endSign = command.Last();
+                    var signPosition = line.IndexOf(endSign);
+
+                    var fixedLine = line.Substring(0, signPosition + 1);
+                    linesWithoutUselessData.Add(fixedLine);
+
+                    break;
+                }
+            }
+
+            return linesWithoutUselessData;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Proxima.FICS.Source.NetworkSubsystem
     /// </summary>
     public class ClientState
     {
-        public const int BufferSize = 1024;
+        public const int BufferSize = 8192;
 
         /// <summary>
         /// Gets or sets the client socket.
@@ -23,19 +23,13 @@ namespace Proxima.FICS.Source.NetworkSubsystem
         /// Gets or sets the client buffer.
         /// </summary>
         public byte[] Buffer { get; set; }
-
-        /// <summary>
-        /// Gets or sets the string representation of <see cref="Buffer"/>.
-        /// </summary>
-        public StringBuilder BufferString { get; set; }
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientState"/> class.
         /// </summary>
         public ClientState()
         {
             Buffer = new byte[BufferSize];
-            BufferString = new StringBuilder();
         }
 
         /// <summary>
