@@ -1,8 +1,8 @@
-﻿using Helpers.ColorfulConsole;
-using FICS.App.ConfigSubsystem;
+﻿using FICS.App.ConfigSubsystem;
 using FICS.App.GameSubsystem;
 using FICS.App.LogSubsystem;
 using FICS.App.NetworkSubsystem;
+using Helpers.ColorfulConsole;
 
 namespace FICS.App
 {

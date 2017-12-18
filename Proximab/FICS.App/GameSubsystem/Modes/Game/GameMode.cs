@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FICS.App.ConfigSubsystem;
+using FICS.App.GameSubsystem.Modes.Game.Exceptions;
+using FICS.App.GameSubsystem.Modes.Game.Style12;
+using FICS.App.LogSubsystem;
 using Proxima.Core.AI;
 using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
@@ -10,10 +11,6 @@ using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators;
 using Proxima.Core.MoveGenerators.Moves;
-using FICS.App.ConfigSubsystem;
-using FICS.App.GameSubsystem.Modes.Game.Exceptions;
-using FICS.App.GameSubsystem.Modes.Game.Style12;
-using FICS.App.LogSubsystem;
 
 namespace FICS.App.GameSubsystem.Modes.Game
 {

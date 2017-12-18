@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using FICS.App.GameSubsystem.Modes.Game;
 using Proxima.Core.AI;
 using Proxima.Core.Boards;
 using Proxima.Core.Commons.Colors;
-using FICS.App.GameSubsystem.Modes.Game;
 
 namespace FICS.App.LogSubsystem
 {
