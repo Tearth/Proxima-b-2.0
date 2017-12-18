@@ -1,5 +1,5 @@
 ﻿using System;
-using GUI.ColorfulConsole;
+using Helpers.ColorfulConsole;
 using Proxima.Core;
 using Proxima.FICS.Source;
 using Proxima.FICS.Source.ConfigSubsystem;

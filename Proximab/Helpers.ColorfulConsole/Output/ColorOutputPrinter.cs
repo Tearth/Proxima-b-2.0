@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GUI.ColorfulConsole.Output
+namespace Helpers.ColorfulConsole.Output
 {
     /// <summary>
     /// Represents a set of methods for writing a colored text on the user console.

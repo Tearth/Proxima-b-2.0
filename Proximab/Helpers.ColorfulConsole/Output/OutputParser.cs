@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ColorfulConsole;
+using Helpers.ColorfulConsole;
 
-namespace GUI.ColorfulConsole.Output
+namespace Helpers.ColorfulConsole.Output
 {
     /// <summary>
     /// Represents a set of methods to parse the formatted text into the output chunks.

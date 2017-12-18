@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GUI.ColorfulConsole.Diagnostic
+namespace Helpers.ColorfulConsole.Diagnostic
 {
     /// <summary>
     /// Represents a set of methods for retrieving OS information.

@@ -144,13 +144,13 @@
     <None Include="Content\Fonts\AxisFont.spritefont" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GUI.ColorfulConsole\GUI.ColorfulConsole.csproj">
-      <Project>{F168016D-AE15-4472-8E18-F1B1150A4A3A}</Project>
-      <Name>GUI.ColorfulConsole</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GUI.ContentDefinitions\GUI.ContentDefinitions.csproj">
       <Project>{93fff5b7-fe43-46d0-8caa-14af8ada6e53}</Project>
       <Name>GUI.ContentDefinitions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Helpers.ColorfulConsole\Helpers.ColorfulConsole.csproj">
+      <Project>{f168016d-ae15-4472-8e18-f1b1150a4a3a}</Project>
+      <Name>Helpers.ColorfulConsole</Name>
     </ProjectReference>
     <ProjectReference Include="..\Proxima.Core\Proxima.Core.csproj">
       <Project>{ae7c5e5c-526c-4f20-ba32-427bf3c6a405}</Project>

@@ -1,8 +1,8 @@
 ﻿using System;
-using GUI.ColorfulConsole.Diagnostic;
-using GUI.ColorfulConsole.Output;
+using Helpers.ColorfulConsole.Diagnostic;
+using Helpers.ColorfulConsole.Output;
 
-namespace GUI.ColorfulConsole
+namespace Helpers.ColorfulConsole
 {
     /// <summary>
     /// The main class of ColorfulConsole library. 

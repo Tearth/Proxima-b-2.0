@@ -4,7 +4,7 @@ using GUI.App.Source.BoardSubsystem;
 using GUI.App.Source.CommandsSubsystem;
 using GUI.App.Source.ConsoleSubsystem;
 using GUI.App.Source.PromotionSubsystem;
-using GUI.ColorfulConsole;
+using Helpers.ColorfulConsole;
 using Proxima.Core.AI;
 using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;

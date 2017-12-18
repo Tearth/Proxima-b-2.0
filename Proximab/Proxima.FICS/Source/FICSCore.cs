@@ -1,4 +1,4 @@
-﻿using GUI.ColorfulConsole;
+﻿using Helpers.ColorfulConsole;
 using Proxima.FICS.Source.ConfigSubsystem;
 using Proxima.FICS.Source.GameSubsystem;
 using Proxima.FICS.Source.LogSubsystem;

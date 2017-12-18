@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ColorfulConsole;
 using GUI.App.Source.CommandsSubsystem;
-using GUI.ColorfulConsole;
 using GUI.ContentDefinitions.Commands;
+using Helpers.ColorfulConsole;
 using Microsoft.Xna.Framework.Content;
 
 namespace GUI.App.Source.ConsoleSubsystem

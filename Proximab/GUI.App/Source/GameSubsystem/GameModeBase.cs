@@ -6,7 +6,7 @@ using GUI.App.Source.CommandsSubsystem;
 using GUI.App.Source.ConsoleSubsystem;
 using GUI.App.Source.InputSubsystem;
 using GUI.App.Source.PromotionSubsystem;
-using GUI.ColorfulConsole;
+using Helpers.ColorfulConsole;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Proxima.Core.Boards;

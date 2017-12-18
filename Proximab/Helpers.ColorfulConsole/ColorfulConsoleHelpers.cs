@@ -1,4 +1,4 @@
-﻿namespace GUI.ColorfulConsole
+﻿namespace Helpers.ColorfulConsole
 {
     /// <summary>
     /// Represents a set of helpers for ColorfulConsole classes.

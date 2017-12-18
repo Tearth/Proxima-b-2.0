@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GUI.ColorfulConsole.Output
+namespace Helpers.ColorfulConsole.Output
 {
     /// <summary>
     /// Represents information about the output chunk.
