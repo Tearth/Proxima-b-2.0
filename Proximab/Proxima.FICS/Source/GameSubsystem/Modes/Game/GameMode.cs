@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Proxima.Core.AI;
 using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
+using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators;
 using Proxima.Core.MoveGenerators.Moves;
@@ -27,7 +28,8 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
         private Bitboard _bitboard;
         private CsvWriter _csvWriter;
 
-        private List<string> _endGameTokens;
+        private Dictionary<string, GameResult> _gameResultTokens;
+        private Color? _engineColor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameMode"/> class.
@@ -38,12 +40,12 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
             _bitboard = new Bitboard(new DefaultFriendlyBoard());
             _csvWriter = new CsvWriter(AILogsDirectory);
 
-            _endGameTokens = new List<string>()
+            _gameResultTokens = new Dictionary<string, GameResult>()
             {
-                "0-1",
-                "1-0",
-                "1/2-1/2",
-                "aborted on move 1"
+                { "1-0", GameResult.WhiteWon },
+                { "0-1", GameResult.BlackWon },
+                { "1/2-1/2", GameResult.Draw },
+                { "aborted on move 1", GameResult.Aborted }
             };
         }
 
@@ -60,8 +62,9 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
             {
                 response = ProcessMoveCommand(message);
             }
-            else if (_endGameTokens.Any(p => message.Contains(p)))
+            else if (_gameResultTokens.Any(p => message.Contains(p.Key)))
             {
+                SaveGameResult(message);
                 ChangeMode(FICSModeType.Seek);
             }
 
@@ -77,6 +80,8 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
         {
             var style12Parser = new Style12Parser();
             var style12Container = style12Parser.Parse(message);
+
+            InitEngineColor(style12Container);
 
             if (style12Container != null && style12Container.Relation == Style12RelationType.EngineMove)
             {
@@ -141,6 +146,33 @@ namespace Proxima.FICS.Source.GameSubsystem.Modes.Game
 
             _csvWriter.WriteLine(aiResult, _bitboard);
             return $"{fromConverted}-{toConverted}";
+        }
+
+        private void InitEngineColor(Style12Container style12Container)
+        {
+            if (!_engineColor.HasValue)
+            {
+                switch (style12Container.Relation)
+                {
+                    case Style12RelationType.EngineMove:
+                    {
+                        _engineColor = style12Container.ColorToMove;
+                        break;
+                    }
+
+                    case Style12RelationType.EnemyMove:
+                    {
+                        _engineColor = style12Container.EnemyColor;
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void SaveGameResult(string message)
+        {
+            var gameResult = _gameResultTokens.First(p => message.Contains(p.Key)).Value;
+            _csvWriter.WriteLine(gameResult, _engineColor);
         }
     }
 }

@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Proxima.Core.AI;
 using Proxima.Core.Boards;
+using Proxima.Core.Commons.Colors;
+using Proxima.FICS.Source.GameSubsystem.Modes.Game;
 
 namespace Proxima.FICS.Source.LogSubsystem
 {
@@ -72,6 +74,35 @@ namespace Proxima.FICS.Source.LogSubsystem
                 };
                 
                 WriteValues(csvWriter, values);
+            }
+        }
+
+        /// <summary>
+        /// Writes game result as new line to the csv file.
+        /// </summary>
+        /// <param name="gameResult">The game result.</param>
+        /// <param name="engineColor">The engine color.</param>
+        public void WriteLine(GameResult gameResult, Color? engineColor)
+        {
+            using (var csvWriter = OpenOrCreateFile(FileExtension))
+            {
+                if (gameResult == GameResult.Draw)
+                {
+                    csvWriter.WriteLine("DRAW");
+                }
+                else if (gameResult == GameResult.Aborted)
+                {
+                    csvWriter.WriteLine("ABORTED");
+                }
+                if ((gameResult == GameResult.WhiteWon && engineColor == Color.White) ||
+                    (gameResult == GameResult.BlackWon && engineColor == Color.Black))
+                {
+                    csvWriter.WriteLine("ENGINE_WON");
+                }
+                else
+                {
+                    csvWriter.WriteLine("ENGINE_LOST");
+                }         
             }
         }
 
