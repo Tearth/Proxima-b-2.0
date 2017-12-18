@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Proxima.MagicKeysGenerator
+namespace MagicKeysGenerator.App
 {
     /// <summary>
     /// Represents the entry point class with Main method.

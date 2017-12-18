@@ -4,7 +4,7 @@ using Proxima.Core.MoveGenerators.MagicBitboards.Attacks.Generators;
 using Proxima.Core.MoveGenerators.MagicBitboards.Keys;
 using Proxima.Core.MoveGenerators.PatternGenerators;
 
-namespace Proxima.MagicKeysGenerator
+namespace MagicKeysGenerator.App
 {
     /// <summary>
     /// Represents set of methods for generating magic keys for bishop and rook.
