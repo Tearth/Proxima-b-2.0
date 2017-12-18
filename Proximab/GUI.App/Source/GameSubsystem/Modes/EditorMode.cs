@@ -12,7 +12,7 @@ using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators.Moves;
-using Proxima.Helpers.Tests;
+using Proxima.Core.Tests;
 
 namespace GUI.App.Source.GameSubsystem.Modes
 {

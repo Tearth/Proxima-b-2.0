@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI.ContentDefinitions", "G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxima.Core", "Proxima.Core\Proxima.Core.csproj", "{AE7C5E5C-526C-4F20-BA32-427BF3C6A405}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxima.Helpers", "Proxima.Helpers\Proxima.Helpers.csproj", "{E5515F32-EAEC-476D-A8AB-8EE93A84825C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers.ColorfulConsole", "Helpers.ColorfulConsole\Helpers.ColorfulConsole.csproj", "{F168016D-AE15-4472-8E18-F1B1150A4A3A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxima.MagicKeysGenerator", "Proxima.MagicKeysGenerator\Proxima.MagicKeysGenerator.csproj", "{5DABB56F-4D18-482B-930B-BA147509B305}"
@@ -35,10 +33,6 @@ Global
 		{AE7C5E5C-526C-4F20-BA32-427BF3C6A405}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE7C5E5C-526C-4F20-BA32-427BF3C6A405}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE7C5E5C-526C-4F20-BA32-427BF3C6A405}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E5515F32-EAEC-476D-A8AB-8EE93A84825C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E5515F32-EAEC-476D-A8AB-8EE93A84825C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E5515F32-EAEC-476D-A8AB-8EE93A84825C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E5515F32-EAEC-476D-A8AB-8EE93A84825C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F168016D-AE15-4472-8E18-F1B1150A4A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F168016D-AE15-4472-8E18-F1B1150A4A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F168016D-AE15-4472-8E18-F1B1150A4A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU

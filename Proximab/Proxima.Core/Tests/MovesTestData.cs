@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Proxima.Helpers.Tests
+namespace Proxima.Core.Tests
 {
     /// <summary>
     /// Container for moves test data.

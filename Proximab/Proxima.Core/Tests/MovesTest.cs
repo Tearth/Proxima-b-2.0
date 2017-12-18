@@ -5,7 +5,7 @@ using Proxima.Core.Commons.Colors;
 using Proxima.Core.MoveGenerators;
 using Proxima.Core.Persistence;
 
-namespace Proxima.Helpers.Tests
+namespace Proxima.Core.Tests
 {
     /// <summary>
     /// Represents a set of methods for testing speed of move generators and evaluation functions. 
