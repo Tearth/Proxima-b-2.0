@@ -1,5 +1,4 @@
 ﻿using FICS.App.ConfigSubsystem;
-using FICS.App.LogSubsystem;
 
 namespace FICS.App.GameSubsystem.Modes.Auth
 {

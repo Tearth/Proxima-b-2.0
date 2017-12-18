@@ -3,10 +3,11 @@ using System.Linq;
 using FICS.App.ConfigSubsystem;
 using FICS.App.GameSubsystem.Modes.Game.Exceptions;
 using FICS.App.GameSubsystem.Modes.Game.Style12;
-using FICS.App.LogSubsystem;
+using Helpers.Loggers.CSV;
 using Proxima.Core.AI;
 using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
+using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators;
@@ -23,7 +24,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
         private const string Style12Prefix = "<12>";
 
         private Bitboard _bitboard;
-        private CsvWriter _csvWriter;
+        private CsvLogger _csvLogger;
 
         private Dictionary<string, GameResult> _gameResultTokens;
         private Color? _engineColor;
@@ -35,7 +36,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
         public GameMode(ConfigManager configManager) : base(configManager)
         {
             _bitboard = new Bitboard(new DefaultFriendlyBoard());
-            _csvWriter = new CsvWriter(AILogsDirectory);
+            _csvLogger = new CsvLogger(AILogsDirectory);
 
             _gameResultTokens = new Dictionary<string, GameResult>()
             {
@@ -141,7 +142,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
             var fromConverted = PositionConverter.ToString(aiResult.BestMove.From);
             var toConverted = PositionConverter.ToString(aiResult.BestMove.To);
 
-            _csvWriter.WriteLine(aiResult, _bitboard);
+            _csvLogger.WriteLine(aiResult, _bitboard);
             return $"{fromConverted}-{toConverted}";
         }
 
@@ -177,7 +178,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
         private void SaveGameResult(string message)
         {
             var gameResult = _gameResultTokens.First(p => message.Contains(p.Key)).Value;
-            _csvWriter.WriteLine(gameResult, _engineColor);
+            _csvLogger.WriteLine(gameResult, _engineColor);
         }
     }
 }

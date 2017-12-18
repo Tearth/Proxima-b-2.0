@@ -1,8 +1,8 @@
 ﻿using FICS.App.ConfigSubsystem;
 using FICS.App.GameSubsystem;
-using FICS.App.LogSubsystem;
 using FICS.App.NetworkSubsystem;
 using Helpers.ColorfulConsole;
+using Helpers.Loggers.Text;
 
 namespace FICS.App
 {
@@ -19,19 +19,19 @@ namespace FICS.App
         private ConfigManager _configManager;
         private FICSClient _ficsClient;
         private FICSModeBase _ficsMode;
-        private LogWriter _logWriter;
+        private TextLogger _textLogger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FICSCore"/> class.
         /// </summary>
         /// <param name="consoleManager">The console manager.</param>
         /// <param name="configManager">The configuration manager.</param>
-        /// <param name="logWriter">The log writer.</param>
-        public FICSCore(ColorfulConsoleManager consoleManager, ConfigManager configManager, LogWriter logWriter)
+        /// <param name="textLogger">The text logger.</param>
+        public FICSCore(ColorfulConsoleManager consoleManager, ConfigManager configManager, TextLogger textLogger)
         {
             _consoleManager = consoleManager;
             _configManager = configManager;
-            _logWriter = logWriter;
+            _textLogger = textLogger;
 
             _ficsClient = new FICSClient(_configManager);
             _ficsClient.OnDataReceive += FicsClient_OnDataReceive;
@@ -56,7 +56,7 @@ namespace FICS.App
         private void FicsClient_OnDataReceive(object sender, DataEventArgs e)
         {
             _consoleManager.WriteLine($"$R{ReceivePrefix}: $c{e.Text}");
-            _logWriter.WriteLine($"{ReceivePrefix}: {e.Text}");
+            _textLogger.WriteLine($"{ReceivePrefix}: {e.Text}");
 
             var response = _ficsMode.ProcessMessage(e.Text);
             if (response != string.Empty)
@@ -73,7 +73,7 @@ namespace FICS.App
         private void FicsClient_OnDataSend(object sender, DataEventArgs e)
         {
             _consoleManager.WriteLine($"$R{SendPrefix}: $r{e.Text}");
-            _logWriter.WriteLine($"{SendPrefix}: {e.Text}");
+            _textLogger.WriteLine($"{SendPrefix}: {e.Text}");
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace FICS.App
         private void ChangeMode(FICSModeType modeType)
         {
             _consoleManager.WriteLine($"$G{EnginePrefix}: $gMode changed to {modeType}.");
-            _logWriter.WriteLine($"{EnginePrefix}: Mode changed to {modeType}.");
+            _textLogger.WriteLine($"{EnginePrefix}: Mode changed to {modeType}.");
 
             var ficsModeFactory = new FICSModeFactory(_configManager);
 

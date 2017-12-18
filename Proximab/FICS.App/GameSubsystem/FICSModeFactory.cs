@@ -3,7 +3,6 @@ using FICS.App.GameSubsystem.Exceptions;
 using FICS.App.GameSubsystem.Modes.Auth;
 using FICS.App.GameSubsystem.Modes.Game;
 using FICS.App.GameSubsystem.Modes.Seek;
-using FICS.App.LogSubsystem;
 
 namespace FICS.App.GameSubsystem
 {

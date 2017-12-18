@@ -1,4 +1,4 @@
-﻿namespace FICS.App.GameSubsystem.Modes.Game
+﻿namespace Proxima.Core.Commons
 {
     /// <summary>
     /// Represents available types of game end result.

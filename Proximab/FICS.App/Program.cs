@@ -1,7 +1,7 @@
 ﻿using System;
 using FICS.App.ConfigSubsystem;
-using FICS.App.LogSubsystem;
 using Helpers.ColorfulConsole;
+using Helpers.Loggers.Text;
 using Proxima.Core;
 
 namespace FICS.App
@@ -15,7 +15,7 @@ namespace FICS.App
         private const string ApplicationName = "Proxima b 2.0dev FICS";
         private const string ConfigFilename = "FICSConfig.xml";
 
-        private static LogWriter _logWriter;
+        private static TextLogger _textLogger;
 
         /// <summary>
         /// Entry point.
@@ -23,7 +23,7 @@ namespace FICS.App
         /// <param name="args">Program arguments.</param>
         public static void Main(string[] args)
         {
-            _logWriter = new LogWriter(LogsDirectory);
+            _textLogger = new TextLogger(LogsDirectory);
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             ProximaCore.Init();
@@ -31,7 +31,7 @@ namespace FICS.App
             var consoleManager = new ColorfulConsoleManager(ApplicationName);
             var configManager = new ConfigManager(ConfigFilename);
 
-            var ficsCore = new FICSCore(consoleManager, configManager, _logWriter);
+            var ficsCore = new FICSCore(consoleManager, configManager, _textLogger);
             ficsCore.Run();
             
             Console.Read();
@@ -46,8 +46,8 @@ namespace FICS.App
         {
             var exception = (Exception)e.ExceptionObject;
 
-            _logWriter.WriteLine(exception.Message);
-            _logWriter.WriteLine(exception.StackTrace);
+            _textLogger.WriteLine(exception.Message);
+            _textLogger.WriteLine(exception.StackTrace);
         }
     }
 }

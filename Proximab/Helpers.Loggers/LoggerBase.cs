@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FICS.App.LogSubsystem
+namespace Helpers.Loggers
 {
     /// <summary>
     /// Represents a base class for add derived log classes.

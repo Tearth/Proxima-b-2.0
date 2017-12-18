@@ -5,20 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FICS.App.LogSubsystem
+namespace Helpers.Loggers.Text
 {
     /// <summary>
     /// Represents a set of methods to writing in log file.
     /// </summary>
-    public class LogWriter : LogBase
+    public class TextLogger : LogBase
     {
         private const string FileExtension = ".log";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LogWriter"/> class.
+        /// Initializes a new instance of the <see cref="TextLogger"/> class.
         /// </summary>
         /// <param name="directory">The directory where all logs will be stored.</param>
-        public LogWriter(string directory) : base(directory)
+        public TextLogger(string directory) : base(directory)
         {
         }
 
@@ -28,10 +28,10 @@ namespace FICS.App.LogSubsystem
         /// <param name="text">The text to save (without end line chars).</param>
         public void WriteLine(string text)
         {
-            using (var logWriter = OpenOrCreateFile(FileExtension))
+            using (var textLogger = OpenOrCreateFile(FileExtension))
             {
                 var output = $"{GetCurrentTime()} - {text}";
-                logWriter.WriteLine(output);
+                textLogger.WriteLine(output);
             }
         }
     }

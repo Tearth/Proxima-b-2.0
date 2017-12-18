@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicKeysGenerator.App", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FICS.App", "FICS.App\FICS.App.csproj", "{DC5A3DD8-9BB6-4592-9645-AD590F98DA3D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers.Loggers", "Helpers.Loggers\Helpers.Loggers.csproj", "{2FF2F5D6-C06B-4007-81CD-A3B5FDFE04BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{DC5A3DD8-9BB6-4592-9645-AD590F98DA3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC5A3DD8-9BB6-4592-9645-AD590F98DA3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC5A3DD8-9BB6-4592-9645-AD590F98DA3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FF2F5D6-C06B-4007-81CD-A3B5FDFE04BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FF2F5D6-C06B-4007-81CD-A3B5FDFE04BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FF2F5D6-C06B-4007-81CD-A3B5FDFE04BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FF2F5D6-C06B-4007-81CD-A3B5FDFE04BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

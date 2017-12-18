@@ -58,7 +58,6 @@
     <Compile Include="GameSubsystem\FICSModeType.cs" />
     <Compile Include="GameSubsystem\Modes\Game\Exceptions\BitboardDisintegratedException.cs" />
     <Compile Include="GameSubsystem\Modes\Game\GameMode.cs" />
-    <Compile Include="GameSubsystem\Modes\Game\GameResult.cs" />
     <Compile Include="GameSubsystem\Modes\Game\Style12\Style12Container.cs" />
     <Compile Include="GameSubsystem\Modes\Game\Style12\Style12Move.cs" />
     <Compile Include="GameSubsystem\Modes\Game\Style12\Style12MoveParser.cs" />
@@ -66,9 +65,6 @@
     <Compile Include="GameSubsystem\Modes\Game\Style12\Style12Parser.cs" />
     <Compile Include="GameSubsystem\Modes\Game\Style12\Style12RelationType.cs" />
     <Compile Include="GameSubsystem\Modes\Seek\SeekMode.cs" />
-    <Compile Include="LogSubsystem\CsvWriter.cs" />
-    <Compile Include="LogSubsystem\LogBase.cs" />
-    <Compile Include="LogSubsystem\LogWriter.cs" />
     <Compile Include="NetworkSubsystem\ClientState.cs" />
     <Compile Include="NetworkSubsystem\DataEventArgs.cs" />
     <Compile Include="NetworkSubsystem\FICSClient.cs" />
@@ -84,6 +80,10 @@
     <ProjectReference Include="..\Helpers.ColorfulConsole\Helpers.ColorfulConsole.csproj">
       <Project>{f168016d-ae15-4472-8e18-f1b1150a4a3a}</Project>
       <Name>Helpers.ColorfulConsole</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Helpers.Loggers\Helpers.Loggers.csproj">
+      <Project>{2ff2f5d6-c06b-4007-81cd-a3b5fdfe04ba}</Project>
+      <Name>Helpers.Loggers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Proxima.Core\Proxima.Core.csproj">
       <Project>{ae7c5e5c-526c-4f20-ba32-427bf3c6a405}</Project>

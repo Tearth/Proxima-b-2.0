@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FICS.App.ConfigSubsystem;
-using FICS.App.LogSubsystem;
 using FICS.App.NetworkSubsystem;
 
 namespace FICS.App.GameSubsystem

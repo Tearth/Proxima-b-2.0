@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FICS.App.ConfigSubsystem;
-using FICS.App.LogSubsystem;
 
 namespace FICS.App.GameSubsystem.Modes.Seek
 {

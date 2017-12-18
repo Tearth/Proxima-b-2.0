@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using FICS.App.GameSubsystem.Modes.Game;
 using Proxima.Core.AI;
 using Proxima.Core.Boards;
+using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 
-namespace FICS.App.LogSubsystem
+namespace Helpers.Loggers.CSV
 {
     /// <summary>
     /// Represents a set of methods to writing in csv file.
     /// </summary>
-    public class CsvWriter : LogBase
+    public class CsvLogger : LogBase
     {
         private const char Delimeter = ';';
         private const string FileExtension = ".csv";
@@ -20,10 +20,10 @@ namespace FICS.App.LogSubsystem
         private List<string> _header;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CsvWriter"/> class.
+        /// Initializes a new instance of the <see cref="CsvLogger"/> class.
         /// </summary>
         /// <param name="directory">The directory where all logs will be stored.</param>
-        public CsvWriter(string directory) : base(directory)
+        public CsvLogger(string directory) : base(directory)
         {
             _header = new List<string>()
             {
@@ -48,11 +48,11 @@ namespace FICS.App.LogSubsystem
         /// <param name="bitboard">The bitboard.</param>
         public void WriteLine(AIResult aiResult, Bitboard bitboard)
         {
-            using (var csvWriter = OpenOrCreateFile(FileExtension))
+            using (var csvLogger = OpenOrCreateFile(FileExtension))
             {
-                if (csvWriter.BaseStream.Length == 0)
+                if (csvLogger.BaseStream.Length == 0)
                 {
-                    WriteValues(csvWriter, _header);
+                    WriteValues(csvLogger, _header);
                 }
 
                 var values = new List<string>()
@@ -70,7 +70,7 @@ namespace FICS.App.LogSubsystem
                     bitboard.GamePhase.ToString()
                 };
 
-                WriteValues(csvWriter, values);
+                WriteValues(csvLogger, values);
             }
         }
 
@@ -81,24 +81,24 @@ namespace FICS.App.LogSubsystem
         /// <param name="engineColor">The engine color.</param>
         public void WriteLine(GameResult gameResult, Color? engineColor)
         {
-            using (var csvWriter = OpenOrCreateFile(FileExtension))
+            using (var csvLogger = OpenOrCreateFile(FileExtension))
             {
                 if (gameResult == GameResult.Draw)
                 {
-                    csvWriter.WriteLine("DRAW");
+                    csvLogger.WriteLine("DRAW");
                 }
                 else if (gameResult == GameResult.Aborted)
                 {
-                    csvWriter.WriteLine("ABORTED");
+                    csvLogger.WriteLine("ABORTED");
                 }
                 else if ((gameResult == GameResult.WhiteWon && engineColor == Color.White) ||
                          (gameResult == GameResult.BlackWon && engineColor == Color.Black))
                 {
-                    csvWriter.WriteLine("ENGINE_WON");
+                    csvLogger.WriteLine("ENGINE_WON");
                 }
                 else
                 {
-                    csvWriter.WriteLine("ENGINE_LOST");
+                    csvLogger.WriteLine("ENGINE_LOST");
                 }
             }
         }
