@@ -134,7 +134,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
         private string CalculateAIMove(Style12Container style12Container)
         {
             var ai = new AICore();
-            var aiResult = ai.Calculate(style12Container.ColorToMove, new Bitboard(_bitboard), 1);
+            var aiResult = ai.Calculate(style12Container.ColorToMove, new Bitboard(_bitboard), 4);
 
             _bitboard = _bitboard.Move(aiResult.BestMove);
 
