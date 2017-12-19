@@ -53,14 +53,16 @@ namespace GUI.App.GameSubsystem.Modes
         /// <param name="command">The AI command.</param>
         private void RunAIGame(Command command)
         {
+            var preferredTimeArgument = command.GetArgument<float>(0);
+
             Task.Run(() =>
             {
                 while (true)
                 {
-                    var aiResult = _ai.Calculate(_currentColor, new Bitboard(VisualBoard.FriendlyBoard), 4);
+                    var aiResult = _ai.Calculate(_currentColor, new Bitboard(VisualBoard.FriendlyBoard), preferredTimeArgument);
 
                     ConsoleManager.WriteLine();
-                    ConsoleManager.WriteLine("$wAI result:");
+                    ConsoleManager.WriteLine($"$w{_currentColor}:");
 
                     if (aiResult.BestMove == null)
                     {
@@ -69,14 +71,9 @@ namespace GUI.App.GameSubsystem.Modes
                     }
                     else
                     {
-                        ConsoleManager.WriteLine($"$wTotal nodes: $g{aiResult.Stats.TotalNodes} N");
-                        ConsoleManager.WriteLine($"$wEnd nodes: $g{aiResult.Stats.EndNodes} N");
-                        ConsoleManager.WriteLine($"$wNodes per second: $c{aiResult.NodesPerSecond / 1000} kN");
-                        ConsoleManager.WriteLine($"$wTime per node: $c{aiResult.TimePerNode} ns");
+                        ConsoleManager.WriteLine($"$wBest move: $g{aiResult.BestMove.ToString()} $w(Score: $m{aiResult.Score}$w)");
+                        ConsoleManager.WriteLine($"$wTotal nodes: $g{aiResult.Stats.TotalNodes} N $w(Depth: $m{aiResult.Depth}$w)");
                         ConsoleManager.WriteLine($"$wTime: $m{aiResult.Time} s");
-                        ConsoleManager.WriteLine();
-                        ConsoleManager.WriteLine($"$wBest move: $g{aiResult.BestMove.ToString()}");
-                        ConsoleManager.WriteLine($"$wScore: $m{aiResult.Score}");
                     }
 
                     ConsoleManager.WriteLine();

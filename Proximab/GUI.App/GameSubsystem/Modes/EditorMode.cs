@@ -179,7 +179,10 @@ namespace GUI.App.GameSubsystem.Modes
             ConsoleManager.WriteLine("$wBenchmark result:");
             ConsoleManager.WriteLine($"$wTotal nodes: $g{result.TotalNodes} N");
             ConsoleManager.WriteLine($"$wEnd nodes: $g{result.EndNodes} N");
-            ConsoleManager.WriteLine($"$wHash correct: {ColorfulConsoleHelpers.ParseBool(result.Integrity)}");
+            if(verifyHashArgument)
+            {
+                ConsoleManager.WriteLine($"$wHash correct: {ColorfulConsoleHelpers.ParseBool(result.Integrity)}");
+            }
             ConsoleManager.WriteLine($"$wNodes per second: $c{result.NodesPerSecond / 1000} kN");
             ConsoleManager.WriteLine($"$wTime per node: $c{result.TimePerNode} ns");
             ConsoleManager.WriteLine($"$wTime: $m{result.Time} s");
@@ -206,7 +209,6 @@ namespace GUI.App.GameSubsystem.Modes
             var aiResult = ai.Calculate(color, new Bitboard(Bitboard), preferredTimeArgument);
 
             ConsoleManager.WriteLine();
-            ConsoleManager.WriteLine("$wAI result:");
 
             if (aiResult.BestMove == null)
             {
@@ -217,7 +219,7 @@ namespace GUI.App.GameSubsystem.Modes
                 ConsoleManager.WriteLine($"$wDepth: $g{aiResult.Depth}");
                 ConsoleManager.WriteLine($"$wTotal nodes: $g{aiResult.Stats.TotalNodes} N");
                 ConsoleManager.WriteLine($"$wEnd nodes: $g{aiResult.Stats.EndNodes} N");
-                ConsoleManager.WriteLine($"$wBranching factor: $g{aiResult.Stats.BranchingFactor}");
+                ConsoleManager.WriteLine($"$wBranching factor: $y{aiResult.Stats.BranchingFactor}");
                 ConsoleManager.WriteLine($"$wNodes per second: $c{aiResult.NodesPerSecond / 1000} kN");
                 ConsoleManager.WriteLine($"$wTime per node: $c{aiResult.TimePerNode} ns");
                 ConsoleManager.WriteLine($"$wTime: $m{aiResult.Time} s");

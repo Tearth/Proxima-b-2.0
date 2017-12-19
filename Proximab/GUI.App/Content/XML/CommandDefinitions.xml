@@ -189,6 +189,10 @@
         <EnumType>RunAIGame</EnumType>
         <Description>Runs AI game.</Description>
         <Arguments>
+          <Item>
+            <Type>float</Type>
+            <Description>Preferred time</Description>
+          </Item>
         </Arguments>
       </Item>
 		</Definitions>
