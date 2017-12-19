@@ -26,15 +26,20 @@ namespace Proxima.Core.AI
             stopwatch.Start();
 
             var depth = 0;
-            while(stopwatch.Elapsed.TotalMilliseconds <= preferredTime * 1000)
+            var estimatedTimeForNextIteration = 0;
+
+            do
             {
                 depth++;
-                
+
                 var stats = new AIStats();
                 result.Score = NegaMax(color, new Bitboard(bitboard), depth, out Move bestMove, stats);
                 result.BestMove = bestMove;
                 result.Stats = stats;
+
+                estimatedTimeForNextIteration = (int)stopwatch.Elapsed.TotalMilliseconds * result.Stats.BranchingFactor;
             }
+            while (estimatedTimeForNextIteration <= (preferredTime * 1000) * 1.5f);
 
             result.Ticks = stopwatch.Elapsed.Ticks;
             result.Depth = depth;
