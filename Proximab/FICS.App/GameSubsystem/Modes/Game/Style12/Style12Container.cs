@@ -36,24 +36,9 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
         public int DoublePawnPush { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the white short castling is possible.
+        /// Gets or sets a value indicating whether the castling is possible. First index is color, second castling type.
         /// </summary>
-        public bool WhiteShortCastlingPossible { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the white long castling is possible.
-        /// </summary>
-        public bool WhiteLongCastlingPossible { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the black short castling is possible.
-        /// </summary>
-        public bool BlackShortCastlingPossible { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the black long castling is possible.
-        /// </summary>
-        public bool BlackLongCastlingPossible { get; set; }
+        public bool[,] CastlingPossible { get; set; }
 
         /// <summary>
         /// Gets or sets the number of moves made since last irreversible move.
@@ -66,14 +51,9 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
         public int GameNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets the white's name.
+        /// Gets or sets the player name with the specified color id.
         /// </summary>
-        public string WhitePlayerName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the black's name.
-        /// </summary>
-        public string BlackPlayerName { get; set; }
+        public string[] PlayerName { get; set; }
 
         /// <summary>
         /// Gets or sets the relation of engine to the game (-3 = isolated position, -2 = examiner, 
@@ -92,24 +72,14 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
         public int IncrementalTime { get; set; }
 
         /// <summary>
-        /// Gets or sets the white material strength.
+        /// Gets or sets the material strength with the specified color id.
         /// </summary>
-        public int WhiteMaterialStrength { get; set; }
+        public int[] MaterialStrength { get; set; }
 
         /// <summary>
-        /// Gets or sets the black material strength.
+        /// Gets or sets the remaining time with the specified color id.
         /// </summary>
-        public int BlackMaterialStrength { get; set; }
-
-        /// <summary>
-        /// Gets or sets the remaining time of white.
-        /// </summary>
-        public int WhiteRemainingTime { get; set; }
-
-        /// <summary>
-        /// Gets or sets the remaining time of black.
-        /// </summary>
-        public int BlackRemainingTime { get; set; }
+        public int[] RemainingTime { get; set; }
 
         /// <summary>
         /// Gets or sets the number of moves to made (will be always 1).

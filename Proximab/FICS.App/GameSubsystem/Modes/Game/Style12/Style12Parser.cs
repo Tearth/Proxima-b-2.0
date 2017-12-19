@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
@@ -36,25 +37,27 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
             style12Container.ColorToMove = GetColorType(splittedInput[9]);
             style12Container.DoublePawnPush = Convert.ToInt32(splittedInput[10]);
 
-            style12Container.WhiteShortCastlingPossible = splittedInput[11] == "1";
-            style12Container.WhiteLongCastlingPossible = splittedInput[12] == "1";
-            style12Container.BlackShortCastlingPossible = splittedInput[13] == "1";
-            style12Container.BlackLongCastlingPossible = splittedInput[14] == "1";
+            style12Container.CastlingPossible[(int)Color.White, (int)CastlingType.Short] = splittedInput[11] == "1";
+            style12Container.CastlingPossible[(int)Color.White, (int)CastlingType.Long] = splittedInput[12] == "1";
+            style12Container.CastlingPossible[(int)Color.Black, (int)CastlingType.Short] = splittedInput[13] == "1";
+            style12Container.CastlingPossible[(int)Color.Black, (int)CastlingType.Long] = splittedInput[14] == "1";
 
             style12Container.Rule50Moves = Convert.ToInt32(splittedInput[15]);
             style12Container.GameNumber = Convert.ToInt32(splittedInput[16]);
 
-            style12Container.WhitePlayerName = splittedInput[17];
-            style12Container.BlackPlayerName = splittedInput[18];
+            style12Container.PlayerName[(int)Color.White] = splittedInput[17];
+            style12Container.PlayerName[(int)Color.Black] = splittedInput[18];
 
             style12Container.Relation = GetRelationType(splittedInput[19]);
 
             style12Container.InitialTime = Convert.ToInt32(splittedInput[20]);
             style12Container.IncrementalTime = Convert.ToInt32(splittedInput[21]);
-            style12Container.WhiteMaterialStrength = Convert.ToInt32(splittedInput[22]);
-            style12Container.BlackMaterialStrength = Convert.ToInt32(splittedInput[23]);
-            style12Container.WhiteRemainingTime = Convert.ToInt32(splittedInput[24]);
-            style12Container.BlackRemainingTime = Convert.ToInt32(splittedInput[25]);
+
+            style12Container.MaterialStrength[(int)Color.White] = Convert.ToInt32(splittedInput[22]);
+            style12Container.MaterialStrength[(int)Color.Black] = Convert.ToInt32(splittedInput[23]);
+
+            style12Container.RemainingTime[(int)Color.White] = Convert.ToInt32(splittedInput[24]);
+            style12Container.RemainingTime[(int)Color.Black] = Convert.ToInt32(splittedInput[25]);
 
             style12Container.MovesToMade = Convert.ToInt32(splittedInput[26]);
             style12Container.PreviousMove = GetStyle12Move(splittedInput[27], style12Container.EnemyColor);
