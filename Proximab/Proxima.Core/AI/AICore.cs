@@ -16,20 +16,28 @@ namespace Proxima.Core.AI
         /// </summary>
         /// <param name="color">The initial player.</param>
         /// <param name="bitboard">The bitboard.</param>
-        /// <param name="depth">The calculating depth.</param>
+        /// <param name="preferredTime">Time allocated for AI.</param>
         /// <returns>The result of AI calculating.</returns>
-        public AIResult Calculate(Color color, Bitboard bitboard, int depth)
+        public AIResult Calculate(Color color, Bitboard bitboard, float preferredTime)
         {
             var result = new AIResult();
-            var stats = new AIStats();
             var stopwatch = new Stopwatch();
 
             stopwatch.Start();
-            result.Score = NegaMax(color, bitboard, depth, out Move bestMove, stats);
-            result.Ticks = stopwatch.Elapsed.Ticks;
 
-            result.BestMove = bestMove;
-            result.Stats = stats;
+            var depth = 0;
+            while(stopwatch.Elapsed.TotalMilliseconds <= preferredTime * 1000)
+            {
+                depth++;
+                
+                var stats = new AIStats();
+                result.Score = NegaMax(color, new Bitboard(bitboard), depth, out Move bestMove, stats);
+                result.BestMove = bestMove;
+                result.Stats = stats;
+            }
+
+            result.Ticks = stopwatch.Elapsed.Ticks;
+            result.Depth = depth;
 
             return result;
         }
