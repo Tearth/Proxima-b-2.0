@@ -193,7 +193,7 @@ namespace GUI.App.GameSubsystem.Modes
         private void CalculateBestMove(Command command)
         {
             var colorArgument = command.GetArgument<string>(0);
-            var depthArgument = command.GetArgument<int>(1);
+            var preferredTimeArgument = command.GetArgument<float>(1);
 
             var colorParseResult = Enum.TryParse(colorArgument, true, out Color color);
             if (!colorParseResult)
@@ -203,7 +203,7 @@ namespace GUI.App.GameSubsystem.Modes
             }
 
             var ai = new AICore();
-            var aiResult = ai.Calculate(color, new Bitboard(Bitboard), depthArgument);
+            var aiResult = ai.Calculate(color, new Bitboard(Bitboard), preferredTimeArgument);
 
             ConsoleManager.WriteLine();
             ConsoleManager.WriteLine("$wAI result:");
@@ -214,8 +214,10 @@ namespace GUI.App.GameSubsystem.Modes
             }
             else
             {
+                ConsoleManager.WriteLine($"$wDepth: $g{aiResult.Depth}");
                 ConsoleManager.WriteLine($"$wTotal nodes: $g{aiResult.Stats.TotalNodes} N");
                 ConsoleManager.WriteLine($"$wEnd nodes: $g{aiResult.Stats.EndNodes} N");
+                ConsoleManager.WriteLine($"$wBranching factor: $g{aiResult.Stats.BranchingFactor}");
                 ConsoleManager.WriteLine($"$wNodes per second: $c{aiResult.NodesPerSecond / 1000} kN");
                 ConsoleManager.WriteLine($"$wTime per node: $c{aiResult.TimePerNode} ns");
                 ConsoleManager.WriteLine($"$wTime: $m{aiResult.Time} s");

@@ -14,5 +14,13 @@
         /// Gets or sets the end nodes.
         /// </summary>
         public int EndNodes { get; set; }
+
+        public int BranchingFactor
+        {
+            get
+            {
+                return (TotalNodes - 1) / (TotalNodes - EndNodes);
+            }
+        }
     }
 }

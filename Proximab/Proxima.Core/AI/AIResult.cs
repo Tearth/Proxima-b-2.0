@@ -18,6 +18,8 @@ namespace Proxima.Core.AI
         /// </summary>
         public Move BestMove { get; set; }
 
+        public int Depth { get; set; }
+
         /// <summary>
         /// Gets or sets the AI stats.
         /// </summary>

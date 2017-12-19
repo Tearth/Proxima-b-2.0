@@ -158,8 +158,8 @@
             <Description>Initial AI color</Description>
           </Item>
           <Item>
-            <Type>int</Type>
-            <Description>Depth</Description>
+            <Type>float</Type>
+            <Description>Preferred time</Description>
           </Item>
         </Arguments>
       </Item>
