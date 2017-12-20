@@ -8,22 +8,24 @@ namespace Proxima.Core.Time
 {
     public class PreferredTimeCalculator
     {
+        private int _expectedMovesCount;
         private int _edge;
 
-        public PreferredTimeCalculator(int edge)
+        public PreferredTimeCalculator(int expectedMovesCount)
         {
-            _edge = edge;
+            _expectedMovesCount = expectedMovesCount;
+            _edge = (int)(_expectedMovesCount * 0.75f);
         }
 
         public float Calculate(int movesCount, int remainingTime)
         {
             if(movesCount < _edge)
             {
-                return (float)remainingTime / movesCount;
+                return (float)remainingTime / (_expectedMovesCount - movesCount);
             }
             else
             {
-                return (float)remainingTime / _edge;
+                return (float)remainingTime / (_expectedMovesCount - _edge);
             }
         }
     }

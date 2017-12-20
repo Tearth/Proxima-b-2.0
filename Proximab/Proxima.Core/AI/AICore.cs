@@ -39,8 +39,9 @@ namespace Proxima.Core.AI
 
                 estimatedTimeForNextIteration = (int)stopwatch.Elapsed.TotalMilliseconds * result.Stats.BranchingFactor;
             }
-            while (estimatedTimeForNextIteration <= (preferredTime * 1000) * 1.5f);
+            while (estimatedTimeForNextIteration <= (preferredTime * 1000));
 
+            result.PreferredTime = preferredTime;
             result.Ticks = stopwatch.Elapsed.Ticks;
             result.Depth = depth;
 

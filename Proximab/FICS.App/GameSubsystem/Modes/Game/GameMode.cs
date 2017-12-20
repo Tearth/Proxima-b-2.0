@@ -12,6 +12,7 @@ using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators;
 using Proxima.Core.MoveGenerators.Moves;
+using Proxima.Core.Time;
 
 namespace FICS.App.GameSubsystem.Modes.Game
 {
@@ -25,9 +26,12 @@ namespace FICS.App.GameSubsystem.Modes.Game
 
         private Bitboard _bitboard;
         private CsvLogger _csvLogger;
+        private PreferredTimeCalculator _preferredTimeCalculator;
 
         private Dictionary<string, GameResult> _gameResultTokens;
         private Color? _engineColor;
+
+        private int _movesCount;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameMode"/> class.
@@ -37,6 +41,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
         {
             _bitboard = new Bitboard(new DefaultFriendlyBoard());
             _csvLogger = new CsvLogger(AILogsDirectory);
+            _preferredTimeCalculator = new PreferredTimeCalculator(60);
 
             _gameResultTokens = new Dictionary<string, GameResult>()
             {
@@ -45,6 +50,8 @@ namespace FICS.App.GameSubsystem.Modes.Game
                 { "1/2-1/2", GameResult.Draw },
                 { "aborted on move 1", GameResult.Aborted }
             };
+
+            _movesCount = 0;
         }
 
         /// <summary>
@@ -93,6 +100,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
                     throw new BitboardDisintegratedException();
                 }
 
+                _movesCount++;
                 return aiResponse;
             }
 
@@ -135,7 +143,9 @@ namespace FICS.App.GameSubsystem.Modes.Game
         private string CalculateAIMove(Style12Container style12Container)
         {
             var ai = new AICore();
-            var aiResult = ai.Calculate(style12Container.ColorToMove, new Bitboard(_bitboard), 4);
+            var preferredTime = _preferredTimeCalculator.Calculate(_movesCount, style12Container.RemainingTime[(int)_engineColor]);
+
+            var aiResult = ai.Calculate(style12Container.ColorToMove, new Bitboard(_bitboard), preferredTime);
 
             _bitboard = _bitboard.Move(aiResult.BestMove);
 

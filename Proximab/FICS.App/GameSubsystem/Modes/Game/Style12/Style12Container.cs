@@ -105,5 +105,14 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
         /// Gets or sets the board orientation (0 = white at bottom, 1 = black at bottom).
         /// </summary>
         public Style12OrientationType BoardOrientation { get; set; }
+
+        public Style12Container()
+        {
+            BoardState = new string[8];
+            CastlingPossible = new bool[2, 2];
+            PlayerName = new string[2];
+            MaterialStrength = new int[2];
+            RemainingTime = new int[2];
+        }
     }
 }

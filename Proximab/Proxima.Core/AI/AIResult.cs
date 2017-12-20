@@ -30,6 +30,8 @@ namespace Proxima.Core.AI
         /// </summary>
         public long Ticks { get; set; }
 
+        public float PreferredTime { get; set; }
+
         /// <summary>
         /// Gets the total time required for whole test.
         /// </summary>
