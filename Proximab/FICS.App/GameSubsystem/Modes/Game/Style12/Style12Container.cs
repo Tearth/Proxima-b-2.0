@@ -106,6 +106,9 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
         /// </summary>
         public Style12OrientationType BoardOrientation { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Style12Container"/> class.
+        /// </summary>
         public Style12Container()
         {
             BoardState = new string[8];

@@ -18,6 +18,9 @@ namespace Proxima.Core.AI
         /// </summary>
         public Move BestMove { get; set; }
 
+        /// <summary>
+        /// Gets or sets the maximal depth of any calculated node.
+        /// </summary>
         public int Depth { get; set; }
 
         /// <summary>
@@ -30,6 +33,9 @@ namespace Proxima.Core.AI
         /// </summary>
         public long Ticks { get; set; }
 
+        /// <summary>
+        /// Gets or sets the preferred time (AI will try to not exceed this when calculating best move).
+        /// </summary>
         public float PreferredTime { get; set; }
 
         /// <summary>

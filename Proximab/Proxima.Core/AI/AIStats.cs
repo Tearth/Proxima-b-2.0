@@ -15,6 +15,9 @@
         /// </summary>
         public int EndNodes { get; set; }
 
+        /// <summary>
+        /// Gets the branching factor (average number of children per node).
+        /// </summary>
         public int BranchingFactor
         {
             get

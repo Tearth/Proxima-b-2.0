@@ -29,7 +29,7 @@ namespace GUI.App.GameSubsystem.Modes
         public EditorMode(ConsoleManager consoleManager, CommandsManager commandsManager) : base(consoleManager, commandsManager)
         {
             CalculateBitboard(new DefaultFriendlyBoard());
-            
+
             VisualBoard.OnFieldSelection += Board_OnFieldSelection;
             VisualBoard.OnPieceMove += Board_OnPieceMove;
             PromotionWindow.OnPromotionSelection += PromotionWindow_OnPromotionSelection;
@@ -179,10 +179,12 @@ namespace GUI.App.GameSubsystem.Modes
             ConsoleManager.WriteLine("$wBenchmark result:");
             ConsoleManager.WriteLine($"$wTotal nodes: $g{result.TotalNodes} N");
             ConsoleManager.WriteLine($"$wEnd nodes: $g{result.EndNodes} N");
-            if(verifyHashArgument)
+
+            if (verifyHashArgument)
             {
                 ConsoleManager.WriteLine($"$wHash correct: {ColorfulConsoleHelpers.ParseBool(result.Integrity)}");
             }
+
             ConsoleManager.WriteLine($"$wNodes per second: $c{result.NodesPerSecond / 1000} kN");
             ConsoleManager.WriteLine($"$wTime per node: $c{result.TimePerNode} ns");
             ConsoleManager.WriteLine($"$wTime: $m{result.Time} s");

@@ -7,11 +7,17 @@ using System.Threading.Tasks;
 
 namespace CECP.App
 {
-    class Program
+    /// <summary>
+    /// Represents the entry point class with Main method.
+    /// </summary>
+    public class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// Entry point.
+        /// </summary>
+        /// <param name="args">Program arguments.</param>
+        public static void Main(string[] args)
         {
-
         }
     }
 }
