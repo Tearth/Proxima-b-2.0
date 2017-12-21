@@ -11,9 +11,11 @@ namespace Proxima.Core.Time
     /// </summary>
     public class PreferredTimeCalculator
     {
+        private const float EdgeRatio = 0.75f;
+
         private int _expectedMovesCount;
         private int _edge;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PreferredTimeCalculator"/> class.
         /// </summary>
@@ -22,7 +24,7 @@ namespace Proxima.Core.Time
         public PreferredTimeCalculator(int expectedMovesCount)
         {
             _expectedMovesCount = expectedMovesCount;
-            _edge = (int)(_expectedMovesCount * 0.75f);
+            _edge = (int)(_expectedMovesCount * EdgeRatio);
         }
 
         /// <summary>

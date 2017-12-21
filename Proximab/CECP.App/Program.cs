@@ -18,6 +18,8 @@ namespace CECP.App
         /// <param name="args">Program arguments.</param>
         public static void Main(string[] args)
         {
+            var core = new CECPCore();
+            core.Run();
         }
     }
 }
