@@ -8,14 +8,22 @@ namespace CECP.App.ConsoleSubsystem
 {
     public class ConsoleManager
     {
+        private CommandParser _commandParser;
+
+        public ConsoleManager()
+        {
+            _commandParser = new CommandParser();
+        }
+
         public void WriteLine(string text)
         {
 
         }
 
-        public void WaitForCommand()
+        public Command WaitForCommand()
         {
             var commandText = Console.ReadLine();
+            return _commandParser.Parse(commandText);
         }
     }
 }
