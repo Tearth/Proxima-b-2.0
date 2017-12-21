@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,7 +34,7 @@ namespace Helpers.Loggers
         /// <returns>The stream writer with associated log file.</returns>
         protected StreamWriter OpenOrCreateFile(string extension)
         {
-            var appDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            var appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var logFileName = DateTime.Now.ToString(DateFormat) + extension;
             var fullLogFilePath = appDirectory + "\\" + _directory + "\\" + logFileName;
 
