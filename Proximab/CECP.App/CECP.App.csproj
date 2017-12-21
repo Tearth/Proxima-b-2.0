@@ -53,6 +53,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Helpers.Loggers\Helpers.Loggers.csproj">
+      <Project>{2ff2f5d6-c06b-4007-81cd-a3b5fdfe04ba}</Project>
+      <Name>Helpers.Loggers</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
