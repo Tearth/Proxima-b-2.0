@@ -11,7 +11,7 @@ namespace CECP.App.GameSubsystem.Modes
     {
         public override void ProcessCommand(Command command)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

@@ -33,8 +33,9 @@ namespace Helpers.Loggers
         /// <returns>The stream writer with associated log file.</returns>
         protected StreamWriter OpenOrCreateFile(string extension)
         {
+            var appDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             var logFileName = DateTime.Now.ToString(DateFormat) + extension;
-            var fullLogFilePath = _directory + "/" + logFileName;
+            var fullLogFilePath = appDirectory + "\\" + _directory + "\\" + logFileName;
 
             return new StreamWriter(fullLogFilePath, true);
         }
