@@ -16,6 +16,9 @@ namespace CECP.App.ConsoleSubsystem
         Ping,
         New,
         Post,
-        NoPost
+        NoPost,
+        White,
+        Black,
+        Go
     }
 }

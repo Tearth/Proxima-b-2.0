@@ -18,6 +18,7 @@ namespace CECP.App.GameSubsystem.Modes
             {
                 { "ping", true },
                 { "setboard", true },
+                { "usermove", true },
                 { "done", true }
             };
         }

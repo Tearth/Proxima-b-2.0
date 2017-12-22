@@ -66,6 +66,10 @@
       <Project>{2ff2f5d6-c06b-4007-81cd-a3b5fdfe04ba}</Project>
       <Name>Helpers.Loggers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Proxima.Core\Proxima.Core.csproj">
+      <Project>{ae7c5e5c-526c-4f20-ba32-427bf3c6a405}</Project>
+      <Name>Proxima.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,16 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CECP.App.ConsoleSubsystem;
+using Proxima.Core.Commons.Colors;
 
 namespace CECP.App.GameSubsystem.Modes
 {
     public class GameMode : CECPModeBase
     {
         private bool _thinkingOutputEnabled;
+        private Color _engineColor;
 
         public GameMode(ConsoleManager consoleManager) : base(consoleManager)
         {
             _thinkingOutputEnabled = false;
+            _engineColor = Color.White;
         }
 
         public override void ProcessCommand(Command command)
@@ -22,13 +25,30 @@ namespace CECP.App.GameSubsystem.Modes
             {
                 case CommandType.Post:
                 {
-                    EnableThinkingOutput();
+                    SetThinkingOutput(true);
                     break;
                 }
 
                 case CommandType.NoPost:
                 {
-                    DisableThinkingOutput();
+                    SetThinkingOutput(false);
+                    break;
+                }
+
+                case CommandType.White:
+                {
+                    SetEngineColor(Color.White);
+                    break;
+                }
+
+                case CommandType.Black:
+                {
+                    SetEngineColor(Color.Black);
+                    break;
+                }
+
+                case CommandType.Go:
+                {
                     break;
                 }
             }
@@ -36,14 +56,14 @@ namespace CECP.App.GameSubsystem.Modes
             base.ProcessCommand(command);
         }
 
-        private void EnableThinkingOutput()
+        private void SetThinkingOutput(bool state)
         {
-            _thinkingOutputEnabled = true;
+            _thinkingOutputEnabled = state;
         }
 
-        private void DisableThinkingOutput()
+        private void SetEngineColor(Color engineColor)
         {
-            _thinkingOutputEnabled = false;
+            _engineColor = engineColor;
         }
     }
 }
