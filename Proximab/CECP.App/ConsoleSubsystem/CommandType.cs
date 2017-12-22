@@ -17,6 +17,8 @@ namespace CECP.App.ConsoleSubsystem
         New,
         Post,
         NoPost,
+        Time,
+        OTim,
         White,
         Black,
         Go

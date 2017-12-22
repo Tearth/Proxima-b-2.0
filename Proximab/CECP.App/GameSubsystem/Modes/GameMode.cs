@@ -13,10 +13,16 @@ namespace CECP.App.GameSubsystem.Modes
         private bool _thinkingOutputEnabled;
         private Color _engineColor;
 
+        private int _engineTime;
+        private int _opponentTime;
+
         public GameMode(ConsoleManager consoleManager) : base(consoleManager)
         {
             _thinkingOutputEnabled = false;
             _engineColor = Color.White;
+
+            _engineTime = 0;
+            _opponentTime = 0;
         }
 
         public override void ProcessCommand(Command command)
@@ -32,6 +38,18 @@ namespace CECP.App.GameSubsystem.Modes
                 case CommandType.NoPost:
                 {
                     SetThinkingOutput(false);
+                    break;
+                }
+
+                case CommandType.Time:
+                {
+                    SetEngineTime(command);
+                    break;
+                }
+
+                case CommandType.OTim:
+                {
+                    SetOpponentTime(command);
                     break;
                 }
 
@@ -64,6 +82,18 @@ namespace CECP.App.GameSubsystem.Modes
         private void SetEngineColor(Color engineColor)
         {
             _engineColor = engineColor;
+        }
+
+        private void SetEngineTime(Command command)
+        {
+            var time = command.GetArgument<int>(0) / 100;
+            _engineTime = time;
+        }
+
+        private void SetOpponentTime(Command command)
+        {
+            var time = command.GetArgument<int>(0) / 100;
+            _opponentTime = time;
         }
     }
 }
