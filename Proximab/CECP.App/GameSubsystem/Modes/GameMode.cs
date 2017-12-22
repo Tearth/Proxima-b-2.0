@@ -16,7 +16,7 @@ namespace CECP.App.GameSubsystem.Modes
         private int _engineTime;
         private int _opponentTime;
 
-        public GameMode(ConsoleManager consoleManager) : base(consoleManager)
+        public GameMode() : base()
         {
             _thinkingOutputEnabled = false;
             _engineColor = Color.White;
@@ -25,75 +25,49 @@ namespace CECP.App.GameSubsystem.Modes
             _opponentTime = 0;
         }
 
-        public override void ProcessCommand(Command command)
+        public override string ProcessCommand(Command command)
         {
             switch(command.Type)
             {
-                case CommandType.Post:
-                {
-                    SetThinkingOutput(true);
-                    break;
-                }
-
-                case CommandType.NoPost:
-                {
-                    SetThinkingOutput(false);
-                    break;
-                }
-
-                case CommandType.Time:
-                {
-                    SetEngineTime(command);
-                    break;
-                }
-
-                case CommandType.OTim:
-                {
-                    SetOpponentTime(command);
-                    break;
-                }
-
-                case CommandType.White:
-                {
-                    SetEngineColor(Color.White);
-                    break;
-                }
-
-                case CommandType.Black:
-                {
-                    SetEngineColor(Color.Black);
-                    break;
-                }
-
-                case CommandType.Go:
-                {
-                    break;
-                }
+                case CommandType.Post: return SetThinkingOutput(true);
+                case CommandType.NoPost: return SetThinkingOutput(false);
+                case CommandType.Time: return SetEngineTime(command);
+                case CommandType.OTim: return SetOpponentTime(command);  
+                case CommandType.White: return SetEngineColor(Color.White);
+                case CommandType.Black: return SetEngineColor(Color.Black);
+                case CommandType.Go: return string.Empty;
+                case CommandType.UserMove: return string.Empty;
             }
 
-            base.ProcessCommand(command);
+            return base.ProcessCommand(command);
         }
 
-        private void SetThinkingOutput(bool state)
+        private string SetThinkingOutput(bool state)
         {
             _thinkingOutputEnabled = state;
+            return string.Empty;
         }
 
-        private void SetEngineColor(Color engineColor)
+        private string SetEngineColor(Color engineColor)
         {
             _engineColor = engineColor;
+            return string.Empty;
         }
 
-        private void SetEngineTime(Command command)
+        private string SetEngineTime(Command command)
         {
             var time = command.GetArgument<int>(0) / 100;
             _engineTime = time;
+
+            return string.Empty;
         }
 
-        private void SetOpponentTime(Command command)
+        private string SetOpponentTime(Command command)
         {
             var time = command.GetArgument<int>(0) / 100;
             _opponentTime = time;
+
+            return string.Empty;
         }
     }
 }

@@ -14,13 +14,6 @@ namespace CECP.App.GameSubsystem
         /// </summary>
         public event EventHandler<ChangeModeEventArgs> OnChangeMode;
 
-        protected ConsoleManager ConsoleManager;
-
-        public CECPModeBase(ConsoleManager consoleManager)
-        {
-            ConsoleManager = consoleManager;
-        }
-
         /// <summary>
         /// Changes mode to the specified one.
         /// </summary>
@@ -34,22 +27,21 @@ namespace CECP.App.GameSubsystem
         /// Processes message (done in derivied class) and prepares a response to the FICS server.
         /// </summary>
         /// <param name="message">The message to process.</param>
-        public virtual void ProcessCommand(Command command)
+        public virtual string ProcessCommand(Command command)
         {
             switch(command.Type)
             {
-                case CommandType.Ping:
-                {
-                    ExecutePing(command);
-                    break;
-                }
+                case CommandType.Ping: return ExecutePing(command);
             }
+
+            return string.Empty;
         }
 
-        private void ExecutePing(Command command)
+        private string ExecutePing(Command command)
         {
             var pingNumber = command.GetArgument<int>(0);
-            ConsoleManager.WriteLine($"pong {pingNumber}");
+
+            return $"pong {pingNumber}";
         }
     }
 }

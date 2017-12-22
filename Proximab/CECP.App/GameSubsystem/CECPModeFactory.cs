@@ -11,13 +11,6 @@ namespace CECP.App.GameSubsystem
 {
     public class CECPModeFactory
     {
-        ConsoleManager _consoleManager;
-
-        public CECPModeFactory(ConsoleManager consoleManager)
-        {
-            _consoleManager = consoleManager;
-        }
-
         /// <summary>
         /// Creates a new instance of the CECP mode specified in the parameter.
         /// </summary>
@@ -27,8 +20,8 @@ namespace CECP.App.GameSubsystem
         {
             switch (type)
             {
-                case CECPModeType.Init: return new InitMode(_consoleManager);
-                case CECPModeType.Game: return new GameMode(_consoleManager);
+                case CECPModeType.Init: return new InitMode();
+                case CECPModeType.Game: return new GameMode();
             }
 
             throw new CECPModeNotFoundException();

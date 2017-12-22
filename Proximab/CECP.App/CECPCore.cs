@@ -29,7 +29,12 @@ namespace CECP.App
             while(true)
             {
                 var command = _consoleManager.WaitForCommand();
-                _cecpMode.ProcessCommand(command);
+                var response = _cecpMode.ProcessCommand(command);
+
+                if(response != string.Empty)
+                {
+                    _consoleManager.WriteLine(response);
+                }
             }
         }
 
@@ -51,7 +56,7 @@ namespace CECP.App
         {
             _textLogger.WriteLine($"PRXB: Mode changed to {modeType}.");
 
-            var ficsModeFactory = new CECPModeFactory(_consoleManager);
+            var ficsModeFactory = new CECPModeFactory();
 
             _cecpMode = ficsModeFactory.Create(modeType);
             _cecpMode.OnChangeMode += CECPMode_OnChangeMode;

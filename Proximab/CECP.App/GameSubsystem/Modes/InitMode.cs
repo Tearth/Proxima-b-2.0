@@ -12,7 +12,7 @@ namespace CECP.App.GameSubsystem.Modes
     {
         private Dictionary<string, bool> _features;
 
-        public InitMode(ConsoleManager consoleManager) : base(consoleManager)
+        public InitMode() : base()
         {
             _features = new Dictionary<string, bool>()
             {
@@ -23,32 +23,19 @@ namespace CECP.App.GameSubsystem.Modes
             };
         }
 
-        public override void ProcessCommand(Command command)
+        public override string ProcessCommand(Command command)
         {
             switch (command.Type)
             {
-                case CommandType.ProtoVer:
-                {
-                    ExecuteProtoVer(command);
-                    break;
-                }
-
-                case CommandType.Rejected:
-                {
-                    throw new FeatureNotSupportedException();
-                }
-
-                case CommandType.New:
-                {
-                    ChangeMode(CECPModeType.Game);
-                    break;
-                }
+                case CommandType.ProtoVer: return ExecuteProtoVerCommand(command);
+                case CommandType.Rejected: throw new FeatureNotSupportedException();
+                case CommandType.New: return ExecuteNewCommand(command);
             }
 
-            base.ProcessCommand(command);
+            return base.ProcessCommand(command);
         }
 
-        private void ExecuteProtoVer(Command command)
+        private string ExecuteProtoVerCommand(Command command)
         {
             var featuresBuilder = new StringBuilder();
             featuresBuilder.Append("feature ");
@@ -61,7 +48,18 @@ namespace CECP.App.GameSubsystem.Modes
                 featuresBuilder.Append(" ");
             }
 
-            ConsoleManager.WriteLine(featuresBuilder.ToString());
+            return featuresBuilder.ToString();
+        }
+
+        private string ExecuteRejectCommand(Command command)
+        {
+            throw new FeatureNotSupportedException();
+        }
+
+        private string ExecuteNewCommand(Command command)
+        {
+            ChangeMode(CECPModeType.Game);
+            return string.Empty;
         }
     }
 }
