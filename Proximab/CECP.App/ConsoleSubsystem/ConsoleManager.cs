@@ -20,6 +20,7 @@ namespace CECP.App.ConsoleSubsystem
 
         public void WriteLine(string text)
         {
+            Console.WriteLine(text);
             _textLogger.WriteLine($"SEND: {text}");
         }
 

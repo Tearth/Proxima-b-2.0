@@ -9,6 +9,10 @@ namespace CECP.App.ConsoleSubsystem
     public enum CommandType
     {
         Unrecognised,
-        XBoard
+        XBoard,
+        ProtoVer,
+        Accepted,
+        Rejected,
+        Ping
     }
 }

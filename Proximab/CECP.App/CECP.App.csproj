@@ -52,6 +52,7 @@
     <Compile Include="GameSubsystem\CECPModeType.cs" />
     <Compile Include="GameSubsystem\ChangeModeEventArgs.cs" />
     <Compile Include="GameSubsystem\Exceptions\CECPModeNotFoundException.cs" />
+    <Compile Include="GameSubsystem\Exceptions\FeatureNotSupportedException.cs" />
     <Compile Include="GameSubsystem\Modes\GameMode.cs" />
     <Compile Include="GameSubsystem\Modes\InitMode.cs" />
     <Compile Include="Program.cs" />

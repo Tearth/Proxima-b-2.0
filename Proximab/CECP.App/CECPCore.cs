@@ -51,7 +51,7 @@ namespace CECP.App
         {
             _textLogger.WriteLine($"PRXB: Mode changed to {modeType}.");
 
-            var ficsModeFactory = new CECPModeFactory();
+            var ficsModeFactory = new CECPModeFactory(_consoleManager);
 
             _cecpMode = ficsModeFactory.Create(modeType);
             _cecpMode.OnChangeMode += CECPMode_OnChangeMode;
