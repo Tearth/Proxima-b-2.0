@@ -13,6 +13,9 @@ namespace CECP.App.ConsoleSubsystem
         ProtoVer,
         Accepted,
         Rejected,
-        Ping
+        Ping,
+        New,
+        Post,
+        NoPost
     }
 }

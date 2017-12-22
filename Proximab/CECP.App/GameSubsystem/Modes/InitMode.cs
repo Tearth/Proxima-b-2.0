@@ -36,6 +36,12 @@ namespace CECP.App.GameSubsystem.Modes
                 {
                     throw new FeatureNotSupportedException();
                 }
+
+                case CommandType.New:
+                {
+                    ChangeMode(CECPModeType.Game);
+                    break;
+                }
             }
 
             base.ProcessCommand(command);
