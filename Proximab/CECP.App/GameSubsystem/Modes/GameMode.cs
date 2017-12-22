@@ -23,38 +23,35 @@ namespace CECP.App.GameSubsystem.Modes
 
             _engineTime = 0;
             _opponentTime = 0;
+
+            CommandsManager.AddCommandHandler(CommandType.Post, ExecutePostCommand);
+            CommandsManager.AddCommandHandler(CommandType.NoPost, ExecuteNoPostCommand);
+            CommandsManager.AddCommandHandler(CommandType.Time, ExecuteTimeCommand);
+            CommandsManager.AddCommandHandler(CommandType.OTim, ExecuteOTimCommand);
+            CommandsManager.AddCommandHandler(CommandType.White, ExecuteWhiteCommand);
+            CommandsManager.AddCommandHandler(CommandType.Black, ExecuteBlackCommand);
+            CommandsManager.AddCommandHandler(CommandType.Go, ExecuteGoCommand);
+            CommandsManager.AddCommandHandler(CommandType.UserMove, ExecuteUserMoveCommand);
         }
 
         public override string ProcessCommand(Command command)
         {
-            switch(command.Type)
-            {
-                case CommandType.Post: return SetThinkingOutput(true);
-                case CommandType.NoPost: return SetThinkingOutput(false);
-                case CommandType.Time: return SetEngineTime(command);
-                case CommandType.OTim: return SetOpponentTime(command);  
-                case CommandType.White: return SetEngineColor(Color.White);
-                case CommandType.Black: return SetEngineColor(Color.Black);
-                case CommandType.Go: return string.Empty;
-                case CommandType.UserMove: return string.Empty;
-            }
-
-            return base.ProcessCommand(command);
+            return CommandsManager.Execute(command);
         }
 
-        private string SetThinkingOutput(bool state)
+        private string ExecutePostCommand(Command command)
         {
-            _thinkingOutputEnabled = state;
+            _thinkingOutputEnabled = true;
             return string.Empty;
         }
 
-        private string SetEngineColor(Color engineColor)
+        private string ExecuteNoPostCommand(Command command)
         {
-            _engineColor = engineColor;
+            _thinkingOutputEnabled = false;
             return string.Empty;
         }
 
-        private string SetEngineTime(Command command)
+        private string ExecuteTimeCommand(Command command)
         {
             var time = command.GetArgument<int>(0) / 100;
             _engineTime = time;
@@ -62,11 +59,33 @@ namespace CECP.App.GameSubsystem.Modes
             return string.Empty;
         }
 
-        private string SetOpponentTime(Command command)
+        private string ExecuteOTimCommand(Command command)
         {
             var time = command.GetArgument<int>(0) / 100;
             _opponentTime = time;
 
+            return string.Empty;
+        }
+
+        private string ExecuteWhiteCommand(Command command)
+        {
+            _engineColor = Color.White;
+            return string.Empty;
+        }
+
+        private string ExecuteBlackCommand(Command command)
+        {
+            _engineColor = Color.Black;
+            return string.Empty;
+        }
+
+        private string ExecuteGoCommand(Command command)
+        {
+            return string.Empty;
+        }
+
+        private string ExecuteUserMoveCommand(Command command)
+        {
             return string.Empty;
         }
     }

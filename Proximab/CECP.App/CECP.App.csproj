@@ -45,8 +45,10 @@
     <Compile Include="CECPCore.cs" />
     <Compile Include="ConsoleSubsystem\Command.cs" />
     <Compile Include="ConsoleSubsystem\CommandParser.cs" />
+    <Compile Include="ConsoleSubsystem\CommandsManager.cs" />
     <Compile Include="ConsoleSubsystem\CommandType.cs" />
     <Compile Include="ConsoleSubsystem\ConsoleManager.cs" />
+    <Compile Include="ConsoleSubsystem\Exceptions\CommandTypeAlreadyRegisteredException.cs" />
     <Compile Include="GameSubsystem\CECPModeBase.cs" />
     <Compile Include="GameSubsystem\CECPModeFactory.cs" />
     <Compile Include="GameSubsystem\CECPModeType.cs" />

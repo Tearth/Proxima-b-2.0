@@ -14,6 +14,15 @@ namespace CECP.App.GameSubsystem
         /// </summary>
         public event EventHandler<ChangeModeEventArgs> OnChangeMode;
 
+        protected CommandsManager CommandsManager { get; private set; }
+
+        public CECPModeBase()
+        {
+            CommandsManager = new CommandsManager();
+
+            CommandsManager.AddCommandHandler(CommandType.Ping, ExecutePing);
+        }
+
         /// <summary>
         /// Changes mode to the specified one.
         /// </summary>
@@ -29,12 +38,7 @@ namespace CECP.App.GameSubsystem
         /// <param name="message">The message to process.</param>
         public virtual string ProcessCommand(Command command)
         {
-            switch(command.Type)
-            {
-                case CommandType.Ping: return ExecutePing(command);
-            }
-
-            return string.Empty;
+            return CommandsManager.Execute(command);
         }
 
         private string ExecutePing(Command command)

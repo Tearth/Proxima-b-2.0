@@ -21,18 +21,15 @@ namespace CECP.App.GameSubsystem.Modes
                 { "usermove", true },
                 { "done", true }
             };
+
+            CommandsManager.AddCommandHandler(CommandType.ProtoVer, ExecuteProtoVerCommand);
+            CommandsManager.AddCommandHandler(CommandType.Rejected, ExecuteRejectedCommand);
+            CommandsManager.AddCommandHandler(CommandType.New, ExecuteNewCommand);
         }
 
         public override string ProcessCommand(Command command)
         {
-            switch (command.Type)
-            {
-                case CommandType.ProtoVer: return ExecuteProtoVerCommand(command);
-                case CommandType.Rejected: throw new FeatureNotSupportedException();
-                case CommandType.New: return ExecuteNewCommand(command);
-            }
-
-            return base.ProcessCommand(command);
+            return CommandsManager.Execute(command);
         }
 
         private string ExecuteProtoVerCommand(Command command)
@@ -51,7 +48,7 @@ namespace CECP.App.GameSubsystem.Modes
             return featuresBuilder.ToString();
         }
 
-        private string ExecuteRejectCommand(Command command)
+        private string ExecuteRejectedCommand(Command command)
         {
             throw new FeatureNotSupportedException();
         }
