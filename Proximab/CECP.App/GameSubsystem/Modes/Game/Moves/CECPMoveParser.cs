@@ -9,7 +9,7 @@ using Proxima.Core.MoveGenerators.Moves;
 
 namespace CECP.App.GameSubsystem.Modes.Game.Moves
 {
-    public class MoveParser
+    public class CECPMoveParser
     {
         public CECPMove Parse(string moveText)
         {

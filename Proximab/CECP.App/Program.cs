@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Helpers.Loggers.Text;
+using Proxima.Core;
 
 namespace CECP.App
 {
@@ -25,6 +26,8 @@ namespace CECP.App
         {
             _textLogger = new TextLogger(LogsDirectory);
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+            ProximaCore.Init();
 
             var core = new CECPCore(_textLogger);
             core.Run();

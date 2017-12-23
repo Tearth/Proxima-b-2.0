@@ -4,10 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CECP.App.ConsoleSubsystem;
+using CECP.App.GameSubsystem.Modes.Game.Moves;
 using Helpers.Loggers.CSV;
+using Proxima.Core.AI;
 using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
+using Proxima.Core.Commons.Positions;
+using Proxima.Core.MoveGenerators;
+using Proxima.Core.MoveGenerators.Moves;
 using Proxima.Core.Time;
 
 namespace CECP.App.GameSubsystem.Modes.Game
@@ -23,6 +28,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         private bool _thinkingOutputEnabled;
         private Color _engineColor;
 
+        private int _movesCount;
         private int _engineTime;
         private int _opponentTime;
 
@@ -33,8 +39,9 @@ namespace CECP.App.GameSubsystem.Modes.Game
             _preferredTimeCalculator = new PreferredTimeCalculator(60);
 
             _thinkingOutputEnabled = false;
-            _engineColor = Color.White;
+            _engineColor = Color.Black;
 
+            _movesCount = 0;
             _engineTime = 0;
             _opponentTime = 0;
 
@@ -100,7 +107,58 @@ namespace CECP.App.GameSubsystem.Modes.Game
 
         private string ExecuteUserMoveCommand(Command command)
         {
-            return string.Empty;
+            var cecpMoveParser = new CECPMoveParser();
+
+            var moveText = command.GetArgument<string>(0);
+            var cecpMove = cecpMoveParser.Parse(moveText);
+
+            CalculateEnemyMove(cecpMove);
+
+            var aiResponse = CalculateAIMove();
+            return $"move {aiResponse}";
+        }
+
+        /// <summary>
+        /// Applies enemy move to the bitboard.
+        /// </summary>
+        /// <param name="style12Container">The data from FICS.</param>
+        private void CalculateEnemyMove(CECPMove cecpMove)
+        {
+            Move moveToApply;
+            _bitboard.Calculate(GeneratorMode.CalculateMoves, GeneratorMode.CalculateMoves);
+
+            if (cecpMove.PromotionPiece.HasValue)
+            {
+                moveToApply = _bitboard.Moves.First(p => p.From == cecpMove.From && p.To == cecpMove.To &&
+                                                   (p as PromotionMove).PromotionPiece == cecpMove.PromotionPiece);
+            }
+            else
+            {
+                moveToApply = _bitboard.Moves.First(p => p.From == cecpMove.From && p.To == cecpMove.To);
+            }
+
+            _bitboard = _bitboard.Move(moveToApply);
+        }
+
+        /// <summary>
+        /// Runs AI calculation and applies best move to the bitboard.
+        /// </summary>
+        /// <param name="style12Container">The data from FICS.</param>
+        /// <returns>The response (best move) to FICS.</returns>
+        private string CalculateAIMove()
+        {
+            var ai = new AICore();
+            var preferredTime = _preferredTimeCalculator.Calculate(_movesCount, _engineTime);
+
+            var aiResult = ai.Calculate(_engineColor, new Bitboard(_bitboard), preferredTime);
+
+            _bitboard = _bitboard.Move(aiResult.BestMove);
+
+            var fromConverted = PositionConverter.ToString(aiResult.BestMove.From);
+            var toConverted = PositionConverter.ToString(aiResult.BestMove.To);
+
+            _csvLogger.WriteLine(aiResult, _bitboard);
+            return $"{fromConverted}{toConverted}";
         }
     }
 }
