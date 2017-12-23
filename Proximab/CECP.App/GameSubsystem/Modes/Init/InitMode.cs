@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using CECP.App.ConsoleSubsystem;
 using CECP.App.GameSubsystem.Exceptions;
 
-namespace CECP.App.GameSubsystem.Modes
+namespace CECP.App.GameSubsystem.Modes.Init
 {
     public class InitMode : CECPModeBase
     {

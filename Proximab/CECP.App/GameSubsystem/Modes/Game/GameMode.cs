@@ -4,12 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CECP.App.ConsoleSubsystem;
+using Helpers.Loggers.CSV;
+using Proxima.Core.Boards;
+using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
+using Proxima.Core.Time;
 
-namespace CECP.App.GameSubsystem.Modes
+namespace CECP.App.GameSubsystem.Modes.Game
 {
     public class GameMode : CECPModeBase
     {
+        private const string AILogsDirectory = "AILogs";
+
+        private Bitboard _bitboard;
+        private CsvLogger _csvLogger;
+        private PreferredTimeCalculator _preferredTimeCalculator;
+
         private bool _thinkingOutputEnabled;
         private Color _engineColor;
 
@@ -18,6 +28,10 @@ namespace CECP.App.GameSubsystem.Modes
 
         public GameMode() : base()
         {
+            _bitboard = new Bitboard(new DefaultFriendlyBoard());
+            _csvLogger = new CsvLogger(AILogsDirectory);
+            _preferredTimeCalculator = new PreferredTimeCalculator(60);
+
             _thinkingOutputEnabled = false;
             _engineColor = Color.White;
 
