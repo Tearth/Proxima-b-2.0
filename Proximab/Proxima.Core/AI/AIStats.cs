@@ -22,7 +22,7 @@
         {
             get
             {
-                return (TotalNodes - 1) / (TotalNodes - EndNodes);
+                return TotalNodes > 1 ? (TotalNodes - 1) / (TotalNodes - EndNodes) : 0;
             }
         }
     }

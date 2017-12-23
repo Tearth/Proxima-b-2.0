@@ -102,7 +102,8 @@ namespace CECP.App.GameSubsystem.Modes.Game
 
         private string ExecuteGoCommand(Command command)
         {
-            return string.Empty;
+            var aiResponse = CalculateAIMove();
+            return $"move {aiResponse}";
         }
 
         private string ExecuteUserMoveCommand(Command command)
@@ -126,7 +127,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         {
             Move moveToApply;
             _bitboard.Calculate(GeneratorMode.CalculateMoves, GeneratorMode.CalculateMoves);
-
+            
             if (cecpMove.PromotionPiece.HasValue)
             {
                 moveToApply = _bitboard.Moves.First(p => p.From == cecpMove.From && p.To == cecpMove.To &&
