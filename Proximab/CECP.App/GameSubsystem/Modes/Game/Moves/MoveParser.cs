@@ -7,7 +7,7 @@ using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators.Moves;
 
-namespace CECP.App.GameSubsystem.Modes.Game
+namespace CECP.App.GameSubsystem.Modes.Game.Moves
 {
     public class MoveParser
     {

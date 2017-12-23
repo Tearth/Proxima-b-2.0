@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
 
-namespace CECP.App.GameSubsystem.Modes.Game
+namespace CECP.App.GameSubsystem.Modes.Game.Moves
 {
     public class CECPMove
     {

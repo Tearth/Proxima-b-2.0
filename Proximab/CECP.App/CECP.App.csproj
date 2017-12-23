@@ -55,9 +55,9 @@
     <Compile Include="GameSubsystem\ChangeModeEventArgs.cs" />
     <Compile Include="GameSubsystem\Exceptions\CECPModeNotFoundException.cs" />
     <Compile Include="GameSubsystem\Exceptions\FeatureNotSupportedException.cs" />
-    <Compile Include="GameSubsystem\Modes\Game\CECPMove.cs" />
+    <Compile Include="GameSubsystem\Modes\Game\Moves\CECPMove.cs" />
     <Compile Include="GameSubsystem\Modes\Game\GameMode.cs" />
-    <Compile Include="GameSubsystem\Modes\Game\MoveParser.cs" />
+    <Compile Include="GameSubsystem\Modes\Game\Moves\MoveParser.cs" />
     <Compile Include="GameSubsystem\Modes\Init\InitMode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
