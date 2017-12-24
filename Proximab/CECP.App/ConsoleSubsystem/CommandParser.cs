@@ -6,10 +6,18 @@ using System.Threading.Tasks;
 
 namespace CECP.App.ConsoleSubsystem
 {
+    /// <summary>
+    /// Represents a set of methods to parse CECP moves in text format.
+    /// </summary>
     public class CommandParser
     {
         private readonly char[] _separators = { ' ' };
 
+        /// <summary>
+        /// Parses command to the <see cref="Command"/> object.
+        /// </summary>
+        /// <param name="commandText">The text with command to parse.</param>
+        /// <returns>The parsed command object (null if input is empty).</returns>
         public Command Parse(string commandText)
         {
             var splittedInput = Split(commandText.Trim());
@@ -36,9 +44,14 @@ namespace CECP.App.ConsoleSubsystem
             return text.Split(_separators, StringSplitOptions.RemoveEmptyEntries);
         }
 
+        /// <summary>
+        /// Gets command type based on text name.
+        /// </summary>
+        /// <param name="commandNameText">The command text name.</param>
+        /// <returns>The command type.</returns>
         private CommandType GetCommandType(string commandNameText)
         {
-            if(!Enum.TryParse(commandNameText, true, out CommandType commandType))
+            if (!Enum.TryParse(commandNameText, true, out CommandType commandType))
             {
                 return CommandType.Unrecognised;
             }

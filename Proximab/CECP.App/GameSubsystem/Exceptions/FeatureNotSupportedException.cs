@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace CECP.App.GameSubsystem.Exceptions
 {
+    /// <summary>
+    /// The exception that is thrown when a CECP feature is not supported by the engine.
+    /// </summary>
     public class FeatureNotSupportedException : Exception
     {
         /// <summary>

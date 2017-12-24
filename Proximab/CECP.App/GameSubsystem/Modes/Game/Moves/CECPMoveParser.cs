@@ -9,8 +9,16 @@ using Proxima.Core.MoveGenerators.Moves;
 
 namespace CECP.App.GameSubsystem.Modes.Game.Moves
 {
+    /// <summary>
+    /// Represents a set of methods to parse CECP moves.
+    /// </summary>
     public class CECPMoveParser
     {
+        /// <summary>
+        /// Parses move in text format to CECP move object.
+        /// </summary>
+        /// <param name="moveText">The move in text format to parse.</param>
+        /// <returns>The CECP move object.</returns>
         public CECPMove Parse(string moveText)
         {
             if (moveText.Length == 4)
@@ -25,6 +33,11 @@ namespace CECP.App.GameSubsystem.Modes.Game.Moves
             return null;
         }
 
+        /// <summary>
+        /// Parses normal (not promoting) move to CECP move object.
+        /// </summary>
+        /// <param name="moveText">The move in text format to parse.</param>
+        /// <returns>The CECP move object.</returns>
         private CECPMove ParseNormalMove(string moveText)
         {
             var fromText = moveText.Substring(0, 2);
@@ -36,6 +49,11 @@ namespace CECP.App.GameSubsystem.Modes.Game.Moves
             return new CECPMove(fromPosition, toPosition);
         }
 
+        /// <summary>
+        /// Parses promoting move to CECP move object.
+        /// </summary>
+        /// <param name="moveText">The move in text format to parse.</param>
+        /// <returns>The CECP move object.</returns>
         private CECPMove ParsePromotionMove(string moveText)
         {
             var fromText = moveText.Substring(0, 2);

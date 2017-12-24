@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FICS.App.ConfigSubsystem;
-using FICS.App.GameSubsystem.Modes.Game.Exceptions;
 using FICS.App.GameSubsystem.Modes.Game.Style12;
 using Helpers.Loggers.CSV;
 using Proxima.Core.AI;
 using Proxima.Core.Boards;
+using Proxima.Core.Boards.Exceptions;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
@@ -90,18 +90,10 @@ namespace FICS.App.GameSubsystem.Modes.Game
 
             if (style12Container != null && style12Container.Relation == Style12RelationType.EngineMove)
             {
-                _bitboard.Calculate(GeneratorMode.CalculateMoves, GeneratorMode.CalculateMoves);
+                _movesCount++;
 
                 CalculateEnemyMove(style12Container);
-                var aiResponse = CalculateAIMove(style12Container);
-
-                if (!_bitboard.VerifyIntegrity())
-                {
-                    throw new BitboardDisintegratedException();
-                }
-
-                _movesCount++;
-                return aiResponse;
+                return CalculateAIMove(style12Container);
             }
 
             return string.Empty;
@@ -115,23 +107,17 @@ namespace FICS.App.GameSubsystem.Modes.Game
         {
             if (style12Container.PreviousMove != null)
             {
-                Move moveToApply;
+                _bitboard.Calculate(GeneratorMode.CalculateMoves, GeneratorMode.CalculateMoves);
+
+                var possibleMovesToApply = _bitboard.Moves.Where(p => p.From == style12Container.PreviousMove.From &&
+                        p.To == style12Container.PreviousMove.To);
 
                 if (style12Container.PreviousMove.PromotionPieceType.HasValue)
                 {
-                    moveToApply = _bitboard.Moves.First(
-                        p => p.From == style12Container.PreviousMove.From &&
-                        p.To == style12Container.PreviousMove.To &&
-                        (p as PromotionMove).PromotionPiece == style12Container.PreviousMove.PromotionPieceType);
-                }
-                else
-                {
-                    moveToApply = _bitboard.Moves.First(
-                        p => p.From == style12Container.PreviousMove.From &&
-                        p.To == style12Container.PreviousMove.To);
+                    possibleMovesToApply = _bitboard.Moves.Cast<PromotionMove>().Where(p => p.PromotionPiece == style12Container.PreviousMove.PromotionPieceType);
                 }
 
-                _bitboard = _bitboard.Move(moveToApply);
+                _bitboard = _bitboard.Move(possibleMovesToApply.First());
             }
         }
 

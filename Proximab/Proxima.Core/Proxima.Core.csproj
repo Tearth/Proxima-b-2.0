@@ -51,6 +51,7 @@
     <Compile Include="Boards\Bitboard.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Boards\Exceptions\BitboardDisintegratedException.cs" />
     <Compile Include="Commons\GameResult.cs" />
     <Compile Include="Persistence\BoardReader.cs" />
     <Compile Include="Persistence\BoardWriter.cs" />

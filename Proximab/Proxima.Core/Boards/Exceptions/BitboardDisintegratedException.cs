@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FICS.App.GameSubsystem.Modes.Game.Exceptions
+namespace Proxima.Core.Boards.Exceptions
 {
     /// <summary>
     /// The exception that is thrown when a bitboard is disintegrated.

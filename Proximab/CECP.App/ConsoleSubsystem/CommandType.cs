@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CECP.App.ConsoleSubsystem
 {
+    /// <summary>
+    /// Represents available CECP command types.
+    /// </summary>
     public enum CommandType
     {
         Unrecognised,

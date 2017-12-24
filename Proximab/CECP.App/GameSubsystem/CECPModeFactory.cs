@@ -11,6 +11,9 @@ using CECP.App.GameSubsystem.Modes.Init;
 
 namespace CECP.App.GameSubsystem
 {
+    /// <summary>
+    /// Represents a factory of CECP modes.
+    /// </summary>
     public class CECPModeFactory
     {
         /// <summary>

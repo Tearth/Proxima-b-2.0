@@ -8,10 +8,16 @@ using CECP.App.GameSubsystem.Exceptions;
 
 namespace CECP.App.GameSubsystem.Modes.Init
 {
+    /// <summary>
+    /// Represents the CECP init mode. Engine inits protocol and sends list of supported features.
+    /// </summary>
     public class InitMode : CECPModeBase
     {
         private Dictionary<string, bool> _features;
-
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InitMode"/> class.
+        /// </summary>
         public InitMode() : base()
         {
             _features = new Dictionary<string, bool>()
@@ -27,11 +33,21 @@ namespace CECP.App.GameSubsystem.Modes.Init
             CommandsManager.AddCommandHandler(CommandType.New, ExecuteNewCommand);
         }
 
+        /// <summary>
+        /// Processes message (done in derivied class) and prepares a response.
+        /// </summary>
+        /// <param name="command">The command to process.</param>
+        /// <returns>The reponse (<see cref="string.Empty"/> if none).</returns>
         public override string ProcessCommand(Command command)
         {
             return CommandsManager.Execute(command);
         }
 
+        /// <summary>
+        /// Executes ProtoVer command (sends a list of features).
+        /// </summary>
+        /// <param name="command">The ProtoVer command to execute.</param>
+        /// <returns>The response to the command.</returns>
         private string ExecuteProtoVerCommand(Command command)
         {
             var featuresBuilder = new StringBuilder();
@@ -48,11 +64,22 @@ namespace CECP.App.GameSubsystem.Modes.Init
             return featuresBuilder.ToString();
         }
 
+        /// <summary>
+        /// Executes Rejected command (throws exception).
+        /// </summary>
+        /// <param name="command">The Rejected command to execute.</param>
+        /// <exception cref="FeatureNotSupportedException">Thrown when feature is not supported by the CECP interface.</exception>
+        /// <returns>The response to the command.</returns>
         private string ExecuteRejectedCommand(Command command)
         {
             throw new FeatureNotSupportedException();
         }
 
+        /// <summary>
+        /// Executes New command (changes mode to the Game).
+        /// </summary>
+        /// <param name="command">The New command to execute.</param>
+        /// <returns>The response to the command.</returns>
         private string ExecuteNewCommand(Command command)
         {
             ChangeMode(CECPModeType.Game);

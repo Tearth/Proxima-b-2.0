@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace CECP.App.ConsoleSubsystem.Exceptions
 {
+    /// <summary>
+    /// The exception that is thrown when a command handler is already registered.
+    /// </summary>
     public class CommandTypeAlreadyRegisteredException : Exception
     {
         /// <summary>

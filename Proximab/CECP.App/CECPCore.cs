@@ -9,12 +9,19 @@ using Helpers.Loggers.Text;
 
 namespace CECP.App
 {
+    /// <summary>
+    /// Represents a set of methods to manage a game using Chess Engine Communication Protocol.
+    /// </summary>
     public class CECPCore
     {
         private TextLogger _textLogger;
         private ConsoleManager _consoleManager;
         private CECPModeBase _cecpMode;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CECPCore"/> class.
+        /// </summary>
+        /// <param name="textLogger">The text logger.</param>
         public CECPCore(TextLogger textLogger)
         {
             _textLogger = textLogger;
@@ -24,14 +31,17 @@ namespace CECP.App
             ChangeMode(CECPModeType.Init);
         }
 
+        /// <summary>
+        /// Runs main loop (waits for commands from CECP interface, executes commands and sends responses).
+        /// </summary>
         public void Run()
         {
-            while(true)
+            while (true)
             {
                 var command = _consoleManager.WaitForCommand();
                 var response = _cecpMode.ProcessCommand(command);
 
-                if(response != string.Empty)
+                if (response != string.Empty)
                 {
                     _consoleManager.WriteLine(response);
                 }

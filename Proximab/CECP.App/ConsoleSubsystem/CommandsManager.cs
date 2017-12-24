@@ -11,6 +11,7 @@ namespace CECP.App.ConsoleSubsystem
     /// The delegate used in <see cref="CommandsManager"/> class to manage command handlers.
     /// </summary>
     /// <param name="command">The command instance.</param>
+    /// <returns>The response.</returns>
     public delegate string ExecuteCommandDelegate(Command command);
 
     /// <summary>
@@ -32,7 +33,6 @@ namespace CECP.App.ConsoleSubsystem
         /// Adds the specified command handler associated with the command type.
         /// </summary>
         /// <param name="commandType">The command type.</param>
-        /// <param name="commandGroup">The command group.</param>
         /// <param name="handler">The command handler.</param>
         public void AddCommandHandler(CommandType commandType, ExecuteCommandDelegate handler)
         {
@@ -56,11 +56,11 @@ namespace CECP.App.ConsoleSubsystem
         /// <summary>
         /// Processes and executes a command specified in the input.
         /// </summary>
-        /// <param name="userInput">The command to execute.</param>
-        /// <returns>The status of command execution.</returns>
+        /// <param name="command">The command to execute.</param>
+        /// <returns>The reponse (<see cref="string.Empty"/> if none).</returns>
         public string Execute(Command command)
         {
-            if(!_commandHandles.ContainsKey(command.Type))
+            if (!_commandHandles.ContainsKey(command.Type))
             {
                 return string.Empty;
             }

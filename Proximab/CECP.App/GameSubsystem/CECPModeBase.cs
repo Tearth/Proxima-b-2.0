@@ -7,6 +7,9 @@ using CECP.App.ConsoleSubsystem;
 
 namespace CECP.App.GameSubsystem
 {
+    /// <summary>
+    /// Represents a base class for all CECP modes.
+    /// </summary>
     public abstract class CECPModeBase
     {
         /// <summary>
@@ -14,8 +17,14 @@ namespace CECP.App.GameSubsystem
         /// </summary>
         public event EventHandler<ChangeModeEventArgs> OnChangeMode;
 
+        /// <summary>
+        /// Gets the commands manager.
+        /// </summary>
         protected CommandsManager CommandsManager { get; private set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CECPModeBase"/> class.
+        /// </summary>
         public CECPModeBase()
         {
             CommandsManager = new CommandsManager();
@@ -33,14 +42,20 @@ namespace CECP.App.GameSubsystem
         }
 
         /// <summary>
-        /// Processes message (done in derivied class) and prepares a response to the FICS server.
+        /// Processes message (done in derivied class) and prepares a response.
         /// </summary>
-        /// <param name="message">The message to process.</param>
+        /// <param name="command">The command to process.</param>
+        /// <returns>The reponse (<see cref="string.Empty"/> if none).</returns>
         public virtual string ProcessCommand(Command command)
         {
             return CommandsManager.Execute(command);
         }
 
+        /// <summary>
+        /// Executes Ping command (responds with Pong X where X is a number received with Ping).
+        /// </summary>
+        /// <param name="command">The command to process.</param>
+        /// <returns>The reponse (<see cref="string.Empty"/> if none).</returns>
         private string ExecutePing(Command command)
         {
             var pingNumber = command.GetArgument<int>(0);
