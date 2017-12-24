@@ -123,6 +123,14 @@
         <Arguments>
         </Arguments>
       </Item>
+
+      <Item>
+        <Name>Mate</Name>
+        <EnumType>Mate</EnumType>
+        <Description>Display status of kings (mated or not)</Description>
+        <Arguments>
+        </Arguments>
+      </Item>
       
       <Item>
         <Name>Castling</Name>

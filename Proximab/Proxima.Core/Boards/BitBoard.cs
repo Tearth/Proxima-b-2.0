@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Proxima.Core.AI;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Boards.Hashing;
 using Proxima.Core.Commons;
@@ -160,6 +161,19 @@ namespace Proxima.Core.Boards
             var king = Pieces[FastArray.GetPieceIndex(color, PieceType.King)];
 
             return (AttacksSummary[(int)enemyColor] & king) != 0;
+        }
+
+        /// <summary>
+        /// Checks if king with the specified color is mated.
+        /// </summary>
+        /// <param name="color">The king color.</param>
+        /// <returns>True if king with specified color is mated, otherwise false.</returns>
+        public bool IsMate(Color color)
+        {
+            var ai = new AICore();
+            var aiResult = ai.Calculate(color, this, 0);
+
+            return IsCheck(color) && Math.Abs(aiResult.Score) >= AIConstants.MateValue;
         }
 
         /// <summary>

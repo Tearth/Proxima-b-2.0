@@ -124,6 +124,7 @@ namespace GUI.App.GameSubsystem
             CommandsManager.AddCommandHandler(CommandType.SaveBoard, CommandGroup.GameMode, SaveBoard);
             CommandsManager.AddCommandHandler(CommandType.LoadBoard, CommandGroup.GameMode, LoadBoard);
             CommandsManager.AddCommandHandler(CommandType.Check, CommandGroup.GameMode, DisplayCheckStatus);
+            CommandsManager.AddCommandHandler(CommandType.Mate, CommandGroup.GameMode, DisplayMateStatus);
             CommandsManager.AddCommandHandler(CommandType.Castling, CommandGroup.GameMode, DisplayCastlingFlags);
             CommandsManager.AddCommandHandler(CommandType.Evaluation, CommandGroup.GameMode, DisplayEvaluation);
             CommandsManager.AddCommandHandler(CommandType.Hash, CommandGroup.GameMode, DisplayBoardHash);
@@ -280,6 +281,19 @@ namespace GUI.App.GameSubsystem
 
             ConsoleManager.WriteLine($"$cWhite king checked: ${ColorfulConsoleHelpers.ParseBool(whiteCheck)}");
             ConsoleManager.WriteLine($"$cBlack king checked: ${ColorfulConsoleHelpers.ParseBool(blackCheck)}");
+        }
+
+        /// <summary>
+        /// Displays mate status on the console.
+        /// </summary>
+        /// <param name="command">The IsMate command.</param>
+        private void DisplayMateStatus(Command command)
+        {
+            var whiteMate = Bitboard.IsMate(Color.White);
+            var blackMate = Bitboard.IsMate(Color.Black);
+
+            ConsoleManager.WriteLine($"$cWhite king mated: ${ColorfulConsoleHelpers.ParseBool(whiteMate)}");
+            ConsoleManager.WriteLine($"$cBlack king mated: ${ColorfulConsoleHelpers.ParseBool(blackMate)}");
         }
 
         /// <summary>

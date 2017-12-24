@@ -131,7 +131,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
             var ai = new AICore();
             var preferredTime = _preferredTimeCalculator.Calculate(_movesCount, style12Container.RemainingTime[(int)_engineColor]);
 
-            var aiResult = ai.Calculate(style12Container.ColorToMove, new Bitboard(_bitboard), preferredTime);
+            var aiResult = ai.Calculate(style12Container.ColorToMove, _bitboard, preferredTime);
 
             _bitboard = _bitboard.Move(aiResult.BestMove);
 

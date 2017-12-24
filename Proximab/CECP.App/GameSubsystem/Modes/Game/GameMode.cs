@@ -202,7 +202,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
             var ai = new AICore();
             var preferredTime = _preferredTimeCalculator.Calculate(_movesCount, _engineTime);
 
-            var aiResult = ai.Calculate(_engineColor, new Bitboard(_bitboard), preferredTime);
+            var aiResult = ai.Calculate(_engineColor, _bitboard, preferredTime);
 
             _bitboard = _bitboard.Move(aiResult.BestMove);
 

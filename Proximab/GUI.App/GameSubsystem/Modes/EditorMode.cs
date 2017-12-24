@@ -208,7 +208,7 @@ namespace GUI.App.GameSubsystem.Modes
             }
 
             var ai = new AICore();
-            var aiResult = ai.Calculate(color, new Bitboard(Bitboard), preferredTimeArgument);
+            var aiResult = ai.Calculate(color, Bitboard, preferredTimeArgument);
 
             ConsoleManager.WriteLine();
 
