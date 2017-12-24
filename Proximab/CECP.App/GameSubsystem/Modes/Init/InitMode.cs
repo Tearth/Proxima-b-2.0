@@ -37,7 +37,7 @@ namespace CECP.App.GameSubsystem.Modes.Init
         /// Processes message (done in derivied class) and prepares a response.
         /// </summary>
         /// <param name="command">The command to process.</param>
-        /// <returns>The reponse (<see cref="string.Empty"/> if none).</returns>
+        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         public override string ProcessCommand(Command command)
         {
             return CommandsManager.Execute(command);
@@ -47,7 +47,7 @@ namespace CECP.App.GameSubsystem.Modes.Init
         /// Executes ProtoVer command (sends a list of features).
         /// </summary>
         /// <param name="command">The ProtoVer command to execute.</param>
-        /// <returns>The response to the command.</returns>
+        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private string ExecuteProtoVerCommand(Command command)
         {
             var featuresBuilder = new StringBuilder();
@@ -69,7 +69,7 @@ namespace CECP.App.GameSubsystem.Modes.Init
         /// </summary>
         /// <param name="command">The Rejected command to execute.</param>
         /// <exception cref="FeatureNotSupportedException">Thrown when feature is not supported by the CECP interface.</exception>
-        /// <returns>The response to the command.</returns>
+        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private string ExecuteRejectedCommand(Command command)
         {
             throw new FeatureNotSupportedException();
@@ -79,7 +79,7 @@ namespace CECP.App.GameSubsystem.Modes.Init
         /// Executes New command (changes mode to the Game).
         /// </summary>
         /// <param name="command">The New command to execute.</param>
-        /// <returns>The response to the command.</returns>
+        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private string ExecuteNewCommand(Command command)
         {
             ChangeMode(CECPModeType.Game);

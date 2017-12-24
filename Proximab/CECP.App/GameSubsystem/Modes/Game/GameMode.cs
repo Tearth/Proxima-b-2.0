@@ -66,7 +66,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Processes message (done in derivied class) and prepares a response.
         /// </summary>
         /// <param name="command">The command to process.</param>
-        /// <returns>The reponse (<see cref="string.Empty"/> if none).</returns>
+        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         public override string ProcessCommand(Command command)
         {
             return CommandsManager.Execute(command);
@@ -76,7 +76,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Executes Post command (enables thinking output).
         /// </summary>
         /// <param name="command">The Post command to execute.</param>
-        /// <returns>The response to the command.</returns>
+        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private string ExecutePostCommand(Command command)
         {
             _thinkingOutputEnabled = true;
@@ -87,7 +87,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Executes NoPost command (disables thinking output).
         /// </summary>
         /// <param name="command">The NoPost command to execute.</param>
-        /// <returns>The response to the command.</returns>
+        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private string ExecuteNoPostCommand(Command command)
         {
             _thinkingOutputEnabled = false;
@@ -98,7 +98,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Executes Time command (sets engine time to the specified variable).
         /// </summary>
         /// <param name="command">The Time command to execute.</param>
-        /// <returns>The response to the command.</returns>
+        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private string ExecuteTimeCommand(Command command)
         {
             var time = command.GetArgument<int>(0) / 100;
@@ -111,7 +111,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Executes OTim command (sets opponent time to the specified variable).
         /// </summary>
         /// <param name="command">The OTim command to execute.</param>
-        /// <returns>The response to the command.</returns>
+        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private string ExecuteOTimCommand(Command command)
         {
             var time = command.GetArgument<int>(0) / 100;
@@ -124,7 +124,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Executes White command (sets engine color to white).
         /// </summary>
         /// <param name="command">The White command to execute.</param>
-        /// <returns>The response to the command.</returns>
+        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private string ExecuteWhiteCommand(Command command)
         {
             _engineColor = Color.White;
@@ -135,7 +135,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Executes Black command (sets engine color to black).
         /// </summary>
         /// <param name="command">The Black command to execute.</param>
-        /// <returns>The response to the command.</returns>
+        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private string ExecuteBlackCommand(Command command)
         {
             _engineColor = Color.Black;
@@ -146,7 +146,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Executes Go command (runs AI and does best move).
         /// </summary>
         /// <param name="command">The Go command to execute.</param>
-        /// <returns>The response to the command.</returns>
+        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private string ExecuteGoCommand(Command command)
         {
             var aiResponse = CalculateAIMove();
@@ -157,7 +157,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Executes UserMove command (applies enemy move and runs AI).
         /// </summary>
         /// <param name="command">The UserMove command to execute.</param>
-        /// <returns>The response to the command.</returns>
+        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private string ExecuteUserMoveCommand(Command command)
         {
             var cecpMoveParser = new CECPMoveParser();

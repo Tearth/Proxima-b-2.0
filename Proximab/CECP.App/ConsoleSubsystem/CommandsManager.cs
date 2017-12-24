@@ -57,7 +57,7 @@ namespace CECP.App.ConsoleSubsystem
         /// Processes and executes a command specified in the input.
         /// </summary>
         /// <param name="command">The command to execute.</param>
-        /// <returns>The reponse (<see cref="string.Empty"/> if none).</returns>
+        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         public string Execute(Command command)
         {
             if (!_commandHandles.ContainsKey(command.Type))

@@ -30,6 +30,7 @@ namespace CECP.App.GameSubsystem
             CommandsManager = new CommandsManager();
 
             CommandsManager.AddCommandHandler(CommandType.Ping, ExecutePing);
+            CommandsManager.AddCommandHandler(CommandType.Quit, ExecuteQuit);
         }
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace CECP.App.GameSubsystem
         /// Processes message (done in derivied class) and prepares a response.
         /// </summary>
         /// <param name="command">The command to process.</param>
-        /// <returns>The reponse (<see cref="string.Empty"/> if none).</returns>
+        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         public virtual string ProcessCommand(Command command)
         {
             return CommandsManager.Execute(command);
@@ -54,13 +55,25 @@ namespace CECP.App.GameSubsystem
         /// <summary>
         /// Executes Ping command (responds with Pong X where X is a number received with Ping).
         /// </summary>
-        /// <param name="command">The command to process.</param>
-        /// <returns>The reponse (<see cref="string.Empty"/> if none).</returns>
+        /// <param name="command">The New Ping to execute.</param>
+        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private string ExecutePing(Command command)
         {
             var pingNumber = command.GetArgument<int>(0);
 
             return $"pong {pingNumber}";
+        }
+
+        /// <summary>
+        /// Executes Quit command.
+        /// </summary>
+        /// <param name="command">The New Quit to execute.</param>
+        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
+        private string ExecuteQuit(Command command)
+        {
+            Environment.Exit(0);
+
+            return string.Empty;
         }
     }
 }

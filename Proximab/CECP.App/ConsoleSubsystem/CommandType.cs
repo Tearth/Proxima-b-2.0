@@ -25,6 +25,7 @@ namespace CECP.App.ConsoleSubsystem
         White,
         Black,
         Go,
-        UserMove
+        UserMove,
+        Quit
     }
 }
