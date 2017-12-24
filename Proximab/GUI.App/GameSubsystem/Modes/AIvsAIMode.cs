@@ -46,7 +46,7 @@ namespace GUI.App.GameSubsystem.Modes
             CommandsManager.AddCommandHandler(CommandType.RunAIGame, CommandGroup.GameMode, RunAIGame);
             base.SetCommandHandlers();
         }
-        
+
         /// <summary>
         /// Runs AI game.
         /// </summary>
@@ -59,27 +59,30 @@ namespace GUI.App.GameSubsystem.Modes
             {
                 while (true)
                 {
-                    var aiResult = _ai.Calculate(_currentColor, new Bitboard(VisualBoard.FriendlyBoard), preferredTimeArgument);
+                    var aiResult = _ai.Calculate(_currentColor, Bitboard, preferredTimeArgument);
+                    var enemyColor = ColorOperations.Invert(_currentColor);
 
                     ConsoleManager.WriteLine();
                     ConsoleManager.WriteLine($"$w{_currentColor}:");
+                    ConsoleManager.WriteLine($"$wBest move: $g{aiResult.BestMove.ToString()} $w(Score: $m{aiResult.Score}$w)");
+                    ConsoleManager.WriteLine($"$wTotal nodes: $g{aiResult.Stats.TotalNodes} N $w(Depth: $m{aiResult.Depth}$w)");
+                    ConsoleManager.WriteLine($"$wTime: $m{aiResult.Time} s");
+                    ConsoleManager.WriteLine();
 
-                    if (aiResult.BestMove == null)
+                    CalculateBitboard(aiResult.BestMove);
+
+                    if (Bitboard.IsStalemate(enemyColor))
+                    {
+                        ConsoleManager.WriteLine("$gStalemate");
+                        break;
+                    }
+                    else if (Bitboard.IsMate(enemyColor))
                     {
                         ConsoleManager.WriteLine("$gMate");
                         break;
                     }
-                    else
-                    {
-                        ConsoleManager.WriteLine($"$wBest move: $g{aiResult.BestMove.ToString()} $w(Score: $m{aiResult.Score}$w)");
-                        ConsoleManager.WriteLine($"$wTotal nodes: $g{aiResult.Stats.TotalNodes} N $w(Depth: $m{aiResult.Depth}$w)");
-                        ConsoleManager.WriteLine($"$wTime: $m{aiResult.Time} s");
-                    }
 
-                    ConsoleManager.WriteLine();
-
-                    CalculateBitboard(aiResult.BestMove);
-                    _currentColor = ColorOperations.Invert(_currentColor);
+                    _currentColor = enemyColor;
                 }
             });
         }

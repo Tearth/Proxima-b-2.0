@@ -173,7 +173,7 @@ namespace Proxima.Core.Boards
             var ai = new AICore();
             var aiResult = ai.Calculate(color, this, 0);
 
-            return IsCheck(color) && Math.Abs(aiResult.Score) == AIConstants.MateValue + 1;
+            return IsCheck(color) && Math.Abs(aiResult.Score) == AIConstants.MateValue;
         }
 
         /// <summary>
