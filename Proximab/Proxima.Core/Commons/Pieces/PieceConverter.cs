@@ -49,12 +49,14 @@ namespace Proxima.Core.Commons.Pieces
         /// <returns>The piece type.</returns>
         public static PieceType GetPiece(char pieceSymbol)
         {
-            if (!_pieces.Reverse.ContainsKey(pieceSymbol))
+            var upperPieceSymbol = char.ToUpper(pieceSymbol);
+
+            if (!_pieces.Reverse.ContainsKey(upperPieceSymbol))
             {
                 throw new PieceSymbolNotFoundException();
             }
 
-            return _pieces.Reverse[pieceSymbol];
+            return _pieces.Reverse[upperPieceSymbol];
         }
     }
 }
