@@ -36,7 +36,7 @@ namespace Helpers.Loggers
         {
             var appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var logFileName = DateTime.Now.ToString(DateFormat) + extension;
-            var fullLogFilePath = appDirectory + "\\" + _directory + "\\" + logFileName;
+            var fullLogFilePath = appDirectory + "/" + _directory + "/" + logFileName;
 
             return new StreamWriter(fullLogFilePath, true);
         }
