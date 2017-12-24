@@ -18,6 +18,7 @@
         MovesTest,
         Check,
         Mate,
+        Stalemate,
         Castling,
         Evaluation,
         Hash,

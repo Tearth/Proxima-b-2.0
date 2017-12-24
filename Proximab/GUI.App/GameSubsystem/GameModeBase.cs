@@ -125,6 +125,7 @@ namespace GUI.App.GameSubsystem
             CommandsManager.AddCommandHandler(CommandType.LoadBoard, CommandGroup.GameMode, LoadBoard);
             CommandsManager.AddCommandHandler(CommandType.Check, CommandGroup.GameMode, DisplayCheckStatus);
             CommandsManager.AddCommandHandler(CommandType.Mate, CommandGroup.GameMode, DisplayMateStatus);
+            CommandsManager.AddCommandHandler(CommandType.Stalemate, CommandGroup.GameMode, DisplayStalemateStatus);
             CommandsManager.AddCommandHandler(CommandType.Castling, CommandGroup.GameMode, DisplayCastlingFlags);
             CommandsManager.AddCommandHandler(CommandType.Evaluation, CommandGroup.GameMode, DisplayEvaluation);
             CommandsManager.AddCommandHandler(CommandType.Hash, CommandGroup.GameMode, DisplayBoardHash);
@@ -273,7 +274,7 @@ namespace GUI.App.GameSubsystem
         /// <summary>
         /// Displays check status on the console.
         /// </summary>
-        /// <param name="command">The IsCheck command.</param>
+        /// <param name="command">The Check command.</param>
         private void DisplayCheckStatus(Command command)
         {
             var whiteCheck = Bitboard.IsCheck(Color.White);
@@ -286,7 +287,7 @@ namespace GUI.App.GameSubsystem
         /// <summary>
         /// Displays mate status on the console.
         /// </summary>
-        /// <param name="command">The IsMate command.</param>
+        /// <param name="command">The Mate command.</param>
         private void DisplayMateStatus(Command command)
         {
             var whiteMate = Bitboard.IsMate(Color.White);
@@ -294,6 +295,19 @@ namespace GUI.App.GameSubsystem
 
             ConsoleManager.WriteLine($"$cWhite king mated: ${ColorfulConsoleHelpers.ParseBool(whiteMate)}");
             ConsoleManager.WriteLine($"$cBlack king mated: ${ColorfulConsoleHelpers.ParseBool(blackMate)}");
+        }
+
+        /// <summary>
+        /// Displays stalemate status on the console.
+        /// </summary>
+        /// <param name="command">The Stalemate command.</param>
+        private void DisplayStalemateStatus(Command command)
+        {
+            var whiteStalemate = Bitboard.IsStalemate(Color.White);
+            var blackStalemate = Bitboard.IsStalemate(Color.Black);
+
+            ConsoleManager.WriteLine($"$cWhite king in stalemate: ${ColorfulConsoleHelpers.ParseBool(whiteStalemate)}");
+            ConsoleManager.WriteLine($"$cBlack king in stalemate: ${ColorfulConsoleHelpers.ParseBool(blackStalemate)}");
         }
 
         /// <summary>

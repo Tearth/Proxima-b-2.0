@@ -131,6 +131,14 @@
         <Arguments>
         </Arguments>
       </Item>
+
+      <Item>
+        <Name>Stalemate</Name>
+        <EnumType>Stalemate</EnumType>
+        <Description>Display status of kings (are in stalemate or not)</Description>
+        <Arguments>
+        </Arguments>
+      </Item>
       
       <Item>
         <Name>Castling</Name>
