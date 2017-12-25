@@ -14,6 +14,7 @@ using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators;
 using Proxima.Core.MoveGenerators.Moves;
+using Proxima.Core.Session;
 using Proxima.Core.Time;
 
 namespace CECP.App.GameSubsystem.Modes.Game
@@ -25,32 +26,26 @@ namespace CECP.App.GameSubsystem.Modes.Game
     {
         private const string AILogsDirectory = "AILogs";
 
-        private Bitboard _bitboard;
+        private GameSession _gameSession;
         private CsvLogger _csvLogger;
-        private PreferredTimeCalculator _preferredTimeCalculator;
 
         private bool _thinkingOutputEnabled;
-        private Color _engineColor;
 
-        private int _movesCount;
-        private int _engineTime;
-        private int _opponentTime;
+        private Color _engineColor;
+        private Color _enemyColor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameMode"/> class.
         /// </summary>
         public GameMode() : base()
         {
-            _bitboard = new Bitboard(new DefaultFriendlyBoard());
+            _gameSession = new GameSession();
             _csvLogger = new CsvLogger(AILogsDirectory);
-            _preferredTimeCalculator = new PreferredTimeCalculator(60);
 
             _thinkingOutputEnabled = false;
-            _engineColor = Color.Black;
 
-            _movesCount = 0;
-            _engineTime = 0;
-            _opponentTime = 0;
+            _engineColor = Color.Black;
+            _enemyColor = Color.White;
 
             CommandsManager.AddCommandHandler(CommandType.Post, ExecutePostCommand);
             CommandsManager.AddCommandHandler(CommandType.NoPost, ExecuteNoPostCommand);
@@ -100,7 +95,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         private void ExecuteTimeCommand(Command command)
         {
             var time = command.GetArgument<int>(0) / 100;
-            _engineTime = time;
+            _gameSession.UpdateRemainingTime(_engineColor, time);
         }
 
         /// <summary>
@@ -111,7 +106,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         private void ExecuteOTimCommand(Command command)
         {
             var time = command.GetArgument<int>(0) / 100;
-            _opponentTime = time;
+            _gameSession.UpdateRemainingTime(_enemyColor, time);
         }
 
         /// <summary>
@@ -122,6 +117,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         private void ExecuteWhiteCommand(Command command)
         {
             _engineColor = Color.White;
+            _enemyColor = Color.Black;
         }
 
         /// <summary>
@@ -132,6 +128,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         private void ExecuteBlackCommand(Command command)
         {
             _engineColor = Color.Black;
+            _enemyColor = Color.White;
         }
 
         /// <summary>
@@ -169,19 +166,14 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// <param name="cecpMove">The CECP move to apply.</param>
         private void CalculateEnemyMove(CECPMove cecpMove)
         {
-            _bitboard.Calculate(GeneratorMode.CalculateMoves, GeneratorMode.CalculateMoves);
-
-            var possibleMovesToApply = _bitboard.Moves.Where(p => p.From == cecpMove.From && p.To == cecpMove.To);
             if (cecpMove.PromotionPiece.HasValue)
             {
-                possibleMovesToApply = _bitboard.Moves.Cast<PromotionMove>().Where(p => p.PromotionPiece == cecpMove.PromotionPiece);
+                _gameSession.Move(_enemyColor, cecpMove.From, cecpMove.To,
+                                  cecpMove.PromotionPiece.Value);
             }
-
-            _bitboard = _bitboard.Move(possibleMovesToApply.First());
-
-            if (!_bitboard.VerifyIntegrity())
+            else
             {
-                throw new BitboardDisintegratedException();
+                _gameSession.Move(_enemyColor, cecpMove.From, cecpMove.To);
             }
         }
 
@@ -191,22 +183,12 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// <returns>The response (best move).</returns>
         private string CalculateAIMove()
         {
-            var ai = new AICore();
-            var preferredTime = _preferredTimeCalculator.Calculate(_movesCount, _engineTime);
-
-            var aiResult = ai.Calculate(_engineColor, _bitboard, preferredTime);
-
-            _bitboard = _bitboard.Move(aiResult.BestMove);
-
-            if (!_bitboard.VerifyIntegrity())
-            {
-                throw new BitboardDisintegratedException();
-            }
+            var aiResult = _gameSession.MoveAI(_engineColor);
 
             var fromConverted = PositionConverter.ToString(aiResult.BestMove.From);
             var toConverted = PositionConverter.ToString(aiResult.BestMove.To);
 
-            _csvLogger.WriteLine(aiResult, _bitboard);
+            _csvLogger.WriteLine(aiResult, _gameSession.Bitboard);
             return $"{fromConverted}{toConverted}";
         }
     }

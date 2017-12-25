@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Proxima.Core.AI;
 using Proxima.Core.Boards;
+using Proxima.Core.Boards.Exceptions;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Pieces;
@@ -45,6 +46,7 @@ namespace Proxima.Core.Session
             var moveToApply = Bitboard.Moves.First(p => p.From == from && p.To == to);
 
             Bitboard = Bitboard.Move(moveToApply);
+            CheckBitboardIntegrity();
         }
 
         public void Move(Color color, Position from, Position to, PieceType promotionPieceType)
@@ -58,6 +60,7 @@ namespace Proxima.Core.Session
                        p.PromotionPiece == promotionPieceType);
 
             Bitboard = Bitboard.Move(possibleMovesToApply);
+            CheckBitboardIntegrity();
         }
 
         public AIResult MoveAI(Color color)
@@ -68,6 +71,7 @@ namespace Proxima.Core.Session
             var aiResult = _aiCore.Calculate(color, Bitboard, preferredTime);
 
             Bitboard = Bitboard.Move(aiResult.BestMove);
+            CheckBitboardIntegrity();
 
             return aiResult;
         }
@@ -82,6 +86,14 @@ namespace Proxima.Core.Session
             if(color == Color.White)
             {
                 MovesCount++;
+            }
+        }
+
+        private void CheckBitboardIntegrity()
+        {
+            if (!Bitboard.VerifyIntegrity())
+            {
+                throw new BitboardDisintegratedException();
             }
         }
     }
