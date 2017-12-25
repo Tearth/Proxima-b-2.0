@@ -53,7 +53,7 @@ namespace FICS.App
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void FicsClient_OnDataReceive(object sender, DataEventArgs e)
+        private void FicsClient_OnDataReceive(object sender, DataReceivedEventArgs e)
         {
             _consoleManager.WriteLine($"$R{ReceivePrefix}: $c{e.Text}");
             _textLogger.WriteLine($"{ReceivePrefix}: {e.Text}");
@@ -70,7 +70,7 @@ namespace FICS.App
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void FicsClient_OnDataSend(object sender, DataEventArgs e)
+        private void FicsClient_OnDataSend(object sender, DataSentEventArgs e)
         {
             _consoleManager.WriteLine($"$R{SendPrefix}: $r{e.Text}");
             _textLogger.WriteLine($"{SendPrefix}: {e.Text}");

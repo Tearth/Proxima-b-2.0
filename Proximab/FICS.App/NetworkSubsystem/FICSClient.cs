@@ -21,12 +21,12 @@ namespace FICS.App.NetworkSubsystem
         /// <summary>
         /// The event triggered when data from FICS has been received.
         /// </summary>
-        public event EventHandler<DataEventArgs> OnDataReceive;
+        public event EventHandler<DataReceivedEventArgs> OnDataReceive;
 
         /// <summary>
         /// The event triggered when data has been sent to FICS.
         /// </summary>
-        public event EventHandler<DataEventArgs> OnDataSend;
+        public event EventHandler<DataSentEventArgs> OnDataSend;
 
         private ConfigManager _configManager;
         private Socket _socket;
@@ -71,7 +71,7 @@ namespace FICS.App.NetworkSubsystem
             var byteDataToSend = Encoding.ASCII.GetBytes(text + FICSConstants.EndOfLine);
             _socket.BeginSend(byteDataToSend, 0, byteDataToSend.Length, 0, new AsyncCallback(SendCallback), _socket);
 
-            OnDataSend?.Invoke(this, new DataEventArgs(text));
+            OnDataSend?.Invoke(this, new DataSentEventArgs(text));
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace FICS.App.NetworkSubsystem
             var lines = ParseClientBuffer(clientBuffer);
             foreach (var line in lines)
             {
-                OnDataReceive?.Invoke(this, new DataEventArgs(line));
+                OnDataReceive?.Invoke(this, new DataReceivedEventArgs(line));
             }
 
             clientState.Socket.BeginReceive(clientState.Buffer, 0, ClientState.BufferSize, 0, new AsyncCallback(ReceiveCallback), clientState);

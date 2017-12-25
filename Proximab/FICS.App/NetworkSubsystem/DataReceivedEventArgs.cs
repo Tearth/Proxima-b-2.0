@@ -5,7 +5,7 @@ namespace FICS.App.NetworkSubsystem
     /// <summary>
     /// Represents information about DataReceived event
     /// </summary>
-    public class DataEventArgs : EventArgs
+    public class DataReceivedEventArgs : EventArgs
     {
         /// <summary>
         /// Gets the received text.
@@ -13,10 +13,10 @@ namespace FICS.App.NetworkSubsystem
         public string Text { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DataEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="DataReceivedEventArgs"/> class.
         /// </summary>
         /// <param name="text">The message content.</param>
-        public DataEventArgs(string text)
+        public DataReceivedEventArgs(string text)
         {
             Text = text;
         }
