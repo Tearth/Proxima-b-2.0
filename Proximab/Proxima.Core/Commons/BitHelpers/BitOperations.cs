@@ -89,7 +89,7 @@ namespace Proxima.Core.Boards
         }
 
         /// <summary>
-        /// Calculates a bit index (where LSB has index 0 and MSB has index 64).
+        /// Calculates a bit index (where LSB has index 0 and MSB has index 63).
         /// </summary>
         /// <param name="value">The value to calculate (must be only one bit set, otherwise result will be strange).</param>
         /// <returns>The bit index.</returns>

@@ -41,8 +41,7 @@ namespace Proxima.Core.MoveGenerators
 
                     var patternIndex = BitOperations.GetBitIndex(patternLSB);
 
-                    if ((opt.Mode & GeneratorMode.CalculateMoves) != 0 &&
-                        (patternLSB & opt.FriendlyOccupancy) == 0)
+                    if ((opt.Mode & GeneratorMode.CalculateMoves) != 0 && (patternLSB & opt.FriendlyOccupancy) == 0)
                     {
                         var to = BitPositionConverter.ToPosition(patternIndex);
 
