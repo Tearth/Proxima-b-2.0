@@ -41,15 +41,7 @@ namespace Proxima.Core.MoveGenerators
             var pattern = 0ul;
             var promotionLine = GetPromotionLine(opt.FriendlyColor);
 
-            if (opt.FriendlyColor == Color.White)
-            {
-                pattern = piecesToParse << 8;
-            }
-            else
-            {
-                pattern = piecesToParse >> 8;
-            }
-
+            pattern = opt.FriendlyColor == Color.White ? piecesToParse << 8 : piecesToParse >> 8;
             pattern &= ~opt.OccupancySummary;
 
             while (pattern != 0)
@@ -65,16 +57,16 @@ namespace Proxima.Core.MoveGenerators
                 var from = BitPositionConverter.ToPosition(pieceIndex);
                 var to = BitPositionConverter.ToPosition(patternIndex);
 
-                if ((patternLSB & promotionLine) != 0)
+                if ((patternLSB & promotionLine) == 0 && !opt.QuiescenceSearch)
+                {
+                    opt.Bitboard.Moves.AddLast(new QuietMove(from, to, PieceType.Pawn, opt.FriendlyColor));
+                }
+                else if ((patternLSB & promotionLine) != 0)
                 {
                     opt.Bitboard.Moves.AddLast(new PromotionMove(from, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Queen, false));
                     opt.Bitboard.Moves.AddLast(new PromotionMove(from, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Rook, false));
                     opt.Bitboard.Moves.AddLast(new PromotionMove(from, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Bishop, false));
                     opt.Bitboard.Moves.AddLast(new PromotionMove(from, to, PieceType.Pawn, opt.FriendlyColor, PieceType.Knight, false));
-                }
-                else
-                {
-                    opt.Bitboard.Moves.AddLast(new QuietMove(from, to, PieceType.Pawn, opt.FriendlyColor));
                 }
             }
         }
@@ -85,7 +77,7 @@ namespace Proxima.Core.MoveGenerators
         /// <param name="opt">The generator parameters.</param>
         private static void CalculateMovesForDoublePush(GeneratorParameters opt)
         {
-            if ((opt.Mode & GeneratorMode.CalculateMoves) == 0)
+            if ((opt.Mode & GeneratorMode.CalculateMoves) == 0 || opt.QuiescenceSearch)
             {
                 return;
             }

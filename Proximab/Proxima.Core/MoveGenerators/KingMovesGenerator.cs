@@ -46,11 +46,11 @@ namespace Proxima.Core.MoveGenerators
                     {
                         var to = BitPositionConverter.ToPosition(patternIndex);
 
-                        if ((patternLSB & opt.EnemyOccupancy) == 0)
+                        if ((patternLSB & opt.EnemyOccupancy) == 0 && !opt.QuiescenceSearch)
                         {
                             opt.Bitboard.Moves.AddLast(new QuietMove(piecePosition, to, PieceType.King, opt.FriendlyColor));
                         }
-                        else
+                        else if((patternLSB & opt.EnemyOccupancy) != 0)
                         {
                             opt.Bitboard.Moves.AddLast(new KillMove(piecePosition, to, PieceType.King, opt.FriendlyColor));
                         }

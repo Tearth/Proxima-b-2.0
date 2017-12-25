@@ -53,6 +53,11 @@ namespace Proxima.Core.MoveGenerators
             var pattern = MagicContainer.GetBishopAttacks(pieceIndex, opt.OccupancySummary);
             pattern &= ~opt.FriendlyOccupancy;
 
+            if(opt.QuiescenceSearch)
+            {
+                pattern &= opt.EnemyOccupancy;
+            }
+
             var excludeFromAttacks = pattern;
             while (pattern != 0)
             {
