@@ -6,22 +6,83 @@ using System.Threading.Tasks;
 using Proxima.Core.AI;
 using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
+using Proxima.Core.Commons.Colors;
+using Proxima.Core.Commons.Pieces;
+using Proxima.Core.Commons.Positions;
+using Proxima.Core.MoveGenerators;
+using Proxima.Core.MoveGenerators.Moves;
+using Proxima.Core.Time;
 
 namespace Proxima.Core.Session
 {
     public class GameSession
     {
+        public Bitboard Bitboard { get; private set; }
         public int MovesCount { get; private set; }
 
         private AICore _aiCore;
-        private Bitboard _bitboard;
+        private PreferredTimeCalculator _preferredTimeCalculator;
+
+        private int[] _remainingTime;
 
         public GameSession()
         {
             MovesCount = 0;
 
             _aiCore = new AICore();
-            _bitboard = new Bitboard(new DefaultFriendlyBoard());
+            Bitboard = new Bitboard(new DefaultFriendlyBoard());
+            _preferredTimeCalculator = new PreferredTimeCalculator(60);
+
+            _remainingTime = new int[2];
+        }
+
+        public void Move(Color color, Position from, Position to)
+        {
+            UpdateMovesCount(color);
+
+            Bitboard.Calculate(GeneratorMode.CalculateMoves, GeneratorMode.CalculateMoves);
+
+            var moveToApply = Bitboard.Moves.First(p => p.From == from && p.To == to);
+
+            Bitboard = Bitboard.Move(moveToApply);
+        }
+
+        public void Move(Color color, Position from, Position to, PieceType promotionPieceType)
+        {
+            UpdateMovesCount(color);
+
+            Bitboard.Calculate(GeneratorMode.CalculateMoves, GeneratorMode.CalculateMoves);
+
+            var possibleMovesToApply = Bitboard.Moves.Cast<PromotionMove>()
+                .First(p => p.From == from && p.To == to &&
+                       p.PromotionPiece == promotionPieceType);
+
+            Bitboard = Bitboard.Move(possibleMovesToApply);
+        }
+
+        public AIResult MoveAI(Color color)
+        {
+            UpdateMovesCount(color);
+
+            var preferredTime = _preferredTimeCalculator.Calculate(MovesCount, _remainingTime[(int)color]);
+            var aiResult = _aiCore.Calculate(color, Bitboard, preferredTime);
+
+            Bitboard = Bitboard.Move(aiResult.BestMove);
+
+            return aiResult;
+        }
+
+        public void UpdateRemainingTime(Color color, int remainingTime)
+        {
+            _remainingTime[(int)color] = remainingTime;
+        }
+
+        private void UpdateMovesCount(Color color)
+        {
+            if(color == Color.White)
+            {
+                MovesCount++;
+            }
         }
     }
 }

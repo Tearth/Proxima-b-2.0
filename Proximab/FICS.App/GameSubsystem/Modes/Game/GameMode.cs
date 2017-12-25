@@ -12,6 +12,7 @@ using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators;
 using Proxima.Core.MoveGenerators.Moves;
+using Proxima.Core.Session;
 using Proxima.Core.Time;
 
 namespace FICS.App.GameSubsystem.Modes.Game
@@ -22,14 +23,14 @@ namespace FICS.App.GameSubsystem.Modes.Game
     public class GameMode : FICSModeBase
     {
         private const string AILogsDirectory = "AILogs";
+        private const string CreatingPrefix = "Creating:";
         private const string Style12Prefix = "<12>";
 
-        private Bitboard _bitboard;
+        private GameSession _gameSession;
         private CsvLogger _csvLogger;
-        private PreferredTimeCalculator _preferredTimeCalculator;
 
         private Dictionary<string, GameResult> _gameResultTokens;
-        private Color? _engineColor;
+        private Color _engineColor;
 
         private int _movesCount;
 
@@ -39,9 +40,8 @@ namespace FICS.App.GameSubsystem.Modes.Game
         /// <param name="configManager">The configuration manager.</param>
         public GameMode(ConfigManager configManager) : base(configManager)
         {
-            _bitboard = new Bitboard(new DefaultFriendlyBoard());
+            _gameSession = new GameSession();
             _csvLogger = new CsvLogger(AILogsDirectory);
-            _preferredTimeCalculator = new PreferredTimeCalculator(60);
 
             _gameResultTokens = new Dictionary<string, GameResult>()
             {
@@ -61,10 +61,14 @@ namespace FICS.App.GameSubsystem.Modes.Game
         /// <returns>The response for the message (<see cref="string.Empty"/> if none).</returns>
         public override void ProcessMessage(string message)
         {
-            if (message.StartsWith(Style12Prefix))
+            if (message.StartsWith(CreatingPrefix))
+            {
+                InitGameSession(message);
+            }
+            else if (message.StartsWith(Style12Prefix))
             {
                 var response = ProcessMoveCommand(message);
-                if(response != string.Empty)
+                if (response != string.Empty)
                 {
                     SendData(response);
                 }
@@ -73,6 +77,19 @@ namespace FICS.App.GameSubsystem.Modes.Game
             {
                 SaveGameResult(message);
                 ChangeMode(FICSModeType.Seek);
+            }
+        }
+
+        private void InitGameSession(string message)
+        {
+            var username = ConfigManager.GetValue<string>("Username");
+            if(message.StartsWith($"{CreatingPrefix} {username}"))
+            {
+                _engineColor = Color.White;
+            }
+            else
+            {
+                _engineColor = Color.Black;
             }
         }
 
@@ -86,11 +103,10 @@ namespace FICS.App.GameSubsystem.Modes.Game
             var style12Parser = new Style12Parser();
             var style12Container = style12Parser.Parse(message);
 
-            InitEngineColor(style12Container);
-
             if (style12Container != null && style12Container.Relation == Style12RelationType.EngineMove)
             {
-                _movesCount++;
+                _gameSession.UpdateRemainingTime(Color.White, style12Container.RemainingTime[(int)Color.White]);
+                _gameSession.UpdateRemainingTime(Color.Black, style12Container.RemainingTime[(int)Color.Black]);
 
                 CalculateEnemyMove(style12Container);
                 return CalculateAIMove(style12Container);
@@ -107,17 +123,15 @@ namespace FICS.App.GameSubsystem.Modes.Game
         {
             if (style12Container.PreviousMove != null)
             {
-                _bitboard.Calculate(GeneratorMode.CalculateMoves, GeneratorMode.CalculateMoves);
-
-                var possibleMovesToApply = _bitboard.Moves.Where(p => p.From == style12Container.PreviousMove.From &&
-                        p.To == style12Container.PreviousMove.To);
-
                 if (style12Container.PreviousMove.PromotionPieceType.HasValue)
                 {
-                    possibleMovesToApply = _bitboard.Moves.Cast<PromotionMove>().Where(p => p.PromotionPiece == style12Container.PreviousMove.PromotionPieceType);
+                    _gameSession.Move(style12Container.ColorToMove, style12Container.PreviousMove.From, style12Container.PreviousMove.To,
+                                      style12Container.PreviousMove.PromotionPieceType.Value);
                 }
-
-                _bitboard = _bitboard.Move(possibleMovesToApply.First());
+                else
+                {
+                    _gameSession.Move(style12Container.ColorToMove, style12Container.PreviousMove.From, style12Container.PreviousMove.To);
+                }
             }
         }
 
@@ -128,43 +142,13 @@ namespace FICS.App.GameSubsystem.Modes.Game
         /// <returns>The response (best move) to FICS.</returns>
         private string CalculateAIMove(Style12Container style12Container)
         {
-            var ai = new AICore();
-            var preferredTime = _preferredTimeCalculator.Calculate(_movesCount, style12Container.RemainingTime[(int)_engineColor]);
-
-            var aiResult = ai.Calculate(style12Container.ColorToMove, _bitboard, preferredTime);
-
-            _bitboard = _bitboard.Move(aiResult.BestMove);
+            var aiResult = _gameSession.MoveAI(_engineColor);
 
             var fromConverted = PositionConverter.ToString(aiResult.BestMove.From);
             var toConverted = PositionConverter.ToString(aiResult.BestMove.To);
 
-            _csvLogger.WriteLine(aiResult, _bitboard);
+            _csvLogger.WriteLine(aiResult, _gameSession.Bitboard);
             return $"{fromConverted}-{toConverted}";
-        }
-
-        /// <summary>
-        /// Inits the engine color if it was not done earlier.
-        /// </summary>
-        /// <param name="style12Container">The data from FICS.</param>
-        private void InitEngineColor(Style12Container style12Container)
-        {
-            if (!_engineColor.HasValue)
-            {
-                switch (style12Container.Relation)
-                {
-                    case Style12RelationType.EngineMove:
-                    {
-                        _engineColor = style12Container.ColorToMove;
-                        break;
-                    }
-
-                    case Style12RelationType.EnemyMove:
-                    {
-                        _engineColor = style12Container.EnemyColor;
-                        break;
-                    }
-                }
-            }
         }
 
         /// <summary>
