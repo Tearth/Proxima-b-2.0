@@ -59,21 +59,21 @@ namespace FICS.App.GameSubsystem.Modes.Game
         /// </summary>
         /// <param name="message">The message to process.</param>
         /// <returns>The response for the message (<see cref="string.Empty"/> if none).</returns>
-        public override string ProcessMessage(string message)
+        public override void ProcessMessage(string message)
         {
-            var response = string.Empty;
-
             if (message.StartsWith(Style12Prefix))
             {
-                response = ProcessMoveCommand(message);
+                var response = ProcessMoveCommand(message);
+                if(response != string.Empty)
+                {
+                    SendData(response);
+                }
             }
             else if (_gameResultTokens.Any(p => message.Contains(p.Key)))
             {
                 SaveGameResult(message);
                 ChangeMode(FICSModeType.Seek);
             }
-
-            return response;
         }
 
         /// <summary>

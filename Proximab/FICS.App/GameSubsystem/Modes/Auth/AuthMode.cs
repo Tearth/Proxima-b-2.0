@@ -25,24 +25,22 @@ namespace FICS.App.GameSubsystem.Modes.Auth
         /// </summary>
         /// <param name="message">The message to process.</param>
         /// <returns>The response for the message (<see cref="string.Empty"/> if none).</returns>
-        public override string ProcessMessage(string message)
+        public override void ProcessMessage(string message)
         {
             var response = string.Empty;
 
             if (message.StartsWith(FICSConstants.LoginCommand))
             {
-                response = ProcessLoginCommand();
+                SendData(ProcessLoginCommand());
             }
             else if (message.StartsWith(FICSConstants.PasswordCommand))
             {
-                response = ProcessPasswordCommand();
+                SendData(ProcessPasswordCommand());
             }
             else if (message.Contains(StartingSessionCommand))
             {
                 ProcessNewGameSession();
             }
-
-            return response;
         }
 
         /// <summary>

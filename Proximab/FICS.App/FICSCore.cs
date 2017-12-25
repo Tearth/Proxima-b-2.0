@@ -58,11 +58,7 @@ namespace FICS.App
             _consoleManager.WriteLine($"$R{ReceivePrefix}: $c{e.Text}");
             _textLogger.WriteLine($"{ReceivePrefix}: {e.Text}");
 
-            var response = _ficsMode.ProcessMessage(e.Text);
-            if (response != string.Empty)
-            {
-                _ficsClient.Send(response);
-            }
+            _ficsMode.ProcessMessage(e.Text);
         }
 
         /// <summary>
@@ -74,6 +70,11 @@ namespace FICS.App
         {
             _consoleManager.WriteLine($"$R{SendPrefix}: $r{e.Text}");
             _textLogger.WriteLine($"{SendPrefix}: {e.Text}");
+        }
+        
+        private void FICSMode_OnSendData(object sender, SendDataEventArgs e)
+        {
+            _ficsClient.Send(e.Text);
         }
 
         /// <summary>
@@ -98,7 +99,8 @@ namespace FICS.App
             var ficsModeFactory = new FICSModeFactory(_configManager);
 
             _ficsMode = ficsModeFactory.Create(modeType);
+            _ficsMode.OnSendData += FICSMode_OnSendData;
             _ficsMode.OnChangeMode += FICSMode_OnChangeMode;
-        }      
+        }
     }
 }

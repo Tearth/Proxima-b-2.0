@@ -16,6 +16,11 @@ namespace FICS.App.GameSubsystem
         /// <summary>
         /// The event triggered when FICS mode is changing to another.
         /// </summary>
+        public event EventHandler<SendDataEventArgs> OnSendData;
+
+        /// <summary>
+        /// The event triggered when FICS mode is changing to another.
+        /// </summary>
         public event EventHandler<ChangeModeEventArgs> OnChangeMode;
 
         /// <summary>
@@ -33,6 +38,15 @@ namespace FICS.App.GameSubsystem
         }
 
         /// <summary>
+        /// Send the specified data to the FICS.
+        /// </summary>
+        /// <param name="newModeType">The text to send.</param>
+        public void SendData(string text)
+        {
+            OnSendData?.Invoke(this, new SendDataEventArgs(text));
+        }
+
+        /// <summary>
         /// Changes mode to the specified one.
         /// </summary>
         /// <param name="newModeType">The new FICS mode.</param>
@@ -45,7 +59,6 @@ namespace FICS.App.GameSubsystem
         /// Processes message (done in derivied class) and prepares a response to the FICS server.
         /// </summary>
         /// <param name="message">The message to process.</param>
-        /// <returns>The response for the message (<see cref="string.Empty"/> if none).</returns>
-        public abstract string ProcessMessage(string message);
+        public abstract void ProcessMessage(string message);
     }
 }
