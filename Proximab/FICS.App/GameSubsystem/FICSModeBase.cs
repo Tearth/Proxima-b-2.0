@@ -40,7 +40,7 @@ namespace FICS.App.GameSubsystem
         /// <summary>
         /// Send the specified data to the FICS.
         /// </summary>
-        /// <param name="newModeType">The text to send.</param>
+        /// <param name="text">The text to send.</param>
         public void SendData(string text)
         {
             OnSendData?.Invoke(this, new SendDataEventArgs(text));

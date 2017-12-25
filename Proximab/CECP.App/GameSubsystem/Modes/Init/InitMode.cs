@@ -37,7 +37,6 @@ namespace CECP.App.GameSubsystem.Modes.Init
         /// Processes message (done in derivied class) and prepares a response.
         /// </summary>
         /// <param name="command">The command to process.</param>
-        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         public override void ProcessCommand(Command command)
         {
             CommandsManager.Execute(command);
@@ -47,7 +46,6 @@ namespace CECP.App.GameSubsystem.Modes.Init
         /// Executes ProtoVer command (sends a list of features).
         /// </summary>
         /// <param name="command">The ProtoVer command to execute.</param>
-        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private void ExecuteProtoVerCommand(Command command)
         {
             var featuresBuilder = new StringBuilder();
@@ -69,7 +67,6 @@ namespace CECP.App.GameSubsystem.Modes.Init
         /// </summary>
         /// <param name="command">The Rejected command to execute.</param>
         /// <exception cref="FeatureNotSupportedException">Thrown when feature is not supported by the CECP interface.</exception>
-        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private void ExecuteRejectedCommand(Command command)
         {
             throw new FeatureNotSupportedException();
@@ -79,7 +76,6 @@ namespace CECP.App.GameSubsystem.Modes.Init
         /// Executes New command (changes mode to the Game).
         /// </summary>
         /// <param name="command">The New command to execute.</param>
-        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private void ExecuteNewCommand(Command command)
         {
             ChangeMode(CECPModeType.Game);

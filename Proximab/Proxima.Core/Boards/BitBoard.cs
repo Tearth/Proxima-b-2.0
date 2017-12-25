@@ -192,6 +192,7 @@ namespace Proxima.Core.Boards
         /// <summary>
         /// Calculates available moves.
         /// </summary>
+        /// <param name="quiescenceSearch">If true, only quiescence moves (mainly captures) will be generated.</param>
         public void Calculate(bool quiescenceSearch)
         {
             var generatorMode = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
@@ -203,6 +204,7 @@ namespace Proxima.Core.Boards
         /// </summary>
         /// <param name="whiteMode">The white generator mode.</param>
         /// <param name="blackMode">The black generator mode.</param>
+        /// <param name="quiescenceSearch">If true, only quiescence moves (mainly captures) will be generated.</param>
         public void Calculate(GeneratorMode whiteMode, GeneratorMode blackMode, bool quiescenceSearch)
         {
             CalculateAvailableMoves(whiteMode, blackMode, quiescenceSearch);
@@ -274,6 +276,7 @@ namespace Proxima.Core.Boards
         /// </summary>
         /// <param name="whiteMode">The white generator mode.</param>
         /// <param name="blackMode">The black generator mode.</param>
+        /// <param name="quiescenceSearch">If true, only quiescence moves (mainly captures) will be generated.</param>
         private void CalculateAvailableMoves(GeneratorMode whiteMode, GeneratorMode blackMode, bool quiescenceSearch)
         {
             var whiteGeneratorParameters = GetGeneratorParameters(Color.White, whiteMode, quiescenceSearch);
@@ -320,6 +323,7 @@ namespace Proxima.Core.Boards
         /// </summary>
         /// <param name="color">The player color.</param>
         /// <param name="mode">The generator mode.</param>
+        /// <param name="quiescenceSearch">If true, only quiescence moves (mainly captures) will be generated.</param>
         /// <returns>The generator parameters.</returns>
         private GeneratorParameters GetGeneratorParameters(Color color, GeneratorMode mode, bool quiescenceSearch)
         {

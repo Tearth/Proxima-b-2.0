@@ -11,7 +11,6 @@ namespace CECP.App.ConsoleSubsystem
     /// The delegate used in <see cref="CommandsManager"/> class to manage command handlers.
     /// </summary>
     /// <param name="command">The command instance.</param>
-    /// <returns>The response.</returns>
     public delegate void ExecuteCommandDelegate(Command command);
 
     /// <summary>
@@ -57,7 +56,6 @@ namespace CECP.App.ConsoleSubsystem
         /// Processes and executes a command specified in the input.
         /// </summary>
         /// <param name="command">The command to execute.</param>
-        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         public void Execute(Command command)
         {
             if (_commandHandles.ContainsKey(command.Type))

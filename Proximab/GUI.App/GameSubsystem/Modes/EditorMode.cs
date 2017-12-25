@@ -260,7 +260,7 @@ namespace GUI.App.GameSubsystem.Modes
             var seeResults = seeCalculator.Calculate(color, Bitboard);
 
             var colorSign = ColorOperations.ToSign(color);
-            foreach(var result in seeResults)
+            foreach (var result in seeResults)
             {
                 var score = colorSign * result.Score;
 

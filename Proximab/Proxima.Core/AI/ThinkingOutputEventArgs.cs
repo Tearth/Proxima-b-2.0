@@ -19,7 +19,7 @@ namespace Proxima.Core.AI
         /// <summary>
         /// Initializes a new instance of the <see cref="ThinkingOutputEventArgs"/> class.
         /// </summary>
-        /// <param name="text">The message content.</param>
+        /// <param name="aiResult">The AI result.</param>
         public ThinkingOutputEventArgs(AIResult aiResult)
         {
             AIResult = aiResult;

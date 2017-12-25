@@ -92,7 +92,7 @@ namespace Proxima.Core.Session
 
         private void UpdateMovesCount(Color color)
         {
-            if(color == Color.White)
+            if (color == Color.White)
             {
                 MovesCount++;
             }

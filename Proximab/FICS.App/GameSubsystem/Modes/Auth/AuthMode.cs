@@ -24,7 +24,6 @@ namespace FICS.App.GameSubsystem.Modes.Auth
         /// Processes message (sends username/password and changes mode if FICS response is positive).
         /// </summary>
         /// <param name="message">The message to process.</param>
-        /// <returns>The response for the message (<see cref="string.Empty"/> if none).</returns>
         public override void ProcessMessage(string message)
         {
             var response = string.Empty;

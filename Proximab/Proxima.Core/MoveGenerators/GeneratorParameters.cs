@@ -43,6 +43,9 @@ namespace Proxima.Core.MoveGenerators
         /// </summary>
         public ulong EnemyOccupancy { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the quiescence search is enabled.
+        /// </summary>
         public bool QuiescenceSearch { get; set; }
     }
 }

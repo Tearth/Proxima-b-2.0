@@ -54,7 +54,6 @@ namespace FICS.App.GameSubsystem.Modes.Game
         /// Processes message (does incoming moves, runs AI calculating and changes mode when game has ended.).
         /// </summary>
         /// <param name="message">The message to process.</param>
-        /// <returns>The response for the message (<see cref="string.Empty"/> if none).</returns>
         public override void ProcessMessage(string message)
         {
             if (message.StartsWith(CreatingPrefix))
@@ -79,7 +78,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
         private void InitGameSession(string message)
         {
             var username = ConfigManager.GetValue<string>("Username");
-            if(message.StartsWith($"{CreatingPrefix} {username}"))
+            if (message.StartsWith($"{CreatingPrefix} {username}"))
             {
                 _engineColor = Color.White;
             }
@@ -119,14 +118,18 @@ namespace FICS.App.GameSubsystem.Modes.Game
         {
             if (style12Container.PreviousMove != null)
             {
+                var color = style12Container.ColorToMove;
+                var from = style12Container.PreviousMove.From;
+                var to = style12Container.PreviousMove.To;
+
                 if (style12Container.PreviousMove.PromotionPieceType.HasValue)
                 {
-                    _gameSession.Move(style12Container.ColorToMove, style12Container.PreviousMove.From, style12Container.PreviousMove.To,
-                                      style12Container.PreviousMove.PromotionPieceType.Value);
+                    var promotionPieceType = style12Container.PreviousMove.PromotionPieceType.Value;
+                    _gameSession.Move(color, from, to, promotionPieceType);
                 }
                 else
                 {
-                    _gameSession.Move(style12Container.ColorToMove, style12Container.PreviousMove.From, style12Container.PreviousMove.To);
+                    _gameSession.Move(color, from, to);
                 }
             }
         }

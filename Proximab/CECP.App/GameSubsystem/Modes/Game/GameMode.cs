@@ -63,7 +63,6 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Processes message (done in derivied class) and prepares a response.
         /// </summary>
         /// <param name="command">The command to process.</param>
-        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         public override void ProcessCommand(Command command)
         {
             CommandsManager.Execute(command);
@@ -71,7 +70,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
 
         private void GameSession_OnThinkingOutput(object sender, ThinkingOutputEventArgs e)
         {
-            if(_thinkingOutputEnabled)
+            if (_thinkingOutputEnabled)
             {
                 var depth = e.AIResult.Depth;
                 var score = e.AIResult.Score;
@@ -87,7 +86,6 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Executes Post command (enables thinking output).
         /// </summary>
         /// <param name="command">The Post command to execute.</param>
-        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private void ExecutePostCommand(Command command)
         {
             _thinkingOutputEnabled = true;
@@ -97,7 +95,6 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Executes NoPost command (disables thinking output).
         /// </summary>
         /// <param name="command">The NoPost command to execute.</param>
-        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private void ExecuteNoPostCommand(Command command)
         {
             _thinkingOutputEnabled = false;
@@ -107,7 +104,6 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Executes Time command (sets engine time to the specified variable).
         /// </summary>
         /// <param name="command">The Time command to execute.</param>
-        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private void ExecuteTimeCommand(Command command)
         {
             var time = command.GetArgument<int>(0) / 100;
@@ -118,7 +114,6 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Executes OTim command (sets opponent time to the specified variable).
         /// </summary>
         /// <param name="command">The OTim command to execute.</param>
-        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private void ExecuteOTimCommand(Command command)
         {
             var time = command.GetArgument<int>(0) / 100;
@@ -129,7 +124,6 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Executes White command (sets engine color to white).
         /// </summary>
         /// <param name="command">The White command to execute.</param>
-        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private void ExecuteWhiteCommand(Command command)
         {
             _engineColor = Color.White;
@@ -140,7 +134,6 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Executes Black command (sets engine color to black).
         /// </summary>
         /// <param name="command">The Black command to execute.</param>
-        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private void ExecuteBlackCommand(Command command)
         {
             _engineColor = Color.Black;
@@ -151,7 +144,6 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Executes Go command (runs AI and does best move).
         /// </summary>
         /// <param name="command">The Go command to execute.</param>
-        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private void ExecuteGoCommand(Command command)
         {
             var aiResponse = CalculateAIMove();
@@ -162,7 +154,6 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Executes UserMove command (applies enemy move and runs AI).
         /// </summary>
         /// <param name="command">The UserMove command to execute.</param>
-        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private void ExecuteUserMoveCommand(Command command)
         {
             var cecpMoveParser = new CECPMoveParser();
@@ -184,8 +175,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         {
             if (cecpMove.PromotionPiece.HasValue)
             {
-                _gameSession.Move(_enemyColor, cecpMove.From, cecpMove.To,
-                                  cecpMove.PromotionPiece.Value);
+                _gameSession.Move(_enemyColor, cecpMove.From, cecpMove.To, cecpMove.PromotionPiece.Value);
             }
             else
             {

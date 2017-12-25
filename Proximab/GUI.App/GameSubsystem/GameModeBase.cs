@@ -131,11 +131,12 @@ namespace GUI.App.GameSubsystem
             CommandsManager.AddCommandHandler(CommandType.Hash, CommandGroup.GameMode, DisplayBoardHash);
             CommandsManager.AddCommandHandler(CommandType.Reset, CommandGroup.GameMode, Reset);
         }
-        
+
         /// <summary>
         /// Applies move to the bitboard and updates the visual board (generator mode is set to CalculateAttacks for both colors).
         /// </summary>
         /// <param name="move">The move to apply.</param>
+        /// <param name="quiescenceSearch">If true, only quiescence moves (mainly captures) will be generated.</param>
         protected void CalculateBitboard(Move move, bool quiescenceSearch)
         {
             var mode = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
@@ -148,6 +149,7 @@ namespace GUI.App.GameSubsystem
         /// <param name="move">The move to apply.</param>
         /// <param name="whiteMode">The white generator mode.</param>
         /// <param name="blackMode">The black generator mode.</param>
+        /// <param name="quiescenceSearch">If true, only quiescence moves (mainly captures) will be generated.</param>
         protected void CalculateBitboard(Move move, GeneratorMode whiteMode, GeneratorMode blackMode, bool quiescenceSearch)
         {
             Bitboard = Bitboard.Move(move);
@@ -160,6 +162,7 @@ namespace GUI.App.GameSubsystem
         /// Applies friendly board to the bitboard and updates the visual board (generator mode is set to CalculateAttacks for both colors).
         /// </summary>
         /// <param name="friendlyBoard">The friendly board to apply.</param>
+        /// <param name="quiescenceSearch">If true, only quiescence moves (mainly captures) will be generated.</param>
         protected void CalculateBitboard(FriendlyBoard friendlyBoard, bool quiescenceSearch)
         {
             var mode = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
@@ -172,6 +175,7 @@ namespace GUI.App.GameSubsystem
         /// <param name="friendlyBoard">The friendly board to apply.</param>
         /// <param name="whiteMode">The white generator mode.</param>
         /// <param name="blackMode">The black generator mode.</param>
+        /// <param name="quiescenceSearch">If true, only quiescence moves (mainly captures) will be generated.</param>
         protected void CalculateBitboard(FriendlyBoard friendlyBoard, GeneratorMode whiteMode, GeneratorMode blackMode, bool quiescenceSearch)
         {
             Bitboard = new Bitboard(friendlyBoard);

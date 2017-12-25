@@ -23,13 +23,12 @@ namespace Proxima.Core.AI
         /// <returns>The result of AI calculating.</returns>
         public AIResult Calculate(Color color, Bitboard bitboard, float preferredTime)
         {
-            var colorSign = ColorOperations.ToSign(color);
-
             var result = new AIResult();
-            result.PreferredTime = preferredTime;
-
+            var colorSign = ColorOperations.ToSign(color);
             var stopwatch = new Stopwatch();
             var estimatedTimeForNextIteration = 0;
+
+            result.PreferredTime = preferredTime;
 
             stopwatch.Start();
             do

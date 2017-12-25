@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Proxima.Core.AI.SEE.Exceptions;
 using Proxima.Core.Boards;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
@@ -12,8 +11,17 @@ using Proxima.Core.Evaluation.Material;
 
 namespace Proxima.Core.AI.SEE
 {
+    /// <summary>
+    /// Represents a set of methods to do a static exchange evaluation (SEE).
+    /// </summary>
     public class SEECalculator
     {
+        /// <summary>
+        /// Calculates SEE for the specified bitboard. All fields that are attacked by the passed color will be processed.
+        /// </summary>
+        /// <param name="initialColor">The color of the first attacker.</param>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <returns>The list of all attacked fields with associated scores.</returns>
         public LinkedList<SEEResult> Calculate(Color initialColor, Bitboard bitboard)
         {
             var seeResults = new LinkedList<SEEResult>();
@@ -26,13 +34,20 @@ namespace Proxima.Core.AI.SEE
                 var field = BitOperations.GetLSB(possibleAttacks);
                 possibleAttacks = BitOperations.PopLSB(possibleAttacks);
 
-                RunSSEForField(field, initialColor, bitboard, seeResults);
+                RunSEEForField(field, initialColor, bitboard, seeResults);
             }
 
             return seeResults;
         }
 
-        private void RunSSEForField(ulong field, Color initialColor, Bitboard bitboard, LinkedList<SEEResult> seeResults)
+        /// <summary>
+        /// Runs SEE for the specified field. All combinations of first attackers will be processed.
+        /// </summary>
+        /// <param name="field">The field to analyse.</param>
+        /// <param name="initialColor">The color of the first attacker.</param>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="seeResults">The list of processed fields with associated scores.</param>
+        private void RunSEEForField(ulong field, Color initialColor, Bitboard bitboard, LinkedList<SEEResult> seeResults)
         {
             var fieldIndex = BitOperations.GetBitIndex(field);
 
@@ -49,26 +64,37 @@ namespace Proxima.Core.AI.SEE
             }
         }
 
-        private SEEResult CalculateScoreForField(ulong fieldBitboard, ulong initialAttackerBitboard, ulong attackers, Color initialColor, Bitboard bitboard)
+        /// <summary>
+        /// Calculates SEE for the specified field and initial attacker.
+        /// </summary>
+        /// <param name="field">The field to analyse.</param>
+        /// <param name="initialAttacker">The initial attacker.</param>
+        /// <param name="attackers">The bitboard with all attackers that will be a part of SEE.</param>
+        /// <param name="initialColor">The color of the first attacker.</param>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <returns>The SEE result with the score and other data.</returns>
+        private SEEResult CalculateScoreForField(ulong field, ulong initialAttacker, ulong attackers, Color initialColor, Bitboard bitboard)
         {
-            var seeResult = new SEEResult();
-            seeResult.InitialAttackerFrom = BitPositionConverter.ToPosition(BitOperations.GetBitIndex(initialAttackerBitboard));
-            seeResult.InitialAttackerTo = BitPositionConverter.ToPosition(BitOperations.GetBitIndex(fieldBitboard));
-
             var enemyColor = ColorOperations.Invert(initialColor);
 
-            seeResult.InitialAttackerType = GetPieceType(initialAttackerBitboard, initialColor, bitboard);
-            seeResult.AttackedPieceType = GetPieceType(fieldBitboard, enemyColor, bitboard);
+            var seeResult = new SEEResult()
+            {
+                InitialAttackerFrom = BitPositionConverter.ToPosition(BitOperations.GetBitIndex(initialAttacker)),
+                InitialAttackerTo = BitPositionConverter.ToPosition(BitOperations.GetBitIndex(field)),
 
-            seeResult.Score += MaterialValues.PieceValues[(int)seeResult.AttackedPieceType];
+                InitialAttackerType = GetPieceType(initialAttacker, initialColor, bitboard).Value,
+                AttackedPieceType = GetPieceType(field, enemyColor, bitboard).Value
+            };
 
-            attackers &= ~initialAttackerBitboard;
+            seeResult.Score = MaterialValues.PieceValues[(int)seeResult.AttackedPieceType];
+
+            attackers &= ~initialAttacker;
             var fieldAttackers = new ulong[2]
             {
                 attackers & bitboard.Occupancy[(int)initialColor],
                 attackers & bitboard.Occupancy[(int)enemyColor]
             };
-            
+
             var currentColor = enemyColor;
             var currentSign = -1;
 
@@ -77,7 +103,7 @@ namespace Proxima.Core.AI.SEE
             while (attackers != 0)
             {
                 var leastValuablePieceType = GetAndPopLeastValuablePiece(ref attackers, currentColor, bitboard);
-                if(!leastValuablePieceType.HasValue)
+                if (!leastValuablePieceType.HasValue)
                 {
                     break;
                 }
@@ -92,19 +118,33 @@ namespace Proxima.Core.AI.SEE
             return seeResult;
         }
 
-        private PieceType GetPieceType(ulong pieceBitboard, Color pieceColor, Bitboard bitboard)
+        /// <summary>
+        /// Gets a piece type on the specified field.
+        /// </summary>
+        /// <param name="field">The field with piece.</param>
+        /// <param name="pieceColor">The piece color.</param>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <returns>The piece type on the specified field (null if the field is empty).</returns>
+        private PieceType? GetPieceType(ulong field, Color pieceColor, Bitboard bitboard)
         {
             for (int piece = 0; piece < 6; piece++)
             {
-                if ((pieceBitboard & bitboard.Pieces[FastArray.GetPieceIndex(pieceColor, (PieceType)piece)]) != 0)
+                if ((field & bitboard.Pieces[FastArray.GetPieceIndex(pieceColor, (PieceType)piece)]) != 0)
                 {
                     return (PieceType)piece;
                 }
             }
 
-            throw new InitialAttackerNotFoundException();
+            return null;
         }
 
+        /// <summary>
+        /// Gets a least valuable piece for the specified biboard with field attackers.
+        /// </summary>
+        /// <param name="attackers">The bitboard with field attackers.</param>
+        /// <param name="color">The color of a least valuable piece.</param>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <returns>The least valuable piece (null if there is no more available pieces).</returns>
         private PieceType? GetAndPopLeastValuablePiece(ref ulong attackers, Color color, Bitboard bitboard)
         {
             for (int piece = 0; piece < 6; piece++)

@@ -19,7 +19,7 @@ namespace CECP.App.GameSubsystem
         /// <summary>
         /// Initializes a new instance of the <see cref="SendDataEventArgs"/> class.
         /// </summary>
-        /// <param name="newModeType">The text to send.</param>
+        /// <param name="text">The text to send.</param>
         public SendDataEventArgs(string text)
         {
             Text = text;

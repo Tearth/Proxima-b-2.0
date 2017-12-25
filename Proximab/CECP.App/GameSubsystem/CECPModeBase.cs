@@ -41,7 +41,7 @@ namespace CECP.App.GameSubsystem
         /// <summary>
         /// Send the specified data to the CECP.
         /// </summary>
-        /// <param name="newModeType">The text to send.</param>
+        /// <param name="text">The text to send.</param>
         public void SendData(string text)
         {
             OnSendData?.Invoke(this, new SendDataEventArgs(text));
@@ -60,7 +60,6 @@ namespace CECP.App.GameSubsystem
         /// Processes message (done in derivied class) and prepares a response.
         /// </summary>
         /// <param name="command">The command to process.</param>
-        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         public virtual void ProcessCommand(Command command)
         {
             CommandsManager.Execute(command);
@@ -70,7 +69,6 @@ namespace CECP.App.GameSubsystem
         /// Executes Ping command (responds with Pong X where X is a number received with Ping).
         /// </summary>
         /// <param name="command">The New Ping to execute.</param>
-        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private void ExecutePing(Command command)
         {
             var pingNumber = command.GetArgument<int>(0);
@@ -81,7 +79,6 @@ namespace CECP.App.GameSubsystem
         /// Executes Quit command.
         /// </summary>
         /// <param name="command">The New Quit to execute.</param>
-        /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
         private void ExecuteQuit(Command command)
         {
             Environment.Exit(0);

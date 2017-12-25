@@ -33,7 +33,6 @@ namespace FICS.App.GameSubsystem.Modes.Seek
         /// Processes message (sends seek command and waits for acceptance from another user).
         /// </summary>
         /// <param name="message">The message to process.</param>
-        /// <returns>The response for the message (<see cref="string.Empty"/> if none).</returns>
         public override void ProcessMessage(string message)
         {
             var response = string.Empty;
