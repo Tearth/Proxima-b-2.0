@@ -21,6 +21,8 @@ namespace Proxima.Core.Session
         public Bitboard Bitboard { get; private set; }
         public int MovesCount { get; private set; }
 
+        public event EventHandler<ThinkingOutputEventArgs> OnThinkingOutput;
+
         private AICore _aiCore;
         private PreferredTimeCalculator _preferredTimeCalculator;
 
@@ -31,6 +33,8 @@ namespace Proxima.Core.Session
             MovesCount = 0;
 
             _aiCore = new AICore();
+            _aiCore.OnThinkingOutput += AICore_OnThinkingOutput;
+
             Bitboard = new Bitboard(new DefaultFriendlyBoard());
             _preferredTimeCalculator = new PreferredTimeCalculator(60);
 
@@ -79,6 +83,11 @@ namespace Proxima.Core.Session
         public void UpdateRemainingTime(Color color, int remainingTime)
         {
             _remainingTime[(int)color] = remainingTime;
+        }
+
+        private void AICore_OnThinkingOutput(object sender, ThinkingOutputEventArgs e)
+        {
+            OnThinkingOutput?.Invoke(this, e);
         }
 
         private void UpdateMovesCount(Color color)

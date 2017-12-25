@@ -40,6 +40,8 @@ namespace CECP.App.GameSubsystem.Modes.Game
         public GameMode() : base()
         {
             _gameSession = new GameSession();
+            _gameSession.OnThinkingOutput += GameSession_OnThinkingOutput;
+
             _csvLogger = new CsvLogger(AILogsDirectory);
 
             _thinkingOutputEnabled = false;
@@ -65,6 +67,20 @@ namespace CECP.App.GameSubsystem.Modes.Game
         public override void ProcessCommand(Command command)
         {
             CommandsManager.Execute(command);
+        }
+
+        private void GameSession_OnThinkingOutput(object sender, ThinkingOutputEventArgs e)
+        {
+            if(_thinkingOutputEnabled)
+            {
+                var depth = e.AIResult.Depth;
+                var score = e.AIResult.Score;
+                var time = (int)(e.AIResult.Time * 100);
+                var totalNodes = e.AIResult.Stats.TotalNodes;
+                var bestMove = e.AIResult.BestMove.ToString();
+
+                SendData($"{depth} {score} {time} {totalNodes} {bestMove}");
+            }
         }
 
         /// <summary>

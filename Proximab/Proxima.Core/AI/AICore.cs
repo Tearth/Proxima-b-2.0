@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Proxima.Core.Boards;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.MoveGenerators;
@@ -11,6 +12,8 @@ namespace Proxima.Core.AI
     /// </summary>
     public class AICore
     {
+        public event EventHandler<ThinkingOutputEventArgs> OnThinkingOutput;
+
         /// <summary>
         /// Calculates the best possible move for the specified parameters.
         /// </summary>
@@ -20,31 +23,32 @@ namespace Proxima.Core.AI
         /// <returns>The result of AI calculating.</returns>
         public AIResult Calculate(Color color, Bitboard bitboard, float preferredTime)
         {
+            var colorSign = ColorOperations.ToSign(color);
+
             var result = new AIResult();
+            result.PreferredTime = preferredTime;
+
             var stopwatch = new Stopwatch();
-
-            stopwatch.Start();
-
-            var depth = 0;
             var estimatedTimeForNextIteration = 0;
 
+            stopwatch.Start();
             do
             {
-                depth++;
+                result.Depth++;
 
                 var stats = new AIStats();
-                result.Score = NegaMax(color, new Bitboard(bitboard), depth, out Move bestMove, stats);
+                result.Score = colorSign * NegaMax(color, new Bitboard(bitboard), result.Depth, out Move bestMove, stats);
+
                 result.BestMove = bestMove;
                 result.Stats = stats;
+                result.Ticks = stopwatch.Elapsed.Ticks;
+
+                OnThinkingOutput?.Invoke(this, new ThinkingOutputEventArgs(result));
 
                 estimatedTimeForNextIteration = (int)stopwatch.Elapsed.TotalMilliseconds * result.Stats.BranchingFactor;
             }
             while (estimatedTimeForNextIteration < (preferredTime * 1000));
-
-            result.PreferredTime = preferredTime;
-            result.Ticks = stopwatch.Elapsed.Ticks;
-            result.Depth = depth;
-
+            
             return result;
         }
 
