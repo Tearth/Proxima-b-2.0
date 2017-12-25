@@ -21,6 +21,8 @@ namespace GUI.App.GameSubsystem.Modes
     /// </summary>
     public class EditorMode : GameModeBase
     {
+        private bool _quiescenceSearchEnabled;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EditorMode"/> class.
         /// </summary>
@@ -28,7 +30,9 @@ namespace GUI.App.GameSubsystem.Modes
         /// <param name="commandsManager">The commands manager instance.</param>
         public EditorMode(ConsoleManager consoleManager, CommandsManager commandsManager) : base(consoleManager, commandsManager)
         {
-            CalculateBitboard(new DefaultFriendlyBoard());
+            _quiescenceSearchEnabled = false;
+
+            CalculateBitboard(new DefaultFriendlyBoard(), _quiescenceSearchEnabled);
 
             VisualBoard.OnFieldSelection += Board_OnFieldSelection;
             VisualBoard.OnPieceMove += Board_OnPieceMove;
@@ -84,7 +88,7 @@ namespace GUI.App.GameSubsystem.Modes
 
             if (move == null)
             {
-                CalculateBitboard(new QuietMove(e.From, e.To, e.Piece.Type, e.Piece.Color));
+                CalculateBitboard(new QuietMove(e.From, e.To, e.Piece.Type, e.Piece.Color), _quiescenceSearchEnabled);
             }
             else if (move is PromotionMove promotionMove)
             {
@@ -93,7 +97,7 @@ namespace GUI.App.GameSubsystem.Modes
             }
             else
             {
-                CalculateBitboard(move);
+                CalculateBitboard(move, _quiescenceSearchEnabled);
             }
         }
 
@@ -104,7 +108,7 @@ namespace GUI.App.GameSubsystem.Modes
         /// <param name="e">The event arguments.</param>
         private void PromotionWindow_OnPromotionSelection(object sender, PromotionSelectedEventArgs e)
         {
-            CalculateBitboard(e.Move);
+            CalculateBitboard(e.Move, _quiescenceSearchEnabled);
             PromotionWindow.Hide();
         }
 
@@ -140,7 +144,7 @@ namespace GUI.App.GameSubsystem.Modes
             }
 
             VisualBoard.FriendlyBoard.SetPiece(new FriendlyPiece(fieldPosition, piece, color));
-            CalculateBitboard(VisualBoard.FriendlyBoard);
+            CalculateBitboard(VisualBoard.FriendlyBoard, _quiescenceSearchEnabled);
         }
 
         /// <summary>
@@ -159,7 +163,7 @@ namespace GUI.App.GameSubsystem.Modes
             }
 
             VisualBoard.FriendlyBoard.RemovePiece(fieldPosition);
-            CalculateBitboard(VisualBoard.FriendlyBoard);
+            CalculateBitboard(VisualBoard.FriendlyBoard, _quiescenceSearchEnabled);
         }
 
         /// <summary>

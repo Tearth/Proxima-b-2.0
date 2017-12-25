@@ -60,7 +60,7 @@ namespace Proxima.Core.Tests
             {
                 if (calculateEndNodes)
                 {
-                    bitboard.Calculate(GeneratorMode.CalculateAttacks, GeneratorMode.CalculateAttacks);
+                    bitboard.Calculate(GeneratorMode.CalculateAttacks, GeneratorMode.CalculateAttacks, false);
                     bitboard.GetEvaluation();
                 }
 
@@ -72,7 +72,7 @@ namespace Proxima.Core.Tests
                 var whiteMode = GetGeneratorMode(color);
                 var blackMode = GetGeneratorMode(enemyColor);
 
-                bitboard.Calculate(whiteMode, blackMode);
+                bitboard.Calculate(whiteMode, blackMode, false);
 
                 foreach (var move in bitboard.Moves)
                 {

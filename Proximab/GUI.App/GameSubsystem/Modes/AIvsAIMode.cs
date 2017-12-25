@@ -26,7 +26,7 @@ namespace GUI.App.GameSubsystem.Modes
             _ai = new AICore();
             _currentColor = Color.White;
 
-            CalculateBitboard(new DefaultFriendlyBoard());
+            CalculateBitboard(new DefaultFriendlyBoard(), false);
             SetCommandHandlers();
         }
 
@@ -69,7 +69,7 @@ namespace GUI.App.GameSubsystem.Modes
                     ConsoleManager.WriteLine($"$wTime: $m{aiResult.Time} s");
                     ConsoleManager.WriteLine();
 
-                    CalculateBitboard(aiResult.BestMove);
+                    CalculateBitboard(aiResult.BestMove, false);
 
                     if (Bitboard.IsStalemate(enemyColor))
                     {

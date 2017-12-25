@@ -42,5 +42,7 @@ namespace Proxima.Core.MoveGenerators
         /// Gets or sets the enemy occupancy.
         /// </summary>
         public ulong EnemyOccupancy { get; set; }
+
+        public bool QuiescenceSearch { get; set; }
     }
 }

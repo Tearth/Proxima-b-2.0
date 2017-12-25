@@ -45,7 +45,7 @@ namespace Proxima.Core.Session
         {
             UpdateMovesCount(color);
 
-            Bitboard.Calculate(GeneratorMode.CalculateMoves, GeneratorMode.CalculateMoves);
+            Bitboard.Calculate(GeneratorMode.CalculateMoves, GeneratorMode.CalculateMoves, false);
 
             var moveToApply = Bitboard.Moves.First(p => p.From == from && p.To == to);
 
@@ -57,7 +57,7 @@ namespace Proxima.Core.Session
         {
             UpdateMovesCount(color);
 
-            Bitboard.Calculate(GeneratorMode.CalculateMoves, GeneratorMode.CalculateMoves);
+            Bitboard.Calculate(GeneratorMode.CalculateMoves, GeneratorMode.CalculateMoves, false);
 
             var possibleMovesToApply = Bitboard.Moves.Cast<PromotionMove>()
                 .First(p => p.From == from && p.To == to &&

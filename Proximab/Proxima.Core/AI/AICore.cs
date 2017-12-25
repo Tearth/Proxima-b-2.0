@@ -72,7 +72,7 @@ namespace Proxima.Core.AI
 
             if (depth <= 0)
             {
-                bitboard.Calculate(GeneratorMode.CalculateAttacks, GeneratorMode.CalculateAttacks);
+                bitboard.Calculate(GeneratorMode.CalculateAttacks, GeneratorMode.CalculateAttacks, false);
                 stats.EndNodes++;
 
                 if (bitboard.IsCheck(enemyColor))
@@ -86,7 +86,7 @@ namespace Proxima.Core.AI
             {
                 var whiteGeneratorMode = GetGeneratorMode(color, Color.White);
                 var blackGeneratorMode = GetGeneratorMode(color, Color.Black);
-                bitboard.Calculate(whiteGeneratorMode, blackGeneratorMode);
+                bitboard.Calculate(whiteGeneratorMode, blackGeneratorMode, false);
 
                 if (bitboard.IsCheck(enemyColor))
                 {

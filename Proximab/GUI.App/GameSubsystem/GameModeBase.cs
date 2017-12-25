@@ -136,10 +136,10 @@ namespace GUI.App.GameSubsystem
         /// Applies move to the bitboard and updates the visual board (generator mode is set to CalculateAttacks for both colors).
         /// </summary>
         /// <param name="move">The move to apply.</param>
-        protected void CalculateBitboard(Move move)
+        protected void CalculateBitboard(Move move, bool quiescenceSearch)
         {
             var mode = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
-            CalculateBitboard(move, mode, mode);
+            CalculateBitboard(move, mode, mode, quiescenceSearch);
         }
 
         /// <summary>
@@ -148,10 +148,10 @@ namespace GUI.App.GameSubsystem
         /// <param name="move">The move to apply.</param>
         /// <param name="whiteMode">The white generator mode.</param>
         /// <param name="blackMode">The black generator mode.</param>
-        protected void CalculateBitboard(Move move, GeneratorMode whiteMode, GeneratorMode blackMode)
+        protected void CalculateBitboard(Move move, GeneratorMode whiteMode, GeneratorMode blackMode, bool quiescenceSearch)
         {
             Bitboard = Bitboard.Move(move);
-            Bitboard.Calculate(whiteMode, blackMode);
+            Bitboard.Calculate(whiteMode, blackMode, quiescenceSearch);
 
             VisualBoard.FriendlyBoard = new FriendlyBoard(Bitboard);
         }
@@ -160,10 +160,10 @@ namespace GUI.App.GameSubsystem
         /// Applies friendly board to the bitboard and updates the visual board (generator mode is set to CalculateAttacks for both colors).
         /// </summary>
         /// <param name="friendlyBoard">The friendly board to apply.</param>
-        protected void CalculateBitboard(FriendlyBoard friendlyBoard)
+        protected void CalculateBitboard(FriendlyBoard friendlyBoard, bool quiescenceSearch)
         {
             var mode = GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks;
-            CalculateBitboard(friendlyBoard, mode, mode);
+            CalculateBitboard(friendlyBoard, mode, mode, quiescenceSearch);
         }
 
         /// <summary>
@@ -172,10 +172,10 @@ namespace GUI.App.GameSubsystem
         /// <param name="friendlyBoard">The friendly board to apply.</param>
         /// <param name="whiteMode">The white generator mode.</param>
         /// <param name="blackMode">The black generator mode.</param>
-        protected void CalculateBitboard(FriendlyBoard friendlyBoard, GeneratorMode whiteMode, GeneratorMode blackMode)
+        protected void CalculateBitboard(FriendlyBoard friendlyBoard, GeneratorMode whiteMode, GeneratorMode blackMode, bool quiescenceSearch)
         {
             Bitboard = new Bitboard(friendlyBoard);
-            Bitboard.Calculate(whiteMode, blackMode);
+            Bitboard.Calculate(whiteMode, blackMode, quiescenceSearch);
 
             VisualBoard.FriendlyBoard = new FriendlyBoard(Bitboard);
         }
@@ -268,7 +268,7 @@ namespace GUI.App.GameSubsystem
                 return;
             }
 
-            CalculateBitboard(boardReader.Read(path));
+            CalculateBitboard(boardReader.Read(path), false);
         }
 
         /// <summary>
@@ -365,7 +365,7 @@ namespace GUI.App.GameSubsystem
         /// <param name="command">The Reset command.</param>
         private void Reset(Command command)
         {
-            CalculateBitboard(new DefaultFriendlyBoard());
+            CalculateBitboard(new DefaultFriendlyBoard(), false);
         }
     }
 }
