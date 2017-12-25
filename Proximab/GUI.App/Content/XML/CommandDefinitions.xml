@@ -211,6 +211,18 @@
           </Item>
         </Arguments>
       </Item>
+
+      <Item>
+        <Name>Quiescence</Name>
+        <EnumType>Quiescence</EnumType>
+        <Description>Enables or disables quiescence search.</Description>
+        <Arguments>
+          <Item>
+            <Type>bool</Type>
+            <Description>Quiescence search state.</Description>
+          </Item>
+        </Arguments>
+      </Item>
 		</Definitions>
 	</Asset>
 </XnaContent>

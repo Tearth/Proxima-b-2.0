@@ -21,7 +21,7 @@ namespace GUI.App.GameSubsystem.Modes
     /// </summary>
     public class EditorMode : GameModeBase
     {
-        private bool _quiescenceSearchEnabled;
+        private bool _quiescenceSearch;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EditorMode"/> class.
@@ -30,9 +30,9 @@ namespace GUI.App.GameSubsystem.Modes
         /// <param name="commandsManager">The commands manager instance.</param>
         public EditorMode(ConsoleManager consoleManager, CommandsManager commandsManager) : base(consoleManager, commandsManager)
         {
-            _quiescenceSearchEnabled = false;
+            _quiescenceSearch = false;
 
-            CalculateBitboard(new DefaultFriendlyBoard(), _quiescenceSearchEnabled);
+            CalculateBitboard(new DefaultFriendlyBoard(), _quiescenceSearch);
 
             VisualBoard.OnFieldSelection += Board_OnFieldSelection;
             VisualBoard.OnPieceMove += Board_OnPieceMove;
@@ -50,6 +50,7 @@ namespace GUI.App.GameSubsystem.Modes
             CommandsManager.AddCommandHandler(CommandType.RemovePiece, CommandGroup.GameMode, RemovePiece);
             CommandsManager.AddCommandHandler(CommandType.MovesTest, CommandGroup.GameMode, DoMovesTest);
             CommandsManager.AddCommandHandler(CommandType.BestMove, CommandGroup.GameMode, CalculateBestMove);
+            CommandsManager.AddCommandHandler(CommandType.Quiescence, CommandGroup.GameMode, SetQuiescenceSearch);
 
             base.SetCommandHandlers();
         }
@@ -88,7 +89,7 @@ namespace GUI.App.GameSubsystem.Modes
 
             if (move == null)
             {
-                CalculateBitboard(new QuietMove(e.From, e.To, e.Piece.Type, e.Piece.Color), _quiescenceSearchEnabled);
+                CalculateBitboard(new QuietMove(e.From, e.To, e.Piece.Type, e.Piece.Color), _quiescenceSearch);
             }
             else if (move is PromotionMove promotionMove)
             {
@@ -97,7 +98,7 @@ namespace GUI.App.GameSubsystem.Modes
             }
             else
             {
-                CalculateBitboard(move, _quiescenceSearchEnabled);
+                CalculateBitboard(move, _quiescenceSearch);
             }
         }
 
@@ -108,7 +109,7 @@ namespace GUI.App.GameSubsystem.Modes
         /// <param name="e">The event arguments.</param>
         private void PromotionWindow_OnPromotionSelection(object sender, PromotionSelectedEventArgs e)
         {
-            CalculateBitboard(e.Move, _quiescenceSearchEnabled);
+            CalculateBitboard(e.Move, _quiescenceSearch);
             PromotionWindow.Hide();
         }
 
@@ -144,7 +145,7 @@ namespace GUI.App.GameSubsystem.Modes
             }
 
             VisualBoard.FriendlyBoard.SetPiece(new FriendlyPiece(fieldPosition, piece, color));
-            CalculateBitboard(VisualBoard.FriendlyBoard, _quiescenceSearchEnabled);
+            CalculateBitboard(VisualBoard.FriendlyBoard, _quiescenceSearch);
         }
 
         /// <summary>
@@ -163,7 +164,7 @@ namespace GUI.App.GameSubsystem.Modes
             }
 
             VisualBoard.FriendlyBoard.RemovePiece(fieldPosition);
-            CalculateBitboard(VisualBoard.FriendlyBoard, _quiescenceSearchEnabled);
+            CalculateBitboard(VisualBoard.FriendlyBoard, _quiescenceSearch);
         }
 
         /// <summary>
@@ -235,6 +236,11 @@ namespace GUI.App.GameSubsystem.Modes
             }
 
             ConsoleManager.WriteLine();
+        }
+
+        private void SetQuiescenceSearch(Command command)
+        {
+            _quiescenceSearch = command.GetArgument<bool>(0);
         }
     }
 }
