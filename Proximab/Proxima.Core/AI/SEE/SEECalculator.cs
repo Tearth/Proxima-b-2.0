@@ -35,12 +35,14 @@ namespace Proxima.Core.AI.SEE
         private void RunSSEForField(ulong field, Color initialColor, Bitboard bitboard, LinkedList<SEEResult> seeResults)
         {
             var fieldIndex = BitOperations.GetBitIndex(field);
-            var fieldAttackers = bitboard.Attacks[fieldIndex];
 
-            while (fieldAttackers != 0)
+            var fieldAttackers = bitboard.Attacks[fieldIndex];
+            var fieldAttackersWithInitialcolor = fieldAttackers & bitboard.Occupancy[(int)initialColor];
+
+            while (fieldAttackersWithInitialcolor != 0)
             {
-                var initialAttacker = BitOperations.GetLSB(fieldAttackers);
-                fieldAttackers = BitOperations.PopLSB(fieldAttackers);
+                var initialAttacker = BitOperations.GetLSB(fieldAttackersWithInitialcolor);
+                fieldAttackersWithInitialcolor = BitOperations.PopLSB(fieldAttackersWithInitialcolor);
 
                 var seeResult = CalculateScoreForField(field, initialAttacker, fieldAttackers, initialColor, bitboard);
                 seeResults.AddLast(seeResult);
@@ -55,24 +57,26 @@ namespace Proxima.Core.AI.SEE
 
             var enemyColor = ColorOperations.Invert(initialColor);
 
-            seeResult.InitialAttackerType = GetPieceType(fieldBitboard, enemyColor, bitboard);
-            seeResult.AttackedPieceType = GetPieceType(initialAttackerBitboard, enemyColor, bitboard);
+            seeResult.InitialAttackerType = GetPieceType(initialAttackerBitboard, initialColor, bitboard);
+            seeResult.AttackedPieceType = GetPieceType(fieldBitboard, enemyColor, bitboard);
 
-            seeResult.Score -= MaterialValues.PieceValues[(int)seeResult.AttackedPieceType];
+            seeResult.Score += MaterialValues.PieceValues[(int)seeResult.AttackedPieceType];
 
+            attackers &= ~initialAttackerBitboard;
             var fieldAttackers = new ulong[2]
             {
                 attackers & bitboard.Occupancy[(int)initialColor],
                 attackers & bitboard.Occupancy[(int)enemyColor]
             };
+            
+            var currentColor = enemyColor;
+            var currentSign = -1;
 
             var currentPieceOnField = seeResult.InitialAttackerType;
-            var currentColor = enemyColor;
-            var currentSign = ColorOperations.ToSign(enemyColor);
 
             while (attackers != 0)
             {
-                var leastValuablePieceType = GetLeastValuablePiece(ref attackers, currentColor, bitboard);
+                var leastValuablePieceType = GetAndPopLeastValuablePiece(ref attackers, currentColor, bitboard);
                 if(!leastValuablePieceType.HasValue)
                 {
                     break;
@@ -101,12 +105,17 @@ namespace Proxima.Core.AI.SEE
             throw new InitialAttackerNotFoundException();
         }
 
-        private PieceType? GetLeastValuablePiece(ref ulong attackers, Color color, Bitboard bitboard)
+        private PieceType? GetAndPopLeastValuablePiece(ref ulong attackers, Color color, Bitboard bitboard)
         {
             for (int piece = 0; piece < 6; piece++)
             {
-                if((attackers & bitboard.Pieces[FastArray.GetPieceIndex(color, (PieceType)piece)]) != 0)
+                var attackersWithType = attackers & bitboard.Pieces[FastArray.GetPieceIndex(color, (PieceType)piece)];
+
+                if (attackersWithType != 0)
                 {
+                    var attackerLSB = BitOperations.GetLSB(attackersWithType);
+                    attackers &= ~attackerLSB;
+
                     return (PieceType)piece;
                 }
             }

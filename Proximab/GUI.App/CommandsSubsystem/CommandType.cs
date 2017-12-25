@@ -26,6 +26,7 @@
         Reset,
         Mode,
         RunAIGame,
-        Quiescence
+        Quiescence,
+        SEE
     }
 }

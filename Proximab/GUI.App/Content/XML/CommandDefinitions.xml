@@ -223,6 +223,18 @@
           </Item>
         </Arguments>
       </Item>
+
+      <Item>
+        <Name>SEE</Name>
+        <EnumType>SEE</EnumType>
+        <Description>Runs static exchange evaluation.</Description>
+        <Arguments>
+          <Item>
+            <Type>string</Type>
+            <Description>Initial color.</Description>
+          </Item>
+        </Arguments>
+      </Item>
 		</Definitions>
 	</Asset>
 </XnaContent>

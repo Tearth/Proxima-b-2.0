@@ -6,6 +6,7 @@ using GUI.App.ConsoleSubsystem;
 using GUI.App.PromotionSubsystem;
 using Helpers.ColorfulConsole;
 using Proxima.Core.AI;
+using Proxima.Core.AI.SEE;
 using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
@@ -51,6 +52,7 @@ namespace GUI.App.GameSubsystem.Modes
             CommandsManager.AddCommandHandler(CommandType.MovesTest, CommandGroup.GameMode, DoMovesTest);
             CommandsManager.AddCommandHandler(CommandType.BestMove, CommandGroup.GameMode, CalculateBestMove);
             CommandsManager.AddCommandHandler(CommandType.Quiescence, CommandGroup.GameMode, SetQuiescenceSearch);
+            CommandsManager.AddCommandHandler(CommandType.SEE, CommandGroup.GameMode, RunSEE);
 
             base.SetCommandHandlers();
         }
@@ -241,6 +243,31 @@ namespace GUI.App.GameSubsystem.Modes
         private void SetQuiescenceSearch(Command command)
         {
             _quiescenceSearch = command.GetArgument<bool>(0);
+        }
+
+        private void RunSEE(Command command)
+        {
+            var colorArgument = command.GetArgument<string>(0);
+
+            var colorParseResult = Enum.TryParse(colorArgument, true, out Color color);
+            if (!colorParseResult)
+            {
+                ConsoleManager.WriteLine($"$rInvalid color type ($R{color}$r)");
+                return;
+            }
+
+            var seeCalculator = new SEECalculator();
+            var seeResults = seeCalculator.Calculate(color, Bitboard);
+
+            var colorSign = ColorOperations.ToSign(color);
+            foreach(var result in seeResults)
+            {
+                var score = colorSign * result.Score;
+
+                ConsoleManager.WriteLine($"$g{result.InitialAttackerFrom} $r({result.InitialAttackerType})$w -> " +
+                                         $"$g{result.InitialAttackerTo} $r({result.AttackedPieceType})$w: " +
+                                         $"$g{score}");
+            }
         }
     }
 }
