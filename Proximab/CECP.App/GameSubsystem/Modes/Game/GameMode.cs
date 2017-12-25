@@ -67,9 +67,9 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// </summary>
         /// <param name="command">The command to process.</param>
         /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
-        public override string ProcessCommand(Command command)
+        public override void ProcessCommand(Command command)
         {
-            return CommandsManager.Execute(command);
+            CommandsManager.Execute(command);
         }
 
         /// <summary>
@@ -77,10 +77,9 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// </summary>
         /// <param name="command">The Post command to execute.</param>
         /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
-        private string ExecutePostCommand(Command command)
+        private void ExecutePostCommand(Command command)
         {
             _thinkingOutputEnabled = true;
-            return string.Empty;
         }
 
         /// <summary>
@@ -88,10 +87,9 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// </summary>
         /// <param name="command">The NoPost command to execute.</param>
         /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
-        private string ExecuteNoPostCommand(Command command)
+        private void ExecuteNoPostCommand(Command command)
         {
             _thinkingOutputEnabled = false;
-            return string.Empty;
         }
 
         /// <summary>
@@ -99,12 +97,10 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// </summary>
         /// <param name="command">The Time command to execute.</param>
         /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
-        private string ExecuteTimeCommand(Command command)
+        private void ExecuteTimeCommand(Command command)
         {
             var time = command.GetArgument<int>(0) / 100;
             _engineTime = time;
-
-            return string.Empty;
         }
 
         /// <summary>
@@ -112,12 +108,10 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// </summary>
         /// <param name="command">The OTim command to execute.</param>
         /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
-        private string ExecuteOTimCommand(Command command)
+        private void ExecuteOTimCommand(Command command)
         {
             var time = command.GetArgument<int>(0) / 100;
             _opponentTime = time;
-
-            return string.Empty;
         }
 
         /// <summary>
@@ -125,10 +119,9 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// </summary>
         /// <param name="command">The White command to execute.</param>
         /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
-        private string ExecuteWhiteCommand(Command command)
+        private void ExecuteWhiteCommand(Command command)
         {
             _engineColor = Color.White;
-            return string.Empty;
         }
 
         /// <summary>
@@ -136,10 +129,9 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// </summary>
         /// <param name="command">The Black command to execute.</param>
         /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
-        private string ExecuteBlackCommand(Command command)
+        private void ExecuteBlackCommand(Command command)
         {
             _engineColor = Color.Black;
-            return string.Empty;
         }
 
         /// <summary>
@@ -147,10 +139,10 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// </summary>
         /// <param name="command">The Go command to execute.</param>
         /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
-        private string ExecuteGoCommand(Command command)
+        private void ExecuteGoCommand(Command command)
         {
             var aiResponse = CalculateAIMove();
-            return $"move {aiResponse}";
+            SendData($"move {aiResponse}");
         }
 
         /// <summary>
@@ -158,7 +150,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// </summary>
         /// <param name="command">The UserMove command to execute.</param>
         /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
-        private string ExecuteUserMoveCommand(Command command)
+        private void ExecuteUserMoveCommand(Command command)
         {
             var cecpMoveParser = new CECPMoveParser();
 
@@ -168,7 +160,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
             CalculateEnemyMove(cecpMove);
 
             var aiResponse = CalculateAIMove();
-            return $"move {aiResponse}";
+            SendData($"move {aiResponse}");
         }
 
         /// <summary>

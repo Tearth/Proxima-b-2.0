@@ -38,9 +38,9 @@ namespace CECP.App.GameSubsystem.Modes.Init
         /// </summary>
         /// <param name="command">The command to process.</param>
         /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
-        public override string ProcessCommand(Command command)
+        public override void ProcessCommand(Command command)
         {
-            return CommandsManager.Execute(command);
+            CommandsManager.Execute(command);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace CECP.App.GameSubsystem.Modes.Init
         /// </summary>
         /// <param name="command">The ProtoVer command to execute.</param>
         /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
-        private string ExecuteProtoVerCommand(Command command)
+        private void ExecuteProtoVerCommand(Command command)
         {
             var featuresBuilder = new StringBuilder();
             featuresBuilder.Append("feature ");
@@ -61,7 +61,7 @@ namespace CECP.App.GameSubsystem.Modes.Init
                 featuresBuilder.Append(" ");
             }
 
-            return featuresBuilder.ToString();
+            SendData(featuresBuilder.ToString());
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace CECP.App.GameSubsystem.Modes.Init
         /// <param name="command">The Rejected command to execute.</param>
         /// <exception cref="FeatureNotSupportedException">Thrown when feature is not supported by the CECP interface.</exception>
         /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
-        private string ExecuteRejectedCommand(Command command)
+        private void ExecuteRejectedCommand(Command command)
         {
             throw new FeatureNotSupportedException();
         }
@@ -80,10 +80,9 @@ namespace CECP.App.GameSubsystem.Modes.Init
         /// </summary>
         /// <param name="command">The New command to execute.</param>
         /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
-        private string ExecuteNewCommand(Command command)
+        private void ExecuteNewCommand(Command command)
         {
             ChangeMode(CECPModeType.Game);
-            return string.Empty;
         }
     }
 }

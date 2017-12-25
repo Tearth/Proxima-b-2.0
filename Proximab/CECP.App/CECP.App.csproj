@@ -59,6 +59,7 @@
     <Compile Include="GameSubsystem\Modes\Game\GameMode.cs" />
     <Compile Include="GameSubsystem\Modes\Game\Moves\CECPMoveParser.cs" />
     <Compile Include="GameSubsystem\Modes\Init\InitMode.cs" />
+    <Compile Include="GameSubsystem\SendDataEventArgs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

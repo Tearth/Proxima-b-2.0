@@ -12,7 +12,7 @@ namespace CECP.App.ConsoleSubsystem
     /// </summary>
     /// <param name="command">The command instance.</param>
     /// <returns>The response.</returns>
-    public delegate string ExecuteCommandDelegate(Command command);
+    public delegate void ExecuteCommandDelegate(Command command);
 
     /// <summary>
     /// Represents a set of methods to manage and execute commands.
@@ -58,15 +58,13 @@ namespace CECP.App.ConsoleSubsystem
         /// </summary>
         /// <param name="command">The command to execute.</param>
         /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
-        public string Execute(Command command)
+        public void Execute(Command command)
         {
-            if (!_commandHandles.ContainsKey(command.Type))
+            if (_commandHandles.ContainsKey(command.Type))
             {
-                return string.Empty;
+                var commandHandler = _commandHandles[command.Type];
+                commandHandler.Invoke(command);
             }
-
-            var commandHandler = _commandHandles[command.Type];
-            return commandHandler.Invoke(command);
         }
     }
 }

@@ -13,6 +13,11 @@ namespace CECP.App.GameSubsystem
     public abstract class CECPModeBase
     {
         /// <summary>
+        /// The event triggered when FICS mode is changing to another.
+        /// </summary>
+        public event EventHandler<SendDataEventArgs> OnSendData;
+
+        /// <summary>
         /// The event triggered when CECP mode is changing to another.
         /// </summary>
         public event EventHandler<ChangeModeEventArgs> OnChangeMode;
@@ -34,9 +39,18 @@ namespace CECP.App.GameSubsystem
         }
 
         /// <summary>
+        /// Send the specified data to the CECP.
+        /// </summary>
+        /// <param name="newModeType">The text to send.</param>
+        public void SendData(string text)
+        {
+            OnSendData?.Invoke(this, new SendDataEventArgs(text));
+        }
+
+        /// <summary>
         /// Changes mode to the specified one.
         /// </summary>
-        /// <param name="newModeType">The new FICS mode.</param>
+        /// <param name="newModeType">The new CECP mode.</param>
         public void ChangeMode(CECPModeType newModeType)
         {
             OnChangeMode?.Invoke(this, new ChangeModeEventArgs(newModeType));
@@ -47,9 +61,9 @@ namespace CECP.App.GameSubsystem
         /// </summary>
         /// <param name="command">The command to process.</param>
         /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
-        public virtual string ProcessCommand(Command command)
+        public virtual void ProcessCommand(Command command)
         {
-            return CommandsManager.Execute(command);
+            CommandsManager.Execute(command);
         }
 
         /// <summary>
@@ -57,11 +71,10 @@ namespace CECP.App.GameSubsystem
         /// </summary>
         /// <param name="command">The New Ping to execute.</param>
         /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
-        private string ExecutePing(Command command)
+        private void ExecutePing(Command command)
         {
             var pingNumber = command.GetArgument<int>(0);
-
-            return $"pong {pingNumber}";
+            SendData($"pong {pingNumber}");
         }
 
         /// <summary>
@@ -69,11 +82,9 @@ namespace CECP.App.GameSubsystem
         /// </summary>
         /// <param name="command">The New Quit to execute.</param>
         /// <returns>The response (<see cref="string.Empty"/> if none).</returns>
-        private string ExecuteQuit(Command command)
+        private void ExecuteQuit(Command command)
         {
             Environment.Exit(0);
-
-            return string.Empty;
         }
     }
 }

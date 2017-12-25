@@ -39,13 +39,13 @@ namespace CECP.App
             while (true)
             {
                 var command = _consoleManager.WaitForCommand();
-                var response = _cecpMode.ProcessCommand(command);
-
-                if (response != string.Empty)
-                {
-                    _consoleManager.WriteLine(response);
-                }
+                _cecpMode.ProcessCommand(command);
             }
+        }
+        
+        private void CECPMode_OnSendData(object sender, SendDataEventArgs e)
+        {
+            _consoleManager.WriteLine(e.Text);
         }
 
         /// <summary>
@@ -69,6 +69,7 @@ namespace CECP.App
             var ficsModeFactory = new CECPModeFactory();
 
             _cecpMode = ficsModeFactory.Create(modeType);
+            _cecpMode.OnSendData += CECPMode_OnSendData;
             _cecpMode.OnChangeMode += CECPMode_OnChangeMode;
         }
     }

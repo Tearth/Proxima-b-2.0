@@ -32,8 +32,6 @@ namespace FICS.App.GameSubsystem.Modes.Game
         private Dictionary<string, GameResult> _gameResultTokens;
         private Color _engineColor;
 
-        private int _movesCount;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GameMode"/> class.
         /// </summary>
@@ -50,8 +48,6 @@ namespace FICS.App.GameSubsystem.Modes.Game
                 { "1/2-1/2", GameResult.Draw },
                 { "aborted on move 1", GameResult.Aborted }
             };
-
-            _movesCount = 0;
         }
 
         /// <summary>
