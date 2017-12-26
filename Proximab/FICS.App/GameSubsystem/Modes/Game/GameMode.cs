@@ -5,7 +5,6 @@ using FICS.App.GameSubsystem.Modes.Game.Style12;
 using Helpers.Loggers.CSV;
 using Proxima.Core.AI;
 using Proxima.Core.Boards;
-using Proxima.Core.Boards.Exceptions;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;

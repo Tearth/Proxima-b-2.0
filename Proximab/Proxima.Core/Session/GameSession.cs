@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Proxima.Core.AI;
 using Proxima.Core.Boards;
-using Proxima.Core.Boards.Exceptions;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators;
 using Proxima.Core.MoveGenerators.Moves;
+using Proxima.Core.Session.Exceptions;
 using Proxima.Core.Time;
 
 namespace Proxima.Core.Session

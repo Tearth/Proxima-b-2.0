@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Proxima.Core.Boards.Exceptions
+namespace Proxima.Core.Session.Exceptions
 {
     /// <summary>
     /// The exception that is thrown when a bitboard is disintegrated.

@@ -8,7 +8,6 @@ using CECP.App.GameSubsystem.Modes.Game.Moves;
 using Helpers.Loggers.CSV;
 using Proxima.Core.AI;
 using Proxima.Core.Boards;
-using Proxima.Core.Boards.Exceptions;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Positions;
