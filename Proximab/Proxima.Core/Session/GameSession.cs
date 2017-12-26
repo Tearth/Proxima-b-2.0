@@ -185,7 +185,7 @@ namespace Proxima.Core.Session
 
             if (Bitboard.IsMate(color))
             {
-                mateResult = color == Color.White ? GameResult.WhiteWon : GameResult.BlackWon;
+                mateResult = color == Color.White ? GameResult.BlackWon : GameResult.WhiteWon;
             }
             else if (Bitboard.IsStalemate(color))
             {
