@@ -2,7 +2,6 @@
 using GUI.App.CommandsSubsystem;
 using GUI.App.ConsoleSubsystem;
 using Proxima.Core.AI;
-using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
 

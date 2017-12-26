@@ -1,5 +1,4 @@
 ﻿using System;
-using GUI.App;
 using GUI.App.CommandsSubsystem;
 using GUI.App.ConsoleSubsystem;
 using Proxima.Core;

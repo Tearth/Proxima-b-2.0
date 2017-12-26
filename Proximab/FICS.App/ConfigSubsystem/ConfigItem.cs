@@ -1,6 +1,4 @@
-﻿using System.Xml.Serialization;
-
-namespace FICS.App.ConfigSubsystem
+﻿namespace FICS.App.ConfigSubsystem
 {
     /// <summary>
     /// Represents a single config item.

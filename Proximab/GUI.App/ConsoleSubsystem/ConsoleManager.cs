@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using GUI.App.CommandsSubsystem;
 using GUI.ContentDefinitions.Commands;

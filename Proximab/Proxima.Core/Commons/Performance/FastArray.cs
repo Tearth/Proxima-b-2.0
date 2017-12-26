@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Pieces;
 

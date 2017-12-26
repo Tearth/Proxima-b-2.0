@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FICS.App.GameSubsystem.Modes.Game.Style12
+﻿namespace FICS.App.GameSubsystem.Modes.Game.Style12
 {
     /// <summary>
     /// Represents avaliable types of Style12 orientations.

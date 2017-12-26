@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
-using Proxima.Core.Commons.Pieces;
-using Proxima.Core.Commons.Positions;
 
 namespace FICS.App.GameSubsystem.Modes.Game.Style12
 {

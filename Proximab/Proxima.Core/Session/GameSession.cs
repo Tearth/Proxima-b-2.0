@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Proxima.Core.AI;
 using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;

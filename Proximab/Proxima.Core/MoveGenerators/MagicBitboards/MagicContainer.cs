@@ -1,5 +1,4 @@
-﻿using Proxima.Core.Boards;
-using Proxima.Core.MoveGenerators.MagicBitboards.Attacks;
+﻿using Proxima.Core.MoveGenerators.MagicBitboards.Attacks;
 using Proxima.Core.MoveGenerators.MagicBitboards.Attacks.Generators;
 using Proxima.Core.MoveGenerators.MagicBitboards.Keys;
 using Proxima.Core.MoveGenerators.PatternGenerators;

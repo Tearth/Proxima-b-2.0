@@ -5,10 +5,7 @@ using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
-using Proxima.Core.Evaluation;
 using Proxima.Core.Evaluation.Castling;
-using Proxima.Core.Evaluation.Position;
-using Proxima.Core.MoveGenerators;
 
 namespace Proxima.Core.MoveGenerators.Moves
 {

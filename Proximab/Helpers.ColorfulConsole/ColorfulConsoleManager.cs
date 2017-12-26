@@ -1,5 +1,4 @@
-﻿using System;
-using Helpers.ColorfulConsole.Diagnostic;
+﻿using Helpers.ColorfulConsole.Diagnostic;
 using Helpers.ColorfulConsole.Output;
 
 namespace Helpers.ColorfulConsole

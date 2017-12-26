@@ -1,5 +1,4 @@
 ﻿using Proxima.Core.Boards;
-using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 
 namespace Proxima.Core.Evaluation.Castling

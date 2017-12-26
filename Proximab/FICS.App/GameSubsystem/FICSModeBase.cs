@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FICS.App.ConfigSubsystem;
-using FICS.App.NetworkSubsystem;
 
 namespace FICS.App.GameSubsystem
 {
