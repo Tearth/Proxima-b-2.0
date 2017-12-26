@@ -51,6 +51,8 @@
     <Compile Include="AI\SEE\SEECalculator.cs" />
     <Compile Include="AI\SEE\SEEResult.cs" />
     <Compile Include="AI\ThinkingOutputEventArgs.cs" />
+    <Compile Include="AI\Transposition\TranspositionNode.cs" />
+    <Compile Include="AI\Transposition\TranspositionTable.cs" />
     <Compile Include="Boards\Bitboard.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>

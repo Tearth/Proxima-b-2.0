@@ -95,7 +95,7 @@ namespace GUI.App.GameSubsystem.Modes
             }
             else if (move is PromotionMove promotionMove)
             {
-                var promotionMoves = Bitboard.Moves.Where(p => p.From == move.From && p is PromotionMove).Cast<PromotionMove>();
+                var promotionMoves = Bitboard.Moves.Where(p => p.From == move.From).Cast<PromotionMove>();
                 PromotionWindow.Display(move.Color, promotionMoves);
             }
             else
