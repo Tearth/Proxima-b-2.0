@@ -35,11 +35,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -74,10 +69,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GUI.ContentDefinitions\GUI.ContentDefinitions.csproj">
-      <Project>{93FFF5B7-FE43-46D0-8CAA-14AF8ADA6E53}</Project>
-      <Name>GUI.ContentDefinitions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Helpers.ColorfulConsole\Helpers.ColorfulConsole.csproj">
       <Project>{f168016d-ae15-4472-8e18-f1b1150a4a3a}</Project>
       <Name>Helpers.ColorfulConsole</Name>
