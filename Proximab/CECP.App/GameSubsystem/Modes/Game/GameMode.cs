@@ -9,6 +9,7 @@ using Helpers.Loggers.CSV;
 using Proxima.Core.AI;
 using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
+using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators;
@@ -33,6 +34,8 @@ namespace CECP.App.GameSubsystem.Modes.Game
         private Color _engineColor;
         private Color _enemyColor;
 
+        private Dictionary<string, GameResult> _gameResultTokens;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GameMode"/> class.
         /// </summary>
@@ -48,6 +51,13 @@ namespace CECP.App.GameSubsystem.Modes.Game
             _engineColor = Color.Black;
             _enemyColor = Color.White;
 
+            _gameResultTokens = new Dictionary<string, GameResult>()
+            {
+                { "1-0", GameResult.WhiteWon },
+                { "0-1", GameResult.BlackWon },
+                { "1/2-1/2", GameResult.Draw },
+            };
+
             CommandsManager.AddCommandHandler(CommandType.Post, ExecutePostCommand);
             CommandsManager.AddCommandHandler(CommandType.NoPost, ExecuteNoPostCommand);
             CommandsManager.AddCommandHandler(CommandType.Time, ExecuteTimeCommand);
@@ -56,6 +66,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
             CommandsManager.AddCommandHandler(CommandType.Black, ExecuteBlackCommand);
             CommandsManager.AddCommandHandler(CommandType.Go, ExecuteGoCommand);
             CommandsManager.AddCommandHandler(CommandType.UserMove, ExecuteUserMoveCommand);
+            CommandsManager.AddCommandHandler(CommandType.Result, ExecuteResultCommand);
         }
 
         /// <summary>
@@ -169,6 +180,18 @@ namespace CECP.App.GameSubsystem.Modes.Game
 
             var aiResponse = CalculateAIMove();
             SendData($"move {aiResponse}");
+        }
+
+        /// <summary>
+        /// Executes Result command (ends game with the specified result).
+        /// </summary>
+        /// <param name="command">The Result command to execute.</param>
+        private void ExecuteResultCommand(Command command)
+        {
+            var gameResultArgument = command.GetArgument<string>(0);
+            var gameResult = _gameResultTokens[gameResultArgument];
+
+            _csvLogger.WriteLine(gameResult, _engineColor);
         }
 
         /// <summary>

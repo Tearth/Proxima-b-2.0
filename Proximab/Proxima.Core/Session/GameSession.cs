@@ -181,7 +181,7 @@ namespace Proxima.Core.Session
 
         private void CheckIfGameHasEnded(Color color)
         {
-            var mateResult = GameResult.Aborted;
+            GameResult? mateResult = null;
 
             if (Bitboard.IsMate(color))
             {
@@ -191,8 +191,11 @@ namespace Proxima.Core.Session
             {
                 mateResult = GameResult.Draw;
             }
-
-            OnGameEnded?.Invoke(this, new GameEndedEventArgs(mateResult));
+            
+            if(mateResult.HasValue)
+            {
+                OnGameEnded?.Invoke(this, new GameEndedEventArgs(mateResult.Value));
+            }
         }
     }
 }
