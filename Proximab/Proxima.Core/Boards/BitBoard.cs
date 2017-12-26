@@ -66,7 +66,7 @@ namespace Proxima.Core.Boards
         public bool[] CastlingDone { get; private set; }
 
         /// <summary>
-        /// Gets the available moves list (only if <see cref="Calculate"/> method was called).
+        /// Gets the available moves list (only if <see cref="Calculate(bool)"/> method was called).
         /// </summary>
         public LinkedList<Move> Moves { get; private set; }
 

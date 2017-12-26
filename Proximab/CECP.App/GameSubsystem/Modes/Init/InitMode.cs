@@ -16,7 +16,7 @@ namespace CECP.App.GameSubsystem.Modes.Init
         /// <summary>
         /// Initializes a new instance of the <see cref="InitMode"/> class.
         /// </summary>
-        public InitMode() : base()
+        public InitMode()
         {
             _features = new Dictionary<string, bool>()
             {

@@ -30,26 +30,17 @@ namespace Proxima.Core.Tests
         /// <summary>
         /// Gets the total time required for whole test.
         /// </summary>
-        public float Time
-        {
-            get { return (float)new TimeSpan(Ticks).TotalSeconds; }
-        }
+        public float Time => (float)new TimeSpan(Ticks).TotalSeconds;
 
         /// <summary>
         /// Gets the number of nodes per second (TotalNodes / Time).
         /// </summary>
-        public int NodesPerSecond
-        {
-            get { return Time != 0 ? (int)(TotalNodes / Time) : 0; }
-        }
+        public int NodesPerSecond => Time != 0 ? (int)(TotalNodes / Time) : 0;
 
         /// <summary>
         /// Gets the number of nanoseconds per node ((Ticks / TotalNodes) * 100).
         /// </summary>
-        public int TimePerNode
-        {
-            get { return TotalNodes != 0 ? (int)(Ticks / TotalNodes) * 100 : 0; }
-        }
+        public int TimePerNode => TotalNodes != 0 ? (int)(Ticks / TotalNodes) * 100 : 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MovesTestData"/> class.

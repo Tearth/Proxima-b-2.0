@@ -35,17 +35,15 @@ namespace FICS.App.GameSubsystem.Modes.Seek
         /// <param name="message">The message to process.</param>
         public override void ProcessMessage(string message)
         {
-            var response = string.Empty;
-
             if (!_seekSent)
             {
-                response = ConfigManager.GetValue<string>(SeekCommandConfigKeyName);
+                var response = ConfigManager.GetValue<string>(SeekCommandConfigKeyName);
                 _seekSent = true;
 
                 SendData(response);
             }
 
-            if (_acceptanceTokens.Any(p => message.Contains(p)))
+            if (_acceptanceTokens.Any(message.Contains))
             {
                 ChangeMode(FICSModeType.Game);
             }

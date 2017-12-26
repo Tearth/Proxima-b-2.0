@@ -11,7 +11,7 @@ namespace Proxima.Core.Session.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="BitboardDisintegratedException"/> class.
         /// </summary>
-        public BitboardDisintegratedException() : base()
+        public BitboardDisintegratedException()
         {
         }
 

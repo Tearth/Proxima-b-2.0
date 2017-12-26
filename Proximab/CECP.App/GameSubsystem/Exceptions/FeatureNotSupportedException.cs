@@ -11,7 +11,7 @@ namespace CECP.App.GameSubsystem.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="FeatureNotSupportedException"/> class.
         /// </summary>
-        public FeatureNotSupportedException() : base()
+        public FeatureNotSupportedException()
         {
         }
 

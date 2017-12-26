@@ -30,7 +30,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// <summary>
         /// Initializes a new instance of the <see cref="GameMode"/> class.
         /// </summary>
-        public GameMode() : base()
+        public GameMode()
         {
             _gameSession = new GameSession();
             _gameSession.OnThinkingOutput += GameSession_OnThinkingOutput;

@@ -11,7 +11,7 @@ namespace GUI.App.GameSubsystem.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="GameModeNotFoundException"/> class.
         /// </summary>
-        public GameModeNotFoundException() : base()
+        public GameModeNotFoundException()
         {
         }
 

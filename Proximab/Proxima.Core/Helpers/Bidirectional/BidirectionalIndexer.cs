@@ -27,7 +27,7 @@ namespace Proxima.Core.Helpers.Bidirectional
         /// <returns>The value associated with the key.</returns>
         public T2 this[T1 index]
         {
-            get { return _dictionary[index]; }
+            get => _dictionary[index];
             set { _dictionary[index] = value; }
         }
 

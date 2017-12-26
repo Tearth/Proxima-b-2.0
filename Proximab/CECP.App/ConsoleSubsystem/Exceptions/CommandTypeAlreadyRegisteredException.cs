@@ -11,7 +11,7 @@ namespace CECP.App.ConsoleSubsystem.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandTypeAlreadyRegisteredException"/> class.
         /// </summary>
-        public CommandTypeAlreadyRegisteredException() : base()
+        public CommandTypeAlreadyRegisteredException()
         {
         }
 

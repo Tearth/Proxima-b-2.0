@@ -32,26 +32,17 @@ namespace GUI.App.InputSubsystem
         /// <summary>
         /// Gets a value indicating whether left mouse button is pressed.
         /// </summary>
-        public bool IsLeftMouseButtonPressed
-        {
-            get { return Mouse.GetState().LeftButton == ButtonState.Pressed; }
-        }
+        public bool IsLeftMouseButtonPressed => Mouse.GetState().LeftButton == ButtonState.Pressed;
 
         /// <summary>
         /// Gets a value indicating whether right mouse button is pressed.
         /// </summary>
-        public bool IsRightMouseButtonPressed
-        {
-            get { return Mouse.GetState().RightButton == ButtonState.Pressed; }
-        }
+        public bool IsRightMouseButtonPressed => Mouse.GetState().RightButton == ButtonState.Pressed;
 
         /// <summary>
         /// Gets the current mouse position.
         /// </summary>
-        public Point MousePosition
-        {
-            get { return Mouse.GetState().Position; }
-        }
+        public Point MousePosition => Mouse.GetState().Position;
 
         private List<Keys> _keyboardJustPressedKeys;
         private KeyboardState _keyboardKeysPreviousState;
