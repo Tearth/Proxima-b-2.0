@@ -72,9 +72,7 @@ namespace Proxima.Core.Session
         /// <param name="to">The target piece position.</param>
         public void Move(Color color, Position from, Position to)
         {
-            Bitboard.Calculate(GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks,
-                               GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks,
-                               false);
+            Bitboard.Calculate(GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks, false);
 
             CheckIfGameHasEnded(color);
             UpdateMovesCount(color);
@@ -95,9 +93,7 @@ namespace Proxima.Core.Session
         /// <param name="promotionPieceType">The promotion piece type.</param>
         public void Move(Color color, Position from, Position to, PieceType promotionPieceType)
         {
-            Bitboard.Calculate(GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks,
-                               GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks,
-                               false);
+            Bitboard.Calculate(GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks, false);
 
             CheckIfGameHasEnded(color);
             UpdateMovesCount(color);
@@ -119,9 +115,7 @@ namespace Proxima.Core.Session
         /// <returns>The AI result.</returns>
         public AIResult MoveAI(Color color)
         {
-            Bitboard.Calculate(GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks,
-                               GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks,
-                               false);
+            Bitboard.Calculate(GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks, false);
 
             UpdateMovesCount(color);
             CheckIfGameHasEnded(color);
@@ -179,6 +173,10 @@ namespace Proxima.Core.Session
             }
         }
 
+        /// <summary>
+        /// Checks if game has ended. If true, OnGameEnded event is invoked.
+        /// </summary>
+        /// <param name="color">The king color.</param>
         private void CheckIfGameHasEnded(Color color)
         {
             GameResult? mateResult = null;
@@ -191,8 +189,8 @@ namespace Proxima.Core.Session
             {
                 mateResult = GameResult.Draw;
             }
-            
-            if(mateResult.HasValue)
+
+            if (mateResult.HasValue)
             {
                 OnGameEnded?.Invoke(this, new GameEndedEventArgs(mateResult.Value));
             }

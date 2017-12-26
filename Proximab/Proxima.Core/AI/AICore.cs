@@ -74,7 +74,7 @@ namespace Proxima.Core.AI
 
             if (depth <= 0)
             {
-                bitboard.Calculate(GeneratorMode.CalculateAttacks, GeneratorMode.CalculateAttacks, false);
+                bitboard.Calculate(GeneratorMode.CalculateAttacks, false);
                 stats.EndNodes++;
 
                 if (bitboard.IsCheck(enemyColor))

@@ -60,7 +60,7 @@ namespace Proxima.Core.Tests
             {
                 if (calculateEndNodes)
                 {
-                    bitboard.Calculate(GeneratorMode.CalculateAttacks, GeneratorMode.CalculateAttacks, false);
+                    bitboard.Calculate(GeneratorMode.CalculateAttacks, false);
                     bitboard.GetEvaluation();
                 }
 

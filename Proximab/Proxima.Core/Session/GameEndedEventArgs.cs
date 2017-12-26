@@ -20,7 +20,7 @@ namespace Proxima.Core.Session
         /// <summary>
         /// Initializes a new instance of the <see cref="GameEndedEventArgs"/> class.
         /// </summary>
-        /// <param name="aiResult">The AI result.</param>
+        /// <param name="gameResult">The game result.</param>
         public GameEndedEventArgs(GameResult gameResult)
         {
             GameResult = gameResult;

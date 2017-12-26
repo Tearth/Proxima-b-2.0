@@ -202,6 +202,16 @@ namespace Proxima.Core.Boards
         /// <summary>
         /// Calculates available moves.
         /// </summary>
+        /// <param name="mode">The generator mode for both colors.</param>
+        /// <param name="quiescenceSearch">If true, only quiescence moves (mainly captures) will be generated.</param>
+        public void Calculate(GeneratorMode mode, bool quiescenceSearch)
+        {
+            CalculateAvailableMoves(mode, mode, quiescenceSearch);
+        }
+
+        /// <summary>
+        /// Calculates available moves.
+        /// </summary>
         /// <param name="whiteMode">The white generator mode.</param>
         /// <param name="blackMode">The black generator mode.</param>
         /// <param name="quiescenceSearch">If true, only quiescence moves (mainly captures) will be generated.</param>
