@@ -71,7 +71,12 @@ namespace FICS.App
             _consoleManager.WriteLine($"$R{SendPrefix}: $r{e.Text}");
             _textLogger.WriteLine($"{SendPrefix}: {e.Text}");
         }
-        
+
+        /// <summary>
+        /// The event handler for OnSendData.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
         private void FICSMode_OnSendData(object sender, SendDataEventArgs e)
         {
             _ficsClient.Send(e.Text);

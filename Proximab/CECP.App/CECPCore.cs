@@ -42,7 +42,12 @@ namespace CECP.App
                 _cecpMode.ProcessCommand(command);
             }
         }
-        
+
+        /// <summary>
+        /// The event handler for OnSendData.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
         private void CECPMode_OnSendData(object sender, SendDataEventArgs e)
         {
             _consoleManager.WriteLine(e.Text);

@@ -12,6 +12,9 @@ namespace Proxima.Core.AI
     /// </summary>
     public class AICore
     {
+        /// <summary>
+        /// The event triggered when there is new thinking output available.
+        /// </summary>
         public event EventHandler<ThinkingOutputEventArgs> OnThinkingOutput;
 
         /// <summary>

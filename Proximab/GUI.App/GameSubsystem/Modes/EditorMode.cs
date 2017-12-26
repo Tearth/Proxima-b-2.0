@@ -240,11 +240,19 @@ namespace GUI.App.GameSubsystem.Modes
             ConsoleManager.WriteLine();
         }
 
+        /// <summary>
+        /// Sets quiescence search flag.
+        /// </summary>
+        /// <param name="command">The Quiescence command</param>
         private void SetQuiescenceSearch(Command command)
         {
             _quiescenceSearch = command.GetArgument<bool>(0);
         }
 
+        /// <summary>
+        /// Runs static exchange evaluation.
+        /// </summary>
+        /// <param name="command">The SEE command</param>
         private void RunSEE(Command command)
         {
             var colorArgument = command.GetArgument<string>(0);

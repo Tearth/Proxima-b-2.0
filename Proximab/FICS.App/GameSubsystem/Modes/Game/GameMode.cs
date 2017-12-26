@@ -75,6 +75,10 @@ namespace FICS.App.GameSubsystem.Modes.Game
             }
         }
 
+        /// <summary>
+        /// Inits game session (sets engine color).
+        /// </summary>
+        /// <param name="message">The message to process.</param>
         private void InitGameSession(string message)
         {
             var username = ConfigManager.GetValue<string>("Username");

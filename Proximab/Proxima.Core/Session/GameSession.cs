@@ -16,11 +16,25 @@ using Proxima.Core.Time;
 
 namespace Proxima.Core.Session
 {
+    /// <summary>
+    /// Represents a set of methods to manage game session (it's recommended to use this class instead
+    /// manual creating <see cref="Proxima.Core.Boards.Bitboard"/> class.
+    /// </summary>
     public class GameSession
     {
+        /// <summary>
+        /// Gets the bitboard.
+        /// </summary>
         public Bitboard Bitboard { get; private set; }
+
+        /// <summary>
+        /// Gets the moves count (where 1 move = white move + black move).
+        /// </summary>
         public int MovesCount { get; private set; }
 
+        /// <summary>
+        /// The event triggered when there is new thinking output available.
+        /// </summary>
         public event EventHandler<ThinkingOutputEventArgs> OnThinkingOutput;
 
         private AICore _aiCore;
@@ -28,6 +42,9 @@ namespace Proxima.Core.Session
 
         private int[] _remainingTime;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameSession"/> class.
+        /// </summary>
         public GameSession()
         {
             MovesCount = 0;
@@ -41,6 +58,12 @@ namespace Proxima.Core.Session
             _remainingTime = new int[2];
         }
 
+        /// <summary>
+        /// Moves a piece with the specified color and source/target positions.
+        /// </summary>
+        /// <param name="color">The piece color.</param>
+        /// <param name="from">The source piece position.</param>
+        /// <param name="to">The target piece position.</param>
         public void Move(Color color, Position from, Position to)
         {
             UpdateMovesCount(color);
@@ -53,6 +76,14 @@ namespace Proxima.Core.Session
             CheckBitboardIntegrity();
         }
 
+        /// <summary>
+        /// Moves a piece with the specified color and source/target positions and promotes to the new
+        /// piece with the specified type.
+        /// </summary>
+        /// <param name="color">The piece color.</param>
+        /// <param name="from">The source piece position.</param>
+        /// <param name="to">The target piece position.</param>
+        /// <param name="promotionPieceType">The promotion piece type.</param>
         public void Move(Color color, Position from, Position to, PieceType promotionPieceType)
         {
             UpdateMovesCount(color);
@@ -67,6 +98,11 @@ namespace Proxima.Core.Session
             CheckBitboardIntegrity();
         }
 
+        /// <summary>
+        /// Runs AI and does best found move.
+        /// </summary>
+        /// <param name="color">The engine color.</param>
+        /// <returns>The AI result.</returns>
         public AIResult MoveAI(Color color)
         {
             UpdateMovesCount(color);
@@ -80,16 +116,30 @@ namespace Proxima.Core.Session
             return aiResult;
         }
 
+        /// <summary>
+        /// Updates remaining time for the specified color.
+        /// </summary>
+        /// <param name="color">The color.</param>
+        /// <param name="remainingTime">The remaining time (in seconds).</param>
         public void UpdateRemainingTime(Color color, int remainingTime)
         {
             _remainingTime[(int)color] = remainingTime;
         }
 
+        /// <summary>
+        /// The event handler tor OnThinkingOuput.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
         private void AICore_OnThinkingOutput(object sender, ThinkingOutputEventArgs e)
         {
             OnThinkingOutput?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Updates moves count for the specified color (increments when current color is white).
+        /// </summary>
+        /// <param name="color">The current color.</param>
         private void UpdateMovesCount(Color color)
         {
             if (color == Color.White)
@@ -98,6 +148,10 @@ namespace Proxima.Core.Session
             }
         }
 
+        /// <summary>
+        /// Checks if bitboard is integrated (throws exception if result is not true).
+        /// </summary>
+        /// <exception cref="BitboardDisintegratedException">Thrown when bitboard is not integrated.</exception>
         private void CheckBitboardIntegrity()
         {
             if (!Bitboard.VerifyIntegrity())

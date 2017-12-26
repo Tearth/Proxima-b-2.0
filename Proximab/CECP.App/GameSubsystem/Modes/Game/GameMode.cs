@@ -68,6 +68,11 @@ namespace CECP.App.GameSubsystem.Modes.Game
             CommandsManager.Execute(command);
         }
 
+        /// <summary>
+        /// The event handler for OnThinkingOutput.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
         private void GameSession_OnThinkingOutput(object sender, ThinkingOutputEventArgs e)
         {
             if (_thinkingOutputEnabled)
