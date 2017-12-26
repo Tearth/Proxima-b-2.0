@@ -10,7 +10,7 @@ namespace CECP.App.GameSubsystem
         /// <summary>
         /// Gets the type of new FICS mode.
         /// </summary>
-        public CECPModeType NewModeType { get; private set; }
+        public CECPModeType NewModeType { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChangeModeEventArgs"/> class.

@@ -18,7 +18,7 @@ namespace Helpers.Loggers
         /// Initializes a new instance of the <see cref="LogBase"/> class.
         /// </summary>
         /// <param name="directory">The directory where all logs will be stored.</param>
-        public LogBase(string directory)
+        protected LogBase(string directory)
         {
             _directory = directory;
         }

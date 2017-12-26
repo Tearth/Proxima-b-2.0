@@ -17,7 +17,7 @@ namespace Proxima.Core.MoveGenerators.Moves
         /// <summary>
         /// Gets the castling type.
         /// </summary>
-        public CastlingType CastlingType { get; private set; }
+        public CastlingType CastlingType { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CastlingMove"/> class.

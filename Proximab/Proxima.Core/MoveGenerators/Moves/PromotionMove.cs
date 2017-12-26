@@ -14,12 +14,12 @@ namespace Proxima.Core.MoveGenerators.Moves
         /// <summary>
         /// Gets the promotion piece type.
         /// </summary>
-        public PieceType PromotionPiece { get; private set; }
+        public PieceType PromotionPiece { get; }
 
         /// <summary>
         /// Gets a value indicating whether the promotion move is killing enemy piece.
         /// </summary>
-        public bool KillMove { get; private set; }
+        public bool KillMove { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PromotionMove"/> class.

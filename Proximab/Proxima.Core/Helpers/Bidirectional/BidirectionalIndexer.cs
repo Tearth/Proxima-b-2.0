@@ -28,7 +28,7 @@ namespace Proxima.Core.Helpers.Bidirectional
         public T2 this[T1 index]
         {
             get => _dictionary[index];
-            set { _dictionary[index] = value; }
+            set => _dictionary[index] = value;
         }
 
         /// <summary>

@@ -11,17 +11,17 @@ namespace CECP.App.GameSubsystem.Modes.Game.Moves
         /// <summary>
         /// Gets the source piece position.
         /// </summary>
-        public Position From { get; private set; }
+        public Position From { get; }
 
         /// <summary>
         /// Gets the destination piece position.
         /// </summary>
-        public Position To { get; private set; }
+        public Position To { get; }
 
         /// <summary>
         /// Gets the promotion piece type (null in move is not promoting anything).
         /// </summary>
-        public PieceType? PromotionPiece { get; private set; }
+        public PieceType? PromotionPiece { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CECPMove"/> class.

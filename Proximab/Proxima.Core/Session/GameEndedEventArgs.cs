@@ -11,7 +11,7 @@ namespace Proxima.Core.Session
         /// <summary>
         /// Gets the game result.
         /// </summary>
-        public GameResult GameResult { get; private set; }
+        public GameResult GameResult { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameEndedEventArgs"/> class.

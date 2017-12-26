@@ -11,22 +11,22 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
         /// <summary>
         /// Gets the piece type participating in the move.
         /// </summary>
-        public PieceType PieceType { get; private set; }
+        public PieceType PieceType { get; }
 
         /// <summary>
         /// Gets the source piece position.
         /// </summary>
-        public Position From { get; private set; }
+        public Position From { get; }
 
         /// <summary>
         /// Gets the destination piece position.
         /// </summary>
-        public Position To { get; private set; }
+        public Position To { get; }
 
         /// <summary>
         /// Gets the piece type after promotion. Null if the piece is not promoted.
         /// </summary>
-        public PieceType? PromotionPieceType { get; private set; }
+        public PieceType? PromotionPieceType { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Style12Move"/> class.

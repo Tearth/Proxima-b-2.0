@@ -59,7 +59,7 @@ namespace GUI.App.GameSubsystem
         /// </summary>
         /// <param name="consoleManager">The console manager instance</param>
         /// <param name="commandsManager">The commands manager instance</param>
-        public GameModeBase(ConsoleManager consoleManager, CommandsManager commandsManager)
+        protected GameModeBase(ConsoleManager consoleManager, CommandsManager commandsManager)
         {
             ConsoleManager = consoleManager;
             CommandsManager = commandsManager;

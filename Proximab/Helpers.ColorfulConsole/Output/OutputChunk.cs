@@ -10,12 +10,12 @@ namespace Helpers.ColorfulConsole.Output
         /// <summary>
         /// Gets the color in which the text will be displayed.
         /// </summary>
-        public ConsoleColor Color { get; private set; }
+        public ConsoleColor Color { get; }
 
         /// <summary>
         /// Gets the text to display.
         /// </summary>
-        public string Text { get; private set; }
+        public string Text { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OutputChunk"/> class.

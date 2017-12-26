@@ -8,17 +8,17 @@
         /// <summary>
         /// Gets the command type.
         /// </summary>
-        public CommandType CommandType { get; private set; }
+        public CommandType CommandType { get; }
 
         /// <summary>
         /// Gets the command group.
         /// </summary>
-        public CommandGroup CommandGroup { get; private set; }
+        public CommandGroup CommandGroup { get; }
 
         /// <summary>
         /// Gets the execute command delegate.
         /// </summary>
-        public ExecuteCommandDelegate ExecuteCommandDelegate { get; private set; }
+        public ExecuteCommandDelegate ExecuteCommandDelegate { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandHandle"/> class.

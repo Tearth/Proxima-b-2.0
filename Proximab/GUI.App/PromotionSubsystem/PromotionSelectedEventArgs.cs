@@ -11,7 +11,7 @@ namespace GUI.App.PromotionSubsystem
         /// <summary>
         /// Gets the promotion move.
         /// </summary>
-        public PromotionMove Move { get; private set; }
+        public PromotionMove Move { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PromotionSelectedEventArgs"/> class.

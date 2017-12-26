@@ -11,17 +11,17 @@ namespace GUI.App.BoardSubsystem
         /// <summary>
         /// Gets the moved piece.
         /// </summary>
-        public FriendlyPiece Piece { get; private set; }
+        public FriendlyPiece Piece { get; }
 
         /// <summary>
         /// Gets the source position of the piece.
         /// </summary>
-        public Position From { get; private set; }
+        public Position From { get; }
 
         /// <summary>
         /// Gets the destination position of the piece.
         /// </summary>
-        public Position To { get; private set; }
+        public Position To { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PieceMovedEventArgs"/> class.
