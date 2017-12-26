@@ -61,7 +61,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         }
 
         /// <summary>
-        /// Processes message (done in derivied class) and prepares a response.
+        /// Processes message (done in derived class) and prepares a response.
         /// </summary>
         /// <param name="command">The command to process.</param>
         public override void ProcessCommand(Command command)

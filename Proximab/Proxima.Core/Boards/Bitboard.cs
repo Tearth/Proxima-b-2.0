@@ -33,47 +33,47 @@ namespace Proxima.Core.Boards
         /// <summary>
         /// Gets the pieces array (more information about piece indexes at <see cref="PieceType"/>.
         /// </summary>
-        public ulong[] Pieces { get; private set; }
+        public ulong[] Pieces { get; }
 
         /// <summary>
         /// Gets the occupancy array (0 = White, 1 = Black).
         /// </summary>
-        public ulong[] Occupancy { get; private set; }
+        public ulong[] Occupancy { get; }
 
         /// <summary>
         /// Gets the en passant array (0 = White, 1 = Black).
         /// </summary>
-        public ulong[] EnPassant { get; private set; }
+        public ulong[] EnPassant { get; }
 
         /// <summary>
         /// Gets the attacks array (access by field indexes).
         /// </summary>
-        public ulong[] Attacks { get; private set; }
+        public ulong[] Attacks { get; }
 
         /// <summary>
         /// Gets the attacks summary array (0 = White, 1 = Black).
         /// </summary>
-        public ulong[] AttacksSummary { get; private set; }
+        public ulong[] AttacksSummary { get; }
 
         /// <summary>
         /// Gets the castling possibility array (more information about castling indexes at <see cref="CastlingType"/>).
         /// </summary>
-        public bool[] CastlingPossibility { get; private set; }
+        public bool[] CastlingPossibility { get; }
 
         /// <summary>
         /// Gets the castling done array (0 = White, 1 = Black).
         /// </summary>
-        public bool[] CastlingDone { get; private set; }
+        public bool[] CastlingDone { get; }
 
         /// <summary>
-        /// Gets the available moves list (only if <see cref="Calculate"/> method was called).
+        /// Gets the available moves list (only if <see cref="Calculate(bool)"/> method was called).
         /// </summary>
-        public LinkedList<Move> Moves { get; private set; }
+        public LinkedList<Move> Moves { get; }
 
         /// <summary>
         /// Gets the incremental evaluation data.
         /// </summary>
-        public IncrementalEvaluationData IncEvaluation { get; private set; }
+        public IncrementalEvaluationData IncEvaluation { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Bitboard"/> class.
