@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Proxima.Core.AI;
 using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
+using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
@@ -37,6 +38,11 @@ namespace Proxima.Core.Session
         /// </summary>
         public event EventHandler<ThinkingOutputEventArgs> OnThinkingOutput;
 
+        /// <summary>
+        /// The event triggered when there game has ended.
+        /// </summary>
+        public event EventHandler<GameEndedEventArgs> OnGameEnded;
+
         private AICore _aiCore;
         private PreferredTimeCalculator _preferredTimeCalculator;
 
@@ -66,9 +72,12 @@ namespace Proxima.Core.Session
         /// <param name="to">The target piece position.</param>
         public void Move(Color color, Position from, Position to)
         {
-            UpdateMovesCount(color);
+            Bitboard.Calculate(GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks,
+                               GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks,
+                               false);
 
-            Bitboard.Calculate(GeneratorMode.CalculateMoves, GeneratorMode.CalculateMoves, false);
+            CheckIfGameHasEnded(color);
+            UpdateMovesCount(color);
 
             var moveToApply = Bitboard.Moves.First(p => p.From == from && p.To == to);
 
@@ -86,13 +95,18 @@ namespace Proxima.Core.Session
         /// <param name="promotionPieceType">The promotion piece type.</param>
         public void Move(Color color, Position from, Position to, PieceType promotionPieceType)
         {
+            Bitboard.Calculate(GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks,
+                               GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks,
+                               false);
+
+            CheckIfGameHasEnded(color);
             UpdateMovesCount(color);
 
-            Bitboard.Calculate(GeneratorMode.CalculateMoves, GeneratorMode.CalculateMoves, false);
-
-            var possibleMovesToApply = Bitboard.Moves.Cast<PromotionMove>()
-                .First(p => p.From == from && p.To == to &&
-                       p.PromotionPiece == promotionPieceType);
+            var possibleMovesToApply = Bitboard.Moves
+                .Cast<PromotionMove>()
+                .First(p => p.From == from &&
+                            p.To == to &&
+                            p.PromotionPiece == promotionPieceType);
 
             Bitboard = Bitboard.Move(possibleMovesToApply);
             CheckBitboardIntegrity();
@@ -105,7 +119,12 @@ namespace Proxima.Core.Session
         /// <returns>The AI result.</returns>
         public AIResult MoveAI(Color color)
         {
+            Bitboard.Calculate(GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks,
+                               GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks,
+                               false);
+
             UpdateMovesCount(color);
+            CheckIfGameHasEnded(color);
 
             var preferredTime = _preferredTimeCalculator.Calculate(MovesCount, _remainingTime[(int)color]);
             var aiResult = _aiCore.Calculate(color, Bitboard, preferredTime);
@@ -158,6 +177,22 @@ namespace Proxima.Core.Session
             {
                 throw new BitboardDisintegratedException();
             }
+        }
+
+        private void CheckIfGameHasEnded(Color color)
+        {
+            var mateResult = GameResult.Aborted;
+
+            if (Bitboard.IsMate(color))
+            {
+                mateResult = color == Color.White ? GameResult.WhiteWon : GameResult.BlackWon;
+            }
+            else if (Bitboard.IsStalemate(color))
+            {
+                mateResult = GameResult.Draw;
+            }
+
+            OnGameEnded?.Invoke(this, new GameEndedEventArgs(mateResult));
         }
     }
 }

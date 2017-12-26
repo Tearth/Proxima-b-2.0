@@ -163,6 +163,7 @@
     <Compile Include="ProximaCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session\GameSession.cs" />
+    <Compile Include="Session\GameEndedEventArgs.cs" />
     <Compile Include="Tests\MovesTest.cs" />
     <Compile Include="Tests\MovesTestData.cs" />
     <Compile Include="Time\PreferredTimeCalculator.cs" />
