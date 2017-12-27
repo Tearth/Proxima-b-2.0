@@ -95,7 +95,7 @@ namespace GUI.App.ConsoleSubsystem
         {
             _commandsManager.AddCommandHandler(CommandType.Help, CommandGroup.ConsoleManager, WriteCommandsList);
             _commandsManager.AddCommandHandler(CommandType.Colors, CommandGroup.ConsoleManager, WriteColorsList);
-            _commandsManager.AddCommandHandler(CommandType.Quit, CommandGroup.ConsoleManager, Exit);
+            _commandsManager.AddCommandHandler(CommandType.Exit, CommandGroup.ConsoleManager, Exit);
         }
 
         /// <summary>

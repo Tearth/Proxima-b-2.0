@@ -107,7 +107,7 @@ namespace GUI.App
         private void SetCommandHandlers()
         {
             _commandsManager.AddCommandHandler(CommandType.Mode, CommandGroup.GUICore, ChangeGameMode);
-            _commandsManager.AddCommandHandler(CommandType.Quit, CommandGroup.GUICore, Exit);
+            _commandsManager.AddCommandHandler(CommandType.Exit, CommandGroup.GUICore, Exit);
         }
 
         /// <summary>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GUI.App.CommandsSubsystem.Exceptions;
 using GUI.App.CommandsSubsystem.Parsers;
 using GUI.App.CommandsSubsystem.Validators;
 using GUI.ContentDefinitions.Commands;
@@ -53,11 +52,6 @@ namespace GUI.App.CommandsSubsystem
         /// <param name="handler">The command handler.</param>
         public void AddCommandHandler(CommandType commandType, CommandGroup commandGroup, ExecuteCommandDelegate handler)
         {
-            if (_commandHandles.Exists(p => p.CommandType == commandType))
-            {
-                throw new CommandHandlerAlreadyRegisteredException();
-            }
-
             var commandHandle = new CommandHandle(commandType, commandGroup, handler);
             _commandHandles.Add(commandHandle);
         }
@@ -106,13 +100,12 @@ namespace GUI.App.CommandsSubsystem
             }
 
             var command = GetCommand(rawCommand, commandDefinition);
-            if (!_commandHandles.Exists(p => p.CommandType == command.Type))
-            {
-                throw new CommandHandlerNotFoundException();
-            }
+            var commandHandlers = _commandHandles.Where(p => p.CommandType == command.Type);
 
-            var commandHandler = _commandHandles.First(p => p.CommandType == command.Type);
-            commandHandler.ExecuteCommandDelegate.Invoke(command);
+            foreach (var handler in commandHandlers)
+            {
+                handler.ExecuteCommandDelegate.Invoke(command);
+            }
 
             return ExecutionResult.Success;
         }

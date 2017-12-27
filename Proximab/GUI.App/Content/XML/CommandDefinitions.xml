@@ -10,8 +10,8 @@
       </Item>
 
 		  <Item>
-		    <Name>Quit</Name>
-		    <EnumType>Quit</EnumType>
+		    <Name>Exit</Name>
+		    <EnumType>Exit</EnumType>
 		    <Description>Exits from application.</Description>
 		    <Arguments></Arguments>
 		  </Item>
