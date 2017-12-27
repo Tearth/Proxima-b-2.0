@@ -175,6 +175,7 @@ namespace Proxima.Core.MoveGenerators.Moves
                     bitboard.CastlingPossibility[longCastlingIndex] = false;
                     break;
                 }
+
                 case PieceType.Rook:
                 {
                     if (From == new Position(1, 1) || From == new Position(1, 8))

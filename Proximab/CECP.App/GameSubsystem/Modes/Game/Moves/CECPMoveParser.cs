@@ -22,6 +22,7 @@ namespace CECP.App.GameSubsystem.Modes.Game.Moves
                 {
                     return ParseNormalMove(moveText);
                 }
+
                 case 5:
                 {
                     return ParsePromotionMove(moveText);

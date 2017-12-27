@@ -31,21 +31,35 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
         /// <returns>The Style12 move object. If passed text parameter is invalid, returns null.</returns>
         public Style12Move Parse(string text, Color color)
         {
-            if (text == ShortCastlingNotation)
+            switch (text)
             {
-                return ParseShortCastling(color);
-            }
-            else if (text == LongCastlingNotation)
-            {
-                return ParseLongCastling(color);
-            }
-            else if (text.Length == MoveNotationLength)
-            {
-                return ParseMove(text);
-            }
-            else if (text.Length == MoveNotationWithPromotionLength)
-            {
-                return ParsePromotionMove(text);
+                case ShortCastlingNotation:
+                {
+                    return ParseShortCastling(color);
+                }
+
+                case LongCastlingNotation:
+                {
+                    return ParseLongCastling(color);
+                }
+
+                default:
+                {
+                    switch (text.Length)
+                    {
+                        case MoveNotationLength:
+                        {
+                            return ParseMove(text);
+                        }
+
+                        case MoveNotationWithPromotionLength:
+                        {
+                            return ParsePromotionMove(text);
+                        }
+                    }
+
+                    break;
+                }
             }
 
             return null;

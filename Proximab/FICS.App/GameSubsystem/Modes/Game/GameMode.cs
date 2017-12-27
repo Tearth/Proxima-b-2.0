@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FICS.App.ConfigSubsystem;
 using FICS.App.GameSubsystem.Modes.Game.Style12;
@@ -49,11 +50,11 @@ namespace FICS.App.GameSubsystem.Modes.Game
         /// <param name="message">The message to process.</param>
         public override void ProcessMessage(string message)
         {
-            if (message.StartsWith(CreatingPrefix))
+            if (message.StartsWith(CreatingPrefix, StringComparison.Ordinal))
             {
                 InitGameSession(message);
             }
-            else if (message.StartsWith(Style12Prefix))
+            else if (message.StartsWith(Style12Prefix, StringComparison.Ordinal))
             {
                 var response = ProcessMoveCommand(message);
                 if (response != string.Empty)
@@ -75,7 +76,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
         private void InitGameSession(string message)
         {
             var username = ConfigManager.GetValue<string>("Username");
-            _engineColor = message.StartsWith($"{CreatingPrefix} {username}") ? Color.White : Color.Black;
+            _engineColor = message.StartsWith($"{CreatingPrefix} {username}", StringComparison.Ordinal) ? Color.White : Color.Black;
         }
 
         /// <summary>

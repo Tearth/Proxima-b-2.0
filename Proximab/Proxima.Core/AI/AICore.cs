@@ -84,17 +84,15 @@ namespace Proxima.Core.AI
 
                 return colorSign * bitboard.GetEvaluation();
             }
-            else
-            {
-                var whiteGeneratorMode = GetGeneratorMode(color, Color.White);
-                var blackGeneratorMode = GetGeneratorMode(color, Color.Black);
-                bitboard.Calculate(whiteGeneratorMode, blackGeneratorMode, false);
 
-                if (bitboard.IsCheck(enemyColor))
-                {
-                    stats.EndNodes++;
-                    return AIConstants.MateValue + depth;
-                }
+            var whiteGeneratorMode = GetGeneratorMode(color, Color.White);
+            var blackGeneratorMode = GetGeneratorMode(color, Color.Black);
+            bitboard.Calculate(whiteGeneratorMode, blackGeneratorMode, false);
+
+            if (bitboard.IsCheck(enemyColor))
+            {
+                stats.EndNodes++;
+                return AIConstants.MateValue + depth;
             }
 
             var availableMoves = bitboard.Moves;

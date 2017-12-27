@@ -89,22 +89,29 @@ namespace Helpers.Loggers.CSV
         {
             using (var csvLogger = OpenOrCreateFile(FileExtension))
             {
-                if (gameResult == GameResult.Draw)
+                switch (gameResult)
                 {
-                    csvLogger.WriteLine("DRAW");
-                }
-                else if (gameResult == GameResult.Aborted)
-                {
-                    csvLogger.WriteLine("ABORTED");
-                }
-                else if ((gameResult == GameResult.WhiteWon && engineColor == Color.White) ||
-                         (gameResult == GameResult.BlackWon && engineColor == Color.Black))
-                {
-                    csvLogger.WriteLine("ENGINE_WON");
-                }
-                else
-                {
-                    csvLogger.WriteLine("ENGINE_LOST");
+                    case GameResult.Draw:
+                    {
+                        csvLogger.WriteLine("DRAW");
+                        break;
+                    }
+                    case GameResult.Aborted:
+                    {
+                        csvLogger.WriteLine("ABORTED");
+                        break;
+                    }
+                    case GameResult.WhiteWon when engineColor == Color.White:
+                    case GameResult.BlackWon when engineColor == Color.Black:
+                    {
+                        csvLogger.WriteLine("ENGINE_WON");
+                        break;
+                    }
+                    default:
+                    {
+                        csvLogger.WriteLine("ENGINE_LOST");
+                        break;
+                    }
                 }
             }
         }

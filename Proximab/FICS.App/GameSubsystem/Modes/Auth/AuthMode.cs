@@ -1,4 +1,5 @@
-﻿using FICS.App.ConfigSubsystem;
+﻿using System;
+using FICS.App.ConfigSubsystem;
 
 namespace FICS.App.GameSubsystem.Modes.Auth
 {
@@ -26,11 +27,11 @@ namespace FICS.App.GameSubsystem.Modes.Auth
         /// <param name="message">The message to process.</param>
         public override void ProcessMessage(string message)
         {
-            if (message.StartsWith(FICSConstants.LoginCommand))
+            if (message.StartsWith(FICSConstants.LoginCommand, StringComparison.Ordinal))
             {
                 SendData(ProcessLoginCommand());
             }
-            else if (message.StartsWith(FICSConstants.PasswordCommand))
+            else if (message.StartsWith(FICSConstants.PasswordCommand, StringComparison.Ordinal))
             {
                 SendData(ProcessPasswordCommand());
             }

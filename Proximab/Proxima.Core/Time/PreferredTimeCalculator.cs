@@ -30,8 +30,8 @@
         public float Calculate(int movesCount, int remainingTime)
         {
             return movesCount < _edge
-                ? (float) remainingTime / (_expectedMovesCount - movesCount)
-                : (float) remainingTime / (_expectedMovesCount - _edge);
+                ? (float)remainingTime / (_expectedMovesCount - movesCount)
+                : (float)remainingTime / (_expectedMovesCount - _edge);
         }
     }
 }

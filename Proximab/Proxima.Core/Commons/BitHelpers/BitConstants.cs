@@ -1,4 +1,6 @@
-﻿namespace Proxima.Core.Commons.BitHelpers
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Proxima.Core.Commons.BitHelpers
 {
     /// <summary>
     /// Represents a set of bitboard constants.

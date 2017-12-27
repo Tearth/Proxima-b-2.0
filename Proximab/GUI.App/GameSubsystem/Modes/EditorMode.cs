@@ -93,12 +93,14 @@ namespace GUI.App.GameSubsystem.Modes
                     CalculateBitboard(new QuietMove(e.From, e.To, e.Piece.Type, e.Piece.Color), _quiescenceSearch);
                     break;
                 }
+
                 case PromotionMove _:
                 {
                     var promotionMoves = Bitboard.Moves.Where(p => p.From == move.From).Cast<PromotionMove>();
                     PromotionWindow.Display(move.Color, promotionMoves);
                     break;
                 }
+
                 default:
                 {
                     CalculateBitboard(move, _quiescenceSearch);

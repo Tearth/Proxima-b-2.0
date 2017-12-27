@@ -62,14 +62,16 @@ namespace Proxima.Core.MoveGenerators.Moves
         /// <returns>The en passant position if possible, otherwise null.</returns>
         private Position? GetEnPassantPosition()
         {
-            if (From.Y == 2 && To.Y == 4)
+            switch (Color)
             {
-                return new Position(To.X, To.Y - 1);
-            }
-
-            if (From.Y == 7 && To.Y == 5)
-            {
-                return new Position(To.X, To.Y + 1);
+                case Color.White when From.Y == 2 && To.Y == 4:
+                {
+                    return new Position(To.X, To.Y - 1);
+                }
+                case Color.Black when From.Y == 7 && To.Y == 5:
+                {
+                    return new Position(To.X, To.Y + 1);
+                }
             }
 
             return null;
