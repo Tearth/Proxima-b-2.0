@@ -36,6 +36,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CECPConstants.cs" />
     <Compile Include="CECPCore.cs" />
     <Compile Include="ConsoleSubsystem\Command.cs" />
     <Compile Include="ConsoleSubsystem\CommandParser.cs" />

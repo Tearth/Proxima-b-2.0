@@ -13,9 +13,6 @@ namespace FICS.App.NetworkSubsystem
     /// </summary>
     public class FICSClient
     {
-        private const string ServerAddressConfigKeyName = "ServerAddress";
-        private const string ServerPortConfigKeyName = "ServerPort";
-
         /// <summary>
         /// The event triggered when data from FICS has been received.
         /// </summary>
@@ -77,8 +74,8 @@ namespace FICS.App.NetworkSubsystem
         /// </summary>
         private void Connect()
         {
-            var serverAddress = _configManager.GetValue<string>(ServerAddressConfigKeyName);
-            var serverPort = _configManager.GetValue<int>(ServerPortConfigKeyName);
+            var serverAddress = _configManager.GetValue<string>(FICSConstants.ServerAddressConfigKeyName);
+            var serverPort = _configManager.GetValue<int>(FICSConstants.ServerPortConfigKeyName);
 
             _socket.BeginConnect(serverAddress, serverPort, ConnectCallback, _socket);
             _connectDone.WaitOne();

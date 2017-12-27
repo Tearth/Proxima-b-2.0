@@ -28,7 +28,7 @@ namespace CECP.App.ConsoleSubsystem
         public void WriteLine(string text)
         {
             Console.WriteLine(text);
-            _textLogger.WriteLine($"SEND: {text}");
+            _textLogger.WriteLine($"{CECPConstants.SendPrefix}: {text}");
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace CECP.App.ConsoleSubsystem
         public Command WaitForCommand()
         {
             var commandText = Console.ReadLine();
-            _textLogger.WriteLine($"RECV: {commandText}");
+            _textLogger.WriteLine($"{CECPConstants.ReceivePrefix}: {commandText}");
 
             return _commandParser.Parse(commandText);
         }

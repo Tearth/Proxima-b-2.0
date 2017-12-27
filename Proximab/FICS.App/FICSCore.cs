@@ -11,10 +11,6 @@ namespace FICS.App
     /// </summary>
     public class FICSCore
     {
-        private const string SendPrefix = "SEND";
-        private const string ReceivePrefix = "RECV";
-        private const string EnginePrefix = "PRXB";
-
         private ColorfulConsoleManager _consoleManager;
         private ConfigManager _configManager;
         private FICSClient _ficsClient;
@@ -55,8 +51,8 @@ namespace FICS.App
         /// <param name="e">The event arguments.</param>
         private void FicsClient_OnDataReceive(object sender, DataReceivedEventArgs e)
         {
-            _consoleManager.WriteLine($"$R{ReceivePrefix}: $c{e.Text}");
-            _textLogger.WriteLine($"{ReceivePrefix}: {e.Text}");
+            _consoleManager.WriteLine($"$R{FICSConstants.ReceivePrefix}: $c{e.Text}");
+            _textLogger.WriteLine($"{FICSConstants.ReceivePrefix}: {e.Text}");
 
             _ficsMode.ProcessMessage(e.Text);
         }
@@ -68,8 +64,8 @@ namespace FICS.App
         /// <param name="e">The event arguments.</param>
         private void FicsClient_OnDataSend(object sender, DataSentEventArgs e)
         {
-            _consoleManager.WriteLine($"$R{SendPrefix}: $r{e.Text}");
-            _textLogger.WriteLine($"{SendPrefix}: {e.Text}");
+            _consoleManager.WriteLine($"$R{FICSConstants.SendPrefix}: $r{e.Text}");
+            _textLogger.WriteLine($"{FICSConstants.SendPrefix}: {e.Text}");
         }
 
         /// <summary>
@@ -98,8 +94,8 @@ namespace FICS.App
         /// <param name="modeType">The FICS mode type.</param>
         private void ChangeMode(FICSModeType modeType)
         {
-            _consoleManager.WriteLine($"$G{EnginePrefix}: $gMode changed to {modeType}.");
-            _textLogger.WriteLine($"{EnginePrefix}: Mode changed to {modeType}.");
+            _consoleManager.WriteLine($"$G{FICSConstants.EnginePrefix}: $gMode changed to {modeType}.");
+            _textLogger.WriteLine($"{FICSConstants.EnginePrefix}: Mode changed to {modeType}.");
 
             var ficsModeFactory = new FICSModeFactory(_configManager);
 

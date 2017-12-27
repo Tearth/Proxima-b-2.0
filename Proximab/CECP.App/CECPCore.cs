@@ -64,7 +64,7 @@ namespace CECP.App
         /// <param name="modeType">The CECP mode type.</param>
         private void ChangeMode(CECPModeType modeType)
         {
-            _textLogger.WriteLine($"PRXB: Mode changed to {modeType}.");
+            _textLogger.WriteLine($"{CECPConstants.EnginePrefix}: Mode changed to {modeType}.");
 
             var ficsModeFactory = new CECPModeFactory();
 
