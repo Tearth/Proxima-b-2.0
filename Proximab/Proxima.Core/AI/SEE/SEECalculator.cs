@@ -119,7 +119,7 @@ namespace Proxima.Core.AI.SEE
         /// <returns>The piece type on the specified field (null if the field is empty).</returns>
         private PieceType? GetPieceType(ulong field, Color pieceColor, Bitboard bitboard)
         {
-            for (int piece = 0; piece < 6; piece++)
+            for (var piece = 0; piece < 6; piece++)
             {
                 if ((field & bitboard.Pieces[FastArray.GetPieceIndex(pieceColor, (PieceType)piece)]) != 0)
                 {
@@ -139,7 +139,7 @@ namespace Proxima.Core.AI.SEE
         /// <returns>The least valuable piece (null if there is no more available pieces).</returns>
         private PieceType? GetAndPopLeastValuablePiece(ref ulong attackers, Color color, Bitboard bitboard)
         {
-            for (int piece = 0; piece < 6; piece++)
+            for (var piece = 0; piece < 6; piece++)
             {
                 var attackersWithType = attackers & bitboard.Pieces[FastArray.GetPieceIndex(color, (PieceType)piece)];
 

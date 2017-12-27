@@ -63,7 +63,7 @@ namespace GUI.App.BoardSubsystem.Axes
         /// <param name="spriteBatch">Monogame sprite batch.</param>
         private void DrawVerticalAxes(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < 8; i++)
+            for (var i = 0; i < 8; i++)
             {
                 var text = (8 - i).ToString();
                 var textCenterOffset = GetCenterOffset(text);
@@ -91,7 +91,7 @@ namespace GUI.App.BoardSubsystem.Axes
         /// <param name="spriteBatch">Monogame sprite batch.</param>
         private void DrawHorizontalAxes(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < 8; i++)
+            for (var i = 0; i < 8; i++)
             {
                 var text = ((char)('A' + i)).ToString();
                 var textCenterOffset = GetCenterOffset(text);

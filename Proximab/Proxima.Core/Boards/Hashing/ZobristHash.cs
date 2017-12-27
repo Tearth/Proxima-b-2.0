@@ -36,10 +36,10 @@ namespace Proxima.Core.Boards.Hashing
         /// <returns>The updated Zobrist hash.</returns>
         private static ulong CalculatePieces(ulong hash, ulong[] pieces)
         {
-            for (int colorIndex = 0; colorIndex < 2; colorIndex++)
+            for (var colorIndex = 0; colorIndex < 2; colorIndex++)
             {
                 var color = (Color)colorIndex;
-                for (int pieceIndex = 0; pieceIndex < 6; pieceIndex++)
+                for (var pieceIndex = 0; pieceIndex < 6; pieceIndex++)
                 {
                     var piece = (PieceType)pieceIndex;
                     var piecesArray = pieces[FastArray.GetPieceIndex(color, piece)];
@@ -67,7 +67,7 @@ namespace Proxima.Core.Boards.Hashing
         /// <returns>The updated Zobrist hash.</returns>
         private static ulong CalculateCastling(ulong hash, bool[] castling)
         {
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
                 if (castling[i])
                 {
@@ -86,7 +86,7 @@ namespace Proxima.Core.Boards.Hashing
         /// <returns>The updated Zobrist hash.</returns>
         private static ulong CalculateEnPassant(ulong hash, ulong[] enPassant)
         {
-            for (int colorIndex = 0; colorIndex < 2; colorIndex++)
+            for (var colorIndex = 0; colorIndex < 2; colorIndex++)
             {
                 var enPassantToParse = enPassant[colorIndex];
 

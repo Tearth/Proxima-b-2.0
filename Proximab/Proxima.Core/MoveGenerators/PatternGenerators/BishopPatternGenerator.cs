@@ -16,7 +16,7 @@ namespace Proxima.Core.MoveGenerators.PatternGenerators
         {
             var predefinedMoves = new ulong[64];
 
-            for (int i = 0; i < 64; i++)
+            for (var i = 0; i < 64; i++)
             {
                 var rightTopPattern = CalculatePattern(i, new Position(-1, 1));
                 var leftTopPattern = CalculatePattern(i, new Position(1, 1));

@@ -23,7 +23,7 @@ namespace Proxima.Core.Boards.Friendly
         /// <param name="pieces">The array of pieces.</param>
         public FriendlyPiecesList(ulong[] pieces)
         {
-            for (int i = 0; i < 12; i++)
+            for (var i = 0; i < 12; i++)
             {
                 var pieceArray = pieces[i];
 

@@ -155,7 +155,7 @@ namespace Proxima.Core.Boards.Friendly
         /// <returns>The en passant array.</returns>
         public ulong[] GetEnPassantArray()
         {
-            ulong[] enPassant = new ulong[2];
+            var enPassant = new ulong[2];
 
             if (EnPassant.WhiteEnPassant != null)
             {

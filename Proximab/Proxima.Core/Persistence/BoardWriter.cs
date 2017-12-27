@@ -37,9 +37,9 @@ namespace Proxima.Core.Persistence
         private void WriteBoard(StreamWriter writer, FriendlyPiecesList pieces)
         {
             writer.WriteLine(PersistenceConstants.BoardSection);
-            for (int y = 0; y < 8; y++)
+            for (var y = 0; y < 8; y++)
             {
-                for (int x = 0; x < 8; x++)
+                for (var x = 0; x < 8; x++)
                 {
                     var field = pieces.FirstOrDefault(p => p.Position == new Position(x + 1, 8 - y));
 

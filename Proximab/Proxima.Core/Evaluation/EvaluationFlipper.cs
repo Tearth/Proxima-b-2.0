@@ -14,10 +14,10 @@
         {
             var flippedArray = new int[array.Length];
 
-            for (int gamePhase = 0; gamePhase < 2; gamePhase++)
+            for (var gamePhase = 0; gamePhase < 2; gamePhase++)
             {
                 var gamePhaseOffset = gamePhase << 6;
-                for (int field = 0; field < 64; field++)
+                for (var field = 0; field < 64; field++)
                 {
                     var flippedIndex = 64 - field - 1;
                     flippedArray[gamePhaseOffset + flippedIndex] = array[field];
@@ -46,9 +46,9 @@
         {
             var flippedArray = new int[64];
 
-            for (int x = 0; x < 8; x++)
+            for (var x = 0; x < 8; x++)
             {
-                for (int y = 0; y < 8; y++)
+                for (var y = 0; y < 8; y++)
                 {
                     flippedArray[(y << 3) + (8 - x - 1)] = array[(y << 3) + x];
                 }

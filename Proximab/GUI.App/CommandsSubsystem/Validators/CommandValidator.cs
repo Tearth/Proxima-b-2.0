@@ -43,7 +43,7 @@ namespace GUI.App.CommandsSubsystem.Validators
                 return false;
             }
 
-            for (int i = 0; i < command.Arguments.Count; i++)
+            for (var i = 0; i < command.Arguments.Count; i++)
             {
                 var commandArgument = command.Arguments[i];
                 var definitionArgument = definition.Arguments[i];

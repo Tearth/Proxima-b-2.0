@@ -167,7 +167,7 @@ namespace GUI.App.InputSubsystem
                 }
             }
 
-            for (int i = _keyboardJustPressedKeys.Count - 1; i >= 0; i--)
+            for (var i = _keyboardJustPressedKeys.Count - 1; i >= 0; i--)
             {
                 var key = _keyboardJustPressedKeys[i];
                 if (keyboardState.IsKeyUp(key))

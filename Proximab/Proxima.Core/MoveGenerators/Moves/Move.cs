@@ -138,7 +138,7 @@ namespace Proxima.Core.MoveGenerators.Moves
         /// <param name="fieldLSB">The bitboard with set field.</param>
         protected void CalculateKill(Bitboard bitboard, Color enemyColor, ulong fieldLSB)
         {
-            for (int piece = 0; piece < 6; piece++)
+            for (var piece = 0; piece < 6; piece++)
             {
                 var index = FastArray.GetPieceIndex(enemyColor, (PieceType)piece);
                 if ((bitboard.Pieces[index] & fieldLSB) != 0)

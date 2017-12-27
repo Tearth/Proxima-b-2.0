@@ -27,7 +27,7 @@ namespace Proxima.Core.Evaluation.PawnStructure.Isolated
             var isolatedPawns = 0;
             var pawns = bitboard.Pieces[FastArray.GetPieceIndex(color, PieceType.Pawn)];
 
-            for (int i = 0; i < 8; i++)
+            for (var i = 0; i < 8; i++)
             {
                 var file = BitConstants.HFile << i;
 

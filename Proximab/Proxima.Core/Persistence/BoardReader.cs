@@ -77,12 +77,12 @@ namespace Proxima.Core.Persistence
         {
             var pieces = new FriendlyPiecesList();
 
-            for (int y = 0; y < 8; y++)
+            for (var y = 0; y < 8; y++)
             {
                 var line = reader.ReadLine().Trim();
                 var splitLine = line.Split(' ');
 
-                for (int x = 0; x < 8; x++)
+                for (var x = 0; x < 8; x++)
                 {
                     if (splitLine[x] == PersistenceConstants.EmptyBoardField)
                     {

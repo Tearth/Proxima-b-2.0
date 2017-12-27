@@ -39,7 +39,7 @@ namespace Proxima.Core.AI
                 result.Depth++;
 
                 var stats = new AIStats();
-                result.Score = colorSign * NegaMax(color, new Bitboard(bitboard), result.Depth, out Move bestMove, stats);
+                result.Score = colorSign * NegaMax(color, new Bitboard(bitboard), result.Depth, out var bestMove, stats);
 
                 result.BestMove = bestMove;
                 result.Stats = stats;

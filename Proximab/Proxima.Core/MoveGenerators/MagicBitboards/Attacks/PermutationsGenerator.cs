@@ -19,7 +19,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
             var bitIndexes = GenerateBitIndexes(mask);
             var permutationsCount = 1 << bitIndexes.Count;
 
-            for (int i = 0; i < permutationsCount; i++)
+            for (var i = 0; i < permutationsCount; i++)
             {
                 permutations.Add(GeneratePermutation(i, bitIndexes));
             }

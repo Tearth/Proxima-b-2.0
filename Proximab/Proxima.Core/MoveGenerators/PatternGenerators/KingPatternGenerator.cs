@@ -16,7 +16,7 @@ namespace Proxima.Core.MoveGenerators.PatternGenerators
             var predefinedMoves = new ulong[64];
             var bitPosition = 1ul;
 
-            for (int i = 0; i < 64; i++)
+            for (var i = 0; i < 64; i++)
             {
                 predefinedMoves[i] = GetPattern(bitPosition);
                 bitPosition <<= 1;

@@ -167,11 +167,11 @@ namespace GUI.App.BoardSubsystem
         /// <param name="spriteBatch">Monogame sprite batch.</param>
         private void DrawBackground(SpriteBatch spriteBatch)
         {
-            bool fieldInversion = false;
+            var fieldInversion = false;
 
-            for (int x = 0; x < 8; x++)
+            for (var x = 0; x < 8; x++)
             {
-                for (int y = 0; y < 8; y++)
+                for (var y = 0; y < 8; y++)
                 {
                     var position = new Microsoft.Xna.Framework.Vector2(x, y) * Constants.FieldWidthHeight;
                     var texture = fieldInversion ? _evenField : _oddField;
@@ -190,9 +190,9 @@ namespace GUI.App.BoardSubsystem
         /// <param name="spriteBatch">Monogame sprite batch.</param>
         private void DrawPieces(SpriteBatch spriteBatch)
         {
-            for (int x = 1; x <= 8; x++)
+            for (var x = 1; x <= 8; x++)
             {
-                for (int y = 1; y <= 8; y++)
+                for (var y = 1; y <= 8; y++)
                 {
                     var boardPosition = new Position(x, y);
                     var piece = FriendlyBoard.GetPiece(boardPosition);

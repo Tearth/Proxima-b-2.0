@@ -272,7 +272,7 @@ namespace Proxima.Core.Boards
         {
             var occupancy = new ulong[2];
 
-            for (int piece = 0; piece < 6; piece++)
+            for (var piece = 0; piece < 6; piece++)
             {
                 occupancy[(int)Color.White] |= Pieces[FastArray.GetPieceIndex(Color.White, (PieceType)piece)];
                 occupancy[(int)Color.Black] |= Pieces[FastArray.GetPieceIndex(Color.Black, (PieceType)piece)];

@@ -39,7 +39,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Keys
 
             using (var reader = new StreamReader(fileName))
             {
-                for (int i = 0; i < 64; i++)
+                for (var i = 0; i < 64; i++)
                 {
                     var line = reader.ReadLine();
                     keys[i] = ulong.Parse(line);

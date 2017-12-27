@@ -24,7 +24,7 @@ namespace Proxima.Core.Boards.Friendly
         /// <param name="pieces">The list of pieces.</param>
         public FriendlyAttacksList(ulong[] attacks, FriendlyPiecesList pieces)
         {
-            for (int i = 0; i < 64; i++)
+            for (var i = 0; i < 64; i++)
             {
                 var fieldAttackers = attacks[i];
                 var targetPosition = BitPositionConverter.ToPosition(i);

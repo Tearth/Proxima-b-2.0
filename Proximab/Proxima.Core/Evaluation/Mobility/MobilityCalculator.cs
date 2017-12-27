@@ -54,7 +54,7 @@ namespace Proxima.Core.Evaluation.Mobility
             var mobility = 0;
             var array = MobilityValues.GetRatio(color);
 
-            for (int i = 0; i < 64; i++)
+            for (var i = 0; i < 64; i++)
             {
                 var field = 1ul << i;
                 if ((field & bitboard.Occupancy[(int)color]) != 0)

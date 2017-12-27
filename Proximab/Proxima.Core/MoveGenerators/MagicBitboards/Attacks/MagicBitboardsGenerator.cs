@@ -20,7 +20,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
         {
             var bishopAttacks = new ulong[64][];
 
-            for (int i = 0; i < 64; i++)
+            for (var i = 0; i < 64; i++)
             {
                 var attacks = attacksGenerator.Generate(i);
                 var maskBitsCount = patternBitsCount[i];

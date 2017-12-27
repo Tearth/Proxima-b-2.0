@@ -72,7 +72,7 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
         {
             var boardState = new string[8];
 
-            for (int i = 0; i < 8; i++)
+            for (var i = 0; i < 8; i++)
             {
                 boardState[i] = splitInput[i + 1];
             }

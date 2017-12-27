@@ -61,7 +61,7 @@ namespace MagicKeysGenerator.App
         {
             var keys = new ulong[64];
 
-            for (int fieldIndex = 0; fieldIndex < 64; fieldIndex++)
+            for (var fieldIndex = 0; fieldIndex < 64; fieldIndex++)
             {
                 var mask = pieceAttackPatterns[fieldIndex];
                 var maskLength = BitOperations.Count(mask);
