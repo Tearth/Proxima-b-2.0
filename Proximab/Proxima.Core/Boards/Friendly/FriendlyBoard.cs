@@ -15,22 +15,22 @@ namespace Proxima.Core.Boards.Friendly
         /// <summary>
         /// Gets the pieces list.
         /// </summary>
-        public FriendlyPiecesList Pieces { get; private set; }
+        public FriendlyPiecesList Pieces { get; }
 
         /// <summary>
         /// Gets the attacks list.
         /// </summary>
-        public FriendlyAttacksList Attacks { get; private set; }
+        public FriendlyAttacksList Attacks { get; }
 
         /// <summary>
         /// Gets the castling data.
         /// </summary>
-        public FriendlyCastling Castling { get; private set; }
+        public FriendlyCastling Castling { get; }
 
         /// <summary>
         /// Gets the en passant data.
         /// </summary>
-        public FriendlyEnPassant EnPassant { get; private set; }
+        public FriendlyEnPassant EnPassant { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FriendlyBoard"/> class.

@@ -1,5 +1,4 @@
-﻿using Proxima.Core.Commons;
-using Proxima.Core.Commons.Colors;
+﻿using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Pieces;
 
 namespace Proxima.Core.Evaluation.Position.Values

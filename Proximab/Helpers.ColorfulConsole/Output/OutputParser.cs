@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Helpers.ColorfulConsole;
 
 namespace Helpers.ColorfulConsole.Output
 {

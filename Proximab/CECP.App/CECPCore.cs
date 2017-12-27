@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CECP.App.ConsoleSubsystem;
+﻿using CECP.App.ConsoleSubsystem;
 using CECP.App.GameSubsystem;
 using Helpers.Loggers.Text;
 

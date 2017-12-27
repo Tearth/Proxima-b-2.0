@@ -7,7 +7,6 @@ using GUI.App.PromotionSubsystem;
 using Helpers.ColorfulConsole;
 using Proxima.Core.AI;
 using Proxima.Core.AI.SEE;
-using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Pieces;

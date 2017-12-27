@@ -3,16 +3,10 @@ using System.Linq;
 using FICS.App.ConfigSubsystem;
 using FICS.App.GameSubsystem.Modes.Game.Style12;
 using Helpers.Loggers.CSV;
-using Proxima.Core.AI;
-using Proxima.Core.Boards;
-using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Positions;
-using Proxima.Core.MoveGenerators;
-using Proxima.Core.MoveGenerators.Moves;
 using Proxima.Core.Session;
-using Proxima.Core.Time;
 
 namespace FICS.App.GameSubsystem.Modes.Game
 {

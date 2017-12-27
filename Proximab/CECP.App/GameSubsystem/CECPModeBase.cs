@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CECP.App.ConsoleSubsystem;
 
 namespace CECP.App.GameSubsystem
@@ -25,12 +21,12 @@ namespace CECP.App.GameSubsystem
         /// <summary>
         /// Gets the commands manager.
         /// </summary>
-        protected CommandsManager CommandsManager { get; private set; }
+        protected CommandsManager CommandsManager { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CECPModeBase"/> class.
         /// </summary>
-        public CECPModeBase()
+        protected CECPModeBase()
         {
             CommandsManager = new CommandsManager();
 

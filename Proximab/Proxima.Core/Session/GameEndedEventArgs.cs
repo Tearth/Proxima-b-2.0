@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Proxima.Core.Commons;
 
 namespace Proxima.Core.Session
@@ -15,7 +11,7 @@ namespace Proxima.Core.Session
         /// <summary>
         /// Gets the game result.
         /// </summary>
-        public GameResult GameResult { get; private set; }
+        public GameResult GameResult { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameEndedEventArgs"/> class.

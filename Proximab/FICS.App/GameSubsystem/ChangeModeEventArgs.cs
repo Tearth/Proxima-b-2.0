@@ -10,7 +10,7 @@ namespace FICS.App.GameSubsystem
         /// <summary>
         /// Gets the type of new FICS mode.
         /// </summary>
-        public FICSModeType NewModeType { get; private set; }
+        public FICSModeType NewModeType { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChangeModeEventArgs"/> class.

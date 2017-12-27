@@ -12,12 +12,12 @@ namespace GUI.App.CommandsSubsystem
         /// <summary>
         /// Gets the command type.
         /// </summary>
-        public CommandType Type { get; private set; }
+        public CommandType Type { get; }
 
         /// <summary>
         /// Gets the command arguments.
         /// </summary>
-        public IList<string> Arguments { get; private set; }
+        public IList<string> Arguments { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Command"/> class with default values.

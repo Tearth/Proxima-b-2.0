@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Helpers.Loggers.Text
+﻿namespace Helpers.Loggers.Text
 {
     /// <summary>
     /// Represents a set of methods to writing in log file.

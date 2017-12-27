@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CECP.App.ConsoleSubsystem
 {
@@ -15,12 +12,12 @@ namespace CECP.App.ConsoleSubsystem
         /// <summary>
         /// Gets the command type.
         /// </summary>
-        public CommandType Type { get; private set; }
+        public CommandType Type { get; }
 
         /// <summary>
         /// Gets the command arguments.
         /// </summary>
-        public IList<string> Arguments { get; private set; }
+        public IList<string> Arguments { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Command"/> class with default values.

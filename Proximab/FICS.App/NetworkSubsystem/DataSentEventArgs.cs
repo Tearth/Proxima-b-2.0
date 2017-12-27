@@ -10,7 +10,7 @@ namespace FICS.App.NetworkSubsystem
         /// <summary>
         /// Gets the sent text.
         /// </summary>
-        public string Text { get; private set; }
+        public string Text { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DataSentEventArgs"/> class.

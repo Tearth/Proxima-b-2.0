@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Helpers.Loggers
 {
@@ -22,7 +18,7 @@ namespace Helpers.Loggers
         /// Initializes a new instance of the <see cref="LogBase"/> class.
         /// </summary>
         /// <param name="directory">The directory where all logs will be stored.</param>
-        public LogBase(string directory)
+        protected LogBase(string directory)
         {
             _directory = directory;
         }

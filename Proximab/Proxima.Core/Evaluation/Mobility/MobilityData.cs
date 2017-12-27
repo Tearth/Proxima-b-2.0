@@ -18,9 +18,6 @@
         /// <summary>
         /// Gets the difference between white and black evaluation results.
         /// </summary>
-        public int Difference
-        {
-            get { return WhiteMobility - BlackMobility; }
-        }
+        public int Difference => WhiteMobility - BlackMobility;
     }
 }

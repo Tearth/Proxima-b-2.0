@@ -25,10 +25,7 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
         /// <summary>
         /// Gets the enemy color.
         /// </summary>
-        public Color EnemyColor
-        {
-            get { return ColorOperations.Invert(ColorToMove); }
-        }
+        public Color EnemyColor => ColorOperations.Invert(ColorToMove);
 
         /// <summary>
         /// Gets or sets the double pawn push file (-1 if none).

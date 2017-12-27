@@ -10,33 +10,21 @@ namespace Helpers.ColorfulConsole.Diagnostic
         /// <summary>
         /// Gets the full operating system version.
         /// </summary>
-        public string OSInfo
-        {
-             get { return Environment.OSVersion.VersionString; }
-        }
+        public string OSInfo => Environment.OSVersion.VersionString;
 
         /// <summary>
         /// Gets the platform version (32/64 bits).
         /// </summary>
-        public string CPUPlatformVersion
-        {
-             get { return Environment.Is64BitProcess ? "64bit" : "32bit"; }
-        }
+        public string CPUPlatformVersion => Environment.Is64BitProcess ? "64bit" : "32bit";
 
         /// <summary>
         /// Gets the process version (32/64 bits).
         /// </summary>
-        public string ProcessPlatformVersion
-        {
-             get { return Environment.Is64BitProcess ? "64bit" : "32bit"; }
-        }
+        public string ProcessPlatformVersion => Environment.Is64BitProcess ? "64bit" : "32bit";
 
         /// <summary>
         /// Gets the number of available cores.
         /// </summary>
-        public string CPUCoresCount
-        {
-             get { return Environment.ProcessorCount + " cores"; }
-        }
+        public string CPUCoresCount => Environment.ProcessorCount + " cores";
     }
 }

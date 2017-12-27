@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CECP.App.GameSubsystem
 {
@@ -14,7 +10,7 @@ namespace CECP.App.GameSubsystem
         /// <summary>
         /// Gets the text to send.
         /// </summary>
-        public string Text { get; private set; }
+        public string Text { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SendDataEventArgs"/> class.

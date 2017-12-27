@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FICS.App.ConfigSubsystem;
-using FICS.App.NetworkSubsystem;
 
 namespace FICS.App.GameSubsystem
 {
@@ -26,13 +21,13 @@ namespace FICS.App.GameSubsystem
         /// <summary>
         /// Gets the configuration manager.
         /// </summary>
-        protected ConfigManager ConfigManager { get; private set; }
+        protected ConfigManager ConfigManager { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FICSModeBase"/> class.
         /// </summary>
         /// <param name="configManager">The configuration manager.</param>
-        public FICSModeBase(ConfigManager configManager)
+        protected FICSModeBase(ConfigManager configManager)
         {
             ConfigManager = configManager;
         }

@@ -1,12 +1,10 @@
 ﻿using Proxima.Core.Boards;
 using Proxima.Core.Boards.Hashing;
-using Proxima.Core.Commons;
 using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
-using Proxima.Core.Evaluation;
 using Proxima.Core.Evaluation.Material;
 using Proxima.Core.Evaluation.Position;
 

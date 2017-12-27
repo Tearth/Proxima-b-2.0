@@ -14,12 +14,12 @@
         /// <summary>
         /// Gets the occupancy value.
         /// </summary>
-        public ulong Occupancy { get; private set; }
+        public ulong Occupancy { get; }
 
         /// <summary>
         /// Gets the attacks value.
         /// </summary>
-        public ulong Attacks { get; private set; }
+        public ulong Attacks { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FieldAttackPattern"/> class.

@@ -1,5 +1,4 @@
 ﻿using Proxima.Core.Boards;
-using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Evaluation.PawnStructure.Chain;
 using Proxima.Core.Evaluation.PawnStructure.Doubled;

@@ -12,12 +12,12 @@ namespace Proxima.Core.Helpers.Bidirectional
         /// <summary>
         /// Gets the dictionary with first member as the key and second member as the value.
         /// </summary>
-        public BidirectionalIndexer<T1, T2> Forward { get; private set; }
+        public BidirectionalIndexer<T1, T2> Forward { get; }
 
         /// <summary>
         /// Gets the reversed dictionary with second member as the key and first member as the value.
         /// </summary>
-        public BidirectionalIndexer<T2, T1> Reverse { get; private set; }
+        public BidirectionalIndexer<T2, T1> Reverse { get; }
 
         private Dictionary<T1, T2> _forwardDictionary;
         private Dictionary<T2, T1> _reverseDictionary;

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Proxima.Core.MoveGenerators.MagicBitboards.Attacks.Generators;
 using Proxima.Core.MoveGenerators.MagicBitboards.Exceptions;
-using Proxima.Core.MoveGenerators.PatternGenerators;
 
 namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
 {

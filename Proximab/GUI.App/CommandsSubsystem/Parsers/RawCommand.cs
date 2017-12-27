@@ -10,12 +10,12 @@ namespace GUI.App.CommandsSubsystem.Parsers
         /// <summary>
         /// Gets the command name.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// Gets the list of command arguments.
         /// </summary>
-        public IList<string> Arguments { get; private set; }
+        public IList<string> Arguments { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RawCommand"/> class with default values.

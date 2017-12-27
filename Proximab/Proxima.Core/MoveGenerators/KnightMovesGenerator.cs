@@ -1,6 +1,4 @@
-﻿using Proxima.Core.Boards;
-using Proxima.Core.Commons;
-using Proxima.Core.Commons.BitHelpers;
+﻿using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.MoveGenerators.Moves;

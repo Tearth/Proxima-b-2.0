@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using Proxima.Core.Commons;
 using Proxima.Core.Commons.Pieces;
 
 namespace GUI.App.PromotionSubsystem
@@ -12,12 +11,12 @@ namespace GUI.App.PromotionSubsystem
         /// <summary>
         /// Gets the piece texture.
         /// </summary>
-        public Texture2D Texture { get; private set; }
+        public Texture2D Texture { get; }
 
         /// <summary>
         /// Gets the piece type.
         /// </summary>
-        public PieceType Piece { get; private set; }
+        public PieceType Piece { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PromotionPiece"/> class.

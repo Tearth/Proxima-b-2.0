@@ -12,12 +12,12 @@ namespace GUI.App.BoardSubsystem
         /// <summary>
         /// Gets the selected position.
         /// </summary>
-        public Position Position { get; private set; }
+        public Position Position { get; }
 
         /// <summary>
         /// Gets the selected piece (null if the selected field is empty).
         /// </summary>
-        public FriendlyPiece Piece { get; private set; }
+        public FriendlyPiece Piece { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FieldSelectedEventArgs"/> class.

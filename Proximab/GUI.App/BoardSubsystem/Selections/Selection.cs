@@ -10,12 +10,12 @@ namespace GUI.App.BoardSubsystem.Selections
         /// <summary>
         /// Gets the selection position (for board these will be values from 1 to 8).
         /// </summary>
-        public Position Position { get; private set; }
+        public Position Position { get; }
 
         /// <summary>
         /// Gets selection type.
         /// </summary>
-        public SelectionType Type { get; private set; }
+        public SelectionType Type { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Selection"/> class.

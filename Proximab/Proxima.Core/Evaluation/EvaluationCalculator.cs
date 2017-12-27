@@ -1,5 +1,4 @@
 ﻿using Proxima.Core.Boards;
-using Proxima.Core.Commons;
 using Proxima.Core.Evaluation.Castling;
 using Proxima.Core.Evaluation.KingSafety;
 using Proxima.Core.Evaluation.Material;

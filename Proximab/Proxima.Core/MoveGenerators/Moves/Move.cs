@@ -6,7 +6,6 @@ using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
-using Proxima.Core.Evaluation;
 using Proxima.Core.Evaluation.Material;
 using Proxima.Core.Evaluation.Position;
 
@@ -21,22 +20,22 @@ namespace Proxima.Core.MoveGenerators.Moves
         /// <summary>
         /// Gets the source piece position.
         /// </summary>
-        public Position From { get; private set; }
+        public Position From { get; }
 
         /// <summary>
         /// Gets the destination piece position.
         /// </summary>
-        public Position To { get; private set; }
+        public Position To { get; }
 
         /// <summary>
         /// Gets the piece type.
         /// </summary>
-        public PieceType Piece { get; private set; }
+        public PieceType Piece { get; }
 
         /// <summary>
         /// Gets the piece color.
         /// </summary>
-        public Color Color { get; private set; }
+        public Color Color { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Move"/> class.
@@ -45,7 +44,7 @@ namespace Proxima.Core.MoveGenerators.Moves
         /// <param name="to">The destination piece position.</param>
         /// <param name="piece">The piece type.</param>
         /// <param name="color">The piece color.</param>
-        public Move(Position from, Position to, PieceType piece, Color color)
+        protected Move(Position from, Position to, PieceType piece, Color color)
         {
             From = from;
             To = to;

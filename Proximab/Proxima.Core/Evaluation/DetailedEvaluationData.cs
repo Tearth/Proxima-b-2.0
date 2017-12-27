@@ -45,17 +45,11 @@ namespace Proxima.Core.Evaluation
         /// <summary>
         /// Gets the total difference between all evaluation results.
         /// </summary>
-        public int Total
-        {
-            get
-            {
-                return Material.Difference +
-                       Mobility.Difference +
-                       Castling.Difference +
-                       Position.Difference +
-                       PawnStructure.Difference + 
-                       KingSafety.Difference;
-            }
-        }
+        public int Total => Material.Difference +
+                            Mobility.Difference +
+                            Castling.Difference +
+                            Position.Difference +
+                            PawnStructure.Difference + 
+                            KingSafety.Difference;
     }
 }

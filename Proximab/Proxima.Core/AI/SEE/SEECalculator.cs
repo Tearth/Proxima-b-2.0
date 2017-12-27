@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Proxima.Core.Boards;
 using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Colors;

@@ -11,17 +11,17 @@ namespace Proxima.Core.Boards.Friendly
         /// <summary>
         /// Gets the piece color.
         /// </summary>
-        public Color Color { get; private set; }
+        public Color Color { get; }
 
         /// <summary>
         /// Gets the source piece position.
         /// </summary>
-        public Position From { get; private set; }
+        public Position From { get; }
 
         /// <summary>
         /// Gets the destination piece position.
         /// </summary>
-        public Position To { get; private set; }
+        public Position To { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FriendlyAttack"/> class.

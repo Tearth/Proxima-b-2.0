@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CECP.App.ConsoleSubsystem
+﻿namespace CECP.App.ConsoleSubsystem
 {
     /// <summary>
     /// Represents available CECP command types.

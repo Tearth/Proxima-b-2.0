@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using CECP.App.ConsoleSubsystem;
 using CECP.App.GameSubsystem.Modes.Game.Moves;
 using Helpers.Loggers.CSV;
 using Proxima.Core.AI;
-using Proxima.Core.Boards;
-using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Positions;
-using Proxima.Core.MoveGenerators;
-using Proxima.Core.MoveGenerators.Moves;
 using Proxima.Core.Session;
-using Proxima.Core.Time;
 
 namespace CECP.App.GameSubsystem.Modes.Game
 {
