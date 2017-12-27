@@ -52,6 +52,10 @@
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="MoveGenerators\MagicBitboards\Keys\Exceptions\InvalidMagicKeysFileException.cs" />
+    <Compile Include="Persistence\Exceptions\InvalidSectionValueException.cs" />
+    <Compile Include="Persistence\Exceptions\InvalidBoardValueException.cs" />
+    <Compile Include="Persistence\Exceptions\InvalidPositionValueException.cs" />
+    <Compile Include="Persistence\Exceptions\InvalidFlagValueException.cs" />
     <Compile Include="Session\Exceptions\BitboardDisintegratedException.cs" />
     <Compile Include="Commons\GameResult.cs" />
     <Compile Include="Persistence\BoardReader.cs" />

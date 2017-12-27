@@ -3,6 +3,7 @@ using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
+using Proxima.Core.Persistence.Exceptions;
 
 namespace Proxima.Core.Persistence
 {
@@ -36,13 +37,19 @@ namespace Proxima.Core.Persistence
             {
                 while (!reader.EndOfStream)
                 {
-                    var line = reader.ReadLine().Trim();
-                    if (line.Length == 0)
+                    var line = reader.ReadLine();
+                    if (line == null)
+                    {
+                        throw new InvalidSectionValueException();
+                    }
+
+                    var lineAfterTrim = line.Trim();
+                    if (lineAfterTrim.Length == 0)
                     {
                         continue;
                     }
 
-                    switch (line)
+                    switch (lineAfterTrim)
                     {
                         case PersistenceConstants.BoardSection:
                         {
@@ -79,8 +86,14 @@ namespace Proxima.Core.Persistence
 
             for (var y = 0; y < 8; y++)
             {
-                var line = reader.ReadLine().Trim();
-                var splitLine = line.Split(' ');
+                var line = reader.ReadLine();
+                if (line == null)
+                {
+                    throw new InvalidBoardValueException();
+                }
+
+                var lineAfterTrim = line.Trim();
+                var splitLine = lineAfterTrim.Split(' ');
 
                 for (var x = 0; x < 8; x++)
                 {
@@ -109,13 +122,13 @@ namespace Proxima.Core.Persistence
         {
             return new FriendlyCastling
             {
-                WhiteShortCastlingPossibility = bool.Parse(reader.ReadLine().Trim()),
-                WhiteLongCastlingPossibility = bool.Parse(reader.ReadLine().Trim()),
-                BlackShortCastlingPossibility = bool.Parse(reader.ReadLine().Trim()),
-                BlackLongCastlingPossibility = bool.Parse(reader.ReadLine().Trim()),
+                WhiteShortCastlingPossibility = ReadFlag(reader),
+                WhiteLongCastlingPossibility = ReadFlag(reader),
+                BlackShortCastlingPossibility = ReadFlag(reader),
+                BlackLongCastlingPossibility = ReadFlag(reader),
 
-                WhiteCastlingDone = bool.Parse(reader.ReadLine().Trim()),
-                BlackCastlingDone = bool.Parse(reader.ReadLine().Trim())
+                WhiteCastlingDone = ReadFlag(reader),
+                BlackCastlingDone = ReadFlag(reader)
             };
         }
 
@@ -134,20 +147,42 @@ namespace Proxima.Core.Persistence
         }
 
         /// <summary>
-        /// Reads a <see cref="Position"/> object to the file. 
+        /// Reads a <see cref="Position"/> object. 
         /// </summary>
-        /// <param name="reader">The file writer.</param>
-        /// <returns>The read position (or null if there was a <see cref="PersistenceConstants.NullValue"/> in the file).</returns>
+        /// <param name="reader">The file reader.</param>
+        /// <returns>The loaded position (or null if there was a <see cref="PersistenceConstants.NullValue"/> in the file).</returns>
         private Position? ReadPosition(StreamReader reader)
         {
-            var line = reader.ReadLine().Trim();
-
-            if (line == PersistenceConstants.NullValue)
+            var line = reader.ReadLine();
+            if (line == null)
+            {
+                throw new InvalidPositionValueException();
+            }
+            
+            var lineAfterTrim = line.Trim();
+            if (lineAfterTrim == PersistenceConstants.NullValue)
             {
                 return null;
             }
 
-            return PositionConverter.ToPosition(line);
+            return PositionConverter.ToPosition(lineAfterTrim);
+        }
+
+        /// <summary>
+        /// Reads a flag (True/False). 
+        /// </summary>
+        /// <param name="reader">The file reader.</param>
+        /// <exception cref="InvalidFlagValueException">Thrown when loaded flag value cannot be converted.</exception>
+        /// <returns>The loaded flag.</returns>
+        private bool ReadFlag(StreamReader reader)
+        {
+            var line = reader.ReadLine();
+            if (line == null || !bool.TryParse(line.Trim(), out var flag))
+            {
+                throw new InvalidFlagValueException();
+            }
+
+            return flag;
         }
     }
 }
