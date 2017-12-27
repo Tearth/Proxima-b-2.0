@@ -29,8 +29,8 @@ namespace Proxima.Core.Boards.Friendly
 
                 while (pieceArray != 0)
                 {
-                    var lsb = BitOperations.GetLSB(pieceArray);
-                    pieceArray = BitOperations.PopLSB(pieceArray);
+                    var lsb = BitOperations.GetLsb(pieceArray);
+                    pieceArray = BitOperations.PopLsb(pieceArray);
 
                     var bitIndex = BitOperations.GetBitIndex(lsb);
                     var position = BitPositionConverter.ToPosition(bitIndex);

@@ -5,7 +5,7 @@ namespace FICS.App.GameSubsystem.Modes.Auth
     /// <summary>
     /// Represents the FICS authentication mode (olny once per session).
     /// </summary>
-    public class AuthMode : FICSModeBase
+    public class AuthMode : FicsModeBase
     {
         private const string UsernameConfigKeyName = "Username";
         private const string PasswordConfigKeyName = "Password";
@@ -26,11 +26,11 @@ namespace FICS.App.GameSubsystem.Modes.Auth
         /// <param name="message">The message to process.</param>
         public override void ProcessMessage(string message)
         {
-            if (message.StartsWith(FICSConstants.LoginCommand))
+            if (message.StartsWith(FicsConstants.LoginCommand))
             {
                 SendData(ProcessLoginCommand());
             }
-            else if (message.StartsWith(FICSConstants.PasswordCommand))
+            else if (message.StartsWith(FicsConstants.PasswordCommand))
             {
                 SendData(ProcessPasswordCommand());
             }
@@ -63,7 +63,7 @@ namespace FICS.App.GameSubsystem.Modes.Auth
         /// </summary>
         private void ProcessNewGameSession()
         {
-            ChangeMode(FICSModeType.Seek);
+            ChangeMode(FicsModeType.Seek);
         }
     }
 }

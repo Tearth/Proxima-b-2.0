@@ -15,7 +15,7 @@ namespace Proxima.Core.Commons.BitHelpers
         /// <returns>The least significant bit if value is greater than 0, otherwise 0.</returns>
         /// <remarks>GetLSB(10011100) = 00000100.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int GetLSB(int value)
+        public static int GetLsb(int value)
         {
             return value & -value;
         }
@@ -27,7 +27,7 @@ namespace Proxima.Core.Commons.BitHelpers
         /// <returns>The least significant bit if value is greater than 0, otherwise 0.</returns>
         /// <remarks>GetLSB(10011100) = 00000100</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong GetLSB(ulong value)
+        public static ulong GetLsb(ulong value)
         {
             var valueWithSign = (long)value;
             return (ulong)(valueWithSign & -valueWithSign);
@@ -40,7 +40,7 @@ namespace Proxima.Core.Commons.BitHelpers
         /// <returns>The value without the least significant bit.</returns>
         /// <remarks>PopLSB(10011100) = 10011000</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int PopLSB(int value)
+        public static int PopLsb(int value)
         {
             return value & (value - 1);
         }
@@ -52,7 +52,7 @@ namespace Proxima.Core.Commons.BitHelpers
         /// <returns>The value without the least significant bit.</returns>
         /// <remarks>PopLSB(10011100) = 10011000</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong PopLSB(ulong value)
+        public static ulong PopLsb(ulong value)
         {
             return value & (value - 1);
         }
@@ -65,7 +65,7 @@ namespace Proxima.Core.Commons.BitHelpers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsSingleBit(ulong value)
         {
-            value = PopLSB(value);
+            value = PopLsb(value);
             return value == 0;
         }
 
@@ -81,7 +81,7 @@ namespace Proxima.Core.Commons.BitHelpers
 
             while (value != 0)
             {
-                value = PopLSB(value);
+                value = PopLsb(value);
                 count++;
             }
 

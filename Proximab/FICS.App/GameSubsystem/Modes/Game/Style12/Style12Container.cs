@@ -10,7 +10,7 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
         /// <summary>
         /// Gets or sets the style id (will be always "&#60;12&#62;").
         /// </summary>
-        public string StyleID { get; set; }
+        public string StyleId { get; set; }
 
         /// <summary>
         /// Gets or sets the current board state (each row means separate rank). First one is White's 8th rank, then 7th rank etc.

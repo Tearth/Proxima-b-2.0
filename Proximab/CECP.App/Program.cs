@@ -24,7 +24,7 @@ namespace CECP.App
 
             ProximaCore.Init();
 
-            var core = new CECPCore(_textLogger);
+            var core = new CecpCore(_textLogger);
             core.Run();
         }
 

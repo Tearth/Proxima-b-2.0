@@ -7,7 +7,7 @@
     {
         None,
         ConsoleManager,
-        GUICore,
+        GuiCore,
         GameMode
     }
 }

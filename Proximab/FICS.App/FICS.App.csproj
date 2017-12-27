@@ -45,14 +45,14 @@
     <Compile Include="ConfigSubsystem\ConfigContainer.cs" />
     <Compile Include="ConfigSubsystem\ConfigItem.cs" />
     <Compile Include="ConfigSubsystem\ConfigManager.cs" />
-    <Compile Include="FICSConstants.cs" />
-    <Compile Include="FICSCore.cs" />
+    <Compile Include="FicsConstants.cs" />
+    <Compile Include="FicsCore.cs" />
     <Compile Include="GameSubsystem\Modes\Auth\AuthMode.cs" />
     <Compile Include="GameSubsystem\ChangeModeEventArgs.cs" />
-    <Compile Include="GameSubsystem\Exceptions\FICSModeNotFoundException.cs" />
-    <Compile Include="GameSubsystem\FICSModeBase.cs" />
-    <Compile Include="GameSubsystem\FICSModeFactory.cs" />
-    <Compile Include="GameSubsystem\FICSModeType.cs" />
+    <Compile Include="GameSubsystem\Exceptions\FicsModeNotFoundException.cs" />
+    <Compile Include="GameSubsystem\FicsModeBase.cs" />
+    <Compile Include="GameSubsystem\FicsModeFactory.cs" />
+    <Compile Include="GameSubsystem\FicsModeType.cs" />
     <Compile Include="GameSubsystem\Modes\Game\GameMode.cs" />
     <Compile Include="GameSubsystem\Modes\Game\Style12\Style12Container.cs" />
     <Compile Include="GameSubsystem\Modes\Game\Style12\Style12Move.cs" />
@@ -63,7 +63,7 @@
     <Compile Include="GameSubsystem\Modes\Seek\SeekMode.cs" />
     <Compile Include="NetworkSubsystem\ClientState.cs" />
     <Compile Include="NetworkSubsystem\DataReceivedEventArgs.cs" />
-    <Compile Include="NetworkSubsystem\FICSClient.cs" />
+    <Compile Include="NetworkSubsystem\FicsClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -83,9 +83,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FICSConfig.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="FICSConfig.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

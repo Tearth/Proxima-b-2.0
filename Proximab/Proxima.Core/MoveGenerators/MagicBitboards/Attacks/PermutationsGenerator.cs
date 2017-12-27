@@ -39,8 +39,8 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
 
             while (mask != 0)
             {
-                var lsb = BitOperations.GetLSB(mask);
-                mask = BitOperations.PopLSB(mask);
+                var lsb = BitOperations.GetLsb(mask);
+                mask = BitOperations.PopLsb(mask);
 
                 var index = BitOperations.GetBitIndex(lsb);
 
@@ -62,8 +62,8 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
 
             while (permutationIndex != 0)
             {
-                var lsb = BitOperations.GetLSB(permutationIndex);
-                permutationIndex = BitOperations.PopLSB(permutationIndex);
+                var lsb = BitOperations.GetLsb(permutationIndex);
+                permutationIndex = BitOperations.PopLsb(permutationIndex);
 
                 var lsbIndex = BitOperations.GetBitIndex((ulong)lsb);
 

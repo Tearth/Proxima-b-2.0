@@ -6,6 +6,6 @@
     public enum GameModeType
     {
         Editor,
-        AIvsAI
+        AIvsAi
     }
 }

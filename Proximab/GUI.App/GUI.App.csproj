@@ -67,7 +67,7 @@
     <Compile Include="CommandsSubsystem\Validators\CommandValidator.cs" />
     <Compile Include="CommandsSubsystem\Parsers\RawCommand.cs" />
     <Compile Include="CommandsSubsystem\Exceptions\TypeNotFoundException.cs" />
-    <Compile Include="GameSubsystem\Modes\AIvsAIMode.cs" />
+    <Compile Include="GameSubsystem\Modes\AiVsAiMode.cs" />
     <Compile Include="GameSubsystem\Modes\EditorMode.cs" />
     <Compile Include="GameSubsystem\Exceptions\GameModeNotFoundException.cs" />
     <Compile Include="GameSubsystem\GameModeBase.cs" />
@@ -75,7 +75,7 @@
     <Compile Include="GameSubsystem\GameModeType.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="GUICore.cs" />
+    <Compile Include="GuiCore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Constants.cs" />

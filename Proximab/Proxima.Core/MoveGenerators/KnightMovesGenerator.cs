@@ -22,31 +22,31 @@ namespace Proxima.Core.MoveGenerators
 
             while (piecesToParse != 0)
             {
-                var pieceLSB = BitOperations.GetLSB(piecesToParse);
-                piecesToParse = BitOperations.PopLSB(piecesToParse);
+                var pieceLsb = BitOperations.GetLsb(piecesToParse);
+                piecesToParse = BitOperations.PopLsb(piecesToParse);
 
-                var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
+                var pieceIndex = BitOperations.GetBitIndex(pieceLsb);
                 var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
                 var pattern = PatternsContainer.KnightPattern[pieceIndex];
 
                 while (pattern != 0)
                 {
-                    var patternLSB = BitOperations.GetLSB(pattern);
-                    pattern = BitOperations.PopLSB(pattern);
+                    var patternLsb = BitOperations.GetLsb(pattern);
+                    pattern = BitOperations.PopLsb(pattern);
 
-                    var patternIndex = BitOperations.GetBitIndex(patternLSB);
+                    var patternIndex = BitOperations.GetBitIndex(patternLsb);
 
                     if ((opt.Mode & GeneratorMode.CalculateMoves) != 0 &&
-                        (patternLSB & opt.FriendlyOccupancy) == 0)
+                        (patternLsb & opt.FriendlyOccupancy) == 0)
                     {
                         var to = BitPositionConverter.ToPosition(patternIndex);
 
-                        if ((patternLSB & opt.EnemyOccupancy) == 0 && !opt.QuiescenceSearch)
+                        if ((patternLsb & opt.EnemyOccupancy) == 0 && !opt.QuiescenceSearch)
                         {
                             opt.Bitboard.Moves.AddLast(new QuietMove(piecePosition, to, PieceType.Knight, opt.FriendlyColor));
                         }
-                        else if ((patternLSB & opt.EnemyOccupancy) != 0)
+                        else if ((patternLsb & opt.EnemyOccupancy) != 0)
                         {
                             opt.Bitboard.Moves.AddLast(new KillMove(piecePosition, to, PieceType.Knight, opt.FriendlyColor));
                         }
@@ -54,8 +54,8 @@ namespace Proxima.Core.MoveGenerators
 
                     if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
                     {
-                        opt.Bitboard.Attacks[patternIndex] |= pieceLSB;
-                        opt.Bitboard.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
+                        opt.Bitboard.Attacks[patternIndex] |= pieceLsb;
+                        opt.Bitboard.AttacksSummary[(int)opt.FriendlyColor] |= patternLsb;
                     }
                 }
             }

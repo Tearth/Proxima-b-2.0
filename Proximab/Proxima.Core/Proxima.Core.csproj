@@ -38,10 +38,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AI\AIConstants.cs" />
-    <Compile Include="AI\AICore.cs" />
-    <Compile Include="AI\AIResult.cs" />
-    <Compile Include="AI\AIStats.cs" />
+    <Compile Include="AI\AiConstants.cs" />
+    <Compile Include="AI\AiCore.cs" />
+    <Compile Include="AI\AiResult.cs" />
+    <Compile Include="AI\AiStats.cs" />
     <Compile Include="AI\SEE\SEECalculator.cs" />
     <Compile Include="AI\SEE\SEEResult.cs" />
     <Compile Include="AI\ThinkingOutputEventArgs.cs" />

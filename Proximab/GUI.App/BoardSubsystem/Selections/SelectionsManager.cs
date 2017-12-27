@@ -99,7 +99,7 @@ namespace GUI.App.BoardSubsystem.Selections
         public Position SelectField(Point clickPoint)
         {
             var fieldPosition = GetFieldPosition(clickPoint);
-            var normalisedPosition = NormalisePosition(fieldPosition);
+            var normalisedPosition = NormalizePosition(fieldPosition);
 
             _selections.Add(new Selection(normalisedPosition, SelectionType.Internal));
 
@@ -138,11 +138,11 @@ namespace GUI.App.BoardSubsystem.Selections
         }
 
         /// <summary>
-        /// Normalises the position to board standards (from 1 to 8).
+        /// Normalizes the position to board standards (from 1 to 8).
         /// </summary>
-        /// <param name="position">The position to normalise.</param>
-        /// <returns>The normalised position.</returns>
-        private Position NormalisePosition(Position position)
+        /// <param name="position">The position to normalize.</param>
+        /// <returns>The normalized position.</returns>
+        private Position NormalizePosition(Position position)
         {
             position.X = Math.Min(8, position.X);
             position.Y = Math.Max(1, position.Y);

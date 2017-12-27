@@ -27,30 +27,30 @@ namespace Proxima.Core.MoveGenerators
 
             while (piecesToParse != 0)
             {
-                var pieceLSB = BitOperations.GetLSB(piecesToParse);
-                piecesToParse = BitOperations.PopLSB(piecesToParse);
+                var pieceLsb = BitOperations.GetLsb(piecesToParse);
+                piecesToParse = BitOperations.PopLsb(piecesToParse);
 
-                var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
+                var pieceIndex = BitOperations.GetBitIndex(pieceLsb);
                 var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
 
                 var pattern = PatternsContainer.KingPattern[pieceIndex];
 
                 while (pattern != 0)
                 {
-                    var patternLSB = BitOperations.GetLSB(pattern);
-                    pattern = BitOperations.PopLSB(pattern);
+                    var patternLsb = BitOperations.GetLsb(pattern);
+                    pattern = BitOperations.PopLsb(pattern);
 
-                    var patternIndex = BitOperations.GetBitIndex(patternLSB);
+                    var patternIndex = BitOperations.GetBitIndex(patternLsb);
 
-                    if ((opt.Mode & GeneratorMode.CalculateMoves) != 0 && (patternLSB & opt.FriendlyOccupancy) == 0)
+                    if ((opt.Mode & GeneratorMode.CalculateMoves) != 0 && (patternLsb & opt.FriendlyOccupancy) == 0)
                     {
                         var to = BitPositionConverter.ToPosition(patternIndex);
 
-                        if ((patternLSB & opt.EnemyOccupancy) == 0 && !opt.QuiescenceSearch)
+                        if ((patternLsb & opt.EnemyOccupancy) == 0 && !opt.QuiescenceSearch)
                         {
                             opt.Bitboard.Moves.AddLast(new QuietMove(piecePosition, to, PieceType.King, opt.FriendlyColor));
                         }
-                        else if ((patternLSB & opt.EnemyOccupancy) != 0)
+                        else if ((patternLsb & opt.EnemyOccupancy) != 0)
                         {
                             opt.Bitboard.Moves.AddLast(new KillMove(piecePosition, to, PieceType.King, opt.FriendlyColor));
                         }
@@ -58,8 +58,8 @@ namespace Proxima.Core.MoveGenerators
 
                     if ((opt.Mode & GeneratorMode.CalculateAttacks) != 0)
                     {
-                        opt.Bitboard.Attacks[patternIndex] |= pieceLSB;
-                        opt.Bitboard.AttacksSummary[(int)opt.FriendlyColor] |= patternLSB;
+                        opt.Bitboard.Attacks[patternIndex] |= pieceLsb;
+                        opt.Bitboard.AttacksSummary[(int)opt.FriendlyColor] |= patternLsb;
                     }
                 }
             }
@@ -71,9 +71,9 @@ namespace Proxima.Core.MoveGenerators
         /// <param name="opt">The generator parameters.</param>
         public static void CalculateCastling(GeneratorParameters opt)
         {
-            var kingLSB = CastlingConstants.InitialKingBitboard;
-            var leftRookLSB = CastlingConstants.InitialLeftRookBitboard;
-            var rightRookLSB = CastlingConstants.InitialRightRookBitboard;
+            var kingLsb = CastlingConstants.InitialKingBitboard;
+            var leftRookLsb = CastlingConstants.InitialLeftRookBitboard;
+            var rightRookLsb = CastlingConstants.InitialRightRookBitboard;
             var shortMoveArea = CastlingConstants.ShortCastlingMoveArea;
             var shortCheckArea = CastlingConstants.ShortCastlingCheckArea;
             var longMoveArea = CastlingConstants.LongCastlingMoveArea;
@@ -82,9 +82,9 @@ namespace Proxima.Core.MoveGenerators
 
             if (opt.FriendlyColor == Color.Black)
             {
-                kingLSB <<= 56;
-                leftRookLSB <<= 56;
-                rightRookLSB <<= 56;
+                kingLsb <<= 56;
+                leftRookLsb <<= 56;
+                rightRookLsb <<= 56;
                 shortMoveArea <<= 56;
                 shortCheckArea <<= 56;
                 longMoveArea <<= 56;
@@ -94,7 +94,7 @@ namespace Proxima.Core.MoveGenerators
             }
 
             if (IsCastlingPossible(CastlingType.Short, opt) &&
-                IsKingOnPosition(kingLSB, opt) && IsRookOnPosition(rightRookLSB, opt) &&
+                IsKingOnPosition(kingLsb, opt) && IsRookOnPosition(rightRookLsb, opt) &&
                 IsCastlingAreaEmpty(shortMoveArea, opt.OccupancySummary) &&
                !IsCastlingAreaChecked(opt.EnemyColor, shortCheckArea, opt))
             {
@@ -105,7 +105,7 @@ namespace Proxima.Core.MoveGenerators
             }
 
             if (IsCastlingPossible(CastlingType.Long, opt) &&
-                IsKingOnPosition(kingLSB, opt) && IsRookOnPosition(leftRookLSB, opt) &&
+                IsKingOnPosition(kingLsb, opt) && IsRookOnPosition(leftRookLsb, opt) &&
                 IsCastlingAreaEmpty(longMoveArea, opt.OccupancySummary) &&
                !IsCastlingAreaChecked(opt.EnemyColor, longCheckArea, opt))
             {

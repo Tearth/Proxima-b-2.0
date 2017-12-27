@@ -170,10 +170,10 @@ namespace Proxima.Core.Boards
         /// <returns>True if king with specified color is mated, otherwise false.</returns>
         public bool IsMate(Color color)
         {
-            var ai = new AICore();
+            var ai = new AiCore();
             var aiResult = ai.Calculate(color, this, 0);
 
-            return IsCheck(color) && Math.Abs(aiResult.Score) == AIConstants.MateValue;
+            return IsCheck(color) && Math.Abs(aiResult.Score) == AiConstants.MateValue;
         }
 
         /// <summary>
@@ -183,10 +183,10 @@ namespace Proxima.Core.Boards
         /// <returns>True if king with specified color is in stalemate, otherwise false.</returns>
         public bool IsStalemate(Color color)
         {
-            var ai = new AICore();
+            var ai = new AiCore();
             var aiResult = ai.Calculate(color, this, 0);
 
-            return !IsCheck(color) && Math.Abs(aiResult.Score) == AIConstants.MateValue;
+            return !IsCheck(color) && Math.Abs(aiResult.Score) == AiConstants.MateValue;
         }
 
         /// <summary>

@@ -13,9 +13,9 @@ namespace CECP.App.GameSubsystem.Modes.Game
     /// <summary>
     /// Represents the CECP game mode. All AI calculations and interactions with enemies will be done here.
     /// </summary>
-    public class GameMode : CECPModeBase
+    public class GameMode : CecpModeBase
     {
-        private const string AILogsDirectory = "AILogs";
+        private const string AiLogsDirectory = "AILogs";
 
         private GameSession _gameSession;
         private CsvLogger _csvLogger;
@@ -35,7 +35,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
             _gameSession = new GameSession();
             _gameSession.OnThinkingOutput += GameSession_OnThinkingOutput;
 
-            _csvLogger = new CsvLogger(AILogsDirectory);
+            _csvLogger = new CsvLogger(AiLogsDirectory);
 
             _thinkingOutputEnabled = false;
 
@@ -78,11 +78,11 @@ namespace CECP.App.GameSubsystem.Modes.Game
         {
             if (_thinkingOutputEnabled)
             {
-                var depth = e.AIResult.Depth;
-                var score = e.AIResult.Score;
-                var time = (int)(e.AIResult.Time * 100);
-                var totalNodes = e.AIResult.Stats.TotalNodes;
-                var bestMove = e.AIResult.BestMove.ToString();
+                var depth = e.AiResult.Depth;
+                var score = e.AiResult.Score;
+                var time = (int)(e.AiResult.Time * 100);
+                var totalNodes = e.AiResult.Stats.TotalNodes;
+                var bestMove = e.AiResult.BestMove.ToString();
 
                 SendData($"{depth} {score} {time} {totalNodes} {bestMove}");
             }
@@ -152,7 +152,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// <param name="command">The Go command to execute.</param>
         private void ExecuteGoCommand(Command command)
         {
-            var aiResponse = CalculateAIMove();
+            var aiResponse = CalculateAiMove();
             SendData($"move {aiResponse}");
         }
 
@@ -162,14 +162,14 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// <param name="command">The UserMove command to execute.</param>
         private void ExecuteUserMoveCommand(Command command)
         {
-            var cecpMoveParser = new CECPMoveParser();
+            var cecpMoveParser = new CecpMoveParser();
 
             var moveText = command.GetArgument<string>(0);
             var cecpMove = cecpMoveParser.Parse(moveText);
 
             CalculateEnemyMove(cecpMove);
 
-            var aiResponse = CalculateAIMove();
+            var aiResponse = CalculateAiMove();
             SendData($"move {aiResponse}");
         }
 
@@ -189,7 +189,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Applies enemy move to the bitboard.
         /// </summary>
         /// <param name="cecpMove">The CECP move to apply.</param>
-        private void CalculateEnemyMove(CECPMove cecpMove)
+        private void CalculateEnemyMove(CecpMove cecpMove)
         {
             if (cecpMove.PromotionPiece.HasValue)
             {
@@ -205,9 +205,9 @@ namespace CECP.App.GameSubsystem.Modes.Game
         /// Runs AI calculation and applies best move to the bitboard.
         /// </summary>
         /// <returns>The response (best move).</returns>
-        private string CalculateAIMove()
+        private string CalculateAiMove()
         {
-            var aiResult = _gameSession.MoveAI(_engineColor);
+            var aiResult = _gameSession.MoveAi(_engineColor);
 
             var fromConverted = PositionConverter.ToString(aiResult.BestMove.From);
             var toConverted = PositionConverter.ToString(aiResult.BestMove.To);

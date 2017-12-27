@@ -39,7 +39,7 @@ namespace Proxima.Core.Commons.Performance
         }
 
         /// <summary>
-        /// Calculates a castling index (in castlings array).
+        /// Calculates a castling index (in castling array).
         /// </summary>
         /// <param name="color">The player color.</param>
         /// <param name="castlingType">The castling type.</param>

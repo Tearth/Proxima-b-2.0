@@ -32,9 +32,9 @@ namespace Proxima.Core.Boards.Hashing
         }
 
         /// <summary>
-        /// Calclates Zobrist hash for pieces.
+        /// Calculates Zobrist hash for pieces.
         /// </summary>
-        /// <param name="hash">The curent hash.</param>
+        /// <param name="hash">The current hash.</param>
         /// <param name="pieces">The array of pieces.</param>
         /// <returns>The updated Zobrist hash.</returns>
         private static ulong CalculatePieces(ulong hash, ulong[] pieces)
@@ -49,10 +49,10 @@ namespace Proxima.Core.Boards.Hashing
 
                     while (piecesArray != 0)
                     {
-                        var pieceLSB = BitOperations.GetLSB(piecesArray);
-                        piecesArray = BitOperations.PopLSB(piecesArray);
+                        var pieceLsb = BitOperations.GetLsb(piecesArray);
+                        piecesArray = BitOperations.PopLsb(piecesArray);
 
-                        var fieldIndex = BitOperations.GetBitIndex(pieceLSB);
+                        var fieldIndex = BitOperations.GetBitIndex(pieceLsb);
 
                         hash ^= ZobristContainer.Pieces[FastArray.GetZobristPieceIndex(color, piece, fieldIndex)];
                     }
@@ -63,9 +63,9 @@ namespace Proxima.Core.Boards.Hashing
         }
 
         /// <summary>
-        /// Calclates Zobrist hash for castling flags.
+        /// Calculates Zobrist hash for castling flags.
         /// </summary>
-        /// <param name="hash">The curent hash.</param>
+        /// <param name="hash">The current hash.</param>
         /// <param name="castling">The array of castling flags.</param>
         /// <returns>The updated Zobrist hash.</returns>
         private static ulong CalculateCastling(ulong hash, bool[] castling)
@@ -82,9 +82,9 @@ namespace Proxima.Core.Boards.Hashing
         }
 
         /// <summary>
-        /// Calclates Zobrist hash for en passant.
+        /// Calculates Zobrist hash for en passant.
         /// </summary>
-        /// <param name="hash">The curent hash.</param>
+        /// <param name="hash">The current hash.</param>
         /// <param name="enPassant">The array of en passant.</param>
         /// <returns>The updated Zobrist hash.</returns>
         private static ulong CalculateEnPassant(ulong hash, ulong[] enPassant)
@@ -95,10 +95,10 @@ namespace Proxima.Core.Boards.Hashing
 
                 while (enPassantToParse != 0)
                 {
-                    var pieceLSB = BitOperations.GetLSB(enPassantToParse);
-                    enPassantToParse = BitOperations.PopLSB(enPassantToParse);
+                    var pieceLsb = BitOperations.GetLsb(enPassantToParse);
+                    enPassantToParse = BitOperations.PopLsb(enPassantToParse);
 
-                    var fieldIndex = BitOperations.GetBitIndex(pieceLSB);
+                    var fieldIndex = BitOperations.GetBitIndex(pieceLsb);
                     var fieldPosition = BitPositionConverter.ToPosition(fieldIndex);
 
                     hash ^= ZobristContainer.EnPassant[fieldPosition.X - 1];

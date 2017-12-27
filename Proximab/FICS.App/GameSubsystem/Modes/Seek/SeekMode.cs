@@ -8,7 +8,7 @@ namespace FICS.App.GameSubsystem.Modes.Seek
     /// Represents the FICS seek mode. It's the transitional mode between authentication and regular game.
     /// Seek command is sent to FICS and we're waiting for the acceptance from another user.
     /// </summary>
-    public class SeekMode : FICSModeBase
+    public class SeekMode : FicsModeBase
     {
         private const string SeekCommandConfigKeyName = "SeekCommand";
 
@@ -45,7 +45,7 @@ namespace FICS.App.GameSubsystem.Modes.Seek
 
             if (_acceptanceTokens.Any(message.Contains))
             {
-                ChangeMode(FICSModeType.Game);
+                ChangeMode(FicsModeType.Game);
             }
         }
     }

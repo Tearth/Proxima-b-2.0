@@ -31,7 +31,7 @@ namespace FICS.App
             var consoleManager = new ColorfulConsoleManager(ApplicationName);
             var configManager = new ConfigManager(ConfigFilename);
 
-            var ficsCore = new FICSCore(consoleManager, configManager, _textLogger);
+            var ficsCore = new FicsCore(consoleManager, configManager, _textLogger);
             ficsCore.Run();
             
             Console.Read();

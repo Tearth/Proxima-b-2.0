@@ -26,7 +26,7 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
                 return null;
             }
 
-            style12Container.StyleID = splittedInput[0];
+            style12Container.StyleId = splittedInput[0];
             style12Container.BoardState = ParseBoardState(splittedInput);
             style12Container.ColorToMove = GetColorType(splittedInput[9]);
             style12Container.DoublePawnPush = Convert.ToInt32(splittedInput[10]);

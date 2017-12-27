@@ -11,7 +11,7 @@ namespace Proxima.Core.AI.SEE
     /// <summary>
     /// Represents a set of methods to do a static exchange evaluation (SEE).
     /// </summary>
-    public class SEECalculator
+    public class SeeCalculator
     {
         /// <summary>
         /// Calculates SEE for the specified bitboard. All fields that are attacked by the passed color will be processed.
@@ -19,19 +19,19 @@ namespace Proxima.Core.AI.SEE
         /// <param name="initialColor">The color of the first attacker.</param>
         /// <param name="bitboard">The bitboard.</param>
         /// <returns>The list of all attacked fields with associated scores.</returns>
-        public LinkedList<SEEResult> Calculate(Color initialColor, Bitboard bitboard)
+        public LinkedList<SeeResult> Calculate(Color initialColor, Bitboard bitboard)
         {
-            var seeResults = new LinkedList<SEEResult>();
+            var seeResults = new LinkedList<SeeResult>();
 
             var enemyColor = ColorOperations.Invert(initialColor);
             var possibleAttacks = bitboard.AttacksSummary[(int)initialColor] & bitboard.Occupancy[(int)enemyColor];
 
             while (possibleAttacks != 0)
             {
-                var field = BitOperations.GetLSB(possibleAttacks);
-                possibleAttacks = BitOperations.PopLSB(possibleAttacks);
+                var field = BitOperations.GetLsb(possibleAttacks);
+                possibleAttacks = BitOperations.PopLsb(possibleAttacks);
 
-                RunSEEForField(field, initialColor, bitboard, seeResults);
+                RunSeeForField(field, initialColor, bitboard, seeResults);
             }
 
             return seeResults;
@@ -44,7 +44,7 @@ namespace Proxima.Core.AI.SEE
         /// <param name="initialColor">The color of the first attacker.</param>
         /// <param name="bitboard">The bitboard.</param>
         /// <param name="seeResults">The list of processed fields with associated scores.</param>
-        private void RunSEEForField(ulong field, Color initialColor, Bitboard bitboard, LinkedList<SEEResult> seeResults)
+        private void RunSeeForField(ulong field, Color initialColor, Bitboard bitboard, LinkedList<SeeResult> seeResults)
         {
             var fieldIndex = BitOperations.GetBitIndex(field);
 
@@ -53,8 +53,8 @@ namespace Proxima.Core.AI.SEE
 
             while (fieldAttackersWithInitialcolor != 0)
             {
-                var initialAttacker = BitOperations.GetLSB(fieldAttackersWithInitialcolor);
-                fieldAttackersWithInitialcolor = BitOperations.PopLSB(fieldAttackersWithInitialcolor);
+                var initialAttacker = BitOperations.GetLsb(fieldAttackersWithInitialcolor);
+                fieldAttackersWithInitialcolor = BitOperations.PopLsb(fieldAttackersWithInitialcolor);
 
                 var seeResult = CalculateScoreForField(field, initialAttacker, fieldAttackers, initialColor, bitboard);
                 seeResults.AddLast(seeResult);
@@ -70,11 +70,11 @@ namespace Proxima.Core.AI.SEE
         /// <param name="initialColor">The color of the first attacker.</param>
         /// <param name="bitboard">The bitboard.</param>
         /// <returns>The SEE result with the score and other data.</returns>
-        private SEEResult CalculateScoreForField(ulong field, ulong initialAttacker, ulong attackers, Color initialColor, Bitboard bitboard)
+        private SeeResult CalculateScoreForField(ulong field, ulong initialAttacker, ulong attackers, Color initialColor, Bitboard bitboard)
         {
             var enemyColor = ColorOperations.Invert(initialColor);
 
-            var seeResult = new SEEResult()
+            var seeResult = new SeeResult()
             {
                 InitialAttackerFrom = BitPositionConverter.ToPosition(BitOperations.GetBitIndex(initialAttacker)),
                 InitialAttackerTo = BitPositionConverter.ToPosition(BitOperations.GetBitIndex(field)),
@@ -150,8 +150,8 @@ namespace Proxima.Core.AI.SEE
 
                 if (attackersWithType != 0)
                 {
-                    var attackerLSB = BitOperations.GetLSB(attackersWithType);
-                    attackers &= ~attackerLSB;
+                    var attackerLsb = BitOperations.GetLsb(attackersWithType);
+                    attackers &= ~attackerLsb;
 
                     return (PieceType)piece;
                 }

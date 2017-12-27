@@ -10,15 +10,15 @@ namespace Proxima.Core.AI
         /// <summary>
         /// Gets the AI result for the specified depth.
         /// </summary>
-        public AIResult AIResult { get; }
+        public AiResult AiResult { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ThinkingOutputEventArgs"/> class.
         /// </summary>
         /// <param name="aiResult">The AI result.</param>
-        public ThinkingOutputEventArgs(AIResult aiResult)
+        public ThinkingOutputEventArgs(AiResult aiResult)
         {
-            AIResult = aiResult;
+            AiResult = aiResult;
         }
     }
 }

@@ -13,7 +13,7 @@ using Proxima.Core.Commons.Positions;
 namespace GUI.App.BoardSubsystem
 {
     /// <summary>
-    /// Represents a board drawed on window (it not contains any chess logic, only pure visual layer).
+    /// Represents a board drew on window (it not contains any chess logic, only pure visual layer).
     /// </summary>
     public class VisualBoard
     {

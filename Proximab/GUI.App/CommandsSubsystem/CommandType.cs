@@ -25,8 +25,8 @@
         BestMove,
         Reset,
         Mode,
-        RunAIGame,
+        RunAiGame,
         Quiescence,
-        SEE
+        See
     }
 }

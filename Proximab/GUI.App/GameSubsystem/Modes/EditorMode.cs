@@ -51,7 +51,7 @@ namespace GUI.App.GameSubsystem.Modes
             CommandsManager.AddCommandHandler(CommandType.MovesTest, CommandGroup.GameMode, DoMovesTest);
             CommandsManager.AddCommandHandler(CommandType.BestMove, CommandGroup.GameMode, CalculateBestMove);
             CommandsManager.AddCommandHandler(CommandType.Quiescence, CommandGroup.GameMode, SetQuiescenceSearch);
-            CommandsManager.AddCommandHandler(CommandType.SEE, CommandGroup.GameMode, RunSEE);
+            CommandsManager.AddCommandHandler(CommandType.See, CommandGroup.GameMode, RunSee);
 
             base.SetCommandHandlers();
         }
@@ -213,7 +213,7 @@ namespace GUI.App.GameSubsystem.Modes
                 return;
             }
 
-            var ai = new AICore();
+            var ai = new AiCore();
             var aiResult = ai.Calculate(color, Bitboard, preferredTimeArgument);
 
             ConsoleManager.WriteLine();
@@ -252,7 +252,7 @@ namespace GUI.App.GameSubsystem.Modes
         /// Runs static exchange evaluation.
         /// </summary>
         /// <param name="command">The SEE command</param>
-        private void RunSEE(Command command)
+        private void RunSee(Command command)
         {
             var colorArgument = command.GetArgument<string>(0);
 
@@ -263,7 +263,7 @@ namespace GUI.App.GameSubsystem.Modes
                 return;
             }
 
-            var seeCalculator = new SEECalculator();
+            var seeCalculator = new SeeCalculator();
             var seeResults = seeCalculator.Calculate(color, Bitboard);
 
             var colorSign = ColorOperations.ToSign(color);

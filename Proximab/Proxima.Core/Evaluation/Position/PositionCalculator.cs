@@ -78,10 +78,10 @@ namespace Proxima.Core.Evaluation.Position
 
             while (piecesToParse != 0)
             {
-                var pieceLSB = BitOperations.GetLSB(piecesToParse);
-                piecesToParse = BitOperations.PopLSB(piecesToParse);
+                var pieceLsb = BitOperations.GetLsb(piecesToParse);
+                piecesToParse = BitOperations.PopLsb(piecesToParse);
 
-                var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
+                var pieceIndex = BitOperations.GetBitIndex(pieceLsb);
 
                 position += array[FastArray.GetEvaluationValueIndex(bitboard.GamePhase, pieceIndex)];
             }

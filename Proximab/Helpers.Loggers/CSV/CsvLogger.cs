@@ -15,7 +15,7 @@ namespace Helpers.Loggers.CSV
     {
         private const char Delimeter = ';';
         private const string FileExtension = ".csv";
-        private const string AITimeFormat = "0.000";
+        private const string AiTimeFormat = "0.000";
 
         private List<string> _header;
 
@@ -45,11 +45,11 @@ namespace Helpers.Loggers.CSV
         }
 
         /// <summary>
-        /// Writes <see cref="AIResult"/> and <see cref="Bitboard"/> objects as new line to the csv file.
+        /// Writes <see cref="AiResult"/> and <see cref="Bitboard"/> objects as new line to the csv file.
         /// </summary>
         /// <param name="aiResult">The AI result.</param>
         /// <param name="bitboard">The bitboard.</param>
-        public void WriteLine(AIResult aiResult, Bitboard bitboard)
+        public void WriteLine(AiResult aiResult, Bitboard bitboard)
         {
             using (var csvLogger = OpenOrCreateFile(FileExtension))
             {
@@ -69,8 +69,8 @@ namespace Helpers.Loggers.CSV
                     aiResult.TimePerNode.ToString(),
                     aiResult.Depth.ToString(),
                     aiResult.Score.ToString(),
-                    aiResult.PreferredTime.ToString(AITimeFormat),
-                    aiResult.Time.ToString(AITimeFormat),
+                    aiResult.PreferredTime.ToString(AiTimeFormat),
+                    aiResult.Time.ToString(AiTimeFormat),
                     bitboard.Occupancy[0].ToString(),
                     bitboard.Occupancy[1].ToString(),
                     bitboard.GamePhase.ToString()

@@ -59,10 +59,10 @@ namespace Proxima.Core.Evaluation.KingSafety
 
             while (kingMoves != 0)
             {
-                var fieldLSB = BitOperations.GetLSB(kingMoves);
-                kingMoves = BitOperations.PopLSB(kingMoves);
+                var fieldLsb = BitOperations.GetLsb(kingMoves);
+                kingMoves = BitOperations.PopLsb(kingMoves);
 
-                var fieldIndex = BitOperations.GetBitIndex(fieldLSB);
+                var fieldIndex = BitOperations.GetBitIndex(fieldLsb);
                 var attacks = bitboard.Attacks[fieldIndex] & ~bitboard.Occupancy[(int)color];
 
                 attackedNeightbours += BitOperations.Count(attacks);

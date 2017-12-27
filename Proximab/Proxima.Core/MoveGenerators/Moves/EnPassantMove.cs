@@ -46,10 +46,10 @@ namespace Proxima.Core.MoveGenerators.Moves
         /// </summary>
         /// <param name="bitboard">The bitboard.</param>
         /// <param name="enemyColor">The enemy color.</param>
-        /// <param name="fieldLSB">The bitboard with set field.</param>
-        private void RemoveEnPassantPiece(Bitboard bitboard, Color enemyColor, ulong fieldLSB)
+        /// <param name="fieldLsb">The bitboard with set field.</param>
+        private void RemoveEnPassantPiece(Bitboard bitboard, Color enemyColor, ulong fieldLsb)
         {
-            var enPassantPiece = Color == Color.White ? fieldLSB >> 8 : fieldLSB << 8;
+            var enPassantPiece = Color == Color.White ? fieldLsb >> 8 : fieldLsb << 8;
 
             bitboard.Pieces[FastArray.GetPieceIndex(enemyColor, PieceType.Pawn)] &= ~enPassantPiece;
             bitboard.Occupancy[(int)enemyColor] ^= enPassantPiece;

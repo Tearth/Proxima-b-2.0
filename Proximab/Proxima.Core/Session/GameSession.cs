@@ -40,7 +40,7 @@ namespace Proxima.Core.Session
         /// </summary>
         public event EventHandler<GameEndedEventArgs> OnGameEnded;
 
-        private AICore _aiCore;
+        private AiCore _aiCore;
         private PreferredTimeCalculator _preferredTimeCalculator;
 
         private int[] _remainingTime;
@@ -52,7 +52,7 @@ namespace Proxima.Core.Session
         {
             MovesCount = 0;
 
-            _aiCore = new AICore();
+            _aiCore = new AiCore();
             _aiCore.OnThinkingOutput += AICore_OnThinkingOutput;
 
             Bitboard = new Bitboard(new DefaultFriendlyBoard());
@@ -109,7 +109,7 @@ namespace Proxima.Core.Session
         /// </summary>
         /// <param name="color">The engine color.</param>
         /// <returns>The AI result.</returns>
-        public AIResult MoveAI(Color color)
+        public AiResult MoveAi(Color color)
         {
             Bitboard.Calculate(GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks, false);
 

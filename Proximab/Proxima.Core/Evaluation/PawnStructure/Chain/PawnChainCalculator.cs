@@ -32,10 +32,10 @@ namespace Proxima.Core.Evaluation.PawnStructure.Chain
 
             while (pawnsToParse != 0)
             {
-                var pawnLSB = BitOperations.GetLSB(pawnsToParse);
-                pawnsToParse = BitOperations.PopLSB(pawnsToParse);
+                var pawnLsb = BitOperations.GetLsb(pawnsToParse);
+                pawnsToParse = BitOperations.PopLsb(pawnsToParse);
 
-                var chainMask = GetChainMask(color, pawnLSB);
+                var chainMask = GetChainMask(color, pawnLsb);
 
                 chain += BitOperations.Count(pawns & chainMask);
             }
@@ -47,11 +47,11 @@ namespace Proxima.Core.Evaluation.PawnStructure.Chain
         /// Calculates a chain mask for the specified color and field.
         /// </summary>
         /// <param name="color">The player color.</param>
-        /// <param name="pawnLSB">The LSB of the specified field.</param>
+        /// <param name="pawnLsb">The LSB of the specified field.</param>
         /// <returns>The chain mask for the specified color and field.</returns>
-        private ulong GetChainMask(Color color, ulong pawnLSB)
+        private ulong GetChainMask(Color color, ulong pawnLsb)
         {
-            var mask = ((pawnLSB & ~BitConstants.AFile) << 1) | ((pawnLSB & ~BitConstants.HFile) >> 1);
+            var mask = ((pawnLsb & ~BitConstants.AFile) << 1) | ((pawnLsb & ~BitConstants.HFile) >> 1);
 
             if (color == Color.White)
             {

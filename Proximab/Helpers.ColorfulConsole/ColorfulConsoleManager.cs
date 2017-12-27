@@ -61,10 +61,10 @@ namespace Helpers.ColorfulConsole
         {
             var environmentInfoProvider = new EnvironmentInfoProvider();
 
-            var osInfo = environmentInfoProvider.OSInfo;
-            var cpuPlatform = environmentInfoProvider.CPUPlatformVersion;
+            var osInfo = environmentInfoProvider.OsInfo;
+            var cpuPlatform = environmentInfoProvider.CpuPlatformVersion;
             var processPlatform = environmentInfoProvider.ProcessPlatformVersion;
-            var coresCount = environmentInfoProvider.CPUCoresCount;
+            var coresCount = environmentInfoProvider.CpuCoresCount;
 
             WriteLine($"$g{appName}$w | {osInfo} " +
                       $"(CPU $c{cpuPlatform}$w, {coresCount}$w | Process $c{processPlatform}$w)");

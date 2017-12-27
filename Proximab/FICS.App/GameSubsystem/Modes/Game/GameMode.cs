@@ -13,9 +13,9 @@ namespace FICS.App.GameSubsystem.Modes.Game
     /// <summary>
     /// Represents the FICS game mode. All AI calculations and interactions with enemies will be done here.
     /// </summary>
-    public class GameMode : FICSModeBase
+    public class GameMode : FicsModeBase
     {
-        private const string AILogsDirectory = "AILogs";
+        private const string AiLogsDirectory = "AILogs";
         private const string CreatingPrefix = "Creating:";
         private const string Style12Prefix = "<12>";
 
@@ -32,7 +32,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
         public GameMode(ConfigManager configManager) : base(configManager)
         {
             _gameSession = new GameSession();
-            _csvLogger = new CsvLogger(AILogsDirectory);
+            _csvLogger = new CsvLogger(AiLogsDirectory);
 
             _gameResultTokens = new Dictionary<string, GameResult>()
             {
@@ -64,7 +64,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
             else if (_gameResultTokens.Any(p => message.Contains(p.Key)))
             {
                 SaveGameResult(message);
-                ChangeMode(FICSModeType.Seek);
+                ChangeMode(FicsModeType.Seek);
             }
         }
 
@@ -101,7 +101,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
                 _gameSession.UpdateRemainingTime(Color.Black, style12Container.RemainingTime[(int)Color.Black]);
 
                 CalculateEnemyMove(style12Container);
-                return CalculateAIMove();
+                return CalculateAiMove();
             }
 
             return string.Empty;
@@ -135,9 +135,9 @@ namespace FICS.App.GameSubsystem.Modes.Game
         /// Runs AI calculation and applies best move to the bitboard.
         /// </summary>
         /// <returns>The response (best move) to FICS.</returns>
-        private string CalculateAIMove()
+        private string CalculateAiMove()
         {
-            var aiResult = _gameSession.MoveAI(_engineColor);
+            var aiResult = _gameSession.MoveAi(_engineColor);
 
             var fromConverted = PositionConverter.ToString(aiResult.BestMove.From);
             var toConverted = PositionConverter.ToString(aiResult.BestMove.To);

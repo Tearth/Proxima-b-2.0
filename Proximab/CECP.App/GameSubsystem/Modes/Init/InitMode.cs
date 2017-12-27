@@ -9,7 +9,7 @@ namespace CECP.App.GameSubsystem.Modes.Init
     /// <summary>
     /// Represents the CECP init mode. Engine inits protocol and sends list of supported features.
     /// </summary>
-    public class InitMode : CECPModeBase
+    public class InitMode : CecpModeBase
     {
         private Dictionary<string, bool> _features;
         
@@ -32,7 +32,7 @@ namespace CECP.App.GameSubsystem.Modes.Init
         }
 
         /// <summary>
-        /// Processes message (done in derivied class) and prepares a response.
+        /// Processes message (done in derived class) and prepares a response.
         /// </summary>
         /// <param name="command">The command to process.</param>
         public override void ProcessCommand(Command command)
@@ -76,7 +76,7 @@ namespace CECP.App.GameSubsystem.Modes.Init
         /// <param name="command">The New command to execute.</param>
         private void ExecuteNewCommand(Command command)
         {
-            ChangeMode(CECPModeType.Game);
+            ChangeMode(CecpModeType.Game);
         }
     }
 }

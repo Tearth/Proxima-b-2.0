@@ -36,22 +36,22 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CECPCore.cs" />
+    <Compile Include="CecpCore.cs" />
     <Compile Include="ConsoleSubsystem\Command.cs" />
     <Compile Include="ConsoleSubsystem\CommandParser.cs" />
     <Compile Include="ConsoleSubsystem\CommandsManager.cs" />
     <Compile Include="ConsoleSubsystem\CommandType.cs" />
     <Compile Include="ConsoleSubsystem\ConsoleManager.cs" />
     <Compile Include="ConsoleSubsystem\Exceptions\CommandTypeAlreadyRegisteredException.cs" />
-    <Compile Include="GameSubsystem\CECPModeBase.cs" />
-    <Compile Include="GameSubsystem\CECPModeFactory.cs" />
-    <Compile Include="GameSubsystem\CECPModeType.cs" />
+    <Compile Include="GameSubsystem\CecpModeBase.cs" />
+    <Compile Include="GameSubsystem\CecpModeFactory.cs" />
+    <Compile Include="GameSubsystem\CecpModeType.cs" />
     <Compile Include="GameSubsystem\ChangeModeEventArgs.cs" />
-    <Compile Include="GameSubsystem\Exceptions\CECPModeNotFoundException.cs" />
+    <Compile Include="GameSubsystem\Exceptions\CecpModeNotFoundException.cs" />
     <Compile Include="GameSubsystem\Exceptions\FeatureNotSupportedException.cs" />
-    <Compile Include="GameSubsystem\Modes\Game\Moves\CECPMove.cs" />
+    <Compile Include="GameSubsystem\Modes\Game\Moves\CecpMove.cs" />
     <Compile Include="GameSubsystem\Modes\Game\GameMode.cs" />
-    <Compile Include="GameSubsystem\Modes\Game\Moves\CECPMoveParser.cs" />
+    <Compile Include="GameSubsystem\Modes\Game\Moves\CecpMoveParser.cs" />
     <Compile Include="GameSubsystem\Modes\Init\InitMode.cs" />
     <Compile Include="GameSubsystem\SendDataEventArgs.cs" />
     <Compile Include="Program.cs" />

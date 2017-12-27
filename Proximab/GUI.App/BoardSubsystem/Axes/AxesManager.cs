@@ -22,7 +22,7 @@ namespace GUI.App.BoardSubsystem.Axes
         public Vector2 HorizontalOffset { get; set; }
 
         /// <summary>
-        /// Gets or sets the offset of the vertial axes.
+        /// Gets or sets the offset of the vertical axes.
         /// </summary>
         public Vector2 VerticalOffset { get; set; }
 

@@ -23,7 +23,7 @@ namespace GUI.App
 
             ProximaCore.Init();
 
-            using (var game = new GUICore(consoleManager, commandsManager))
+            using (var game = new GuiCore(consoleManager, commandsManager))
             {
                 game.Run();
             }

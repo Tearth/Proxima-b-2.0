@@ -8,7 +8,7 @@ using Proxima.Core.Commons.Positions;
 namespace Proxima.Core.MoveGenerators.Moves
 {
     /// <summary>
-    /// Represents a quiet move (without any kills, castlings, promotions etc.).
+    /// Represents a quiet move (without any kills, castling, promotions etc.).
     /// </summary>
     public class QuietMove : Move
     {
@@ -48,10 +48,10 @@ namespace Proxima.Core.MoveGenerators.Moves
                 var enPassantPosition = GetEnPassantPosition();
                 if (enPassantPosition.HasValue)
                 {
-                    var enPassantLSB = BitPositionConverter.ToULong(enPassantPosition.Value);
+                    var enPassantLsb = BitPositionConverter.ToULong(enPassantPosition.Value);
 
-                    bitboard.EnPassant[(int)Color] |= enPassantLSB;
-                    IncrementalZobrist.AddEnPassant(Color, enPassantLSB, bitboard);
+                    bitboard.EnPassant[(int)Color] |= enPassantLsb;
+                    IncrementalZobrist.AddEnPassant(Color, enPassantLsb, bitboard);
                 }
             }
         }

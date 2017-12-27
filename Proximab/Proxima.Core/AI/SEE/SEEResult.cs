@@ -6,7 +6,7 @@ namespace Proxima.Core.AI.SEE
     /// <summary>
     /// Represents a container for the SEE result.
     /// </summary>
-    public class SEEResult
+    public class SeeResult
     {
         /// <summary>
         /// Gets or sets the initial attacker type.
