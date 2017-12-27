@@ -41,7 +41,7 @@ namespace Proxima.Core.Evaluation.PawnStructure
             var whitePawnChains = _pawnChainCalculator.GetChainValue(bitboard, Color.White);
             var blackPawnChains = _pawnChainCalculator.GetChainValue(bitboard, Color.Black);
 
-            return (whiteDoubledPawns - blackDoubledPawns) +
+            return whiteDoubledPawns - blackDoubledPawns +
                    (whiteIsolatedPawns - blackIsolatedPawns) +
                    (whitePawnChains - blackPawnChains);
         }

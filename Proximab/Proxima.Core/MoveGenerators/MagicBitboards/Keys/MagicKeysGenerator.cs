@@ -62,7 +62,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Keys
         /// </summary>
         /// <remarks>
         /// Experiments has shown that the best magic keys have a small number of set bits. The simplest method
-        /// is "and" opertion on three 64-bit random numbers.
+        /// is "and" operation on three 64-bit random numbers.
         /// </remarks>
         /// <returns>The random magic key.</returns>
         private ulong GenerateRandomKey()

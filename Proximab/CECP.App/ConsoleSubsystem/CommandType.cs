@@ -5,7 +5,7 @@
     /// </summary>
     public enum CommandType
     {
-        Unrecognised,
+        Unrecognized,
         XBoard,
         ProtoVer,
         Accepted,

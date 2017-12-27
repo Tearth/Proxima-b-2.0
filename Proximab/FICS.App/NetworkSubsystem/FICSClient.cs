@@ -110,7 +110,8 @@ namespace FICS.App.NetworkSubsystem
         private void ReceiveCallback(IAsyncResult ar)
         {
             var clientState = (ClientState)ar.AsyncState;
-            var bytesRead = clientState.Socket.EndReceive(ar);
+            clientState.Socket.EndReceive(ar);
+
             var clientBuffer = Encoding.UTF8.GetString(clientState.Buffer);
             
             var lines = ParseClientBuffer(clientBuffer);

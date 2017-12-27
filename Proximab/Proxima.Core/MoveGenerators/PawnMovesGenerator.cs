@@ -36,10 +36,9 @@ namespace Proxima.Core.MoveGenerators
 
             var piecesToParse = opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)];
 
-            var pattern = 0ul;
             var promotionLine = GetPromotionLine(opt.FriendlyColor);
 
-            pattern = opt.FriendlyColor == Color.White ? piecesToParse << 8 : piecesToParse >> 8;
+            var pattern = opt.FriendlyColor == Color.White ? piecesToParse << 8 : piecesToParse >> 8;
             pattern &= ~opt.OccupancySummary;
 
             while (pattern != 0)
@@ -81,8 +80,8 @@ namespace Proxima.Core.MoveGenerators
             }
 
             var piecesToParse = opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Pawn)];
-            var validPieces = 0ul;
-            var pattern = 0ul;
+            ulong validPieces;
+            ulong pattern;
 
             if (opt.FriendlyColor == Color.White)
             {

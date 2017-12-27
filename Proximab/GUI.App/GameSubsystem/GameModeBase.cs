@@ -349,7 +349,7 @@ namespace GUI.App.GameSubsystem
         {
             var evaluation = Bitboard.GetDetailedEvaluation();
 
-            ConsoleManager.WriteLine($"$c\t\tWhite\tBlack");
+            ConsoleManager.WriteLine("$c\t\tWhite\tBlack");
             ConsoleManager.WriteLine($"$cMaterial:\t$w{evaluation.Material.WhiteMaterial}\t{evaluation.Material.BlackMaterial}");
             ConsoleManager.WriteLine($"$cMobility:\t$w{evaluation.Mobility.WhiteMobility}\t{evaluation.Mobility.BlackMobility}");
             ConsoleManager.WriteLine($"$cCastling:\t$w{evaluation.Castling.WhiteCastling}\t{evaluation.Castling.BlackCastling}");

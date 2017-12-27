@@ -38,7 +38,7 @@
         /// <summary>
         /// Gets the difference between white and black evaluation results.
         /// </summary>
-        public int Difference => (WhiteDoubledPawns - BlackDoubledPawns) + 
+        public int Difference => WhiteDoubledPawns - BlackDoubledPawns + 
                                  (WhiteIsolatedPawns - BlackIsolatedPawns) + 
                                  (WhitePawnChain - BlackPawnChain);
     }

@@ -17,7 +17,7 @@ namespace Proxima.Core.Commons.Positions
         /// Gets or sets the vertical position.
         /// </summary>
         public int Y { get; set; }
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="Position"/> struct.
         /// </summary>
@@ -43,15 +43,10 @@ namespace Proxima.Core.Commons.Positions
         /// </summary>
         /// <param name="a">The first position to compare.</param>
         /// <param name="b">The second position to compare.</param>
-        /// <returns>True if both positions are equal, otherwise flase.</returns>
+        /// <returns>True if both positions are equal, otherwise false.</returns>
         public static bool operator ==(Position a, Position b)
         {
-            if (ReferenceEquals(null, b))
-            {
-                return ReferenceEquals(null, a);
-            }
-
-            return (a.X == b.X) && (a.Y == b.Y);
+            return a.X == b.X && a.Y == b.Y;
         }
         
         /// <summary>
@@ -59,7 +54,7 @@ namespace Proxima.Core.Commons.Positions
         /// </summary>
         /// <param name="a">The first position to compare.</param>
         /// <param name="b">The second position to compare.</param>
-        /// <returns>True if both positions are not equal, otherwise flase.</returns>
+        /// <returns>True if both positions are not equal, otherwise false.</returns>
         public static bool operator !=(Position a, Position b)
         {
             return !(a == b);
@@ -94,8 +89,7 @@ namespace Proxima.Core.Commons.Positions
         /// <returns>True if the specified object is equal to the current object; otherwise, false.</returns>
         public override bool Equals(object obj)
         {
-            var position = (Position)obj;
-            return position != null && position == this;
+            return obj != null && (Position)obj == this;
         }
 
         /// <summary>
@@ -105,8 +99,8 @@ namespace Proxima.Core.Commons.Positions
         public override int GetHashCode()
         {
             var hashCode = 1861411795;
-            hashCode = (hashCode * -1521134295) + X.GetHashCode();
-            hashCode = (hashCode * -1521134295) + Y.GetHashCode();
+            hashCode = hashCode * -1521134295 + X.GetHashCode();
+            hashCode = hashCode * -1521134295 + Y.GetHashCode();
             return hashCode;
         }
 

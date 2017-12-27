@@ -16,7 +16,7 @@
         }
 
         /// <summary>
-        /// Writes a new line with the specified text to the log file and immedialy saves it.
+        /// Writes a new line with the specified text to the log file and immediately saves it.
         /// </summary>
         /// <param name="text">The text to save (without end line chars).</param>
         public void WriteLine(string text)

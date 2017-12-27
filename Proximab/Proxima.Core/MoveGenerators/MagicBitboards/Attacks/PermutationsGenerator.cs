@@ -15,23 +15,23 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
         /// <returns>The list of the permutations for the specified mask.</returns>
         public List<ulong> GenerateMaskPermutations(ulong mask)
         {
-            var permuatations = new List<ulong>();
+            var permutations = new List<ulong>();
             var bitIndexes = GenerateBitIndexes(mask);
             var permutationsCount = 1 << bitIndexes.Count;
 
             for (int i = 0; i < permutationsCount; i++)
             {
-                permuatations.Add(GeneratePermutation(i, bitIndexes));
+                permutations.Add(GeneratePermutation(i, bitIndexes));
             }
 
-            return permuatations;
+            return permutations;
         }
 
         /// <summary>
         /// Generates a list of bit indexes (all bits for those mask was set).
         /// </summary>
         /// <param name="mask">The mask (bits where permutation will be applied)</param>
-        /// <returns>The list of bit indexes for the specifie mask.</returns>
+        /// <returns>The list of bit indexes for the specified mask.</returns>
         private List<int> GenerateBitIndexes(ulong mask)
         {
             var bitIndexes = new List<int>();

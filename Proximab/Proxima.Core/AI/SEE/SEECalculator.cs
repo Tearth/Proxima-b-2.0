@@ -40,7 +40,7 @@ namespace Proxima.Core.AI.SEE
         /// <summary>
         /// Runs SEE for the specified field. All combinations of first attackers will be processed.
         /// </summary>
-        /// <param name="field">The field to analyse.</param>
+        /// <param name="field">The field to analyze.</param>
         /// <param name="initialColor">The color of the first attacker.</param>
         /// <param name="bitboard">The bitboard.</param>
         /// <param name="seeResults">The list of processed fields with associated scores.</param>
@@ -49,12 +49,12 @@ namespace Proxima.Core.AI.SEE
             var fieldIndex = BitOperations.GetBitIndex(field);
 
             var fieldAttackers = bitboard.Attacks[fieldIndex];
-            var fieldAttackersWithInitialcolor = fieldAttackers & bitboard.Occupancy[(int)initialColor];
+            var fieldAttackersWithInitialColor = fieldAttackers & bitboard.Occupancy[(int)initialColor];
 
-            while (fieldAttackersWithInitialcolor != 0)
+            while (fieldAttackersWithInitialColor != 0)
             {
-                var initialAttacker = BitOperations.GetLSB(fieldAttackersWithInitialcolor);
-                fieldAttackersWithInitialcolor = BitOperations.PopLSB(fieldAttackersWithInitialcolor);
+                var initialAttacker = BitOperations.GetLSB(fieldAttackersWithInitialColor);
+                fieldAttackersWithInitialColor = BitOperations.PopLSB(fieldAttackersWithInitialColor);
 
                 var seeResult = CalculateScoreForField(field, initialAttacker, fieldAttackers, initialColor, bitboard);
                 seeResults.AddLast(seeResult);
@@ -64,7 +64,7 @@ namespace Proxima.Core.AI.SEE
         /// <summary>
         /// Calculates SEE for the specified field and initial attacker.
         /// </summary>
-        /// <param name="field">The field to analyse.</param>
+        /// <param name="field">The field to analyze.</param>
         /// <param name="initialAttacker">The initial attacker.</param>
         /// <param name="attackers">The bitboard with all attackers that will be a part of SEE.</param>
         /// <param name="initialColor">The color of the first attacker.</param>
@@ -86,11 +86,6 @@ namespace Proxima.Core.AI.SEE
             seeResult.Score = MaterialValues.PieceValues[(int)seeResult.AttackedPieceType];
 
             attackers &= ~initialAttacker;
-            var fieldAttackers = new ulong[2]
-            {
-                attackers & bitboard.Occupancy[(int)initialColor],
-                attackers & bitboard.Occupancy[(int)enemyColor]
-            };
 
             var currentColor = enemyColor;
             var currentSign = -1;

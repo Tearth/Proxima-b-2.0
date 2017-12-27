@@ -48,10 +48,10 @@ namespace Proxima.Core.Evaluation.KingSafety
         /// </summary>
         /// <param name="bitboard">The bitboard.</param>
         /// <param name="color">The king color.</param>
-        /// <returns>The value of the pieces that are attacking king beighbour fields multiplied by the specified ratio.</returns>
+        /// <returns>The value of the pieces that are attacking king neighbour fields multiplied by the specified ratio.</returns>
         private int GetAttackedNeighboursValue(Bitboard bitboard, Color color)
         {
-            var attackedNeightbours = 0;
+            var attackedNeighbours = 0;
 
             var king = bitboard.Pieces[FastArray.GetPieceIndex(color, PieceType.King)];
             var kingIndex = BitOperations.GetBitIndex(king);
@@ -65,10 +65,10 @@ namespace Proxima.Core.Evaluation.KingSafety
                 var fieldIndex = BitOperations.GetBitIndex(fieldLSB);
                 var attacks = bitboard.Attacks[fieldIndex] & ~bitboard.Occupancy[(int)color];
 
-                attackedNeightbours += BitOperations.Count(attacks);
+                attackedNeighbours += BitOperations.Count(attacks);
             }
 
-            return attackedNeightbours * KingSafetyValues.AttackedNeighboursRatio[(int)bitboard.GamePhase];
+            return attackedNeighbours * KingSafetyValues.AttackedNeighboursRatio[(int)bitboard.GamePhase];
         }
     }
 }

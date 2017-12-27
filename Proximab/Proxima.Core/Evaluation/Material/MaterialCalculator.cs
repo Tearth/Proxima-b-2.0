@@ -12,7 +12,7 @@ namespace Proxima.Core.Evaluation.Material
     /// <remarks>
     /// Material is one of the most important aspects of the chess and has the highest ratio from all
     /// evaluation calculators. Every piece has a specified value and sum of these will show which player
-    /// has a significant adventage.
+    /// has a significant advantage.
     /// </remarks>
     public class MaterialCalculator
     {

@@ -27,7 +27,7 @@ namespace GUI.App.ConsoleSubsystem
         public ConsoleManager(CommandsManager commandsManager, string appName)
         {
             _commandsManager = commandsManager;
-            _consoleLoop = new Task(() => Loop());
+            _consoleLoop = new Task(Loop);
 
             _colorfulConsole = new ColorfulConsoleManager(appName);
 
@@ -183,7 +183,7 @@ namespace GUI.App.ConsoleSubsystem
         /// </summary>
         private void WriteCommandNotFoundMessage()
         {
-            WriteLine($"$rCommand not found");
+            WriteLine("$rCommand not found");
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace GUI.App.ConsoleSubsystem
         /// </summary>
         private void WriteInvalidCommandFormatMessage()
         {
-            WriteLine($"$rInvalid command format");
+            WriteLine("$rInvalid command format");
         }
     }
 }

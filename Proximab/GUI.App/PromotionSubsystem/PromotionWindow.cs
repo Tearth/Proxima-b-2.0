@@ -18,7 +18,7 @@ namespace GUI.App.PromotionSubsystem
     public class PromotionWindow
     {
         /// <summary>
-        /// Gets a value indicating whether window is displayer or not.
+        /// Gets a value indicating whether window is displayed or not.
         /// </summary>
         public bool Active { get; private set; }
 
@@ -205,7 +205,7 @@ namespace GUI.App.PromotionSubsystem
         }
 
         /// <summary>
-        /// Calculates the higlight position based on the promotion piece index.
+        /// Calculates the highlight position based on the promotion piece index.
         /// </summary>
         /// <param name="pieceIndex">The promotion piece index.</param>
         /// <returns>The position of the highlight.</returns>

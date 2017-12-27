@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Proxima.Core.Commons.Exceptions
 {
     /// <summary>
-    /// The exception that is thrown when a piece symbol is not recognised.
+    /// The exception that is thrown when a piece symbol is not recognized.
     /// </summary>
     public class PieceSymbolNotFoundException : Exception
     {

@@ -36,7 +36,7 @@ namespace Proxima.Core.Persistence
         /// <param name="pieces">The list of pieces to write.</param>
         private void WriteBoard(StreamWriter writer, FriendlyPiecesList pieces)
         {
-            writer.WriteLine(PersistenceContants.BoardSection);
+            writer.WriteLine(PersistenceConstants.BoardSection);
             for (int y = 0; y < 8; y++)
             {
                 for (int x = 0; x < 8; x++)
@@ -45,7 +45,7 @@ namespace Proxima.Core.Persistence
 
                     if (field == null)
                     {
-                        writer.Write(PersistenceContants.EmptyBoardField);
+                        writer.Write(PersistenceConstants.EmptyBoardField);
                     }
                     else
                     {
@@ -67,7 +67,7 @@ namespace Proxima.Core.Persistence
         /// <param name="castling">The castling data.</param>
         private void WriteCastling(StreamWriter writer, FriendlyCastling castling)
         {
-            writer.WriteLine(PersistenceContants.CastlingSection);
+            writer.WriteLine(PersistenceConstants.CastlingSection);
 
             writer.WriteLine(castling.WhiteShortCastlingPossibility.ToString());
             writer.WriteLine(castling.WhiteLongCastlingPossibility.ToString());
@@ -85,7 +85,7 @@ namespace Proxima.Core.Persistence
         /// <param name="enPassant">The en passant data.</param>
         private void WriteEnPassant(StreamWriter writer, FriendlyEnPassant enPassant)
         {
-            writer.WriteLine(PersistenceContants.EnPassantSection);
+            writer.WriteLine(PersistenceConstants.EnPassantSection);
 
             WritePosition(writer, enPassant.WhiteEnPassant);
             WritePosition(writer, enPassant.BlackEnPassant);
@@ -95,12 +95,12 @@ namespace Proxima.Core.Persistence
         /// Writes a <see cref="Position"/> object to the file. 
         /// </summary>
         /// <param name="writer">The file writer.</param>
-        /// <param name="position">The position to write (writes <see cref="PersistenceContants.NullValue"/> if null).</param>
+        /// <param name="position">The position to write (writes <see cref="PersistenceConstants.NullValue"/> if null).</param>
         private void WritePosition(StreamWriter writer, Position? position)
         {
             if (!position.HasValue)
             {
-                writer.WriteLine(PersistenceContants.NullValue);
+                writer.WriteLine(PersistenceConstants.NullValue);
                 return;
             }
 

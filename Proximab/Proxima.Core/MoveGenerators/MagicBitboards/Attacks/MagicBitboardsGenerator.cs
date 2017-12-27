@@ -9,18 +9,6 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
     /// </summary>
     public class MagicBitboardsGenerator
     {
-        private RookAttacksGenerator _rookAttacksGenerator;
-        private BishopAttacksGenerator _bishopAttacksGenerator;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MagicBitboardsGenerator"/> class.
-        /// </summary>
-        public MagicBitboardsGenerator()
-        {
-            _rookAttacksGenerator = new RookAttacksGenerator();
-            _bishopAttacksGenerator = new BishopAttacksGenerator();
-        }
-
         /// <summary>
         /// Generates magic bitboards for the specified parameters.
         /// </summary>
@@ -48,7 +36,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
         /// </summary>
         /// <param name="patterns">The list of available patterns for the specified field.</param>
         /// <param name="keys">The array of the magic keys.</param>
-        /// <param name="patternBitsCount">The pattern set bits cout.</param>
+        /// <param name="patternBitsCount">The pattern set bits count.</param>
         /// <param name="fieldIndex">The field index.</param>
         /// <returns>The array of possible attacks for the specified field.</returns>
         private ulong[] GenerateMagicAttacks(List<FieldAttackPattern> patterns, ulong[] keys, int patternBitsCount, int fieldIndex)

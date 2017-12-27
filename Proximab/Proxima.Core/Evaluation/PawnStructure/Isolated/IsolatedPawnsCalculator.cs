@@ -10,7 +10,7 @@ namespace Proxima.Core.Evaluation.PawnStructure.Isolated
     /// Represents a set of methods to evaluate doubled pawns.
     /// </summary>
     /// <remarks>
-    /// We can talk about pawn as isoleted when there is no any same-color pawns on neighbour files. It's extremally
+    /// We can talk about pawn as isolated when there is no any same-color pawns on neighbour files. It's extremely
     /// harmful, because these pawns are very hard to defend and can be easily killed by the enemy pieces.
     /// </remarks>
     public class IsolatedPawnsCalculator
@@ -41,7 +41,7 @@ namespace Proxima.Core.Evaluation.PawnStructure.Isolated
                 }
             }
 
-            return isolatedPawns * PawnStructureValues.IsolatededPawnsRatio[(int)bitboard.GamePhase];
+            return isolatedPawns * PawnStructureValues.IsolatedPawnsRatio[(int)bitboard.GamePhase];
         }
     }
 }

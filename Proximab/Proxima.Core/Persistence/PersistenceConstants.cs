@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a set of constants for internal board file format.
     /// </summary>
-    public static class PersistenceContants
+    public static class PersistenceConstants
     {
         public const string BoardSection = "!Board";
         public const string CastlingSection = "!Castling";

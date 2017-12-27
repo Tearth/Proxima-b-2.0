@@ -5,7 +5,7 @@
     /// attacks variables.
     /// </summary>
     /// <remarks>
-    /// For Occupancy=10110010 and 00000X00 (where X is the localisation of field), the Attacks property
+    /// For Occupancy=10110010 and 00000X00 (where X is the localization of field), the Attacks property
     /// will have 00011110. The most edge bits in Attacks property are always zero (to save memory when
     /// magic keys are generated).
     /// </remarks>

@@ -44,19 +44,19 @@ namespace Proxima.Core.Persistence
 
                     switch (line)
                     {
-                        case PersistenceContants.BoardSection:
+                        case PersistenceConstants.BoardSection:
                         {
                             pieces = ReadBoard(reader);
                             break;
                         }
 
-                        case PersistenceContants.CastlingSection:
+                        case PersistenceConstants.CastlingSection:
                         {
                             castling = ReadCastling(reader);
                             break;
                         }
 
-                        case PersistenceContants.EnPassantSection:
+                        case PersistenceConstants.EnPassantSection:
                         {
                             enPassant = ReadEnPassant(reader);
                             break;
@@ -84,7 +84,7 @@ namespace Proxima.Core.Persistence
 
                 for (int x = 0; x < 8; x++)
                 {
-                    if (splitLine[x] == PersistenceContants.EmptyBoardField)
+                    if (splitLine[x] == PersistenceConstants.EmptyBoardField)
                     {
                         continue;
                     }
@@ -137,12 +137,12 @@ namespace Proxima.Core.Persistence
         /// Reads a <see cref="Position"/> object to the file. 
         /// </summary>
         /// <param name="reader">The file writer.</param>
-        /// <returns>The read position (or null if there was a <see cref="PersistenceContants.NullValue"/> in the file).</returns>
+        /// <returns>The read position (or null if there was a <see cref="PersistenceConstants.NullValue"/> in the file).</returns>
         private Position? ReadPosition(StreamReader reader)
         {
             var line = reader.ReadLine().Trim();
 
-            if (line == PersistenceContants.NullValue)
+            if (line == PersistenceConstants.NullValue)
             {
                 return null;
             }

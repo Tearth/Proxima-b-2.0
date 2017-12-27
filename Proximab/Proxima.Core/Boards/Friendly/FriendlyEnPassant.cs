@@ -59,7 +59,7 @@ namespace Proxima.Core.Boards.Friendly
             }
 
             var lsb = BitOperations.GetLSB(enPassant);
-            enPassant = BitOperations.PopLSB(enPassant);
+            BitOperations.PopLSB(enPassant);
 
             var bitIndex = BitOperations.GetBitIndex(lsb);
 

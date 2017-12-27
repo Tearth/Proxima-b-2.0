@@ -139,11 +139,6 @@ namespace GUI.App.GameSubsystem.Modes
             }
 
             var fieldPosition = PositionConverter.ToPosition(fieldArgument);
-            if (fieldPosition == null)
-            {
-                ConsoleManager.WriteLine($"$rInvalid field ($R{fieldArgument}$r)");
-                return;
-            }
 
             VisualBoard.FriendlyBoard.SetPiece(new FriendlyPiece(fieldPosition, piece, color));
             CalculateBitboard(VisualBoard.FriendlyBoard, _quiescenceSearch);
@@ -158,11 +153,6 @@ namespace GUI.App.GameSubsystem.Modes
             var fieldArgument = command.GetArgument<string>(0);
 
             var fieldPosition = PositionConverter.ToPosition(fieldArgument);
-            if (fieldPosition == null)
-            {
-                ConsoleManager.WriteLine($"$rInvalid field ($R{fieldArgument}$r)");
-                return;
-            }
 
             VisualBoard.FriendlyBoard.RemovePiece(fieldPosition);
             CalculateBitboard(VisualBoard.FriendlyBoard, _quiescenceSearch);
@@ -232,7 +222,7 @@ namespace GUI.App.GameSubsystem.Modes
                 ConsoleManager.WriteLine($"$wTime per node: $c{aiResult.TimePerNode} ns");
                 ConsoleManager.WriteLine($"$wTime: $m{aiResult.Time} s");
                 ConsoleManager.WriteLine();
-                ConsoleManager.WriteLine($"$wBest move: $g{aiResult.BestMove.ToString()}");
+                ConsoleManager.WriteLine($"$wBest move: $g{aiResult.BestMove}");
                 ConsoleManager.WriteLine($"$wScore: $m{aiResult.Score}");
             }
 

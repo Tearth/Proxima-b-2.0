@@ -35,7 +35,7 @@ namespace Proxima.Core.Tests
         /// <summary>
         /// Gets the number of nodes per second (TotalNodes / Time).
         /// </summary>
-        public int NodesPerSecond => Time != 0 ? (int)(TotalNodes / Time) : 0;
+        public int NodesPerSecond => (int)Time != 0 ? (int)(TotalNodes / Time) : 0;
 
         /// <summary>
         /// Gets the number of nanoseconds per node ((Ticks / TotalNodes) * 100).

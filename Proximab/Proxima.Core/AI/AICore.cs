@@ -29,7 +29,7 @@ namespace Proxima.Core.AI
             var result = new AIResult();
             var colorSign = ColorOperations.ToSign(color);
             var stopwatch = new Stopwatch();
-            var estimatedTimeForNextIteration = 0;
+            int estimatedTimeForNextIteration;
 
             result.PreferredTime = preferredTime;
 
@@ -49,7 +49,7 @@ namespace Proxima.Core.AI
 
                 estimatedTimeForNextIteration = (int)stopwatch.Elapsed.TotalMilliseconds * result.Stats.BranchingFactor;
             }
-            while (estimatedTimeForNextIteration < (preferredTime * 1000));
+            while (estimatedTimeForNextIteration < preferredTime * 1000);
             
             return result;
         }

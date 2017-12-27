@@ -159,7 +159,7 @@
       <Item>
         <Name>Hash</Name>
         <EnumType>Hash</EnumType>
-        <Description>Display Zorbrist hash of current bitboard</Description>
+        <Description>Display Zobrist hash of current bitboard</Description>
         <Arguments>
         </Arguments>
       </Item>

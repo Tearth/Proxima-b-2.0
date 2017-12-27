@@ -136,7 +136,7 @@ namespace Proxima.Core.Session
         }
 
         /// <summary>
-        /// The event handler tor OnThinkingOuput.
+        /// The event handler tor OnThinkingOutput.
         /// </summary>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>

@@ -8,7 +8,7 @@ using Proxima.Core.Commons.Positions;
 namespace Proxima.Core.MoveGenerators.Moves
 {
     /// <summary>
-    /// Represents a quiet move (without any kills, castlings, promotions etc.).
+    /// Represents a quiet move (without any kills, castling, promotions etc.).
     /// </summary>
     public class QuietMove : Move
     {

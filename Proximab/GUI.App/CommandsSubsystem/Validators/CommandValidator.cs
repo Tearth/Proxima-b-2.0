@@ -62,7 +62,7 @@ namespace GUI.App.CommandsSubsystem.Validators
         /// </summary>
         private void SetValidationHandlers()
         {
-            _validationHandlers.Add("string", (value) => { return true; });
+            _validationHandlers.Add("string", value => true);
             _validationHandlers.Add("int", TryParseToInt);
             _validationHandlers.Add("bool", TryParseToBool);
             _validationHandlers.Add("float", TryParseToFloat);

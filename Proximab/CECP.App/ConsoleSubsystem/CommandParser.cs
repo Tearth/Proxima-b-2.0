@@ -51,7 +51,7 @@ namespace CECP.App.ConsoleSubsystem
         {
             if (!Enum.TryParse(commandNameText, true, out CommandType commandType))
             {
-                return CommandType.Unrecognised;
+                return CommandType.Unrecognized;
             }
 
             return commandType;

@@ -88,7 +88,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
         }
 
         /// <summary>
-        /// Generates magc bitboards for rook and bishop.
+        /// Generates magic bitboards for rook and bishop.
         /// </summary>
         private static void GenerateMagicBitboards()
         {

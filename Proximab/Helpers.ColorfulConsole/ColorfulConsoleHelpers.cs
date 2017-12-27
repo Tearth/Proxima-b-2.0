@@ -14,7 +14,7 @@
         /// </returns>
         public static string ParseBool(bool value)
         {
-            return value ? $"$g{value}$w" : $"$r{value}$w";
+            return value ? "$gTrue$w" : "$rFalse$w";
         }
     }
 }

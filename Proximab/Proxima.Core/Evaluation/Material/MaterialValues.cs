@@ -5,7 +5,7 @@
     /// </summary>
     public static class MaterialValues
     {
-        public static readonly int[] PieceValues = new int[6]
+        public static readonly int[] PieceValues = new int[]
         {
             100,    // Pawn
             320,    // Knight

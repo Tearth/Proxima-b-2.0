@@ -83,7 +83,7 @@ namespace Proxima.Core.MoveGenerators.Moves
         /// <returns>The string representation.</returns>
         public override string ToString()
         {
-            return From.ToString() + " -> " + To.ToString();
+            return From + " -> " + To;
         }
 
         /// <summary>

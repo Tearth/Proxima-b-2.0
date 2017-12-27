@@ -5,7 +5,7 @@ using Proxima.Core.Commons.Pieces;
 namespace Proxima.Core.Commons.Performance
 {
     /// <summary>
-    /// Represents a set of methods to fast array manipulating (emulating two-dimensional arrays as one-dimensionals).
+    /// Represents a set of methods to fast array manipulating (emulating two-dimensional arrays as one-dimensional).
     /// </summary>
     /// <remarks>
     /// One-dimensional arrays are significantly faster because they use other set of CIL instructions,
@@ -22,7 +22,7 @@ namespace Proxima.Core.Commons.Performance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetPieceIndex(Color color, PieceType pieceType)
         {
-            return ((int)color * 6) + (int)pieceType;
+            return (int)color * 6 + (int)pieceType;
         }
 
         /// <summary>
@@ -35,11 +35,11 @@ namespace Proxima.Core.Commons.Performance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetZobristPieceIndex(Color color, PieceType pieceType, int field)
         {
-            return ((((int)color * 6) + (int)pieceType) << 6) + field;
+            return (((int)color * 6 + (int)pieceType) << 6) + field;
         }
 
         /// <summary>
-        /// Calculates a castling index (in castlings array).
+        /// Calculates a castling index (in castling array).
         /// </summary>
         /// <param name="color">The player color.</param>
         /// <param name="castlingType">The castling type.</param>

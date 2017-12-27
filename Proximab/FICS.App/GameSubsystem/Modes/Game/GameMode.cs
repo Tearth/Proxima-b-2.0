@@ -94,7 +94,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
                 _gameSession.UpdateRemainingTime(Color.Black, style12Container.RemainingTime[(int)Color.Black]);
 
                 CalculateEnemyMove(style12Container);
-                return CalculateAIMove(style12Container);
+                return CalculateAIMove();
             }
 
             return string.Empty;
@@ -127,9 +127,8 @@ namespace FICS.App.GameSubsystem.Modes.Game
         /// <summary>
         /// Runs AI calculation and applies best move to the bitboard.
         /// </summary>
-        /// <param name="style12Container">The data from FICS.</param>
         /// <returns>The response (best move) to FICS.</returns>
-        private string CalculateAIMove(Style12Container style12Container)
+        private string CalculateAIMove()
         {
             var aiResult = _gameSession.MoveAI(_engineColor);
 

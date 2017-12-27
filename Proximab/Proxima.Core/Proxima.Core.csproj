@@ -60,7 +60,7 @@
     <Compile Include="Commons\GameResult.cs" />
     <Compile Include="Persistence\BoardReader.cs" />
     <Compile Include="Persistence\BoardWriter.cs" />
-    <Compile Include="Persistence\PersistenceContants.cs" />
+    <Compile Include="Persistence\PersistenceConstants.cs" />
     <Compile Include="Boards\Hashing\ZobristContainer.cs" />
     <Compile Include="Boards\Hashing\ZobristHash.cs" />
     <Compile Include="Boards\Hashing\IncrementalZobrist.cs" />

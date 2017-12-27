@@ -97,8 +97,8 @@ namespace Helpers.Loggers.CSV
                 {
                     csvLogger.WriteLine("ABORTED");
                 }
-                else if ((gameResult == GameResult.WhiteWon && engineColor == Color.White) ||
-                         (gameResult == GameResult.BlackWon && engineColor == Color.Black))
+                else if (gameResult == GameResult.WhiteWon && engineColor == Color.White ||
+                         gameResult == GameResult.BlackWon && engineColor == Color.Black)
                 {
                     csvLogger.WriteLine("ENGINE_WON");
                 }
@@ -110,7 +110,7 @@ namespace Helpers.Loggers.CSV
         }
 
         /// <summary>
-        /// Writes values to the specified csv file (deparated by <see cref="Delimeter"/>.
+        /// Writes values to the specified csv file (separated by <see cref="Delimeter"/>.
         /// </summary>
         /// <param name="writer">The csv stream writer</param>
         /// <param name="values">The list of values to write.</param>

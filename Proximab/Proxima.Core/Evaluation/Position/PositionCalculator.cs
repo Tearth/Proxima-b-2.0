@@ -11,9 +11,9 @@ namespace Proxima.Core.Evaluation.Position
     /// Represents a set of methods to evaluate position.
     /// </summary>
     /// <remarks>
-    /// Position is an simply information about all piece localisations. On example, knight at border
+    /// Position is an simply information about all piece localizations. On example, knight at border
     /// of the chess board has less mobility, so it is less valuable. By this parameter, we can force AI to develop
-    /// pieces more on center, what is very favourable.
+    /// pieces more on center, what is very favorable.
     /// </remarks>
     public class PositionCalculator
     {

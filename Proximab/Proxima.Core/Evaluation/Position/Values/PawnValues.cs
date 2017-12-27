@@ -7,7 +7,7 @@ namespace Proxima.Core.Evaluation.Position.Values
     /// </summary>
     public static class PawnValues
     {
-        public static readonly int[] Pattern = new int[2 * 64]
+        public static readonly int[] Pattern = new int[]
         {
             // Regular
             0,   0,   0,   0,   0,   0,   0,   0,

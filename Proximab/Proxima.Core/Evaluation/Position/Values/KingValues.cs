@@ -7,7 +7,7 @@ namespace Proxima.Core.Evaluation.Position.Values
     /// </summary>
     public static class KingValues
     {
-        public static readonly int[] Pattern = new int[2 * 64]
+        public static readonly int[] Pattern = new int[]
         {
             // Regular
             -30, -40, -40, -50, -50, -40, -40, -30,

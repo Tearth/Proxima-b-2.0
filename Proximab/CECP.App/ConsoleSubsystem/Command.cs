@@ -24,7 +24,7 @@ namespace CECP.App.ConsoleSubsystem
         /// </summary>
         public Command()
         {
-            Type = CommandType.Unrecognised;
+            Type = CommandType.Unrecognized;
             Arguments = new List<string>();
         }
 

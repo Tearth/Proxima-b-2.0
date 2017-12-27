@@ -41,7 +41,7 @@ namespace Proxima.Core.Tests
         /// current node is the last and next CalculateBitboard call will not be executed.
         /// </summary>
         /// <param name="color">Color of the current player.</param>
-        /// <param name="bitboard">Curently calculated bitboard</param>
+        /// <param name="bitboard">Currently calculated bitboard</param>
         /// <param name="depth">Current depth</param>
         /// <param name="calculateEndNodes">If true, every end node will calculate attacks and evaluation function.</param>
         /// <param name="verifyIntegrity">If true, every board will be checked whether incremental-updating parameters are correctly calculated.</param>

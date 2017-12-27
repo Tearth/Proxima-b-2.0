@@ -10,7 +10,7 @@ namespace Proxima.Core.Evaluation.PawnStructure.Chain
     /// Represents a set of methods to evaluate pawn chain.
     /// </summary>
     /// <remarks>
-    /// Pawn chain is a structure consisting of two or more sticked pawns on the same diagonal. This is the
+    /// Pawn chain is a structure consisting of two or more stuck pawns on the same diagonal. This is the
     /// preferred situation because these pawns are easier to defend and are great barrier against the
     /// enemy pieces.
     /// </remarks>

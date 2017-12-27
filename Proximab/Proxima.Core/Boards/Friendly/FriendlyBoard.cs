@@ -150,9 +150,9 @@ namespace Proxima.Core.Boards.Friendly
         }
 
         /// <summary>
-        /// Gets a en passante array (for bitboards).
+        /// Gets a en passant array (for bitboards).
         /// </summary>
-        /// <returns>The en passante array.</returns>
+        /// <returns>The en passant array.</returns>
         public ulong[] GetEnPassantArray()
         {
             ulong[] enPassant = new ulong[2];

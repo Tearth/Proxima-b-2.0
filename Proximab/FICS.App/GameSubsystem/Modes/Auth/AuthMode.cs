@@ -26,8 +26,6 @@ namespace FICS.App.GameSubsystem.Modes.Auth
         /// <param name="message">The message to process.</param>
         public override void ProcessMessage(string message)
         {
-            var response = string.Empty;
-
             if (message.StartsWith(FICSConstants.LoginCommand))
             {
                 SendData(ProcessLoginCommand());

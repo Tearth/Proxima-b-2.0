@@ -18,8 +18,6 @@ namespace MagicKeysGenerator.App
     internal class Generator
     {
         private MagicKeyGenerator _magicKeyGenerator;
-        private RookAttacksGenerator _rookAttacksGenerator;
-        private BishopAttacksGenerator _bishopAttacksGenerator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Generator"/> class.
@@ -27,8 +25,6 @@ namespace MagicKeysGenerator.App
         public Generator()
         {
             _magicKeyGenerator = new MagicKeyGenerator();
-            _rookAttacksGenerator = new RookAttacksGenerator();
-            _bishopAttacksGenerator = new BishopAttacksGenerator();
 
             PatternsContainer.Init();
         }

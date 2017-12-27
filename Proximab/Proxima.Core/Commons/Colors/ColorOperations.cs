@@ -26,7 +26,7 @@ namespace Proxima.Core.Commons.Colors
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int ToSign(Color color)
         {
-            return -(((int)color * 2) - 1);
+            return -((int)color * 2 - 1);
         }
     }
 }

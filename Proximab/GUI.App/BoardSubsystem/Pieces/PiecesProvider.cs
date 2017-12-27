@@ -62,7 +62,7 @@ namespace GUI.App.BoardSubsystem.Pieces
         /// <returns>The hash for the specified piece.</returns>
         private int GetFriendlyPieceHash(Color color, PieceType piece)
         {
-            return ((int)color * 100) + (int)piece;
+            return (int)color * 100 + (int)piece;
         }
     }
 }
