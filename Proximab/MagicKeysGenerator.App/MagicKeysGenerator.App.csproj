@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5DABB56F-4D18-482B-930B-BA147509B305}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MagicKeysGenerator</RootNamespace>
-    <AssemblyName>MagicKeysGenerator</AssemblyName>
+    <RootNamespace>MagicKeysGenerator.App</RootNamespace>
+    <AssemblyName>MagicKeysGenerator.App</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

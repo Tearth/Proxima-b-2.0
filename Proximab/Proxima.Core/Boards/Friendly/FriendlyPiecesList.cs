@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Pieces;
 

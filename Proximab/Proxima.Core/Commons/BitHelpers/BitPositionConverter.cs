@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using Proxima.Core.Commons.Positions;
 
-namespace Proxima.Core.Boards
+namespace Proxima.Core.Commons.BitHelpers
 {
     /// <summary>
     /// Represents a set of methods to convert between <see cref="Position"/> and bit representation.

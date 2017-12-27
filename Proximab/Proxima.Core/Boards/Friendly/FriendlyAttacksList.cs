@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Proxima.Core.Commons.BitHelpers;
 
 namespace Proxima.Core.Boards.Friendly
 {
