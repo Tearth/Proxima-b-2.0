@@ -44,7 +44,7 @@ namespace GUI.App.GameSubsystem.Modes
         /// <summary>
         /// Adds all command handlers from current class to the commands manager.
         /// </summary>
-        protected new void SetCommandHandlers()
+        private void SetCommandHandlers()
         {
             CommandsManager.AddCommandHandler(CommandType.AddPiece, CommandGroup.GameMode, AddPiece);
             CommandsManager.AddCommandHandler(CommandType.RemovePiece, CommandGroup.GameMode, RemovePiece);
@@ -52,8 +52,6 @@ namespace GUI.App.GameSubsystem.Modes
             CommandsManager.AddCommandHandler(CommandType.BestMove, CommandGroup.GameMode, CalculateBestMove);
             CommandsManager.AddCommandHandler(CommandType.Quiescence, CommandGroup.GameMode, SetQuiescenceSearch);
             CommandsManager.AddCommandHandler(CommandType.SEE, CommandGroup.GameMode, RunSEE);
-
-            base.SetCommandHandlers();
         }
 
         /// <summary>

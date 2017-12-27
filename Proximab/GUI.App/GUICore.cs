@@ -15,6 +15,7 @@ namespace GUI.App
     /// </summary>
     public class GUICore : Game
     {
+        // ReSharper disable once NotAccessedField.Local
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -53,14 +54,6 @@ namespace GUI.App
         }
 
         /// <summary>
-        /// Initializes Monogame library.
-        /// </summary>
-        protected override void Initialize()
-        {
-            base.Initialize();
-        }
-        
-        /// <summary>
         /// Loads the resources. Must be called before first use of any other class method.
         /// </summary>
         protected override void LoadContent()
@@ -69,13 +62,6 @@ namespace GUI.App
             _mode.LoadContent(Content);
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-        }
-        
-        /// <summary>
-        /// Releases resources.
-        /// </summary>
-        protected override void UnloadContent()
-        {
         }
         
         /// <summary>
@@ -121,6 +107,7 @@ namespace GUI.App
         private void SetCommandHandlers()
         {
             _commandsManager.AddCommandHandler(CommandType.Mode, CommandGroup.GUICore, ChangeGameMode);
+            _commandsManager.AddCommandHandler(CommandType.Quit, CommandGroup.GUICore, Exit);
         }
 
         /// <summary>
@@ -141,6 +128,15 @@ namespace GUI.App
             _commandsManager.RemoveCommandHandlers(CommandGroup.GameMode);
             _mode = _modeFactory.Create(modeType);
             _mode.LoadContent(Content);
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command">The Reset command.</param>
+        private void Exit(Command command)
+        {
+            Exit();
         }
     }
 }

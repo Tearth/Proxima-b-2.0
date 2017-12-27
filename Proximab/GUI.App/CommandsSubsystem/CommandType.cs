@@ -8,6 +8,7 @@
         None,
         Invalid,
         Help,
+        Quit,
         Colors,
         SaveBoard,
         LoadBoard,

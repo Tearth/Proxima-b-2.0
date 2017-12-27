@@ -68,6 +68,8 @@ namespace GUI.App.GameSubsystem
 
             VisualBoard = new VisualBoard(PiecesProvider);
             PromotionWindow = new PromotionWindow(PiecesProvider);
+
+            SetCommandHandlers();
         }
 
         /// <summary>
@@ -117,7 +119,7 @@ namespace GUI.App.GameSubsystem
         /// <summary>
         /// Adds all command handlers from current class to the commands manager.
         /// </summary>
-        protected virtual void SetCommandHandlers()
+        private void SetCommandHandlers()
         {
             CommandsManager.AddCommandHandler(CommandType.Occupancy, CommandGroup.GameMode, DrawOccupancy);
             CommandsManager.AddCommandHandler(CommandType.Attacks, CommandGroup.GameMode, DrawAttacks);
@@ -371,5 +373,7 @@ namespace GUI.App.GameSubsystem
         {
             CalculateBitboard(new DefaultFriendlyBoard(), false);
         }
+
+        
     }
 }

@@ -34,6 +34,11 @@ namespace CECP.App
             while (true)
             {
                 var command = _consoleManager.WaitForCommand();
+                if (command.Type == CommandType.Quit)
+                {
+                    break;
+                }
+
                 _cecpMode.ProcessCommand(command);
             }
         }

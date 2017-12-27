@@ -19,6 +19,8 @@ namespace GUI.App.ConsoleSubsystem
 
         private CommandDefinitionsContainer _commandDefinitionsContainer;
 
+        private bool _loopRunning;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ConsoleManager"/> class.
         /// </summary>
@@ -30,6 +32,7 @@ namespace GUI.App.ConsoleSubsystem
             _consoleLoop = new Task(Loop);
 
             _colorfulConsole = new ColorfulConsoleManager(appName);
+            _loopRunning = false;
 
             SetCommandHandlers();
         }
@@ -49,6 +52,8 @@ namespace GUI.App.ConsoleSubsystem
         /// </summary>
         public async void RunAsync()
         {
+            _loopRunning = true;
+
             try
             {
                 _consoleLoop.Start();
@@ -90,39 +95,7 @@ namespace GUI.App.ConsoleSubsystem
         {
             _commandsManager.AddCommandHandler(CommandType.Help, CommandGroup.ConsoleManager, WriteCommandsList);
             _commandsManager.AddCommandHandler(CommandType.Colors, CommandGroup.ConsoleManager, WriteColorsList);
-        }
-
-        /// <summary>
-        /// Writes a list of all commands to the user console.
-        /// </summary>
-        /// <param name="command">The command instance with more specified data.</param>
-        private void WriteCommandsList(Command command)
-        {
-            WriteLine($"$wAvailable commands ({_commandDefinitionsContainer.Definitions.Count}):");
-
-            foreach (var commandDefinition in _commandDefinitionsContainer.Definitions)
-            {
-                WriteLine($"$g{commandDefinition.Name}$w - {commandDefinition.Description}");
-
-                foreach (var argument in commandDefinition.Arguments)
-                {
-                    WriteLine($"$c  <{argument.Type}>$w - {argument.Description}");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Writes a list of all colors to the user console.
-        /// </summary>
-        /// <param name="command">The command instance with more specified data.</param>
-        private void WriteColorsList(Command command)
-        {
-            WriteLine($"$wAvailable colors ({ColorDefinitions.Colors.Count}):");
-
-            foreach (var colorDefinition in ColorDefinitions.Colors)
-            {
-                WriteLine($"$w - ${colorDefinition.Key}{colorDefinition.Value} - {colorDefinition.Key}");
-            }
+            _commandsManager.AddCommandHandler(CommandType.Quit, CommandGroup.ConsoleManager, Exit);
         }
 
         /// <summary>
@@ -130,7 +103,7 @@ namespace GUI.App.ConsoleSubsystem
         /// </summary>
         private void Loop()
         {
-            while (true)
+            while (_loopRunning)
             {
                 ProcessCommand(Console.ReadLine());
             }
@@ -192,6 +165,48 @@ namespace GUI.App.ConsoleSubsystem
         private void WriteInvalidCommandFormatMessage()
         {
             WriteLine("$rInvalid command format");
+        }
+
+        /// <summary>
+        /// Writes a list of all commands to the user console.
+        /// </summary>
+        /// <param name="command">The command instance with more specified data.</param>
+        private void WriteCommandsList(Command command)
+        {
+            WriteLine($"$wAvailable commands ({_commandDefinitionsContainer.Definitions.Count}):");
+
+            foreach (var commandDefinition in _commandDefinitionsContainer.Definitions)
+            {
+                WriteLine($"$g{commandDefinition.Name}$w - {commandDefinition.Description}");
+
+                foreach (var argument in commandDefinition.Arguments)
+                {
+                    WriteLine($"$c  <{argument.Type}>$w - {argument.Description}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Writes a list of all colors to the user console.
+        /// </summary>
+        /// <param name="command">The command instance with more specified data.</param>
+        private void WriteColorsList(Command command)
+        {
+            WriteLine($"$wAvailable colors ({ColorDefinitions.Colors.Count}):");
+
+            foreach (var colorDefinition in ColorDefinitions.Colors)
+            {
+                WriteLine($"$w - ${colorDefinition.Key}{colorDefinition.Value} - {colorDefinition.Key}");
+            }
+        }
+
+        /// <summary>
+        /// Ends console loop and exits.
+        /// </summary>
+        /// <param name="command">The command instance with more specified data.</param>
+        private void Exit(Command command)
+        {
+            _loopRunning = false;
         }
     }
 }

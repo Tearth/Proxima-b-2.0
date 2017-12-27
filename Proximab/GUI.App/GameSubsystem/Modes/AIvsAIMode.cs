@@ -30,20 +30,11 @@ namespace GUI.App.GameSubsystem.Modes
         }
 
         /// <summary>
-        /// Processes all logic related to the base game mode.
-        /// </summary>
-        public override void Logic()
-        {
-            base.Logic();
-        }
-
-        /// <summary>
         /// Adds all command handlers from current class to the commands manager.
         /// </summary>
-        protected override void SetCommandHandlers()
+        private void SetCommandHandlers()
         {
             CommandsManager.AddCommandHandler(CommandType.RunAIGame, CommandGroup.GameMode, RunAIGame);
-            base.SetCommandHandlers();
         }
 
         /// <summary>

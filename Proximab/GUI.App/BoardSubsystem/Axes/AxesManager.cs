@@ -70,7 +70,7 @@ namespace GUI.App.BoardSubsystem.Axes
 
                 var position = new Vector2(0, i * Constants.FieldWidthHeight);
 
-                position.Y += Constants.FieldWidthHeight / 2;
+                position.Y += (float)Constants.FieldWidthHeight / 2;
                 position += Constants.BoardPosition;
                 position -= textCenterOffset;
 

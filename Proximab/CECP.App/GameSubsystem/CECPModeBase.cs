@@ -31,7 +31,6 @@ namespace CECP.App.GameSubsystem
             CommandsManager = new CommandsManager();
 
             CommandsManager.AddCommandHandler(CommandType.Ping, ExecutePing);
-            CommandsManager.AddCommandHandler(CommandType.Quit, ExecuteQuit);
         }
 
         /// <summary>
@@ -69,15 +68,6 @@ namespace CECP.App.GameSubsystem
         {
             var pingNumber = command.GetArgument<int>(0);
             SendData($"pong {pingNumber}");
-        }
-
-        /// <summary>
-        /// Executes Quit command.
-        /// </summary>
-        /// <param name="command">The New Quit to execute.</param>
-        private void ExecuteQuit(Command command)
-        {
-            Environment.Exit(0);
         }
     }
 }

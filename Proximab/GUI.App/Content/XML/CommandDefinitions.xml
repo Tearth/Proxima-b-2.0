@@ -9,6 +9,13 @@
         <Arguments></Arguments>
       </Item>
 
+		  <Item>
+		    <Name>Quit</Name>
+		    <EnumType>Quit</EnumType>
+		    <Description>Exits from application.</Description>
+		    <Arguments></Arguments>
+		  </Item>
+
       <Item>
 				<Name>Colors</Name>
 				<EnumType>Colors</EnumType>
