@@ -10,7 +10,7 @@ namespace Proxima.Core.AI
     /// <summary>
     /// Core class of Proxima b AI.
     /// </summary>
-    public class AICore
+    public class AiCore
     {
         /// <summary>
         /// The event triggered when there is new thinking output available.
@@ -24,9 +24,9 @@ namespace Proxima.Core.AI
         /// <param name="bitboard">The bitboard.</param>
         /// <param name="preferredTime">Time allocated for AI.</param>
         /// <returns>The result of AI calculating.</returns>
-        public AIResult Calculate(Color color, Bitboard bitboard, float preferredTime)
+        public AiResult Calculate(Color color, Bitboard bitboard, float preferredTime)
         {
-            var result = new AIResult();
+            var result = new AiResult();
             var colorSign = ColorOperations.ToSign(color);
             var stopwatch = new Stopwatch();
             var estimatedTimeForNextIteration = 0;
@@ -38,7 +38,7 @@ namespace Proxima.Core.AI
             {
                 result.Depth++;
 
-                var stats = new AIStats();
+                var stats = new AiStats();
                 result.Score = colorSign * NegaMax(color, new Bitboard(bitboard), result.Depth, out Move bestMove, stats);
 
                 result.BestMove = bestMove;
@@ -63,7 +63,7 @@ namespace Proxima.Core.AI
         /// <param name="bestMove">The best possible move from nested nodes.</param>
         /// <param name="stats">The AI stats.</param>
         /// <returns>The evaluation score of best move.</returns>
-        public int NegaMax(Color color, Bitboard bitboard, int depth, out Move bestMove, AIStats stats)
+        public int NegaMax(Color color, Bitboard bitboard, int depth, out Move bestMove, AiStats stats)
         {
             var bestValue = int.MinValue;
             var colorSign = ColorOperations.ToSign(color);
@@ -79,7 +79,7 @@ namespace Proxima.Core.AI
 
                 if (bitboard.IsCheck(enemyColor))
                 {
-                    return AIConstants.MateValue + depth;
+                    return AiConstants.MateValue + depth;
                 }
 
                 return colorSign * bitboard.GetEvaluation();
@@ -93,7 +93,7 @@ namespace Proxima.Core.AI
                 if (bitboard.IsCheck(enemyColor))
                 {
                     stats.EndNodes++;
-                    return AIConstants.MateValue + depth;
+                    return AiConstants.MateValue + depth;
                 }
             }
 

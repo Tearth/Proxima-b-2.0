@@ -13,7 +13,7 @@ namespace GUI.App
     /// The main class of project. Represents a set of methods for drawing and processing logic.
     /// It's the bridge between the whole GUI and Monogame library.
     /// </summary>
-    public class GUICore : Game
+    public class GuiCore : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -26,11 +26,11 @@ namespace GUI.App
         private InputManager _inputManager;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GUICore"/> class.
+        /// Initializes a new instance of the <see cref="GuiCore"/> class.
         /// </summary>
         /// <param name="consoleManager">The console manager instance.</param>
         /// <param name="commandsManager">The commands manager instance.</param>
-        public GUICore(ConsoleManager consoleManager, CommandsManager commandsManager)
+        public GuiCore(ConsoleManager consoleManager, CommandsManager commandsManager)
         {
             _consoleManager = consoleManager;
             _commandsManager = commandsManager;
@@ -120,7 +120,7 @@ namespace GUI.App
         /// </summary>
         private void SetCommandHandlers()
         {
-            _commandsManager.AddCommandHandler(CommandType.Mode, CommandGroup.GUICore, ChangeGameMode);
+            _commandsManager.AddCommandHandler(CommandType.Mode, CommandGroup.GuiCore, ChangeGameMode);
         }
 
         /// <summary>

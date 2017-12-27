@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a list of FICS mode types.
     /// </summary>
-    public enum FICSModeType
+    public enum FicsModeType
     {
         Auth,
         Seek,

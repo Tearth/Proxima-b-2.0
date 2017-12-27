@@ -9,7 +9,7 @@ namespace FICS.App
     /// <summary>
     /// Represents a set of methods to manage a game with FICS.
     /// </summary>
-    public class FICSCore
+    public class FicsCore
     {
         private const string SendPrefix = "SEND";
         private const string ReceivePrefix = "RECV";
@@ -17,27 +17,27 @@ namespace FICS.App
 
         private ColorfulConsoleManager _consoleManager;
         private ConfigManager _configManager;
-        private FICSClient _ficsClient;
-        private FICSModeBase _ficsMode;
+        private FicsClient _ficsClient;
+        private FicsModeBase _ficsMode;
         private TextLogger _textLogger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FICSCore"/> class.
+        /// Initializes a new instance of the <see cref="FicsCore"/> class.
         /// </summary>
         /// <param name="consoleManager">The console manager.</param>
         /// <param name="configManager">The configuration manager.</param>
         /// <param name="textLogger">The text logger.</param>
-        public FICSCore(ColorfulConsoleManager consoleManager, ConfigManager configManager, TextLogger textLogger)
+        public FicsCore(ColorfulConsoleManager consoleManager, ConfigManager configManager, TextLogger textLogger)
         {
             _consoleManager = consoleManager;
             _configManager = configManager;
             _textLogger = textLogger;
 
-            _ficsClient = new FICSClient(_configManager);
+            _ficsClient = new FicsClient(_configManager);
             _ficsClient.OnDataReceive += FicsClient_OnDataReceive;
             _ficsClient.OnDataSend += FicsClient_OnDataSend;
 
-            ChangeMode(FICSModeType.Auth);
+            ChangeMode(FicsModeType.Auth);
         }
 
         /// <summary>
@@ -96,12 +96,12 @@ namespace FICS.App
         /// Changes mode to the specified one and logs it on the console.
         /// </summary>
         /// <param name="modeType">The FICS mode type.</param>
-        private void ChangeMode(FICSModeType modeType)
+        private void ChangeMode(FicsModeType modeType)
         {
             _consoleManager.WriteLine($"$G{EnginePrefix}: $gMode changed to {modeType}.");
             _textLogger.WriteLine($"{EnginePrefix}: Mode changed to {modeType}.");
 
-            var ficsModeFactory = new FICSModeFactory(_configManager);
+            var ficsModeFactory = new FicsModeFactory(_configManager);
 
             _ficsMode = ficsModeFactory.Create(modeType);
             _ficsMode.OnSendData += FICSMode_OnSendData;

@@ -7,22 +7,22 @@ namespace CECP.App.GameSubsystem
     /// <summary>
     /// Represents a factory of CECP modes.
     /// </summary>
-    public class CECPModeFactory
+    public class CecpModeFactory
     {
         /// <summary>
         /// Creates a new instance of the CECP mode specified in the parameter.
         /// </summary>
         /// <param name="type">The CECP mode.</param>
         /// <returns>The CECP mode instance.</returns>
-        public CECPModeBase Create(CECPModeType type)
+        public CecpModeBase Create(CecpModeType type)
         {
             switch (type)
             {
-                case CECPModeType.Init: return new InitMode();
-                case CECPModeType.Game: return new GameMode();
+                case CecpModeType.Init: return new InitMode();
+                case CecpModeType.Game: return new GameMode();
             }
 
-            throw new CECPModeNotFoundException();
+            throw new CecpModeNotFoundException();
         }
     }
 }

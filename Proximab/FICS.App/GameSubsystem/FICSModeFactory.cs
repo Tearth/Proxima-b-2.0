@@ -9,15 +9,15 @@ namespace FICS.App.GameSubsystem
     /// <summary>
     /// Represents a factory of FICS modes.
     /// </summary>
-    public class FICSModeFactory
+    public class FicsModeFactory
     {
         private ConfigManager _configManager;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FICSModeFactory"/> class.
+        /// Initializes a new instance of the <see cref="FicsModeFactory"/> class.
         /// </summary>
         /// <param name="configManager">The configuration manager.</param>
-        public FICSModeFactory(ConfigManager configManager)
+        public FicsModeFactory(ConfigManager configManager)
         {
             _configManager = configManager;
         }
@@ -27,16 +27,16 @@ namespace FICS.App.GameSubsystem
         /// </summary>
         /// <param name="type">The FICS mode.</param>
         /// <returns>The FICS mode instance.</returns>
-        public FICSModeBase Create(FICSModeType type)
+        public FicsModeBase Create(FicsModeType type)
         {
             switch (type)
             {
-                case FICSModeType.Auth: return new AuthMode(_configManager);
-                case FICSModeType.Seek: return new SeekMode(_configManager);
-                case FICSModeType.Game: return new GameMode(_configManager);
+                case FicsModeType.Auth: return new AuthMode(_configManager);
+                case FicsModeType.Seek: return new SeekMode(_configManager);
+                case FicsModeType.Game: return new GameMode(_configManager);
             }
 
-            throw new FICSModeNotFoundException();
+            throw new FicsModeNotFoundException();
         }
     }
 }

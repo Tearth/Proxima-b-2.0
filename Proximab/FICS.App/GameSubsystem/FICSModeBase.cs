@@ -6,7 +6,7 @@ namespace FICS.App.GameSubsystem
     /// <summary>
     /// Represents a base class for all FICS modes.
     /// </summary>
-    public abstract class FICSModeBase
+    public abstract class FicsModeBase
     {
         /// <summary>
         /// The event triggered when FICS mode is changing to another.
@@ -24,10 +24,10 @@ namespace FICS.App.GameSubsystem
         protected ConfigManager ConfigManager { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FICSModeBase"/> class.
+        /// Initializes a new instance of the <see cref="FicsModeBase"/> class.
         /// </summary>
         /// <param name="configManager">The configuration manager.</param>
-        protected FICSModeBase(ConfigManager configManager)
+        protected FicsModeBase(ConfigManager configManager)
         {
             ConfigManager = configManager;
         }
@@ -45,13 +45,13 @@ namespace FICS.App.GameSubsystem
         /// Changes mode to the specified one.
         /// </summary>
         /// <param name="newModeType">The new FICS mode.</param>
-        public void ChangeMode(FICSModeType newModeType)
+        public void ChangeMode(FicsModeType newModeType)
         {
             OnChangeMode?.Invoke(this, new ChangeModeEventArgs(newModeType));
         }
 
         /// <summary>
-        /// Processes message (done in derivied class) and prepares a response to the FICS server.
+        /// Processes message (done in derived class) and prepares a response to the FICS server.
         /// </summary>
         /// <param name="message">The message to process.</param>
         public abstract void ProcessMessage(string message);

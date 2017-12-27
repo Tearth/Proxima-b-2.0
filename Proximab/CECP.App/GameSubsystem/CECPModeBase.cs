@@ -6,7 +6,7 @@ namespace CECP.App.GameSubsystem
     /// <summary>
     /// Represents a base class for all CECP modes.
     /// </summary>
-    public abstract class CECPModeBase
+    public abstract class CecpModeBase
     {
         /// <summary>
         /// The event triggered when FICS mode is changing to another.
@@ -24,9 +24,9 @@ namespace CECP.App.GameSubsystem
         protected CommandsManager CommandsManager { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CECPModeBase"/> class.
+        /// Initializes a new instance of the <see cref="CecpModeBase"/> class.
         /// </summary>
-        protected CECPModeBase()
+        protected CecpModeBase()
         {
             CommandsManager = new CommandsManager();
 
@@ -47,13 +47,13 @@ namespace CECP.App.GameSubsystem
         /// Changes mode to the specified one.
         /// </summary>
         /// <param name="newModeType">The new CECP mode.</param>
-        public void ChangeMode(CECPModeType newModeType)
+        public void ChangeMode(CecpModeType newModeType)
         {
             OnChangeMode?.Invoke(this, new ChangeModeEventArgs(newModeType));
         }
 
         /// <summary>
-        /// Processes message (done in derivied class) and prepares a response.
+        /// Processes message (done in derived class) and prepares a response.
         /// </summary>
         /// <param name="command">The command to process.</param>
         public virtual void ProcessCommand(Command command)

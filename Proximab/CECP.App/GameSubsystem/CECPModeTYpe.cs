@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents available types of CECP modes.
     /// </summary>
-    public enum CECPModeType
+    public enum CecpModeType
     {
         Init,
         Game

@@ -6,7 +6,7 @@ namespace Proxima.Core.AI
     /// <summary>
     /// Represents a container for AI result.
     /// </summary>
-    public class AIResult
+    public class AiResult
     {
         /// <summary>
         /// Gets or sets the evaluation score of best move.
@@ -26,7 +26,7 @@ namespace Proxima.Core.AI
         /// <summary>
         /// Gets or sets the AI stats.
         /// </summary>
-        public AIStats Stats { get; set; }
+        public AiStats Stats { get; set; }
 
         /// <summary>
         /// Gets or sets the time of AI calculating.
@@ -54,11 +54,11 @@ namespace Proxima.Core.AI
         public int TimePerNode => Stats.TotalNodes != 0 ? (int)(Ticks / Stats.TotalNodes) * 100 : 0;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AIResult"/> class.
+        /// Initializes a new instance of the <see cref="AiResult"/> class.
         /// </summary>
-        public AIResult()
+        public AiResult()
         {
-            Stats = new AIStats();
+            Stats = new AiStats();
         }
     }
 }

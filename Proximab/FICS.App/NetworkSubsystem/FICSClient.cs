@@ -11,7 +11,7 @@ namespace FICS.App.NetworkSubsystem
     /// <summary>
     /// Represents a set of methods to manipulate FICS client.
     /// </summary>
-    public class FICSClient
+    public class FicsClient
     {
         private const string ServerAddressConfigKeyName = "ServerAddress";
         private const string ServerPortConfigKeyName = "ServerPort";
@@ -33,10 +33,10 @@ namespace FICS.App.NetworkSubsystem
         private List<string> _commands;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FICSClient"/> class.
+        /// Initializes a new instance of the <see cref="FicsClient"/> class.
         /// </summary>
         /// <param name="configManager">The configuration manager.</param>
-        public FICSClient(ConfigManager configManager)
+        public FicsClient(ConfigManager configManager)
         {
             _configManager = configManager;
 
@@ -45,9 +45,9 @@ namespace FICS.App.NetworkSubsystem
 
             _commands = new List<string>()
             {
-                FICSConstants.LoginCommand,
-                FICSConstants.PasswordCommand,
-                FICSConstants.Prompt
+                FicsConstants.LoginCommand,
+                FicsConstants.PasswordCommand,
+                FicsConstants.Prompt
             };
         }
 
@@ -66,7 +66,7 @@ namespace FICS.App.NetworkSubsystem
         /// <param name="text">The text to send.</param>
         public void Send(string text)
         {
-            var byteDataToSend = Encoding.ASCII.GetBytes(text + FICSConstants.EndOfLine);
+            var byteDataToSend = Encoding.ASCII.GetBytes(text + FicsConstants.EndOfLine);
             _socket.BeginSend(byteDataToSend, 0, byteDataToSend.Length, 0, SendCallback, _socket);
 
             OnDataSend?.Invoke(this, new DataSentEventArgs(text));
@@ -133,14 +133,14 @@ namespace FICS.App.NetworkSubsystem
         }
 
         /// <summary>
-        /// Splits client buffer to the separate lines (ended by <see cref="FICSConstants.EndOfLine"/> chars). Incomplete
+        /// Splits client buffer to the separate lines (ended by <see cref="FicsConstants.EndOfLine"/> chars). Incomplete
         /// line (without end line chars) is not returned.
         /// </summary>
         /// <param name="clientBuffer">The client buffer to parse/</param>
         /// <returns>The list of separate lines.</returns>
         private List<string> ParseClientBuffer(string clientBuffer)
         {
-            var lines = clientBuffer.Split(new[] { FICSConstants.EndOfLine }, StringSplitOptions.None).ToList();
+            var lines = clientBuffer.Split(new[] { FicsConstants.EndOfLine }, StringSplitOptions.None).ToList();
             var linesWithoutUselessData = RemoveUselessData(lines);
 
             return linesWithoutUselessData;

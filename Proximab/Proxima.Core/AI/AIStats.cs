@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a container of AI stats.
     /// </summary>
-    public class AIStats
+    public class AiStats
     {
         /// <summary>
         /// Gets or sets the total nodes.

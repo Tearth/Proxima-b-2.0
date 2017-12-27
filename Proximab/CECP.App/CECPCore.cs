@@ -7,23 +7,23 @@ namespace CECP.App
     /// <summary>
     /// Represents a set of methods to manage a game using Chess Engine Communication Protocol.
     /// </summary>
-    public class CECPCore
+    public class CecpCore
     {
         private TextLogger _textLogger;
         private ConsoleManager _consoleManager;
-        private CECPModeBase _cecpMode;
+        private CecpModeBase _cecpMode;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CECPCore"/> class.
+        /// Initializes a new instance of the <see cref="CecpCore"/> class.
         /// </summary>
         /// <param name="textLogger">The text logger.</param>
-        public CECPCore(TextLogger textLogger)
+        public CecpCore(TextLogger textLogger)
         {
             _textLogger = textLogger;
 
             _consoleManager = new ConsoleManager(_textLogger);
 
-            ChangeMode(CECPModeType.Init);
+            ChangeMode(CecpModeType.Init);
         }
 
         /// <summary>
@@ -62,11 +62,11 @@ namespace CECP.App
         /// Changes mode to the specified one and logs it on the console.
         /// </summary>
         /// <param name="modeType">The CECP mode type.</param>
-        private void ChangeMode(CECPModeType modeType)
+        private void ChangeMode(CecpModeType modeType)
         {
             _textLogger.WriteLine($"PRXB: Mode changed to {modeType}.");
 
-            var ficsModeFactory = new CECPModeFactory();
+            var ficsModeFactory = new CecpModeFactory();
 
             _cecpMode = ficsModeFactory.Create(modeType);
             _cecpMode.OnSendData += CECPMode_OnSendData;

@@ -10,19 +10,19 @@ namespace GUI.App.GameSubsystem.Modes
     /// <summary>
     /// Represents the AI vs AI game mode (allows to play games with only AIs as players).
     /// </summary>
-    public class AIvsAIMode : GameModeBase
+    public class AiVsAiMode : GameModeBase
     {
-        private AICore _ai;
+        private AiCore _ai;
         private Color _currentColor;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AIvsAIMode"/> class.
+        /// Initializes a new instance of the <see cref="AiVsAiMode"/> class.
         /// </summary>
         /// <param name="consoleManager">The console manager.</param>
         /// <param name="commandsManager">The commands manager.</param>
-        public AIvsAIMode(ConsoleManager consoleManager, CommandsManager commandsManager) : base(consoleManager, commandsManager)
+        public AiVsAiMode(ConsoleManager consoleManager, CommandsManager commandsManager) : base(consoleManager, commandsManager)
         {
-            _ai = new AICore();
+            _ai = new AiCore();
             _currentColor = Color.White;
 
             CalculateBitboard(new DefaultFriendlyBoard(), false);
@@ -42,7 +42,7 @@ namespace GUI.App.GameSubsystem.Modes
         /// </summary>
         protected override void SetCommandHandlers()
         {
-            CommandsManager.AddCommandHandler(CommandType.RunAIGame, CommandGroup.GameMode, RunAIGame);
+            CommandsManager.AddCommandHandler(CommandType.RunAiGame, CommandGroup.GameMode, RunAiGame);
             base.SetCommandHandlers();
         }
 
@@ -50,7 +50,7 @@ namespace GUI.App.GameSubsystem.Modes
         /// Runs AI game.
         /// </summary>
         /// <param name="command">The AI command.</param>
-        private void RunAIGame(Command command)
+        private void RunAiGame(Command command)
         {
             var preferredTimeArgument = command.GetArgument<float>(0);
 

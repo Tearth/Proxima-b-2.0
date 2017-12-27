@@ -7,14 +7,14 @@ namespace CECP.App.GameSubsystem.Modes.Game.Moves
     /// <summary>
     /// Represents a set of methods to parse CECP moves.
     /// </summary>
-    public class CECPMoveParser
+    public class CecpMoveParser
     {
         /// <summary>
         /// Parses move in text format to CECP move object.
         /// </summary>
         /// <param name="moveText">The move in text format to parse.</param>
         /// <returns>The CECP move object.</returns>
-        public CECPMove Parse(string moveText)
+        public CecpMove Parse(string moveText)
         {
             if (moveText.Length == 4)
             {
@@ -33,7 +33,7 @@ namespace CECP.App.GameSubsystem.Modes.Game.Moves
         /// </summary>
         /// <param name="moveText">The move in text format to parse.</param>
         /// <returns>The CECP move object.</returns>
-        private CECPMove ParseNormalMove(string moveText)
+        private CecpMove ParseNormalMove(string moveText)
         {
             var fromText = moveText.Substring(0, 2);
             var toText = moveText.Substring(2, 2);
@@ -41,7 +41,7 @@ namespace CECP.App.GameSubsystem.Modes.Game.Moves
             var fromPosition = PositionConverter.ToPosition(fromText);
             var toPosition = PositionConverter.ToPosition(toText);
 
-            return new CECPMove(fromPosition, toPosition);
+            return new CecpMove(fromPosition, toPosition);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace CECP.App.GameSubsystem.Modes.Game.Moves
         /// </summary>
         /// <param name="moveText">The move in text format to parse.</param>
         /// <returns>The CECP move object.</returns>
-        private CECPMove ParsePromotionMove(string moveText)
+        private CecpMove ParsePromotionMove(string moveText)
         {
             var fromText = moveText.Substring(0, 2);
             var toText = moveText.Substring(2, 2);
@@ -59,7 +59,7 @@ namespace CECP.App.GameSubsystem.Modes.Game.Moves
             var toPosition = PositionConverter.ToPosition(toText);
             var promotionPieceType = PieceConverter.GetPiece(promotionPieceSymbol);
 
-            return new CECPMove(fromPosition, toPosition, promotionPieceType);
+            return new CecpMove(fromPosition, toPosition, promotionPieceType);
         }
     }
 }

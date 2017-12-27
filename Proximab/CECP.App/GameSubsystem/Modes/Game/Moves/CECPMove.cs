@@ -6,7 +6,7 @@ namespace CECP.App.GameSubsystem.Modes.Game.Moves
     /// <summary>
     /// Represents a CECP move object.
     /// </summary>
-    public class CECPMove
+    public class CecpMove
     {
         /// <summary>
         /// Gets the source piece position.
@@ -24,21 +24,21 @@ namespace CECP.App.GameSubsystem.Modes.Game.Moves
         public PieceType? PromotionPiece { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CECPMove"/> class.
+        /// Initializes a new instance of the <see cref="CecpMove"/> class.
         /// </summary>
         /// <param name="from">The source piece position.</param>
         /// <param name="to">The destination piece position.</param>
-        public CECPMove(Position from, Position to) : this(from, to, null)
+        public CecpMove(Position from, Position to) : this(from, to, null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CECPMove"/> class.
+        /// Initializes a new instance of the <see cref="CecpMove"/> class.
         /// </summary>
         /// <param name="from">The source piece position.</param>
         /// <param name="to">The destination piece position.</param>
         /// <param name="promotionPiece">The promotion piece type (null if move is not promoting anything).</param>
-        public CECPMove(Position from, Position to, PieceType? promotionPiece)
+        public CecpMove(Position from, Position to, PieceType? promotionPiece)
         {
             From = from;
             To = to;
