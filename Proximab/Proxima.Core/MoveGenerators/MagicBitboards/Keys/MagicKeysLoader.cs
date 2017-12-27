@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Proxima.Core.MoveGenerators.MagicBitboards.Keys.Exceptions;
 
 namespace Proxima.Core.MoveGenerators.MagicBitboards.Keys
 {
@@ -41,12 +42,29 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Keys
             {
                 for (var i = 0; i < 64; i++)
                 {
-                    var line = reader.ReadLine();
-                    keys[i] = ulong.Parse(line);
+                    keys[i] = LoadKey(reader);
                 }
             }
 
             return keys;
+        }
+
+        /// <summary>
+        /// Loads single magic key from a file.
+        /// </summary>
+        /// <param name="reader">The file reader.</param>
+        /// <exception cref="InvalidMagicKeysFileException">Thrown when file is shorter than expected and
+        /// cannot load next magic key.</exception>
+        /// <returns>The next magic key from file.</returns>
+        private ulong LoadKey(StreamReader reader)
+        {
+            var line = reader.ReadLine();
+            if (line == null)
+            {
+                throw new InvalidMagicKeysFileException();
+            }
+
+            return ulong.Parse(line);
         }
     }
 }
