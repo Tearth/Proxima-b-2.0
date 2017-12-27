@@ -41,11 +41,11 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
             }
             else if (text.Length == MoveNotationLength)
             {
-                return ParseMove(text, color);
+                return ParseMove(text);
             }
             else if (text.Length == MoveNotationWithPromotionLength)
             {
-                return ParsePromotionMove(text, color);
+                return ParsePromotionMove(text);
             }
 
             return null;
@@ -81,9 +81,8 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
         /// Parses simple move.
         /// </summary>
         /// <param name="text">The text to parse.</param>
-        /// <param name="color">The color of the player making the move.</param>
         /// <returns>The Style12 move object. If passed text parameter is invalid, returns null.</returns>
-        private Style12Move ParseMove(string text, Color color)
+        private Style12Move ParseMove(string text)
         {
             var pieceType = GetPieceType(text);
             var fromPosition = GetSourcePiecePosition(text);
@@ -96,9 +95,8 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
         /// Parses promotion move.
         /// </summary>
         /// <param name="text">The text to parse.</param>
-        /// <param name="color">The color of the player making the move.</param>
         /// <returns>The Style12 move object. If passed text parameter is invalid, returns null.</returns>
-        private Style12Move ParsePromotionMove(string text, Color color)
+        private Style12Move ParsePromotionMove(string text)
         {
             var pieceType = GetPieceType(text);
             var fromPosition = GetSourcePiecePosition(text);

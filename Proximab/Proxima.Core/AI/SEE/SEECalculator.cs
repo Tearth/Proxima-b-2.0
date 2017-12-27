@@ -136,7 +136,7 @@ namespace Proxima.Core.AI.SEE
         }
 
         /// <summary>
-        /// Gets a least valuable piece for the specified biboard with field attackers.
+        /// Gets a least valuable piece for the specified bitboard with field attackers.
         /// </summary>
         /// <param name="attackers">The bitboard with field attackers.</param>
         /// <param name="color">The color of a least valuable piece.</param>

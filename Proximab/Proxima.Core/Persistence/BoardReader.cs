@@ -80,18 +80,18 @@ namespace Proxima.Core.Persistence
             for (int y = 0; y < 8; y++)
             {
                 var line = reader.ReadLine().Trim();
-                var splittedLine = line.Split(' ');
+                var splitLine = line.Split(' ');
 
                 for (int x = 0; x < 8; x++)
                 {
-                    if (splittedLine[x] == PersistenceContants.EmptyBoardField)
+                    if (splitLine[x] == PersistenceContants.EmptyBoardField)
                     {
                         continue;
                     }
 
                     var position = new Position(x + 1, 8 - y);
-                    var color = ColorConverter.GetColor(splittedLine[x][0]);
-                    var piece = PieceConverter.GetPiece(splittedLine[x][1]);
+                    var color = ColorConverter.GetColor(splitLine[x][0]);
+                    var piece = PieceConverter.GetPiece(splitLine[x][1]);
 
                     pieces.Add(new FriendlyPiece(position, piece, color));
                 }

@@ -19,46 +19,46 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
         public Style12Container Parse(string text)
         {
             var style12Container = new Style12Container();
-            var splittedInput = text.Split(' ');
+            var splitInput = text.Split(' ');
 
-            if (splittedInput.Length < MinimalStyle12TokensCount)
+            if (splitInput.Length < MinimalStyle12TokensCount)
             {
                 return null;
             }
 
-            style12Container.StyleID = splittedInput[0];
-            style12Container.BoardState = ParseBoardState(splittedInput);
-            style12Container.ColorToMove = GetColorType(splittedInput[9]);
-            style12Container.DoublePawnPush = Convert.ToInt32(splittedInput[10]);
+            style12Container.StyleID = splitInput[0];
+            style12Container.BoardState = ParseBoardState(splitInput);
+            style12Container.ColorToMove = GetColorType(splitInput[9]);
+            style12Container.DoublePawnPush = Convert.ToInt32(splitInput[10]);
 
-            style12Container.CastlingPossible[(int)Color.White, (int)CastlingType.Short] = splittedInput[11] == "1";
-            style12Container.CastlingPossible[(int)Color.White, (int)CastlingType.Long] = splittedInput[12] == "1";
-            style12Container.CastlingPossible[(int)Color.Black, (int)CastlingType.Short] = splittedInput[13] == "1";
-            style12Container.CastlingPossible[(int)Color.Black, (int)CastlingType.Long] = splittedInput[14] == "1";
+            style12Container.CastlingPossible[(int)Color.White, (int)CastlingType.Short] = splitInput[11] == "1";
+            style12Container.CastlingPossible[(int)Color.White, (int)CastlingType.Long] = splitInput[12] == "1";
+            style12Container.CastlingPossible[(int)Color.Black, (int)CastlingType.Short] = splitInput[13] == "1";
+            style12Container.CastlingPossible[(int)Color.Black, (int)CastlingType.Long] = splitInput[14] == "1";
 
-            style12Container.Rule50Moves = Convert.ToInt32(splittedInput[15]);
-            style12Container.GameNumber = Convert.ToInt32(splittedInput[16]);
+            style12Container.Rule50Moves = Convert.ToInt32(splitInput[15]);
+            style12Container.GameNumber = Convert.ToInt32(splitInput[16]);
 
-            style12Container.PlayerName[(int)Color.White] = splittedInput[17];
-            style12Container.PlayerName[(int)Color.Black] = splittedInput[18];
+            style12Container.PlayerName[(int)Color.White] = splitInput[17];
+            style12Container.PlayerName[(int)Color.Black] = splitInput[18];
 
-            style12Container.Relation = GetRelationType(splittedInput[19]);
+            style12Container.Relation = GetRelationType(splitInput[19]);
 
-            style12Container.InitialTime = Convert.ToInt32(splittedInput[20]);
-            style12Container.IncrementalTime = Convert.ToInt32(splittedInput[21]);
+            style12Container.InitialTime = Convert.ToInt32(splitInput[20]);
+            style12Container.IncrementalTime = Convert.ToInt32(splitInput[21]);
 
-            style12Container.MaterialStrength[(int)Color.White] = Convert.ToInt32(splittedInput[22]);
-            style12Container.MaterialStrength[(int)Color.Black] = Convert.ToInt32(splittedInput[23]);
+            style12Container.MaterialStrength[(int)Color.White] = Convert.ToInt32(splitInput[22]);
+            style12Container.MaterialStrength[(int)Color.Black] = Convert.ToInt32(splitInput[23]);
 
-            style12Container.RemainingTime[(int)Color.White] = Convert.ToInt32(splittedInput[24]);
-            style12Container.RemainingTime[(int)Color.Black] = Convert.ToInt32(splittedInput[25]);
+            style12Container.RemainingTime[(int)Color.White] = Convert.ToInt32(splitInput[24]);
+            style12Container.RemainingTime[(int)Color.Black] = Convert.ToInt32(splitInput[25]);
 
-            style12Container.MovesToMade = Convert.ToInt32(splittedInput[26]);
-            style12Container.PreviousMove = GetStyle12Move(splittedInput[27], style12Container.EnemyColor);
-            style12Container.TimeOfPreviousMove = splittedInput[28];
-            style12Container.PrettyPreviousMoveNotation = splittedInput[29];
+            style12Container.MovesToMade = Convert.ToInt32(splitInput[26]);
+            style12Container.PreviousMove = GetStyle12Move(splitInput[27], style12Container.EnemyColor);
+            style12Container.TimeOfPreviousMove = splitInput[28];
+            style12Container.PrettyPreviousMoveNotation = splitInput[29];
 
-            style12Container.BoardOrientation = GetBoardOrientationType(splittedInput[30]);
+            style12Container.BoardOrientation = GetBoardOrientationType(splitInput[30]);
 
             return style12Container;
         }
@@ -66,15 +66,15 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
         /// <summary>
         /// Parses Style12 board state to array.
         /// </summary>
-        /// <param name="splittedInput">The list of Style12 tokens.</param>
+        /// <param name="splitInput">The list of Style12 tokens.</param>
         /// <returns>The array of the board state ranks.</returns>
-        private string[] ParseBoardState(string[] splittedInput)
+        private string[] ParseBoardState(string[] splitInput)
         {
             var boardState = new string[8];
 
             for (int i = 0; i < 8; i++)
             {
-                boardState[i] = splittedInput[i + 1];
+                boardState[i] = splitInput[i + 1];
             }
 
             return boardState;

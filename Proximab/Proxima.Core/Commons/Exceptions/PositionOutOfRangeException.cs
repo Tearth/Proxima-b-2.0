@@ -12,7 +12,7 @@ namespace Proxima.Core.Commons.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="PositionOutOfRangeException"/> class.
         /// </summary>
-        public PositionOutOfRangeException() : base()
+        public PositionOutOfRangeException()
         {
         }
 

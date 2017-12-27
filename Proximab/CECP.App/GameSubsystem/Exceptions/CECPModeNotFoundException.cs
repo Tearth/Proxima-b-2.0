@@ -11,7 +11,7 @@ namespace CECP.App.GameSubsystem.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="CECPModeNotFoundException"/> class.
         /// </summary>
-        public CECPModeNotFoundException() : base()
+        public CECPModeNotFoundException()
         {
         }
 

@@ -29,7 +29,7 @@ namespace CECP.App
         }
 
         /// <summary>
-        /// Catches all unhandles exceptions and logs them in a log file.
+        /// Catches all unhandled exceptions and logs them in a log file.
         /// </summary>
         /// <param name="sender">The unhandled exception sender.</param>
         /// <param name="e">The unhandled exception data.</param>

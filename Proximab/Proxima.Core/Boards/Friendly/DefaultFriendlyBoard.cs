@@ -12,7 +12,7 @@ namespace Proxima.Core.Boards.Friendly
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultFriendlyBoard"/> class.
         /// </summary>
-        public DefaultFriendlyBoard() : base()
+        public DefaultFriendlyBoard()
         {
             // White pieces
             SetPiece(new FriendlyPiece(new Position(1, 1), PieceType.Rook, Color.White));

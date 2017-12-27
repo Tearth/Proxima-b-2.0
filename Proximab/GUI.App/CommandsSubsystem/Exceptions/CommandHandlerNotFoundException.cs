@@ -11,7 +11,7 @@ namespace GUI.App.CommandsSubsystem.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandHandlerNotFoundException"/> class.
         /// </summary>
-        public CommandHandlerNotFoundException() : base()
+        public CommandHandlerNotFoundException()
         {
         }
 

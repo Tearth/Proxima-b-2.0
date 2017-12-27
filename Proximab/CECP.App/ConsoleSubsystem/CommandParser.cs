@@ -18,15 +18,15 @@ namespace CECP.App.ConsoleSubsystem
         /// <returns>The parsed command object (null if input is empty).</returns>
         public Command Parse(string commandText)
         {
-            var splittedInput = Split(commandText.Trim());
+            var splitInput = Split(commandText.Trim());
 
-            if (splittedInput.Count == 0)
+            if (splitInput.Count == 0)
             {
                 return null;
             }
 
-            var name = splittedInput.First();
-            var arguments = splittedInput.Skip(1).ToList();
+            var name = splitInput.First();
+            var arguments = splitInput.Skip(1).ToList();
 
             var commandType = GetCommandType(name);
             return new Command(commandType, arguments);
@@ -36,7 +36,7 @@ namespace CECP.App.ConsoleSubsystem
         /// Splits the text into chunks with separators specified in the <see cref="_separators"/> field.
         /// </summary>
         /// <param name="text">The text to split.</param>
-        /// <returns>The list of splitted chunks.</returns>
+        /// <returns>The list of split chunks.</returns>
         private IList<string> Split(string text)
         {
             return text.Split(_separators, StringSplitOptions.RemoveEmptyEntries);

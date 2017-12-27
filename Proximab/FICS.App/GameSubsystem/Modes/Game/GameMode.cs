@@ -75,14 +75,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
         private void InitGameSession(string message)
         {
             var username = ConfigManager.GetValue<string>("Username");
-            if (message.StartsWith($"{CreatingPrefix} {username}"))
-            {
-                _engineColor = Color.White;
-            }
-            else
-            {
-                _engineColor = Color.Black;
-            }
+            _engineColor = message.StartsWith($"{CreatingPrefix} {username}") ? Color.White : Color.Black;
         }
 
         /// <summary>

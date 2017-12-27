@@ -3,7 +3,7 @@
 namespace FICS.App.GameSubsystem.Modes.Auth
 {
     /// <summary>
-    /// Represents the FICS authentication mode (olny once per session).
+    /// Represents the FICS authentication mode (only once per session).
     /// </summary>
     public class AuthMode : FICSModeBase
     {

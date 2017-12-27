@@ -2,7 +2,6 @@
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Pieces;
-using Proxima.Core.Commons.Randoms;
 
 namespace Proxima.Core.Boards.Hashing
 {
@@ -11,8 +10,6 @@ namespace Proxima.Core.Boards.Hashing
     /// </summary>
     public static class ZobristHash
     {
-        private static Random64 _random64 = new Random64();
-
         /// <summary>
         /// Calculates Zobrist hash for the specified parameters.
         /// </summary>

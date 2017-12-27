@@ -11,7 +11,7 @@ namespace FICS.App.GameSubsystem.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="FICSModeNotFoundException"/> class.
         /// </summary>
-        public FICSModeNotFoundException() : base()
+        public FICSModeNotFoundException()
         {
         }
 

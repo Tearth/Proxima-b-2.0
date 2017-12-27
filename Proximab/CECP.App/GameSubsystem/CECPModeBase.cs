@@ -53,7 +53,7 @@ namespace CECP.App.GameSubsystem
         }
 
         /// <summary>
-        /// Processes message (done in derivied class) and prepares a response.
+        /// Processes message (done in derived class) and prepares a response.
         /// </summary>
         /// <param name="command">The command to process.</param>
         public virtual void ProcessCommand(Command command)

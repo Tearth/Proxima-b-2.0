@@ -16,7 +16,7 @@ namespace CECP.App.GameSubsystem.Modes.Init
         /// <summary>
         /// Initializes a new instance of the <see cref="InitMode"/> class.
         /// </summary>
-        public InitMode() : base()
+        public InitMode()
         {
             _features = new Dictionary<string, bool>()
             {
@@ -32,7 +32,7 @@ namespace CECP.App.GameSubsystem.Modes.Init
         }
 
         /// <summary>
-        /// Processes message (done in derivied class) and prepares a response.
+        /// Processes message (done in derived class) and prepares a response.
         /// </summary>
         /// <param name="command">The command to process.</param>
         public override void ProcessCommand(Command command)

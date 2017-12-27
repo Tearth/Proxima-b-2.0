@@ -51,7 +51,7 @@ namespace FICS.App.GameSubsystem
         }
 
         /// <summary>
-        /// Processes message (done in derivied class) and prepares a response to the FICS server.
+        /// Processes message (done in derived class) and prepares a response to the FICS server.
         /// </summary>
         /// <param name="message">The message to process.</param>
         public abstract void ProcessMessage(string message);

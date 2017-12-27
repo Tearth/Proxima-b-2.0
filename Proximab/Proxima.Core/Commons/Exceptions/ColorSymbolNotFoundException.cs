@@ -11,7 +11,7 @@ namespace Proxima.Core.Commons.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorSymbolNotFoundException"/> class.
         /// </summary>
-        public ColorSymbolNotFoundException() : base()
+        public ColorSymbolNotFoundException()
         {
         }
 

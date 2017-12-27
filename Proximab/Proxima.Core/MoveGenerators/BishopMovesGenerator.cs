@@ -26,7 +26,7 @@ namespace Proxima.Core.MoveGenerators
                 piecesToParse = BitOperations.PopLSB(piecesToParse);
 
                 var excludeFromAttacks = CalculateMoves(pieceType, pieceLSB, opt);
-                CalculateAttacks(pieceType, pieceLSB, excludeFromAttacks, opt);
+                CalculateAttacks(pieceLSB, excludeFromAttacks, opt);
             }
         }
 
@@ -86,11 +86,10 @@ namespace Proxima.Core.MoveGenerators
         /// <summary>
         /// Calculates attacks for the specified piece.
         /// </summary>
-        /// <param name="pieceType">The piece type.</param>
         /// <param name="pieceBitboard">The bitboard with set bit at piece position.</param>
         /// <param name="excludedFields">The bitboard with excluded fields from attacks calculating.</param>
         /// <param name="opt">The generator parameters.</param>
-        private static void CalculateAttacks(PieceType pieceType, ulong pieceBitboard, ulong excludedFields, GeneratorParameters opt)
+        private static void CalculateAttacks(ulong pieceBitboard, ulong excludedFields, GeneratorParameters opt)
         {
             if ((opt.Mode & GeneratorMode.CalculateAttacks) == 0)
             {
@@ -101,7 +100,6 @@ namespace Proxima.Core.MoveGenerators
             var blockersToRemove = opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Bishop)] |
                                    opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Queen)];
 
-            var piecesToParse = opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, pieceType)];
             var allPiecesOccupancy = opt.OccupancySummary & ~blockersToRemove;
 
             var pattern = MagicContainer.GetBishopAttacks(pieceIndex, allPiecesOccupancy);

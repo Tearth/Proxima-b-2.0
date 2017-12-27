@@ -15,15 +15,15 @@ namespace Helpers.ColorfulConsole.Output
         /// </summary>
         /// <param name="text">Input text</param>
         /// <returns>
-        /// The list of chunks (splitted output text with assigned color enums) which can 
+        /// The list of chunks (split output text with assigned color enums) which can 
         /// be easily printed on the console.
         /// </returns>
         public IList<OutputChunk> GetOutputChunks(string text)
         {
             var outputChunks = new List<OutputChunk>();
-            var splittedOutput = text.Split(_separators, StringSplitOptions.RemoveEmptyEntries);
+            var splitOutput = text.Split(_separators, StringSplitOptions.RemoveEmptyEntries);
 
-            foreach (var chunk in splittedOutput)
+            foreach (var chunk in splitOutput)
             {
                 var colorSymbol = chunk[0].ToString();
                 var content = chunk.Remove(0, 1);

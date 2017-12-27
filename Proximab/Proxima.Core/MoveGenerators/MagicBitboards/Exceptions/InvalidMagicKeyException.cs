@@ -11,7 +11,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="InvalidMagicKeyException"/> class.
         /// </summary>
-        public InvalidMagicKeyException() : base()
+        public InvalidMagicKeyException()
         {
         }
 

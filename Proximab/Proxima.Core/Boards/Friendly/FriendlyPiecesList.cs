@@ -13,7 +13,7 @@ namespace Proxima.Core.Boards.Friendly
         /// <summary>
         /// Initializes a new instance of the <see cref="FriendlyPiecesList"/> class.
         /// </summary>
-        public FriendlyPiecesList() : base()
+        public FriendlyPiecesList()
         {
         }
 
@@ -21,7 +21,7 @@ namespace Proxima.Core.Boards.Friendly
         /// Initializes a new instance of the <see cref="FriendlyPiecesList"/> class.
         /// </summary>
         /// <param name="pieces">The array of pieces.</param>
-        public FriendlyPiecesList(ulong[] pieces) : base()
+        public FriendlyPiecesList(ulong[] pieces)
         {
             for (int i = 0; i < 12; i++)
             {

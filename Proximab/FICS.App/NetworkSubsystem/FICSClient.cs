@@ -67,7 +67,7 @@ namespace FICS.App.NetworkSubsystem
         public void Send(string text)
         {
             var byteDataToSend = Encoding.ASCII.GetBytes(text + FICSConstants.EndOfLine);
-            _socket.BeginSend(byteDataToSend, 0, byteDataToSend.Length, 0, new AsyncCallback(SendCallback), _socket);
+            _socket.BeginSend(byteDataToSend, 0, byteDataToSend.Length, 0, SendCallback, _socket);
 
             OnDataSend?.Invoke(this, new DataSentEventArgs(text));
         }
@@ -80,7 +80,7 @@ namespace FICS.App.NetworkSubsystem
             var serverAddress = _configManager.GetValue<string>(ServerAddressConfigKeyName);
             var serverPort = _configManager.GetValue<int>(ServerPortConfigKeyName);
 
-            _socket.BeginConnect(serverAddress, serverPort, new AsyncCallback(ConnectCallback), _socket);
+            _socket.BeginConnect(serverAddress, serverPort, ConnectCallback, _socket);
             _connectDone.WaitOne();
         }
 
@@ -90,7 +90,7 @@ namespace FICS.App.NetworkSubsystem
         private void StartReceiving()
         {
             var clientState = new ClientState(_socket);
-            _socket.BeginReceive(clientState.Buffer, 0, ClientState.BufferSize, 0, new AsyncCallback(ReceiveCallback), clientState);
+            _socket.BeginReceive(clientState.Buffer, 0, ClientState.BufferSize, 0, ReceiveCallback, clientState);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace FICS.App.NetworkSubsystem
                 OnDataReceive?.Invoke(this, new DataReceivedEventArgs(line));
             }
 
-            clientState.Socket.BeginReceive(clientState.Buffer, 0, ClientState.BufferSize, 0, new AsyncCallback(ReceiveCallback), clientState);
+            clientState.Socket.BeginReceive(clientState.Buffer, 0, ClientState.BufferSize, 0, ReceiveCallback, clientState);
         }
 
         /// <summary>
