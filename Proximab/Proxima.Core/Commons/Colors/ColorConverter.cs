@@ -25,6 +25,7 @@ namespace Proxima.Core.Commons.Colors
         /// Converts a color symbol to the associated symbol.
         /// </summary>
         /// <param name="color">The color to convert.</param>
+        /// <exception cref="ColorSymbolNotFoundException">Thrown when there is no available symbol for the specified enum value.</exception>
         /// <returns>The color symbol.</returns>
         public static char GetSymbol(Color color)
         {

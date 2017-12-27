@@ -53,8 +53,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Keys
         /// Loads single magic key from a file.
         /// </summary>
         /// <param name="reader">The file reader.</param>
-        /// <exception cref="InvalidMagicKeysFileException">Thrown when file is shorter than expected and
-        /// cannot load next magic key.</exception>
+        /// <exception cref="InvalidMagicKeysFileException">Thrown when file is shorter than expected and cannot load next magic key.</exception>
         /// <returns>The next magic key from file.</returns>
         private ulong LoadKey(StreamReader reader)
         {

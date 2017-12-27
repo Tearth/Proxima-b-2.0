@@ -31,6 +31,7 @@ namespace FICS.App.ConfigSubsystem
         /// </summary>
         /// <typeparam name="T">The value type.</typeparam>
         /// <param name="key">The key of the config item.</param>
+        /// <exception cref="KeyNotFoundException">Thrown when the specified key cannot be found in the config file.</exception>
         /// <returns>The value of the config item.</returns>
         public T GetValue<T>(string key)
         {

@@ -25,9 +25,10 @@ namespace GUI.App.GameSubsystem
         }
 
         /// <summary>
-        /// Creates a new instance of the mode specified in the parameter.
+        /// Creates a new instance of game the mode specified in the parameter.
         /// </summary>
-        /// <param name="modeType">The mode type.</param>
+        /// <param name="modeType">The game mode type.</param>
+        /// <exception cref="GameModeNotFoundException">Thrown when the factory cannot create game mode with the specified type (enum value not supported).</exception>
         /// <returns>The mode instance.</returns>
         public GameModeBase Create(GameModeType modeType)
         {

@@ -26,6 +26,7 @@ namespace FICS.App.GameSubsystem
         /// Creates a new instance of the FICS mode specified in the parameter.
         /// </summary>
         /// <param name="type">The FICS mode.</param>
+        /// <exception cref="FICSModeNotFoundException">Thrown when the factory cannot create FICS mode with the specified type (enum value not supported).</exception>
         /// <returns>The FICS mode instance.</returns>
         public FICSModeBase Create(FICSModeType type)
         {

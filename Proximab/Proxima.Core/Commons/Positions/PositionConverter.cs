@@ -24,6 +24,7 @@ namespace Proxima.Core.Commons.Positions
         /// Converts a text notation into the <see cref="Position"/> object.
         /// </summary>
         /// <param name="textNotation">Text text notation.</param>
+        /// <exception cref="PositionOutOfRangeException">Thrown when a text notation cannot be converted properly to <see cref="Position"/> object.</exception>
         /// <returns>The field position.</returns>
         public static Position ToPosition(string textNotation)
         {

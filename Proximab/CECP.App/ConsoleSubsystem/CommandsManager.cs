@@ -29,6 +29,7 @@ namespace CECP.App.ConsoleSubsystem
         /// </summary>
         /// <param name="commandType">The command type.</param>
         /// <param name="handler">The command handler.</param>
+        /// <exception cref="CommandTypeAlreadyRegisteredException">Thrown when a command with the specified handler is already registered.</exception>
         public void AddCommandHandler(CommandType commandType, ExecuteCommandDelegate handler)
         {
             if (_commandHandles.ContainsKey(commandType))

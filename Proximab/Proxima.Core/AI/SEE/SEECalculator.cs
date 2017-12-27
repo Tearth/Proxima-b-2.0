@@ -117,6 +117,7 @@ namespace Proxima.Core.AI.SEE
         /// <param name="field">The field with piece.</param>
         /// <param name="pieceColor">The piece color.</param>
         /// <param name="bitboard">The bitboard.</param>
+        /// <exception cref="PieceTypeNotFoundException">Thrown when there is no piece on the specified field.</exception>
         /// <returns>The piece type on the specified field.</returns>
         private PieceType GetPieceType(ulong field, Color pieceColor, Bitboard bitboard)
         {

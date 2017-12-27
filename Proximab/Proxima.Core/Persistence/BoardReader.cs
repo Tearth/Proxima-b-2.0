@@ -26,6 +26,7 @@ namespace Proxima.Core.Persistence
         /// Loads <see cref="FriendlyBoard"/> object from the specified file.
         /// </summary>
         /// <param name="path">The path to file.</param>
+        /// <exception cref="InvalidSectionValueException">Thrown when loaded section name has invalid value.</exception>
         /// <returns><see cref="FriendlyBoard"/> object loaded from the file.</returns>
         public FriendlyBoard Read(string path)
         {
@@ -68,6 +69,11 @@ namespace Proxima.Core.Persistence
                             enPassant = ReadEnPassant(reader);
                             break;
                         }
+
+                        default:
+                        {
+                            throw new InvalidSectionValueException();
+                        }
                     }
                 }
             }
@@ -79,6 +85,7 @@ namespace Proxima.Core.Persistence
         /// Reads a board (pure piece positions).
         /// </summary>
         /// <param name="reader">The file reader.</param>
+        /// <exception cref="InvalidBoardValueException">Thrown when a loaded board state cannot be converted properly.</exception>
         /// <returns>The container object with the list of pieces.</returns>
         private FriendlyPiecesList ReadBoard(StreamReader reader)
         {
@@ -93,7 +100,12 @@ namespace Proxima.Core.Persistence
                 }
 
                 var lineAfterTrim = line.Trim();
+
                 var splitLine = lineAfterTrim.Split(' ');
+                if (splitLine.Length != 8)
+                {
+                    throw new InvalidBoardValueException();
+                }
 
                 for (var x = 0; x < 8; x++)
                 {
@@ -150,6 +162,7 @@ namespace Proxima.Core.Persistence
         /// Reads a <see cref="Position"/> object. 
         /// </summary>
         /// <param name="reader">The file reader.</param>
+        /// <exception cref="InvalidPositionValueException">Thrown when a loaded position cannot be converted properly.</exception>
         /// <returns>The loaded position (or null if there was a <see cref="PersistenceConstants.NullValue"/> in the file).</returns>
         private Position? ReadPosition(StreamReader reader)
         {

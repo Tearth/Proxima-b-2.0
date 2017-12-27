@@ -38,6 +38,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
         /// <param name="keys">The array of the magic keys.</param>
         /// <param name="patternBitsCount">The pattern set bits count.</param>
         /// <param name="fieldIndex">The field index.</param>
+        /// <exception cref="InvalidMagicKeyException">Thrown when magic key is invalid and cannot be used to generate magic bitboards.</exception>
         /// <returns>The array of possible attacks for the specified field.</returns>
         private ulong[] GenerateMagicAttacks(List<FieldAttackPattern> patterns, ulong[] keys, int patternBitsCount, int fieldIndex)
         {
