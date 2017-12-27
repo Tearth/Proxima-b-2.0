@@ -131,9 +131,9 @@ namespace GUI.App
         }
         
         /// <summary>
-        /// 
+        /// Closes the application.
         /// </summary>
-        /// <param name="command">The Reset command.</param>
+        /// <param name="command">The Exit command.</param>
         private void Exit(Command command)
         {
             Exit();

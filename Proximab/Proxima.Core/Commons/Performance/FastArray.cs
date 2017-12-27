@@ -22,7 +22,7 @@ namespace Proxima.Core.Commons.Performance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetPieceIndex(Color color, PieceType pieceType)
         {
-            return (int)color * 6 + (int)pieceType;
+            return ((int)color * 6) + (int)pieceType;
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Proxima.Core.Commons.Performance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetZobristPieceIndex(Color color, PieceType pieceType, int field)
         {
-            return (((int)color * 6 + (int)pieceType) << 6) + field;
+            return ((((int)color * 6) + (int)pieceType) << 6) + field;
         }
 
         /// <summary>

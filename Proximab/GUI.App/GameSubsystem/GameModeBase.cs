@@ -117,24 +117,6 @@ namespace GUI.App.GameSubsystem
         }
 
         /// <summary>
-        /// Adds all command handlers from current class to the commands manager.
-        /// </summary>
-        private void SetCommandHandlers()
-        {
-            CommandsManager.AddCommandHandler(CommandType.Occupancy, CommandGroup.GameMode, DrawOccupancy);
-            CommandsManager.AddCommandHandler(CommandType.Attacks, CommandGroup.GameMode, DrawAttacks);
-            CommandsManager.AddCommandHandler(CommandType.SaveBoard, CommandGroup.GameMode, SaveBoard);
-            CommandsManager.AddCommandHandler(CommandType.LoadBoard, CommandGroup.GameMode, LoadBoard);
-            CommandsManager.AddCommandHandler(CommandType.Check, CommandGroup.GameMode, DisplayCheckStatus);
-            CommandsManager.AddCommandHandler(CommandType.Mate, CommandGroup.GameMode, DisplayMateStatus);
-            CommandsManager.AddCommandHandler(CommandType.Stalemate, CommandGroup.GameMode, DisplayStalemateStatus);
-            CommandsManager.AddCommandHandler(CommandType.Castling, CommandGroup.GameMode, DisplayCastlingFlags);
-            CommandsManager.AddCommandHandler(CommandType.Evaluation, CommandGroup.GameMode, DisplayEvaluation);
-            CommandsManager.AddCommandHandler(CommandType.Hash, CommandGroup.GameMode, DisplayBoardHash);
-            CommandsManager.AddCommandHandler(CommandType.Reset, CommandGroup.GameMode, Reset);
-        }
-
-        /// <summary>
         /// Applies move to the bitboard and updates the visual board (generator mode is set to CalculateAttacks for both colors).
         /// </summary>
         /// <param name="move">The move to apply.</param>
@@ -185,7 +167,25 @@ namespace GUI.App.GameSubsystem
 
             VisualBoard.FriendlyBoard = new FriendlyBoard(Bitboard);
         }
-        
+
+        /// <summary>
+        /// Adds all command handlers from current class to the commands manager.
+        /// </summary>
+        private void SetCommandHandlers()
+        {
+            CommandsManager.AddCommandHandler(CommandType.Occupancy, CommandGroup.GameMode, DrawOccupancy);
+            CommandsManager.AddCommandHandler(CommandType.Attacks, CommandGroup.GameMode, DrawAttacks);
+            CommandsManager.AddCommandHandler(CommandType.SaveBoard, CommandGroup.GameMode, SaveBoard);
+            CommandsManager.AddCommandHandler(CommandType.LoadBoard, CommandGroup.GameMode, LoadBoard);
+            CommandsManager.AddCommandHandler(CommandType.Check, CommandGroup.GameMode, DisplayCheckStatus);
+            CommandsManager.AddCommandHandler(CommandType.Mate, CommandGroup.GameMode, DisplayMateStatus);
+            CommandsManager.AddCommandHandler(CommandType.Stalemate, CommandGroup.GameMode, DisplayStalemateStatus);
+            CommandsManager.AddCommandHandler(CommandType.Castling, CommandGroup.GameMode, DisplayCastlingFlags);
+            CommandsManager.AddCommandHandler(CommandType.Evaluation, CommandGroup.GameMode, DisplayEvaluation);
+            CommandsManager.AddCommandHandler(CommandType.Hash, CommandGroup.GameMode, DisplayBoardHash);
+            CommandsManager.AddCommandHandler(CommandType.Reset, CommandGroup.GameMode, Reset);
+        }
+
         /// <summary>
         /// Draws occupancy (nonempty fields) by pieces with the specified color.
         /// </summary>
@@ -373,7 +373,5 @@ namespace GUI.App.GameSubsystem
         {
             CalculateBitboard(new DefaultFriendlyBoard(), false);
         }
-
-        
     }
 }

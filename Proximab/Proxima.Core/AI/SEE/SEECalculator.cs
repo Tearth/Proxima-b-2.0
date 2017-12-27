@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Proxima.Core.AI.SEE.Exceptions;
 using Proxima.Core.Boards;
 using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Colors;
@@ -74,13 +75,13 @@ namespace Proxima.Core.AI.SEE
         {
             var enemyColor = ColorOperations.Invert(initialColor);
 
-            var seeResult = new SEEResult()
+            var seeResult = new SEEResult
             {
                 InitialAttackerFrom = BitPositionConverter.ToPosition(BitOperations.GetBitIndex(initialAttacker)),
                 InitialAttackerTo = BitPositionConverter.ToPosition(BitOperations.GetBitIndex(field)),
 
-                InitialAttackerType = GetPieceType(initialAttacker, initialColor, bitboard).Value,
-                AttackedPieceType = GetPieceType(field, enemyColor, bitboard).Value
+                InitialAttackerType = GetPieceType(initialAttacker, initialColor, bitboard),
+                AttackedPieceType = GetPieceType(field, enemyColor, bitboard)
             };
 
             seeResult.Score = MaterialValues.PieceValues[(int)seeResult.AttackedPieceType];
@@ -116,8 +117,8 @@ namespace Proxima.Core.AI.SEE
         /// <param name="field">The field with piece.</param>
         /// <param name="pieceColor">The piece color.</param>
         /// <param name="bitboard">The bitboard.</param>
-        /// <returns>The piece type on the specified field (null if the field is empty).</returns>
-        private PieceType? GetPieceType(ulong field, Color pieceColor, Bitboard bitboard)
+        /// <returns>The piece type on the specified field.</returns>
+        private PieceType GetPieceType(ulong field, Color pieceColor, Bitboard bitboard)
         {
             for (var piece = 0; piece < 6; piece++)
             {
@@ -127,7 +128,7 @@ namespace Proxima.Core.AI.SEE
                 }
             }
 
-            return null;
+            throw new PieceTypeNotFoundException();
         }
 
         /// <summary>

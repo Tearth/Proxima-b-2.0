@@ -97,8 +97,8 @@ namespace Helpers.Loggers.CSV
                 {
                     csvLogger.WriteLine("ABORTED");
                 }
-                else if (gameResult == GameResult.WhiteWon && engineColor == Color.White ||
-                         gameResult == GameResult.BlackWon && engineColor == Color.Black)
+                else if ((gameResult == GameResult.WhiteWon && engineColor == Color.White) ||
+                         (gameResult == GameResult.BlackWon && engineColor == Color.Black))
                 {
                     csvLogger.WriteLine("ENGINE_WON");
                 }

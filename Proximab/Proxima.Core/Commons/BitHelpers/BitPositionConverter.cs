@@ -27,7 +27,7 @@ namespace Proxima.Core.Commons.BitHelpers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Position ToPosition(int bitIndex)
         {
-            return new Position(8 - bitIndex % 8, (bitIndex >> 3) + 1);
+            return new Position(8 - (bitIndex % 8), (bitIndex >> 3) + 1);
         }
 
         /// <summary>
