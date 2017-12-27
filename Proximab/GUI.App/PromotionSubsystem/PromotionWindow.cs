@@ -172,7 +172,7 @@ namespace GUI.App.PromotionSubsystem
         /// <param name="spriteBatch">Monogame sprite batch.</param>
         private void DrawPieces(SpriteBatch spriteBatch)
         {
-            for (var i = 0; i < _availablePieces.Count; i++)
+            for (int i = 0; i < _availablePieces.Count; i++)
             {
                 var piece = _availablePieces[i];
                 var position = GetHighlightPosition(i);

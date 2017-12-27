@@ -49,12 +49,7 @@ namespace CECP.App.ConsoleSubsystem
         /// <returns>The command type.</returns>
         private CommandType GetCommandType(string commandNameText)
         {
-            if (!Enum.TryParse(commandNameText, true, out CommandType commandType))
-            {
-                return CommandType.Unrecognized;
-            }
-
-            return commandType;
+            return !Enum.TryParse(commandNameText, true, out CommandType commandType) ? CommandType.Unrecognized : commandType;
         }
     }
 }

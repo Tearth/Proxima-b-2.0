@@ -141,24 +141,28 @@ namespace Proxima.Core.MoveGenerators
                 var friendlyBlockerIndex = BitOperations.GetBitIndex(friendlyBlockerLSB);
                 var friendlyBlockerPosition = BitPositionConverter.ToPosition(friendlyBlockerIndex);
 
-                if (opt.FriendlyColor == Color.White && friendlyBlockerPosition.X > piecePosition.X && friendlyBlockerPosition.Y > piecePosition.Y && (friendlyBlockerLSB & (BitConstants.HFile | BitConstants.HRank)) == 0)
+                switch (opt.FriendlyColor)
                 {
-                    patternWithFriendlyBlockers |= friendlyBlockerLSB << 7;
-                }
-                else
-                if (opt.FriendlyColor == Color.White && friendlyBlockerPosition.X < piecePosition.X && friendlyBlockerPosition.Y > piecePosition.Y && (friendlyBlockerLSB & (BitConstants.AFile | BitConstants.HRank)) == 0)
-                {
-                    patternWithFriendlyBlockers |= friendlyBlockerLSB << 9;
-                }
-                else
-                if (opt.FriendlyColor == Color.Black && friendlyBlockerPosition.X > piecePosition.X && friendlyBlockerPosition.Y < piecePosition.Y && (friendlyBlockerLSB & (BitConstants.HFile | BitConstants.ARank)) == 0)
-                {
-                    patternWithFriendlyBlockers |= friendlyBlockerLSB >> 9;
-                }
-                else
-                if (opt.FriendlyColor == Color.Black && friendlyBlockerPosition.X < piecePosition.X && friendlyBlockerPosition.Y < piecePosition.Y && (friendlyBlockerLSB & (BitConstants.AFile | BitConstants.ARank)) == 0)
-                {
-                    patternWithFriendlyBlockers |= friendlyBlockerLSB >> 7;
+                    case Color.White when friendlyBlockerPosition.X > piecePosition.X && friendlyBlockerPosition.Y > piecePosition.Y && (friendlyBlockerLSB & (BitConstants.HFile | BitConstants.HRank)) == 0:
+                    {
+                        patternWithFriendlyBlockers |= friendlyBlockerLSB << 7;
+                        break;
+                    }
+                    case Color.White when friendlyBlockerPosition.X < piecePosition.X && friendlyBlockerPosition.Y > piecePosition.Y && (friendlyBlockerLSB & (BitConstants.AFile | BitConstants.HRank)) == 0:
+                    {
+                        patternWithFriendlyBlockers |= friendlyBlockerLSB << 9;
+                        break;
+                    }
+                    case Color.Black when friendlyBlockerPosition.X > piecePosition.X && friendlyBlockerPosition.Y < piecePosition.Y && (friendlyBlockerLSB & (BitConstants.HFile | BitConstants.ARank)) == 0:
+                    {
+                        patternWithFriendlyBlockers |= friendlyBlockerLSB >> 9;
+                        break;
+                    }
+                    case Color.Black when friendlyBlockerPosition.X < piecePosition.X && friendlyBlockerPosition.Y < piecePosition.Y && (friendlyBlockerLSB & (BitConstants.AFile | BitConstants.ARank)) == 0:
+                    {
+                        patternWithFriendlyBlockers |= friendlyBlockerLSB >> 7;
+                        break;
+                    }
                 }
             }
 

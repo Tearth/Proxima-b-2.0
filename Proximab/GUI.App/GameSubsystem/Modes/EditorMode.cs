@@ -86,18 +86,24 @@ namespace GUI.App.GameSubsystem.Modes
         {
             var move = Bitboard.Moves.FirstOrDefault(p => p.From == e.From && p.To == e.To);
 
-            if (move == null)
+            switch (move)
             {
-                CalculateBitboard(new QuietMove(e.From, e.To, e.Piece.Type, e.Piece.Color), _quiescenceSearch);
-            }
-            else if (move is PromotionMove)
-            {
-                var promotionMoves = Bitboard.Moves.Where(p => p.From == move.From).Cast<PromotionMove>();
-                PromotionWindow.Display(move.Color, promotionMoves);
-            }
-            else
-            {
-                CalculateBitboard(move, _quiescenceSearch);
+                case null:
+                {
+                    CalculateBitboard(new QuietMove(e.From, e.To, e.Piece.Type, e.Piece.Color), _quiescenceSearch);
+                    break;
+                }
+                case PromotionMove _:
+                {
+                    var promotionMoves = Bitboard.Moves.Where(p => p.From == move.From).Cast<PromotionMove>();
+                    PromotionWindow.Display(move.Color, promotionMoves);
+                    break;
+                }
+                default:
+                {
+                    CalculateBitboard(move, _quiescenceSearch);
+                    break;
+                }
             }
         }
 

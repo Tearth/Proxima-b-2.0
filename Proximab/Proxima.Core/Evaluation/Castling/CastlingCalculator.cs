@@ -47,12 +47,7 @@ namespace Proxima.Core.Evaluation.Castling
         /// <returns>The evaluation result of the castling flags.</returns>
         private int GetCastlingValue(Bitboard bitboard, Color color)
         {
-            if (bitboard.CastlingDone[(int)color])
-            {
-                return CastlingValues.Ratio[(int)bitboard.GamePhase];
-            }
-
-            return 0;
+            return bitboard.CastlingDone[(int)color] ? CastlingValues.Ratio[(int)bitboard.GamePhase] : 0;
         }
     }
 }

@@ -161,28 +161,34 @@ namespace Proxima.Core.MoveGenerators.Moves
         /// <param name="bitboard">The bitboard.</param>
         private void CalculateCastling(Bitboard bitboard)
         {
-            if (Piece == PieceType.King)
+            switch (Piece)
             {
-                var shortCastlingIndex = FastArray.GetCastlingIndex(Color, CastlingType.Short);
-                var longCastlingIndex = FastArray.GetCastlingIndex(Color, CastlingType.Long);
-
-                IncrementalZobrist.RemoveCastlingPossibility(Color, CastlingType.Short, bitboard);
-                IncrementalZobrist.RemoveCastlingPossibility(Color, CastlingType.Long, bitboard);
-
-                bitboard.CastlingPossibility[shortCastlingIndex] = false;
-                bitboard.CastlingPossibility[longCastlingIndex] = false;
-            }
-            else if (Piece == PieceType.Rook)
-            {
-                if (From == new Position(1, 1) || From == new Position(1, 8))
+                case PieceType.King:
                 {
-                    IncrementalZobrist.RemoveCastlingPossibility(Color, CastlingType.Long, bitboard);
-                    bitboard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Long)] = false;
-                }
-                else if (From == new Position(8, 1) || From == new Position(8, 8))
-                {
+                    var shortCastlingIndex = FastArray.GetCastlingIndex(Color, CastlingType.Short);
+                    var longCastlingIndex = FastArray.GetCastlingIndex(Color, CastlingType.Long);
+
                     IncrementalZobrist.RemoveCastlingPossibility(Color, CastlingType.Short, bitboard);
-                    bitboard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Short)] = false;
+                    IncrementalZobrist.RemoveCastlingPossibility(Color, CastlingType.Long, bitboard);
+
+                    bitboard.CastlingPossibility[shortCastlingIndex] = false;
+                    bitboard.CastlingPossibility[longCastlingIndex] = false;
+                    break;
+                }
+                case PieceType.Rook:
+                {
+                    if (From == new Position(1, 1) || From == new Position(1, 8))
+                    {
+                        IncrementalZobrist.RemoveCastlingPossibility(Color, CastlingType.Long, bitboard);
+                        bitboard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Long)] = false;
+                    }
+                    else if (From == new Position(8, 1) || From == new Position(8, 8))
+                    {
+                        IncrementalZobrist.RemoveCastlingPossibility(Color, CastlingType.Short, bitboard);
+                        bitboard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Short)] = false;
+                    }
+
+                    break;
                 }
             }
         }

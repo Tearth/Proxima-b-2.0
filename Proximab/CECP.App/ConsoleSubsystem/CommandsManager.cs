@@ -33,9 +33,7 @@ namespace CECP.App.ConsoleSubsystem
         public void AddCommandHandler(CommandType commandType, ExecuteCommandDelegate handler)
         {
             if (_commandHandles.ContainsKey(commandType))
-            {
                 throw new CommandTypeAlreadyRegisteredException();
-            }
 
             _commandHandles.Add(commandType, handler);
         }
@@ -55,11 +53,13 @@ namespace CECP.App.ConsoleSubsystem
         /// <param name="command">The command to execute.</param>
         public void Execute(Command command)
         {
-            if (_commandHandles.ContainsKey(command.Type))
+            if (!_commandHandles.ContainsKey(command.Type))
             {
-                var commandHandler = _commandHandles[command.Type];
-                commandHandler.Invoke(command);
+                return;
             }
+
+            var commandHandler = _commandHandles[command.Type];
+            commandHandler.Invoke(command);
         }
     }
 }

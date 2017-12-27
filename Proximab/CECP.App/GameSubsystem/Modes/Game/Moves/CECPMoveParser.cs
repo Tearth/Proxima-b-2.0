@@ -16,13 +16,16 @@ namespace CECP.App.GameSubsystem.Modes.Game.Moves
         /// <returns>The CECP move object.</returns>
         public CECPMove Parse(string moveText)
         {
-            if (moveText.Length == 4)
+            switch (moveText.Length)
             {
-                return ParseNormalMove(moveText);
-            }
-            else if (moveText.Length == 5)
-            {
-                return ParsePromotionMove(moveText);
+                case 4:
+                {
+                    return ParseNormalMove(moveText);
+                }
+                case 5:
+                {
+                    return ParsePromotionMove(moveText);
+                }
             }
 
             return null;
