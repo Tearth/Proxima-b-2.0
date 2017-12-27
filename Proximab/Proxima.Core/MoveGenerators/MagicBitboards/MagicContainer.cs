@@ -27,7 +27,7 @@ namespace Proxima.Core.MoveGenerators.MagicBitboards
             LoadKeys();
             GenerateMagicBitboards();
         }
-        
+
         /// <summary>
         /// Calculates a magic bitboard for rook.
         /// </summary>

@@ -79,7 +79,7 @@ namespace Proxima.Core.Persistence
         }
 
         /// <summary>
-        /// Writes en passant data. 
+        /// Writes en passant data.
         /// </summary>
         /// <param name="writer">The file writer.</param>
         /// <param name="enPassant">The en passant data.</param>
@@ -92,7 +92,7 @@ namespace Proxima.Core.Persistence
         }
 
         /// <summary>
-        /// Writes a <see cref="Position"/> object to the file. 
+        /// Writes a <see cref="Position"/> object to the file.
         /// </summary>
         /// <param name="writer">The file writer.</param>
         /// <param name="position">The position to write (writes <see cref="PersistenceConstants.NullValue"/> if null).</param>

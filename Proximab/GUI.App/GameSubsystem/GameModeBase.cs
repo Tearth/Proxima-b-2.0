@@ -20,7 +20,7 @@ using Proxima.Core.Persistence;
 namespace GUI.App.GameSubsystem
 {
     /// <summary>
-    /// Represents a set of methods common for all game modes (logic, drawing, commands). 
+    /// Represents a set of methods common for all game modes (logic, drawing, commands).
     /// </summary>
     public abstract class GameModeBase
     {
@@ -332,7 +332,7 @@ namespace GUI.App.GameSubsystem
             ConsoleManager.WriteLine($"$cWhite done: {ColorfulConsoleHelpers.ParseBool(castlingFlags.WhiteCastlingDone)}");
             ConsoleManager.WriteLine($"$cBlack done: {ColorfulConsoleHelpers.ParseBool(castlingFlags.BlackCastlingDone)}");
         }
-        
+
         /// <summary>
         /// Displays board hash on the console.
         /// </summary>

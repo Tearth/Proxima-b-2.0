@@ -15,7 +15,7 @@ namespace Helpers.ColorfulConsole.Output
         /// </summary>
         /// <param name="text">Input text</param>
         /// <returns>
-        /// The list of chunks (split output text with assigned color enums) which can 
+        /// The list of chunks (split output text with assigned color enums) which can
         /// be easily printed on the console.
         /// </returns>
         public IList<OutputChunk> GetOutputChunks(string text)

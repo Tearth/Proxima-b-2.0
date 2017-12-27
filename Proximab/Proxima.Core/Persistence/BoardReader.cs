@@ -145,7 +145,7 @@ namespace Proxima.Core.Persistence
         }
 
         /// <summary>
-        /// Reads en passant data. 
+        /// Reads en passant data.
         /// </summary>
         /// <param name="reader">The file reader.</param>
         /// <returns>The container object with the en passant data.</returns>
@@ -159,7 +159,7 @@ namespace Proxima.Core.Persistence
         }
 
         /// <summary>
-        /// Reads a <see cref="Position"/> object. 
+        /// Reads a <see cref="Position"/> object.
         /// </summary>
         /// <param name="reader">The file reader.</param>
         /// <exception cref="InvalidPositionValueException">Thrown when a loaded position cannot be converted properly.</exception>
@@ -171,7 +171,7 @@ namespace Proxima.Core.Persistence
             {
                 throw new InvalidPositionValueException();
             }
-            
+
             var lineAfterTrim = line.Trim();
             if (lineAfterTrim == PersistenceConstants.NullValue)
             {
@@ -182,7 +182,7 @@ namespace Proxima.Core.Persistence
         }
 
         /// <summary>
-        /// Reads a flag (True/False). 
+        /// Reads a flag (True/False).
         /// </summary>
         /// <param name="reader">The file reader.</param>
         /// <exception cref="InvalidFlagValueException">Thrown when loaded flag value cannot be converted.</exception>

@@ -37,7 +37,7 @@ namespace Proxima.Core.Evaluation.Position
         /// <returns>The detailed position evaluation result.</returns>
         public PositionData CalculateDetailed(Bitboard bitboard)
         {
-            return new PositionData()
+            return new PositionData
             {
                 WhitePosition = GetPosition(bitboard, Color.White),
                 BlackPosition = GetPosition(bitboard, Color.Black)

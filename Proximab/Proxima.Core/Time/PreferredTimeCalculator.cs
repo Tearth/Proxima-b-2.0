@@ -29,14 +29,9 @@
         /// <returns>The preferred time.</returns>
         public float Calculate(int movesCount, int remainingTime)
         {
-            if (movesCount < _edge)
-            {
-                return (float)remainingTime / (_expectedMovesCount - movesCount);
-            }
-            else
-            {
-                return (float)remainingTime / (_expectedMovesCount - _edge);
-            }
+            return movesCount < _edge
+                ? (float) remainingTime / (_expectedMovesCount - movesCount)
+                : (float) remainingTime / (_expectedMovesCount - _edge);
         }
     }
 }

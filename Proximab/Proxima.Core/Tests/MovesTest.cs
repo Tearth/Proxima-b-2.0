@@ -8,7 +8,7 @@ using Proxima.Core.Persistence;
 namespace Proxima.Core.Tests
 {
     /// <summary>
-    /// Represents a set of methods for testing speed of move generators and evaluation functions. 
+    /// Represents a set of methods for testing speed of move generators and evaluation functions.
     /// </summary>
     public class MovesTest
     {

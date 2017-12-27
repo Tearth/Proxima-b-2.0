@@ -17,7 +17,7 @@ namespace Proxima.Core.Commons.Positions
         /// Gets or sets the vertical position.
         /// </summary>
         public int Y { get; set; }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Position"/> struct.
         /// </summary>
@@ -48,7 +48,7 @@ namespace Proxima.Core.Commons.Positions
         {
             return a.X == b.X && a.Y == b.Y;
         }
-        
+
         /// <summary>
         /// Compares two position objects.
         /// </summary>

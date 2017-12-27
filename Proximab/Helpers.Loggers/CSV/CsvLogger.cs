@@ -25,7 +25,7 @@ namespace Helpers.Loggers.CSV
         /// <param name="directory">The directory where all logs will be stored.</param>
         public CsvLogger(string directory) : base(directory)
         {
-            _header = new List<string>()
+            _header = new List<string>
             {
                 "Time",
                 "Best move",
@@ -58,7 +58,7 @@ namespace Helpers.Loggers.CSV
                     WriteValues(csvLogger, _header);
                 }
 
-                var values = new List<string>()
+                var values = new List<string>
                 {
                     GetCurrentTime(),
                     aiResult.BestMove.ToString(),

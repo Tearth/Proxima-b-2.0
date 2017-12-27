@@ -27,7 +27,7 @@ namespace Proxima.Core.Evaluation.Position.Values
             -10,  0,   10,  10,  10,  10,  0,  -10,
             -10,  10,  10,  10,  10,  10,  10, -10,
             -10,  5,   0,   0,   0,   0,   5,  -10,
-            -20, -10, -10, -10, -10, -10, -10, -20,
+            -20, -10, -10, -10, -10, -10, -10, -20
         };
 
         public static readonly int[] WhiteValues = EvaluationFlipper.CalculateWhiteArray(Pattern);

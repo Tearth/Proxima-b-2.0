@@ -63,7 +63,7 @@ namespace GUI.App
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
-        
+
         /// <summary>
         /// Updates all game objects with specified delta time.
         /// </summary>
@@ -129,7 +129,7 @@ namespace GUI.App
             _mode = _modeFactory.Create(modeType);
             _mode.LoadContent(Content);
         }
-        
+
         /// <summary>
         /// Closes the application.
         /// </summary>

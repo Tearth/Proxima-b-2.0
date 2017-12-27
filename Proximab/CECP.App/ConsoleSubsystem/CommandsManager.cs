@@ -33,7 +33,9 @@ namespace CECP.App.ConsoleSubsystem
         public void AddCommandHandler(CommandType commandType, ExecuteCommandDelegate handler)
         {
             if (_commandHandles.ContainsKey(commandType))
+            {
                 throw new CommandTypeAlreadyRegisteredException();
+            }
 
             _commandHandles.Add(commandType, handler);
         }

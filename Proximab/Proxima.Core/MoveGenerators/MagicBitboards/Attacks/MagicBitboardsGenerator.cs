@@ -5,7 +5,7 @@ using Proxima.Core.MoveGenerators.MagicBitboards.Exceptions;
 namespace Proxima.Core.MoveGenerators.MagicBitboards.Attacks
 {
     /// <summary>
-    /// Represents a set of methods to generate magic bitboards. 
+    /// Represents a set of methods to generate magic bitboards.
     /// </summary>
     public class MagicBitboardsGenerator
     {

@@ -27,7 +27,7 @@ namespace Proxima.Core.Evaluation.Mobility
              1,   1,   1,   1,   1,   1,   1,   1,
              1,   1,   1,   1,   1,   1,   1,   1,
              1,   1,   1,   1,   1,   1,   1,   1,
-             1,   1,   1,   1,   1,   1,   1,   1,
+             1,   1,   1,   1,   1,   1,   1,   1
         };
 
         public static readonly int[] WhiteRatio = EvaluationFlipper.CalculateWhiteArray(RatioPattern);

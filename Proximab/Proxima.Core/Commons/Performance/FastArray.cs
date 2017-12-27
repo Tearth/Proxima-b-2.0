@@ -26,7 +26,7 @@ namespace Proxima.Core.Commons.Performance
         }
 
         /// <summary>
-        /// Calculates a piece index (in Zobrist hash array). 
+        /// Calculates a piece index (in Zobrist hash array).
         /// </summary>
         /// <param name="color">The piece color.</param>
         /// <param name="pieceType">The piece type.</param>

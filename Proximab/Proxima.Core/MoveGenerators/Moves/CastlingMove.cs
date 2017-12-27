@@ -11,7 +11,7 @@ using Proxima.Core.Evaluation.Castling;
 namespace Proxima.Core.MoveGenerators.Moves
 {
     /// <summary>
-    /// Represents a castling 
+    /// Represents a castling
     /// </summary>
     public class CastlingMove : Move
     {

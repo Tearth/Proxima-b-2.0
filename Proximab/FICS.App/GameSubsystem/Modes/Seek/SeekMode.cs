@@ -23,7 +23,7 @@ namespace FICS.App.GameSubsystem.Modes.Seek
         {
             _seekSent = false;
 
-            _acceptanceTokens = new List<string>()
+            _acceptanceTokens = new List<string>
             {
                 "accepts your seek"
             };

@@ -49,7 +49,7 @@ namespace Proxima.Core.Evaluation
                             Mobility.Difference +
                             Castling.Difference +
                             Position.Difference +
-                            PawnStructure.Difference + 
+                            PawnStructure.Difference +
                             KingSafety.Difference;
     }
 }

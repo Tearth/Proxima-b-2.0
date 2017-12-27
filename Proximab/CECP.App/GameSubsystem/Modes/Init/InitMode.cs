@@ -12,13 +12,13 @@ namespace CECP.App.GameSubsystem.Modes.Init
     public class InitMode : CECPModeBase
     {
         private Dictionary<string, bool> _features;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InitMode"/> class.
         /// </summary>
         public InitMode()
         {
-            _features = new Dictionary<string, bool>()
+            _features = new Dictionary<string, bool>
             {
                 { "ping", true },
                 { "setboard", true },

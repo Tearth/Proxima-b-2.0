@@ -53,7 +53,7 @@ namespace FICS.App.GameSubsystem.Modes.Game.Style12
         public string[] PlayerName { get; set; }
 
         /// <summary>
-        /// Gets or sets the relation of engine to the game (-3 = isolated position, -2 = examiner, 
+        /// Gets or sets the relation of engine to the game (-3 = isolated position, -2 = examiner,
         /// -1 = move of the enemy, 1 = move of the engine, 0 = observing).
         /// </summary>
         public Style12RelationType Relation { get; set; }

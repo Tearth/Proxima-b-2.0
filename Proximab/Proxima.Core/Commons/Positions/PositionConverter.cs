@@ -34,7 +34,7 @@ namespace Proxima.Core.Commons.Positions
             {
                 X = 8 - ('h' - fixedTextNotation[0]),
                 Y = 8 - ('8' - fixedTextNotation[1])
-            };          
+            };
 
             if (!position.IsValid())
             {

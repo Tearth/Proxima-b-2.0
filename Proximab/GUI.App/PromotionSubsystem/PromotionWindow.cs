@@ -49,7 +49,7 @@ namespace GUI.App.PromotionSubsystem
             _highlightPosition = null;
             _piecesProvider = piecesProvider;
 
-            _predefinedPieceTypes = new List<PieceType>() { PieceType.Queen, PieceType.Rook, PieceType.Bishop, PieceType.Knight };
+            _predefinedPieceTypes = new List<PieceType> { PieceType.Queen, PieceType.Rook, PieceType.Bishop, PieceType.Knight };
             _availablePieces = new List<PromotionPiece>();
             _promotionMoves = new List<PromotionMove>();
         }
@@ -133,7 +133,7 @@ namespace GUI.App.PromotionSubsystem
 
             Active = true;
         }
-        
+
         /// <summary>
         /// Hides promotion window.
         /// </summary>
@@ -172,7 +172,7 @@ namespace GUI.App.PromotionSubsystem
         /// <param name="spriteBatch">Monogame sprite batch.</param>
         private void DrawPieces(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < _availablePieces.Count; i++)
+            for (var i = 0; i < _availablePieces.Count; i++)
             {
                 var piece = _availablePieces[i];
                 var position = GetHighlightPosition(i);

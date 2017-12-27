@@ -32,7 +32,7 @@ namespace Proxima.Core.Evaluation.Castling
         /// <returns>The detailed (separately for white and black) castling evaluation result.</returns>
         public CastlingData CalculateDetailed(Bitboard bitboard)
         {
-            return new CastlingData()
+            return new CastlingData
             {
                 WhiteCastling = GetCastlingValue(bitboard, Color.White),
                 BlackCastling = GetCastlingValue(bitboard, Color.Black)

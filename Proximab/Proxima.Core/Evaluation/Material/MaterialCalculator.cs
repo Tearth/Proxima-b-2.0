@@ -58,7 +58,7 @@ namespace Proxima.Core.Evaluation.Material
             {
                 var piecesToParse = bitboard.Pieces[FastArray.GetPieceIndex(color, (PieceType)piece)];
                 var piecesCount = BitOperations.Count(piecesToParse);
-                
+
                 material += piecesCount * MaterialValues.PieceValues[piece];
             }
 

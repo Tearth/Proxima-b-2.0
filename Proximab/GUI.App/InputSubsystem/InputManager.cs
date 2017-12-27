@@ -101,7 +101,7 @@ namespace GUI.App.InputSubsystem
 
             return pressed;
         }
-        
+
         /// <summary>
         /// Calculates the mouse move delta (before previous and current position).
         /// </summary>

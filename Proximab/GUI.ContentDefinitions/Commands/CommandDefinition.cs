@@ -21,7 +21,7 @@ namespace GUI.ContentDefinitions.Commands
         /// Gets or sets the description of the command.
         /// </summary>
         public string Description { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the list of the command arguments.
         /// </summary>

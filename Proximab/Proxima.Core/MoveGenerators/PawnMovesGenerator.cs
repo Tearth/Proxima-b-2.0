@@ -144,14 +144,14 @@ namespace Proxima.Core.MoveGenerators
                 {
                     var piecePosition = BitPositionConverter.ToPosition(pieceIndex);
                     var enPassantField = opt.Bitboard.EnPassant[(int)opt.EnemyColor] & patternLSB;
-                    
+
                     if ((patternLSB & opt.EnemyOccupancy) != 0 || enPassantField != 0)
                     {
                         var to = BitPositionConverter.ToPosition(patternIndex);
 
                         if (enPassantField != 0)
                         {
-                            opt.Bitboard.Moves.AddLast(new EnPassantMove(piecePosition, to, PieceType.Pawn, opt.FriendlyColor));          
+                            opt.Bitboard.Moves.AddLast(new EnPassantMove(piecePosition, to, PieceType.Pawn, opt.FriendlyColor));
                         }
                         else if ((patternLSB & promotionLine) != 0)
                         {

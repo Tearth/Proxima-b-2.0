@@ -42,11 +42,11 @@ namespace CECP.App.GameSubsystem.Modes.Game
             _engineColor = Color.Black;
             _enemyColor = Color.White;
 
-            _gameResultTokens = new Dictionary<string, GameResult>()
+            _gameResultTokens = new Dictionary<string, GameResult>
             {
                 { "1-0", GameResult.WhiteWon },
                 { "0-1", GameResult.BlackWon },
-                { "1/2-1/2", GameResult.Draw },
+                { "1/2-1/2", GameResult.Draw }
             };
 
             CommandsManager.AddCommandHandler(CommandType.Post, ExecutePostCommand);

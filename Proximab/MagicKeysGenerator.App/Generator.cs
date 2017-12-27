@@ -11,8 +11,8 @@ namespace MagicKeysGenerator.App
     /// </summary>
     /// <remarks>
     /// Because generating keys for every field can take a few seconds, it cannot be done every
-    /// time when chess engine is starting. Therefore all magic keys are once saved to 
-    /// the specified files and loaded every time when main app is starting which is of course 
+    /// time when chess engine is starting. Therefore all magic keys are once saved to
+    /// the specified files and loaded every time when main app is starting which is of course
     /// a lot faster.
     /// </remarks>
     internal class Generator

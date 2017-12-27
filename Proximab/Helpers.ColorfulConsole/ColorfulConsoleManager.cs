@@ -4,7 +4,7 @@ using Helpers.ColorfulConsole.Output;
 namespace Helpers.ColorfulConsole
 {
     /// <summary>
-    /// The main class of ColorfulConsole library. 
+    /// The main class of ColorfulConsole library.
     /// </summary>
     public class ColorfulConsoleManager
     {

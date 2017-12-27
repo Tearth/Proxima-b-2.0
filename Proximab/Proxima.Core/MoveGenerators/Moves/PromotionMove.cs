@@ -8,7 +8,7 @@ using Proxima.Core.Evaluation.Material;
 namespace Proxima.Core.MoveGenerators.Moves
 {
     /// <summary>
-    /// Represents a promotion 
+    /// Represents a promotion
     /// </summary>
     public class PromotionMove : Move
     {

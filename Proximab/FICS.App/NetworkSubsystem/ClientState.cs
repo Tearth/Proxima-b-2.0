@@ -18,7 +18,7 @@ namespace FICS.App.NetworkSubsystem
         /// Gets or sets the client buffer.
         /// </summary>
         public byte[] Buffer { get; set; }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientState"/> class.
         /// </summary>

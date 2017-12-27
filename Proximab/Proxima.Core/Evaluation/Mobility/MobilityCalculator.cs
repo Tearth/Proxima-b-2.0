@@ -35,7 +35,7 @@ namespace Proxima.Core.Evaluation.Mobility
         /// <returns>The detailed mobility evaluation result.</returns>
         public MobilityData CalculateDetailed(Bitboard bitboard)
         {
-            return new MobilityData()
+            return new MobilityData
             {
                 WhiteMobility = GetMobilityValue(bitboard, Color.White),
                 BlackMobility = GetMobilityValue(bitboard, Color.Black)

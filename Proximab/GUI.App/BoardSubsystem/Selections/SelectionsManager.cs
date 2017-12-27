@@ -66,7 +66,7 @@ namespace GUI.App.BoardSubsystem.Selections
                     }
                 }
 
-                var position = new Vector2()
+                var position = new Vector2
                 {
                     X = (selection.Position.X - 1) * Constants.FieldWidthHeight,
                     Y = (8 - selection.Position.Y) * Constants.FieldWidthHeight
@@ -130,7 +130,7 @@ namespace GUI.App.BoardSubsystem.Selections
         /// <returns>The field position.</returns>
         private Position GetFieldPosition(Point clickPoint)
         {
-            return new Position()
+            return new Position
             {
                 X = 1 + (int)((clickPoint.X - Constants.BoardPosition.X) / Constants.FieldWidthHeight),
                 Y = 8 - (int)((clickPoint.Y - Constants.BoardPosition.Y) / Constants.FieldWidthHeight)

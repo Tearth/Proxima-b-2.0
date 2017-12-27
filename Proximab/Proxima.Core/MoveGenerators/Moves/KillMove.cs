@@ -18,7 +18,7 @@ namespace Proxima.Core.MoveGenerators.Moves
         /// <param name="to">The destination piece position.</param>
         /// <param name="piece">The piece type.</param>
         /// <param name="color">The piece color.</param>
-        public KillMove(Position from, Position to, PieceType piece, Color color) 
+        public KillMove(Position from, Position to, PieceType piece, Color color)
             : base(from, to, piece, color)
         {
         }

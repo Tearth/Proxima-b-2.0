@@ -58,7 +58,7 @@ namespace Proxima.Core.Commons.BitHelpers
         }
 
         /// <summary>
-        /// Checks if the specified value has more than one set bit. 
+        /// Checks if the specified value has more than one set bit.
         /// </summary>
         /// <param name="value">The value to check.</param>
         /// <returns>True if the specified value has only one set bit, otherwise false.</returns>

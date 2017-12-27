@@ -9,6 +9,6 @@ namespace Proxima.Core.MoveGenerators
     public enum GeneratorMode
     {
         CalculateMoves = 1,
-        CalculateAttacks = 2,
+        CalculateAttacks = 2
     }
 }

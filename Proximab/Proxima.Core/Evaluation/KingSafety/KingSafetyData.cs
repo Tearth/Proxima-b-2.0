@@ -11,7 +11,7 @@
         public int WhiteAttackedNeighbours { get; set; }
 
         /// <summary>
-        /// Gets or sets the value of the pieces that are attacking neighbour fields of the white king 
+        /// Gets or sets the value of the pieces that are attacking neighbour fields of the white king
         /// </summary>
         public int BlackAttackedNeighbours { get; set; }
 

@@ -4,7 +4,7 @@ using Proxima.Core.MoveGenerators.Moves;
 namespace GUI.App.PromotionSubsystem
 {
     /// <summary>
-    /// Represents the PromotionSelected event arguments. 
+    /// Represents the PromotionSelected event arguments.
     /// </summary>
     public class PromotionSelectedEventArgs : EventArgs
     {

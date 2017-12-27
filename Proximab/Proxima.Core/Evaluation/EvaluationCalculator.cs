@@ -44,7 +44,7 @@ namespace Proxima.Core.Evaluation
         /// <returns>The detailed bitboard evaluation result.</returns>
         public static DetailedEvaluationData GetDetailedEvaluation(Bitboard bitboard)
         {
-            return new DetailedEvaluationData()
+            return new DetailedEvaluationData
             {
                 Material = _material.CalculateDetailed(bitboard),
                 Mobility = _mobility.CalculateDetailed(bitboard),

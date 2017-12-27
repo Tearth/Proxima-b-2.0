@@ -62,7 +62,7 @@ namespace Proxima.Core.MoveGenerators
                 pattern = BitOperations.PopLSB(pattern);
 
                 var patternIndex = BitOperations.GetBitIndex(patternLSB);
-                    
+
                 var to = BitPositionConverter.ToPosition(patternIndex);
 
                 if ((patternLSB & opt.EnemyOccupancy) == 0)
@@ -100,7 +100,7 @@ namespace Proxima.Core.MoveGenerators
             var blockersToRemove = opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Rook)] |
                                    opt.Bitboard.Pieces[FastArray.GetPieceIndex(opt.FriendlyColor, PieceType.Queen)];
 
-            var occupancyWithoutBlockers = opt.OccupancySummary & ~blockersToRemove;          
+            var occupancyWithoutBlockers = opt.OccupancySummary & ~blockersToRemove;
             var pieceIndex = BitOperations.GetBitIndex(pieceBitboard);
 
             var pattern = MagicContainer.GetRookAttacks(pieceIndex, occupancyWithoutBlockers);

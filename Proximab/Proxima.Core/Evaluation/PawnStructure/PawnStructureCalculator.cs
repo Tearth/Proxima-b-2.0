@@ -53,7 +53,7 @@ namespace Proxima.Core.Evaluation.PawnStructure
         /// <returns>The detailed pawn structure evaluation result.</returns>
         public PawnStructureData CalculateDetailed(Bitboard bitboard)
         {
-            return new PawnStructureData()
+            return new PawnStructureData
             {
                 WhiteDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(bitboard, Color.White),
                 BlackDoubledPawns = _doubledPawnsCalculator.GetDoubledPawnsValue(bitboard, Color.Black),
@@ -62,7 +62,7 @@ namespace Proxima.Core.Evaluation.PawnStructure
                 BlackIsolatedPawns = _isolatedPawnsCalculator.GetIsolatedPawnsValue(bitboard, Color.Black),
 
                 WhitePawnChain = _pawnChainCalculator.GetChainValue(bitboard, Color.White),
-                BlackPawnChain = _pawnChainCalculator.GetChainValue(bitboard, Color.Black),
+                BlackPawnChain = _pawnChainCalculator.GetChainValue(bitboard, Color.Black)
             };
         }
     }

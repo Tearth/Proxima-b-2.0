@@ -11,7 +11,7 @@ using Proxima.Core.Evaluation.Position;
 namespace Proxima.Core.MoveGenerators.Moves
 {
     /// <summary>
-    /// Represents en passant 
+    /// Represents en passant
     /// </summary>
     public class EnPassantMove : Move
     {

@@ -66,7 +66,8 @@ namespace GUI.App.GameSubsystem.Modes
                         ConsoleManager.WriteLine("$gStalemate");
                         break;
                     }
-                    else if (Bitboard.IsMate(enemyColor))
+
+                    if (Bitboard.IsMate(enemyColor))
                     {
                         ConsoleManager.WriteLine("$gMate");
                         break;

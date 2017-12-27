@@ -40,7 +40,7 @@ namespace FICS.App.NetworkSubsystem
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _connectDone = new ManualResetEvent(false);
 
-            _commands = new List<string>()
+            _commands = new List<string>
             {
                 FICSConstants.LoginCommand,
                 FICSConstants.PasswordCommand,
@@ -110,7 +110,7 @@ namespace FICS.App.NetworkSubsystem
             clientState.Socket.EndReceive(ar);
 
             var clientBuffer = Encoding.UTF8.GetString(clientState.Buffer);
-            
+
             var lines = ParseClientBuffer(clientBuffer);
             foreach (var line in lines)
             {

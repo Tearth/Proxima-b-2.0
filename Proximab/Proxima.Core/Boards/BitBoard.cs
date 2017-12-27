@@ -337,7 +337,7 @@ namespace Proxima.Core.Boards
         /// <returns>The generator parameters.</returns>
         private GeneratorParameters GetGeneratorParameters(Color color, GeneratorMode mode, bool quiescenceSearch)
         {
-            return new GeneratorParameters()
+            return new GeneratorParameters
             {
                 Bitboard = this,
 

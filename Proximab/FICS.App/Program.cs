@@ -33,7 +33,7 @@ namespace FICS.App
 
             var ficsCore = new FICSCore(consoleManager, configManager, _textLogger);
             ficsCore.Run();
-            
+
             Console.Read();
         }
 

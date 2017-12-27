@@ -34,7 +34,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
             _gameSession = new GameSession();
             _csvLogger = new CsvLogger(AILogsDirectory);
 
-            _gameResultTokens = new Dictionary<string, GameResult>()
+            _gameResultTokens = new Dictionary<string, GameResult>
             {
                 { "1-0", GameResult.WhiteWon },
                 { "0-1", GameResult.BlackWon },
