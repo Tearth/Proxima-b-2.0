@@ -7,7 +7,7 @@ namespace Proxima.Core.Evaluation.Position.Values
     /// </summary>
     public static class RookValues
     {
-        public static readonly int[] Pattern = new int[]
+        public static readonly int[] Pattern =
         {
             // Regular
             0,   0,   0,   0,   0,   0,   0,   0,

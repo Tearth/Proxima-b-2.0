@@ -5,7 +5,7 @@
     /// </summary>
     public class KingSafetyValues
     {
-        public static readonly int[] AttackedNeighboursRatio = new int[]
+        public static readonly int[] AttackedNeighboursRatio =
         {
             -20,  // Regular
             -20   // End

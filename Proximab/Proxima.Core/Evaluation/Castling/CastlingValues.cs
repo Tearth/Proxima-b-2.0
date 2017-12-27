@@ -5,7 +5,7 @@
     /// </summary>
     public static class CastlingValues
     {
-        public static readonly int[] Ratio = new int[]
+        public static readonly int[] Ratio =
         {
             100,  // Regular
             100   // End

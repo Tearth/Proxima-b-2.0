@@ -7,7 +7,7 @@ namespace Proxima.Core.Evaluation.Mobility
     /// </summary>
     public static class MobilityValues
     {
-        public static readonly int[] RatioPattern = new int[]
+        public static readonly int[] RatioPattern =
         {
             // Regular
              1,   1,   1,   1,   1,   1,   1,   1,

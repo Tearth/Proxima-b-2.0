@@ -5,19 +5,19 @@
     /// </summary>
     public static class PawnStructureValues
     {
-        public static readonly int[] DoubledPawnsRatio = new int[]
+        public static readonly int[] DoubledPawnsRatio =
         {
             -10,  // Regular
             -5    // End
         };
 
-        public static readonly int[] IsolatedPawnsRatio = new int[]
+        public static readonly int[] IsolatedPawnsRatio =
         {
             -10,  // Regular
             -5    // End
         };
 
-        public static readonly int[] PawnChainRatio = new int[]
+        public static readonly int[] PawnChainRatio =
         {
             10,  // Regular
             5    // End
