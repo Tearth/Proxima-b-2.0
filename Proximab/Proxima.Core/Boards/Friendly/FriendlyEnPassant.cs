@@ -1,4 +1,5 @@
-﻿using Proxima.Core.Commons.Positions;
+﻿using Proxima.Core.Commons.BitHelpers;
+using Proxima.Core.Commons.Positions;
 
 namespace Proxima.Core.Boards.Friendly
 {

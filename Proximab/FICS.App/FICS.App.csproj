@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{DC5A3DD8-9BB6-4592-9645-AD590F98DA3D}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Proxima.FICS</RootNamespace>
-    <AssemblyName>Proxima.FICS</AssemblyName>
+    <RootNamespace>FICS.App</RootNamespace>
+    <AssemblyName>FICS.App</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

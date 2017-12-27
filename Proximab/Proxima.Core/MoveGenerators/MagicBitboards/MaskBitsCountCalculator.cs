@@ -1,4 +1,5 @@
 ﻿using Proxima.Core.Boards;
+using Proxima.Core.Commons.BitHelpers;
 
 namespace Proxima.Core.MoveGenerators.MagicBitboards
 {

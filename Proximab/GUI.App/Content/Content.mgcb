@@ -10,7 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\..\GUI.ContentDefinitions\bin\Debug\GUI.ContentDefinitions.dll
+/reference:..\..\GUI.ContentDefinitions\bin\Release\GUI.ContentDefinitions.dll
 
 #---------------------------------- Content ---------------------------------#
 
