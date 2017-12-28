@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using GUI.App.BoardSubsystem;
 using GUI.App.CommandsSubsystem;
 using GUI.App.ConsoleSubsystem;
@@ -223,6 +224,7 @@ namespace GUI.App.GameSubsystem.Modes
                 ConsoleManager.WriteLine($"$wDepth: $g{aiResult.Depth}");
                 ConsoleManager.WriteLine($"$wTotal nodes: $g{aiResult.Stats.TotalNodes} N");
                 ConsoleManager.WriteLine($"$wEnd nodes: $g{aiResult.Stats.EndNodes} N");
+                ConsoleManager.WriteLine($"$wα-β cutoffs: $y{aiResult.Stats.AlphaBetaCutoffs} N");
                 ConsoleManager.WriteLine($"$wBranching factor: $y{aiResult.Stats.BranchingFactor}");
                 ConsoleManager.WriteLine($"$wNodes per second: $c{aiResult.NodesPerSecond / 1000} kN");
                 ConsoleManager.WriteLine($"$wTime per node: $c{aiResult.TimePerNode} ns");

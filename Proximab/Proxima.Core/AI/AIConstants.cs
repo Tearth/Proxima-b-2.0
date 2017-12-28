@@ -9,5 +9,8 @@ namespace Proxima.Core.AI
     public static class AIConstants
     {
         public const int MateValue = 100000;
+
+        public const int InitialAlphaValue = -999999999;
+        public const int InitialBetaValue = -InitialAlphaValue;
     }
 }

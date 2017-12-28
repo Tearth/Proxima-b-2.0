@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using GUI.App.CommandsSubsystem;
 using GUI.ContentDefinitions.Commands;
@@ -28,6 +29,8 @@ namespace GUI.App.ConsoleSubsystem
         /// <param name="appName">The application name (to display in console header).</param>
         public ConsoleManager(CommandsManager commandsManager, string appName)
         {
+            Console.OutputEncoding = Encoding.UTF8;
+
             _commandsManager = commandsManager;
             _consoleLoop = new Task(Loop);
 

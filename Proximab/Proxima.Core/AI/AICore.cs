@@ -39,7 +39,7 @@ namespace Proxima.Core.AI
                 result.Depth++;
 
                 var stats = new AIStats();
-                result.Score = colorSign * NegaMax(color, new Bitboard(bitboard), result.Depth, out var bestMove, stats);
+                result.Score = colorSign * NegaMax(color, new Bitboard(bitboard), result.Depth, AIConstants.InitialAlphaValue, AIConstants.InitialBetaValue, out var bestMove, stats);
 
                 result.BestMove = bestMove;
                 result.Stats = stats;
@@ -63,9 +63,9 @@ namespace Proxima.Core.AI
         /// <param name="bestMove">The best possible move from nested nodes.</param>
         /// <param name="stats">The AI stats.</param>
         /// <returns>The evaluation score of best move.</returns>
-        public int NegaMax(Color color, Bitboard bitboard, int depth, out Move bestMove, AIStats stats)
+        public int NegaMax(Color color, Bitboard bitboard, int depth, int alpha, int beta, out Move bestMove, AIStats stats)
         {
-            var bestValue = int.MinValue;
+            var bestValue = AIConstants.InitialAlphaValue;
             var colorSign = ColorOperations.ToSign(color);
             var enemyColor = ColorOperations.Invert(color);
             bestMove = null;
@@ -99,12 +99,23 @@ namespace Proxima.Core.AI
             foreach (var move in availableMoves)
             {
                 var bitboardAfterMove = bitboard.Move(move);
-                var nodeValue = -NegaMax(enemyColor, bitboardAfterMove, depth - 1, out _, stats);
+                var nodeValue = -NegaMax(enemyColor, bitboardAfterMove, depth - 1, -beta, -alpha, out _, stats);
 
-                if (bestValue < nodeValue)
+                if (nodeValue > bestValue)
                 {
                     bestValue = nodeValue;
                     bestMove = move;
+                }
+
+                if (nodeValue > alpha)
+                {
+                    alpha = nodeValue;
+                }
+
+                if (alpha >= beta)
+                {
+                    stats.AlphaBetaCutoffs++;
+                    break;
                 }
             }
 
