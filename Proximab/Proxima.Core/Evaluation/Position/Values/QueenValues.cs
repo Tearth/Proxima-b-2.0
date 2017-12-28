@@ -1,10 +1,12 @@
-﻿using Proxima.Core.Commons.Colors;
+﻿using System.Diagnostics.CodeAnalysis;
+using Proxima.Core.Commons.Colors;
 
 namespace Proxima.Core.Evaluation.Position.Values
 {
     /// <summary>
     /// Represents a set of evaluation parameters for queen position.
     /// </summary>
+    [SuppressMessage("ReSharper", "MissingXmlDoc")]
     public static class QueenValues
     {
         public static readonly int[] Pattern =

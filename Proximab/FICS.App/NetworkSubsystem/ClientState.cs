@@ -7,6 +7,9 @@ namespace FICS.App.NetworkSubsystem
     /// </summary>
     public class ClientState
     {
+        /// <summary>
+        /// The size of client buffer (maximal size of single packet which will be received by client socket).
+        /// </summary>
         public const int BufferSize = 8192;
 
         /// <summary>

@@ -1,8 +1,11 @@
-﻿namespace GUI.App.CommandsSubsystem
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace GUI.App.CommandsSubsystem
 {
     /// <summary>
     /// Represents available type of commands.
     /// </summary>
+    [SuppressMessage("ReSharper", "MissingXmlDoc")]
     public enum CommandType
     {
         None,

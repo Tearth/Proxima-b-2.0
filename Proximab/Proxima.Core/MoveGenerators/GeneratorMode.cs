@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Proxima.Core.MoveGenerators
 {
@@ -6,6 +7,7 @@ namespace Proxima.Core.MoveGenerators
     /// Represents the generator modes.
     /// </summary>
     [Flags]
+    [SuppressMessage("ReSharper", "MissingXmlDoc")]
     public enum GeneratorMode
     {
         CalculateMoves = 1,

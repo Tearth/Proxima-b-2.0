@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Helpers.ColorfulConsole
 {
     /// <summary>
     /// Represents a color definitions container.
     /// </summary>
+    [SuppressMessage("ReSharper", "MissingXmlDoc")]
     public static class ColorDefinitions
     {
         public static readonly Dictionary<char, ConsoleColor> Colors = new Dictionary<char, ConsoleColor>

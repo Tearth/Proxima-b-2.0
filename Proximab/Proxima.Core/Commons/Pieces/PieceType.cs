@@ -1,8 +1,11 @@
-﻿namespace Proxima.Core.Commons.Pieces
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Proxima.Core.Commons.Pieces
 {
     /// <summary>
     /// Represents the piece types.
     /// </summary>
+    [SuppressMessage("ReSharper", "MissingXmlDoc")]
     public enum PieceType
     {
         Pawn = 0,

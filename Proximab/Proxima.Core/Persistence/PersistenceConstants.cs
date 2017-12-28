@@ -1,8 +1,11 @@
-﻿namespace Proxima.Core.Persistence
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Proxima.Core.Persistence
 {
     /// <summary>
     /// Represents a set of constants for internal board file format.
     /// </summary>
+    [SuppressMessage("ReSharper", "MissingXmlDoc")]
     public static class PersistenceConstants
     {
         public const string BoardSection = "!Board";

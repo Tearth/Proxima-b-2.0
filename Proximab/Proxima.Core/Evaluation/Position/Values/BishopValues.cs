@@ -1,10 +1,12 @@
-﻿using Proxima.Core.Commons.Colors;
+﻿using System.Diagnostics.CodeAnalysis;
+using Proxima.Core.Commons.Colors;
 
 namespace Proxima.Core.Evaluation.Position.Values
 {
     /// <summary>
     /// Represents a set of evaluation parameters for bishop position.
     /// </summary>
+    [SuppressMessage("ReSharper", "MissingXmlDoc")]
     public static class BishopValues
     {
         public static readonly int[] Pattern =

@@ -1,8 +1,11 @@
-﻿namespace Proxima.Core.MoveGenerators
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Proxima.Core.MoveGenerators
 {
     /// <summary>
     /// Represents a container for the castling constants.
     /// </summary>
+    [SuppressMessage("ReSharper", "MissingXmlDoc")]
     public class CastlingConstants
     {
         public const ulong InitialKingBitboard = 0x08;

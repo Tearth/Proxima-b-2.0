@@ -1,8 +1,11 @@
-﻿namespace Proxima.Core.MoveGenerators.MagicBitboards
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Proxima.Core.MoveGenerators.MagicBitboards
 {
     /// <summary>
     /// Represents a set of constants for magic bitboards.
     /// </summary>
+    [SuppressMessage("ReSharper", "MissingXmlDoc")]
     public static class MagicConstants
     {
         public const int RookMaxMovesBits = 12;

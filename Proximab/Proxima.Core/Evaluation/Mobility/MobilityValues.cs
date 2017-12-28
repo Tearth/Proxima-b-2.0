@@ -1,10 +1,12 @@
-﻿using Proxima.Core.Commons.Colors;
+﻿using System.Diagnostics.CodeAnalysis;
+using Proxima.Core.Commons.Colors;
 
 namespace Proxima.Core.Evaluation.Mobility
 {
     /// <summary>
     /// Represents a set of evaluation parameters for mobility evaluation calculators.
     /// </summary>
+    [SuppressMessage("ReSharper", "MissingXmlDoc")]
     public static class MobilityValues
     {
         public static readonly int[] RatioPattern =

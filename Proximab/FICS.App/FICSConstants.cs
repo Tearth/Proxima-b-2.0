@@ -1,8 +1,11 @@
-﻿namespace FICS.App
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace FICS.App
 {
     /// <summary>
     /// Represents a set of constants used in all FICS classes.
     /// </summary>
+    [SuppressMessage("ReSharper", "MissingXmlDoc")]
     public static class FICSConstants
     {
         public const string EndOfLine = "\n\r";
