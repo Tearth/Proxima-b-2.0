@@ -21,6 +21,12 @@ namespace Helpers.Loggers
         protected LogBase(string directory)
         {
             _directory = directory;
+
+            var logsDirectory = GetLogsDirectory();
+            if (!Directory.Exists(logsDirectory))
+            {
+                Directory.CreateDirectory(logsDirectory);
+            }
         }
 
         /// <summary>
@@ -30,9 +36,10 @@ namespace Helpers.Loggers
         /// <returns>The stream writer with associated log file.</returns>
         protected StreamWriter OpenOrCreateFile(string extension)
         {
-            var appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var logsDirectory = GetLogsDirectory();
+
             var logFileName = DateTime.Now.ToString(DateFormat) + extension;
-            var fullLogFilePath = appDirectory + "/" + _directory + "/" + logFileName;
+            var fullLogFilePath = logsDirectory + "/" + logFileName;
 
             return new StreamWriter(fullLogFilePath, true);
         }
@@ -44,6 +51,24 @@ namespace Helpers.Loggers
         protected string GetCurrentTime()
         {
             return DateTime.Now.ToString(TimeFormat);
+        }
+
+        /// <summary>
+        /// Gets the directory where app exe is stored.
+        /// </summary>
+        /// <returns>The app directory.</returns>
+        private string GetAppDirectory()
+        {
+            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        }
+
+        /// <summary>
+        /// Gets the logs directory.
+        /// </summary>
+        /// <returns>The logs directory.</returns>
+        private string GetLogsDirectory()
+        {
+            return GetAppDirectory() + "/" + _directory;
         }
     }
 }
