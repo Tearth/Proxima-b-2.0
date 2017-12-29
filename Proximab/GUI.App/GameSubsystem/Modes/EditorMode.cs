@@ -215,7 +215,7 @@ namespace GUI.App.GameSubsystem.Modes
 
             ConsoleManager.WriteLine();
 
-            if (aiResult.BestMove == null)
+            if (aiResult.PVNodes.Count == 0)
             {
                 ConsoleManager.WriteLine("$gMate");
             }
@@ -231,7 +231,7 @@ namespace GUI.App.GameSubsystem.Modes
                 ConsoleManager.WriteLine($"$wTime per node: $c{aiResult.TimePerNode} ns");
                 ConsoleManager.WriteLine($"$wTime: $m{aiResult.Time} s");
                 ConsoleManager.WriteLine();
-                ConsoleManager.WriteLine($"$wBest move: $g{aiResult.BestMove}");
+                ConsoleManager.WriteLine($"$wBest move: $g{aiResult.PVNodes[0]}");
                 ConsoleManager.WriteLine($"$wScore: $m{aiResult.Score}");
             }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Proxima.Core.MoveGenerators.Moves;
 
 namespace Proxima.Core.AI
@@ -13,10 +14,7 @@ namespace Proxima.Core.AI
         /// </summary>
         public int Score { get; set; }
 
-        /// <summary>
-        /// Gets or sets the best move for the specified bitboard..
-        /// </summary>
-        public Move BestMove { get; set; }
+        public List<Move> PVNodes { get; set; }
 
         /// <summary>
         /// Gets or sets the maximal depth of any calculated node.
@@ -59,6 +57,7 @@ namespace Proxima.Core.AI
         public AIResult()
         {
             Stats = new AIStats();
+            PVNodes = new List<Move>();
         }
     }
 }

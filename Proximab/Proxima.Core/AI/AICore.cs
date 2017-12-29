@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Proxima.Core.AI.Transposition;
 using Proxima.Core.Boards;
@@ -40,6 +41,7 @@ namespace Proxima.Core.AI
             int estimatedTimeForNextIteration;
 
             result.PreferredTime = preferredTime;
+            _transpositionTable.Clear();
 
             stopwatch.Start();
             do
@@ -47,9 +49,9 @@ namespace Proxima.Core.AI
                 result.Depth++;
 
                 var stats = new AIStats();
-                result.Score = colorSign * NegaMax(color, new Bitboard(bitboard), result.Depth, AIConstants.InitialAlphaValue, AIConstants.InitialBetaValue, out var bestMove, stats);
+                result.Score = colorSign * NegaMax(color, new Bitboard(bitboard), result.Depth, AIConstants.InitialAlphaValue, AIConstants.InitialBetaValue, stats);
 
-                result.BestMove = bestMove;
+                result.PVNodes = GetPVNodes(bitboard);
                 result.Stats = stats;
                 result.Ticks = stopwatch.Elapsed.Ticks;
 
@@ -71,13 +73,12 @@ namespace Proxima.Core.AI
         /// <param name="bestMove">The best possible move from nested nodes.</param>
         /// <param name="stats">The AI stats.</param>
         /// <returns>The evaluation score of best move.</returns>
-        public int NegaMax(Color color, Bitboard bitboard, int depth, int alpha, int beta, out Move bestMove, AIStats stats)
+        public int NegaMax(Color color, Bitboard bitboard, int depth, int alpha, int beta, AIStats stats)
         {
             var bestValue = AIConstants.InitialAlphaValue;
             var colorSign = ColorOperations.ToSign(color);
             var enemyColor = ColorOperations.Invert(color);
             var originalAlpha = alpha;
-            bestMove = null;
 
             stats.TotalNodes++;
 
@@ -107,11 +108,11 @@ namespace Proxima.Core.AI
                             break;
                         }
                     }
-                }
 
-                if (alpha >= beta)
-                {
-                    return transpositionNode.Score;
+                    if (alpha >= beta)
+                    {
+                        return transpositionNode.Score;
+                    }
                 }
             }
 
@@ -138,11 +139,13 @@ namespace Proxima.Core.AI
                 return AIConstants.MateValue + depth;
             }
 
+            Move bestMove = null;
             var availableMoves = bitboard.Moves;
+
             foreach (var move in availableMoves)
             {
                 var bitboardAfterMove = bitboard.Move(move);
-                var nodeValue = -NegaMax(enemyColor, bitboardAfterMove, depth - 1, -beta, -alpha, out _, stats);
+                var nodeValue = -NegaMax(enemyColor, bitboardAfterMove, depth - 1, -beta, -alpha, stats);
 
                 if (nodeValue > bestValue)
                 {
@@ -150,10 +153,7 @@ namespace Proxima.Core.AI
                     bestMove = move;
                 }
 
-                if (nodeValue > alpha)
-                {
-                    alpha = nodeValue;
-                }
+                alpha = Math.Max(nodeValue, alpha);
 
                 if (alpha >= beta)
                 {
@@ -162,23 +162,24 @@ namespace Proxima.Core.AI
                 }
             }
 
-            var updateDranspositionNode = new TranspositionNode();
-            updateDranspositionNode.Score = bestValue;
-            updateDranspositionNode.Depth = depth;
+            var updateTranspositionNode = new TranspositionNode();
+            updateTranspositionNode.Score = bestValue;
+            updateTranspositionNode.Depth = depth;
+            updateTranspositionNode.BestMove = bestMove;
 
             if (bestValue <= originalAlpha)
             {
-                updateDranspositionNode.Type = ScoreType.UpperBound;
+                updateTranspositionNode.Type = ScoreType.UpperBound;
             }
             else if (bestValue >= beta)
             {
-                updateDranspositionNode.Type = ScoreType.LowerBound;
+                updateTranspositionNode.Type = ScoreType.LowerBound;
             }
             else
             {
-                updateDranspositionNode.Type = ScoreType.Exact;
+                updateTranspositionNode.Type = ScoreType.Exact;
             }
-            _transpositionTable.AddOrUpdate(bitboard.Hash, updateDranspositionNode);
+            _transpositionTable.AddOrUpdate(bitboard.Hash, updateTranspositionNode);
 
             return bestValue;
         }
@@ -194,6 +195,21 @@ namespace Proxima.Core.AI
             return currentColor == colorToMove ?
                 GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks :
                 GeneratorMode.CalculateAttacks;
+        }
+
+        private List<Move> GetPVNodes(Bitboard bitboard)
+        {
+            var pvNodes = new List<Move>();
+
+            while (_transpositionTable.Exists(bitboard.Hash))
+            {
+                var pvNode = _transpositionTable.Get(bitboard.Hash);
+                pvNodes.Add(pvNode.BestMove);
+
+                bitboard = bitboard.Move(pvNode.BestMove);
+            }
+
+            return pvNodes;
         }
     }
 }

@@ -82,9 +82,14 @@ namespace CECP.App.GameSubsystem.Modes.Game
                 var score = e.AIResult.Score;
                 var time = (int)(e.AIResult.Time * 100);
                 var totalNodes = e.AIResult.Stats.TotalNodes;
-                var bestMove = e.AIResult.BestMove.ToString();
 
-                SendData($"{depth} {score} {time} {totalNodes} {bestMove}");
+                var pvNodes = string.Empty;
+                foreach (var pvNode in e.AIResult.PVNodes)
+                {
+                    pvNodes += pvNode + " ";
+                }
+
+                SendData($"{depth} {score} {time} {totalNodes} {pvNodes}");
             }
         }
 
@@ -209,8 +214,8 @@ namespace CECP.App.GameSubsystem.Modes.Game
         {
             var aiResult = _gameSession.MoveAI(_engineColor);
 
-            var fromConverted = PositionConverter.ToString(aiResult.BestMove.From);
-            var toConverted = PositionConverter.ToString(aiResult.BestMove.To);
+            var fromConverted = PositionConverter.ToString(aiResult.PVNodes[0].From);
+            var toConverted = PositionConverter.ToString(aiResult.PVNodes[0].To);
 
             _csvLogger.WriteLine(aiResult, _gameSession.Bitboard);
             return $"{fromConverted}{toConverted}";

@@ -54,12 +54,12 @@ namespace GUI.App.GameSubsystem.Modes
 
                     ConsoleManager.WriteLine();
                     ConsoleManager.WriteLine($"$w{_currentColor}:");
-                    ConsoleManager.WriteLine($"$wBest move: $g{aiResult.BestMove} $w(Score: $m{aiResult.Score}$w)");
+                    ConsoleManager.WriteLine($"$wBest move: $g{aiResult.PVNodes[0]} $w(Score: $m{aiResult.Score}$w)");
                     ConsoleManager.WriteLine($"$wTotal nodes: $g{aiResult.Stats.TotalNodes} N $w(Depth: $m{aiResult.Depth}$w)");
                     ConsoleManager.WriteLine($"$wTime: $m{aiResult.Time} s");
                     ConsoleManager.WriteLine();
 
-                    CalculateBitboard(aiResult.BestMove, false);
+                    CalculateBitboard(aiResult.PVNodes[0], false);
 
                     if (Bitboard.IsStalemate(enemyColor))
                     {

@@ -133,8 +133,8 @@ namespace FICS.App.GameSubsystem.Modes.Game
         {
             var aiResult = _gameSession.MoveAI(_engineColor);
 
-            var fromConverted = PositionConverter.ToString(aiResult.BestMove.From);
-            var toConverted = PositionConverter.ToString(aiResult.BestMove.To);
+            var fromConverted = PositionConverter.ToString(aiResult.PVNodes[0].From);
+            var toConverted = PositionConverter.ToString(aiResult.PVNodes[0].To);
 
             _csvLogger.WriteLine(aiResult, _gameSession.Bitboard);
             return $"{fromConverted}-{toConverted}";
