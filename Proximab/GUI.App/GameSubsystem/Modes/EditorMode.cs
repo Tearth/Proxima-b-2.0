@@ -231,7 +231,17 @@ namespace GUI.App.GameSubsystem.Modes
                 ConsoleManager.WriteLine($"$wTime per node: $c{aiResult.TimePerNode} ns");
                 ConsoleManager.WriteLine($"$wTime: $m{aiResult.Time} s");
                 ConsoleManager.WriteLine();
-                ConsoleManager.WriteLine($"$wBest move: $g{aiResult.PVNodes[0]}");
+                ConsoleManager.WriteLine($"$wQ Total nodes: $g{aiResult.Stats.QuiescenceTotalNodes} N");
+                ConsoleManager.WriteLine($"$wQ End nodes: $g{aiResult.Stats.QuiescenceEndNodes} N");
+                ConsoleManager.WriteLine();
+
+                var pvNodes = string.Empty;
+                foreach (var pvNode in aiResult.PVNodes)
+                {
+                    pvNodes += pvNode + " ";
+                }
+
+                ConsoleManager.WriteLine($"$wBest move: $g{pvNodes}");
                 ConsoleManager.WriteLine($"$wScore: $m{aiResult.Score}");
             }
 

@@ -23,5 +23,9 @@
         public int AlphaBetaCutoffs { get; set; }
 
         public int TranspositionTableHits { get; set; }
+
+        public int QuiescenceTotalNodes { get; set; }
+
+        public int QuiescenceEndNodes { get; set; }
     }
 }
