@@ -12,13 +12,5 @@ namespace Proxima.Core.AI.Transposition
         public int Depth { get; set; }
 
         public Move BestMove { get; set; }
-
-        public TranspositionNode(int score, ScoreType type, int depth, Move bestMove)
-        {
-            Score = score;
-            Type = type;
-            Depth = depth;
-            BestMove = bestMove;
-        }
     }
 }

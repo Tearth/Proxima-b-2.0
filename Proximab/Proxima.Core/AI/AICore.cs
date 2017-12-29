@@ -76,9 +76,44 @@ namespace Proxima.Core.AI
             var bestValue = AIConstants.InitialAlphaValue;
             var colorSign = ColorOperations.ToSign(color);
             var enemyColor = ColorOperations.Invert(color);
+            var originalAlpha = alpha;
             bestMove = null;
 
             stats.TotalNodes++;
+
+            if (_transpositionTable.Exists(bitboard.Hash))
+            {
+                var transpositionNode = _transpositionTable.Get(bitboard.Hash);
+
+                if (transpositionNode.Depth >= depth)
+                {
+                    stats.TranspositionTableHits++;
+                    switch (transpositionNode.Type)
+                    {
+                        case ScoreType.Exact:
+                        {
+                            return transpositionNode.Score;
+                        }
+
+                        case ScoreType.LowerBound:
+                        {
+                            alpha = Math.Max(alpha, transpositionNode.Score);
+                            break;
+                        }
+
+                        case ScoreType.UpperBound:
+                        {
+                            beta = Math.Min(beta, transpositionNode.Score);
+                            break;
+                        }
+                    }
+                }
+
+                if (alpha >= beta)
+                {
+                    return transpositionNode.Score;
+                }
+            }
 
             if (depth <= 0)
             {
@@ -126,6 +161,24 @@ namespace Proxima.Core.AI
                     break;
                 }
             }
+
+            var updateDranspositionNode = new TranspositionNode();
+            updateDranspositionNode.Score = bestValue;
+            updateDranspositionNode.Depth = depth;
+
+            if (bestValue <= originalAlpha)
+            {
+                updateDranspositionNode.Type = ScoreType.UpperBound;
+            }
+            else if (bestValue >= beta)
+            {
+                updateDranspositionNode.Type = ScoreType.LowerBound;
+            }
+            else
+            {
+                updateDranspositionNode.Type = ScoreType.Exact;
+            }
+            _transpositionTable.AddOrUpdate(bitboard.Hash, updateDranspositionNode);
 
             return bestValue;
         }

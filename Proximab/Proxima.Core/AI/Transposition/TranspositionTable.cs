@@ -37,6 +37,11 @@ namespace Proxima.Core.AI.Transposition
             return _table.ContainsKey(hash);
         }
 
+        public TranspositionNode Get(ulong hash)
+        {
+            return _table[hash];
+        }
+
         /// <summary>
         /// Clears transposition table.
         /// </summary>

@@ -225,6 +225,7 @@ namespace GUI.App.GameSubsystem.Modes
                 ConsoleManager.WriteLine($"$wTotal nodes: $g{aiResult.Stats.TotalNodes} N");
                 ConsoleManager.WriteLine($"$wEnd nodes: $g{aiResult.Stats.EndNodes} N");
                 ConsoleManager.WriteLine($"$wα-β cutoffs: $y{aiResult.Stats.AlphaBetaCutoffs} N");
+                ConsoleManager.WriteLine($"$wTT hits: $y{aiResult.Stats.TranspositionTableHits} N");
                 ConsoleManager.WriteLine($"$wBranching factor: $y{aiResult.Stats.BranchingFactor}");
                 ConsoleManager.WriteLine($"$wNodes per second: $c{aiResult.NodesPerSecond / 1000} kN");
                 ConsoleManager.WriteLine($"$wTime per node: $c{aiResult.TimePerNode} ns");
