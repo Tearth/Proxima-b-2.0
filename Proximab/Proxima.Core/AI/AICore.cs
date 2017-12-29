@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Proxima.Core.AI.Transposition;
 using Proxima.Core.Boards;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.MoveGenerators;
@@ -16,6 +17,13 @@ namespace Proxima.Core.AI
         /// The event triggered when there is new thinking output available.
         /// </summary>
         public event EventHandler<ThinkingOutputEventArgs> OnThinkingOutput;
+
+        private TranspositionTable _transpositionTable;
+
+        public AICore()
+        {
+            _transpositionTable = new TranspositionTable();
+        }
 
         /// <summary>
         /// Calculates the best possible move for the specified parameters.
