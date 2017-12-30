@@ -204,7 +204,7 @@ namespace Proxima.Core.AI
             var pvNodes = new List<Move>();
             var boardHash = bitboard.GetHashForColor(color);
 
-            while (_transpositionTable.Exists(boardHash))
+            while (_transpositionTable.Exists(boardHash) && pvNodes.Count < 20)
             {
                 var pvNode = _transpositionTable.Get(boardHash);
                 pvNodes.Add(pvNode.BestMove);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Proxima.Core.AI;
 using Proxima.Core.Boards.Exceptions;
 using Proxima.Core.Boards.Friendly;
@@ -49,12 +50,12 @@ namespace Proxima.Core.Boards
         /// <summary>
         /// Gets the attacks array (access by field indexes).
         /// </summary>
-        public ulong[] Attacks { get; }
+        public ulong[] Attacks { get; private set; }
 
         /// <summary>
         /// Gets the attacks summary array (0 = White, 1 = Black).
         /// </summary>
-        public ulong[] AttacksSummary { get; }
+        public ulong[] AttacksSummary { get; private set; }
 
         /// <summary>
         /// Gets the castling possibility array (more information about castling indexes at <see cref="CastlingType"/>).
@@ -140,7 +141,9 @@ namespace Proxima.Core.Boards
             EnPassant = friendlyBoard.GetEnPassantArray();
             Occupancy = CalculateOccupancy();
 
+            Calculate(GeneratorMode.CalculateAttacks, false);
             IncEvaluation = new IncrementalEvaluationData(GetDetailedEvaluation());
+            ClearCalculatedData();
 
             Hash = GetNewHash();
         }
@@ -155,6 +158,21 @@ namespace Proxima.Core.Boards
             return new Bitboard(this, move);
         }
 
+        public void ClearCalculatedData()
+        {
+            Moves.Clear();
+
+            for (var i = 0; i < 64; i++)
+            {
+                Attacks[i] = 0;
+            }
+
+            AttacksSummary[(int)Color.White] = 0;
+            AttacksSummary[(int)Color.Black] = 0;
+
+            _calculated = false;
+        }
+
         /// <summary>
         /// Checks if king with the specified color is checked.
         /// </summary>
@@ -162,6 +180,11 @@ namespace Proxima.Core.Boards
         /// <returns>True if king with specified color is checked, otherwise false.</returns>
         public bool IsCheck(Color color)
         {
+            if (!_calculated)
+            {
+                throw new BitboardNotCalculatedException();
+            }
+
             var enemyColor = ColorOperations.Invert(color);
             var king = Pieces[FastArray.GetPieceIndex(color, PieceType.King)];
 
@@ -175,6 +198,11 @@ namespace Proxima.Core.Boards
         /// <returns>True if king with specified color is mated, otherwise false.</returns>
         public bool IsMate(Color color)
         {
+            if (!_calculated)
+            {
+                throw new BitboardNotCalculatedException();
+            }
+
             var ai = new AICore();
             var aiResult = ai.Calculate(color, this, 0);
 
@@ -188,6 +216,11 @@ namespace Proxima.Core.Boards
         /// <returns>True if king with specified color is in stalemate, otherwise false.</returns>
         public bool IsStalemate(Color color)
         {
+            if (!_calculated)
+            {
+                throw new BitboardNotCalculatedException();
+            }
+
             var ai = new AICore();
             var aiResult = ai.Calculate(color, this, 0);
 

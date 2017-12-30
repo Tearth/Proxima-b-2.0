@@ -70,6 +70,7 @@ namespace Proxima.Core.Session
         public void Move(Color color, Position from, Position to)
         {
             Bitboard.Calculate(GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks, false);
+            CheckBitboardIntegrity();
 
             CheckIfGameHasEnded(color);
             UpdateMovesCount(color);
@@ -77,7 +78,6 @@ namespace Proxima.Core.Session
             var moveToApply = Bitboard.Moves.First(p => p.From == from && p.To == to);
 
             Bitboard = Bitboard.Move(moveToApply);
-            CheckBitboardIntegrity();
         }
 
         /// <summary>
@@ -91,6 +91,7 @@ namespace Proxima.Core.Session
         public void Move(Color color, Position from, Position to, PieceType promotionPieceType)
         {
             Bitboard.Calculate(GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks, false);
+            CheckBitboardIntegrity();
 
             CheckIfGameHasEnded(color);
             UpdateMovesCount(color);
@@ -101,7 +102,6 @@ namespace Proxima.Core.Session
                 .First(p => p.PromotionPiece == promotionPieceType);
 
             Bitboard = Bitboard.Move(possibleMovesToApply);
-            CheckBitboardIntegrity();
         }
 
         /// <summary>
@@ -112,6 +112,7 @@ namespace Proxima.Core.Session
         public AIResult MoveAI(Color color)
         {
             Bitboard.Calculate(GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks, false);
+            CheckBitboardIntegrity();
 
             UpdateMovesCount(color);
             CheckIfGameHasEnded(color);
@@ -120,7 +121,6 @@ namespace Proxima.Core.Session
             var aiResult = _aiCore.Calculate(color, Bitboard, preferredTime);
 
             Bitboard = Bitboard.Move(aiResult.PVNodes[0]);
-            CheckBitboardIntegrity();
 
             return aiResult;
         }

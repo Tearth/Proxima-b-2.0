@@ -100,11 +100,11 @@ namespace GUI.App.CommandsSubsystem
             }
 
             var command = GetCommand(rawCommand, commandDefinition);
-            var commandHandlers = _commandHandles.Where(p => p.CommandType == command.Type);
+            var commandHandlers = _commandHandles.Where(p => p.CommandType == command.Type).ToList();
 
-            foreach (var handler in commandHandlers)
+            for (var i = 0; i < commandHandlers.Count(); i++)
             {
-                handler.ExecuteCommandDelegate.Invoke(command);
+                commandHandlers[i].ExecuteCommandDelegate.Invoke(command);
             }
 
             return ExecutionResult.Success;
