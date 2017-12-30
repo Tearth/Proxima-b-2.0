@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Proxima.Core.AI;
+using Proxima.Core.Boards.Exceptions;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Boards.Hashing;
 using Proxima.Core.Commons;
@@ -75,6 +76,8 @@ namespace Proxima.Core.Boards
         /// </summary>
         public IncrementalEvaluationData IncEvaluation { get; }
 
+        private bool _calculated;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Bitboard"/> class.
         /// </summary>
@@ -91,6 +94,8 @@ namespace Proxima.Core.Boards
             CastlingDone = new bool[2];
 
             Moves = new LinkedList<Move>();
+
+            _calculated = false;
         }
 
         /// <summary>
@@ -220,12 +225,22 @@ namespace Proxima.Core.Boards
             CalculateAvailableMoves(whiteMode, blackMode, quiescenceSearch);
         }
 
+        public ulong GetHashForColor(Color color)
+        {
+            return Hash + (ulong)color;
+        }
+
         /// <summary>
         /// Calculates board evaluation.
         /// </summary>
         /// <returns>The board evaluation data.</returns>
         public int GetEvaluation()
         {
+            if (!_calculated)
+            {
+                throw new BitboardNotCalculatedException();
+            }
+
             return EvaluationCalculator.GetEvaluation(this);
         }
 
@@ -235,6 +250,11 @@ namespace Proxima.Core.Boards
         /// <returns>The board evaluation data.</returns>
         public DetailedEvaluationData GetDetailedEvaluation()
         {
+            if (!_calculated)
+            {
+                throw new BitboardNotCalculatedException();
+            }
+
             return EvaluationCalculator.GetDetailedEvaluation(this);
         }
 
@@ -297,6 +317,8 @@ namespace Proxima.Core.Boards
 
             CalculateCastling(whiteGeneratorParameters);
             CalculateCastling(blackGeneratorParameters);
+
+            _calculated = true;
         }
 
         /// <summary>

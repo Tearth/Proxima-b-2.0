@@ -48,19 +48,22 @@ namespace Proxima.Core.Tests
         /// <param name="testData">Container for test data which will be returned when test is done.</param>
         private void CalculateBitboard(Color color, Bitboard bitboard, int depth, bool calculateEndNodes, bool verifyIntegrity, MovesTestData testData)
         {
-            if (verifyIntegrity && !bitboard.VerifyIntegrity())
+            if (verifyIntegrity)
             {
-                testData.Integrity = false;
+                bitboard.Calculate(GeneratorMode.CalculateAttacks, false);
+                if (!bitboard.VerifyIntegrity())
+                {
+                    testData.Integrity = false;
 
-                var boardWriter = new BoardWriter();
-                boardWriter.Write("Boards/error.board", new FriendlyBoard(bitboard));
+                    var boardWriter = new BoardWriter();
+                    boardWriter.Write("Boards/error.board", new FriendlyBoard(bitboard));
+                }
             }
 
             if (depth <= 0)
             {
                 if (calculateEndNodes)
                 {
-                    bitboard.Calculate(GeneratorMode.CalculateAttacks, false);
                     bitboard.GetEvaluation();
                 }
 

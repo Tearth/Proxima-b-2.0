@@ -24,7 +24,18 @@ namespace Proxima.Core.AI.Transposition
         /// <param name="node">The node.</param>
         public void AddOrUpdate(ulong hash, TranspositionNode node)
         {
-            _table[hash] = node;
+            if(!Exists(hash))
+            {
+                _table[hash] = node;
+            }
+            else
+            {
+                var oldNode = _table[hash];
+                if (node.Depth > oldNode.Depth)
+                {
+                    _table[hash] = node;
+                }
+            }
         }
 
         /// <summary>

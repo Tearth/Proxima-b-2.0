@@ -51,7 +51,7 @@ namespace Proxima.Core.AI
                 var stats = new AIStats();
                 result.Score = colorSign * NegaMax(color, new Bitboard(bitboard), result.Depth, AIConstants.InitialAlphaValue, AIConstants.InitialBetaValue, stats);
 
-                result.PVNodes = GetPVNodes(bitboard);
+                result.PVNodes = GetPVNodes(bitboard, color);
                 result.Stats = stats;
                 result.Ticks = stopwatch.Elapsed.Ticks;
 
@@ -78,13 +78,14 @@ namespace Proxima.Core.AI
             var bestValue = AIConstants.InitialAlphaValue;
             var colorSign = ColorOperations.ToSign(color);
             var enemyColor = ColorOperations.Invert(color);
+            var boardHash = bitboard.GetHashForColor(color);
             var originalAlpha = alpha;
 
             stats.TotalNodes++;
 
-            if (_transpositionTable.Exists(bitboard.Hash))
+            if (_transpositionTable.Exists(boardHash))
             {
-                var transpositionNode = _transpositionTable.Get(bitboard.Hash);
+                var transpositionNode = _transpositionTable.Get(boardHash);
 
                 if (transpositionNode.Depth >= depth)
                 {
@@ -179,7 +180,8 @@ namespace Proxima.Core.AI
             {
                 updateTranspositionNode.Type = ScoreType.Exact;
             }
-            _transpositionTable.AddOrUpdate(bitboard.Hash, updateTranspositionNode);
+
+            _transpositionTable.AddOrUpdate(boardHash, updateTranspositionNode);
 
             return bestValue;
         }
@@ -197,16 +199,20 @@ namespace Proxima.Core.AI
                 GeneratorMode.CalculateAttacks;
         }
 
-        private List<Move> GetPVNodes(Bitboard bitboard)
+        private List<Move> GetPVNodes(Bitboard bitboard, Color color)
         {
             var pvNodes = new List<Move>();
+            var boardHash = bitboard.GetHashForColor(color);
 
-            while (_transpositionTable.Exists(bitboard.Hash))
+            while (_transpositionTable.Exists(boardHash))
             {
-                var pvNode = _transpositionTable.Get(bitboard.Hash);
+                var pvNode = _transpositionTable.Get(boardHash);
                 pvNodes.Add(pvNode.BestMove);
 
                 bitboard = bitboard.Move(pvNode.BestMove);
+
+                color = ColorOperations.Invert(color);
+                boardHash = bitboard.GetHashForColor(color);
             }
 
             return pvNodes;
