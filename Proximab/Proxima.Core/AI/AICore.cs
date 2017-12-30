@@ -136,8 +136,8 @@ namespace Proxima.Core.AI
             }
 
             Move bestMove = null;
-            var availableMoves = bitboard.Moves;
 
+            var availableMoves = SortMoves(color, bitboard, bitboard.Moves);
             foreach (var move in availableMoves)
             {
                 var bitboardAfterMove = bitboard.Move(move);
@@ -209,7 +209,7 @@ namespace Proxima.Core.AI
                 alpha = evaluation;
             }
 
-            var sortedMoves = SortQuiescence(color, bitboard, bitboard.Moves);
+            var sortedMoves = SortQuiescenceMoves(color, bitboard, bitboard.Moves);
             foreach (var move in sortedMoves)
             {
                 var bitboardAfterMove = bitboard.Move(move);
@@ -231,7 +231,31 @@ namespace Proxima.Core.AI
             return alpha;
         }
 
-        private List<Move> SortQuiescence(Color color, Bitboard bitboard, LinkedList<Move> moves)
+        private LinkedList<Move> SortMoves(Color color, Bitboard bitboard, LinkedList<Move> moves)
+        {
+            var sortedMoves = moves;
+
+            var see = new SEECalculator();
+            var seeResults = see.Calculate(color, bitboard);
+
+            var boardHash = bitboard.GetHashForColor(color);
+            if (_transpositionTable.Exists(boardHash))
+            {
+                var transpositionNode = _transpositionTable.Get(boardHash);
+                if (transpositionNode.BestMove != null)
+                {
+                    var pvMove = moves.First(p =>
+                        p.From == transpositionNode.BestMove.From && p.To == transpositionNode.BestMove.To);
+
+                    sortedMoves.Remove(pvMove);
+                    sortedMoves.AddFirst(pvMove);
+                }
+            }
+
+            return sortedMoves;
+        }
+
+        private List<Move> SortQuiescenceMoves(Color color, Bitboard bitboard, LinkedList<Move> moves)
         {
             var see = new SEECalculator();
             var seeResults = see.Calculate(color, bitboard);
