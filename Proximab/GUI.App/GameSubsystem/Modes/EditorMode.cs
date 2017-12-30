@@ -275,14 +275,11 @@ namespace GUI.App.GameSubsystem.Modes
             var seeCalculator = new SEECalculator();
             var seeResults = seeCalculator.Calculate(color, Bitboard);
 
-            var colorSign = ColorOperations.ToSign(color);
             foreach (var result in seeResults)
             {
-                var score = colorSign * result.Score;
-
                 ConsoleManager.WriteLine($"$g{result.InitialAttackerFrom} $r({result.InitialAttackerType})$w -> " +
                                          $"$g{result.InitialAttackerTo} $r({result.AttackedPieceType})$w: " +
-                                         $"$g{score}");
+                                         $"$g{result.Score}");
             }
         }
     }

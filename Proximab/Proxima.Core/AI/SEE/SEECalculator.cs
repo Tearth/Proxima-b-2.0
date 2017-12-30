@@ -19,7 +19,7 @@ namespace Proxima.Core.AI.SEE
         /// </summary>
         /// <param name="initialColor">The color of the first attacker.</param>
         /// <param name="bitboard">The bitboard.</param>
-        /// <returns>The list of all attacked fields with associated scores.</returns>
+        /// <returns>The list of all attacked fields with associated scores (relative to the first color attacker).</returns>
         public LinkedList<SEEResult> Calculate(Color initialColor, Bitboard bitboard)
         {
             var seeResults = new LinkedList<SEEResult>();

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using Proxima.Core.AI.SEE;
 using Proxima.Core.AI.Transposition;
 using Proxima.Core.Boards;
 using Proxima.Core.Commons.Colors;
@@ -119,15 +121,8 @@ namespace Proxima.Core.AI
 
             if (depth <= 0)
             {
-                bitboard.Calculate(GeneratorMode.CalculateAttacks, false);
                 stats.EndNodes++;
-
-                if (bitboard.IsCheck(enemyColor))
-                {
-                    return AIConstants.MateValue + depth;
-                }
-
-                return colorSign * bitboard.GetEvaluation();
+                return Quiescence(color, bitboard, alpha, beta, stats);
             }
 
             var whiteGeneratorMode = GetGeneratorMode(color, Color.White);
@@ -184,6 +179,77 @@ namespace Proxima.Core.AI
             _transpositionTable.AddOrUpdate(boardHash, updateTranspositionNode);
 
             return bestValue;
+        }
+
+        public int Quiescence(Color color, Bitboard bitboard, int alpha, int beta, AIStats stats)
+        {
+            var enemyColor = ColorOperations.Invert(color);
+            var colorSign = ColorOperations.ToSign(color);
+
+            stats.QuiescenceTotalNodes++;
+
+            var whiteGeneratorMode = GetGeneratorMode(color, Color.White);
+            var blackGeneratorMode = GetGeneratorMode(color, Color.Black);
+            bitboard.Calculate(whiteGeneratorMode, blackGeneratorMode, true);
+
+            if (bitboard.IsCheck(enemyColor))
+            {
+                return AIConstants.MateValue;
+            }
+
+            var evaluation = colorSign * bitboard.GetEvaluation();
+            if (evaluation >= beta)
+            {
+                stats.QuiescenceEndNodes++;
+                return beta;
+            }
+
+            if (evaluation > alpha)
+            {
+                alpha = evaluation;
+            }
+
+            var sortedMoves = SortQuiescence(color, bitboard, bitboard.Moves);
+            foreach (var move in sortedMoves)
+            {
+                var bitboardAfterMove = bitboard.Move(move);
+                var nodeValue = -Quiescence(enemyColor, bitboardAfterMove, -beta, -alpha, stats);
+
+                if (nodeValue >= beta)
+                {
+                    stats.QuiescenceEndNodes++;
+                    return beta;
+                }
+
+                if (nodeValue > alpha)
+                {
+                    alpha = nodeValue;
+                }
+            }
+
+            stats.QuiescenceEndNodes++;
+            return alpha;
+        }
+
+        private List<Move> SortQuiescence(Color color, Bitboard bitboard, LinkedList<Move> moves)
+        {
+            var see = new SEECalculator();
+            var seeResults = see.Calculate(color, bitboard);
+
+            var sortedMoves = moves
+                .Select(p =>
+                    new
+                    {
+                        Move = p,
+                        SEEScore =  seeResults.FirstOrDefault(q => q.InitialAttackerFrom == p.From &&
+                                                                   q.InitialAttackerTo == p.To)?.Score ?? 100000
+                    })
+                .Where(p => p.SEEScore >= 0)
+                .OrderByDescending(p => p.SEEScore)
+                .Select(p => p.Move)
+                .ToList();
+
+            return sortedMoves;
         }
 
         /// <summary>
