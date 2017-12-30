@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
 
 namespace Helpers.Loggers
 {
@@ -41,7 +42,7 @@ namespace Helpers.Loggers
             var logFileName = DateTime.Now.ToString(DateFormat) + extension;
             var fullLogFilePath = logsDirectory + "/" + logFileName;
 
-            return new StreamWriter(fullLogFilePath, true);
+            return new StreamWriter(fullLogFilePath, true, Encoding.UTF8);
         }
 
         /// <summary>
