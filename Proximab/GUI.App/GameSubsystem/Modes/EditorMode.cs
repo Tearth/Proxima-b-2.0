@@ -234,14 +234,7 @@ namespace GUI.App.GameSubsystem.Modes
                 ConsoleManager.WriteLine($"$wQ Total nodes: $g{aiResult.Stats.QuiescenceTotalNodes} N");
                 ConsoleManager.WriteLine($"$wQ End nodes: $g{aiResult.Stats.QuiescenceEndNodes} N");
                 ConsoleManager.WriteLine();
-
-                var pvNodes = string.Empty;
-                foreach (var pvNode in aiResult.PVNodes)
-                {
-                    pvNodes += pvNode + " ";
-                }
-
-                ConsoleManager.WriteLine($"$wBest move: $g{pvNodes}");
+                ConsoleManager.WriteLine($"$wBest move: $g{aiResult.PVNodes}");
                 ConsoleManager.WriteLine($"$wScore: $m{aiResult.Score}");
             }
 

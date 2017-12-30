@@ -289,9 +289,9 @@ namespace Proxima.Core.AI
                 GeneratorMode.CalculateAttacks;
         }
 
-        private List<Move> GetPVNodes(Bitboard bitboard, Color color)
+        private PVNodesList GetPVNodes(Bitboard bitboard, Color color)
         {
-            var pvNodes = new List<Move>();
+            var pvNodes = new PVNodesList();
             var boardHash = bitboard.GetHashForColor(color);
 
             while (_transpositionTable.Exists(boardHash) && pvNodes.Count < 20)

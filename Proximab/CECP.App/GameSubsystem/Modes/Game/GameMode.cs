@@ -83,13 +83,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
                 var time = (int)(e.AIResult.Time * 100);
                 var totalNodes = e.AIResult.Stats.TotalNodes;
 
-                var pvNodes = string.Empty;
-                foreach (var pvNode in e.AIResult.PVNodes)
-                {
-                    pvNodes += pvNode + " ";
-                }
-
-                SendData($"{depth} {score} {time} {totalNodes} {pvNodes}");
+                SendData($"{depth} {score} {time} {totalNodes} {e.AIResult.PVNodes}");
             }
         }
 

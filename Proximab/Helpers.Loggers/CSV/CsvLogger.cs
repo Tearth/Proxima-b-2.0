@@ -63,7 +63,7 @@ namespace Helpers.Loggers.CSV
                 var values = new List<string>
                 {
                     GetCurrentTime(),
-                    aiResult.PVNodes[0].ToString(),
+                    aiResult.PVNodes.ToString(),
                     aiResult.Stats.TotalNodes.ToString(),
                     aiResult.Stats.EndNodes.ToString(),
                     aiResult.Stats.AlphaBetaCutoffs.ToString(),

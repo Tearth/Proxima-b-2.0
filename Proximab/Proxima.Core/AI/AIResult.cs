@@ -14,7 +14,7 @@ namespace Proxima.Core.AI
         /// </summary>
         public int Score { get; set; }
 
-        public List<Move> PVNodes { get; set; }
+        public PVNodesList PVNodes { get; set; }
 
         /// <summary>
         /// Gets or sets the maximal depth of any calculated node.
@@ -57,7 +57,7 @@ namespace Proxima.Core.AI
         public AIResult()
         {
             Stats = new AIStats();
-            PVNodes = new List<Move>();
+            PVNodes = new PVNodesList();
         }
     }
 }
