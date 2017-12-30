@@ -43,6 +43,8 @@
     <Compile Include="AI\AIResult.cs" />
     <Compile Include="AI\AIStats.cs" />
     <Compile Include="AI\PVNodesList.cs" />
+    <Compile Include="AI\Search\QuiescenceSearch.cs" />
+    <Compile Include="AI\Search\SearchBase.cs" />
     <Compile Include="AI\SEE\Exceptions\PieceTypeNotFoundException.cs" />
     <Compile Include="AI\SEE\SEECalculator.cs" />
     <Compile Include="AI\SEE\SEEResult.cs" />
