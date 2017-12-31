@@ -23,12 +23,12 @@ namespace Proxima.Core.AI
         public event EventHandler<ThinkingOutputEventArgs> OnThinkingOutput;
 
         private TranspositionTable _transpositionTable;
-        private QuiescenceSearch _quiescenceSearch;
+        private RegularSearch _regularSearch;
 
         public AICore()
         {
             _transpositionTable = new TranspositionTable();
-            _quiescenceSearch = new QuiescenceSearch(_transpositionTable);
+            _regularSearch = new RegularSearch(_transpositionTable);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Proxima.Core.AI
                 result.Depth++;
 
                 var stats = new AIStats();
-                result.Score = colorSign * NegaMax(color, new Bitboard(bitboard), result.Depth, AIConstants.InitialAlphaValue, AIConstants.InitialBetaValue, stats);
+                result.Score = colorSign * _regularSearch.Do(color, new Bitboard(bitboard), result.Depth, AIConstants.InitialAlphaValue, AIConstants.InitialBetaValue, stats);
 
                 result.PVNodes = GetPVNodes(bitboard, color);
                 result.Stats = stats;
@@ -67,158 +67,6 @@ namespace Proxima.Core.AI
             while (estimatedTimeForNextIteration < preferredTime * 1000);
 
             return result;
-        }
-
-        /// <summary>
-        /// Temporary method to calculating best move.
-        /// </summary>
-        /// <param name="color">The player color.</param>
-        /// <param name="bitboard">The bitboard.</param>
-        /// <param name="depth">The current depth.</param>
-        /// <param name="bestMove">The best possible move from nested nodes.</param>
-        /// <param name="stats">The AI stats.</param>
-        /// <returns>The evaluation score of best move.</returns>
-        public int NegaMax(Color color, Bitboard bitboard, int depth, int alpha, int beta, AIStats stats)
-        {
-            var bestValue = AIConstants.InitialAlphaValue;
-            var colorSign = ColorOperations.ToSign(color);
-            var enemyColor = ColorOperations.Invert(color);
-            var boardHash = bitboard.GetHashForColor(color);
-            var originalAlpha = alpha;
-
-            stats.TotalNodes++;
-
-            if (_transpositionTable.Exists(boardHash))
-            {
-                var transpositionNode = _transpositionTable.Get(boardHash);
-
-                if (transpositionNode.Depth >= depth)
-                {
-                    stats.TranspositionTableHits++;
-                    switch (transpositionNode.Type)
-                    {
-                        case ScoreType.Exact:
-                        {
-                            return transpositionNode.Score;
-                        }
-
-                        case ScoreType.LowerBound:
-                        {
-                            alpha = Math.Max(alpha, transpositionNode.Score);
-                            break;
-                        }
-
-                        case ScoreType.UpperBound:
-                        {
-                            beta = Math.Min(beta, transpositionNode.Score);
-                            break;
-                        }
-                    }
-
-                    if (alpha >= beta)
-                    {
-                        return transpositionNode.Score;
-                    }
-                }
-            }
-
-            if (depth <= 0)
-            {
-                stats.EndNodes++;
-                return _quiescenceSearch.Do(color, bitboard, alpha, beta, stats);
-            }
-
-            var whiteGeneratorMode = GetGeneratorMode(color, Color.White);
-            var blackGeneratorMode = GetGeneratorMode(color, Color.Black);
-            bitboard.Calculate(whiteGeneratorMode, blackGeneratorMode, false);
-
-            if (bitboard.IsCheck(enemyColor))
-            {
-                stats.EndNodes++;
-                return AIConstants.MateValue + depth;
-            }
-
-            Move bestMove = null;
-
-            var availableMoves = SortMoves(color, bitboard, bitboard.Moves);
-            foreach (var move in availableMoves)
-            {
-                var bitboardAfterMove = bitboard.Move(move);
-                var nodeValue = -NegaMax(enemyColor, bitboardAfterMove, depth - 1, -beta, -alpha, stats);
-
-                if (nodeValue > bestValue)
-                {
-                    bestValue = nodeValue;
-                    bestMove = move;
-                }
-
-                alpha = Math.Max(nodeValue, alpha);
-
-                if (alpha >= beta)
-                {
-                    stats.AlphaBetaCutoffs++;
-                    break;
-                }
-            }
-
-            var updateTranspositionNode = new TranspositionNode();
-            updateTranspositionNode.Score = bestValue;
-            updateTranspositionNode.Depth = depth;
-            updateTranspositionNode.BestMove = bestMove;
-
-            if (bestValue <= originalAlpha)
-            {
-                updateTranspositionNode.Type = ScoreType.UpperBound;
-            }
-            else if (bestValue >= beta)
-            {
-                updateTranspositionNode.Type = ScoreType.LowerBound;
-            }
-            else
-            {
-                updateTranspositionNode.Type = ScoreType.Exact;
-            }
-
-            _transpositionTable.AddOrUpdate(boardHash, updateTranspositionNode);
-
-            return bestValue;
-        }
-
-        private LinkedList<Move> SortMoves(Color color, Bitboard bitboard, LinkedList<Move> moves)
-        {
-            var sortedMoves = moves;
-
-            var see = new SEECalculator();
-            var seeResults = see.Calculate(color, bitboard);
-
-            var boardHash = bitboard.GetHashForColor(color);
-            if (_transpositionTable.Exists(boardHash))
-            {
-                var transpositionNode = _transpositionTable.Get(boardHash);
-                if (transpositionNode.BestMove != null)
-                {
-                    var pvMove = moves.First(p =>
-                        p.From == transpositionNode.BestMove.From && p.To == transpositionNode.BestMove.To);
-
-                    sortedMoves.Remove(pvMove);
-                    sortedMoves.AddFirst(pvMove);
-                }
-            }
-
-            return sortedMoves;
-        }
-
-        /// <summary>
-        /// Gets generator mode for the specified color.
-        /// </summary>
-        /// <param name="currentColor">The current color.</param>
-        /// <param name="colorToMove">The color of moving player.</param>
-        /// <returns>The generator mode.</returns>
-        private GeneratorMode GetGeneratorMode(Color currentColor, Color colorToMove)
-        {
-            return currentColor == colorToMove ?
-                GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks :
-                GeneratorMode.CalculateAttacks;
         }
 
         private PVNodesList GetPVNodes(Bitboard bitboard, Color color)
