@@ -13,13 +13,6 @@ namespace Proxima.Core.AI.Search
 {
     public class QuiescenceSearch : SearchBase
     {
-        private TranspositionTable _transpositionTable;
-
-        public QuiescenceSearch(TranspositionTable transpositionTable)
-        {
-            _transpositionTable = transpositionTable;
-        }
-
         public int Do(Color color, Bitboard bitboard, int alpha, int beta, AIStats stats)
         {
             var enemyColor = ColorOperations.Invert(color);
@@ -66,7 +59,7 @@ namespace Proxima.Core.AI.Search
                 }
             }
 
-            if (sortedMoves.Count == 0)
+            if (!sortedMoves.Any())
             {
                 stats.QuiescenceEndNodes++;
             }
@@ -84,8 +77,9 @@ namespace Proxima.Core.AI.Search
                     new
                     {
                         Move = p,
-                        SEEScore = seeResults.FirstOrDefault(q => q.InitialAttackerFrom == p.From &&
-                                                                  q.InitialAttackerTo == p.To)?.Score ?? 100000
+                        SEEScore = seeResults.FirstOrDefault(
+                            q => q.InitialAttackerFrom == p.From &&
+                                 q.InitialAttackerTo == p.To)?.Score ?? 100000
                     })
                 .Where(p => p.SEEScore >= 0)
                 .OrderByDescending(p => p.SEEScore)

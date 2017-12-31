@@ -19,7 +19,7 @@ namespace Proxima.Core.AI.Search
         public RegularSearch(TranspositionTable transpositionTable)
         {
             _transpositionTable = transpositionTable;
-            _quiescenceSearch = new QuiescenceSearch(_transpositionTable);
+            _quiescenceSearch = new QuiescenceSearch();
         }
 
         /// <summary>
@@ -34,7 +34,6 @@ namespace Proxima.Core.AI.Search
         public int Do(Color color, Bitboard bitboard, int depth, int alpha, int beta, AIStats stats)
         {
             var bestValue = AIConstants.InitialAlphaValue;
-            var colorSign = ColorOperations.ToSign(color);
             var enemyColor = ColorOperations.Invert(color);
             var boardHash = bitboard.GetHashForColor(color);
             var originalAlpha = alpha;
@@ -137,28 +136,59 @@ namespace Proxima.Core.AI.Search
             return bestValue;
         }
 
-        private LinkedList<Move> SortMoves(Color color, Bitboard bitboard, LinkedList<Move> moves)
+        private List<Move> SortMoves(Color color, Bitboard bitboard, LinkedList<Move> moves)
         {
-            var sortedMoves = moves;
+            var sortedMoves = moves.Select(p => new RegularSortedMove { Move = p, Score = -100000 }).ToList();
+            
+            AssignPVScore(color, bitboard, sortedMoves);
+            AssignSEEScores(color, bitboard, sortedMoves);
+            AssignSpecialScores(sortedMoves);
 
-            var see = new SEECalculator();
-            var seeResults = see.Calculate(color, bitboard);
+            return sortedMoves.OrderByDescending(p => p.Score).Select(p => p.Move).ToList();
+        }
 
+        private void AssignPVScore(Color color, Bitboard bitboard, List<RegularSortedMove> movesToSort)
+        {
             var boardHash = bitboard.GetHashForColor(color);
             if (_transpositionTable.Exists(boardHash))
             {
                 var transpositionNode = _transpositionTable.Get(boardHash);
                 if (transpositionNode.BestMove != null)
                 {
-                    var pvMove = moves.First(p =>
-                        p.From == transpositionNode.BestMove.From && p.To == transpositionNode.BestMove.To);
+                    var pvMove = movesToSort.First(p =>
+                        p.Move.From == transpositionNode.BestMove.From && p.Move.To == transpositionNode.BestMove.To);
 
-                    sortedMoves.Remove(pvMove);
-                    sortedMoves.AddFirst(pvMove);
+                    pvMove.Score = 100000;
                 }
             }
+        }
 
-            return sortedMoves;
+        private void AssignSEEScores(Color color, Bitboard bitboard, List<RegularSortedMove> movesToSort)
+        {
+            var see = new SEECalculator();
+            var seeResults = see.Calculate(color, bitboard);
+
+            foreach (var seeResult in seeResults)
+            {
+                var sortedMove = movesToSort.FirstOrDefault(p => p.Move.From == seeResult.InitialAttackerFrom &&
+                                                                 p.Move.To == seeResult.InitialAttackerTo);
+
+                if (sortedMove != null)
+                {
+                    sortedMove.Score = seeResult.Score;
+                }
+            }
+        }
+
+        private void AssignSpecialScores(List<RegularSortedMove> movesToSort)
+        {
+            foreach (var move in movesToSort)
+            {
+                if (move.Move is PromotionMove || move.Move is CastlingMove)
+                {
+                    move.Score = 50000;
+                }
+            }
         }
     }
 }
