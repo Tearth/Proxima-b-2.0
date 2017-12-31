@@ -86,6 +86,11 @@ namespace Proxima.Core.AI.SEE
 
             seeResult.Score = MaterialValues.PieceValues[(int)seeResult.AttackedPieceType];
 
+            if ((int)seeResult.InitialAttackerType < (int)seeResult.AttackedPieceType - 1)
+            {
+                return seeResult;
+            }
+
             attackers &= ~initialAttacker;
 
             var currentColor = enemyColor;
