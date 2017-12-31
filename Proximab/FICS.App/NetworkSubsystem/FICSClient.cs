@@ -38,6 +38,8 @@ namespace FICS.App.NetworkSubsystem
             _configManager = configManager;
 
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            _socket.NoDelay = true;
+
             _connectDone = new ManualResetEvent(false);
 
             _commands = new List<string>
@@ -158,11 +160,16 @@ namespace FICS.App.NetworkSubsystem
             {
                 var command = _commands.FirstOrDefault(p => line.Contains(p));
 
-                // Because commands received from FICS has space at the end, we must consider this when comparing strings.
-                // Lines with commands or prompt that not contains trash are allowed.
-                if (command == null || command.Length == line.Length - 1)
+                if (command == null)
                 {
                     linesWithoutUselessData.Add(line);
+                }
+                // Because commands received from FICS has space at the end, we must consider this when comparing strings.
+                // Lines with commands or prompt that not contains trash are allowed.
+                else if (command.Length == line.Length - 1)
+                {
+                    linesWithoutUselessData.Add(line);
+                    break;
                 }
                 else
                 {

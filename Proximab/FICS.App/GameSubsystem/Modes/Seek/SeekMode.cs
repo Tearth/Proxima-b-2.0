@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using FICS.App.ConfigSubsystem;
 
 namespace FICS.App.GameSubsystem.Modes.Seek
@@ -38,9 +39,14 @@ namespace FICS.App.GameSubsystem.Modes.Seek
             if (!_seekSent)
             {
                 var response = ConfigManager.GetValue<string>(SeekCommandConfigKeyName);
-                _seekSent = true;
+                var splitSeeks = response.Split('|');
 
-                SendData(response);
+                foreach (var seek in splitSeeks)
+                {
+                    SendData(seek);
+                }
+
+                _seekSent = true;
             }
 
             if (_acceptanceTokens.Any(message.Contains))
