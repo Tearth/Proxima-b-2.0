@@ -34,7 +34,7 @@ namespace FICS.App
             var ficsCore = new FICSCore(consoleManager, configManager, _textLogger);
             ficsCore.Run();
 
-            Console.Read();
+            while(!Console.ReadLine().Contains("quit"));
         }
 
         /// <summary>

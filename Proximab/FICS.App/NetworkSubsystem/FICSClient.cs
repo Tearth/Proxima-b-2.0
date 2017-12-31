@@ -169,7 +169,6 @@ namespace FICS.App.NetworkSubsystem
                 else if (command.Length == line.Length - 1)
                 {
                     linesWithoutUselessData.Add(line);
-                    break;
                 }
                 else
                 {
