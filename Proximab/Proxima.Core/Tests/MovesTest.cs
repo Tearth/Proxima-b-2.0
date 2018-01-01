@@ -64,6 +64,7 @@ namespace Proxima.Core.Tests
             {
                 if (calculateEndNodes)
                 {
+                    bitboard.Calculate(GeneratorMode.CalculateAttacks, false);
                     bitboard.GetEvaluation();
                 }
 
@@ -80,10 +81,6 @@ namespace Proxima.Core.Tests
                 foreach (var move in bitboard.Moves)
                 {
                     var bitboardAfterMove = bitboard.Move(move);
-                    if (bitboardAfterMove.IsCheck(enemyColor))
-                    {
-                        continue;
-                    }
 
                     CalculateBitboard(enemyColor, bitboardAfterMove, depth - 1, calculateEndNodes, verifyIntegrity, testData);
                 }

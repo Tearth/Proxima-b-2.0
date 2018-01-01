@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Proxima.Core.AI.SEE.Exceptions;
 using Proxima.Core.Boards;
+using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Evaluation.Material;
+using Proxima.Core.Persistence;
 
 namespace Proxima.Core.AI.SEE
 {
@@ -133,6 +136,31 @@ namespace Proxima.Core.AI.SEE
                     return (PieceType)piece;
                 }
             }
+
+            // Temporary, there is a bug here
+            Console.WriteLine(field);
+            Console.WriteLine(pieceColor);
+            Console.WriteLine(bitboard.Occupancy[0]);
+            Console.WriteLine(bitboard.Occupancy[1]);
+            Console.WriteLine(bitboard.AttacksSummary[0]);
+            Console.WriteLine(bitboard.AttacksSummary[1]);
+            Console.WriteLine(bitboard.VerifyIntegrity());
+            Console.WriteLine(bitboard.Pieces[0]);
+            Console.WriteLine(bitboard.Pieces[1]);
+            Console.WriteLine(bitboard.Pieces[2]);
+            Console.WriteLine(bitboard.Pieces[3]);
+            Console.WriteLine(bitboard.Pieces[4]);
+            Console.WriteLine(bitboard.Pieces[5]);
+            Console.WriteLine(bitboard.Pieces[6]);
+            Console.WriteLine(bitboard.Pieces[7]);
+            Console.WriteLine(bitboard.Pieces[8]);
+            Console.WriteLine(bitboard.Pieces[9]);
+            Console.WriteLine(bitboard.Pieces[10]);
+            Console.WriteLine(bitboard.Pieces[11]);
+
+            var save = new BoardWriter();
+            save.Write("err.board", new FriendlyBoard(bitboard));
+            //
 
             throw new PieceTypeNotFoundException();
         }
