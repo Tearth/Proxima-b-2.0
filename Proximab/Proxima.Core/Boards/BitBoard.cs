@@ -10,6 +10,7 @@ using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Evaluation;
+using Proxima.Core.Evaluation.Material;
 using Proxima.Core.MoveGenerators;
 using Proxima.Core.MoveGenerators.Moves;
 
@@ -114,6 +115,7 @@ namespace Proxima.Core.Boards
             Buffer.BlockCopy(bitboard.EnPassant, 0, EnPassant, 0, bitboard.EnPassant.Length * sizeof(ulong));
 
             IncEvaluation = new IncrementalEvaluationData(bitboard.IncEvaluation);
+            CalculateGamePhase();
         }
 
         /// <summary>
@@ -146,6 +148,7 @@ namespace Proxima.Core.Boards
             ClearCalculatedData();
 
             Hash = GetNewHash();
+            CalculateGamePhase();
         }
 
         /// <summary>
@@ -332,6 +335,22 @@ namespace Proxima.Core.Boards
             }
 
             return occupancy;
+        }
+
+        private void CalculateGamePhase()
+        {
+            var materialCalculator = new MaterialCalculator();
+            var material = materialCalculator.CalculateDetailed(this);
+
+            if (material.WhiteMaterial - MaterialValues.PieceValues[(int)PieceType.King] < 1500 ||
+                material.BlackMaterial - MaterialValues.PieceValues[(int)PieceType.King] < 1500)
+            {
+                GamePhase = GamePhase.End;
+            }
+            else
+            {
+                GamePhase = GamePhase.Regular;
+            }
         }
 
         /// <summary>
