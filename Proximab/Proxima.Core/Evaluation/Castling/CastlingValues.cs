@@ -10,8 +10,8 @@ namespace Proxima.Core.Evaluation.Castling
     {
         public static readonly int[] Ratio =
         {
-            100,  // Regular
-            100   // End
+            50,  // Regular
+            50   // End
         };
     }
 }
