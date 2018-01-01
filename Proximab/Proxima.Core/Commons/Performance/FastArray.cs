@@ -49,17 +49,5 @@ namespace Proxima.Core.Commons.Performance
         {
             return ((int)color << 1) + (int)castlingType;
         }
-
-        /// <summary>
-        /// Calculates a piece value based on position value arrays.
-        /// </summary>
-        /// <param name="gamePhase">The game phase.</param>
-        /// <param name="pieceIndex">The piece index.</param>
-        /// <returns>The index of value in position array.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int GetEvaluationValueIndex(GamePhase gamePhase, int pieceIndex)
-        {
-            return ((int)gamePhase << 6) + pieceIndex;
-        }
     }
 }

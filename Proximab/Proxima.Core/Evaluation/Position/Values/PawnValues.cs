@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 
 namespace Proxima.Core.Evaluation.Position.Values
@@ -9,40 +10,40 @@ namespace Proxima.Core.Evaluation.Position.Values
     [SuppressMessage("ReSharper", "MissingXmlDoc")]
     public static class PawnValues
     {
-        public static readonly int[] Pattern =
+        public static readonly int[][] Pattern =
         {
             // Regular
-            0,   0,   0,   0,   0,   0,   0,   0,
-            20,  20,  20,  20,  20,  20,  20,  20,
-            15,  15,  15,  15,  15,  15,  15,  15,
-            5,   5,   5,   10,  10,   5,   5,   5,
-            0,   0,   0,   20,  20, -30, -30, -30,
-            5,  -5,  -10,  5,   5,  -30,  20, -30,
-            10,  10,  10, -20, -20,  10,  10,  30,
-            0,   0,   0,   0,   0,   0,   0,   0,
+            new[] { 0,   0,   0,   0,   0,   0,   0,   0,
+                    20,  20,  20,  20,  20,  20,  20,  20,
+                    15,  15,  15,  15,  15,  15,  15,  15,
+                    5,   5,   5,   10,  10,   5,   5,   5,
+                    0,   0,   0,   20,  20, -30, -30, -30,
+                    5,  -5,  -10,  5,   5,  -30,  20, -30,
+                    10,  10,  10, -20, -20,  10,  10,  30,
+                    0,   0,   0,   0,   0,   0,   0,   0 },
 
             // End
-            35,  35,  35,  35,  35,  35,  35,  35,
-            30,  30,  30,  30,  30,  30,  30,  30,
-            25,  25,  25,  25,  25,  25,  25,  25,
-            20,  20,  20,  20,  20,  20,  20,  20,
-            15,  15,  15,  15,  15,  15,  15,  15,
-            10,  10,  10,  10,  10,  10,  10,  10,
-            5,   5,   5,   5,   5,   5,   5,   5,
-            0,   0,   0,   0,   0,   0,   0,   0,
+            new[] { 35,  35,  35,  35,  35,  35,  35,  35,
+                    30,  30,  30,  30,  30,  30,  30,  30,
+                    25,  25,  25,  25,  25,  25,  25,  25,
+                    20,  20,  20,  20,  20,  20,  20,  20,
+                    15,  15,  15,  15,  15,  15,  15,  15,
+                    10,  10,  10,  10,  10,  10,  10,  10,
+                    5,   5,   5,   5,   5,   5,   5,   5,
+                    0,   0,   0,   0,   0,   0,   0,   0 }
         };
 
-        public static readonly int[] WhiteValues = EvaluationFlipper.CalculateWhiteArray(Pattern);
-        public static readonly int[] BlackValues = EvaluationFlipper.CalculateBlackArray(Pattern);
+        public static readonly int[][] WhiteValues = EvaluationFlipper.CalculateWhiteArray(Pattern);
+        public static readonly int[][] BlackValues = EvaluationFlipper.CalculateBlackArray(Pattern);
 
         /// <summary>
         /// Calculates a position values array for the specified player color.
         /// </summary>
         /// <param name="color">The player color.</param>
         /// <returns>The position values array for the specified color.</returns>
-        public static int[] GetValues(Color color)
+        public static int[] GetValues(Color color, GamePhase gamePhase)
         {
-            return color == Color.White ? WhiteValues : BlackValues;
+            return color == Color.White ? WhiteValues[(int)gamePhase] : BlackValues[(int)gamePhase];
         }
     }
 }

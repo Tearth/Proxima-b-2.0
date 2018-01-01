@@ -22,8 +22,8 @@ namespace Proxima.Core.Evaluation.Position
         public static void AddPiece(Bitboard bitboard, Color color, PieceType pieceType, ulong piece)
         {
             var pieceIndex = BitOperations.GetBitIndex(piece);
-            var array = PositionValues.GetValues(color, pieceType);
-            var delta = array[FastArray.GetEvaluationValueIndex(bitboard.GamePhase, pieceIndex)];
+            var array = PositionValues.GetValues(color, bitboard.GamePhase, pieceType);
+            var delta = array[pieceIndex];
 
             switch (color)
             {
@@ -51,8 +51,8 @@ namespace Proxima.Core.Evaluation.Position
         public static void RemovePiece(Bitboard bitboard, Color color, PieceType pieceType, ulong piece)
         {
             var pieceIndex = BitOperations.GetBitIndex(piece);
-            var array = PositionValues.GetValues(color, pieceType);
-            var delta = array[FastArray.GetEvaluationValueIndex(bitboard.GamePhase, pieceIndex)];
+            var array = PositionValues.GetValues(color, bitboard.GamePhase, pieceType);
+            var delta = array[pieceIndex];
 
             switch (color)
             {

@@ -74,7 +74,7 @@ namespace Proxima.Core.Evaluation.Position
         private int GetPositionValue(Bitboard bitboard, Color color, PieceType pieceType, ulong piecesToParse)
         {
             var position = 0;
-            var array = PositionValues.GetValues(color, pieceType);
+            var array = PositionValues.GetValues(color, bitboard.GamePhase, pieceType);
 
             while (piecesToParse != 0)
             {
@@ -83,7 +83,7 @@ namespace Proxima.Core.Evaluation.Position
 
                 var pieceIndex = BitOperations.GetBitIndex(pieceLSB);
 
-                position += array[FastArray.GetEvaluationValueIndex(bitboard.GamePhase, pieceIndex)];
+                position += array[pieceIndex];
             }
 
             return position;

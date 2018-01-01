@@ -1,4 +1,5 @@
-﻿using Proxima.Core.Commons.Colors;
+﻿using Proxima.Core.Commons;
+using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Pieces;
 
 namespace Proxima.Core.Evaluation.Position.Values
@@ -14,16 +15,16 @@ namespace Proxima.Core.Evaluation.Position.Values
         /// <param name="color">The player color.</param>
         /// <param name="pieceType">The piece type.</param>
         /// <returns>The position values array.</returns>
-        public static int[] GetValues(Color color, PieceType pieceType)
+        public static int[] GetValues(Color color, GamePhase gamePhase, PieceType pieceType)
         {
             switch (pieceType)
             {
-                case PieceType.Pawn: return PawnValues.GetValues(color);
-                case PieceType.Knight: return KnightValues.GetValues(color);
-                case PieceType.Bishop: return BishopValues.GetValues(color);
-                case PieceType.Rook: return RookValues.GetValues(color);
-                case PieceType.Queen: return QueenValues.GetValues(color);
-                case PieceType.King: return KingValues.GetValues(color);
+                case PieceType.Pawn: return PawnValues.GetValues(color, gamePhase);
+                case PieceType.Knight: return KnightValues.GetValues(color, gamePhase);
+                case PieceType.Bishop: return BishopValues.GetValues(color, gamePhase);
+                case PieceType.Rook: return RookValues.GetValues(color, gamePhase);
+                case PieceType.Queen: return QueenValues.GetValues(color, gamePhase);
+                case PieceType.King: return KingValues.GetValues(color, gamePhase);
             }
 
             return null;
