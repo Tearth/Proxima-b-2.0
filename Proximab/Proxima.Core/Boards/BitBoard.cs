@@ -76,7 +76,7 @@ namespace Proxima.Core.Boards
         /// <summary>
         /// Gets the incremental evaluation data.
         /// </summary>
-        public IncrementalEvaluationData IncEvaluation { get; }
+        public IncrementalEvaluationData IncEvaluation { get; set; }
 
         private bool _calculated;
 
@@ -107,6 +107,7 @@ namespace Proxima.Core.Boards
         public Bitboard(Bitboard bitboard) : this()
         {
             Hash = bitboard.Hash;
+            GamePhase = bitboard.GamePhase;
 
             Buffer.BlockCopy(bitboard.Pieces, 0, Pieces, 0, bitboard.Pieces.Length * sizeof(ulong));
             Buffer.BlockCopy(bitboard.CastlingPossibility, 0, CastlingPossibility, 0, bitboard.CastlingPossibility.Length * sizeof(bool));
@@ -129,6 +130,8 @@ namespace Proxima.Core.Boards
 
             EnPassant[(int)ColorOperations.Invert(move.Color)] = 0;
             move.Do(this);
+
+            CalculateGamePhase();
         }
 
         /// <summary>
@@ -341,15 +344,25 @@ namespace Proxima.Core.Boards
         {
             var materialCalculator = new MaterialCalculator();
             var material = materialCalculator.CalculateDetailed(this);
+            GamePhase updatedGamePhase;
 
             if (material.WhiteMaterial - MaterialValues.PieceValues[(int)PieceType.King] < 1500 ||
                 material.BlackMaterial - MaterialValues.PieceValues[(int)PieceType.King] < 1500)
             {
-                GamePhase = GamePhase.End;
+                updatedGamePhase = GamePhase.End;
             }
             else
             {
-                GamePhase = GamePhase.Regular;
+                updatedGamePhase = GamePhase.Regular;
+            }
+
+            if (GamePhase != updatedGamePhase)
+            {
+                GamePhase = updatedGamePhase;
+
+                Calculate(GeneratorMode.CalculateAttacks, false);
+                IncEvaluation = new IncrementalEvaluationData(GetDetailedEvaluation());
+                ClearCalculatedData();
             }
         }
 
