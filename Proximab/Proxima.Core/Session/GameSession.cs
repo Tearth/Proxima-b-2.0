@@ -175,7 +175,7 @@ namespace Proxima.Core.Session
         /// <param name="color">The king color.</param>
         private void CheckIfGameHasEnded(Color color)
         {
-            GameResult? mateResult = null;
+            /*GameResult? mateResult = null;
 
             if (Bitboard.IsMate(color))
             {
@@ -189,7 +189,7 @@ namespace Proxima.Core.Session
             if (mateResult.HasValue)
             {
                 OnGameEnded?.Invoke(this, new GameEndedEventArgs(mateResult.Value));
-            }
+            }*/
         }
     }
 }
