@@ -9,6 +9,7 @@ using Proxima.Core.Commons;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Pieces;
+using Proxima.Core.Commons.Randoms;
 using Proxima.Core.Evaluation;
 using Proxima.Core.Evaluation.Material;
 using Proxima.Core.MoveGenerators;
@@ -68,6 +69,8 @@ namespace Proxima.Core.Boards
         /// </summary>
         public bool[] CastlingDone { get; }
 
+        public ulong[] History { get; set; }
+
         /// <summary>
         /// Gets the available moves list (only if Calculate method was called).
         /// </summary>
@@ -94,6 +97,7 @@ namespace Proxima.Core.Boards
 
             CastlingPossibility = new bool[4];
             CastlingDone = new bool[2];
+            History = new ulong[12];
 
             Moves = new LinkedList<Move>();
 
@@ -114,6 +118,7 @@ namespace Proxima.Core.Boards
             Buffer.BlockCopy(bitboard.CastlingDone, 0, CastlingDone, 0, bitboard.CastlingDone.Length * sizeof(bool));
             Buffer.BlockCopy(bitboard.Occupancy, 0, Occupancy, 0, bitboard.Occupancy.Length * sizeof(ulong));
             Buffer.BlockCopy(bitboard.EnPassant, 0, EnPassant, 0, bitboard.EnPassant.Length * sizeof(ulong));
+            Buffer.BlockCopy(bitboard.History, 0, History, 0, bitboard.History.Length * sizeof(ulong));
 
             IncEvaluation = new IncrementalEvaluationData(bitboard.IncEvaluation);
             CalculateGamePhase();
@@ -132,6 +137,7 @@ namespace Proxima.Core.Boards
             move.Do(this);
 
             CalculateGamePhase();
+            UpdateHistory();
         }
 
         /// <summary>
@@ -152,6 +158,12 @@ namespace Proxima.Core.Boards
 
             Hash = GetNewHash();
             CalculateGamePhase();
+            
+            var random64 = new Random64();
+            for (var i = 0; i < History.Length; i++)
+            {
+                History[i] = random64.Next();
+            }
         }
 
         /// <summary>
@@ -167,7 +179,7 @@ namespace Proxima.Core.Boards
         public void ClearCalculatedData()
         {
             Moves.Clear();
-
+ 
             for (var i = 0; i < 64; i++)
             {
                 Attacks[i] = 0;
@@ -231,6 +243,11 @@ namespace Proxima.Core.Boards
             var aiResult = ai.Calculate(color, this, 0);
 
             return !IsCheck(color) && Math.Abs(aiResult.Score) == AIConstants.MateValue;
+        }
+
+        public bool IsThreefoldRepetition()
+        {
+            return History[0] == History[4] && History[4] == History[8];
         }
 
         /// <summary>
@@ -363,6 +380,16 @@ namespace Proxima.Core.Boards
                 IncEvaluation = new IncrementalEvaluationData(GetDetailedEvaluation());
                 ClearCalculatedData();
             }
+        }
+
+        private void UpdateHistory()
+        {
+            for (var i = History.Length - 1; i > 0; i--)
+            {
+                History[i] = History[i - 1];
+            }
+
+            History[0] = Hash;
         }
 
         /// <summary>

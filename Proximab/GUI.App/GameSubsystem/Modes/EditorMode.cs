@@ -108,6 +108,11 @@ namespace GUI.App.GameSubsystem.Modes
                     break;
                 }
             }
+
+            /*if (Bitboard.IsThreefoldRepetition())
+            {
+
+            }*/
         }
 
         /// <summary>

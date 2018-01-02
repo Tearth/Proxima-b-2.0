@@ -74,6 +74,12 @@ namespace Proxima.Core.AI.Search
                 }
             }
 
+            if (bitboard.IsThreefoldRepetition())
+            {
+                stats.EndNodes++;
+                return 0;
+            }
+
             if (depth <= 0)
             {
                 stats.EndNodes++;
