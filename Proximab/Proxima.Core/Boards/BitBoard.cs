@@ -309,7 +309,8 @@ namespace Proxima.Core.Boards
             return Hash == GetNewHash() &&
                    Occupancy[(int)Color.White] == calculatedOccupancy[(int)Color.White] &&
                    Occupancy[(int)Color.Black] == calculatedOccupancy[(int)Color.Black] &&
-                   IncEvaluation.Material == calculatedEvaluation.Material.Difference &&
+                   IncEvaluation.WhiteMaterial == calculatedEvaluation.Material.WhiteMaterial &&
+                   IncEvaluation.BlackMaterial == calculatedEvaluation.Material.BlackMaterial &&
                    IncEvaluation.Position == calculatedEvaluation.Position.Difference &&
                    IncEvaluation.Castling == calculatedEvaluation.Castling.Difference;
         }
@@ -342,12 +343,10 @@ namespace Proxima.Core.Boards
 
         private void CalculateGamePhase()
         {
-            var materialCalculator = new MaterialCalculator();
-            var material = materialCalculator.CalculateDetailed(this);
             GamePhase updatedGamePhase;
 
-            if (material.WhiteMaterial - MaterialValues.PieceValues[(int)PieceType.King] < 1500 ||
-                material.BlackMaterial - MaterialValues.PieceValues[(int)PieceType.King] < 1500)
+            if (IncEvaluation.WhiteMaterial - MaterialValues.PieceValues[(int)PieceType.King] < 1500 ||
+                IncEvaluation.BlackMaterial - MaterialValues.PieceValues[(int)PieceType.King] < 1500)
             {
                 updatedGamePhase = GamePhase.End;
             }

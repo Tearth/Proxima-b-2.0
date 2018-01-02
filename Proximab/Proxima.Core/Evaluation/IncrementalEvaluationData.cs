@@ -1,4 +1,6 @@
-﻿namespace Proxima.Core.Evaluation
+﻿using Proxima.Core.Commons.Colors;
+
+namespace Proxima.Core.Evaluation
 {
     /// <summary>
     /// Represents a container of the incremental evaluation data.
@@ -6,9 +8,16 @@
     public class IncrementalEvaluationData
     {
         /// <summary>
-        /// Gets or sets the incremental material evaluation result.
+        /// Gets or sets the white incremental material evaluation result.
         /// </summary>
-        public int Material { get; set; }
+        public int WhiteMaterial { get; set; }
+
+        /// <summary>
+        /// Gets or sets the black incremental material evaluation result.
+        /// </summary>
+        public int BlackMaterial { get; set; }
+
+        public int Material => WhiteMaterial - BlackMaterial;
 
         /// <summary>
         /// Gets or sets the incremental position evaluation result.
@@ -26,7 +35,8 @@
         /// <param name="incrementalEvaluationData">The incremental evaluation data container.</param>
         public IncrementalEvaluationData(IncrementalEvaluationData incrementalEvaluationData)
         {
-            Material = incrementalEvaluationData.Material;
+            WhiteMaterial = incrementalEvaluationData.WhiteMaterial;
+            BlackMaterial = incrementalEvaluationData.BlackMaterial;
             Position = incrementalEvaluationData.Position;
             Castling = incrementalEvaluationData.Castling;
         }
@@ -37,7 +47,8 @@
         /// <param name="detailedEvaluationData">The detailed evaluation data container.</param>
         public IncrementalEvaluationData(DetailedEvaluationData detailedEvaluationData)
         {
-            Material = detailedEvaluationData.Material.Difference;
+            WhiteMaterial = detailedEvaluationData.Material.WhiteMaterial;
+            BlackMaterial = detailedEvaluationData.Material.BlackMaterial;
             Position = detailedEvaluationData.Position.Difference;
             Castling = detailedEvaluationData.Castling.Difference;
         }

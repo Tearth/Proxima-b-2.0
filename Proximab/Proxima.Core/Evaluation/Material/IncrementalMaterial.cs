@@ -23,13 +23,13 @@ namespace Proxima.Core.Evaluation.Material
             {
                 case Color.White:
                 {
-                    bitboard.IncEvaluation.Material += pieceValue;
+                    bitboard.IncEvaluation.WhiteMaterial += pieceValue;
                     break;
                 }
 
                 case Color.Black:
                 {
-                    bitboard.IncEvaluation.Material -= pieceValue;
+                    bitboard.IncEvaluation.BlackMaterial += pieceValue;
                     break;
                 }
             }
@@ -49,13 +49,13 @@ namespace Proxima.Core.Evaluation.Material
             {
                 case Color.White:
                 {
-                    bitboard.IncEvaluation.Material -= pieceValue;
+                    bitboard.IncEvaluation.WhiteMaterial -= pieceValue;
                     break;
                 }
 
                 case Color.Black:
                 {
-                    bitboard.IncEvaluation.Material += pieceValue;
+                    bitboard.IncEvaluation.BlackMaterial -= pieceValue;
                     break;
                 }
             }
