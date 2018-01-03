@@ -56,7 +56,7 @@ namespace Proxima.Core.Session
             _aiCore.OnThinkingOutput += AICore_OnThinkingOutput;
 
             Bitboard = new Bitboard(new DefaultFriendlyBoard());
-            _preferredTimeCalculator = new PreferredTimeCalculator(40);
+            _preferredTimeCalculator = new PreferredTimeCalculator(50);
 
             _remainingTime = new int[2];
         }
