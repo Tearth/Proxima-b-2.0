@@ -97,7 +97,7 @@ namespace GUI.App.GameSubsystem.Modes
 
                 case PromotionMove _:
                 {
-                    var promotionMoves = Bitboard.Moves.Where(p => p.From == move.From).Cast<PromotionMove>();
+                    var promotionMoves = Bitboard.Moves.OfType<PromotionMove>().Where(p => p.From == move.From);
                     PromotionWindow.Display(move.Color, promotionMoves);
                     break;
                 }

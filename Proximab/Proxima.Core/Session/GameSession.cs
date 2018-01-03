@@ -97,9 +97,10 @@ namespace Proxima.Core.Session
             UpdateMovesCount(color);
 
             var possibleMovesToApply = Bitboard.Moves
-                .Where(p => p.From == from && p.To == to)
-                .Cast<PromotionMove>()
-                .First(p => p.PromotionPiece == promotionPieceType);
+                .OfType<PromotionMove>()
+                .First(p => p.From == from && 
+                            p.To == to && 
+                            p.PromotionPiece == promotionPieceType);
 
             Bitboard = Bitboard.Move(possibleMovesToApply);
         }

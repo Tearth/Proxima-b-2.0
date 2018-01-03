@@ -11,8 +11,12 @@ namespace OpeningBookGenerator.App
 {
     public class Generator
     {
+        private OpeningParser _openingParser;
+
         public Generator()
         {
+            _openingParser = new OpeningParser();
+
             PatternsContainer.Init();
         }
 
@@ -33,11 +37,10 @@ namespace OpeningBookGenerator.App
 
         private List<Move> ParseOpening(string line)
         {
-            var opening = new List<Move>();
             var rawMoves = line.Split(' ').ToList();
             var trimMoves = TrimRawMoves(rawMoves);
 
-            return opening;
+            return _openingParser.ParseMoves(trimMoves);
         }
 
         private List<string> TrimRawMoves(List<string> rawMoves)
