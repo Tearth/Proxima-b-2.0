@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpeningBookGenerator.App.Exceptions;
+using Proxima.Core;
 using Proxima.Core.Boards;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons;
@@ -18,7 +20,7 @@ namespace OpeningBookGenerator.App
     {
         public OpeningParser()
         {
-
+            ProximaCore.Init();
         }
 
         public List<Move> ParseMoves(List<string> moves)
@@ -32,6 +34,10 @@ namespace OpeningBookGenerator.App
             {
                 bitboard.Calculate(GeneratorMode.CalculateMoves, false);
 
+                var parsedMove = GetMove(bitboard, currentColor, move);
+                bitboard = bitboard.Move(parsedMove);
+                parsedMoves.Add(parsedMove);
+
                 currentColor = ColorOperations.Invert(currentColor);
             }
 
@@ -44,20 +50,21 @@ namespace OpeningBookGenerator.App
             {
                 return GetCastling(bitboard, color, CastlingType.Short);
             }
-            else if (textMove == "O-O-O")
+
+            if (textMove == "O-O-O")
             {
                 return GetCastling(bitboard, color, CastlingType.Long);
             }
-            else
+
+            switch (textMove.Length)
             {
-                switch (textMove.Length)
-                {
-                    case 2: return GetPawnMove(bitboard, color, textMove);
-                    case 3: return GetPieceMove(bitboard, color, textMove);
-                    case 4 when textMove[1] == 'x': return GetExpandedPieceMove(bitboard, color, textMove);
-                    case 4 when textMove[1] != 'x': return GetKillMove(bitboard, color, textMove);
-                }
+                case 2: return GetPawnMove(bitboard, color, textMove);
+                case 3: return GetPieceMove(bitboard, color, textMove);
+                case 4 when textMove[1] != 'x': return GetExpandedPieceMove(bitboard, color, textMove);
+                case 4 when textMove[1] == 'x': return GetKillMove(bitboard, color, textMove);
             }
+
+            throw new InvalidMoveNotationException();
         }
 
         private Move GetCastling(Bitboard bitboard, Color color, CastlingType castlingType)
@@ -96,10 +103,22 @@ namespace OpeningBookGenerator.App
 
         private Move GetExpandedPieceMove(Bitboard bitboard, Color color, string textMove)
         {
+            var initialFileOrRank = textMove[1];
+
+            if (char.IsDigit(initialFileOrRank))
+            {
+                return GetExpandedPieceWithRankMove(bitboard, color, textMove);
+            }
+
+            return GetExpandedPieceWithFileMove(bitboard, color, textMove);
+        }
+
+        private Move GetExpandedPieceWithFileMove(Bitboard bitboard, Color color, string textMove)
+        {
             var pieceSymbol = textMove[0];
             var pieceType = PieceConverter.GetPiece(pieceSymbol);
 
-            var initialRank = textMove[1] - 'a' + 1;
+            var initialFile = textMove[1] - 'a' + 1;
 
             var toPositionText = textMove.Substring(2, 2);
             var toPosition = PositionConverter.ToPosition(toPositionText);
@@ -108,11 +127,56 @@ namespace OpeningBookGenerator.App
                 .OfType<QuietMove>()
                 .First(p => p.Color == color &&
                             p.Piece == pieceType &&
-                            p.From.X == initialRank &&
+                            p.From.X == initialFile &&
+                            p.To == toPosition);
+        }
+
+        private Move GetExpandedPieceWithRankMove(Bitboard bitboard, Color color, string textMove)
+        {
+            var pieceSymbol = textMove[0];
+            var pieceType = PieceConverter.GetPiece(pieceSymbol);
+
+            var initialRank = textMove[1] - '1' + 1;
+
+            var toPositionText = textMove.Substring(2, 2);
+            var toPosition = PositionConverter.ToPosition(toPositionText);
+
+            return bitboard.Moves
+                .OfType<QuietMove>()
+                .First(p => p.Color == color &&
+                            p.Piece == pieceType &&
+                            p.From.Y == initialRank &&
                             p.To == toPosition);
         }
 
         private Move GetKillMove(Bitboard bitboard, Color color, string textMove)
+        {
+            var pieceSymbol = textMove[0];
+
+            if (char.IsLower(pieceSymbol))
+            {
+                return GetPawnKillMove(bitboard, color, textMove);
+            }
+
+            return GetPieceKillMove(bitboard, color, textMove);
+        }
+
+        private Move GetPawnKillMove(Bitboard bitboard, Color color, string textMove)
+        {
+            var initialRank = textMove[0] - 'a' + 1;
+
+            var toPositionText = textMove.Substring(2, 2);
+            var toPosition = PositionConverter.ToPosition(toPositionText);
+
+            return bitboard.Moves
+                .Where(p => p is KillMove || p is EnPassantMove)
+                .First(p => p.Color == color &&
+                            p.Piece == PieceType.Pawn &&
+                            p.From.X == initialRank &&
+                            p.To == toPosition);
+        }
+
+        private Move GetPieceKillMove(Bitboard bitboard, Color color, string textMove)
         {
             var pieceSymbol = textMove[0];
             var pieceType = PieceConverter.GetPiece(pieceSymbol);

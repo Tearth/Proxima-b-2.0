@@ -26,10 +26,13 @@ namespace OpeningBookGenerator.App
 
             using (var streamReader = new StreamReader(inputFile))
             {
-                var line = streamReader.ReadLine();
-                var opening = ParseOpening(line);
+                while (!streamReader.EndOfStream)
+                {
+                    var line = streamReader.ReadLine();
+                    var opening = ParseOpening(line);
 
-                openingBook.Add(opening);
+                    openingBook.Add(opening);
+                }
             }
 
             return openingBook;
@@ -55,6 +58,7 @@ namespace OpeningBookGenerator.App
                     trimMove = move.Substring(2, move.Length - 2);
                 }
 
+                trimMove = trimMove.Replace("+", "");
                 trimMoves.Add(trimMove);
             }
 
