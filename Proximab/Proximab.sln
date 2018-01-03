@@ -19,10 +19,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers.Loggers", "Helpers.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CECP.App", "CECP.App\CECP.App.csproj", "{89199949-FA12-415E-ADBC-6B0A2E6BFDF6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpeningBookGenerator.App", "OpeningBookGenerator.App\OpeningBookGenerator.App.csproj", "{EA53BB8A-3F5B-4ED0-8ED5-82B2AA91A3DF}"
+EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -60,12 +59,19 @@ Global
 		{89199949-FA12-415E-ADBC-6B0A2E6BFDF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89199949-FA12-415E-ADBC-6B0A2E6BFDF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89199949-FA12-415E-ADBC-6B0A2E6BFDF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA53BB8A-3F5B-4ED0-8ED5-82B2AA91A3DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA53BB8A-3F5B-4ED0-8ED5-82B2AA91A3DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA53BB8A-3F5B-4ED0-8ED5-82B2AA91A3DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA53BB8A-3F5B-4ED0-8ED5-82B2AA91A3DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E7211EE0-C0CC-48C9-84E9-8A4BD61205D6}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true
