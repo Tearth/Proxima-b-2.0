@@ -25,6 +25,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
 
         private Dictionary<string, GameResult> _gameResultTokens;
         private Color _engineColor;
+        private bool _aiCanCalculate;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameMode"/> class.
@@ -77,6 +78,8 @@ namespace FICS.App.GameSubsystem.Modes.Game
         {
             var username = ConfigManager.GetValue<string>("Username");
             _engineColor = message.StartsWith($"{CreatingPrefix} {username}", StringComparison.Ordinal) ? Color.White : Color.Black;
+
+            _aiCanCalculate = _engineColor == Color.White;
         }
 
         /// <summary>
@@ -89,13 +92,22 @@ namespace FICS.App.GameSubsystem.Modes.Game
             var style12Parser = new Style12Parser();
             var style12Container = style12Parser.Parse(message);
 
-            if (style12Container != null && style12Container.Relation == Style12RelationType.EngineMove)
+            if (style12Container != null)
             {
-                _gameSession.UpdateRemainingTime(Color.White, style12Container.RemainingTime[(int)Color.White]);
-                _gameSession.UpdateRemainingTime(Color.Black, style12Container.RemainingTime[(int)Color.Black]);
+                if (style12Container.Relation == Style12RelationType.EnemyMove)
+                {
+                    _aiCanCalculate = true;
+                }
+                else if (style12Container.Relation == Style12RelationType.EngineMove && _aiCanCalculate)
+                {
+                    _aiCanCalculate = false;
 
-                CalculateEnemyMove(style12Container);
-                return CalculateAIMove();
+                    _gameSession.UpdateRemainingTime(Color.White, style12Container.RemainingTime[(int)Color.White]);
+                    _gameSession.UpdateRemainingTime(Color.Black, style12Container.RemainingTime[(int)Color.Black]);
+
+                    CalculateEnemyMove(style12Container);
+                    return CalculateAIMove();
+                }
             }
 
             return string.Empty;
