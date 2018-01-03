@@ -40,6 +40,33 @@ namespace Proxima.Core.AI.Search
 
             stats.TotalNodes++;
 
+            if (bitboard.IsThreefoldRepetition())
+            {
+                stats.EndNodes++;
+                bestValue = 0;
+
+                var drawTranspositionNode = new TranspositionNode();
+                drawTranspositionNode.Score = bestValue;
+                drawTranspositionNode.Depth = depth;
+
+                if (bestValue <= originalAlpha)
+                {
+                    drawTranspositionNode.Type = ScoreType.UpperBound;
+                }
+                else if (bestValue >= beta)
+                {
+                    drawTranspositionNode.Type = ScoreType.LowerBound;
+                }
+                else
+                {
+                    drawTranspositionNode.Type = ScoreType.Exact;
+                }
+
+                _transpositionTable.AddOrUpdate(boardHash, drawTranspositionNode);
+
+                return bestValue;
+            }
+
             if (_transpositionTable.Exists(boardHash))
             {
                 var transpositionNode = _transpositionTable.Get(boardHash);
@@ -72,12 +99,6 @@ namespace Proxima.Core.AI.Search
                         return transpositionNode.Score;
                     }
                 }
-            }
-
-            if (bitboard.IsThreefoldRepetition())
-            {
-                stats.EndNodes++;
-                return 0;
             }
 
             if (depth <= 0)
@@ -118,7 +139,7 @@ namespace Proxima.Core.AI.Search
                     break;
                 }
             }
-
+            
             var updateTranspositionNode = new TranspositionNode();
             updateTranspositionNode.Score = bestValue;
             updateTranspositionNode.Depth = depth;

@@ -64,7 +64,7 @@ namespace Proxima.Core.AI
 
                 estimatedTimeForNextIteration = (int)stopwatch.Elapsed.TotalMilliseconds * result.Stats.BranchingFactor;
             }
-            while (estimatedTimeForNextIteration < preferredTime * 1000);
+            while (estimatedTimeForNextIteration < preferredTime * 1000 && result.Depth < 20);
 
             return result;
         }
@@ -77,8 +77,13 @@ namespace Proxima.Core.AI
             while (_transpositionTable.Exists(boardHash) && pvNodes.Count < 20)
             {
                 var pvNode = _transpositionTable.Get(boardHash);
-                pvNodes.Add(pvNode.BestMove);
 
+                if (pvNode.BestMove == null)
+                {
+                    break;
+                }
+
+                pvNodes.Add(pvNode.BestMove);
                 bitboard = bitboard.Move(pvNode.BestMove);
 
                 color = ColorOperations.Invert(color);
