@@ -120,10 +120,28 @@ namespace Proxima.Core.AI.Search
             Move bestMove = null;
 
             var availableMoves = SortMoves(color, bitboard, bitboard.Moves);
+            var firstMove = true;
+
             foreach (var move in availableMoves)
             {
                 var bitboardAfterMove = bitboard.Move(move);
-                var nodeValue = -Do(enemyColor, bitboardAfterMove, depth - 1, -beta, -alpha, stats);
+                var nodeValue = 0;
+
+                if (firstMove)
+                {
+                    nodeValue = -Do(enemyColor, bitboardAfterMove, depth - 1, -beta, -alpha, stats);
+                    firstMove = false;
+                }
+                else
+                {
+                    nodeValue = -Do(enemyColor, bitboardAfterMove, depth - 1, -alpha - 1, -alpha, stats);
+
+                    if (nodeValue > alpha && nodeValue < beta)
+                    {
+                        bitboardAfterMove = bitboard.Move(move);
+                        nodeValue = -Do(enemyColor, bitboardAfterMove, depth - 1, -beta, -alpha, stats);
+                    }
+                }
 
                 if (nodeValue > bestValue)
                 {
@@ -139,7 +157,7 @@ namespace Proxima.Core.AI.Search
                     break;
                 }
             }
-            
+
             var updateTranspositionNode = new TranspositionNode();
             updateTranspositionNode.Score = bestValue;
             updateTranspositionNode.Depth = depth;
@@ -166,7 +184,7 @@ namespace Proxima.Core.AI.Search
         private List<Move> SortMoves(Color color, Bitboard bitboard, LinkedList<Move> moves)
         {
             var sortedMoves = moves.Select(p => new RegularSortedMove { Move = p, Score = -100000 }).ToList();
-            
+
             AssignPVScore(color, bitboard, sortedMoves);
             AssignSEEScores(color, bitboard, sortedMoves);
             AssignSpecialScores(sortedMoves);

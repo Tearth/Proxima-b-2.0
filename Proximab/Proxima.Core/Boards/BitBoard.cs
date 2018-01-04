@@ -97,7 +97,7 @@ namespace Proxima.Core.Boards
 
             CastlingPossibility = new bool[4];
             CastlingDone = new bool[2];
-            History = new ulong[12];
+            History = new ulong[9];
 
             Moves = new LinkedList<Move>();
 
