@@ -61,6 +61,7 @@
     <Compile Include="MoveGenerators\MagicBitboards\Keys\Exceptions\InvalidMagicKeysFileException.cs" />
     <Compile Include="OpeningBook\OpeningBookContainer.cs" />
     <Compile Include="OpeningBook\OpeningBookMove.cs" />
+    <Compile Include="OpeningBook\OpeningBookProvider.cs" />
     <Compile Include="Persistence\Exceptions\InvalidSectionValueException.cs" />
     <Compile Include="Persistence\Exceptions\InvalidBoardValueException.cs" />
     <Compile Include="Persistence\Exceptions\InvalidPositionValueException.cs" />
