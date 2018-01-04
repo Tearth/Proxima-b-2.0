@@ -72,8 +72,8 @@ namespace Proxima.Core.Session
             Bitboard.Calculate(GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks, false);
             CheckBitboardIntegrity();
 
-            CheckIfGameHasEnded(color);
             UpdateMovesCount(color);
+            CheckIfGameHasEnded();
 
             var moveToApply = Bitboard.Moves.First(p => p.From == from && p.To == to);
 
@@ -93,8 +93,8 @@ namespace Proxima.Core.Session
             Bitboard.Calculate(GeneratorMode.CalculateMoves | GeneratorMode.CalculateAttacks, false);
             CheckBitboardIntegrity();
 
-            CheckIfGameHasEnded(color);
             UpdateMovesCount(color);
+            CheckIfGameHasEnded();
 
             var possibleMovesToApply = Bitboard.Moves
                 .OfType<PromotionMove>()
@@ -116,7 +116,7 @@ namespace Proxima.Core.Session
             CheckBitboardIntegrity();
 
             UpdateMovesCount(color);
-            CheckIfGameHasEnded(color);
+            CheckIfGameHasEnded();
 
             var preferredTime = _preferredTimeCalculator.Calculate(MovesCount, _remainingTime[(int)color]);
             var aiResult = _aiCore.Calculate(color, Bitboard, preferredTime);
@@ -173,16 +173,20 @@ namespace Proxima.Core.Session
         /// <summary>
         /// Checks if game has ended. If true, OnGameEnded event is invoked.
         /// </summary>
-        /// <param name="color">The king color.</param>
-        private void CheckIfGameHasEnded(Color color)
+        private void CheckIfGameHasEnded()
         {
-            /*GameResult? mateResult = null;
+            GameResult? mateResult = null;
 
-            if (Bitboard.IsMate(color))
+            if (Bitboard.IsMate(Color.White))
             {
-                mateResult = color == Color.White ? GameResult.BlackWon : GameResult.WhiteWon;
+                mateResult = GameResult.BlackWon;
             }
-            else if (Bitboard.IsStalemate(color))
+            else if (Bitboard.IsMate(Color.Black))
+            {
+                mateResult = GameResult.WhiteWon;
+            }
+            else if (Bitboard.IsStalemate(Color.White) || Bitboard.IsStalemate(Color.Black) ||
+                     Bitboard.IsThreefoldRepetition())
             {
                 mateResult = GameResult.Draw;
             }
@@ -190,7 +194,7 @@ namespace Proxima.Core.Session
             if (mateResult.HasValue)
             {
                 OnGameEnded?.Invoke(this, new GameEndedEventArgs(mateResult.Value));
-            }*/
+            }
         }
     }
 }

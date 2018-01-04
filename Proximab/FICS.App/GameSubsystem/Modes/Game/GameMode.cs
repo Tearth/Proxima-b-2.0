@@ -43,6 +43,8 @@ namespace FICS.App.GameSubsystem.Modes.Game
                 { "1/2-1/2", GameResult.Draw },
                 { "aborted on move 1", GameResult.Aborted }
             };
+
+            _gameSession.OnGameEnded += GameSession_OnGameEnded;
         }
 
         /// <summary>
@@ -160,6 +162,14 @@ namespace FICS.App.GameSubsystem.Modes.Game
         {
             var gameResult = _gameResultTokens.First(p => message.Contains(p.Key)).Value;
             _csvLogger.WriteLine(gameResult, _engineColor);
+        }
+
+        private void GameSession_OnGameEnded(object sender, GameEndedEventArgs e)
+        {
+            if (e.GameResult == GameResult.Draw)
+            {
+                SendData("draw");
+            }
         }
     }
 }
