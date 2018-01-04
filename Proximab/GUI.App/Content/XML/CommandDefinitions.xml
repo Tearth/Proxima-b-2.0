@@ -242,6 +242,14 @@
           </Item>
         </Arguments>
       </Item>
+      
+		  <Item>
+		    <Name>Repetition</Name>
+		    <EnumType>Repetition</EnumType>
+		    <Description>Checks if there threefold repetition for the specified color.</Description>
+		    <Arguments>
+		    </Arguments>
+		  </Item>
 		</Definitions>
 	</Asset>
 </XnaContent>

@@ -53,6 +53,7 @@ namespace GUI.App.GameSubsystem.Modes
             CommandsManager.AddCommandHandler(CommandType.BestMove, CommandGroup.GameMode, CalculateBestMove);
             CommandsManager.AddCommandHandler(CommandType.Quiescence, CommandGroup.GameMode, SetQuiescenceSearch);
             CommandsManager.AddCommandHandler(CommandType.SEE, CommandGroup.GameMode, RunSEE);
+            CommandsManager.AddCommandHandler(CommandType.Repetition, CommandGroup.GameMode, CheckThreefoldRepetition);
         }
 
         /// <summary>
@@ -279,6 +280,12 @@ namespace GUI.App.GameSubsystem.Modes
                                          $"$g{result.InitialAttackerTo} $r({result.AttackedPieceType})$w: " +
                                          $"$g{result.Score}");
             }
+        }
+
+        private void CheckThreefoldRepetition(Command command)
+        {
+            var threefoldRepetition = Bitboard.IsThreefoldRepetition();
+            ConsoleManager.WriteLine($"$wThreefold repetition: {ColorfulConsoleHelpers.ParseBool(threefoldRepetition)}");
         }
     }
 }
