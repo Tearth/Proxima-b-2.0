@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Proxima.Core.AI;
 using Proxima.Core.Boards;
@@ -9,6 +10,7 @@ using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Commons.Positions;
 using Proxima.Core.MoveGenerators;
 using Proxima.Core.MoveGenerators.Moves;
+using Proxima.Core.OpeningBook;
 using Proxima.Core.Session.Exceptions;
 using Proxima.Core.Time;
 
@@ -44,6 +46,9 @@ namespace Proxima.Core.Session
         private PreferredTimeCalculator _preferredTimeCalculator;
 
         private int[] _remainingTime;
+        private List<Move> _history;
+
+        private OpeningBookProvider _openingBook;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameSession"/> class.
@@ -59,6 +64,9 @@ namespace Proxima.Core.Session
             _preferredTimeCalculator = new PreferredTimeCalculator(50);
 
             _remainingTime = new int[2];
+            _history = new List<Move>();
+
+            _openingBook = new OpeningBookProvider();
         }
 
         /// <summary>
@@ -78,6 +86,7 @@ namespace Proxima.Core.Session
             var moveToApply = Bitboard.Moves.First(p => p.From == from && p.To == to);
 
             Bitboard = Bitboard.Move(moveToApply);
+            _history.Add(moveToApply);
         }
 
         /// <summary>
@@ -103,6 +112,7 @@ namespace Proxima.Core.Session
                             p.PromotionPiece == promotionPieceType);
 
             Bitboard = Bitboard.Move(possibleMovesToApply);
+            _history.Add(possibleMovesToApply);
         }
 
         /// <summary>
@@ -118,12 +128,31 @@ namespace Proxima.Core.Session
             UpdateMovesCount(color);
             CheckIfGameHasEnded();
 
-            var preferredTime = _preferredTimeCalculator.Calculate(MovesCount, _remainingTime[(int)color]);
-            var aiResult = _aiCore.Calculate(color, Bitboard, preferredTime);
+            var openingBookMove = _openingBook.GetMoveFromBook(_history);
 
-            Bitboard = Bitboard.Move(aiResult.PVNodes[0]);
+            if (openingBookMove != null)
+            {
+                var moveToApply =
+                    Bitboard.Moves.First(p => p.From == openingBookMove.From && p.To == openingBookMove.To);
 
-            return aiResult;
+                Bitboard = Bitboard.Move(moveToApply);
+                _history.Add(moveToApply);
+
+                return new AIResult()
+                {
+                    PVNodes = new PVNodesList() {moveToApply}
+                };
+            }
+            else
+            {
+                var preferredTime = _preferredTimeCalculator.Calculate(MovesCount, _remainingTime[(int)color]);
+                var aiResult = _aiCore.Calculate(color, Bitboard, preferredTime);
+
+                Bitboard = Bitboard.Move(aiResult.PVNodes[0]);
+                _history.Add(aiResult.PVNodes[0]);
+
+                return aiResult;
+            }
         }
 
         /// <summary>

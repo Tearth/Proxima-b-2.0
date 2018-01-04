@@ -24,7 +24,7 @@ namespace Proxima.Core.OpeningBook
                 var historyMove = history[i];
 
                 availableOpeningMoves = availableOpeningMoves.Where(p =>
-                    p.Count >= i && p[i].From == historyMove.From && p[i].To == historyMove.To)
+                    p.Count > i && p[i].From == historyMove.From && p[i].To == historyMove.To)
                     .ToList();
 
                 if (availableOpeningMoves.Count <= 0)
