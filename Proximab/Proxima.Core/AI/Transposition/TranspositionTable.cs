@@ -14,7 +14,7 @@ namespace Proxima.Core.AI.Transposition
         /// </summary>
         public TranspositionTable()
         {
-            _table = new Dictionary<ulong, TranspositionNode>();
+            _table = new Dictionary<ulong, TranspositionNode>(1000000);
         }
 
         /// <summary>
