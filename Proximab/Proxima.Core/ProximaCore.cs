@@ -1,5 +1,6 @@
 ﻿using Proxima.Core.MoveGenerators.MagicBitboards;
 using Proxima.Core.MoveGenerators.PatternGenerators;
+using Proxima.Core.OpeningBook;
 
 namespace Proxima.Core
 {
@@ -16,6 +17,7 @@ namespace Proxima.Core
         {
             PatternsContainer.Init();
             MagicContainer.Init();
+            OpeningBookContainer.Init();
         }
     }
 }
