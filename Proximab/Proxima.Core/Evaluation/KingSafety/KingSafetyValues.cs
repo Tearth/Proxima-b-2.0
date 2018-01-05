@@ -10,8 +10,8 @@ namespace Proxima.Core.Evaluation.KingSafety
     {
         public static readonly int[] AttackedNeighboursRatio =
         {
-            -20,  // Regular
-            -10   // End
+            -10,  // Regular
+            -2    // End
         };
     }
 }
