@@ -33,8 +33,13 @@ namespace Proxima.Core.OpeningBook
                 }
             }
 
-            var openingMoveIndex = _random.Next(0, availableOpeningMoves.Count - 1);
-            return availableOpeningMoves[openingMoveIndex][history.Count];
+            if (availableOpeningMoves.Count > 0)
+            {
+                var openingMoveIndex = _random.Next(0, availableOpeningMoves.Count - 1);
+                return availableOpeningMoves[openingMoveIndex][history.Count];
+            }
+
+            return null;
         }
     }
 }
