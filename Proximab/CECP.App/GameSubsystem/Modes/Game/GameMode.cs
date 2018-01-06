@@ -152,7 +152,10 @@ namespace CECP.App.GameSubsystem.Modes.Game
         private void ExecuteGoCommand(Command command)
         {
             var aiResponse = CalculateAIMove();
-            SendData($"move {aiResponse}");
+            if (aiResponse != string.Empty)
+            {
+                SendData($"move {aiResponse}");
+            }
         }
 
         /// <summary>
@@ -169,7 +172,10 @@ namespace CECP.App.GameSubsystem.Modes.Game
             CalculateEnemyMove(cecpMove);
 
             var aiResponse = CalculateAIMove();
-            SendData($"move {aiResponse}");
+            if (aiResponse != string.Empty)
+            {
+                SendData($"move {aiResponse}");
+            }
         }
 
         /// <summary>
@@ -207,6 +213,10 @@ namespace CECP.App.GameSubsystem.Modes.Game
         private string CalculateAIMove()
         {
             var aiResult = _gameSession.MoveAI(_engineColor);
+            if (aiResult == null)
+            {
+                return null;
+            }
 
             var fromConverted = PositionConverter.ToString(aiResult.PVNodes[0].From);
             var toConverted = PositionConverter.ToString(aiResult.PVNodes[0].To);

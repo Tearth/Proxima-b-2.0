@@ -242,8 +242,11 @@ namespace Proxima.Core.Boards
                 throw new BitboardNotCalculatedException();
             }
 
+            var bitboardWithoutEnPassant = new Bitboard(this);
+            bitboardWithoutEnPassant.EnPassant[(int)color] = 0;
+
             var ai = new AICore();
-            var aiResult = ai.Calculate(color, this, 0);
+            var aiResult = ai.Calculate(color, bitboardWithoutEnPassant, 0);
 
             return !IsCheck(color) && Math.Abs(aiResult.Score) == AIConstants.MateValue;
         }

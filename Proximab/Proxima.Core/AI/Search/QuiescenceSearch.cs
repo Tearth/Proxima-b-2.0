@@ -81,7 +81,6 @@ namespace Proxima.Core.AI.Search
                             q => q.InitialAttackerFrom == p.From &&
                                  q.InitialAttackerTo == p.To)?.Score ?? 100000
                     })
-                .Where(p => p.SEEScore >= 0)
                 .OrderByDescending(p => p.SEEScore)
                 .Select(p => p.Move)
                 .ToList();
