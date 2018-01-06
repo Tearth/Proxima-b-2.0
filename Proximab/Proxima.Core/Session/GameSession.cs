@@ -82,6 +82,10 @@ namespace Proxima.Core.Session
 
             UpdateMovesCount(color);
             CheckIfGameHasEnded();
+            if (CheckIfGameHasEnded())
+            {
+                return;
+            }
 
             var moveToApply = Bitboard.Moves.First(p => p.From == from && p.To == to);
 
@@ -103,7 +107,10 @@ namespace Proxima.Core.Session
             CheckBitboardIntegrity();
 
             UpdateMovesCount(color);
-            CheckIfGameHasEnded();
+            if (CheckIfGameHasEnded())
+            {
+                return;
+            }
 
             var possibleMovesToApply = Bitboard.Moves
                 .OfType<PromotionMove>()
@@ -126,7 +133,10 @@ namespace Proxima.Core.Session
             CheckBitboardIntegrity();
 
             UpdateMovesCount(color);
-            CheckIfGameHasEnded();
+            if (CheckIfGameHasEnded())
+            {
+                return null;
+            }
 
             var openingBookMove = _openingBook.GetMoveFromBook(_history);
 
@@ -202,7 +212,7 @@ namespace Proxima.Core.Session
         /// <summary>
         /// Checks if game has ended. If true, OnGameEnded event is invoked.
         /// </summary>
-        private void CheckIfGameHasEnded()
+        private bool CheckIfGameHasEnded()
         {
             GameResult? mateResult = null;
 
@@ -223,7 +233,10 @@ namespace Proxima.Core.Session
             if (mateResult.HasValue)
             {
                 OnGameEnded?.Invoke(this, new GameEndedEventArgs(mateResult.Value));
+                return true;
             }
+
+            return false;
         }
     }
 }
