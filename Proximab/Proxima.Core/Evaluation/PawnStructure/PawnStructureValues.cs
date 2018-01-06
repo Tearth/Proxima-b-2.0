@@ -10,19 +10,19 @@ namespace Proxima.Core.Evaluation.PawnStructure
     {
         public static readonly int[] DoubledPawnsRatio =
         {
-            -15,  // Regular
-            -20    // End
+            -10,  // Regular
+            -10    // End
         };
 
         public static readonly int[] IsolatedPawnsRatio =
         {
-            -15,  // Regular
+            -10,  // Regular
             -5    // End
         };
 
         public static readonly int[] PawnChainRatio =
         {
-            10,  // Regular
+            5,  // Regular
             5    // End
         };
     }
