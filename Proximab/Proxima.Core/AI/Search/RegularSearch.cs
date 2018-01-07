@@ -139,6 +139,11 @@ namespace Proxima.Core.AI.Search
                 }
             }
 
+            if (bestValue == -(AIConstants.MateValue + depth - 1) && !bitboard.IsCheck(color))
+            {
+                return 0;
+            }
+
             var updateTranspositionNode = new TranspositionNode();
             updateTranspositionNode.Score = bestValue;
             updateTranspositionNode.Depth = depth;
