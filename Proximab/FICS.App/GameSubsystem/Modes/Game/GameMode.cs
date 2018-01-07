@@ -104,11 +104,15 @@ namespace FICS.App.GameSubsystem.Modes.Game
                 {
                     _aiCanCalculate = false;
 
-                    _gameSession.UpdateRemainingTime(Color.White, style12Container.RemainingTime[(int)Color.White]);
-                    _gameSession.UpdateRemainingTime(Color.Black, style12Container.RemainingTime[(int)Color.Black]);
+                    if (_gameSession.WhiteRemainingTime >= style12Container.RemainingTime[(int)Color.White] &&
+                        _gameSession.BlackRemainingTime >= style12Container.RemainingTime[(int)Color.Black])
+                    {
+                        _gameSession.UpdateRemainingTime(Color.White, style12Container.RemainingTime[(int)Color.White]);
+                        _gameSession.UpdateRemainingTime(Color.Black, style12Container.RemainingTime[(int)Color.Black]);
 
-                    CalculateEnemyMove(style12Container);
-                    return CalculateAIMove();
+                        CalculateEnemyMove(style12Container);
+                        return CalculateAIMove();
+                    }
                 }
             }
 

@@ -18,13 +18,13 @@ namespace Proxima.Core.OpeningBook
 
         public OpeningBookMove GetMoveFromBook(List<Move> history)
         {
-            var availableOpeningMoves = OpeningBookContainer.Openings;
+            var availableOpeningMoves = OpeningBookContainer.Openings.Where(p => p.Count > history.Count).ToList();
             for(var i=0; i<history.Count; i++)
             {
                 var historyMove = history[i];
 
                 availableOpeningMoves = availableOpeningMoves.Where(p =>
-                        i < p.Count + 1 && p[i].From == historyMove.From && p[i].To == historyMove.To)
+                        p[i].From == historyMove.From && p[i].To == historyMove.To)
                     .ToList();
 
                 if (availableOpeningMoves.Count <= 0)
@@ -33,13 +33,8 @@ namespace Proxima.Core.OpeningBook
                 }
             }
 
-            if (availableOpeningMoves.Count > 0)
-            {
-                var openingMoveIndex = _random.Next(0, availableOpeningMoves.Count - 1);
-                return availableOpeningMoves[openingMoveIndex][history.Count];
-            }
-
-            return null;
+            var openingMoveIndex = _random.Next(0, availableOpeningMoves.Count - 1);
+            return availableOpeningMoves[openingMoveIndex][history.Count];
         }
     }
 }

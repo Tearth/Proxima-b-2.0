@@ -42,6 +42,10 @@ namespace Proxima.Core.Session
         /// </summary>
         public event EventHandler<GameEndedEventArgs> OnGameEnded;
 
+        public int WhiteRemainingTime => _remainingTime[(int)Color.White];
+
+        public int BlackRemainingTime => _remainingTime[(int)Color.Black];
+
         private AICore _aiCore;
         private PreferredTimeCalculator _preferredTimeCalculator;
 
@@ -63,7 +67,12 @@ namespace Proxima.Core.Session
             Bitboard = new Bitboard(new DefaultFriendlyBoard());
             _preferredTimeCalculator = new PreferredTimeCalculator(50);
 
-            _remainingTime = new int[2];
+            _remainingTime = new int[2]
+            {
+                999999999,
+                999999999
+            };
+
             _history = new List<Move>();
 
             _openingBook = new OpeningBookProvider();

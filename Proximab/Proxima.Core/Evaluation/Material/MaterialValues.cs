@@ -14,7 +14,7 @@ namespace Proxima.Core.Evaluation.Material
             320,    // Knight
             330,    // Bishop
             500,    // Rook
-            1000,   // Queen
+            1200,   // Queen
             10000   // King
         };
     }

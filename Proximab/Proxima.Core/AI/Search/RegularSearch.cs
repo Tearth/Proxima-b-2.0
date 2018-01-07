@@ -45,25 +45,6 @@ namespace Proxima.Core.AI.Search
                 stats.EndNodes++;
                 bestValue = 0;
 
-                var drawTranspositionNode = new TranspositionNode();
-                drawTranspositionNode.Score = bestValue;
-                drawTranspositionNode.Depth = depth;
-
-                if (bestValue <= originalAlpha)
-                {
-                    drawTranspositionNode.Type = ScoreType.UpperBound;
-                }
-                else if (bestValue >= beta)
-                {
-                    drawTranspositionNode.Type = ScoreType.LowerBound;
-                }
-                else
-                {
-                    drawTranspositionNode.Type = ScoreType.Exact;
-                }
-
-                _transpositionTable.AddOrUpdate(boardHash, drawTranspositionNode);
-
                 return bestValue;
             }
 
