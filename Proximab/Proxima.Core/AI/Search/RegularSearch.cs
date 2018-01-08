@@ -43,9 +43,7 @@ namespace Proxima.Core.AI.Search
             if (bitboard.IsThreefoldRepetition())
             {
                 stats.EndNodes++;
-                bestValue = 0;
-
-                return bestValue;
+                return 0;
             }
 
             if (_transpositionTable.Exists(boardHash))
@@ -141,6 +139,7 @@ namespace Proxima.Core.AI.Search
 
             if (bestValue == -(AIConstants.MateValue + depth - 1) && !bitboard.IsCheck(color))
             {
+                stats.EndNodes++;
                 return 0;
             }
 
