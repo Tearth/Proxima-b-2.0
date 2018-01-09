@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Proxima.Core.AI.Transposition
 {
@@ -58,7 +59,29 @@ namespace Proxima.Core.AI.Transposition
         /// </summary>
         public void Clear()
         {
-            _table.Clear();
+            //_table.Clear();
+
+            var keysToRemove = new List<ulong>();
+            foreach(var node in _table)
+            {
+                node.Value.Age--;
+
+                if (node.Value.Age < 0)
+                {
+                    keysToRemove.Add(node.Key);
+                }
+            }
+
+            foreach (var key in keysToRemove)
+            {
+                _table.Remove(key);
+            }
+
+            /*var toRemove = _table.Where(p => p.Value.Age < 0).ToList();
+            foreach (var node in toRemove)
+            {
+                _table.Remove(node.Key);
+            }*/
         }
     }
 }
