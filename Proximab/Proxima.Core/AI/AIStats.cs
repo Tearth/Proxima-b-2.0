@@ -18,7 +18,7 @@
         /// <summary>
         /// Gets the branching factor (average number of children per node).
         /// </summary>
-        public int BranchingFactor => TotalNodes > 1 ? (TotalNodes - 1) / (TotalNodes - EndNodes) : 0;
+        public int BranchingFactor => TotalNodes > EndNodes ? (TotalNodes - 1) / (TotalNodes - EndNodes) : 1;
 
         public int AlphaBetaCutoffs { get; set; }
 
