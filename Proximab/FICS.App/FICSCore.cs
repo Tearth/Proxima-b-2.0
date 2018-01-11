@@ -85,6 +85,12 @@ namespace FICS.App
         /// <param name="e">The event arguments.</param>
         private void FICSMode_OnChangeMode(object sender, ChangeModeEventArgs e)
         {
+            if (_ficsMode != null)
+            {
+                _ficsMode.OnSendData -= FICSMode_OnSendData;
+                _ficsMode.OnChangeMode -= FICSMode_OnChangeMode;
+            }
+
             ChangeMode(e.NewModeType);
         }
 

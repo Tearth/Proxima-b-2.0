@@ -96,7 +96,13 @@ namespace Proxima.Core.Session
                 return;
             }
 
-            var moveToApply = Bitboard.Moves.First(p => p.From == from && p.To == to);
+            // Temporary but I think that's not necessary
+            var moveToApply = Bitboard.Moves.FirstOrDefault(p => p.From == from && p.To == to);
+            if (moveToApply == null)
+            {
+                Console.WriteLine($"{from} {to} not found");
+                return;
+            }
 
             Bitboard = Bitboard.Move(moveToApply);
             _history.Add(moveToApply);
@@ -123,9 +129,16 @@ namespace Proxima.Core.Session
 
             var possibleMovesToApply = Bitboard.Moves
                 .OfType<PromotionMove>()
-                .First(p => p.From == from && 
+                .FirstOrDefault(p => p.From == from && 
                             p.To == to && 
                             p.PromotionPiece == promotionPieceType);
+
+            // Temporary but I think that's not necessary
+            if (possibleMovesToApply == null)
+            {
+                Console.WriteLine($"{from} {to} not found");
+                return;
+            }
 
             Bitboard = Bitboard.Move(possibleMovesToApply);
             _history.Add(possibleMovesToApply);
@@ -166,6 +179,13 @@ namespace Proxima.Core.Session
             {
                 var preferredTime = _preferredTimeCalculator.Calculate(MovesCount, _remainingTime[(int)color]);
                 var aiResult = _aiCore.Calculate(color, Bitboard, preferredTime);
+
+                // Temporary
+                if (aiResult.PVNodes.Count < 1)
+                {
+                    Console.WriteLine($"Move not found");
+                    return null;
+                }
 
                 Bitboard = Bitboard.Move(aiResult.PVNodes[0]);
                 _history.Add(aiResult.PVNodes[0]);
