@@ -25,6 +25,27 @@ namespace Proxima.Core.MoveGenerators.PatternGenerators
             return predefinedMoves;
         }
 
+        public ulong[] GenerateExpanded()
+        {
+            var normalPattern = Generate();
+            var expandedPattern = new ulong[64];
+
+            for (var i = 0; i < 64; i++)
+            {
+                while (normalPattern[i] != 0)
+                {
+                    var patternLSB = BitOperations.GetLSB(normalPattern[i]);
+                    normalPattern[i] = BitOperations.PopLSB(normalPattern[i]);
+
+                    expandedPattern[i] |= GetPattern(patternLSB);
+                }
+
+                expandedPattern[i] &= ~(1ul << i);
+            }
+
+            return expandedPattern;
+        }
+
         /// <summary>
         /// Calculates pattern for the specified field.
         /// </summary>

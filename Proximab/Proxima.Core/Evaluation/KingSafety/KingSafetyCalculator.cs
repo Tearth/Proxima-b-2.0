@@ -55,7 +55,7 @@ namespace Proxima.Core.Evaluation.KingSafety
 
             var king = bitboard.Pieces[FastArray.GetPieceIndex(color, PieceType.King)];
             var kingIndex = BitOperations.GetBitIndex(king);
-            var kingMoves = PatternsContainer.KingPattern[kingIndex];
+            var kingMoves = PatternsContainer.KingExpandedPattern[kingIndex];
 
             while (kingMoves != 0)
             {

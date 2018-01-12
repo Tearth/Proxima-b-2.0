@@ -14,6 +14,8 @@
         /// Gets the king pattern.
         /// </summary>
         public static ulong[] KingPattern { get; private set; }
+        
+        public static ulong[] KingExpandedPattern { get; private set; }
 
         /// <summary>
         /// Gets the rook pattern.
@@ -32,6 +34,7 @@
         {
             KnightPattern = new KnightPatternGenerator().Generate();
             KingPattern = new KingPatternGenerator().Generate();
+            KingExpandedPattern = new KingPatternGenerator().GenerateExpanded();
             RookPattern = new RookPatternGenerator().Generate();
             BishopPattern = new BishopPatternGenerator().Generate();
         }
