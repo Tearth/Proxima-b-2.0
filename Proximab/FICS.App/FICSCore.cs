@@ -51,7 +51,11 @@ namespace FICS.App
         /// <param name="e">The event arguments.</param>
         private void FicsClient_OnDataReceive(object sender, DataReceivedEventArgs e)
         {
-            _consoleManager.WriteLine($"$R{FICSConstants.ReceivePrefix}: $c{e.Text}");
+            // FICS can sometimes send text with false '$' character which can cause exception due to
+            // unrecognised color symbol.
+            var textWithoutFalseColorSymbols = e.Text.Replace("$", "");
+
+            _consoleManager.WriteLine($"$R{FICSConstants.ReceivePrefix}: $c{textWithoutFalseColorSymbols}");
             _textLogger.WriteLine($"{FICSConstants.ReceivePrefix}: {e.Text}");
 
             _ficsMode.ProcessMessage(e.Text);
