@@ -64,7 +64,7 @@ namespace Proxima.Core.AI
 
                 estimatedTimeForNextIteration = (int)stopwatch.Elapsed.TotalMilliseconds * result.Stats.BranchingFactor;
             }
-            while (estimatedTimeForNextIteration < preferredTime * 1000 && result.Depth < 20);
+            while (estimatedTimeForNextIteration < preferredTime * 1000 && result.Depth < 12 && Math.Abs(result.Score) != AIConstants.MateValue);
 
             return result;
         }
