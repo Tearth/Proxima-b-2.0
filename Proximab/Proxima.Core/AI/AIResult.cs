@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Proxima.Core.Commons.Colors;
 using Proxima.Core.MoveGenerators.Moves;
 
 namespace Proxima.Core.AI
@@ -15,6 +16,8 @@ namespace Proxima.Core.AI
         public int Score { get; set; }
 
         public PVNodesList PVNodes { get; set; }
+
+        public Color Color { get; set; }
 
         /// <summary>
         /// Gets or sets the maximal depth of any calculated node.

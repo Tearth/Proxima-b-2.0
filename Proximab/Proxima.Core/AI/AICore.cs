@@ -45,7 +45,9 @@ namespace Proxima.Core.AI
             var stopwatch = new Stopwatch();
             int estimatedTimeForNextIteration;
 
+            result.Color = color;
             result.PreferredTime = preferredTime;
+
             _transpositionTable.Clear();
 
             stopwatch.Start();

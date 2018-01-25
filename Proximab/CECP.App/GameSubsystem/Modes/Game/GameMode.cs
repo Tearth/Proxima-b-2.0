@@ -79,7 +79,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
             if (_thinkingOutputEnabled)
             {
                 var depth = e.AIResult.Depth;
-                var score = e.AIResult.Score;
+                var score = ColorOperations.ToSign(e.AIResult.Color) * e.AIResult.Score;
                 var time = (int)(e.AIResult.Time * 100);
                 var totalNodes = e.AIResult.Stats.TotalNodes;
 
