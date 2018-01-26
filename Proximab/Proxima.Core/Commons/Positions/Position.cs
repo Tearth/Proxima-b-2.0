@@ -11,12 +11,23 @@ namespace Proxima.Core.Commons.Positions
         /// <summary>
         /// Gets or sets the horizontal position.
         /// </summary>
-        public int X { get; set; }
+        public byte X { get; set; }
 
         /// <summary>
         /// Gets or sets the vertical position.
         /// </summary>
-        public int Y { get; set; }
+        public byte Y { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Position"/> struct.
+        /// </summary>
+        /// <param name="x">Horizontal coordinate.</param>
+        /// <param name="y">Vertical coordinate.</param>
+        public Position(byte x, byte y)
+        {
+            X = x;
+            Y = y;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Position"/> struct.
@@ -25,8 +36,8 @@ namespace Proxima.Core.Commons.Positions
         /// <param name="y">Vertical coordinate.</param>
         public Position(int x, int y)
         {
-            X = x;
-            Y = y;
+            X = (byte)x;
+            Y = (byte)y;
         }
 
         /// <summary>

@@ -128,6 +128,11 @@ namespace Proxima.Core.MoveGenerators.Moves
 
             IncrementalZobrist.AddOrRemovePiece(Color, pieceFrom, from, bitboard);
             IncrementalZobrist.AddOrRemovePiece(Color, pieceTo, to, bitboard);
+
+            if (pieceFrom == PieceType.Pawn)
+            {
+                bitboard.ReversibleMoves = 0;
+            }
         }
 
         /// <summary>
@@ -150,6 +155,7 @@ namespace Proxima.Core.MoveGenerators.Moves
                     IncrementalPosition.RemovePiece(bitboard, enemyColor, (PieceType)piece, fieldLSB);
                     IncrementalZobrist.AddOrRemovePiece(enemyColor, (PieceType)piece, fieldLSB, bitboard);
 
+                    bitboard.ReversibleMoves = 0;
                     break;
                 }
             }
@@ -173,6 +179,8 @@ namespace Proxima.Core.MoveGenerators.Moves
 
                     bitboard.CastlingPossibility[shortCastlingIndex] = false;
                     bitboard.CastlingPossibility[longCastlingIndex] = false;
+
+                    bitboard.ReversibleMoves = 0;
                     break;
                 }
 
@@ -189,6 +197,7 @@ namespace Proxima.Core.MoveGenerators.Moves
                         bitboard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Short)] = false;
                     }
 
+                    bitboard.ReversibleMoves = 0;
                     break;
                 }
             }

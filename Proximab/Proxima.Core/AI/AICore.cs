@@ -48,7 +48,10 @@ namespace Proxima.Core.AI
             result.Color = color;
             result.PreferredTime = preferredTime;
 
-            _transpositionTable.Clear();
+            if (bitboard.ReversibleMoves == 0)
+            {
+                _transpositionTable.Clear();
+            }
 
             stopwatch.Start();
             do

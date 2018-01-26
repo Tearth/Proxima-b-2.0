@@ -130,11 +130,10 @@ namespace GUI.App.BoardSubsystem.Selections
         /// <returns>The field position.</returns>
         private Position GetFieldPosition(Point clickPoint)
         {
-            return new Position
-            {
-                X = 1 + (int)((clickPoint.X - Constants.BoardPosition.X) / Constants.FieldWidthHeight),
-                Y = 8 - (int)((clickPoint.Y - Constants.BoardPosition.Y) / Constants.FieldWidthHeight)
-            };
+            var x = 1 + (int)((clickPoint.X - Constants.BoardPosition.X) / Constants.FieldWidthHeight);
+            var y = 8 - (int)((clickPoint.Y - Constants.BoardPosition.Y) / Constants.FieldWidthHeight);
+
+            return new Position(x, y);
         }
 
         /// <summary>
@@ -144,8 +143,8 @@ namespace GUI.App.BoardSubsystem.Selections
         /// <returns>The normalized position.</returns>
         private Position NormalizePosition(Position position)
         {
-            position.X = Math.Min(8, position.X);
-            position.Y = Math.Max(1, position.Y);
+            position.X = Math.Min((byte)8, position.X);
+            position.Y = Math.Max((byte)1, position.Y);
 
             return position;
         }
