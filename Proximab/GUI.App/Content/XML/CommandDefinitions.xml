@@ -250,6 +250,14 @@
 		    <Arguments>
 		    </Arguments>
 		  </Item>
+      
+		  <Item>
+		    <Name>Reversible</Name>
+		    <EnumType>Reversible</EnumType>
+		    <Description>Displays reversible moves count.</Description>
+		    <Arguments>
+		    </Arguments>
+		  </Item>
 		</Definitions>
 	</Asset>
 </XnaContent>

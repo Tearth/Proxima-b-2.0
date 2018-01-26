@@ -12,7 +12,8 @@ namespace GUI.App.GameSubsystem.Modes
     /// </summary>
     public class AIvsAIMode : GameModeBase
     {
-        private AICore _ai;
+        private AICore _whiteAI;
+        private AICore _blackAI;
         private Color _currentColor;
 
         /// <summary>
@@ -22,7 +23,8 @@ namespace GUI.App.GameSubsystem.Modes
         /// <param name="commandsManager">The commands manager.</param>
         public AIvsAIMode(ConsoleManager consoleManager, CommandsManager commandsManager) : base(consoleManager, commandsManager)
         {
-            _ai = new AICore();
+            _whiteAI = new AICore();
+            _blackAI = new AICore();
             _currentColor = Color.White;
 
             CalculateBitboard(new DefaultFriendlyBoard(), false);
@@ -49,7 +51,9 @@ namespace GUI.App.GameSubsystem.Modes
             {
                 while (true)
                 {
-                    var aiResult = _ai.Calculate(_currentColor, Bitboard, preferredTimeArgument);
+                    var currentAI = _currentColor == Color.White ? _whiteAI : _blackAI;
+
+                    var aiResult = currentAI.Calculate(_currentColor, Bitboard, preferredTimeArgument);
                     var enemyColor = ColorOperations.Invert(_currentColor);
 
                     ConsoleManager.WriteLine();

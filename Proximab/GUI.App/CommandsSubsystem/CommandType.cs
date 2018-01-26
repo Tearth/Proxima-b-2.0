@@ -32,6 +32,7 @@ namespace GUI.App.CommandsSubsystem
         RunAIGame,
         Quiescence,
         SEE,
-        Repetition
+        Repetition,
+        Reversible
     }
 }

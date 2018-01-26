@@ -54,6 +54,7 @@ namespace GUI.App.GameSubsystem.Modes
             CommandsManager.AddCommandHandler(CommandType.Quiescence, CommandGroup.GameMode, SetQuiescenceSearch);
             CommandsManager.AddCommandHandler(CommandType.SEE, CommandGroup.GameMode, RunSEE);
             CommandsManager.AddCommandHandler(CommandType.Repetition, CommandGroup.GameMode, CheckThreefoldRepetition);
+            CommandsManager.AddCommandHandler(CommandType.Reversible, CommandGroup.GameMode, DisplayReversibleMovesCount);
         }
 
         /// <summary>
@@ -286,6 +287,11 @@ namespace GUI.App.GameSubsystem.Modes
         {
             var threefoldRepetition = Bitboard.IsThreefoldRepetition();
             ConsoleManager.WriteLine($"$wThreefold repetition: {ColorfulConsoleHelpers.ParseBool(threefoldRepetition)}");
+        }
+
+        private void DisplayReversibleMovesCount(Command command)
+        {
+            ConsoleManager.WriteLine($"$g{Bitboard.ReversibleMoves}");
         }
     }
 }

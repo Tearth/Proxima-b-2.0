@@ -12,12 +12,5 @@ namespace Proxima.Core.AI.Transposition
         public int Depth { get; set; }
 
         public Move BestMove { get; set; }
-
-        public int Age { get; set; }
-
-        public TranspositionNode()
-        {
-            Age = 1;
-        }
     }
 }

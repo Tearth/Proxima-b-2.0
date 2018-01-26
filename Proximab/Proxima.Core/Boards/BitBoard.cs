@@ -71,6 +71,8 @@ namespace Proxima.Core.Boards
 
         public ulong[] History { get; set; }
 
+        public int ReversibleMoves { get; set; }
+
         /// <summary>
         /// Gets the available moves list (only if Calculate method was called).
         /// </summary>
@@ -112,6 +114,7 @@ namespace Proxima.Core.Boards
         {
             Hash = bitboard.Hash;
             GamePhase = bitboard.GamePhase;
+            ReversibleMoves = bitboard.ReversibleMoves;
 
             Buffer.BlockCopy(bitboard.Pieces, 0, Pieces, 0, bitboard.Pieces.Length * sizeof(ulong));
             Buffer.BlockCopy(bitboard.CastlingPossibility, 0, CastlingPossibility, 0, bitboard.CastlingPossibility.Length * sizeof(bool));
@@ -134,6 +137,8 @@ namespace Proxima.Core.Boards
             IncrementalZobrist.ClearEnPassant(ColorOperations.Invert(move.Color), this);
 
             EnPassant[(int)ColorOperations.Invert(move.Color)] = 0;
+            ReversibleMoves++;
+
             move.Do(this);
 
             CalculateGamePhase();
