@@ -50,7 +50,6 @@ namespace Proxima.Core.AI
 
             if (bitboard.ReversibleMoves == 0 && preferredTime != 0)
             {
-                Console.WriteLine("q");
                 _transpositionTable.Clear();
             }
 
@@ -80,7 +79,7 @@ namespace Proxima.Core.AI
             var pvNodes = new PVNodesList();
             var boardHash = bitboard.GetHashForColor(color);
 
-            while (_transpositionTable.Exists(boardHash) && pvNodes.Count < 20)
+            while (_transpositionTable.Exists(boardHash) && pvNodes.Count < 12)
             {
                 var pvNode = _transpositionTable.Get(boardHash);
 
