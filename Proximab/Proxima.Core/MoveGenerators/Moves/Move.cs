@@ -180,7 +180,6 @@ namespace Proxima.Core.MoveGenerators.Moves
                     bitboard.CastlingPossibility[shortCastlingIndex] = false;
                     bitboard.CastlingPossibility[longCastlingIndex] = false;
 
-                    bitboard.ReversibleMoves = 0;
                     break;
                 }
 
@@ -197,7 +196,6 @@ namespace Proxima.Core.MoveGenerators.Moves
                         bitboard.CastlingPossibility[FastArray.GetCastlingIndex(Color, CastlingType.Short)] = false;
                     }
 
-                    bitboard.ReversibleMoves = 0;
                     break;
                 }
             }
