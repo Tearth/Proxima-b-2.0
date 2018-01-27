@@ -16,7 +16,7 @@ namespace Proxima.Core.AI.KillerHeuristic
         {
             _table = new byte[12][][];
 
-            for (int depth = 0; depth < 2; depth++)
+            for (int depth = 0; depth < 12; depth++)
             {
                 _table[depth] = new byte[64][];
 
@@ -46,7 +46,7 @@ namespace Proxima.Core.AI.KillerHeuristic
             var fromIndex = BitPositionConverter.ToBitIndex(move.From);
             var toIndex = BitPositionConverter.ToBitIndex(move.To);
 
-            _table[depth][fromIndex][toIndex]++;
+            _table[depth - 1][fromIndex][toIndex]++;
         }
 
         public int GetKillersCount(int depth, Move move)
@@ -54,7 +54,7 @@ namespace Proxima.Core.AI.KillerHeuristic
             var fromIndex = BitPositionConverter.ToBitIndex(move.From);
             var toIndex = BitPositionConverter.ToBitIndex(move.To);
 
-            return _table[depth][fromIndex][toIndex];
+            return _table[depth - 1][fromIndex][toIndex];
         }
     }
 }

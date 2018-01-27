@@ -101,7 +101,7 @@ namespace Proxima.Core.AI.Search
 
             Move bestMove = null;
 
-            var availableMoves = SortMoves(color, bitboard, bitboard.Moves);
+            var availableMoves = SortMoves(color, depth, bitboard, bitboard.Moves);
             var firstMove = true;
 
             foreach (var move in availableMoves)
@@ -171,13 +171,13 @@ namespace Proxima.Core.AI.Search
             return bestValue;
         }
 
-        private List<Move> SortMoves(Color color, Bitboard bitboard, LinkedList<Move> moves)
+        private List<Move> SortMoves(Color color, int depth, Bitboard bitboard, LinkedList<Move> moves)
         {
             var sortedMoves = moves.Select(p => new RegularSortedMove { Move = p, Score = -100000 }).ToList();
 
-            AssignPVScore(color, bitboard, sortedMoves);
             AssignSEEScores(color, bitboard, sortedMoves);
-            AssignSpecialScores(sortedMoves);
+            AssignSpecialScores(sortedMoves, depth);
+            AssignPVScore(color, bitboard, sortedMoves);
 
             return sortedMoves.OrderByDescending(p => p.Score).Select(p => p.Move).ToList();
         }
@@ -215,15 +215,27 @@ namespace Proxima.Core.AI.Search
             }
         }
 
-        private void AssignSpecialScores(List<RegularSortedMove> movesToSort)
+        private void AssignSpecialScores(List<RegularSortedMove> movesToSort, int depth)
         {
+            RegularSortedMove bestMove = null;
+            var bestScore = 0;
+
             foreach (var move in movesToSort)
             {
-                if (move.Move is PromotionMove || move.Move is CastlingMove)
+                var killer = _killerTable.GetKillersCount(depth, move.Move);
+                if (killer > bestScore)
+                {
+                    bestMove = move;
+                    bestScore = killer;
+                }
+                else if (move.Move is PromotionMove || move.Move is CastlingMove)
                 {
                     move.Score = 50000;
                 }
             }
+
+            if (bestMove != null)
+                bestMove.Score = 70000;
         }
     }
 }
