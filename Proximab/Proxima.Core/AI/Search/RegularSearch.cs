@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Proxima.Core.AI.KillerHeuristic;
 using Proxima.Core.AI.SEE;
 using Proxima.Core.AI.Transposition;
 using Proxima.Core.Boards;
@@ -14,11 +15,13 @@ namespace Proxima.Core.AI.Search
     public class RegularSearch : SearchBase
     {
         private TranspositionTable _transpositionTable;
+        private KillerTable _killerTable;
         private QuiescenceSearch _quiescenceSearch;
 
-        public RegularSearch(TranspositionTable transpositionTable)
+        public RegularSearch(TranspositionTable transpositionTable, KillerTable killerTable)
         {
             _transpositionTable = transpositionTable;
+            _killerTable = killerTable;
             _quiescenceSearch = new QuiescenceSearch();
         }
 
@@ -132,7 +135,9 @@ namespace Proxima.Core.AI.Search
 
                 if (alpha >= beta)
                 {
+                    _killerTable.AddKiller(depth, bestMove);
                     stats.AlphaBetaCutoffs++;
+
                     break;
                 }
             }
