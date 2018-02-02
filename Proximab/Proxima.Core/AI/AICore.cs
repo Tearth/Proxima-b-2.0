@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Proxima.Core.AI.KillerHeuristic;
+using Proxima.Core.AI.HistoryHeuristic;
 using Proxima.Core.AI.Search;
 using Proxima.Core.AI.SEE;
 using Proxima.Core.AI.Transposition;
@@ -24,15 +24,15 @@ namespace Proxima.Core.AI
         public event EventHandler<ThinkingOutputEventArgs> OnThinkingOutput;
 
         private TranspositionTable _transpositionTable;
-        private KillerTable _killerTable;
+        private HistoryTable _historyTable;
         private RegularSearch _regularSearch;
 
         public AICore()
         {
             _transpositionTable = new TranspositionTable();
-            _killerTable = new KillerTable();
+            _historyTable = new HistoryTable();
 
-            _regularSearch = new RegularSearch(_transpositionTable, _killerTable);
+            _regularSearch = new RegularSearch(_transpositionTable, _historyTable);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Proxima.Core.AI
             result.Color = color;
             result.PreferredTime = preferredTime;
 
-            _killerTable.Clear();
+            _historyTable.Clear();
             if (bitboard.ReversibleMoves == 0 && preferredTime != 0)
             {
                 _transpositionTable.Clear();

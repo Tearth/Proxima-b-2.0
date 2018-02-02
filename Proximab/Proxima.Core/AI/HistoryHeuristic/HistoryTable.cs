@@ -4,32 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Proxima.Core.Commons.BitHelpers;
+using Proxima.Core.Commons.Colors;
 using Proxima.Core.MoveGenerators.Moves;
 
-namespace Proxima.Core.AI.KillerHeuristic
+namespace Proxima.Core.AI.HistoryHeuristic
 {
-    public class KillerTable
+    public class HistoryTable
     {
-        private byte[][][] _table;
+        private int[][][] _table;
 
-        public KillerTable()
+        public HistoryTable()
         {
-            _table = new byte[12][][];
+            _table = new int[2][][];
 
-            for (int depth = 0; depth < 12; depth++)
+            for (int depth = 0; depth < 2; depth++)
             {
-                _table[depth] = new byte[64][];
+                _table[depth] = new int[64][];
 
                 for (int fieldFrom = 0; fieldFrom < 64; fieldFrom++)
                 {
-                    _table[depth][fieldFrom] = new byte[64];
+                    _table[depth][fieldFrom] = new int[64];
                 }
             }
         }
 
         public void Clear()
         {
-            for (int depth = 0; depth < 12; depth++)
+            for (int depth = 0; depth < 2; depth++)
             {
                 for (int fieldFrom = 0; fieldFrom < 64; fieldFrom++)
                 {
@@ -41,20 +42,20 @@ namespace Proxima.Core.AI.KillerHeuristic
             }
         }
 
-        public void AddKiller(int depth, Move move)
+        public void AddKiller(Color color, int depth, Move move)
         {
             var fromIndex = BitPositionConverter.ToBitIndex(move.From);
             var toIndex = BitPositionConverter.ToBitIndex(move.To);
 
-            _table[depth - 1][fromIndex][toIndex]++;
+            _table[(int)color][fromIndex][toIndex] += depth * depth;
         }
 
-        public int GetKillersCount(int depth, Move move)
+        public int GetKillersCount(Color color, Move move)
         {
             var fromIndex = BitPositionConverter.ToBitIndex(move.From);
             var toIndex = BitPositionConverter.ToBitIndex(move.To);
 
-            return _table[depth - 1][fromIndex][toIndex];
+            return _table[(int)color][fromIndex][toIndex];
         }
     }
 }
