@@ -32,7 +32,7 @@ namespace Proxima.Core.AI.Transposition
             else
             {
                 var oldNode = _table[hash];
-                if (node.Depth > oldNode.Depth)
+                if (node.Depth >= oldNode.Depth)
                 {
                     _table[hash] = node;
                 }

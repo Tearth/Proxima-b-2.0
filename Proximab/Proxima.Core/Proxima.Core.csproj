@@ -43,6 +43,7 @@
     <Compile Include="AI\AIResult.cs" />
     <Compile Include="AI\AIStats.cs" />
     <Compile Include="AI\HistoryHeuristic\HistoryTable.cs" />
+    <Compile Include="AI\KillerHeuristic\KillerTable.cs" />
     <Compile Include="AI\PVNodesList.cs" />
     <Compile Include="AI\Search\QuiescenceSearch.cs" />
     <Compile Include="AI\Search\RegularSearch.cs" />
@@ -181,8 +182,6 @@
     <Compile Include="Tests\MovesTestData.cs" />
     <Compile Include="Time\PreferredTimeCalculator.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AI\KillerHeuristic\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

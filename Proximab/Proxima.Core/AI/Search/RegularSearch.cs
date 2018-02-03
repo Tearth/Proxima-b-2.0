@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Proxima.Core.AI.HistoryHeuristic;
+using Proxima.Core.AI.KillerHeuristic;
 using Proxima.Core.AI.SEE;
 using Proxima.Core.AI.Transposition;
 using Proxima.Core.Boards;
@@ -16,12 +17,14 @@ namespace Proxima.Core.AI.Search
     {
         private TranspositionTable _transpositionTable;
         private HistoryTable _historyTable;
+        private KillerTable _killerTable;
         private QuiescenceSearch _quiescenceSearch;
 
-        public RegularSearch(TranspositionTable transpositionTable, HistoryTable historyTable)
+        public RegularSearch(TranspositionTable transpositionTable, HistoryTable historyTable, KillerTable killerTable)
         {
             _transpositionTable = transpositionTable;
             _historyTable = historyTable;
+            _killerTable = killerTable;
             _quiescenceSearch = new QuiescenceSearch();
         }
 
@@ -135,9 +138,10 @@ namespace Proxima.Core.AI.Search
 
                 if (alpha >= beta)
                 {
-                    //if (move is QuietMove)
+                    if (move is QuietMove)
                     {
                         _historyTable.AddKiller(color, depth, bestMove);
+                        _killerTable.SetKiller(color, depth, move);
                     }
 
                     stats.AlphaBetaCutoffs++;
@@ -179,8 +183,8 @@ namespace Proxima.Core.AI.Search
         {
             var sortedMoves = moves.Select(p => new RegularSortedMove { Move = p, Score = -100000 }).ToList();
 
+            AssignSpecialScores(sortedMoves, color, depth);
             AssignSEEScores(color, bitboard, sortedMoves);
-            AssignSpecialScores(sortedMoves, color);
             AssignPVScore(color, bitboard, sortedMoves);
 
             return sortedMoves.OrderByDescending(p => p.Score).Select(p => p.Move).ToList();
@@ -214,26 +218,33 @@ namespace Proxima.Core.AI.Search
 
                 if (sortedMove != null)
                 {
+                    if (seeResult.Score < 0)
+                    {
+                        seeResult.Score *= 1000;
+                    }
+
                     sortedMove.Score = seeResult.Score;
                 }
             }
         }
 
-        private void AssignSpecialScores(List<RegularSortedMove> movesToSort, Color color)
+        private void AssignSpecialScores(List<RegularSortedMove> movesToSort, Color color, int depth)
         {
-            RegularSortedMove bestMove = null;
-
             foreach (var move in movesToSort)
             {
-                //var killer = _historyTable.GetKillersCount(color, move.Move);
+                var killer = _historyTable.GetKillersCount(color, move.Move);
                 if (move.Move is PromotionMove || move.Move is CastlingMove)
                 {
                     move.Score = 50000;
                 }
-                /*else
+                else if (_killerTable.IsKiller(color, depth, move.Move))
                 {
-                    move.Score = killer;
-                }*/
+                    move.Score = 10;
+                }
+                else
+                {
+                    move.Score = -(1000 - killer);
+                }
             }
         }
     }

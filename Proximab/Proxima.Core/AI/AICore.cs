@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Proxima.Core.AI.HistoryHeuristic;
+using Proxima.Core.AI.KillerHeuristic;
 using Proxima.Core.AI.Search;
 using Proxima.Core.AI.SEE;
 using Proxima.Core.AI.Transposition;
@@ -25,14 +26,16 @@ namespace Proxima.Core.AI
 
         private TranspositionTable _transpositionTable;
         private HistoryTable _historyTable;
+        private KillerTable _killerTable;
         private RegularSearch _regularSearch;
 
         public AICore()
         {
             _transpositionTable = new TranspositionTable();
             _historyTable = new HistoryTable();
+            _killerTable = new KillerTable();;
 
-            _regularSearch = new RegularSearch(_transpositionTable, _historyTable);
+            _regularSearch = new RegularSearch(_transpositionTable, _historyTable, _killerTable);
         }
 
         /// <summary>
@@ -57,11 +60,14 @@ namespace Proxima.Core.AI
             {
                 _transpositionTable.Clear();
             }
+            _killerTable.Clear();
 
             stopwatch.Start();
             do
             {
                 result.Depth++;
+                
+                _killerTable.SetInitialDepth(result.Depth);
 
                 var stats = new AIStats();
                 result.Score = colorSign * _regularSearch.Do(color, new Bitboard(bitboard), result.Depth, AIConstants.InitialAlphaValue, AIConstants.InitialBetaValue, stats);
@@ -74,7 +80,9 @@ namespace Proxima.Core.AI
 
                 estimatedTimeForNextIteration = (int)stopwatch.Elapsed.TotalMilliseconds * result.Stats.BranchingFactor;
             }
-            while (estimatedTimeForNextIteration < preferredTime * 1000 && result.Depth < 12 && Math.Abs(result.Score) != AIConstants.MateValue);
+            while (estimatedTimeForNextIteration < preferredTime * 1000 && 
+                   result.Depth < AIConstants.MaxDepth && 
+                   Math.Abs(result.Score) != AIConstants.MateValue);
 
             return result;
         }
@@ -84,7 +92,7 @@ namespace Proxima.Core.AI
             var pvNodes = new PVNodesList();
             var boardHash = bitboard.GetHashForColor(color);
 
-            while (_transpositionTable.Exists(boardHash) && pvNodes.Count < 12)
+            while (_transpositionTable.Exists(boardHash) && pvNodes.Count < AIConstants.MaxDepth)
             {
                 var pvNode = _transpositionTable.Get(boardHash);
 
