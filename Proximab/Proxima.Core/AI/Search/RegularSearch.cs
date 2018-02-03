@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Proxima.Core.AI.HistoryHeuristic;
 using Proxima.Core.AI.KillerHeuristic;
+using Proxima.Core.AI.Patterns;
 using Proxima.Core.AI.SEE;
 using Proxima.Core.AI.Transposition;
 using Proxima.Core.Boards;
@@ -19,6 +20,7 @@ namespace Proxima.Core.AI.Search
         private HistoryTable _historyTable;
         private KillerTable _killerTable;
         private QuiescenceSearch _quiescenceSearch;
+        private PatternsDetector _patternsDetector;
 
         public RegularSearch(TranspositionTable transpositionTable, HistoryTable historyTable, KillerTable killerTable)
         {
@@ -26,6 +28,7 @@ namespace Proxima.Core.AI.Search
             _historyTable = historyTable;
             _killerTable = killerTable;
             _quiescenceSearch = new QuiescenceSearch();
+            _patternsDetector = new PatternsDetector();
         }
 
         /// <summary>
@@ -109,6 +112,14 @@ namespace Proxima.Core.AI.Search
 
             foreach (var move in availableMoves)
             {
+                if (stats.TotalNodes == 1)
+                {
+                    if (_patternsDetector.IsPattern(bitboard, move))
+                    {
+                        continue;
+                    }
+                }
+
                 var bitboardAfterMove = bitboard.Move(move);
                 var nodeValue = 0;
 
