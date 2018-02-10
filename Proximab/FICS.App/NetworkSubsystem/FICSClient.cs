@@ -38,8 +38,6 @@ namespace FICS.App.NetworkSubsystem
             _configManager = configManager;
 
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            _socket.NoDelay = true;
-
             _connectDone = new ManualResetEvent(false);
 
             _commands = new List<string>
