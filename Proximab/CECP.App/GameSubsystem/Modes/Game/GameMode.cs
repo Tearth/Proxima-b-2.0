@@ -46,7 +46,8 @@ namespace CECP.App.GameSubsystem.Modes.Game
             {
                 { "1-0", GameResult.WhiteWon },
                 { "0-1", GameResult.BlackWon },
-                { "1/2-1/2", GameResult.Draw }
+                { "1/2-1/2", GameResult.Draw },
+                { "*", GameResult.Aborted }
             };
 
             CommandsManager.AddCommandHandler(CommandType.Post, ExecutePostCommand);
