@@ -16,6 +16,9 @@ namespace FICS.App
         private const string ConfigFilename = "FICSConfig.xml";
 
         private static TextLogger _textLogger;
+        private static ColorfulConsoleManager _consoleManager;
+        private static ConfigManager _configManager;
+        private static FICSCore _ficsCore;
 
         /// <summary>
         /// Entry point.
@@ -23,18 +26,30 @@ namespace FICS.App
         /// <param name="args">Program arguments.</param>
         public static void Main(string[] args)
         {
-            _textLogger = new TextLogger(LogsDirectory);
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
             ProximaCore.Init();
 
-            var consoleManager = new ColorfulConsoleManager(ApplicationName);
-            var configManager = new ConfigManager(ConfigFilename);
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            var ficsCore = new FICSCore(consoleManager, configManager, _textLogger);
-            ficsCore.Run();
+            _textLogger = new TextLogger(LogsDirectory);
+            _consoleManager = new ColorfulConsoleManager(ApplicationName);
+            _configManager = new ConfigManager(ConfigFilename);
+            _ficsCore = new FICSCore(_consoleManager, _configManager, _textLogger);
 
-            while(!Console.ReadLine().Contains("quit"));
+            _ficsCore.Run();
+
+            while (true)
+            {
+                var text = Console.ReadLine();
+                if (text != null)
+                {
+                    if (text.Contains("quit"))
+                    {
+                        break;
+                    }
+
+                    _ficsCore.Send(text);
+                }
+            }
         }
 
         /// <summary>

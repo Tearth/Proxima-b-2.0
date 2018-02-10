@@ -45,6 +45,15 @@ namespace FICS.App
         }
 
         /// <summary>
+        /// Sends a text to the server.
+        /// </summary>
+        /// <param name="text">The text to send.</param>
+        public void Send(string text)
+        {
+            _ficsClient.Send(text);
+        }
+
+        /// <summary>
         /// The event handler for OnDataReceive.
         /// </summary>
         /// <param name="sender">The event sender.</param>
