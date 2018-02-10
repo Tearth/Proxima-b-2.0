@@ -55,6 +55,8 @@ namespace Proxima.Core.AI
             result.Color = color;
             result.PreferredTime = preferredTime;
 
+            var deadline = DateTime.Now.AddSeconds(preferredTime * 2).Ticks;
+
             _historyTable.Clear();
             if (bitboard.ReversibleMoves == 0 && preferredTime != 0)
             {
@@ -70,17 +72,27 @@ namespace Proxima.Core.AI
                 _killerTable.SetInitialDepth(result.Depth);
 
                 var stats = new AIStats();
-                result.Score = colorSign * _regularSearch.Do(color, new Bitboard(bitboard), result.Depth, AIConstants.InitialAlphaValue, AIConstants.InitialBetaValue, stats);
+                var score = colorSign * _regularSearch.Do(color, new Bitboard(bitboard), result.Depth, AIConstants.InitialAlphaValue, AIConstants.InitialBetaValue, deadline, stats);
 
-                result.PVNodes = GetPVNodes(bitboard, color);
+                if (DateTime.Now.Ticks <= deadline)
+                {
+                    result.PVNodes = GetPVNodes(bitboard, color);
+                    result.Score = score;
+
+                    OnThinkingOutput?.Invoke(this, new ThinkingOutputEventArgs(result));
+                }
+                else
+                {
+                    result.Depth--;
+                    _transpositionTable.Clear();
+                }
+
                 result.Stats = stats;
                 result.Ticks = stopwatch.Elapsed.Ticks;
 
-                OnThinkingOutput?.Invoke(this, new ThinkingOutputEventArgs(result));
-
                 estimatedTimeForNextIteration = (int)stopwatch.Elapsed.TotalMilliseconds * result.Stats.BranchingFactor;
             }
-            while (estimatedTimeForNextIteration < preferredTime * 1000 && 
+            while (estimatedTimeForNextIteration < preferredTime * 1000 &&
                    result.Depth < AIConstants.MaxDepth && 
                    Math.Abs(result.Score) != AIConstants.MateValue);
 

@@ -40,8 +40,10 @@ namespace Proxima.Core.AI.Search
         /// <param name="bestMove">The best possible move from nested nodes.</param>
         /// <param name="stats">The AI stats.</param>
         /// <returns>The evaluation score of best move.</returns>
-        public int Do(Color color, Bitboard bitboard, int depth, int alpha, int beta, AIStats stats)
+        public int Do(Color color, Bitboard bitboard, int depth, int alpha, int beta, long deadline, AIStats stats)
         {
+            var root = stats.TotalNodes == 0;
+
             var bestValue = AIConstants.InitialAlphaValue;
             var enemyColor = ColorOperations.Invert(color);
             var boardHash = bitboard.GetHashForColor(color);
@@ -112,7 +114,12 @@ namespace Proxima.Core.AI.Search
 
             foreach (var move in availableMoves)
             {
-                if (stats.TotalNodes == 1)
+                if (DateTime.Now.Ticks >= deadline)
+                {
+                    break;
+                }
+
+                if (root)
                 {
                     if (_patternsDetector.IsPattern(bitboard, move))
                     {
@@ -125,17 +132,17 @@ namespace Proxima.Core.AI.Search
 
                 if (firstMove)
                 {
-                    nodeValue = -Do(enemyColor, bitboardAfterMove, depth - 1, -beta, -alpha, stats);
+                    nodeValue = -Do(enemyColor, bitboardAfterMove, depth - 1, -beta, -alpha, deadline, stats);
                     firstMove = false;
                 }
                 else
                 {
-                    nodeValue = -Do(enemyColor, bitboardAfterMove, depth - 1, -alpha - 1, -alpha, stats);
+                    nodeValue = -Do(enemyColor, bitboardAfterMove, depth - 1, -alpha - 1, -alpha, deadline, stats);
 
                     if (nodeValue > alpha && nodeValue < beta)
                     {
                         bitboardAfterMove = bitboard.Move(move);
-                        nodeValue = -Do(enemyColor, bitboardAfterMove, depth - 1, -beta, -alpha, stats);
+                        nodeValue = -Do(enemyColor, bitboardAfterMove, depth - 1, -beta, -alpha, deadline, stats);
                     }
                 }
 
