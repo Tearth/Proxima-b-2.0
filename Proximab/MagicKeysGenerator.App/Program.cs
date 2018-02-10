@@ -6,7 +6,7 @@ namespace MagicKeysGenerator.App
     /// <summary>
     /// Represents the entry point class with Main method.
     /// </summary>
-    internal class Program
+    public class Program
     {
         private static readonly string RookKeysFileName = "Keys/RookKeys.txt";
         private static readonly string BishopKeysFileName = "Keys/BishopKeys.txt";

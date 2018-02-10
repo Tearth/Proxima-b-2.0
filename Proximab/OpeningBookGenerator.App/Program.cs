@@ -8,9 +8,16 @@ using Proxima.Core.MoveGenerators.Moves;
 
 namespace OpeningBookGenerator.App
 {
-    class Program
+    /// <summary>
+    /// Represents the entry point class with Main method.
+    /// </summary>
+    public class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// Entry point.
+        /// </summary>
+        /// <param name="args">Program arguments.</param>
+        public static void Main(string[] args)
         {
             var generator = new Generator();
 
@@ -20,7 +27,11 @@ namespace OpeningBookGenerator.App
             var openingBook = generator.GetOpeningBook("Books/input.book");
             SaveOpeningBook("Books/output.book", openingBook);
         }
-
+        /// <summary>
+        /// Saves parsed openings to the specified file.
+        /// </summary>
+        /// <param name="outputFile">The filename with parsed openings.</param>
+        /// <param name="openingBook">The list of openings.</param>
         private static void SaveOpeningBook(string outputFile, List<List<Move>> openingBook)
         {
             using (var streamWriter = new StreamWriter(outputFile))

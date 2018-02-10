@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace OpeningBookGenerator.App.Exceptions
 {
+    /// <summary>
+    /// The exception that is thrown when a move notation is invalid and cannot be parsed.
+    /// </summary>
     public class InvalidMoveNotationException : Exception
     {
         /// <summary>

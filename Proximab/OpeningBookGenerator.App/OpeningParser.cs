@@ -16,13 +16,24 @@ using Proxima.Core.MoveGenerators.Moves;
 
 namespace OpeningBookGenerator.App
 {
+    /// <summary>
+    /// Represents a set of methods for parsing opening line.
+    /// </summary>
     public class OpeningParser
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OpeningParser"/> class.
+        /// </summary>
         public OpeningParser()
         {
             ProximaCore.Init();
         }
 
+        /// <summary>
+        /// Converts list of text notation moves to list of <see cref="Move"/> objects.
+        /// </summary>
+        /// <param name="moves">The list of text notation moves/</param>
+        /// <returns>The list of moves readable for engine.</returns>
         public List<Move> ParseMoves(List<string> moves)
         {
             var parsedMoves = new List<Move>();
@@ -44,16 +55,21 @@ namespace OpeningBookGenerator.App
             return parsedMoves;
         }
 
+        /// <summary>
+        /// Converts text notation move to <see cref="Move"/> object (e4 = from=e2, to=e4)
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The current color.</param>
+        /// <param name="textMove">The text notation to parse.</param>
+        /// <returns>The <see cref="Move"/> representation of passed text notation.</returns>
         private Move GetMove(Bitboard bitboard, Color color, string textMove)
         {
-            if (textMove == "O-O")
+            switch (textMove)
             {
-                return GetCastling(bitboard, color, CastlingType.Short);
-            }
-
-            if (textMove == "O-O-O")
-            {
-                return GetCastling(bitboard, color, CastlingType.Long);
+                case "O-O":
+                    return GetCastling(bitboard, color, CastlingType.Short);
+                case "O-O-O":
+                    return GetCastling(bitboard, color, CastlingType.Long);
             }
 
             switch (textMove.Length)
@@ -67,6 +83,13 @@ namespace OpeningBookGenerator.App
             throw new InvalidMoveNotationException();
         }
 
+        /// <summary>
+        /// Gets castling move from passed bitboard with the specified parameters.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The current color.</param>
+        /// <param name="castlingType">The castling type.</param>
+        /// <returns>The castling move.</returns>
         private Move GetCastling(Bitboard bitboard, Color color, CastlingType castlingType)
         {
             return bitboard.Moves
@@ -75,6 +98,13 @@ namespace OpeningBookGenerator.App
                             p.CastlingType == castlingType);
         }
 
+        /// <summary>
+        /// Gets the pawn move from passed bitboard with the specified parameters.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The current color.</param>
+        /// <param name="textMove">The pawn move in text notation.</param>
+        /// <returns>The pawn move.</returns>
         private Move GetPawnMove(Bitboard bitboard, Color color, string textMove)
         {
             var toPosition = PositionConverter.ToPosition(textMove);
@@ -86,6 +116,13 @@ namespace OpeningBookGenerator.App
                             p.To == toPosition);
         }
 
+        /// <summary>
+        /// Gets the piece move (not pawn!) from passed bitboard with the specified parameters.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The current color.</param>
+        /// <param name="textMove">The piece move in text notation.</param>
+        /// <returns>The piece move.</returns>
         private Move GetPieceMove(Bitboard bitboard, Color color, string textMove)
         {
             var pieceSymbol = textMove[0];
@@ -101,18 +138,31 @@ namespace OpeningBookGenerator.App
                             p.To == toPosition);
         }
 
+        /// <summary>
+        /// Gets the expanded (with additional symbol which can means file or rank, eg. Rab3) piece move from
+        /// passed bitboard with the specified parameters.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The current color.</param>
+        /// <param name="textMove">The piece move in text notation.</param>
+        /// <returns>The piece move.</returns>
         private Move GetExpandedPieceMove(Bitboard bitboard, Color color, string textMove)
         {
             var initialFileOrRank = textMove[1];
 
-            if (char.IsDigit(initialFileOrRank))
-            {
-                return GetExpandedPieceWithRankMove(bitboard, color, textMove);
-            }
-
-            return GetExpandedPieceWithFileMove(bitboard, color, textMove);
+            return char.IsDigit(initialFileOrRank) ?
+                GetExpandedPieceWithRankMove(bitboard, color, textMove) :
+                GetExpandedPieceWithFileMove(bitboard, color, textMove);
         }
 
+        /// <summary>
+        /// Gets the expanded (with additional symbol which means file) piece move from
+        /// passed bitboard with the specified parameters.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The current color.</param>
+        /// <param name="textMove">The piece move in text notation.</param>
+        /// <returns>The piece move.</returns>
         private Move GetExpandedPieceWithFileMove(Bitboard bitboard, Color color, string textMove)
         {
             var pieceSymbol = textMove[0];
@@ -131,6 +181,14 @@ namespace OpeningBookGenerator.App
                             p.To == toPosition);
         }
 
+        /// <summary>
+        /// Gets the expanded (with additional symbol which means rank) piece move from
+        /// passed bitboard with the specified parameters.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The current color.</param>
+        /// <param name="textMove">The piece move in text notation.</param>
+        /// <returns>The piece move.</returns>
         private Move GetExpandedPieceWithRankMove(Bitboard bitboard, Color color, string textMove)
         {
             var pieceSymbol = textMove[0];
@@ -149,18 +207,29 @@ namespace OpeningBookGenerator.App
                             p.To == toPosition);
         }
 
+        /// <summary>
+        /// Gets the kill move from passed bitboard with the specified parameters.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The current color.</param>
+        /// <param name="textMove">The piece move in text notation.</param>
+        /// <returns>The kill move.</returns>
         private Move GetKillMove(Bitboard bitboard, Color color, string textMove)
         {
             var pieceSymbol = textMove[0];
 
-            if (char.IsLower(pieceSymbol))
-            {
-                return GetPawnKillMove(bitboard, color, textMove);
-            }
-
-            return GetPieceKillMove(bitboard, color, textMove);
+            return char.IsLower(pieceSymbol) ?
+                GetPawnKillMove(bitboard, color, textMove) :
+                GetPieceKillMove(bitboard, color, textMove);
         }
 
+        /// <summary>
+        /// Gets the pawn kill move from passed bitboard with the specified parameters.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The current color.</param>
+        /// <param name="textMove">The piece move in text notation.</param>
+        /// <returns>The pawn kill move.</returns>
         private Move GetPawnKillMove(Bitboard bitboard, Color color, string textMove)
         {
             var initialRank = textMove[0] - 'a' + 1;
@@ -176,6 +245,13 @@ namespace OpeningBookGenerator.App
                             p.To == toPosition);
         }
 
+        /// <summary>
+        /// Gets the piece kill move from passed bitboard with the specified parameters.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="color">The current color.</param>
+        /// <param name="textMove">The piece move in text notation.</param>
+        /// <returns>The piece kill move.</returns>
         private Move GetPieceKillMove(Bitboard bitboard, Color color, string textMove)
         {
             var pieceSymbol = textMove[0];

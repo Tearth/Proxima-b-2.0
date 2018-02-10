@@ -102,7 +102,7 @@ namespace GUI.App.CommandsSubsystem
             var command = GetCommand(rawCommand, commandDefinition);
             var commandHandlers = _commandHandles.Where(p => p.CommandType == command.Type).ToList();
 
-            for (var i = 0; i < commandHandlers.Count(); i++)
+            for (var i = 0; i < commandHandlers.Count; i++)
             {
                 commandHandlers[i].ExecuteCommandDelegate.Invoke(command);
             }

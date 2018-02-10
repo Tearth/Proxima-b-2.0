@@ -15,7 +15,7 @@ namespace MagicKeysGenerator.App
     /// the specified files and loaded every time when main app is starting which is of course
     /// a lot faster.
     /// </remarks>
-    internal class Generator
+    public class Generator
     {
         private MagicKeyGenerator _magicKeyGenerator;
 
