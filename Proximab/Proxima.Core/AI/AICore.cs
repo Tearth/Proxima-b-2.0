@@ -33,7 +33,7 @@ namespace Proxima.Core.AI
         {
             _transpositionTable = new TranspositionTable();
             _historyTable = new HistoryTable();
-            _killerTable = new KillerTable();;
+            _killerTable = new KillerTable();
 
             _regularSearch = new RegularSearch(_transpositionTable, _historyTable, _killerTable);
         }
@@ -68,7 +68,7 @@ namespace Proxima.Core.AI
             do
             {
                 result.Depth++;
-                
+
                 _killerTable.SetInitialDepth(result.Depth);
 
                 var stats = new AIStats();
@@ -93,7 +93,7 @@ namespace Proxima.Core.AI
                 estimatedTimeForNextIteration = (int)stopwatch.Elapsed.TotalMilliseconds * result.Stats.BranchingFactor;
             }
             while (estimatedTimeForNextIteration < preferredTime * 1000 &&
-                   result.Depth < AIConstants.MaxDepth && 
+                   result.Depth < AIConstants.MaxDepth &&
                    Math.Abs(result.Score) != AIConstants.MateValue);
 
             return result;

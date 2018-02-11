@@ -68,7 +68,7 @@ namespace Proxima.Core.MoveGenerators.Moves
             CalculatePieceMove(bitboard, from, to);
             CalculatePieceMove(bitboard, PieceType.Rook, rookFrom, rookTo);
             RemoveCastlingPossibility(bitboard);
-            
+
             bitboard.ReversibleMoves = 0;
         }
 

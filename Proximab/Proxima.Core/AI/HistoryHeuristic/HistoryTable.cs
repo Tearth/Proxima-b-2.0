@@ -17,11 +17,11 @@ namespace Proxima.Core.AI.HistoryHeuristic
         {
             _table = new int[2][][];
 
-            for (int depth = 0; depth < 2; depth++)
+            for (var depth = 0; depth < 2; depth++)
             {
                 _table[depth] = new int[64][];
 
-                for (int fieldFrom = 0; fieldFrom < 64; fieldFrom++)
+                for (var fieldFrom = 0; fieldFrom < 64; fieldFrom++)
                 {
                     _table[depth][fieldFrom] = new int[64];
                 }
@@ -30,11 +30,11 @@ namespace Proxima.Core.AI.HistoryHeuristic
 
         public void Clear()
         {
-            for (int depth = 0; depth < 2; depth++)
+            for (var depth = 0; depth < 2; depth++)
             {
-                for (int fieldFrom = 0; fieldFrom < 64; fieldFrom++)
+                for (var fieldFrom = 0; fieldFrom < 64; fieldFrom++)
                 {
-                    for (int fieldTo = 0; fieldTo < 64; fieldTo++)
+                    for (var fieldTo = 0; fieldTo < 64; fieldTo++)
                     {
                         _table[depth][fieldFrom][fieldTo] = 0;
                     }

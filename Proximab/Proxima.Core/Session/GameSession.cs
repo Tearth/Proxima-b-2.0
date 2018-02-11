@@ -129,8 +129,8 @@ namespace Proxima.Core.Session
 
             var possibleMovesToApply = Bitboard.Moves
                 .OfType<PromotionMove>()
-                .FirstOrDefault(p => p.From == from && 
-                            p.To == to && 
+                .FirstOrDefault(p => p.From == from &&
+                            p.To == to &&
                             p.PromotionPiece == promotionPieceType);
 
             // Temporary but I think that's not necessary
@@ -164,34 +164,24 @@ namespace Proxima.Core.Session
 
             if (openingBookMove != null)
             {
-                var moveToApply =
-                    Bitboard.Moves.First(p => p.From == openingBookMove.From && p.To == openingBookMove.To);
+                var moveToApply = Bitboard.Moves.First(p => p.From == openingBookMove.From && p.To == openingBookMove.To);
 
                 Bitboard = Bitboard.Move(moveToApply);
                 _history.Add(moveToApply);
 
-                return new AIResult()
+                return new AIResult
                 {
-                    PVNodes = new PVNodesList() {moveToApply}
+                    PVNodes = new PVNodesList { moveToApply }
                 };
             }
-            else
-            {
-                var preferredTime = _preferredTimeCalculator.Calculate(MovesCount, _remainingTime[(int)color]);
-                var aiResult = _aiCore.Calculate(color, Bitboard, preferredTime);
 
-                // Temporary
-                if (aiResult.PVNodes.Count < 1)
-                {
-                    Console.WriteLine($"Move not found");
-                    return null;
-                }
+            var preferredTime = _preferredTimeCalculator.Calculate(MovesCount, _remainingTime[(int)color]);
+            var aiResult = _aiCore.Calculate(color, Bitboard, preferredTime);
 
-                Bitboard = Bitboard.Move(aiResult.PVNodes[0]);
-                _history.Add(aiResult.PVNodes[0]);
+            Bitboard = Bitboard.Move(aiResult.PVNodes[0]);
+            _history.Add(aiResult.PVNodes[0]);
 
-                return aiResult;
-            }
+            return aiResult;
         }
 
         /// <summary>
