@@ -8,8 +8,9 @@ namespace MagicKeysGenerator.App
     /// </summary>
     public class Program
     {
-        private static readonly string RookKeysFileName = "Keys/RookKeys.txt";
-        private static readonly string BishopKeysFileName = "Keys/BishopKeys.txt";
+        private static readonly string KeysDirectory = "Keys";
+        private static readonly string RookKeysFileName = "RookKeys.txt";
+        private static readonly string BishopKeysFileName = "BishopKeys.txt";
 
         /// <summary>
         /// Entry point.
@@ -18,6 +19,11 @@ namespace MagicKeysGenerator.App
         public static void Main(string[] args)
         {
             var generator = new Generator();
+
+            if (!Directory.Exists(KeysDirectory))
+            {
+                Directory.CreateDirectory(KeysDirectory);
+            }
 
             Console.WriteLine("Proxima b magic keys generator");
             Console.WriteLine();
@@ -42,7 +48,7 @@ namespace MagicKeysGenerator.App
         /// <param name="fileName">Path to file where all magic keys will be stored.</param>
         private static void SaveKeysToFile(ulong[] keys, string fileName)
         {
-            using (var writer = new StreamWriter(fileName))
+            using (var writer = new StreamWriter($"{KeysDirectory}/{fileName}"))
             {
                 foreach (var key in keys)
                 {
