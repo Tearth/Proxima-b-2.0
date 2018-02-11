@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Proxima.Core.MoveGenerators.MagicBitboards;
 using Proxima.Core.MoveGenerators.Moves;
 using Proxima.Core.MoveGenerators.PatternGenerators;
 
@@ -22,8 +23,6 @@ namespace OpeningBookGenerator.App
         public Generator()
         {
             _openingParser = new OpeningParser();
-
-            PatternsContainer.Init();
         }
 
         /// <summary>

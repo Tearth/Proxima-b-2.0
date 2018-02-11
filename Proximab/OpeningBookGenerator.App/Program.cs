@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Proxima.Core.MoveGenerators.MagicBitboards;
 using Proxima.Core.MoveGenerators.Moves;
+using Proxima.Core.MoveGenerators.PatternGenerators;
 
 namespace OpeningBookGenerator.App
 {
@@ -21,8 +23,11 @@ namespace OpeningBookGenerator.App
             Console.WriteLine("Proxima b opening book generator");
             Console.WriteLine();
 
-            var openingBook = generator.GetOpeningBook("Books/input.book");
-            SaveOpeningBook("Books/output.book", openingBook);
+            PatternsContainer.Init();
+            MagicContainer.Init();
+
+            var openingBook = generator.GetOpeningBook("Book/input.book");
+            SaveOpeningBook("Book/output.book", openingBook);
         }
         /// <summary>
         /// Saves parsed openings to the specified file.

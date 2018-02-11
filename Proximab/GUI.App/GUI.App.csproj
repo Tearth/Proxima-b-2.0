@@ -140,6 +140,9 @@
     </None>
     <EmbeddedResource Include="app.manifest" />
     <MonoGameContentReference Include="Content\Content.mgcb" />
+    <None Include="Book\openings.book">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Content\Fonts\AxisFont.spritefont" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +180,12 @@
     <Content Include="Content\Textures\WhiteRook.png" />
     <Content Include="Content\XML\CommandDefinitions.xml" />
     <Content Include="Content\XML\PieceDefinitions.xml" />
+    <Content Include="Keys\BishopKeys.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Keys\RookKeys.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Icon.bmp" />
     <Content Include="Icon.ico" />
   </ItemGroup>

@@ -23,7 +23,7 @@ namespace OpeningBookGenerator.App
         /// </summary>
         public OpeningParser()
         {
-            ProximaCore.Init();
+
         }
 
         /// <summary>
