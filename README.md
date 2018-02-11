@@ -28,7 +28,7 @@ This is the second generation of [Proxima b](https://github.com/Tearth/Proxima-b
   * Zobrist hash
   
 ### Move generation:
-  * Pre-initialized move arrays for kind and knight
+  * Pre-initialized move arrays for king and knight
   * Magic bitboards for slide pieces
 
 ### AI:
