@@ -36,9 +36,11 @@ This is the second generation of [Proxima b](https://github.com/Tearth/Proxima-b
   * Alpha-Beta
   * Quiescence Search
   * Transposition table
+  * Iterative deepening
   * Negascout
   * History heuristic
   * Killer heuristic
+  * Lazy SMP (TODO)
   * Patterns detection
   * Opening book
 
