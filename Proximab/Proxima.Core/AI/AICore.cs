@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using Proxima.Core.AI.HistoryHeuristic;
 using Proxima.Core.AI.KillerHeuristic;
 using Proxima.Core.AI.Search;
-using Proxima.Core.AI.SEE;
 using Proxima.Core.AI.Transposition;
 using Proxima.Core.Boards;
 using Proxima.Core.Commons.Colors;
-using Proxima.Core.MoveGenerators;
-using Proxima.Core.MoveGenerators.Moves;
 
 namespace Proxima.Core.AI
 {

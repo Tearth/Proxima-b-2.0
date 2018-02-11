@@ -1,5 +1,4 @@
-﻿using System;
-using Proxima.Core.Commons.Exceptions;
+﻿using Proxima.Core.Commons.Exceptions;
 
 namespace Proxima.Core.Commons.Positions
 {

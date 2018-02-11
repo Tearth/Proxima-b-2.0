@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 using GUI.App.BoardSubsystem;
 using GUI.App.CommandsSubsystem;
 using GUI.App.ConsoleSubsystem;

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Proxima.Core.AI.SEE;
-using Proxima.Core.AI.Transposition;
 using Proxima.Core.Boards;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.MoveGenerators.Moves;

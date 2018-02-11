@@ -1,6 +1,4 @@
-﻿using Proxima.Core.Commons.Colors;
-
-namespace Proxima.Core.Evaluation
+﻿namespace Proxima.Core.Evaluation
 {
     /// <summary>
     /// Represents a container of the incremental evaluation data.

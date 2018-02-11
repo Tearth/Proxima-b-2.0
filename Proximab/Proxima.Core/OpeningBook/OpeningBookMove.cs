@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Proxima.Core.Commons.Positions;
+﻿using Proxima.Core.Commons.Positions;
 
 namespace Proxima.Core.OpeningBook
 {

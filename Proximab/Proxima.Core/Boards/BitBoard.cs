@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Proxima.Core.AI;
 using Proxima.Core.Boards.Exceptions;
 using Proxima.Core.Boards.Friendly;

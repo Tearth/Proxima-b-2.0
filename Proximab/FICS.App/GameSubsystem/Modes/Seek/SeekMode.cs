@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using FICS.App.ConfigSubsystem;
 
 namespace FICS.App.GameSubsystem.Modes.Seek
