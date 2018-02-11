@@ -1,1 +1,0 @@
-﻿# Required by MonoGame
