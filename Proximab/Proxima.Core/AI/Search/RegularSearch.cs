@@ -183,27 +183,39 @@ namespace Proxima.Core.AI.Search
                 return 0;
             }
 
-            var updateTranspositionNode = new TranspositionNode();
-            updateTranspositionNode.Score = bestValue;
-            updateTranspositionNode.Depth = depth;
-            updateTranspositionNode.BestMove = bestMove;
-
-            if (bestValue <= originalAlpha)
+            var updateTranspositionNode = new TranspositionNode
             {
-                updateTranspositionNode.Type = ScoreType.UpperBound;
-            }
-            else if (bestValue >= beta)
-            {
-                updateTranspositionNode.Type = ScoreType.LowerBound;
-            }
-            else
-            {
-                updateTranspositionNode.Type = ScoreType.Exact;
-            }
+                Score = bestValue,
+                Depth = depth,
+                BestMove = bestMove,
+                Type = GetTranspositionNodeType(originalAlpha, beta, bestValue)
+            };
 
             _transpositionTable.AddOrUpdate(boardHash, updateTranspositionNode);
 
             return bestValue;
+        }
+
+        /// <summary>
+        /// Gets a transposition node type based on alpha, beta and best move values.
+        /// </summary>
+        /// <param name="alpha">The alpha value.</param>
+        /// <param name="beta">The beta value.</param>
+        /// <param name="bestValue">The best move value.</param>
+        /// <returns>The transposition node type.</returns>
+        private ScoreType GetTranspositionNodeType(int alpha, int beta, int bestValue)
+        {
+            if (bestValue <= alpha)
+            {
+                return ScoreType.UpperBound;
+            }
+
+            if (bestValue >= beta)
+            {
+                return ScoreType.LowerBound;
+            }
+
+            return ScoreType.Exact;
         }
 
         /// <summary>
