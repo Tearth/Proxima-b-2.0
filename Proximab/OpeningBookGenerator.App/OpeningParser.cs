@@ -19,14 +19,6 @@ namespace OpeningBookGenerator.App
     public class OpeningParser
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OpeningParser"/> class.
-        /// </summary>
-        public OpeningParser()
-        {
-
-        }
-
-        /// <summary>
         /// Converts list of text notation moves to list of <see cref="Move"/> objects.
         /// </summary>
         /// <param name="moves">The list of text notation moves/</param>

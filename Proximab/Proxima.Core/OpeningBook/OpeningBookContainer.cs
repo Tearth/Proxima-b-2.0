@@ -4,10 +4,19 @@ using Proxima.Core.Commons.Positions;
 
 namespace Proxima.Core.OpeningBook
 {
+    /// <summary>
+    /// Represents a set of methods to load openings from the specified file.
+    /// </summary>
     public class OpeningBookContainer
     {
-        public static List<List<OpeningBookMove>> Openings { get; set; }
+        /// <summary>
+        /// Gets the list of openings.
+        /// </summary>
+        public static List<List<OpeningBookMove>> Openings { get; private set; }
 
+        /// <summary>
+        /// Loads openings from the specified file.
+        /// </summary>
         public static void Init()
         {
             Openings = new List<List<OpeningBookMove>>();
@@ -24,6 +33,11 @@ namespace Proxima.Core.OpeningBook
             }
         }
 
+        /// <summary>
+        /// Reads openings from the specified line.
+        /// </summary>
+        /// <param name="line">The line to parse.</param>
+        /// <returns>The list of parsed opening moves.</returns>
         private static List<OpeningBookMove> ReadOpening(string line)
         {
             var opening = new List<OpeningBookMove>();

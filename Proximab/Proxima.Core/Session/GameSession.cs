@@ -42,8 +42,14 @@ namespace Proxima.Core.Session
         /// </summary>
         public event EventHandler<GameEndedEventArgs> OnGameEnded;
 
+        /// <summary>
+        /// Gets the remaining time for white.
+        /// </summary>
         public int WhiteRemainingTime => _remainingTime[(int)Color.White];
 
+        /// <summary>
+        /// Gets the remaining time for black.
+        /// </summary>
         public int BlackRemainingTime => _remainingTime[(int)Color.Black];
 
         private AICore _aiCore;

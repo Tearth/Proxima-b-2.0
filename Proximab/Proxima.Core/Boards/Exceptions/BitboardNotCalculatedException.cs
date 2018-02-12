@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace Proxima.Core.Boards.Exceptions
 {
+    /// <summary>
+    /// The exception that is thrown when a bitboard is not calculated and algorithm is trying to get not calculated value.
+    /// </summary>
     public class BitboardNotCalculatedException : Exception
     {
         /// <summary>

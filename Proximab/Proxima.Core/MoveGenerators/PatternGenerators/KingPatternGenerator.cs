@@ -25,6 +25,10 @@ namespace Proxima.Core.MoveGenerators.PatternGenerators
             return predefinedMoves;
         }
 
+        /// <summary>
+        /// Generates expanded king pattern (5x5 square around king).
+        /// </summary>
+        /// <returns>The 64-element array with patterns.</returns>
         public ulong[] GenerateExpanded()
         {
             var normalPattern = Generate();

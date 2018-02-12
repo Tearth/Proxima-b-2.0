@@ -15,6 +15,9 @@
         /// </summary>
         public int BlackMaterial { get; set; }
 
+        /// <summary>
+        /// Gets the material balance (white material - black material).
+        /// </summary>
         public int Material => WhiteMaterial - BlackMaterial;
 
         /// <summary>

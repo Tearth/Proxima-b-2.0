@@ -40,6 +40,7 @@ namespace Proxima.Core.Evaluation.Position.Values
         /// Calculates a position values array for the specified player color.
         /// </summary>
         /// <param name="color">The player color.</param>
+        /// <param name="gamePhase">The game phase.</param>
         /// <returns>The position values array for the specified color.</returns>
         public static int[] GetValues(Color color, GamePhase gamePhase)
         {

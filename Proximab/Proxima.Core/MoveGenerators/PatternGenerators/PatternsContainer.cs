@@ -15,6 +15,9 @@
         /// </summary>
         public static ulong[] KingPattern { get; private set; }
 
+        /// <summary>
+        /// Gets the expanded king pattern.
+        /// </summary>
         public static ulong[] KingExpandedPattern { get; private set; }
 
         /// <summary>

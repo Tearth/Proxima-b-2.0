@@ -3,6 +3,9 @@ using Proxima.Core.MoveGenerators;
 
 namespace Proxima.Core.AI.Search
 {
+    /// <summary>
+    /// Base class for all search algorithms.
+    /// </summary>
     public abstract class SearchBase
     {
         /// <summary>

@@ -40,6 +40,7 @@ namespace Proxima.Core.Evaluation.Mobility
         /// Calculates a mobility ratio based on the specified color.
         /// </summary>
         /// <param name="color">The player color.</param>
+        /// <param name="gamePhase">The game phase.</param>
         /// <returns>The mobility ratio array for the specified color.</returns>
         public static int[] GetRatio(Color color, GamePhase gamePhase)
         {
