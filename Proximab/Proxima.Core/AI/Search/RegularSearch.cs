@@ -205,17 +205,9 @@ namespace Proxima.Core.AI.Search
         /// <returns>The transposition node type.</returns>
         private ScoreType GetTranspositionNodeType(int alpha, int beta, int bestValue)
         {
-            if (bestValue <= alpha)
-            {
-                return ScoreType.UpperBound;
-            }
-
-            if (bestValue >= beta)
-            {
-                return ScoreType.LowerBound;
-            }
-
-            return ScoreType.Exact;
+            return bestValue <= alpha ? ScoreType.UpperBound :
+                   bestValue >= beta ? ScoreType.LowerBound :
+                   ScoreType.Exact;
         }
 
         /// <summary>
