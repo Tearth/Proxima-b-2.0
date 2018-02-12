@@ -8,8 +8,18 @@ using Proxima.Core.MoveGenerators.Moves;
 
 namespace Proxima.Core.AI.Patterns
 {
+    /// <summary>
+    /// Represents a set of methods to detect patterns (hard-coded positions which can be difficult to evaluate by standard
+    /// methods but easy to detect and prune).
+    /// </summary>
     public class PatternsDetector
     {
+        /// <summary>
+        /// Checks if the specified position and move are classified as pattern.
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="move">The move.</param>
+        /// <returns>True if pattern has detected (and move should be pruned), otherwise false.</returns>
         public bool IsPattern(Bitboard bitboard, Move move)
         {
             var isPattern = false;
@@ -19,6 +29,13 @@ namespace Proxima.Core.AI.Patterns
             return isPattern;
         }
 
+        /// <summary>
+        /// Checks if there is a G4/G5 sacrifice pattern (enemy sacrifice light piece to open file near to the king and
+        /// attack him with the Queen/Rook).
+        /// </summary>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="move">The move.</param>
+        /// <returns>True if patterns is detected and move should be pruned, otherwise false.</returns>
         private bool IsG4G5Sacrifice(Bitboard bitboard, Move move)
         {
             const ulong whiteTrapField = 0x0000000200000000;

@@ -13,8 +13,14 @@ namespace Proxima.Core.AI
         /// </summary>
         public int Score { get; set; }
 
+        /// <summary>
+        /// Gets or sets the list of PV nodes.
+        /// </summary>
         public PVNodesList PVNodes { get; set; }
 
+        /// <summary>
+        /// Gets or sets the initial color.
+        /// </summary>
         public Color Color { get; set; }
 
         /// <summary>

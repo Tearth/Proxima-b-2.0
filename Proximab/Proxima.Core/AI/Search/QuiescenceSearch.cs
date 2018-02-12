@@ -7,8 +7,20 @@ using Proxima.Core.MoveGenerators.Moves;
 
 namespace Proxima.Core.AI.Search
 {
+    /// <summary>
+    /// Represents a set of methods to do a quiescence search (only kill moves to avoid horizon effect).
+    /// </summary>
     public class QuiescenceSearch : SearchBase
     {
+        /// <summary>
+        /// Starts a quiescence research.
+        /// </summary>
+        /// <param name="color">The current color.</param>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="alpha">The alpha value.</param>
+        /// <param name="beta">The beta value.</param>
+        /// <param name="stats">The research statistics.</param>
+        /// <returns>The value of current position after quiescence search.</returns>
         public int Do(Color color, Bitboard bitboard, int alpha, int beta, AIStats stats)
         {
             var enemyColor = ColorOperations.Invert(color);
@@ -63,6 +75,13 @@ namespace Proxima.Core.AI.Search
             return alpha;
         }
 
+        /// <summary>
+        /// Sorts the specified list of moves (best moves are higher which can cause more prunes).
+        /// </summary>
+        /// <param name="color">The current color.</param>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="moves">The list of moves to sort.</param>
+        /// <returns>The sorted list of moves.</returns>
         private List<Move> SortMoves(Color color, Bitboard bitboard, LinkedList<Move> moves)
         {
             var see = new SEECalculator();

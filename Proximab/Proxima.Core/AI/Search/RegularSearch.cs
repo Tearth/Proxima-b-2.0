@@ -12,6 +12,9 @@ using Proxima.Core.MoveGenerators.Moves;
 
 namespace Proxima.Core.AI.Search
 {
+    /// <summary>
+    /// Represents a set of methods to do a regular search (full nodes search).
+    /// </summary>
     public class RegularSearch : SearchBase
     {
         private TranspositionTable _transpositionTable;
@@ -20,6 +23,12 @@ namespace Proxima.Core.AI.Search
         private QuiescenceSearch _quiescenceSearch;
         private PatternsDetector _patternsDetector;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RegularSearch"/> class.
+        /// </summary>
+        /// <param name="transpositionTable">The transposition table.</param>
+        /// <param name="historyTable">The history table.</param>
+        /// <param name="killerTable">The killer table.</param>
         public RegularSearch(TranspositionTable transpositionTable, HistoryTable historyTable, KillerTable killerTable)
         {
             _transpositionTable = transpositionTable;
@@ -35,7 +44,9 @@ namespace Proxima.Core.AI.Search
         /// <param name="color">The player color.</param>
         /// <param name="bitboard">The bitboard.</param>
         /// <param name="depth">The current depth.</param>
-        /// <param name="bestMove">The best possible move from nested nodes.</param>
+        /// <param name="alpha">The alpha value.</param>
+        /// <param name="beta">The beta value.</param>
+        /// <param name="deadline">The deadline (time after which search is immediately terminated).</param>
         /// <param name="stats">The AI stats.</param>
         /// <returns>The evaluation score of best move.</returns>
         public int Do(Color color, Bitboard bitboard, int depth, int alpha, int beta, long deadline, AIStats stats)
@@ -157,7 +168,7 @@ namespace Proxima.Core.AI.Search
                     if (move is QuietMove)
                     {
                         _historyTable.AddKiller(color, depth, bestMove);
-                        _killerTable.SetKiller(color, depth, move);
+                        _killerTable.AddKiller(depth, move);
                     }
 
                     stats.AlphaBetaCutoffs++;
@@ -195,18 +206,33 @@ namespace Proxima.Core.AI.Search
             return bestValue;
         }
 
+        /// <summary>
+        /// Sorts the specified list of moves (best moves are higher which can cause more prunes).
+        /// </summary>
+        /// <param name="color">The current color.</param>
+        /// <param name="depth">The current depth.</param>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="moves">The list of moves to sort.</param>
+        /// <returns>The sorted list of moves.</returns>
         private List<Move> SortMoves(Color color, int depth, Bitboard bitboard, LinkedList<Move> moves)
         {
             var sortedMoves = moves.Select(p => new RegularSortedMove { Move = p, Score = -100000 }).ToList();
 
-            AssignSpecialScores(sortedMoves, color, depth);
+            AssignSpecialScores(sortedMoves, depth);
             AssignSEEScores(color, bitboard, sortedMoves);
-            AssignPVScore(color, bitboard, sortedMoves);
+            AssignHashScore(color, bitboard, sortedMoves);
 
             return sortedMoves.OrderByDescending(p => p.Score).Select(p => p.Move).ToList();
         }
 
-        private void AssignPVScore(Color color, Bitboard bitboard, List<RegularSortedMove> movesToSort)
+        /// <summary>
+        /// Assigns score to move which was the best in the previous iteration. It has a big potential to cause beta cut-off, so
+        /// should be searched as first.
+        /// </summary>
+        /// <param name="color">The current color.</param>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="movesToSort">The list of moves to sort.</param>
+        private void AssignHashScore(Color color, Bitboard bitboard, List<RegularSortedMove> movesToSort)
         {
             var boardHash = bitboard.GetHashForColor(color);
             if (_transpositionTable.Exists(boardHash))
@@ -222,6 +248,12 @@ namespace Proxima.Core.AI.Search
             }
         }
 
+        /// <summary>
+        /// Assigns scores based on Static Exchange Evaluation results. Kill moves that are winning are higher than losing moves.
+        /// </summary>
+        /// <param name="color">The current color.</param>
+        /// <param name="bitboard">The bitboard.</param>
+        /// <param name="movesToSort">The list of moves to sort.</param>
         private void AssignSEEScores(Color color, Bitboard bitboard, List<RegularSortedMove> movesToSort)
         {
             var see = new SEECalculator();
@@ -244,16 +276,21 @@ namespace Proxima.Core.AI.Search
             }
         }
 
-        private void AssignSpecialScores(List<RegularSortedMove> movesToSort, Color color, int depth)
+        /// <summary>
+        /// Assigns special scores (promotions, castling, killer and history table).
+        /// </summary>
+        /// <param name="movesToSort">The moves to sort.</param>
+        /// <param name="depth">the current depth.</param>
+        private void AssignSpecialScores(List<RegularSortedMove> movesToSort, int depth)
         {
             foreach (var move in movesToSort)
             {
-                var killer = _historyTable.GetKillersCount(color, move.Move);
+                var killer = _historyTable.GetKillersCount(move.Move);
                 if (move.Move is PromotionMove || move.Move is CastlingMove)
                 {
                     move.Score = 50000;
                 }
-                else if (_killerTable.IsKiller(color, depth, move.Move))
+                else if (_killerTable.IsKiller(depth, move.Move))
                 {
                     move.Score = 10;
                 }

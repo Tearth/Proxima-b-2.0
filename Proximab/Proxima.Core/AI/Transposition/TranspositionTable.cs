@@ -48,6 +48,11 @@ namespace Proxima.Core.AI.Transposition
             return _table.ContainsKey(hash);
         }
 
+        /// <summary>
+        /// Gets the node based on hash.
+        /// </summary>
+        /// <param name="hash">The bitboard hash.</param>
+        /// <returns>The transposition node with the specified hash.</returns>
         public TranspositionNode Get(ulong hash)
         {
             return _table[hash];

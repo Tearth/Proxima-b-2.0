@@ -24,6 +24,9 @@ namespace Proxima.Core.AI
         private KillerTable _killerTable;
         private RegularSearch _regularSearch;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AICore"/> class.
+        /// </summary>
         public AICore()
         {
             _transpositionTable = new TranspositionTable();
@@ -94,6 +97,13 @@ namespace Proxima.Core.AI
             return result;
         }
 
+        /// <summary>
+        /// Gets the list pf PV nodes for the specified bitboard and color. Nodes count is limited by
+        /// <see cref="AIConstants.MaxDepth"/> value to avoid infinite repetitions.
+        /// </summary>
+        /// <param name="bitboard">The initial bitboard.</param>
+        /// <param name="color">The initial color.</param>
+        /// <returns>The list of PV nodes.</returns>
         private PVNodesList GetPVNodes(Bitboard bitboard, Color color)
         {
             var pvNodes = new PVNodesList();
