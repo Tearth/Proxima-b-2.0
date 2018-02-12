@@ -8,6 +8,7 @@ namespace Proxima.Core.AI.Transposition
     public class TranspositionTable
     {
         private Dictionary<ulong, TranspositionNode> _table;
+        private object _readWriteLock = new object();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TranspositionTable"/> class.
@@ -24,16 +25,19 @@ namespace Proxima.Core.AI.Transposition
         /// <param name="node">The node.</param>
         public void AddOrUpdate(ulong hash, TranspositionNode node)
         {
-            if(!Exists(hash))
+            lock (_readWriteLock)
             {
-                _table[hash] = node;
-            }
-            else
-            {
-                var oldNode = _table[hash];
-                if (node.Depth >= oldNode.Depth)
+                if (!Exists(hash))
                 {
                     _table[hash] = node;
+                }
+                else
+                {
+                    var oldNode = _table[hash];
+                    if (node.Depth >= oldNode.Depth)
+                    {
+                        _table[hash] = node;
+                    }
                 }
             }
         }
@@ -45,7 +49,10 @@ namespace Proxima.Core.AI.Transposition
         /// <returns>True if node with the specified hash exists, otherwise false.</returns>
         public bool Exists(ulong hash)
         {
-            return _table.ContainsKey(hash);
+            lock (_readWriteLock)
+            {
+                return _table.ContainsKey(hash);
+            }
         }
 
         /// <summary>
