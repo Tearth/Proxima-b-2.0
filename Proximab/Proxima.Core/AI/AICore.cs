@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Proxima.Core.AI.HistoryHeuristic;
 using Proxima.Core.AI.KillerHeuristic;
 using Proxima.Core.AI.Search;
@@ -69,6 +70,24 @@ namespace Proxima.Core.AI
 
                 _killerTable.SetInitialDepth(result.Depth);
 
+                //Helper
+                if (result.Depth > 2)
+                {
+                    var param = new HelperTaskParameters()
+                    {
+                        Bitboard = bitboard,
+                        Color = color,
+                        Deadline = deadline,
+                        InitialDepth = result.Depth
+                    };
+
+                    for (var i = 0; i < 1; i++)
+                    {
+                        Task.Run(() => HelperTask(param));
+                    }
+                }
+                //End Helper
+
                 var stats = new AIStats();
                 var score = colorSign * _regularSearch.Do(color, new Bitboard(bitboard), result.Depth, AIConstants.InitialAlphaValue, AIConstants.InitialBetaValue, deadline, stats);
 
@@ -95,6 +114,19 @@ namespace Proxima.Core.AI
                    Math.Abs(result.Score) != AIConstants.MateValue);
 
             return result;
+        }
+
+        public class HelperTaskParameters
+        {
+            public Color Color;
+            public Bitboard Bitboard;
+            public int InitialDepth;
+            public long Deadline;
+        }
+
+        private void HelperTask(HelperTaskParameters param)
+        {
+            _regularSearch.Do(param.Color, new Bitboard(param.Bitboard), param.InitialDepth, AIConstants.InitialAlphaValue, AIConstants.InitialBetaValue, param.Deadline, new AIStats());
         }
 
         /// <summary>
