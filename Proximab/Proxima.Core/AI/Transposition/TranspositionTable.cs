@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace Proxima.Core.AI.Transposition
 {
@@ -7,15 +8,14 @@ namespace Proxima.Core.AI.Transposition
     /// </summary>
     public class TranspositionTable
     {
-        private Dictionary<ulong, TranspositionNode> _table;
-        private object _readWriteLock = new object();
+        private ConcurrentDictionary<ulong, TranspositionNode> _table;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TranspositionTable"/> class.
         /// </summary>
         public TranspositionTable()
         {
-            _table = new Dictionary<ulong, TranspositionNode>(1000000);
+            _table = new ConcurrentDictionary<ulong, TranspositionNode>();
         }
 
         /// <summary>
@@ -25,19 +25,16 @@ namespace Proxima.Core.AI.Transposition
         /// <param name="node">The node.</param>
         public void AddOrUpdate(ulong hash, TranspositionNode node)
         {
-            lock (_readWriteLock)
+            if (!Exists(hash))
             {
-                if (!Exists(hash))
+                _table[hash] = node;
+            }
+            else
+            {
+                var oldNode = _table[hash];
+                if (node.Depth >= oldNode.Depth)
                 {
                     _table[hash] = node;
-                }
-                else
-                {
-                    var oldNode = _table[hash];
-                    if (node.Depth >= oldNode.Depth)
-                    {
-                        _table[hash] = node;
-                    }
                 }
             }
         }
@@ -49,10 +46,7 @@ namespace Proxima.Core.AI.Transposition
         /// <returns>True if node with the specified hash exists, otherwise false.</returns>
         public bool Exists(ulong hash)
         {
-            lock (_readWriteLock)
-            {
-                return _table.ContainsKey(hash);
-            }
+            return _table.ContainsKey(hash);
         }
 
         /// <summary>
