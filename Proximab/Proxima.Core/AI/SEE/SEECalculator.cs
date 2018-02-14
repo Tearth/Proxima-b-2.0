@@ -131,31 +131,6 @@ namespace Proxima.Core.AI.SEE
                 }
             }
 
-            // Temporary, there is a bug here
-            Console.WriteLine(field);
-            Console.WriteLine(pieceColor);
-            Console.WriteLine(bitboard.Occupancy[0]);
-            Console.WriteLine(bitboard.Occupancy[1]);
-            Console.WriteLine(bitboard.AttacksSummary[0]);
-            Console.WriteLine(bitboard.AttacksSummary[1]);
-            Console.WriteLine(bitboard.VerifyIntegrity());
-            Console.WriteLine(bitboard.Pieces[0]);
-            Console.WriteLine(bitboard.Pieces[1]);
-            Console.WriteLine(bitboard.Pieces[2]);
-            Console.WriteLine(bitboard.Pieces[3]);
-            Console.WriteLine(bitboard.Pieces[4]);
-            Console.WriteLine(bitboard.Pieces[5]);
-            Console.WriteLine(bitboard.Pieces[6]);
-            Console.WriteLine(bitboard.Pieces[7]);
-            Console.WriteLine(bitboard.Pieces[8]);
-            Console.WriteLine(bitboard.Pieces[9]);
-            Console.WriteLine(bitboard.Pieces[10]);
-            Console.WriteLine(bitboard.Pieces[11]);
-
-            var save = new BoardWriter();
-            save.Write("err.board", new FriendlyBoard(bitboard));
-            //
-
             throw new PieceTypeNotFoundException();
         }
 

@@ -102,13 +102,7 @@ namespace Proxima.Core.Session
                 return;
             }
 
-            // Temporary but I think that's not necessary
             var moveToApply = Bitboard.Moves.FirstOrDefault(p => p.From == from && p.To == to);
-            if (moveToApply == null)
-            {
-                Console.WriteLine($"{from} {to} not found");
-                return;
-            }
 
             Bitboard = Bitboard.Move(moveToApply);
             _history.Add(moveToApply);
@@ -138,13 +132,6 @@ namespace Proxima.Core.Session
                 .FirstOrDefault(p => p.From == from &&
                             p.To == to &&
                             p.PromotionPiece == promotionPieceType);
-
-            // Temporary but I think that's not necessary
-            if (possibleMovesToApply == null)
-            {
-                Console.WriteLine($"{from} {to} not found");
-                return;
-            }
 
             Bitboard = Bitboard.Move(possibleMovesToApply);
             _history.Add(possibleMovesToApply);

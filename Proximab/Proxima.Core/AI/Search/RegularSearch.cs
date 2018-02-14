@@ -41,7 +41,7 @@ namespace Proxima.Core.AI.Search
         }
 
         /// <summary>
-        /// Temporary method to calculating best move.
+        /// Regular search, the core of AI algorithms.
         /// </summary>
         /// <param name="color">The player color.</param>
         /// <param name="bitboard">The bitboard.</param>
