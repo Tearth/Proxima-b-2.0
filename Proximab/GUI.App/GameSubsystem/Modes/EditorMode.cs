@@ -208,6 +208,7 @@ namespace GUI.App.GameSubsystem.Modes
         {
             var colorArgument = command.GetArgument<string>(0);
             var preferredTimeArgument = command.GetArgument<float>(1);
+            var helperTasksCount = command.GetArgument<int>(2);
 
             var colorParseResult = Enum.TryParse(colorArgument, true, out Color color);
             if (!colorParseResult)
@@ -217,7 +218,7 @@ namespace GUI.App.GameSubsystem.Modes
             }
 
             var ai = new AICore();
-            var aiResult = ai.Calculate(color, Bitboard, preferredTimeArgument, 0);
+            var aiResult = ai.Calculate(color, Bitboard, preferredTimeArgument, helperTasksCount);
 
             ConsoleManager.WriteLine();
 
