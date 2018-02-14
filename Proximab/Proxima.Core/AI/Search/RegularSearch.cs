@@ -23,7 +23,7 @@ namespace Proxima.Core.AI.Search
         private QuiescenceSearch _quiescenceSearch;
         private PatternsDetector _patternsDetector;
 
-        Random r = new Random();
+        Random randomNoise = new Random();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegularSearch"/> class.
@@ -228,7 +228,15 @@ namespace Proxima.Core.AI.Search
             AssignSEEScores(color, bitboard, sortedMoves, helper);
             AssignHashScore(color, bitboard, sortedMoves, helper);
 
-            return sortedMoves.OrderByDescending(p => !helper ? p.Score : p.Score + r.Next(-25, 25)).Select(p => p.Move).ToList();
+            if (helper)
+            {
+                foreach (var move in sortedMoves)
+                {
+                    move.Score += randomNoise.Next(-AIConstants.RegularSearchNoiseForHelpers, AIConstants.RegularSearchNoiseForHelpers);
+                }
+            }
+
+            return sortedMoves.OrderByDescending(p => p.Score).Select(p => p.Move).ToList();
         }
 
         /// <summary>

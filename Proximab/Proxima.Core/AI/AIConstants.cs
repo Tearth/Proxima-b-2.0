@@ -18,5 +18,6 @@ namespace Proxima.Core.AI
         public const int KillerHeuristicSlotsCount = 3;
 
         public const int MinimalDepthToStartHelperThreads = 3;
+        public const int RegularSearchNoiseForHelpers = 25;
     }
 }
