@@ -37,6 +37,7 @@ namespace Proxima.Core.AI
         /// <param name="color">The initial player.</param>
         /// <param name="bitboard">The bitboard.</param>
         /// <param name="preferredTime">Time allocated for AI.</param>
+        /// <param name="helperTasks">The helper tasks count (0 for single thread).</param>
         /// <returns>The result of AI calculating.</returns>
         public AIResult Calculate(Color color, Bitboard bitboard, float preferredTime, int helperTasks)
         {
