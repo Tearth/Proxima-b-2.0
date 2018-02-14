@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Proxima.Core.AI.HistoryHeuristic;
 using Proxima.Core.AI.KillerHeuristic;
+using Proxima.Core.AI.LazySMP;
 using Proxima.Core.AI.Search;
 using Proxima.Core.AI.Transposition;
 using Proxima.Core.Boards;
@@ -21,9 +22,6 @@ namespace Proxima.Core.AI
         public event EventHandler<ThinkingOutputEventArgs> OnThinkingOutput;
 
         private TranspositionTable _transpositionTable;
-        private HistoryTable _historyTable;
-        private KillerTable _killerTable;
-        private RegularSearch _regularSearch;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AICore"/> class.
@@ -31,10 +29,6 @@ namespace Proxima.Core.AI
         public AICore()
         {
             _transpositionTable = new TranspositionTable();
-            _historyTable = new HistoryTable();
-            _killerTable = new KillerTable();
-
-            _regularSearch = new RegularSearch(_transpositionTable, _historyTable, _killerTable);
         }
 
         /// <summary>
@@ -44,52 +38,55 @@ namespace Proxima.Core.AI
         /// <param name="bitboard">The bitboard.</param>
         /// <param name="preferredTime">Time allocated for AI.</param>
         /// <returns>The result of AI calculating.</returns>
-        public AIResult Calculate(Color color, Bitboard bitboard, float preferredTime)
+        public AIResult Calculate(Color color, Bitboard bitboard, float preferredTime, int helperTasks)
         {
             var result = new AIResult();
             var colorSign = ColorOperations.ToSign(color);
             var stopwatch = new Stopwatch();
             int estimatedTimeForNextIteration;
 
+            var historyTable = new HistoryTable();
+            var killerTable = new KillerTable();
+            var regularSearch = new RegularSearch(_transpositionTable, historyTable, killerTable);
+
             result.Color = color;
             result.PreferredTime = preferredTime;
 
             var deadline = DateTime.Now.AddSeconds(preferredTime * 2).Ticks;
 
-            _historyTable.Clear();
-            if (bitboard.ReversibleMoves == 0 && preferredTime != 0)
+            historyTable.Clear();
+            killerTable.Clear();
+
+            if (bitboard.ReversibleMoves == 0 && preferredTime > 0)
             {
                 _transpositionTable.Clear();
             }
-            _killerTable.Clear();
 
             stopwatch.Start();
             do
             {
                 result.Depth++;
 
-                _killerTable.SetInitialDepth(result.Depth);
+                killerTable.SetInitialDepth(result.Depth);
 
-                //Helper
-                if (result.Depth > 2)
+                if (result.Depth >= AIConstants.MinimalDepthToStartHelperThreads)
                 {
-                    var param = new HelperTaskParameters()
+                    for (var i = 0; i < helperTasks; i++)
                     {
-                        Bitboard = bitboard,
-                        Color = color,
-                        Deadline = deadline,
-                        InitialDepth = result.Depth
-                    };
+                        var param = new HelperTaskParameters
+                        {
+                            Bitboard = new Bitboard(bitboard),
+                            Color = color,
+                            Deadline = deadline,
+                            InitialDepth = result.Depth
+                        };
 
-                    for (var i = 0; i < 1; i++)
-                    {
                         Task.Run(() => HelperTask(param));
                     }
                 }
-                //End Helper
 
                 var stats = new AIStats();
-                var score = colorSign * _regularSearch.Do(color, new Bitboard(bitboard), result.Depth, AIConstants.InitialAlphaValue, AIConstants.InitialBetaValue, deadline, stats);
+                var score = colorSign * regularSearch.Do(color, new Bitboard(bitboard), result.Depth, AIConstants.InitialAlphaValue, AIConstants.InitialBetaValue, deadline, false, stats);
 
                 if (DateTime.Now.Ticks <= deadline)
                 {
@@ -116,17 +113,15 @@ namespace Proxima.Core.AI
             return result;
         }
 
-        public class HelperTaskParameters
-        {
-            public Color Color;
-            public Bitboard Bitboard;
-            public int InitialDepth;
-            public long Deadline;
-        }
-
         private void HelperTask(HelperTaskParameters param)
         {
-            _regularSearch.Do(param.Color, new Bitboard(param.Bitboard), param.InitialDepth, AIConstants.InitialAlphaValue, AIConstants.InitialBetaValue, param.Deadline, new AIStats());
+            var historyTable = new HistoryTable();
+            var killerTable = new KillerTable();
+            var helperSearch = new RegularSearch(_transpositionTable, historyTable, killerTable);
+
+            killerTable.SetInitialDepth(param.InitialDepth);
+
+            helperSearch.Do(param.Color, param.Bitboard, param.InitialDepth, AIConstants.InitialAlphaValue, AIConstants.InitialBetaValue, param.Deadline, true, new AIStats());
         }
 
         /// <summary>

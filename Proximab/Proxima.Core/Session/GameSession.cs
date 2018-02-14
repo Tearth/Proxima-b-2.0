@@ -182,7 +182,7 @@ namespace Proxima.Core.Session
             }
 
             var preferredTime = _preferredTimeCalculator.Calculate(MovesCount, _remainingTime[(int)color]);
-            var aiResult = _aiCore.Calculate(color, Bitboard, preferredTime);
+            var aiResult = _aiCore.Calculate(color, Bitboard, preferredTime, 0);
 
             Bitboard = Bitboard.Move(aiResult.PVNodes[0]);
             _history.Add(aiResult.PVNodes[0]);

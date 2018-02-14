@@ -16,5 +16,7 @@ namespace Proxima.Core.AI
         public const int MaxDepth = 12;
 
         public const int KillerHeuristicSlotsCount = 3;
+
+        public const int MinimalDepthToStartHelperThreads = 3;
     }
 }

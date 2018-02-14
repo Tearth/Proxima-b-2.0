@@ -53,7 +53,7 @@ namespace GUI.App.GameSubsystem.Modes
                 {
                     var currentAI = _currentColor == Color.White ? _whiteAI : _blackAI;
 
-                    var aiResult = currentAI.Calculate(_currentColor, Bitboard, preferredTimeArgument);
+                    var aiResult = currentAI.Calculate(_currentColor, Bitboard, preferredTimeArgument, 0);
                     var enemyColor = ColorOperations.Invert(_currentColor);
 
                     ConsoleManager.WriteLine();

@@ -23,6 +23,8 @@ namespace Proxima.Core.AI.Search
         private QuiescenceSearch _quiescenceSearch;
         private PatternsDetector _patternsDetector;
 
+        Random r = new Random();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RegularSearch"/> class.
         /// </summary>
@@ -49,7 +51,7 @@ namespace Proxima.Core.AI.Search
         /// <param name="deadline">The deadline (time after which search is immediately terminated).</param>
         /// <param name="stats">The AI stats.</param>
         /// <returns>The evaluation score of best move.</returns>
-        public int Do(Color color, Bitboard bitboard, int depth, int alpha, int beta, long deadline, AIStats stats)
+        public int Do(Color color, Bitboard bitboard, int depth, int alpha, int beta, long deadline, bool helper, AIStats stats)
         {
             var root = stats.TotalNodes == 0;
 
@@ -118,7 +120,7 @@ namespace Proxima.Core.AI.Search
 
             Move bestMove = null;
 
-            var availableMoves = SortMoves(color, depth, bitboard, bitboard.Moves);
+            var availableMoves = SortMoves(color, depth, bitboard, bitboard.Moves, helper);
             var firstMove = true;
 
             foreach (var move in availableMoves)
@@ -141,17 +143,17 @@ namespace Proxima.Core.AI.Search
 
                 if (firstMove)
                 {
-                    nodeValue = -Do(enemyColor, bitboardAfterMove, depth - 1, -beta, -alpha, deadline, stats);
+                    nodeValue = -Do(enemyColor, bitboardAfterMove, depth - 1, -beta, -alpha, deadline, helper, stats);
                     firstMove = false;
                 }
                 else
                 {
-                    nodeValue = -Do(enemyColor, bitboardAfterMove, depth - 1, -alpha - 1, -alpha, deadline, stats);
+                    nodeValue = -Do(enemyColor, bitboardAfterMove, depth - 1, -alpha - 1, -alpha, deadline, helper, stats);
 
                     if (nodeValue > alpha && nodeValue < beta)
                     {
                         bitboardAfterMove = bitboard.Move(move);
-                        nodeValue = -Do(enemyColor, bitboardAfterMove, depth - 1, -beta, -alpha, deadline, stats);
+                        nodeValue = -Do(enemyColor, bitboardAfterMove, depth - 1, -beta, -alpha, deadline, helper, stats);
                     }
                 }
 
@@ -218,15 +220,15 @@ namespace Proxima.Core.AI.Search
         /// <param name="bitboard">The bitboard.</param>
         /// <param name="moves">The list of moves to sort.</param>
         /// <returns>The sorted list of moves.</returns>
-        private List<Move> SortMoves(Color color, int depth, Bitboard bitboard, LinkedList<Move> moves)
+        private List<Move> SortMoves(Color color, int depth, Bitboard bitboard, LinkedList<Move> moves, bool helper)
         {
             var sortedMoves = moves.Select(p => new RegularSortedMove { Move = p, Score = -100000 }).ToList();
 
-            AssignSpecialScores(sortedMoves, depth);
-            AssignSEEScores(color, bitboard, sortedMoves);
-            AssignHashScore(color, bitboard, sortedMoves);
+            AssignSpecialScores(sortedMoves, depth, helper);
+            AssignSEEScores(color, bitboard, sortedMoves, helper);
+            AssignHashScore(color, bitboard, sortedMoves, helper);
 
-            return sortedMoves.OrderByDescending(p => p.Score).Select(p => p.Move).ToList();
+            return sortedMoves.OrderByDescending(p => !helper ? p.Score : p.Score + r.Next(-25, 25)).Select(p => p.Move).ToList();
         }
 
         /// <summary>
@@ -236,7 +238,7 @@ namespace Proxima.Core.AI.Search
         /// <param name="color">The current color.</param>
         /// <param name="bitboard">The bitboard.</param>
         /// <param name="movesToSort">The list of moves to sort.</param>
-        private void AssignHashScore(Color color, Bitboard bitboard, List<RegularSortedMove> movesToSort)
+        private void AssignHashScore(Color color, Bitboard bitboard, List<RegularSortedMove> movesToSort, bool helper)
         {
             var boardHash = bitboard.GetHashForColor(color);
             if (_transpositionTable.Exists(boardHash))
@@ -258,7 +260,7 @@ namespace Proxima.Core.AI.Search
         /// <param name="color">The current color.</param>
         /// <param name="bitboard">The bitboard.</param>
         /// <param name="movesToSort">The list of moves to sort.</param>
-        private void AssignSEEScores(Color color, Bitboard bitboard, List<RegularSortedMove> movesToSort)
+        private void AssignSEEScores(Color color, Bitboard bitboard, List<RegularSortedMove> movesToSort, bool helper)
         {
             var see = new SEECalculator();
             var seeResults = see.Calculate(color, bitboard);
@@ -285,7 +287,7 @@ namespace Proxima.Core.AI.Search
         /// </summary>
         /// <param name="movesToSort">The moves to sort.</param>
         /// <param name="depth">the current depth.</param>
-        private void AssignSpecialScores(List<RegularSortedMove> movesToSort, int depth)
+        private void AssignSpecialScores(List<RegularSortedMove> movesToSort, int depth, bool helper)
         {
             foreach (var move in movesToSort)
             {
