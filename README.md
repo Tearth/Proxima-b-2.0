@@ -40,7 +40,7 @@ This is the second generation of [Proxima b](https://github.com/Tearth/Proxima-b
   * Negascout
   * History heuristic
   * Killer heuristic
-  * Lazy SMP (TODO)
+  * Lazy SMP
   * Patterns detection
   * Opening book
 
