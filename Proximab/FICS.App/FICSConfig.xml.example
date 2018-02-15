@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<FICSConfig>
+  <Item>
+    <Key>ServerAddress</Key>
+    <Value>freechess.org</Value>
+  </Item>
+  <Item>
+    <Key>ServerPort</Key>
+    <Value>5000</Value>
+  </Item>
+  <Item>
+    <Key>Username</Key>
+    <Value>botusername</Value>
+  </Item>
+  <Item>
+    <Key>Password</Key>
+    <Value>botpassword</Value>
+  </Item>
+  <Item>
+    <Key>SeekCommand</Key>
+    <Value>seek 3 0 unrated|seek 5 0 unrated|seek 10 0 unrated</Value>
+  </Item>
+</FICSConfig>
