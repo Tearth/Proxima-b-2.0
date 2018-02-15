@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Proxima.Core.AI.SEE.Exceptions;
 using Proxima.Core.Boards;
-using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.BitHelpers;
 using Proxima.Core.Commons.Colors;
 using Proxima.Core.Commons.Performance;
 using Proxima.Core.Commons.Pieces;
 using Proxima.Core.Evaluation.Material;
-using Proxima.Core.Persistence;
 
 namespace Proxima.Core.AI.SEE
 {

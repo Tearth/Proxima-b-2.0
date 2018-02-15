@@ -1,5 +1,4 @@
-﻿using Proxima.Core.Commons.Colors;
-using Proxima.Core.MoveGenerators.Moves;
+﻿using Proxima.Core.MoveGenerators.Moves;
 
 namespace Proxima.Core.AI.KillerHeuristic
 {
