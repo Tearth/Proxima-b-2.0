@@ -1,4 +1,15 @@
-﻿using System;
+﻿#define ALPHABETA_PRUNNING
+#define TRANSPOSITION_TABLE
+#define REGULAR_SORT_MOVES
+#define QUIESCENCE_SEARCH
+#define NEGASCOUT
+#define REGULAR_SORT_BY_HASH_SCORE
+#define REGULAR_SORT_BY_SEE
+#define REGULAR_SORT_BY_KILLERS_TABLE
+#define REGULAR_SORT_BY_HISTORY_TABLE
+#define LAZY_SMP_ADD_NOISE
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Proxima.Core.AI.HistoryHeuristic;
@@ -69,6 +80,7 @@ namespace Proxima.Core.AI.Search
                 return 0;
             }
 
+#if TRANSPOSITION_TABLE
             if (_transpositionTable.Exists(boardHash))
             {
                 var transpositionNode = _transpositionTable.Get(boardHash);
@@ -102,11 +114,17 @@ namespace Proxima.Core.AI.Search
                     }
                 }
             }
+#endif
 
             if (depth <= 0)
             {
                 stats.EndNodes++;
+#if QUIESCENCE_SEARCH
                 return _quiescenceSearch.Do(color, bitboard, alpha, beta, stats);
+#else
+                //bitboard.Calculate(GeneratorMode.CalculateAttacks, false);
+                return bitboard.GetEvaluation();
+#endif
             }
 
             var whiteGeneratorMode = GetGeneratorMode(color, Color.White);
@@ -145,7 +163,9 @@ namespace Proxima.Core.AI.Search
                 if (firstMove)
                 {
                     nodeValue = -Do(enemyColor, bitboardAfterMove, depth - 1, -beta, -alpha, deadline, helper, stats);
+#if NEGASCOUT
                     firstMove = false;
+#endif
                 }
                 else
                 {
@@ -174,9 +194,10 @@ namespace Proxima.Core.AI.Search
                         _killerTable.AddKiller(depth, move);
                     }
 
+#if ALPHABETA_PRUNNING
                     stats.AlphaBetaCutoffs++;
-
                     break;
+#endif
                 }
             }
 
@@ -226,10 +247,17 @@ namespace Proxima.Core.AI.Search
         {
             var sortedMoves = moves.Select(p => new RegularSortedMove { Move = p, Score = -100000 }).ToList();
 
+#if REGULAR_SORT_MOVES
             AssignSpecialScores(sortedMoves, depth);
+#if REGULAR_SORT_BY_SEE
             AssignSEEScores(color, bitboard, sortedMoves);
+#endif
+#if REGULAR_SORT_BY_HASH_SCORE
             AssignHashScore(color, bitboard, sortedMoves);
+#endif
+#endif
 
+#if LAZY_SMP_ADD_NOISE
             if (helper)
             {
                 foreach (var move in sortedMoves)
@@ -237,6 +265,7 @@ namespace Proxima.Core.AI.Search
                     move.Score += randomNoise.Next(-AIConstants.RegularSearchNoiseForHelpers, AIConstants.RegularSearchNoiseForHelpers);
                 }
             }
+#endif
 
             return sortedMoves.OrderByDescending(p => p.Score).Select(p => p.Move).ToList();
         }
@@ -308,11 +337,15 @@ namespace Proxima.Core.AI.Search
                 }
                 else if (_killerTable.IsKiller(depth, move.Move))
                 {
+#if REGULAR_SORT_BY_KILLERS_TABLE
                     move.Score = 10;
+#endif
                 }
                 else
                 {
+#if REGULAR_SORT_BY_HISTORY_TABLE
                     move.Score = -(1000 - killer);
+#endif
                 }
             }
         }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿#define QUIESCENCE_SORT_MOVES
+
+using System.Collections.Generic;
 using System.Linq;
 using Proxima.Core.AI.SEE;
 using Proxima.Core.Boards;
@@ -84,6 +86,7 @@ namespace Proxima.Core.AI.Search
         /// <returns>The sorted list of moves.</returns>
         private List<Move> SortMoves(Color color, Bitboard bitboard, LinkedList<Move> moves)
         {
+#if QUIESCENCE_SORT_MOVES
             var see = new SEECalculator();
             var seeResults = see.Calculate(color, bitboard);
 
@@ -102,6 +105,9 @@ namespace Proxima.Core.AI.Search
                 .ToList();
 
             return sortedMoves;
+#else
+            return moves.ToList();
+#endif
         }
     }
 }
