@@ -122,7 +122,7 @@ namespace Proxima.Core.AI.Search
 #if QUIESCENCE_SEARCH
                 return _quiescenceSearch.Do(color, bitboard, alpha, beta, stats);
 #else
-                //bitboard.Calculate(GeneratorMode.CalculateAttacks, false);
+                bitboard.Calculate(GeneratorMode.CalculateAttacks, false);
                 return bitboard.GetEvaluation();
 #endif
             }
@@ -249,12 +249,15 @@ namespace Proxima.Core.AI.Search
 
 #if REGULAR_SORT_MOVES
             AssignSpecialScores(sortedMoves, depth);
+
 #if REGULAR_SORT_BY_SEE
             AssignSEEScores(color, bitboard, sortedMoves);
 #endif
+
 #if REGULAR_SORT_BY_HASH_SCORE
             AssignHashScore(color, bitboard, sortedMoves);
 #endif
+
 #endif
 
 #if LAZY_SMP_ADD_NOISE
