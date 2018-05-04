@@ -59,6 +59,7 @@ namespace CECP.App.GameSubsystem.Modes.Game
             CommandsManager.AddCommandHandler(CommandType.Go, ExecuteGoCommand);
             CommandsManager.AddCommandHandler(CommandType.UserMove, ExecuteUserMoveCommand);
             CommandsManager.AddCommandHandler(CommandType.Result, ExecuteResultCommand);
+            CommandsManager.AddCommandHandler(CommandType.New, ExecuteNewCommand);
         }
 
         /// <summary>
@@ -189,6 +190,16 @@ namespace CECP.App.GameSubsystem.Modes.Game
             var gameResult = _gameResultTokens[gameResultArgument];
 
             _csvLogger.WriteLine(gameResult, _engineColor);
+        }
+
+        /// <summary>
+        /// Executes New command (resets current game and starts new one).
+        /// </summary>
+        /// <param name="command">The Result command to execute.</param>
+        private void ExecuteNewCommand(Command command)
+        {
+            _gameSession.OnThinkingOutput -= GameSession_OnThinkingOutput;
+            _gameSession = new GameSession();
         }
 
         /// <summary>
