@@ -20,4 +20,8 @@
     <Key>SeekCommand</Key>
     <Value>seek 3 0 unrated|seek 5 0 unrated|seek 10 0 unrated</Value>
   </Item>
+  <Item>
+    <Key>HelperThreadsCount</Key>
+    <Value>0</Value>
+  </Item>
 </FICSConfig>

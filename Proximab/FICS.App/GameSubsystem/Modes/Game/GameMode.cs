@@ -19,6 +19,7 @@ namespace FICS.App.GameSubsystem.Modes.Game
         private const string AILogsDirectory = "AILogs";
         private const string CreatingPrefix = "Creating:";
         private const string Style12Prefix = "<12>";
+        private const string HelperThreadsCountConfigKeyName = "HelperThreadsCount";
 
         private GameSession _gameSession;
         private CsvLogger _csvLogger;
@@ -32,7 +33,9 @@ namespace FICS.App.GameSubsystem.Modes.Game
         /// <param name="configManager">The configuration manager.</param>
         public GameMode(ConfigManager configManager) : base(configManager)
         {
-            _gameSession = new GameSession();
+            var helperThreadsCount = configManager.GetValue<int>(HelperThreadsCountConfigKeyName);
+
+            _gameSession = new GameSession(helperThreadsCount);
             _csvLogger = new CsvLogger(AILogsDirectory);
 
             _gameResultTokens = new Dictionary<string, GameResult>

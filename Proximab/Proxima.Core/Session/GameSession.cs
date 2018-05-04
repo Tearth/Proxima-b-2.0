@@ -59,13 +59,23 @@ namespace Proxima.Core.Session
         private List<Move> _history;
 
         private OpeningBookProvider _openingBook;
+        private int _helperThreadsCount;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameSession"/> class.
         /// </summary>
-        public GameSession()
+        public GameSession() : this(0)
         {
-            MovesCount = 0;
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameSession"/> class.
+        /// </summary>
+        /// <param name="helperThreadsCount">The helper threads count.</param>
+        public GameSession(int helperThreadsCount)
+        {
+            _helperThreadsCount = helperThreadsCount;
 
             _aiCore = new AICore();
             _aiCore.OnThinkingOutput += AICore_OnThinkingOutput;
@@ -73,7 +83,7 @@ namespace Proxima.Core.Session
             Bitboard = new Bitboard(new DefaultFriendlyBoard());
             _preferredTimeCalculator = new PreferredTimeCalculator(50);
 
-            _remainingTime = new int[2]
+            _remainingTime = new[]
             {
                 999999999,
                 999999999
@@ -169,7 +179,7 @@ namespace Proxima.Core.Session
             }
 
             var preferredTime = _preferredTimeCalculator.Calculate(MovesCount, _remainingTime[(int)color]);
-            var aiResult = _aiCore.Calculate(color, Bitboard, preferredTime, 0);
+            var aiResult = _aiCore.Calculate(color, Bitboard, preferredTime, _helperThreadsCount);
 
             Bitboard = Bitboard.Move(aiResult.PVNodes[0]);
             _history.Add(aiResult.PVNodes[0]);
