@@ -53,7 +53,7 @@ namespace Proxima.Core.AI
             result.Color = color;
             result.PreferredTime = preferredTime;
 
-            var deadline = DateTime.Now.AddSeconds(preferredTime * 2).Ticks;
+            var deadline = preferredTime != 0 ? DateTime.Now.AddSeconds(preferredTime * 2).Ticks : DateTime.Now.AddSeconds(1).Ticks;
 
             historyTable.Clear();
             killerTable.Clear();

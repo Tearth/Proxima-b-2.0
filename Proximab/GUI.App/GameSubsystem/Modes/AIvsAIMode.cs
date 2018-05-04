@@ -1,9 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using GUI.App.CommandsSubsystem;
 using GUI.App.ConsoleSubsystem;
 using Proxima.Core.AI;
 using Proxima.Core.Boards.Friendly;
 using Proxima.Core.Commons.Colors;
+using Proxima.Core.MoveGenerators.Moves;
+using Proxima.Core.OpeningBook;
+using Proxima.Core.Session;
 
 namespace GUI.App.GameSubsystem.Modes
 {
@@ -12,10 +18,6 @@ namespace GUI.App.GameSubsystem.Modes
     /// </summary>
     public class AIvsAIMode : GameModeBase
     {
-        private AICore _whiteAI;
-        private AICore _blackAI;
-        private Color _currentColor;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="AIvsAIMode"/> class.
         /// </summary>
@@ -23,11 +25,6 @@ namespace GUI.App.GameSubsystem.Modes
         /// <param name="commandsManager">The commands manager.</param>
         public AIvsAIMode(ConsoleManager consoleManager, CommandsManager commandsManager) : base(consoleManager, commandsManager)
         {
-            _whiteAI = new AICore();
-            _blackAI = new AICore();
-            _currentColor = Color.White;
-
-            CalculateBitboard(new DefaultFriendlyBoard(), false);
             SetCommandHandlers();
         }
 
@@ -47,37 +44,65 @@ namespace GUI.App.GameSubsystem.Modes
         {
             var preferredTimeArgument = command.GetArgument<float>(0);
 
+            var whiteAI = new AICore();
+            var blackAI = new AICore();
+            var currentColor = Color.White;
+
+            var history = new List<Move>();
+            var openingBook = new OpeningBookProvider();
+
+            CalculateBitboard(new DefaultFriendlyBoard(), false);
+
             Task.Run(() =>
             {
                 while (true)
                 {
-                    var currentAI = _currentColor == Color.White ? _whiteAI : _blackAI;
+                    var currentAI = currentColor == Color.White ? whiteAI : blackAI;
+                    var enemyColor = ColorOperations.Invert(currentColor);
 
-                    var aiResult = currentAI.Calculate(_currentColor, Bitboard, preferredTimeArgument, 0);
-                    var enemyColor = ColorOperations.Invert(_currentColor);
+                    Move moveToApply;
+                    var openingBookMove = openingBook.GetMoveFromBook(history);
 
-                    ConsoleManager.WriteLine();
-                    ConsoleManager.WriteLine($"$w{_currentColor}:");
-                    ConsoleManager.WriteLine($"$wBest move: $g{aiResult.PVNodes} $w(Score: $m{aiResult.Score}$w)");
-                    ConsoleManager.WriteLine($"$wTotal nodes: $g{aiResult.Stats.TotalNodes} N $w(Depth: $m{aiResult.Depth}$w)");
-                    ConsoleManager.WriteLine($"$wTime: $m{aiResult.Time} s");
-                    ConsoleManager.WriteLine();
+                    if (openingBookMove != null)
+                    {
+                        moveToApply = Bitboard.Moves.First(p =>
+                            p.From == openingBookMove.From && p.To == openingBookMove.To);
+                    }
+                    else
+                    {
+                        var aiResult = currentAI.Calculate(currentColor, Bitboard, preferredTimeArgument, 0);
+                        moveToApply = aiResult.PVNodes[0];
 
-                    CalculateBitboard(aiResult.PVNodes[0], false);
+                        ConsoleManager.WriteLine();
+                        ConsoleManager.WriteLine($"$w{currentColor}:");
+                        ConsoleManager.WriteLine($"$wBest move: $g{aiResult.PVNodes} $w(Score: $m{aiResult.Score}$w)");
+                        ConsoleManager.WriteLine($"$wTotal nodes: $g{aiResult.Stats.TotalNodes} N $w(Depth: $m{aiResult.Depth}$w)");
+                        ConsoleManager.WriteLine($"$wTime: $m{aiResult.Time} s");
+                        ConsoleManager.WriteLine();
+                    }
+
+                    CalculateBitboard(moveToApply, false);
 
                     if (Bitboard.IsStalemate(enemyColor))
                     {
-                        ConsoleManager.WriteLine("$gStalemate");
+                        ConsoleManager.WriteLine("$gStalemate, wins!");
+                        break;
+                    }
+
+                    if (Bitboard.IsThreefoldRepetition())
+                    {
+                        ConsoleManager.WriteLine("$gThreefold repetition!");
                         break;
                     }
 
                     if (Bitboard.IsMate(enemyColor))
                     {
-                        ConsoleManager.WriteLine("$gMate");
+                        ConsoleManager.WriteLine($"$gMate, {currentColor} wins!");
                         break;
                     }
 
-                    _currentColor = enemyColor;
+                    currentColor = enemyColor;
+                    history.Add(moveToApply);
                 }
             });
         }
