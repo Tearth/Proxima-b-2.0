@@ -220,6 +220,10 @@
             <Type>float</Type>
             <Description>Preferred time</Description>
           </Item>
+          <Item>
+            <Type>int</Type>
+            <Description>Helper taska count</Description>
+          </Item>
         </Arguments>
       </Item>
 
