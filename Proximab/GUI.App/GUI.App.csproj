@@ -75,6 +75,7 @@
     <Compile Include="GameSubsystem\GameModeType.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="GameSubsystem\Modes\PlayervsAIMode.cs" />
     <Compile Include="GUICore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

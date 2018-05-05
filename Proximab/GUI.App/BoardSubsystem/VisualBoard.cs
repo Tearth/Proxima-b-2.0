@@ -140,7 +140,7 @@ namespace GUI.App.BoardSubsystem
             {
                 OnFieldSelection?.Invoke(this, new FieldSelectedEventArgs(selectedPosition, selectedPiece));
             }
-            else if (selectedPiece == null)
+            else if (selectedPiece == null || selectedPiece.Color != previousSelectedPiece.Color)
             {
                 var from = previousSelection.Position;
                 var to = selectedPosition;

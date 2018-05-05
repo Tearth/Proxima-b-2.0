@@ -9,6 +9,7 @@ namespace GUI.App.GameSubsystem
     public enum GameModeType
     {
         Editor,
-        AIvsAI
+        AIvsAI,
+        PlayervsAI
     }
 }

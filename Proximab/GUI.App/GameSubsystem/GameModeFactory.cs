@@ -36,6 +36,7 @@ namespace GUI.App.GameSubsystem
             {
                 case GameModeType.Editor: return new EditorMode(_consoleManager, _commandsManager);
                 case GameModeType.AIvsAI: return new AIvsAIMode(_consoleManager, _commandsManager);
+                case GameModeType.PlayervsAI: return new PlayervsAIMode(_consoleManager, _commandsManager);
             }
 
             throw new GameModeNotFoundException();
