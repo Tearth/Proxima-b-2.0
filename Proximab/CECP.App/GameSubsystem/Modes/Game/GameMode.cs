@@ -200,6 +200,9 @@ namespace CECP.App.GameSubsystem.Modes.Game
         {
             _gameSession.OnThinkingOutput -= GameSession_OnThinkingOutput;
             _gameSession = new GameSession();
+
+            _engineColor = Color.Black;
+            _enemyColor = Color.White;
         }
 
         /// <summary>
