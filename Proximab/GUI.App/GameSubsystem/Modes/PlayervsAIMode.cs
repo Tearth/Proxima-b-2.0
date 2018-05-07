@@ -174,6 +174,9 @@ namespace GUI.App.GameSubsystem.Modes
             PromotionWindow.Hide();
         }
 
+        /// <summary>
+        /// Does an AI move.
+        /// </summary>
         private void MoveAI()
         {
             Task.Run(() =>
@@ -210,6 +213,10 @@ namespace GUI.App.GameSubsystem.Modes
             });
         }
 
+        /// <summary>
+        /// Checks if the specified bitboard is finished or not.
+        /// </summary>
+        /// <param name="bitboard">The bitboard to check.</param>
         private void CheckIfGameHasEnded(Bitboard bitboard)
         {
             var enemyColor = ColorOperations.Invert(_currentColor);
