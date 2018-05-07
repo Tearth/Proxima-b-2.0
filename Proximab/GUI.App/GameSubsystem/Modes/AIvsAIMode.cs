@@ -42,7 +42,7 @@ namespace GUI.App.GameSubsystem.Modes
         /// <param name="command">The AI command.</param>
         private void RunAIGame(Command command)
         {
-            var preferredTimeArgument = command.GetArgument<float>(0);
+            var preferredTime = command.GetArgument<float>(0);
             var helperTasksCount = command.GetArgument<int>(1);
 
             var whiteAI = new AICore();
@@ -71,7 +71,7 @@ namespace GUI.App.GameSubsystem.Modes
                     }
                     else
                     {
-                        var aiResult = currentAI.Calculate(currentColor, Bitboard, preferredTimeArgument, helperTasksCount);
+                        var aiResult = currentAI.Calculate(currentColor, Bitboard, preferredTime, helperTasksCount);
                         moveToApply = aiResult.PVNodes[0];
 
                         ConsoleManager.WriteLine();

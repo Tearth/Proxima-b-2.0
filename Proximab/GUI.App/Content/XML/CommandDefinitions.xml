@@ -266,6 +266,26 @@
 		    <Arguments>
 		    </Arguments>
 		  </Item>
+      
+		  <Item>
+		    <Name>RunGame</Name>
+		    <EnumType>RunGame</EnumType>
+		    <Description>Runs game with AI.</Description>
+		    <Arguments>
+		      <Item>
+		        <Type>string</Type>
+		        <Description>Player color</Description>
+		      </Item>
+		      <Item>
+		        <Type>float</Type>
+		        <Description>Preferred time</Description>
+		      </Item>
+		      <Item>
+		        <Type>int</Type>
+		        <Description>Helper taska count</Description>
+		      </Item>
+		    </Arguments>
+		  </Item>
 		</Definitions>
 	</Asset>
 </XnaContent>
