@@ -199,7 +199,11 @@ namespace CECP.App.GameSubsystem.Modes.Game
         private void ExecuteNewCommand(Command command)
         {
             _gameSession.OnThinkingOutput -= GameSession_OnThinkingOutput;
+
             _gameSession = new GameSession();
+            _gameSession.OnThinkingOutput += GameSession_OnThinkingOutput;
+
+            _thinkingOutputEnabled = false;
 
             _engineColor = Color.Black;
             _enemyColor = Color.White;
